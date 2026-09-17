@@ -94,10 +94,14 @@ async function preguntarGemini(args: { pregunta: string; contexto: string; histo
     return texto;
   }
 
-  try {
-    return await intento();
-  } catch (_e) {
-    await new Promise((res) => setTimeout(res, 800)); // pequeña espera, el 503 suele ser saturación momentánea
-    return await intento(); // un reintento; si vuelve a fallar, se propaga y el caller responde 500
+  let ultimoError: unknown;
+  for (let i = 0; i < 3; i++) {
+    try {
+      return await intento();
+    } catch (e) {
+      ultimoError = e;
+      if (i < 2) await new Promise((res) => setTimeout(res, 800 * (i + 1))); // 0.8s, luego 1.6s
+    }
   }
+  throw ultimoError; // los 3 intentos fallaron, se propaga y el caller responde 500
 }
