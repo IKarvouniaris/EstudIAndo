@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>estudIAndo — Elegí la materia</title>
+<style>
+/* Mismos tokens que las páginas de cada materia: papel técnico + tinta. */
+:root{
+  color-scheme: light;
+  --papel:#EDEEE9; --papel-2:#F8F9F6; --papel-3:#E3E5DE;
+  --tinta:#15181A; --tinta-2:#545B60; --tinta-3:#7B8288;
+  --linea:#C7CAC2; --linea-2:#D9DBD4;
+  --u1:#2E3A94; --u4:#6D3470; --u1-suave:#E2E5F6; --u4-suave:#F0E3F0;
+  --display:"Bahnschrift","Franklin Gothic Medium","Arial Narrow","Helvetica Neue",sans-serif;
+  --body:"Sitka Text","Constantia",Georgia,"Times New Roman",serif;
+  --mono:"Cascadia Mono",Consolas,"SFMono-Regular",ui-monospace,monospace;
+  --acento:var(--tinta-3); --acento-suave:var(--papel-3);
+}
+:root[data-tema="oscuro"]{
+  color-scheme: dark;
+  --papel:#101315; --papel-2:#181C20; --papel-3:#1F2429;
+  --tinta:#E9EBE6; --tinta-2:#A2AAB0; --tinta-3:#7C858B;
+  --linea:#2B3238; --linea-2:#232930;
+  --u1:#909EF0; --u4:#D39AD6; --u1-suave:#1B2040; --u4-suave:#2E1830;
+}
+*{box-sizing:border-box}
+@media (prefers-reduced-motion:reduce){ *{animation:none !important; transition:none !important} }
+body{margin:0; background:var(--papel); color:var(--tinta); font-family:var(--body); font-size:16.5px; line-height:1.6; -webkit-font-smoothing:antialiased}
+:focus-visible{outline:2px solid var(--u1); outline-offset:3px}
+a{color:inherit}
+
+.marco{max-width:980px; margin:0 auto; padding:0 clamp(1rem,4vw,2.5rem) 5rem}
+.tope{display:flex; justify-content:space-between; align-items:center; gap:1rem; padding:1.2rem 0; border-bottom:1px solid var(--linea)}
+.marca{font-family:var(--display); font-weight:700; font-size:1.05rem; letter-spacing:.01em}
+.marca span{color:var(--tinta-3); font-weight:400}
+.btn-tema{cursor:pointer; font-family:var(--mono); font-size:.66rem; letter-spacing:.08em; padding:.45rem .7rem; background:var(--papel-2); color:var(--tinta-2); border:1px solid var(--linea); border-radius:2px}
+.btn-tema:hover{color:var(--tinta); border-color:var(--tinta-3)}
+
+.portada{padding:3.6rem 0 2.2rem}
+.portada p.contexto{font-family:var(--mono); font-size:.72rem; color:var(--tinta-3); margin:0 0 1.2rem}
+.portada h1{font-family:var(--display); font-weight:700; font-size:clamp(2.3rem,6vw,4rem); line-height:.98; letter-spacing:-.02em; margin:0 0 .9rem; text-wrap:balance}
+.portada .bajada{font-size:1.1rem; color:var(--tinta-2); max-width:54ch; margin:0}
+.portada .hoy{margin-top:1.3rem; font-family:var(--display); font-size:1rem}
+.portada .hoy b{font-weight:700}
+
+/* La semana: cada fila es un día de cursada. El número de día es la estructura real
+   (la cursada es lunes a viernes), no decoración. */
+.semana{list-style:none; margin:0; padding:0; border-top:2px solid var(--tinta)}
+.materia{
+  display:grid; grid-template-columns:5.2rem minmax(0,1fr) auto; gap:1.2rem; align-items:center;
+  padding:1.3rem 0; border-bottom:1px solid var(--linea); position:relative;
+}
+.materia .dia{font-family:var(--mono); font-size:.74rem; color:var(--tinta-3); line-height:1.3}
+.materia .dia b{display:block; font-family:var(--display); font-size:1.5rem; color:var(--acento); font-weight:700; line-height:1}
+.materia h2{font-family:var(--display); font-weight:700; font-size:clamp(1.25rem,2.6vw,1.7rem); line-height:1.15; margin:0 0 .25rem; letter-spacing:-.01em}
+.materia h2 a{text-decoration:none}
+.materia h2 a::after{content:""; position:absolute; inset:0}  /* toda la fila es clickeable */
+.materia p{margin:0; color:var(--tinta-2); font-size:.93rem; max-width:60ch}
+.materia .accesos{display:flex; gap:.45rem; position:relative; z-index:1; flex-wrap:wrap; justify-content:flex-end}
+.materia .accesos a{
+  font-family:var(--display); font-size:.86rem; text-decoration:none; padding:.45rem .8rem;
+  border:1px solid var(--linea); border-radius:2px; background:var(--papel-2); white-space:nowrap
+}
+.materia .accesos a:hover{border-color:var(--acento); color:var(--acento)}
+.materia .accesos a.principal{background:var(--acento); border-color:var(--acento); color:var(--papel-2)}
+.materia .accesos a.principal:hover{color:var(--papel-2); filter:brightness(1.1)}
+.materia.con-apunte:hover{background:linear-gradient(90deg, var(--acento-suave), transparent 70%)}
+.materia[data-u="1"]{--acento:var(--u1); --acento-suave:var(--u1-suave)}
+.materia[data-u="4"]{--acento:var(--u4); --acento-suave:var(--u4-suave)}
+.materia.vacia h2{color:var(--tinta-3); font-weight:600}
+.materia.vacia .estado{font-family:var(--mono); font-size:.68rem; color:var(--tinta-3); white-space:nowrap}
+.materia.es-hoy::before{content:""; position:absolute; left:-1rem; top:1.1rem; bottom:1.1rem; width:3px; background:var(--acento)}
+.materia.es-hoy.vacia::before{background:var(--tinta-3)}
+.materia .etq-hoy{display:none; font-family:var(--mono); font-size:.62rem; color:var(--acento); margin-left:.4rem; vertical-align:.25em; font-weight:400}
+.materia.es-hoy .etq-hoy{display:inline}
+
+.pie{margin-top:2.2rem; font-family:var(--mono); font-size:.68rem; color:var(--tinta-3)}
+
+@media (max-width:680px){
+  .materia{grid-template-columns:3.6rem minmax(0,1fr); row-gap:.8rem}
+  .materia .accesos, .materia .estado{grid-column:2; justify-content:flex-start}
+  .materia.es-hoy::before{left:-.6rem}
+}
+</style>
+</head>
+<body>
+<div class="marco">
+  <header class="tope">
+    <div class="marca">estudIAndo <span>· Lic. en IA y Ciencia de Datos · UADE</span></div>
+    <button class="btn-tema" id="btn-tema" type="button">MODO OSCURO</button>
+  </header>
+
+  <section class="portada">
+    <p class="contexto">2.º cuatrimestre 2026</p>
+    <h1>¿Qué materia<br>estudiamos?</h1>
+    <p class="bajada">Cada apunte es una página de estudio con resumen de todas las clases, buscador, glosario, flashcards y un simulacro del parcial.</p>
+    <p class="hoy" id="hoy" hidden></p>
+  </section>
+
+  <ol class="semana">
+    <li class="materia vacia" data-dia="1">
+      <div class="dia"><b>L</b>lunes</div>
+      <div><h2>Cálculo I<span class="etq-hoy">hoy</span></h2><p>Todavía sin apunte cargado.</p></div>
+      <span class="estado">próximamente</span>
+    </li>
+    <li class="materia vacia" data-dia="2">
+      <div class="dia"><b>M</b>martes</div>
+      <div><h2>Probabilidad y Estadística<span class="etq-hoy">hoy</span></h2><p>Todavía sin apunte cargado.</p></div>
+      <span class="estado">próximamente</span>
+    </li>
+    <li class="materia con-apunte" data-dia="3" data-u="1">
+      <div class="dia"><b>X</b>miércoles</div>
+      <div>
+        <h2><a href="ia-conceptual.html">Introducción a la Inteligencia Artificial</a><span class="etq-hoy">hoy</span></h2>
+        <p>Unidades 1 a 3: de la lógica formal y Turing a Searle, el imaginario cultural y el hype.</p>
+      </div>
+      <div class="accesos">
+        <a class="principal" href="ia-conceptual.html">Apunte</a>
+        <a href="simulacro.html">Simulacro</a>
+      </div>
+    </li>
+    <li class="materia vacia" data-dia="4">
+      <div class="dia"><b>J</b>jueves</div>
+      <div><h2>Python para Ciencia de Datos<span class="etq-hoy">hoy</span></h2><p>Todavía sin apunte cargado.</p></div>
+      <span class="estado">próximamente</span>
+    </li>
+    <li class="materia con-apunte" data-dia="5" data-u="4">
+      <div class="dia"><b>V</b>viernes</div>
+      <div>
+        <h2><a href="etica.html">Ética en la Inteligencia Artificial</a><span class="etq-hoy">hoy</span></h2>
+        <p>Clases 1 a 6: teorías éticas, principios, AI Act, transparencia y sesgos, impacto social y datos personales.</p>
+      </div>
+      <div class="accesos">
+        <a class="principal" href="etica.html">Apunte</a>
+        <a href="simulacro-etica.html">Simulacro</a>
+      </div>
+    </li>
+  </ol>
+
+  <p class="pie">El tema claro u oscuro se comparte entre todas las páginas.</p>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var raiz = document.documentElement, btn = document.getElementById("btn-tema");
+  function aplicar(t){ raiz.setAttribute("data-tema", t); btn.textContent = t === "oscuro" ? "MODO CLARO" : "MODO OSCURO"; try{ localStorage.setItem("ia-tema", t); }catch(e){} }
+  var g = null; try{ g = localStorage.getItem("ia-tema"); }catch(e){}
+  if(!g) g = (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) ? "oscuro" : "claro";
+  aplicar(g);
+  btn.addEventListener("click", function(){ aplicar(raiz.getAttribute("data-tema") === "oscuro" ? "claro" : "oscuro"); });
+
+  // Marca la materia del día (lunes = 1 … viernes = 5)
+  var d = new Date().getDay();
+  var fila = document.querySelector('.materia[data-dia="' + d + '"]');
+  var hoy = document.getElementById("hoy");
+  if(fila){
+    fila.classList.add("es-hoy");
+    var nombre = fila.querySelector("h2").childNodes[0].textContent;
+    hoy.hidden = false;
+    hoy.innerHTML = "Hoy cursás <b></b>.";
+    hoy.querySelector("b").textContent = nombre;
+  }
+})();
+</script>
+</body>
+</html>
