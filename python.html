@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Python para Ciencia de Datos — Apunte</title>
+<style>
+:root{
+  --rail: 280px;
+  color-scheme: light;
+  --papel:#EDEEE9; --papel-2:#F8F9F6; --papel-3:#E3E5DE;
+  --tinta:#15181A; --tinta-2:#545B60; --tinta-3:#7B8288;
+  --linea:#C7CAC2; --linea-2:#D9DBD4;
+  --acento:#1B6A5B; --acento-suave:#DCEDE8;
+  --alerta:#9E3122; --alerta-suave:#F7E4E0;
+  --display:"Bahnschrift","Franklin Gothic Medium","Arial Narrow","Helvetica Neue",sans-serif;
+  --body:"Sitka Text","Constantia",Georgia,"Times New Roman",serif;
+  --mono:"Cascadia Mono",Consolas,"SFMono-Regular",ui-monospace,monospace;
+}
+:root[data-tema="oscuro"]{
+  color-scheme: dark;
+  --papel:#101315; --papel-2:#181C20; --papel-3:#1F2429;
+  --tinta:#E9EBE6; --tinta-2:#A2AAB0; --tinta-3:#7C858B;
+  --linea:#2B3238; --linea-2:#232930;
+  --acento:#4FC7AC; --acento-suave:#10302B;
+  --alerta:#EC8878; --alerta-suave:#331915;
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--papel); color:var(--tinta); font-family:var(--body); font-size:16.5px; line-height:1.65; -webkit-font-smoothing:antialiased}
+a{color:var(--acento)}
+.oculto{display:none !important}
+
+.envoltorio{display:grid; grid-template-columns:var(--rail) minmax(0,1fr); min-height:100vh}
+.riel{position:sticky; top:0; align-self:start; height:100vh; overflow-y:auto; border-right:1px solid var(--linea); background:var(--papel-3); padding:0 0 2rem}
+.riel-volver{display:block; padding:.85rem 1.1rem; margin-bottom:.3rem; font-family:var(--mono); font-size:.68rem; letter-spacing:.06em; color:var(--tinta-2); text-decoration:none; border-bottom:1px solid var(--linea)}
+.riel-volver:hover{color:var(--tinta); background:var(--papel-2)}
+.riel-marca{padding:1rem 1.1rem 1rem; border-bottom:1px solid var(--linea)}
+.riel-marca b{display:block; font-family:var(--display); font-weight:600; font-size:.82rem; letter-spacing:.1em; text-transform:uppercase; line-height:1.3}
+.riel-marca span{display:block; font-family:var(--mono); font-size:.64rem; color:var(--tinta-3); letter-spacing:.05em; margin-top:.3rem}
+.riel nav{padding:.6rem 0}
+.riel-grupo{padding:.5rem 1.1rem .2rem; font-family:var(--mono); font-size:.6rem; letter-spacing:.14em; text-transform:uppercase; color:var(--tinta-3)}
+.riel a.item{display:block; padding:.4rem 1.1rem; font-family:var(--display); font-size:.88rem; color:var(--tinta-2); text-decoration:none; border-left:3px solid transparent}
+.riel a.item:hover{background:var(--papel-2); color:var(--tinta)}
+.riel a.item.externo{color:var(--acento); font-weight:600}
+.riel-pie{padding:1rem 1.1rem 0; margin-top:1rem; border-top:1px solid var(--linea)}
+.btn-tema{cursor:pointer; font-family:var(--mono); font-size:.66rem; letter-spacing:.08em; padding:.45rem .7rem; background:var(--papel-2); color:var(--tinta-2); border:1px solid var(--linea); border-radius:2px; width:100%}
+.btn-tema:hover{color:var(--tinta); border-color:var(--tinta-3)}
+
+.lienzo{max-width:800px; margin:0 auto; padding:2.4rem clamp(1rem,3vw,2.4rem) 6rem}
+.portada .cintillo{font-family:var(--mono); font-size:.66rem; letter-spacing:.17em; text-transform:uppercase; color:var(--tinta-3); margin:0}
+.portada h1{font-family:var(--display); font-weight:700; font-size:clamp(1.9rem,4.5vw,2.7rem); line-height:1.05; letter-spacing:-.01em; margin:.3rem 0 .8rem}
+.portada p{color:var(--tinta-2); max-width:66ch}
+
+.clase{border-top:2px solid var(--tinta); padding-top:1.2rem; margin-top:2.4rem}
+.clase .eyebrow{font-family:var(--mono); font-size:.64rem; letter-spacing:.14em; text-transform:uppercase; color:var(--acento); margin:0 0 .3rem}
+.clase h2{font-family:var(--display); font-weight:700; font-size:1.5rem; margin:0 0 .6rem; letter-spacing:-.01em}
+.clase .objetivo{color:var(--tinta-2); margin:0 0 1rem}
+.clase h3{font-family:var(--mono); font-size:.68rem; letter-spacing:.1em; text-transform:uppercase; color:var(--tinta-3); margin:1.2rem 0 .5rem}
+.conceptos{margin:0; padding-left:1.3rem}
+.conceptos li{margin:.35rem 0}
+.conceptos b{color:var(--tinta)}
+pre{background:var(--papel-2); border:1px solid var(--linea); border-radius:3px; padding:.8rem 1rem; overflow-x:auto; font-family:var(--mono); font-size:.82rem; line-height:1.5; margin:0 0 .3rem}
+code{font-family:var(--mono)}
+.errores{background:var(--alerta-suave); border-left:3px solid var(--alerta); border-radius:2px; padding:.8rem 1rem; margin-top:.6rem}
+.errores p{margin:0 0 .4rem; font-size:.92rem}
+.errores ul{margin:0; padding-left:1.2rem}
+.errores li{margin:.25rem 0; font-size:.9rem}
+
+.acceso-simulacro{display:flex; gap:.6rem; flex-wrap:wrap; margin-top:2.5rem; padding-top:1.5rem; border-top:1px solid var(--linea)}
+.acceso-simulacro a{font-family:var(--display); font-size:.9rem; text-decoration:none; padding:.55rem .9rem; border:1px solid var(--linea); border-radius:2px; background:var(--papel-2); color:var(--tinta)}
+.acceso-simulacro a.principal{background:var(--acento); border-color:var(--acento); color:var(--papel)}
+
+@media (max-width:900px){ .envoltorio{grid-template-columns:minmax(0,1fr)} .riel{position:static; height:auto} }
+</style>
+</head>
+<body>
+<div class="envoltorio">
+<aside class="riel">
+  <a class="riel-volver" href="index.html">← Materias</a>
+  <div class="riel-marca">
+    <b>Python para<br>Ciencia de Datos</b>
+    <span>UADE · 2.º cuatrimestre 2026 · Clases 0-6</span>
+  </div>
+  <nav>
+    <div class="riel-grupo">Clases</div>
+    <a class="item" href="#c0">00 · Introducción y calendario</a>
+    <a class="item" href="#c2">02 · Buenas prácticas y excepciones</a>
+    <a class="item" href="#c21">02.1 · Excepciones con archivos</a>
+    <a class="item" href="#c22">02.2 · Bibliotecas de ciencia de datos</a>
+    <a class="item" href="#c3">03 · NumPy y Pandas</a>
+    <a class="item" href="#c4">04 · Limpieza, índices y formatos</a>
+    <a class="item" href="#c5">05 · Matplotlib</a>
+    <a class="item" href="#c6">06 · Seaborn</a>
+    <div class="riel-grupo">Práctica</div>
+    <a class="item externo" href="simulacro-python.html">▶ Simulacro del parcial ↗</a>
+    <a class="item externo" href="leaderboard-python.html">★ Leaderboard ↗</a>
+  </nav>
+  <div class="riel-pie">
+    <div id="chip-sesion" style="margin-bottom:.6rem"></div>
+    <button class="btn-tema" id="btn-tema" type="button">MODO OSCURO</button>
+  </div>
+</aside>
+
+<main class="lienzo">
+  <header class="portada">
+    <p class="cintillo">Apunte práctico · Clases 0 a 6 · Primer parcial</p>
+    <h1>De variables sueltas<br>a un pipeline<br><i>que se puede confiar</i></h1>
+    <p>
+      Este resumen sigue el orden real de la cursada: primero código legible y a prueba de errores,
+      después los dos pilares técnicos (NumPy y Pandas), después limpieza y formatos de archivo, y por
+      último cómo comunicar lo que encontraste con Matplotlib y Seaborn. Cada clase tiene los conceptos
+      clave, ejemplos de código reales de las diapositivas, y los errores típicos que marca la cátedra.
+    </p>
+  </header>
+
+  <section class="clase" id="c0">
+    <p class="eyebrow">Clase 00</p>
+    <h2>Introducción y calendario</h2>
+    <p class="objetivo">Presentación institucional de la materia: por qué Python en ciencia de datos, y el mapa completo del cuatrimestre.</p>
+    <h3>Conceptos clave</h3>
+    <ul class="conceptos">
+      <li>Origen de Python (Guido van Rossum, CWI, 1989-1991) y por qué se volvió estándar en ciencia de datos.</li>
+      <li>Estructura del curso: unidades 1 a 6, clases 1 a 21, dos parciales, simulacros, recuperatorio y final.</li>
+      <li>Mapa temático completo: introducción → buenas prácticas/excepciones → NumPy/Pandas → limpieza/formatos → Matplotlib → Seaborn → estadística descriptiva/groupby → outliers/transformaciones → Scikit-learn → Git/GitHub → testing (Pytest/unittest).</li>
+    </ul>
+  </section>
+
+  <section class="clase" id="c2">
+    <p class="eyebrow">Clase 02</p>
+    <h2>Buenas prácticas (PEP8, docstrings) y manejo básico de errores</h2>
+    <p class="objetivo">Transformar "código que funciona" en código legible, documentado y robusto ante errores — la base de calidad que se exige en toda la materia.</p>
+    <h3>Conceptos clave</h3>
+    <ul class="conceptos">
+      <li><b>PEP 8</b>: indentación de 4 espacios, <code>snake_case</code> para variables/funciones, <code>CapWords</code> para clases, imports agrupados al inicio.</li>
+      <li><b>PEP 257 / docstrings</b>: triple comilla <code>"""..."""</code>, formato con <code>Args</code>, <code>Returns</code>, <code>Raises</code>; se accede con <code>__doc__</code> y <code>help()</code>.</li>
+      <li><b>Comentarios efectivos</b>: explican el "por qué" (decisiones, reglas de negocio), no repiten el "qué" del código.</li>
+      <li><b>Excepciones</b>: modelo <code>try / except / else / finally</code>; <code>raise ... from exc</code> para encadenar y conservar la causa original; excepciones propias heredando de <code>ValueError</code>/<code>Exception</code>.</li>
+      <li><b>E/S de datos</b>: TXT (<code>open()</code>), CSV (<code>csv.DictReader</code>), JSON (<code>json.load</code>/<code>json.dump</code>); <code>pathlib.Path</code> en vez de strings sueltos.</li>
+    </ul>
+    <h3>Ejemplo</h3>
+    <pre><code>def cargar_configuracion(ruta: str) -&gt; dict:
+    """Carga configuración desde un archivo JSON.
+
+    Args:
+        ruta: Ubicación del archivo.
+    Returns:
+        Diccionario con la configuración.
+    Raises:
+        FileNotFoundError: Si la ruta no existe.
+    """
+    try:
+        texto = Path(ruta).read_text(encoding="utf-8")
+        return json.loads(texto)
+    except FileNotFoundError as exc:
+        raise FileNotFoundError(f"No existe: {ruta}") from exc
+    except json.JSONDecodeError as exc:
+        raise ValueError("El archivo no contiene JSON válido") from exc</code></pre>
+    <div class="errores">
+      <p><b>Errores típicos</b></p>
+      <ul>
+        <li>Nombres crípticos (<code>cp(x)</code> en vez de <code>calcular_promedio(...)</code>).</li>
+        <li>Comentarios que repiten el código en vez de explicar la decisión.</li>
+        <li><code>except:</code> vacío o <code>except Exception: pass</code> que oculta bugs reales.</li>
+        <li>No cerrar archivos (olvidar <code>with open(...)</code>) ni fijar <code>encoding="utf-8"</code>.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="clase" id="c21">
+    <p class="eyebrow">Clase 02.1</p>
+    <h2>Manejo robusto de excepciones con JSON, TXT y CSV</h2>
+    <p class="objetivo">Aplica el manejo de errores específicamente a leer/escribir archivos de datos: archivos faltantes, permisos, codificación, formatos inválidos y columnas ausentes.</p>
+    <h3>Conceptos clave</h3>
+    <ul class="conceptos">
+      <li>Principios: <b>fallar pronto</b>, <b>ser específico</b> (capturar <code>FileNotFoundError</code>, <code>PermissionError</code>, <code>json.JSONDecodeError</code>, <code>csv.Error</code>, <code>UnicodeDecodeError</code> según el caso), <b>cerrar recursos</b> con <code>with</code>, <b>registrar contexto</b> con <code>logging.exception()</code>.</li>
+      <li>Flujo recomendado: comprobar ruta → abrir seguro → parsear formato → validar estructura → convertir tipos → reportar/elevar.</li>
+      <li>Excepción de dominio reutilizable, ej. <code>class DataFileError(Exception)</code>, que envuelve errores técnicos con <code>raise ... from exc</code>.</li>
+      <li>Capas de error distintas: <b>lectura</b> (<code>FileNotFoundError</code>, <code>OSError</code>), <b>parseo</b> (<code>JSONDecodeError</code>, <code>csv.Error</code>), <b>validación</b> (<code>ValueError</code>, <code>KeyError</code>), <b>negocio</b> (reglas propias).</li>
+      <li>Pandas como alternativa de alto nivel: <code>pd.read_csv(on_bad_lines="error")</code>, <code>pd.to_numeric(errors="raise")</code>.</li>
+    </ul>
+    <h3>Ejemplo</h3>
+    <pre><code>def leer_ventas_csv(path: str) -&gt; list[dict]:
+    columnas = {"fecha", "producto", "region_ventas", "cantidad_ventas"}
+    with Path(path).open("r", encoding="utf-8", newline="") as archivo:
+        lector = csv.DictReader(archivo)
+        if not lector.fieldnames or not columnas.issubset(lector.fieldnames):
+            faltantes = columnas - set(lector.fieldnames or [])
+            raise ValueError(f"Columnas faltantes: {faltantes}")
+        return list(lector)</code></pre>
+    <div class="errores">
+      <p><b>Antipatrones a evitar</b></p>
+      <ul>
+        <li>Capturar todo con <code>except Exception</code> sin registrar ni reelevar.</li>
+        <li>Ignorar errores (<code>except: pass</code> o devolver <code>[]</code> como si nada hubiese pasado).</li>
+        <li>No validar columnas del CSV/JSON, asumiendo estructura perfecta.</li>
+        <li>Mensajes ambiguos ("Error" sin ruta, operación ni causa).</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="clase" id="c22">
+    <p class="eyebrow">Clase 02.2</p>
+    <h2>Bibliotecas de ciencia de datos (repaso integrador)</h2>
+    <p class="objetivo">El "mapa" del stack de Python para ciencia de datos — cuál biblioteca usar según la tarea — y puente hacia NumPy/Pandas y Matplotlib/Seaborn.</p>
+    <h3>Conceptos clave</h3>
+    <ul class="conceptos">
+      <li><b>NumPy</b>: <code>ndarray</code>, cálculo vectorizado — <code>np.array()</code>, <code>np.mean()</code>, <code>np.where()</code>, <code>np.reshape()</code>.</li>
+      <li><b>pandas</b>: <code>Series</code>/<code>DataFrame</code> — <code>read_csv()</code>, <code>head()</code>, <code>describe()</code>, <code>groupby()</code>, <code>merge()</code>.</li>
+      <li><b>Matplotlib</b>: <code>plt.plot()</code>, <code>plt.bar()</code>, <code>plt.hist()</code>. <b>seaborn</b>: <code>sns.scatterplot()</code>, <code>sns.heatmap()</code>.</li>
+      <li><b>SciPy</b> complementa NumPy (optimización, álgebra lineal, estadística). <b>scikit-learn</b>: patrón <code>fit()</code> / <code>predict()</code> / <code>score()</code>.</li>
+      <li>Pipeline integrador típico: <code>entrada → validación → análisis (pandas+NumPy) → modelo → salida (reporte.csv + log)</code>.</li>
+    </ul>
+    <h3>Ejemplo</h3>
+    <pre><code>try:
+    df = pd.read_csv("ventas.csv")
+    df["monto"] = pd.to_numeric(df["monto"])
+    resumen = df.groupby("producto")["monto"].sum()
+except FileNotFoundError:
+    print("No existe ventas.csv")
+except KeyError as error:
+    print(f"Columna faltante: {error}")</code></pre>
+  </section>
+
+  <section class="clase" id="c3">
+    <p class="eyebrow">Clase 03</p>
+    <h2>NumPy y Pandas: arreglos y datos tabulares</h2>
+    <p class="objetivo">Los dos pilares técnicos del resto de la materia: cálculo vectorizado con NumPy y manipulación de datos tabulares con Pandas.</p>
+    <h3>Conceptos clave</h3>
+    <ul class="conceptos">
+      <li><b>ndarray</b>: propiedades <code>ndim</code>, <code>shape</code>, <code>size</code>, <code>dtype</code>; conversión con <code>.astype()</code>.</li>
+      <li><b>Vectorización y broadcasting</b>: operar arreglos enteros sin loops <code>for</code> explícitos.</li>
+      <li><b>Indexación y máscaras booleanas</b>: <code>x[1:3]</code>, <code>x[::2]</code>, <code>arr[arr &gt;= 18]</code>.</li>
+      <li><b>Series y DataFrame</b>: <code>pd.Series(...)</code>, <code>pd.DataFrame({...})</code>; inspección con <code>head()</code>, <code>info()</code>, <code>describe()</code>, <code>dtypes</code>.</li>
+      <li><b>loc vs iloc</b>: <code>df.loc[]</code> por etiqueta (incluye ambos extremos), <code>df.iloc[]</code> por posición (excluye el final).</li>
+      <li>Condiciones booleanas combinadas con <code>&amp;</code>/<code>|</code> (nunca <code>and</code>/<code>or</code>).</li>
+      <li><b>Limpieza</b>: <code>.str.replace()</code>, <code>pd.to_numeric(errors="coerce")</code>, <code>.fillna()</code>, <code>.drop_duplicates()</code>.</li>
+      <li><b>Agrupar/pivotear/combinar</b>: <code>groupby().agg()</code>, <code>pd.pivot_table()</code>, <code>pd.merge(on=..., how=...)</code>.</li>
+      <li><code>np.where()</code> para una regla condicional, <code>np.select()</code> para varias reglas a la vez.</li>
+    </ul>
+    <h3>Ejemplo</h3>
+    <pre><code>ventas['precio'] = ventas['precio'].str.replace('$', '', regex=False)
+ventas['precio'] = pd.to_numeric(ventas['precio'], errors='coerce')
+ventas['precio'] = ventas['precio'].fillna(ventas['precio'].median())
+
+condiciones = [reporte['minutos'] &lt;= 25, reporte['minutos'] &lt;= 40]
+reporte['clasificacion'] = np.select(condiciones, ['Rápida', 'Normal'], default='Demorada')</code></pre>
+    <div class="errores">
+      <p><b>Errores típicos</b></p>
+      <ul>
+        <li>Usar <code>and</code>/<code>or</code> en vez de <code>&amp;</code>/<code>|</code> al combinar condiciones en Pandas.</li>
+        <li>Columna numérica que quedó como <code>object</code> por símbolos o texto mezclado ($ en precios, "dos" en vez de 2) — limpiar antes de <code>pd.to_numeric</code>.</li>
+        <li>Confundir <code>df.loc[0:2]</code> (incluye el 2) con <code>df.iloc[0:2]</code> (excluye la posición 2).</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="clase" id="c4">
+    <p class="eyebrow">Clase 04</p>
+    <h2>Preparación y movimiento de datos: índices, limpieza y formatos</h2>
+    <p class="objetivo">Indexación avanzada, combinar datasets (<code>concat</code> vs. <code>merge</code>), un proceso de limpieza basado en diagnóstico, y persistencia en CSV/Excel/SQL/JSON. La clase más orientada a "pipeline reproducible".</p>
+    <h3>Conceptos clave</h3>
+    <ul class="conceptos">
+      <li><b>concat apila</b> (misma estructura, sin clave común) — <b>merge relaciona</b> (clave común, con cardinalidad 1:1/1:N/N:M). Son operaciones distintas que se confunden seguido.</li>
+      <li><code>merge</code>: tipos de join <code>inner</code>/<code>left</code>/<code>right</code>/<code>outer</code>; <code>validate="many_to_one"</code>; <code>indicator=True</code> para ver qué coincidió.</li>
+      <li><b>Diagnóstico de calidad</b>: <code>df.isna().sum()</code>, <code>df.duplicated().sum()</code>, <code>df.nunique()</code>, <code>df.describe(include="all")</code>.</li>
+      <li><b>Nulos</b>: eliminar vs. imputar (mediana robusta, moda para categorías); marcar con una columna bandera <code>df['col_faltante']</code>.</li>
+      <li><b>Tipos</b>: <code>pd.to_numeric(errors="coerce")</code>, <code>pd.to_datetime(errors="coerce", dayfirst=True)</code>, <code>.astype("category")</code>.</li>
+      <li><b>Formatos de E/S</b>: CSV (<code>sep</code>, <code>decimal</code>, <code>parse_dates</code>), Excel (<code>sheet_name=None</code> para todas las hojas), SQL (<code>read_sql_query</code> con parámetros — nunca concatenar), JSON (<code>json_normalize</code> para aplanar estructuras anidadas).</li>
+      <li><code>index=False</code> al exportar, para no escribir el índice como columna.</li>
+    </ul>
+    <h3>Ejemplo</h3>
+    <pre><code>mascara = (ventas["importe_num"] &gt;= 800) &amp; ventas["producto"].isin(["A", "B"])
+seleccion = ventas.loc[mascara, ["cliente_id", "producto", "importe_num"]]
+
+ventas_clientes = ventas.merge(clientes, on="cliente_id", how="left",
+                                validate="many_to_one", indicator=True)
+
+df["importe_num"] = pd.to_numeric(
+    df["importe"].str.replace("$", "", regex=False), errors="coerce"
+)</code></pre>
+    <div class="errores">
+      <p><b>Errores típicos</b></p>
+      <ul>
+        <li>Confundir <code>concat</code> con <code>merge</code>, o alinear por índice con <code>concat(axis=1)</code> cuando los índices no son la misma entidad.</li>
+        <li>No validar la cardinalidad antes de un <code>merge</code> → explosión de filas por relación N:M inesperada.</li>
+        <li>No parametrizar consultas SQL (riesgo de inyección).</li>
+        <li>Olvidar <code>index=False</code> al exportar.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="clase" id="c5">
+    <p class="eyebrow">Clase 05</p>
+    <h2>Visualización con Matplotlib</h2>
+    <p class="objetivo">Traducir una pregunta analítica en una visualización correcta (tendencia, comparación, distribución, relación), con la interfaz <code>Figure</code>/<code>Axes</code>. Énfasis en comunicación honesta, no sólo en sintaxis.</p>
+    <h3>Conceptos clave</h3>
+    <ul class="conceptos">
+      <li>Elección de gráfico según la pregunta: <b>tendencia</b> → líneas; <b>comparación</b> → barras (base en cero); <b>distribución</b> → histograma; <b>relación</b> → dispersión (no prueba causalidad).</li>
+      <li><b>Anatomía</b>: <code>Figure</code> = lienzo completo, <code>Axes</code> = área de dibujo; <code>fig, ax = plt.subplots(...)</code>.</li>
+      <li>Subgráficos múltiples: <code>plt.subplots(n, m, figsize=...)</code>, indexado <code>axes[i,j]</code>.</li>
+      <li>Ajuste lineal con <code>np.polyfit(x, y, 1)</code> para una recta de tendencia sobre un scatter.</li>
+      <li>Cierre: <code>fig.tight_layout()</code>, <code>plt.show()</code>, <code>fig.savefig(..., dpi=...)</code>.</li>
+    </ul>
+    <h3>Ejemplo</h3>
+    <pre><code>fig, ax = plt.subplots(figsize=(8, 4))
+ax.plot(meses, ventas, marker="o")
+ax.set_title("Ventas mensuales"); ax.set_xlabel("Mes"); ax.set_ylabel("Unidades")
+fig.tight_layout(); plt.show()
+
+m = np.mean(df['minutos'])
+plt.hist(df['minutos'], bins=np.arange(15,55,5), color='teal', edgecolor='white')
+plt.axvline(m, color='red', linestyle='--', label=f'Media={m:.1f}')
+plt.legend()</code></pre>
+    <div class="errores">
+      <p><b>Errores frecuentes</b></p>
+      <ul>
+        <li>Eje truncado (no empezar en cero) que exagera diferencias en barras.</li>
+        <li>Título genérico ("Ventas") en vez de uno que comunique el hallazgo.</li>
+        <li>Miles de puntos superpuestos en un scatter sin <code>alpha</code> (transparencia).</li>
+        <li>Confundir correlación con causalidad al interpretar una recta ajustada.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="clase" id="c6">
+    <p class="eyebrow">Clase 06</p>
+    <h2>Visualización con Seaborn</h2>
+    <p class="objetivo">Seaborn como interfaz estadística de alto nivel sobre Matplotlib, usada junto con Pandas: <i>Pandas organiza → Seaborn visualiza → Matplotlib controla figura/exportación</i>.</p>
+    <h3>Conceptos clave</h3>
+    <ul class="conceptos">
+      <li><code>sns.heatmap(df.corr(), annot=True)</code>: cerca de +1/-1 = asociación lineal fuerte; cerca de 0 = poca asociación <i>lineal</i> (no independencia).</li>
+      <li><code>sns.boxplot()</code> + <code>sns.stripplot()</code>: mediana, caja = rango intercuartílico, puntos externos = posibles atípicos.</li>
+      <li><code>sns.pairplot(hue=...)</code>: matriz de relaciones por pares — útil con pocas variables, lento con muchas.</li>
+      <li>Multivariado con un solo scatter: <code>hue</code>, <code>size</code>, <code>style</code> — una variable por canal visual, sin sobrecargar.</li>
+      <li>Exportación para informes: PNG (<code>dpi=300</code>) para web/Office, PDF/SVG (vectorial) para impresión.</li>
+    </ul>
+    <h3>Ejemplo</h3>
+    <pre><code>corr = df.select_dtypes("number").corr()
+sns.heatmap(corr, annot=True, cmap="vlag", vmin=-1, vmax=1)
+
+sns.boxplot(data=df, x="Curso", y="Nota", hue="Curso", legend=False)
+sns.stripplot(data=df, x="Curso", y="Nota", color="black", alpha=.4)
+
+sns.scatterplot(data=df, x="Horas", y="Nota", hue="Curso", size="Proyectos",
+                 style="Curso", sizes=(40, 220), alpha=.78)</code></pre>
+    <div class="errores">
+      <p><b>Errores típicos</b></p>
+      <ul>
+        <li>Interpretar correlación ≈ 0 como "independencia" (sólo indica poca asociación lineal).</li>
+        <li>Confundir correlación con causalidad al leer un <code>heatmap</code> o <code>regplot</code>.</li>
+        <li><code>pairplot</code> con demasiadas columnas: lento y difícil de leer.</li>
+        <li>Codificar más de una variable por canal visual sin criterio (color + forma + tamaño a la vez).</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="acceso-simulacro">
+    <a class="principal" href="simulacro-python.html">Ir al simulacro</a>
+    <a href="leaderboard-python.html">Ver leaderboard</a>
+  </div>
+</main>
+</div>
+
+<script src="config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/auth.js"></script>
+<script src="js/sesion.js"></script>
+<script>
+(function(){
+  "use strict";
+  var raiz = document.documentElement, btn = document.getElementById("btn-tema");
+  function aplicar(t){ raiz.setAttribute("data-tema", t); btn.textContent = t==="oscuro" ? "MODO CLARO" : "MODO OSCURO"; try{ localStorage.setItem("ia-tema", t); }catch(e){} }
+  var g=null; try{ g=localStorage.getItem("ia-tema"); }catch(e){}
+  if(!g) g = (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) ? "oscuro" : "claro";
+  aplicar(g);
+  btn.addEventListener("click", function(){ aplicar(raiz.getAttribute("data-tema")==="oscuro" ? "claro" : "oscuro"); });
+})();
+Sesion.montar("chip-sesion");
+</script>
+</body>
+</html>

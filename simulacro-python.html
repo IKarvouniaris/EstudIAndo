@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Simulacro — Python para Ciencia de Datos</title>
+<style>
+:root{
+  color-scheme: light;
+  --papel:#EDEEE9; --papel-2:#F8F9F6; --papel-3:#E3E5DE;
+  --tinta:#15181A; --tinta-2:#545B60; --tinta-3:#7B8288;
+  --linea:#C7CAC2; --linea-2:#D9DBD4;
+  --acento:#1B6A5B; --acento-suave:#DCEDE8;
+  --ok:#1F7A3E; --ok-suave:#DCEFE1;
+  --mal:#9E3122; --mal-suave:#F7E4E0;
+  --display:"Bahnschrift","Franklin Gothic Medium","Arial Narrow","Helvetica Neue",sans-serif;
+  --body:"Sitka Text","Constantia",Georgia,"Times New Roman",serif;
+  --mono:"Cascadia Mono",Consolas,"SFMono-Regular",ui-monospace,monospace;
+}
+:root[data-tema="oscuro"]{
+  color-scheme: dark;
+  --papel:#101315; --papel-2:#181C20; --papel-3:#1F2429;
+  --tinta:#E9EBE6; --tinta-2:#A2AAB0; --tinta-3:#7C858B;
+  --linea:#2B3238; --linea-2:#232930;
+  --acento:#4FC7AC; --acento-suave:#10302B;
+  --ok:#5CCB84; --ok-suave:#12301C;
+  --mal:#EC8878; --mal-suave:#331915;
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--papel); color:var(--tinta); font-family:var(--body); font-size:16.5px; line-height:1.6}
+a{color:var(--acento)}
+.oculto{display:none !important}
+
+.barra{position:sticky; top:0; z-index:40; background:var(--papel-3); border-bottom:1px solid var(--linea); padding:.6rem clamp(1rem,3vw,2rem); display:flex; flex-wrap:wrap; align-items:center; gap:.6rem 1rem}
+.barra .marca{font-family:var(--display); font-weight:700; font-size:.82rem; letter-spacing:.1em; text-transform:uppercase}
+.barra .marca a{text-decoration:none; color:var(--tinta-2)}
+.barra .marca a:hover{color:var(--tinta)}
+.barra .marca small{display:block; font-family:var(--mono); font-size:.6rem; color:var(--tinta-3); letter-spacing:.06em; font-weight:400; text-transform:none}
+.btn{cursor:pointer; font-family:var(--mono); font-size:.66rem; letter-spacing:.06em; text-transform:uppercase; background:var(--papel-2); color:var(--tinta-2); border:1px solid var(--linea); border-radius:2px; padding:.45rem .7rem; line-height:1; text-decoration:none; display:inline-block}
+.btn:hover{color:var(--tinta); border-color:var(--tinta-3)}
+.btn.on{background:var(--tinta); color:var(--papel); border-color:var(--tinta)}
+
+.lienzo{max-width:900px; margin:0 auto; padding:2rem clamp(1rem,3vw,2rem) 6rem}
+.portada h1{font-family:var(--display); font-weight:700; font-size:clamp(1.6rem,4vw,2.2rem); margin:.2rem 0 .6rem}
+.portada .cintillo{font-family:var(--mono); font-size:.64rem; letter-spacing:.16em; text-transform:uppercase; color:var(--tinta-3); margin:0}
+.portada p{color:var(--tinta-2); max-width:66ch}
+
+.filtros{display:flex; flex-wrap:wrap; gap:.4rem; margin:1.2rem 0}
+.chip{cursor:pointer; font-family:var(--display); font-size:.8rem; padding:.3rem .65rem; border:1px solid var(--linea); border-radius:2px; background:var(--papel-2); color:var(--tinta-2); border-left:3px solid var(--acento)}
+.chip.on{background:var(--acento-suave); color:var(--tinta); border-color:var(--acento); font-weight:600}
+
+.ej{background:var(--papel-2); border:1px solid var(--linea); border-top:4px solid var(--acento); border-radius:2px; padding:1.1rem clamp(1rem,2.5vw,1.5rem) 1.2rem; margin:0 0 1.4rem}
+.ej .eyebrow{font-family:var(--mono); font-size:.62rem; letter-spacing:.14em; text-transform:uppercase; color:var(--acento); margin:0 0 .3rem}
+.ej h3{font-family:var(--display); font-weight:700; font-size:1.2rem; margin:0 0 .5rem}
+.ej .enunciado{margin:0 0 .7rem}
+.ej pre{background:var(--papel); border:1px solid var(--linea); border-radius:2px; padding:.7rem .9rem; font-family:var(--mono); font-size:.8rem; overflow-x:auto; margin:0 0 .8rem; white-space:pre-wrap}
+.ej .tareas{margin:0 0 .8rem; padding-left:1.2rem}
+.ej .tareas li{margin:.2rem 0; font-size:.93rem}
+.ej textarea{width:100%; min-height:9rem; padding:.7rem .8rem; font-family:var(--mono); font-size:.85rem; line-height:1.5; color:var(--tinta); background:var(--papel); border:1px solid var(--linea); border-radius:2px; resize:vertical}
+.ej textarea:focus{outline:2px solid var(--acento); outline-offset:1px}
+.ej .acciones{display:flex; gap:.5rem; margin-top:.6rem; flex-wrap:wrap}
+.ej .solucion{margin-top:.7rem}
+.ej .solucion pre{background:var(--acento-suave); border-left:3px solid var(--acento)}
+
+.pie{border-top:1px solid var(--linea); margin-top:2rem; padding-top:1rem; font-family:var(--mono); font-size:.66rem; color:var(--tinta-3)}
+.sin-datos{font-family:var(--mono); font-size:.85rem; color:var(--tinta-3); padding:2rem 0}
+.error{color:var(--mal)}
+
+/* ---- Examen oficial (overlay, mismo patrón que Ética) ---- */
+.ex-overlay{position:fixed; inset:0; z-index:100; background:rgba(0,0,0,.55); display:flex; align-items:flex-start; justify-content:center; padding:3vh 1rem; overflow-y:auto}
+.ex-panel{background:var(--papel); border:1px solid var(--linea); border-radius:4px; max-width:800px; width:100%; padding:1.6rem clamp(1.1rem,3vw,2rem) 2rem; margin-bottom:3vh}
+.ex-panel h2{font-family:var(--display); font-size:1.5rem; margin:0 0 .6rem}
+.ex-panel p{color:var(--tinta-2)}
+.ex-cerrar{float:right; cursor:pointer; background:none; border:0; font-family:var(--mono); font-size:.9rem; color:var(--tinta-3)}
+.ex-cerrar:hover{color:var(--tinta)}
+.ex-cronometro{position:sticky; top:0; background:var(--papel); z-index:2; padding:.5rem 0; font-family:var(--mono); font-size:.85rem; border-bottom:1px solid var(--linea); margin-bottom:1rem; display:flex; justify-content:space-between; align-items:center}
+.ex-cronometro.urgente{color:var(--mal)}
+.ex-cooldown{font-family:var(--mono); font-size:1.3rem; margin:1rem 0}
+.ex-resultado{text-align:center; margin:1rem 0}
+.ex-resultado .num{font-family:var(--display); font-size:2.6rem; font-weight:700}
+.criterio{font-size:.88rem; margin:.35rem 0}
+</style>
+</head>
+<body>
+
+<header class="barra">
+  <div class="marca">
+    <a href="python.html" title="Volver al apunte">← Apunte de Python</a> · <a href="index.html" title="Volver al menú">Materias</a>
+    <small>Simulacro · Python para Ciencia de Datos</small>
+  </div>
+  <a class="btn" href="leaderboard-python.html">Leaderboard</a>
+  <button class="btn on" id="btn-rendir" type="button" title="Examen puntuado, corregido por IA, cooldown de 5 minutos">★ Rendir examen</button>
+  <button class="btn" id="btn-tema" type="button">Modo oscuro</button>
+  <div id="chip-sesion"></div>
+</header>
+
+<div class="ex-overlay oculto" id="ex-overlay"><div class="ex-panel" id="ex-panel"></div></div>
+
+<main class="lienzo">
+  <div class="portada">
+    <p class="cintillo">6 ejercicios de práctica · NumPy, Pandas, Matplotlib</p>
+    <h1>Simulacro del primer parcial</h1>
+    <p>
+      El examen real es <strong>práctico</strong>: te dan datos y una lista de tareas, vos escribís el código.
+      Acá podés practicar sin límite (con la solución de referencia disponible cuando quieras) o rendir el
+      <strong>examen puntuado</strong>: 3 ejercicios al azar, 45 minutos, corregidos por IA contra las tareas
+      pedidas — cuenta para el leaderboard.
+    </p>
+  </div>
+
+  <div class="filtros" id="f-tema">
+    <button class="chip on" data-tema="todas" type="button">Todos</button>
+    <button class="chip" data-tema="numpy" type="button">NumPy</button>
+    <button class="chip" data-tema="pandas" type="button">Pandas</button>
+    <button class="chip" data-tema="matplotlib" type="button">Matplotlib</button>
+  </div>
+
+  <div id="ejercicios"><p class="sin-datos">Cargando…</p></div>
+
+  <p class="pie">Modo práctica: tu código se guarda sólo en este navegador, no se corrige con IA (así no gastamos la cuota). El botón "Ver solución" te muestra la respuesta de referencia cuando quieras.</p>
+</main>
+
+<script src="config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/auth.js"></script>
+<script src="js/codigo-api.js"></script>
+<script>
+(function(){
+"use strict";
+
+/* ---------- TEMA ---------- */
+var raiz = document.documentElement, btnTema = document.getElementById("btn-tema");
+function aplicarTema(t){ raiz.setAttribute("data-tema", t); btnTema.textContent = t==="oscuro" ? "Modo claro" : "Modo oscuro"; try{ localStorage.setItem("ia-tema", t); }catch(e){} }
+var temaGuardado=null; try{ temaGuardado=localStorage.getItem("ia-tema"); }catch(e){}
+if(!temaGuardado) temaGuardado = (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) ? "oscuro" : "claro";
+aplicarTema(temaGuardado);
+btnTema.addEventListener("click", function(){ aplicarTema(raiz.getAttribute("data-tema")==="oscuro" ? "claro" : "oscuro"); });
+
+function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+
+/* ---------- ESTADO LOCAL DE PRÁCTICA (sólo en este navegador) ---------- */
+var CLAVE = "python-practica-v1";
+var estado = { codigo:{}, soluciones:{} };
+try{ var g = JSON.parse(localStorage.getItem(CLAVE) || "null"); if(g) estado = Object.assign(estado, g); }catch(e){}
+function guardar(){ try{ localStorage.setItem(CLAVE, JSON.stringify(estado)); }catch(e){} }
+
+var EJERCICIOS = [], filtroTema = "todas";
+var contEj = document.getElementById("ejercicios");
+var TEMA_NOMBRE = { numpy:"NumPy", pandas:"Pandas", matplotlib:"Matplotlib" };
+
+function pintar(){
+  var visibles = filtroTema==="todas" ? EJERCICIOS : EJERCICIOS.filter(function(e){ return e.tema===filtroTema; });
+  if(!visibles.length){ contEj.innerHTML = '<p class="sin-datos">Ningún ejercicio coincide con el filtro.</p>'; return; }
+  contEj.innerHTML = visibles.map(htmlEjercicio).join("");
+}
+
+function htmlEjercicio(e){
+  var sol = estado.soluciones[e.id];
+  var h = '<article class="ej" data-ej="'+e.id+'">';
+  h += '<p class="eyebrow">'+(TEMA_NOMBRE[e.tema]||e.tema)+'</p>';
+  h += '<h3>'+esc(e.titulo)+'</h3>';
+  h += '<p class="enunciado">'+esc(e.enunciado)+'</p>';
+  h += '<pre>'+esc(e.datos_trabajo)+'</pre>';
+  h += '<ol class="tareas">'+e.tareas.map(function(t){ return '<li>'+esc(t)+'</li>'; }).join("")+'</ol>';
+  h += '<textarea data-codigo placeholder="# Escribí tu código acá">'+esc(estado.codigo[e.id]||"")+'</textarea>';
+  h += '<div class="acciones"><button type="button" class="btn" data-ver-solucion>Ver solución</button></div>';
+  if(sol) h += '<div class="solucion"><pre>'+esc(sol)+'</pre></div>';
+  h += '</article>';
+  return h;
+}
+
+var tGuardar = null;
+contEj.addEventListener("input", function(e){
+  var ta = e.target.closest("[data-codigo]");
+  if(!ta) return;
+  var id = ta.closest("[data-ej]").getAttribute("data-ej");
+  estado.codigo[id] = ta.value;
+  clearTimeout(tGuardar); tGuardar = setTimeout(guardar, 500);
+});
+contEj.addEventListener("click", function(e){
+  var btn = e.target.closest("[data-ver-solucion]");
+  if(!btn) return;
+  var art = btn.closest("[data-ej]"), id = art.getAttribute("data-ej");
+  if(estado.soluciones[id]){ return; }
+  Auth.obtenerSesion().then(function(sesion){
+    if(!sesion){ alert("Iniciá sesión arriba para ver la solución."); return; }
+    btn.disabled = true; btn.textContent = "Cargando…";
+    CodigoApi.revelarSolucion(id).then(function(texto){
+      estado.soluciones[id] = texto || "(sin solución cargada)"; guardar(); pintar();
+    }).catch(function(err){
+      alert("No se pudo cargar la solución: " + err.message);
+      btn.disabled = false; btn.textContent = "Ver solución";
+    });
+  });
+});
+
+Array.prototype.forEach.call(document.querySelectorAll("#f-tema [data-tema]"), function(b){
+  b.addEventListener("click", function(){
+    Array.prototype.forEach.call(document.querySelectorAll("#f-tema [data-tema]"), function(x){ x.classList.remove("on"); });
+    b.classList.add("on"); filtroTema = b.getAttribute("data-tema"); pintar();
+  });
+});
+
+function cargarEjercicios(){
+  contEj.innerHTML = '<p class="sin-datos">Cargando…</p>';
+  CodigoApi.cargarEjercicios("python").then(function(datos){
+    EJERCICIOS = datos; pintar();
+  }).catch(function(err){
+    contEj.innerHTML = '<p class="sin-datos error">Error cargando los ejercicios: '+esc(err.message)+'</p>';
+  });
+}
+Auth.onCambioSesion(function(s){ if(s) cargarEjercicios(); else contEj.innerHTML = '<p class="sin-datos">Iniciá sesión arriba para ver los ejercicios.</p>'; });
+Auth.obtenerSesion().then(function(s){ if(s) cargarEjercicios(); else contEj.innerHTML = '<p class="sin-datos">Iniciá sesión arriba para ver los ejercicios.</p>'; });
+
+/* ---------- EXAMEN OFICIAL ---------- */
+(function(){
+  var overlay = document.getElementById("ex-overlay"), panel = document.getElementById("ex-panel");
+  var btnRendir = document.getElementById("btn-rendir");
+  var MATERIA = "python", DURACION_SEG = 45*60;
+  var ex = null; // {intentoId, inicioAt, ejercicios, codigo:{}, timer}
+
+  function abrir(html){ panel.innerHTML = html; overlay.classList.remove("oculto"); }
+  function cerrar(){ overlay.classList.add("oculto"); panel.innerHTML=""; if(ex && ex.timer){ clearInterval(ex.timer); ex=null; } }
+
+  function fmt(seg){ seg = Math.max(0, seg|0); var m = Math.floor(seg/60), s = seg%60; return m + ":" + (s<10?"0":"") + s; }
+
+  panel.addEventListener("click", function(e){
+    if(e.target.closest("[data-ex-cerrar]")){ cerrar(); return; }
+    if(e.target.closest("[data-ex-empezar]")){ empezar(); return; }
+    if(e.target.closest("[data-ex-finalizar]")){
+      if(!confirm("¿Finalizar el examen? No vas a poder seguir editando el código.")) return;
+      terminar();
+      return;
+    }
+  });
+
+  var tGuardarCodigo = null;
+  panel.addEventListener("input", function(e){
+    var ta = e.target.closest("[data-ex-codigo]");
+    if(!ta || !ex) return;
+    var id = ta.closest("[data-ex-ej]").getAttribute("data-ex-ej");
+    ex.codigo[id] = ta.value;
+    clearTimeout(tGuardarCodigo);
+    tGuardarCodigo = setTimeout(function(){
+      CodigoApi.guardarCodigo(ex.intentoId, id, ex.codigo[id]).catch(function(err){ console.error("no se guardó", err); });
+    }, 700);
+  });
+
+  btnRendir.addEventListener("click", function(){
+    Auth.obtenerSesion().then(function(sesion){
+      if(!sesion){ abrir('<button class="ex-cerrar" data-ex-cerrar>✕ cerrar</button><h2>Iniciá sesión primero</h2><p>Arriba a la derecha, con Google o con un link a tu email.</p>'); return; }
+      abrir('<button class="ex-cerrar" data-ex-cerrar>✕ cerrar</button><h2>Revisando…</h2>');
+      CodigoApi.cooldownRestante(MATERIA).then(function(restantes){
+        if(restantes > 0) return mostrarCooldown(restantes);
+        mostrarIntro();
+      }).catch(function(err){
+        abrir('<button class="ex-cerrar" data-ex-cerrar>✕ cerrar</button><h2>Error</h2><p>'+esc(err.message)+'</p>');
+      });
+    });
+  });
+
+  function mostrarCooldown(restantes){
+    abrir('<button class="ex-cerrar" data-ex-cerrar>✕ cerrar</button><h2>Descansá 5 minutos, tomá agua y probá de nuevo</h2><p class="ex-cooldown" id="ex-cd">'+fmt(restantes)+'</p><p>Mientras tanto podés seguir practicando sin límite.</p>');
+    var t = restantes;
+    var iv = setInterval(function(){
+      t--; var el = document.getElementById("ex-cd");
+      if(!el){ clearInterval(iv); return; }
+      if(t<=0){ clearInterval(iv); mostrarIntro(); return; }
+      el.textContent = fmt(t);
+    }, 1000);
+  }
+
+  function mostrarIntro(){
+    abrir(
+      '<button class="ex-cerrar" data-ex-cerrar>✕ cerrar</button><h2>Examen puntuado</h2>' +
+      '<p>3 ejercicios de código al azar (NumPy/Pandas/Matplotlib), <strong>45 minutos</strong>. Se corrige con IA al terminar (contra las tareas pedidas, no ejecuta tu código) y cuenta para el leaderboard. Podés volver a intentarlo recién dentro de 5 minutos.</p>' +
+      '<button type="button" class="btn on" data-ex-empezar>Empezar</button>'
+    );
+  }
+
+  function empezar(){
+    abrir('<h2>Preparando…</h2>');
+    CodigoApi.iniciarIntento(MATERIA, 3).then(function(r){
+      ex = { intentoId: r.intento_id, inicioAt: new Date(r.inicio_at).getTime(), ejercicios: r.ejercicios, codigo: {} };
+      pintarExamen();
+      ex.timer = setInterval(tick, 1000);
+    }).catch(function(err){
+      abrir('<button class="ex-cerrar" data-ex-cerrar>✕ cerrar</button><h2>No se pudo empezar</h2><p>'+esc(err.message)+'</p>');
+    });
+  }
+
+  function tick(){
+    if(!ex) return;
+    var faltan = DURACION_SEG - Math.floor((Date.now()-ex.inicioAt)/1000);
+    var cron = document.getElementById("ex-cron");
+    if(cron){ cron.textContent = fmt(faltan); cron.parentElement.classList.toggle("urgente", faltan<=120); }
+    if(faltan<=0){ clearInterval(ex.timer); terminar(); }
+  }
+
+  function pintarExamen(){
+    var h = '<div class="ex-cronometro"><span>Examen en curso</span><span id="ex-cron">'+fmt(DURACION_SEG-Math.floor((Date.now()-ex.inicioAt)/1000))+'</span></div>';
+    ex.ejercicios.forEach(function(e){
+      h += '<article class="ej" data-ex-ej="'+e.id+'">';
+      h += '<p class="eyebrow">'+(TEMA_NOMBRE[e.tema]||e.tema)+'</p>';
+      h += '<h3>'+esc(e.titulo)+'</h3><p class="enunciado">'+esc(e.enunciado)+'</p>';
+      h += '<pre>'+esc(e.datos_trabajo)+'</pre>';
+      h += '<ol class="tareas">'+e.tareas.map(function(t){ return '<li>'+esc(t)+'</li>'; }).join("")+'</ol>';
+      h += '<textarea data-ex-codigo placeholder="# Escribí tu código acá"></textarea>';
+      h += '</article>';
+    });
+    h += '<p style="text-align:center; margin-top:1.5rem"><button type="button" class="btn on" data-ex-finalizar>Finalizar examen</button></p>';
+    panel.innerHTML = h;
+  }
+
+  function terminar(){
+    if(!ex) return;
+    if(ex.timer) clearInterval(ex.timer);
+    var intentoId = ex.intentoId;
+    abrir('<h2>Guardando…</h2>');
+    var guardados = ex.ejercicios.map(function(e){
+      return CodigoApi.guardarCodigo(intentoId, e.id, ex.codigo[e.id] || "").catch(function(){});
+    });
+    Promise.all(guardados).then(function(){
+      return CodigoApi.finalizarIntento(intentoId);
+    }).then(function(){
+      abrir('<h2>Corrigiendo con IA…</h2><p style="font-size:.85rem; color:var(--tinta-3)">Son 3 ejercicios, puede tardar medio minuto.</p>');
+      return CodigoApi.corregirCodigo(intentoId);
+    }).then(function(r){
+      var h = '<button class="ex-cerrar" data-ex-cerrar>✕ cerrar</button><div class="ex-resultado"><div class="num">'+r.puntaje_final_pct+'%</div><p>puntaje final (promedio de los 3 ejercicios)</p></div>';
+      r.resultados.forEach(function(res){
+        h += '<article class="ej"><h3>'+esc(res.titulo)+' — '+res.puntaje_pct+'%</h3>';
+        (res.criterios||[]).forEach(function(c){
+          h += '<p class="criterio"><b style="color:'+(c.cumple?"var(--ok)":"var(--mal)")+'">'+(c.cumple?"✓":"✗")+'</b> '+esc(c.criterio)+'<br><span style="color:var(--tinta-2); font-size:.85rem">'+esc(c.justificacion||"")+'</span></p>';
+        });
+        h += '<p style="margin-top:.5rem">'+esc(res.devolucion||"")+'</p></article>';
+      });
+      h += '<p style="text-align:center; margin-top:1rem"><a class="btn on" href="leaderboard-python.html">Ver leaderboard</a></p>';
+      panel.innerHTML = h;
+      ex = null;
+    }).catch(function(err){
+      abrir('<button class="ex-cerrar" data-ex-cerrar>✕ cerrar</button><h2>Error al corregir</h2><p>'+esc(err.message)+'</p>');
+    });
+  }
+})();
+
+})();
+</script>
+<script src="js/sesion.js"></script>
+<script>Sesion.montar("chip-sesion");</script>
+</body>
+</html>

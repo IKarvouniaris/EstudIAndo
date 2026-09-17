@@ -11,7 +11,7 @@
   --papel:#EDEEE9; --papel-2:#F8F9F6; --papel-3:#E3E5DE;
   --tinta:#15181A; --tinta-2:#545B60; --tinta-3:#7B8288;
   --linea:#C7CAC2; --linea-2:#D9DBD4;
-  --u1:#2E3A94; --u4:#6D3470; --u1-suave:#E2E5F6; --u4-suave:#F0E3F0;
+  --u1:#2E3A94; --u3:#1B6A5B; --u4:#6D3470; --u1-suave:#E2E5F6; --u3-suave:#DCEDE8; --u4-suave:#F0E3F0;
   --display:"Bahnschrift","Franklin Gothic Medium","Arial Narrow","Helvetica Neue",sans-serif;
   --body:"Sitka Text","Constantia",Georgia,"Times New Roman",serif;
   --mono:"Cascadia Mono",Consolas,"SFMono-Regular",ui-monospace,monospace;
@@ -22,7 +22,7 @@
   --papel:#101315; --papel-2:#181C20; --papel-3:#1F2429;
   --tinta:#E9EBE6; --tinta-2:#A2AAB0; --tinta-3:#7C858B;
   --linea:#2B3238; --linea-2:#232930;
-  --u1:#909EF0; --u4:#D39AD6; --u1-suave:#1B2040; --u4-suave:#2E1830;
+  --u1:#909EF0; --u3:#4FC7AC; --u4:#D39AD6; --u1-suave:#1B2040; --u3-suave:#10302B; --u4-suave:#2E1830;
 }
 *{box-sizing:border-box}
 @media (prefers-reduced-motion:reduce){ *{animation:none !important; transition:none !important} }
@@ -67,6 +67,7 @@ a{color:inherit}
 .materia .accesos a.principal:hover{color:var(--papel-2); filter:brightness(1.1)}
 .materia.con-apunte:hover{background:linear-gradient(90deg, var(--acento-suave), transparent 70%)}
 .materia[data-u="1"]{--acento:var(--u1); --acento-suave:var(--u1-suave)}
+.materia[data-u="3"]{--acento:var(--u3); --acento-suave:var(--u3-suave)}
 .materia[data-u="4"]{--acento:var(--u4); --acento-suave:var(--u4-suave)}
 .materia.vacia h2{color:var(--tinta-3); font-weight:600}
 .materia.vacia .estado{font-family:var(--mono); font-size:.68rem; color:var(--tinta-3); white-space:nowrap}
@@ -124,10 +125,16 @@ a{color:inherit}
         <a href="simulacro.html">Simulacro</a>
       </div>
     </li>
-    <li class="materia vacia" data-dia="4">
+    <li class="materia con-apunte" data-dia="4" data-u="3">
       <div class="dia"><b>J</b>jueves</div>
-      <div><h2>Python para Ciencia de Datos<span class="etq-hoy">hoy</span></h2><p>Todavía sin apunte cargado.</p></div>
-      <span class="estado">próximamente</span>
+      <div>
+        <h2><a href="python.html">Python para Ciencia de Datos</a><span class="etq-hoy">hoy</span></h2>
+        <p>Clases 0 a 6: buenas prácticas, excepciones, NumPy, Pandas, limpieza de datos, Matplotlib y Seaborn.</p>
+      </div>
+      <div class="accesos">
+        <a class="principal" href="python.html">Apunte</a>
+        <a href="simulacro-python.html">Simulacro</a>
+      </div>
     </li>
     <li class="materia con-apunte" data-dia="5" data-u="4">
       <div class="dia"><b>V</b>viernes</div>

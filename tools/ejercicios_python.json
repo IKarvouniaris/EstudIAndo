@@ -1,0 +1,87 @@
+[
+  {
+    "id": "python-A1",
+    "tema": "numpy",
+    "titulo": "Ventas semanales vectorizadas",
+    "enunciado": "Trabajás con las ventas de una semana. Resolvé todo con operaciones vectorizadas de NumPy (nada de loops for explícitos).",
+    "datos_trabajo": "unidades_vendidas = np.array([12, 15, 11, 18, 20, 17, 22])\nprecios_unitarios = np.array([1500, 1500, 1550, 1550, 1600, 1600, 1650])",
+    "tareas": [
+      "Crear ambos arreglos con NumPy.",
+      "Calcular el ingreso de cada día mediante multiplicación vectorizada.",
+      "Calcular ingreso total, promedio diario y día de mayor ingreso.",
+      "Aplicar un aumento vectorizado de 8% a los precios y mostrar los nuevos precios."
+    ],
+    "solucion": "import numpy as np\n\nunidades_vendidas = np.array([12, 15, 11, 18, 20, 17, 22])\nprecios_unitarios = np.array([1500, 1500, 1550, 1550, 1600, 1600, 1650])\n\ningresos_diarios = unidades_vendidas * precios_unitarios\nprint(\"Ingresos diarios:\", ingresos_diarios)\n\ningreso_total = np.sum(ingresos_diarios)\npromedio_diario = np.mean(ingresos_diarios)\ndia_mayor_ingreso = np.argmax(ingresos_diarios)\ndias = [\"Lunes\", \"Martes\", \"Miércoles\", \"Jueves\", \"Viernes\", \"Sábado\", \"Domingo\"]\n\nprint(f\"Ingreso total: ${ingreso_total:,.2f}\")\nprint(f\"Promedio diario: ${promedio_diario:,.2f}\")\nprint(f\"Día de mayor ingreso: {dias[dia_mayor_ingreso]}\")\n\nprecios_con_aumento = precios_unitarios * 1.08\nprint(\"Precios con 8% de aumento:\", precios_con_aumento)"
+  },
+  {
+    "id": "python-A2",
+    "tema": "pandas",
+    "titulo": "Filtrado de productos desde CSV",
+    "enunciado": "Tenés un archivo productos.csv con columnas producto,categoria,precio,stock. Cargalo con Pandas y filtrá lo que interesa para reposición.",
+    "datos_trabajo": "productos.csv:\nproducto,categoria,precio,stock\nTeclado,Perifericos,25000,12\nMouse,Perifericos,18000,0\nMonitor,Monitores,210000,5\nWebcam,Perifericos,48000,8\nNotebook,Computacion,950000,3",
+    "tareas": [
+      "Cargar productos.csv con Pandas.",
+      "Seleccionar producto, precio y stock.",
+      "Filtrar productos con precio mayor a 40000 y stock mayor a 0.",
+      "Exportar el resultado como productos_disponibles.csv sin guardar el índice."
+    ],
+    "solucion": "import pandas as pd\n\ndf = pd.read_csv(\"productos.csv\")\nprint(df)\n\ndf_seleccion = df[['producto', 'precio', 'stock']]\n\ndf_filtrado = df_seleccion[(df_seleccion['precio'] > 40000) & (df_seleccion['stock'] > 0)]\nprint(df_filtrado)\n\ndf_filtrado.to_csv(\"productos_disponibles.csv\", index=False)"
+  },
+  {
+    "id": "python-A3",
+    "tema": "matplotlib",
+    "titulo": "Gráfico de líneas de visitas",
+    "enunciado": "Tenés las visitas diarias de una semana a un sitio web. Comunicá la evolución semanal con un gráfico de líneas claro.",
+    "datos_trabajo": "dias = [\"Lun\", \"Mar\", \"Mié\", \"Jue\", \"Vie\", \"Sáb\", \"Dom\"]\nvisitas = [120, 150, 135, 180, 210, 260, 230]",
+    "tareas": [
+      "Crear un gráfico de líneas con marcadores.",
+      "Agregar título, etiquetas de ejes y cuadrícula.",
+      "Destacar la evolución semanal con color azul.",
+      "Mostrar el gráfico."
+    ],
+    "solucion": "import matplotlib.pyplot as plt\n\ndias = [\"Lun\", \"Mar\", \"Mié\", \"Jue\", \"Vie\", \"Sáb\", \"Dom\"]\nvisitas = [120, 150, 135, 180, 210, 260, 230]\n\nplt.figure(figsize=(8, 5))\nplt.plot(dias, visitas, marker='o', color='blue', linestyle='-', linewidth=2, markersize=6, label='Visitas')\n\nplt.title(\"Evolución Semanal de Visitas\", fontsize=14, fontweight='bold')\nplt.xlabel(\"Días de la semana\")\nplt.ylabel(\"Cantidad de visitas\")\nplt.grid(True, linestyle='--', alpha=0.6)\nplt.legend()\n\nplt.tight_layout()\nplt.show()"
+  },
+  {
+    "id": "python-B1",
+    "tema": "pandas",
+    "titulo": "DataFrame de estudiantes",
+    "enunciado": "Armá un DataFrame de estudiantes y calculá si cada uno aprueba según promedio y asistencia.",
+    "datos_trabajo": "Legajo | Nombre | Parcial1 | Parcial2 | Asistencia\n1001 | Ana | 8 | 7 | 90\n1002 | Bruno | 6 | 5 | 75\n1003 | Carla | 9 | 10 | 95\n1004 | Diego | 4 | 6 | 80\n1005 | Elena | 7 | 8 | 85",
+    "tareas": [
+      "Crear el DataFrame con Pandas.",
+      "Crear la columna Promedio (promedio de Parcial1 y Parcial2).",
+      "Crear la columna Estado con \"Aprueba\" si Promedio >= 6 y Asistencia >= 75; en otro caso, \"Revisa\".",
+      "Mostrar Nombre, Promedio y Estado."
+    ],
+    "solucion": "import pandas as pd\n\ndatos = {\n    \"Legajo\": [1001, 1002, 1003, 1004, 1005],\n    \"Nombre\": [\"Ana\", \"Bruno\", \"Carla\", \"Diego\", \"Elena\"],\n    \"Parcial1\": [8, 6, 9, 4, 7],\n    \"Parcial2\": [7, 5, 10, 6, 8],\n    \"Asistencia\": [90, 75, 95, 80, 85],\n}\ndf = pd.DataFrame(datos)\n\ndf[\"Promedio\"] = (df[\"Parcial1\"] + df[\"Parcial2\"]) / 2\n\ndf[\"Estado\"] = \"Revisa\"\ndf.loc[(df[\"Promedio\"] >= 6) & (df[\"Asistencia\"] >= 75), \"Estado\"] = \"Aprueba\"\n\nprint(df[[\"Nombre\", \"Promedio\", \"Estado\"]])"
+  },
+  {
+    "id": "python-B2",
+    "tema": "pandas",
+    "titulo": "Lectura y transformación de pedidos JSON",
+    "enunciado": "Un archivo pedidos.json trae el importe como texto. Convertilo, quedate con lo entregado y exportá.",
+    "datos_trabajo": "pedidos.json:\n[\n  {\"pedido\": 501, \"cliente\": \"Ana\", \"estado\": \"entregado\", \"importe\": \"12500.50\"},\n  {\"pedido\": 502, \"cliente\": \"Bruno\", \"estado\": \"pendiente\", \"importe\": \"8300.00\"},\n  {\"pedido\": 503, \"cliente\": \"Carla\", \"estado\": \"entregado\", \"importe\": \"15600.75\"},\n  {\"pedido\": 504, \"cliente\": \"Diego\", \"estado\": \"cancelado\", \"importe\": \"7200.00\"}\n]",
+    "tareas": [
+      "Cargar pedidos.json.",
+      "Convertir importe de texto a número decimal.",
+      "Filtrar pedidos entregados.",
+      "Calcular el total entregado.",
+      "Exportar los pedidos entregados a un CSV llamado entregados.csv."
+    ],
+    "solucion": "import pandas as pd\nimport json\n\nwith open(\"pedidos.json\", \"r\", encoding=\"utf-8\") as f:\n    datos = json.load(f)\n\ndf = pd.DataFrame(datos)\ndf[\"importe\"] = pd.to_numeric(df[\"importe\"], errors=\"coerce\")\n\nentregados = df[df[\"estado\"] == \"entregado\"]\n\ntotal_entregado = entregados[\"importe\"].sum()\nprint(f\"Total entregado: ${total_entregado:,.2f}\")\n\nentregados.to_csv(\"entregados.csv\", index=False)"
+  },
+  {
+    "id": "python-B3",
+    "tema": "matplotlib",
+    "titulo": "Barras de ventas por categoría",
+    "enunciado": "Comparar ventas entre categorías es un trabajo para un gráfico de barras. Destacá la categoría ganadora.",
+    "datos_trabajo": "categorias = [\"Libros\", \"Tecnología\", \"Hogar\", \"Deportes\", \"Moda\"]\nventas = [85, 140, 110, 95, 125]",
+    "tareas": [
+      "Crear un gráfico de barras verticales.",
+      "Agregar título y etiquetas de ejes.",
+      "Mostrar el valor sobre cada barra.",
+      "Utilizar un color diferente para la barra de mayor venta."
+    ],
+    "solucion": "import matplotlib.pyplot as plt\n\ncategorias = [\"Libros\", \"Tecnología\", \"Hogar\", \"Deportes\", \"Moda\"]\nventas = [85, 140, 110, 95, 125]\n\ncolores = [\"#4C72B0\"] * len(ventas)\ncolores[ventas.index(max(ventas))] = \"#DD8452\"\n\nfig, ax = plt.subplots(figsize=(8, 5))\nbarras = ax.bar(categorias, ventas, color=colores)\n\nax.set_title(\"Ventas por categoría\")\nax.set_xlabel(\"Categoría\")\nax.set_ylabel(\"Unidades vendidas\")\n\nfor barra in barras:\n    altura = barra.get_height()\n    ax.annotate(str(altura), xy=(barra.get_x() + barra.get_width()/2, altura),\n                xytext=(0, 3), textcoords=\"offset points\", ha=\"center\")\n\nplt.tight_layout()\nplt.show()"
+  }
+]

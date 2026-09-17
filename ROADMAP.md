@@ -37,7 +37,17 @@ Objetivo: que un grupo de amigos pueda loguearse, rendir los simulacros con punt
 - [x] **Puntaje por pregunta en examen:** sólo aciertos (opción múltiple + % de criterios del desarrollo); el tiempo sólo desempata en el leaderboard. *Implementado tal cual la propuesta.*
 - [ ] **Salas / grupos:** ¿un único grupo de amigos o varias salas con código? *Propuesta: arrancar con una sala y dejar la tabla preparada para varias.*
 - [x] **¿El desarrollo corregido por Gemini suma puntos al ranking?** Sí. *Decisión del 2026-09-17: en vez de un "parcial" separado, se integró un desarrollo escrito directo dentro de "Rendir examen" (Fase 3). El puntaje final es 50% opción múltiple + 50% criterios de la grilla cumplidos según Gemini, y ESE combinado es el que usa el leaderboard.*
-- [ ] **¿Se agrega también el simulacro de Intro a la IA** al sistema o sólo Ética al principio? *Propuesta: Ética primero, IA después con el mismo esquema.*
+- [ ] **¿Se agrega también el simulacro de Intro a la IA** al sistema o sólo Ética al principio? *Propuesta: Ética primero, IA después con el mismo esquema.* *(2026-09-17: en cambio se sumó **Python para Ciencia de Datos** como segunda materia completa — ver nota abajo. Intro a la IA sigue sin el esquema competitivo.)*
+
+### Materia nueva: Python para Ciencia de Datos (2026-09-17)
+
+Segunda materia con el esquema completo (apunte + simulacro + leaderboard), pero con un **modelo de examen distinto** al de Ética: acá no hay opción múltiple, son **ejercicios de código real** (NumPy/Pandas/Matplotlib), corregidos por Gemini leyendo el código contra una lista de tareas + una solución de referencia (no lo ejecuta). Mismo patrón de seguridad que el resto: la solución vive en `ejercicios_codigo_clave`, sin policies de lectura.
+
+- **Archivos nuevos:** `python.html` (apunte, versión liviana — sin buscador/flashcards/glosario/timeline, eso queda para después si hace falta), `simulacro-python.html`, `leaderboard-python.html`, `js/codigo-api.js`, `supabase/fase5_python.sql`, `supabase/functions/corregir-codigo/index.ts`, `tools/ejercicios_python.json` + `tools/seed_python.py` → `supabase/seed_python.sql`.
+- **Archivos modificados:** `index.html` (fila de Python activada, día jueves).
+- **Contenido:** 7 clases resumidas (00, 02, 02.1, 02.2, 03, 04, 05, 06 — no hay clase 1 propia en el material fuente) a partir de los PPT/DOCX reales de la cátedra. 6 ejercicios de práctica (los 2 exámenes simulados reales del profesor, variantes A y B, con sus 3 ejercicios cada uno).
+- **Examen puntuado:** 3 ejercicios al azar, **45 minutos**, cooldown de 5 min (igual que Ética), puntaje = promedio del % de tareas cumplidas en cada ejercicio según Gemini.
+- **Pendiente:** ampliar el banco de ejercicios más allá de los 6 iniciales; apunte liviano (sin el aparato rico de Ética todavía).
 
 ---
 

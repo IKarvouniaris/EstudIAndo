@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Leaderboard — Python — estudIAndo</title>
+<style>
+:root{
+  color-scheme: light;
+  --papel:#EDEEE9; --papel-2:#F8F9F6; --papel-3:#E3E5DE;
+  --tinta:#15181A; --tinta-2:#545B60; --tinta-3:#7B8288;
+  --linea:#C7CAC2; --linea-2:#D9DBD4;
+  --ok:#1F7A3E; --ok-suave:#DCEFE1;
+  --display:"Bahnschrift","Franklin Gothic Medium","Arial Narrow","Helvetica Neue",sans-serif;
+  --body:"Sitka Text","Constantia",Georgia,"Times New Roman",serif;
+  --mono:"Cascadia Mono",Consolas,"SFMono-Regular",ui-monospace,monospace;
+}
+:root[data-tema="oscuro"]{
+  color-scheme: dark;
+  --papel:#101315; --papel-2:#181C20; --papel-3:#1F2429;
+  --tinta:#E9EBE6; --tinta-2:#A2AAB0; --tinta-3:#7C858B;
+  --linea:#2B3238; --linea-2:#232930;
+  --ok:#5CCB84; --ok-suave:#12301C;
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--papel); color:var(--tinta); font-family:var(--body); font-size:16.5px; line-height:1.6}
+a{color:inherit}
+.marco{max-width:760px; margin:0 auto; padding:0 clamp(1rem,4vw,2.5rem) 5rem}
+.tope{display:flex; justify-content:space-between; align-items:center; gap:1rem; padding:1.2rem 0; border-bottom:1px solid var(--linea); flex-wrap:wrap}
+.marca{font-family:var(--display); font-weight:700; font-size:1.05rem}
+.marca a{text-decoration:none; color:var(--tinta-2); font-size:.8rem; font-family:var(--mono); margin-right:.8rem}
+.btn-tema{cursor:pointer; font-family:var(--mono); font-size:.66rem; letter-spacing:.08em; padding:.45rem .7rem; background:var(--papel-2); color:var(--tinta-2); border:1px solid var(--linea); border-radius:2px}
+h1{font-family:var(--display); font-weight:700; font-size:clamp(1.8rem,5vw,2.6rem); margin:2rem 0 .3rem}
+p.bajada{color:var(--tinta-2); max-width:60ch; margin:0 0 2rem}
+table{width:100%; border-collapse:collapse; font-size:.92rem}
+th{text-align:left; font-family:var(--mono); font-size:.64rem; letter-spacing:.1em; text-transform:uppercase; color:var(--tinta-3); padding:.5rem .6rem; border-bottom:2px solid var(--tinta)}
+td{padding:.7rem .6rem; border-bottom:1px solid var(--linea-2)}
+tr:first-child td{background:var(--ok-suave)}
+.pos{font-family:var(--mono); color:var(--tinta-3)}
+.jugador{font-weight:600}
+.jugador .av{margin-right:.4rem}
+.num{font-family:var(--mono)}
+.vacio, .cargando, .error{font-family:var(--mono); font-size:.85rem; color:var(--tinta-3); padding:2rem 0}
+.error{color:#B23A3A}
+#chip-sesion{font-size:.8rem}
+.hist-envoltorio{position:relative}
+.hist-svg{width:100%; height:auto; overflow:visible}
+.hist-grid{stroke:var(--linea); stroke-width:1}
+.hist-eje-txt{font-family:var(--mono); font-size:8px; fill:var(--tinta-3)}
+.hist-linea{fill:none; stroke:var(--tinta); stroke-width:2; stroke-linecap:round; stroke-linejoin:round}
+.hist-punto{fill:var(--papel); stroke:var(--tinta); stroke-width:2}
+.hist-punto-hit{fill:transparent; cursor:pointer}
+.hist-cruce{stroke:var(--tinta-3); stroke-width:1; stroke-dasharray:3 3; opacity:0}
+.hist-tooltip{position:absolute; pointer-events:none; opacity:0; transition:opacity .1s; background:var(--tinta); color:var(--papel); font-family:var(--mono); font-size:.72rem; padding:.4rem .6rem; border-radius:3px; white-space:nowrap; transform:translate(-50%,-115%)}
+.hist-resumen{display:flex; gap:1.5rem; margin-bottom:.8rem; font-family:var(--mono); font-size:.78rem; color:var(--tinta-2)}
+.hist-resumen b{display:block; font-family:var(--display); font-size:1.2rem; color:var(--tinta)}
+.hist-tabla-toggle{cursor:pointer; font-family:var(--mono); font-size:.68rem; color:var(--tinta-3); background:none; border:0; text-decoration:underline; padding:0; margin-top:.6rem}
+</style>
+</head>
+<body>
+<div class="marco">
+  <header class="tope">
+    <div class="marca"><a href="index.html" style="text-decoration:none; color:inherit">estudIAndo</a></div>
+    <div style="display:flex; align-items:center; gap:.8rem">
+      <a href="python.html">Apunte</a><a href="simulacro-python.html">Simulacro</a>
+      <div id="chip-sesion"></div>
+      <button class="btn-tema" id="btn-tema" type="button">MODO OSCURO</button>
+    </div>
+  </header>
+
+  <h1>Leaderboard · Python</h1>
+  <p class="bajada">Sólo cuenta el examen puntuado (no la práctica libre). Puntaje = promedio de tareas cumplidas en los 3 ejercicios de código, corregido por IA. Ranking por el promedio de los últimos 5 intentos, desempate por menor duración.</p>
+
+  <div id="tabla"><p class="cargando">Cargando…</p></div>
+
+  <h2 style="font-family:var(--display); font-size:1.3rem; margin:2.6rem 0 .2rem">Tu historial</h2>
+  <p class="bajada" style="margin-bottom:1.2rem">Puntaje final de cada examen que rendiste, en orden.</p>
+  <div id="historial"><p class="cargando">Cargando…</p></div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var raiz = document.documentElement, btn = document.getElementById("btn-tema");
+  function aplicar(t){ raiz.setAttribute("data-tema", t); btn.textContent = t==="oscuro" ? "MODO CLARO" : "MODO OSCURO"; try{ localStorage.setItem("ia-tema", t); }catch(e){} }
+  var g=null; try{ g=localStorage.getItem("ia-tema"); }catch(e){}
+  if(!g) g = (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) ? "oscuro" : "claro";
+  aplicar(g);
+  btn.addEventListener("click", function(){ aplicar(raiz.getAttribute("data-tema")==="oscuro" ? "claro" : "oscuro"); });
+})();
+</script>
+<script src="config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/auth.js"></script>
+<script src="js/codigo-api.js"></script>
+<script src="js/sesion.js"></script>
+<script>
+Sesion.montar("chip-sesion");
+(function(){
+  "use strict";
+  var cont = document.getElementById("tabla");
+  function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+  function cargar(){
+    cont.innerHTML = '<p class="cargando">Cargando…</p>';
+    CodigoApi.leaderboard().then(function(filas){
+      if(!filas || !filas.length){ cont.innerHTML = '<p class="vacio">Todavía nadie rindió el examen puntuado. ¡Sé el primero!</p>'; return; }
+      var h = '<table><thead><tr><th></th><th>Quién</th><th>Promedio últ. 5</th><th>Mejor</th><th>Intentos</th><th>Duración prom.</th></tr></thead><tbody>';
+      filas.forEach(function(f, i){
+        var m = Math.floor((f.duracion_prom_seg||0)/60), s = (f.duracion_prom_seg||0)%60;
+        h += '<tr><td class="pos">#'+(i+1)+'</td><td class="jugador"><span class="av">'+esc(f.avatar||"👤")+'</span>'+esc(f.nombre)+'</td>' +
+             '<td class="num">'+(f.promedio_ult5_pct==null?"—":f.promedio_ult5_pct+"%")+'</td>' +
+             '<td class="num">'+(f.mejor_pct==null?"—":f.mejor_pct+"%")+'</td>' +
+             '<td class="num">'+f.intentos_totales+'</td>' +
+             '<td class="num">'+m+':'+(s<10?"0":"")+s+'</td></tr>';
+      });
+      h += '</tbody></table>';
+      cont.innerHTML = h;
+    }).catch(function(err){
+      cont.innerHTML = '<p class="error">Error cargando el leaderboard: '+esc(err.message)+'</p>';
+    });
+  }
+  Auth.onCambioSesion(function(s){ if(s) cargar(); else cont.innerHTML = '<p class="vacio">Iniciá sesión arriba para ver el leaderboard.</p>'; });
+  Auth.obtenerSesion().then(function(s){ if(s) cargar(); else cont.innerHTML = '<p class="vacio">Iniciá sesión arriba para ver el leaderboard.</p>'; });
+})();
+
+/* ---------- Historial personal ---------- */
+(function(){
+  "use strict";
+  var cont = document.getElementById("historial");
+  function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+  function fechaCorta(iso){ var d = new Date(iso); return d.toLocaleDateString("es-AR", { day: "2-digit", month: "2-digit" }); }
+  function fechaLarga(iso){ var d = new Date(iso); return d.toLocaleDateString("es-AR", { day: "2-digit", month: "2-digit", year: "numeric" }) + " " + d.toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit" }); }
+
+  function pintarHistorial(filas){
+    if(!filas || !filas.length){ cont.innerHTML = '<p class="vacio">Todavía no rendiste ningún examen puntuado.</p>'; return; }
+    var puntos = filas.map(function(f){ return { pct: f.puntaje_final_pct || 0, fecha: f.fin_at }; });
+
+    var ultimo = puntos[puntos.length - 1].pct;
+    var mejor = Math.max.apply(null, puntos.map(function(p){ return p.pct; }));
+    var promedio = Math.round(puntos.reduce(function(a,p){ return a+p.pct; }, 0) / puntos.length);
+
+    var W = 640, H = 220, PAD_L = 34, PAD_R = 12, PAD_T = 14, PAD_B = 22;
+    var innerW = W - PAD_L - PAD_R, innerH = H - PAD_T - PAD_B;
+    function xDe(i){ return puntos.length === 1 ? PAD_L + innerW/2 : PAD_L + (innerW * i / (puntos.length - 1)); }
+    function yDe(pct){ return PAD_T + innerH * (1 - pct/100); }
+
+    var svg = '<svg class="hist-svg" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Evolución de tu puntaje por intento">';
+    [0,25,50,75,100].forEach(function(v){
+      var y = yDe(v);
+      svg += '<line class="hist-grid" x1="'+PAD_L+'" y1="'+y+'" x2="'+(W-PAD_R)+'" y2="'+y+'"/>';
+      svg += '<text class="hist-eje-txt" x="'+(PAD_L-6)+'" y="'+(y+3)+'" text-anchor="end">'+v+'</text>';
+    });
+    var d = puntos.map(function(p,i){ return (i===0?"M":"L") + xDe(i).toFixed(1) + "," + yDe(p.pct).toFixed(1); }).join(" ");
+    svg += '<path class="hist-linea" d="'+d+'"/>';
+    var idxEtiquetas = puntos.length <= 6 ? puntos.map(function(_,i){return i;}) : [0, Math.floor((puntos.length-1)/2), puntos.length-1];
+    idxEtiquetas.forEach(function(i){
+      svg += '<text class="hist-eje-txt" x="'+xDe(i).toFixed(1)+'" y="'+(H-4)+'" text-anchor="middle">'+esc(fechaCorta(puntos[i].fecha))+'</text>';
+    });
+    svg += '<line class="hist-cruce" id="hist-cruce" x1="0" y1="'+PAD_T+'" x2="0" y2="'+(H-PAD_B)+'"/>';
+    puntos.forEach(function(p,i){
+      svg += '<circle class="hist-punto" cx="'+xDe(i).toFixed(1)+'" cy="'+yDe(p.pct).toFixed(1)+'" r="3.5"/>';
+      svg += '<circle class="hist-punto-hit" data-i="'+i+'" cx="'+xDe(i).toFixed(1)+'" cy="'+yDe(p.pct).toFixed(1)+'" r="9"/>';
+    });
+    svg += '</svg>';
+
+    var htmlTabla = '<table style="margin-top:.8rem"><thead><tr><th>Fecha</th><th>Puntaje</th></tr></thead><tbody>' +
+      puntos.slice().reverse().map(function(p){ return '<tr><td>'+esc(fechaLarga(p.fecha))+'</td><td class="num">'+p.pct+'%</td></tr>'; }).join("") +
+      '</tbody></table>';
+
+    cont.innerHTML =
+      '<div class="hist-resumen"><div><b>'+ultimo+'%</b>último</div><div><b>'+mejor+'%</b>mejor</div><div><b>'+promedio+'%</b>promedio</div></div>' +
+      '<div class="hist-envoltorio">' + svg + '<div class="hist-tooltip" id="hist-tooltip"></div></div>' +
+      '<details><summary class="hist-tabla-toggle" style="display:list-item">Ver como tabla</summary>'+htmlTabla+'</details>';
+
+    var tooltip = document.getElementById("hist-tooltip"), cruce = document.getElementById("hist-cruce");
+    var svgEl = cont.querySelector(".hist-svg");
+    Array.prototype.forEach.call(cont.querySelectorAll(".hist-punto-hit"), function(hit){
+      var i = +hit.getAttribute("data-i"), p = puntos[i];
+      function mostrar(){
+        var pt = svgEl.createSVGPoint(); pt.x = xDe(i); pt.y = 0;
+        var ctm = svgEl.getScreenCTM(), rect = cont.querySelector(".hist-envoltorio").getBoundingClientRect();
+        var screenX = (pt.matrixTransform(ctm).x - rect.left);
+        var screenY = (yDe(p.pct) / H) * (svgEl.getBoundingClientRect().height);
+        tooltip.style.left = screenX + "px"; tooltip.style.top = screenY + "px";
+        tooltip.textContent = fechaLarga(p.fecha) + " · " + p.pct + "%";
+        tooltip.style.opacity = "1";
+        cruce.setAttribute("x1", xDe(i)); cruce.setAttribute("x2", xDe(i)); cruce.style.opacity = "1";
+      }
+      hit.addEventListener("mouseenter", mostrar);
+      hit.addEventListener("focus", mostrar);
+      hit.addEventListener("mouseleave", function(){ tooltip.style.opacity = "0"; cruce.style.opacity = "0"; });
+      hit.addEventListener("blur", function(){ tooltip.style.opacity = "0"; cruce.style.opacity = "0"; });
+      hit.setAttribute("tabindex", "0"); hit.setAttribute("role", "img");
+      hit.setAttribute("aria-label", fechaLarga(p.fecha) + ", " + p.pct + " por ciento");
+    });
+  }
+
+  function cargarHistorial(){
+    cont.innerHTML = '<p class="cargando">Cargando…</p>';
+    CodigoApi.historialPropio("python").then(pintarHistorial).catch(function(err){
+      cont.innerHTML = '<p class="error">Error cargando tu historial: '+esc(err.message)+'</p>';
+    });
+  }
+  Auth.onCambioSesion(function(s){ if(s) cargarHistorial(); else cont.innerHTML = '<p class="vacio">Iniciá sesión arriba para ver tu historial.</p>'; });
+  Auth.obtenerSesion().then(function(s){ if(s) cargarHistorial(); else cont.innerHTML = '<p class="vacio">Iniciá sesión arriba para ver tu historial.</p>'; });
+})();
+</script>
+</body>
+</html>
