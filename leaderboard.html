@@ -46,6 +46,24 @@ tr:first-child td{background:var(--ok-suave)}
 .vacio, .cargando, .error{font-family:var(--mono); font-size:.85rem; color:var(--tinta-3); padding:2rem 0}
 .error{color:#B23A3A}
 #chip-sesion{font-size:.8rem}
+
+/* ---- Historial personal ---- */
+.hist-envoltorio{position:relative}
+.hist-svg{width:100%; height:auto; overflow:visible}
+.hist-grid{stroke:var(--linea); stroke-width:1}
+.hist-eje-txt{font-family:var(--mono); font-size:8px; fill:var(--tinta-3)}
+.hist-linea{fill:none; stroke:var(--tinta); stroke-width:2; stroke-linecap:round; stroke-linejoin:round}
+.hist-punto{fill:var(--papel); stroke:var(--tinta); stroke-width:2}
+.hist-punto-hit{fill:transparent; cursor:pointer}
+.hist-cruce{stroke:var(--tinta-3); stroke-width:1; stroke-dasharray:3 3; opacity:0}
+.hist-tooltip{
+  position:absolute; pointer-events:none; opacity:0; transition:opacity .1s;
+  background:var(--tinta); color:var(--papel); font-family:var(--mono); font-size:.72rem;
+  padding:.4rem .6rem; border-radius:3px; white-space:nowrap; transform:translate(-50%,-115%);
+}
+.hist-resumen{display:flex; gap:1.5rem; margin-bottom:.8rem; font-family:var(--mono); font-size:.78rem; color:var(--tinta-2)}
+.hist-resumen b{display:block; font-family:var(--display); font-size:1.2rem; color:var(--tinta)}
+.hist-tabla-toggle{cursor:pointer; font-family:var(--mono); font-size:.68rem; color:var(--tinta-3); background:none; border:0; text-decoration:underline; padding:0; margin-top:.6rem}
 </style>
 </head>
 <body>
@@ -63,6 +81,10 @@ tr:first-child td{background:var(--ok-suave)}
   <p class="bajada">Sólo cuenta el examen puntuado (no la práctica libre). Ranking por el promedio de los últimos 5 intentos, desempate por menor duración.</p>
 
   <div id="tabla"><p class="cargando">Cargando…</p></div>
+
+  <h2 style="font-family:var(--display); font-size:1.3rem; margin:2.6rem 0 .2rem">Tu historial</h2>
+  <p class="bajada" style="margin-bottom:1.2rem">Puntaje final de cada examen que rendiste (opción múltiple + desarrollo), en orden.</p>
+  <div id="historial"><p class="cargando">Cargando…</p></div>
 </div>
 
 <script>
@@ -108,6 +130,111 @@ Sesion.montar("chip-sesion");
   }
   Auth.onCambioSesion(function(s){ if(s) cargar(); else cont.innerHTML = '<p class="vacio">Iniciá sesión arriba para ver el leaderboard.</p>'; });
   Auth.obtenerSesion().then(function(s){ if(s) cargar(); else cont.innerHTML = '<p class="vacio">Iniciá sesión arriba para ver el leaderboard.</p>'; });
+})();
+
+/* ---------- Historial personal ---------- */
+(function(){
+  "use strict";
+  var cont = document.getElementById("historial");
+  function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+  function fechaCorta(iso){
+    var d = new Date(iso);
+    return d.toLocaleDateString("es-AR", { day: "2-digit", month: "2-digit" });
+  }
+  function fechaLarga(iso){
+    var d = new Date(iso);
+    return d.toLocaleDateString("es-AR", { day: "2-digit", month: "2-digit", year: "numeric" }) + " " +
+           d.toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit" });
+  }
+
+  function pintarHistorial(filas){
+    if(!filas || !filas.length){
+      cont.innerHTML = '<p class="vacio">Todavía no rendiste ningún examen puntuado.</p>';
+      return;
+    }
+    var puntos = filas.map(function(f){
+      var pct = f.puntaje_final_pct != null ? f.puntaje_final_pct : Math.round(f.puntaje / f.total * 100);
+      return { pct: pct, fecha: f.fin_at };
+    });
+
+    var ultimo = puntos[puntos.length - 1].pct;
+    var mejor = Math.max.apply(null, puntos.map(function(p){ return p.pct; }));
+    var promedio = Math.round(puntos.reduce(function(a,p){ return a+p.pct; }, 0) / puntos.length);
+
+    var W = 640, H = 220, PAD_L = 34, PAD_R = 12, PAD_T = 14, PAD_B = 22;
+    var innerW = W - PAD_L - PAD_R, innerH = H - PAD_T - PAD_B;
+    function xDe(i){ return puntos.length === 1 ? PAD_L + innerW/2 : PAD_L + (innerW * i / (puntos.length - 1)); }
+    function yDe(pct){ return PAD_T + innerH * (1 - pct/100); }
+
+    var svg = '<svg class="hist-svg" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Evolución de tu puntaje por intento">';
+    // grillas recesivas + etiquetas del eje Y
+    [0,25,50,75,100].forEach(function(v){
+      var y = yDe(v);
+      svg += '<line class="hist-grid" x1="'+PAD_L+'" y1="'+y+'" x2="'+(W-PAD_R)+'" y2="'+y+'"/>';
+      svg += '<text class="hist-eje-txt" x="'+(PAD_L-6)+'" y="'+(y+3)+'" text-anchor="end">'+v+'</text>';
+    });
+    // línea
+    var d = puntos.map(function(p,i){ return (i===0?"M":"L") + xDe(i).toFixed(1) + "," + yDe(p.pct).toFixed(1); }).join(" ");
+    svg += '<path class="hist-linea" d="'+d+'"/>';
+    // etiquetas eje X: primera, última y alguna intermedia si hay lugar
+    var idxEtiquetas = puntos.length <= 6 ? puntos.map(function(_,i){return i;}) : [0, Math.floor((puntos.length-1)/2), puntos.length-1];
+    idxEtiquetas.forEach(function(i){
+      svg += '<text class="hist-eje-txt" x="'+xDe(i).toFixed(1)+'" y="'+(H-4)+'" text-anchor="middle">'+esc(fechaCorta(puntos[i].fecha))+'</text>';
+    });
+    svg += '<line class="hist-cruce" id="hist-cruce" x1="0" y1="'+PAD_T+'" x2="0" y2="'+(H-PAD_B)+'"/>';
+    // puntos + círculo de hit grande para el hover
+    puntos.forEach(function(p,i){
+      svg += '<circle class="hist-punto" cx="'+xDe(i).toFixed(1)+'" cy="'+yDe(p.pct).toFixed(1)+'" r="3.5"/>';
+      svg += '<circle class="hist-punto-hit" data-i="'+i+'" cx="'+xDe(i).toFixed(1)+'" cy="'+yDe(p.pct).toFixed(1)+'" r="9"/>';
+    });
+    svg += '</svg>';
+
+    var htmlTabla = '<table style="margin-top:.8rem"><thead><tr><th>Fecha</th><th>Puntaje</th></tr></thead><tbody>' +
+      puntos.slice().reverse().map(function(p){ return '<tr><td>'+esc(fechaLarga(p.fecha))+'</td><td class="num">'+p.pct+'%</td></tr>'; }).join("") +
+      '</tbody></table>';
+
+    cont.innerHTML =
+      '<div class="hist-resumen">' +
+        '<div><b>'+ultimo+'%</b>último</div>' +
+        '<div><b>'+mejor+'%</b>mejor</div>' +
+        '<div><b>'+promedio+'%</b>promedio</div>' +
+      '</div>' +
+      '<div class="hist-envoltorio">' + svg + '<div class="hist-tooltip" id="hist-tooltip"></div></div>' +
+      '<details><summary class="hist-tabla-toggle" style="display:list-item">Ver como tabla</summary>'+htmlTabla+'</details>';
+
+    var tooltip = document.getElementById("hist-tooltip"), cruce = document.getElementById("hist-cruce");
+    var svgEl = cont.querySelector(".hist-svg");
+    Array.prototype.forEach.call(cont.querySelectorAll(".hist-punto-hit"), function(hit){
+      var i = +hit.getAttribute("data-i"), p = puntos[i];
+      function mostrar(){
+        var pt = svgEl.createSVGPoint(); pt.x = xDe(i); pt.y = 0;
+        var ctm = svgEl.getScreenCTM(), rect = cont.querySelector(".hist-envoltorio").getBoundingClientRect();
+        var screenX = (pt.matrixTransform(ctm).x - rect.left);
+        var screenY = (yDe(p.pct) / H) * (svgEl.getBoundingClientRect().height);
+        tooltip.style.left = screenX + "px";
+        tooltip.style.top = screenY + "px";
+        tooltip.textContent = fechaLarga(p.fecha) + " · " + p.pct + "%";
+        tooltip.style.opacity = "1";
+        cruce.setAttribute("x1", xDe(i)); cruce.setAttribute("x2", xDe(i)); cruce.style.opacity = "1";
+      }
+      hit.addEventListener("mouseenter", mostrar);
+      hit.addEventListener("focus", mostrar);
+      hit.addEventListener("mouseleave", function(){ tooltip.style.opacity = "0"; cruce.style.opacity = "0"; });
+      hit.addEventListener("blur", function(){ tooltip.style.opacity = "0"; cruce.style.opacity = "0"; });
+      hit.setAttribute("tabindex", "0");
+      hit.setAttribute("role", "img");
+      hit.setAttribute("aria-label", fechaLarga(p.fecha) + ", " + p.pct + " por ciento");
+    });
+  }
+
+  function cargarHistorial(){
+    cont.innerHTML = '<p class="cargando">Cargando…</p>';
+    ExamenApi.historialPropio("etica").then(pintarHistorial).catch(function(err){
+      cont.innerHTML = '<p class="error">Error cargando tu historial: '+esc(err.message)+'</p>';
+    });
+  }
+  Auth.onCambioSesion(function(s){ if(s) cargarHistorial(); else cont.innerHTML = '<p class="vacio">Iniciá sesión arriba para ver tu historial.</p>'; });
+  Auth.obtenerSesion().then(function(s){ if(s) cargarHistorial(); else cont.innerHTML = '<p class="vacio">Iniciá sesión arriba para ver tu historial.</p>'; });
 })();
 </script>
 </body>

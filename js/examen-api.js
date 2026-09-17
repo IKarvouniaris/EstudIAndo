@@ -42,6 +42,19 @@ window.ExamenApi = (function () {
     });
   }
 
+  function historialPropio(materia) {
+    // RLS ya restringe esto a las filas del usuario logueado, no hace falta filtrar por usuario acá.
+    return Auth.cliente
+      .from("intentos")
+      .select("inicio_at, fin_at, puntaje, total, puntaje_final_pct")
+      .eq("materia", materia).eq("modo", "examen").not("fin_at", "is", null)
+      .order("fin_at", { ascending: true })
+      .then(function (r) {
+        if (r.error) throw r.error;
+        return r.data;
+      });
+  }
+
   function corregirDesarrollo(intentoId) {
     return Auth.cliente.functions.invoke("corregir-desarrollo", { body: { intento_id: intentoId } }).then(function (r) {
       if (r.error) throw r.error;
@@ -57,5 +70,6 @@ window.ExamenApi = (function () {
     leaderboard: leaderboard,
     guardarDesarrollo: guardarDesarrollo,
     corregirDesarrollo: corregirDesarrollo,
+    historialPropio: historialPropio,
   };
 })();
