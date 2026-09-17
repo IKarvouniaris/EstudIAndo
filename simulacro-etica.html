@@ -186,6 +186,28 @@ details.modelo .cuerpo div b{font-family:var(--mono); color:var(--acento)}
 .desarrollo .modelo-txt{font-size:.93rem; padding:.7rem .85rem; background:var(--acento-suave); border-left:3px solid var(--acento); border-radius:2px; margin:.2rem 0 0}
 .ayuda-parcial{font-family:var(--mono); font-size:.64rem; color:var(--tinta-3)}
 @media print{ .desarrollo textarea{min-height:14rem} }
+
+/* ---- EXAMEN OFICIAL (overlay) ---- */
+.ex-overlay{position:fixed; inset:0; z-index:100; background:rgba(0,0,0,.55); display:flex; align-items:flex-start; justify-content:center; padding:3vh 1rem; overflow-y:auto}
+.ex-panel{background:var(--papel); border:1px solid var(--linea); border-radius:4px; max-width:720px; width:100%; padding:1.6rem clamp(1.1rem,3vw,2rem) 2rem; margin-bottom:3vh}
+.ex-panel h2{font-family:var(--display); font-size:1.5rem; margin:0 0 .6rem}
+.ex-panel p{color:var(--tinta-2)}
+.ex-cerrar{float:right; cursor:pointer; background:none; border:0; font-family:var(--mono); font-size:.9rem; color:var(--tinta-3)}
+.ex-cerrar:hover{color:var(--tinta)}
+.ex-cronometro{position:sticky; top:0; background:var(--papel); z-index:2; padding:.5rem 0; font-family:var(--mono); font-size:.85rem; border-bottom:1px solid var(--linea); margin-bottom:1rem; display:flex; justify-content:space-between; align-items:center}
+.ex-cronometro.urgente{color:var(--mal)}
+.ex-caso{border-top:2px solid var(--tinta); padding-top:.7rem; margin-top:1.2rem}
+.ex-caso h3{font-family:var(--display); font-size:1.1rem; margin:.2rem 0 .4rem}
+.ex-pregunta{margin:1rem 0}
+.ex-pregunta p{color:var(--tinta); font-weight:600; margin:0 0 .5rem}
+.ex-opciones{display:grid; gap:.4rem}
+.ex-opciones button{text-align:left; cursor:pointer; padding:.5rem .7rem; background:var(--papel-2); border:1px solid var(--linea-2); border-radius:2px; color:var(--tinta); font-family:var(--body)}
+.ex-opciones button.elegida{border-color:var(--acento,var(--tinta)); background:var(--papel-3); font-weight:600}
+.ex-opciones button.correcta{border-color:var(--ok); background:var(--ok-suave)}
+.ex-opciones button.incorrecta{border-color:var(--mal); background:var(--mal-suave)}
+.ex-resultado{text-align:center; margin:1rem 0}
+.ex-resultado .num{font-family:var(--display); font-size:2.6rem; font-weight:700}
+.ex-cooldown{font-family:var(--mono); font-size:1.3rem; margin:1rem 0}
 </style>
 </head>
 <body>
@@ -201,9 +223,15 @@ details.modelo .cuerpo div b{font-family:var(--mono); color:var(--acento)}
   </div>
   <button class="btn" id="btn-corregir" type="button" title="Corrige todas las respuestas marcadas (modo examen)">Corregir todo</button>
   <button class="btn peligro" id="btn-reiniciar" type="button">Reiniciar</button>
+  <a class="btn" href="leaderboard.html">Leaderboard</a>
+  <button class="btn on" id="btn-rendir" type="button" title="Examen puntuado, cuenta para el leaderboard, 1 vez por hora">★ Rendir examen</button>
   <button class="btn" id="btn-tema" type="button">Modo oscuro</button>
   <div id="chip-sesion"></div>
 </header>
+
+<div class="ex-overlay oculto" id="ex-overlay">
+  <div class="ex-panel" id="ex-panel"></div>
+</div>
 
 <main class="lienzo">
   <div class="portada">
@@ -241,7 +269,7 @@ details.modelo .cuerpo div b{font-family:var(--mono); color:var(--acento)}
   <div class="modos">
     <span class="etq" style="font-family:var(--mono); font-size:.62rem; letter-spacing:.14em; text-transform:uppercase; color:var(--tinta-3)">Modo</span>
     <button class="btn on" id="m-practica" type="button">Práctica · corrige al instante</button>
-    <button class="btn" id="m-examen" type="button">Examen · corrige al final</button>
+    <button class="btn" id="m-examen" type="button">Repaso diferido · corrige al final</button>
     <button class="btn" id="btn-mezclar" type="button" title="Cambia el orden de las opciones (reinicia respuestas)">Mezclar opciones</button>
     <button class="btn" id="btn-sortear" type="button" title="Muestra 2 casos al azar, como un parcial">Sortear parcial · 2 casos</button>
     <span class="nota">Respuestas y textos se guardan en este navegador.</span>
@@ -259,6 +287,7 @@ details.modelo .cuerpo div b{font-family:var(--mono); color:var(--acento)}
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="js/auth.js"></script>
 <script src="js/simulacro-api.js"></script>
+<script src="js/examen-api.js"></script>
 <script>
 (function(){
 "use strict";
@@ -552,6 +581,151 @@ document.addEventListener("keydown", function(e){
 });
 
 aplicarModo(estado.modo);
+
+/* ---------- EXAMEN OFICIAL (server-side, puntúa para el leaderboard) ---------- */
+(function(){
+  var overlay = document.getElementById("ex-overlay"), panel = document.getElementById("ex-panel");
+  var btnRendir = document.getElementById("btn-rendir");
+  var MATERIA = "etica", DURACION_SEG = 20*60;
+  var ex = null; // {intentoId, inicioAt, preguntas, respuestas:{}, timer}
+
+  function abrir(html){ panel.innerHTML = html; overlay.classList.remove("oculto"); }
+  function cerrar(){ overlay.classList.add("oculto"); panel.innerHTML=""; if(ex && ex.timer){ clearInterval(ex.timer); ex=null; } }
+
+  // Delegación de eventos: un solo listener para todo el panel, así nunca dependemos
+  // de que un elemento ya exista en el DOM justo después de reescribir el innerHTML.
+  panel.addEventListener("click", function(e){
+    if(e.target.closest("[data-ex-cerrar]")){ cerrar(); return; }
+    if(e.target.closest("[data-ex-empezar]")){ empezar(); return; }
+    if(e.target.closest("[data-ex-finalizar]")){
+      if(ex && Object.keys(ex.respuestas).length < ex.preguntas.length && !confirm("Todavía te faltan preguntas sin responder. ¿Finalizar igual?")) return;
+      terminar();
+      return;
+    }
+    var op = e.target.closest("[data-ex-l]");
+    if(op && ex){
+      var sec = op.closest("[data-ex-p]"); if(!sec) return;
+      var id = sec.getAttribute("data-ex-p"), L = op.getAttribute("data-ex-l");
+      ex.respuestas[id] = L;
+      Array.prototype.forEach.call(sec.querySelectorAll("[data-ex-l]"), function(b){ b.classList.toggle("elegida", b===op); });
+      var cronSpan = panel.querySelector(".ex-cronometro span");
+      if(cronSpan) cronSpan.textContent = Object.keys(ex.respuestas).length + " / " + ex.preguntas.length + " respondidas";
+      ExamenApi.responderExamen(ex.intentoId, id, L).catch(function(err){ alert("No se guardó la respuesta: "+err.message); });
+    }
+  });
+
+  function fmt(seg){
+    seg = Math.max(0, seg|0);
+    var m = Math.floor(seg/60), s = seg%60;
+    return m + ":" + (s<10?"0":"") + s;
+  }
+
+  btnRendir.addEventListener("click", function(){
+    Auth.obtenerSesion().then(function(sesion){
+      if(!sesion){ abrir('<button class="ex-cerrar" data-ex-cerrar>✕ cerrar</button><h2>Iniciá sesión primero</h2><p>Arriba a la derecha, con Google o con un link a tu email.</p>'); return; }
+      abrir('<button class="ex-cerrar" data-ex-cerrar>✕ cerrar</button><h2>Revisando…</h2>');
+      ExamenApi.cooldownRestante(MATERIA).then(function(restantes){
+        if(restantes > 0) return mostrarCooldown(restantes);
+        mostrarIntro();
+      }).catch(function(err){
+        abrir('<button class="ex-cerrar" data-ex-cerrar>✕ cerrar</button><h2>Error</h2><p>'+esc(err.message)+'</p>');
+      });
+    });
+  });
+
+  function mostrarCooldown(restantes){
+    abrir('<button class="ex-cerrar" data-ex-cerrar>✕ cerrar</button><h2>Ya rendiste hace poco</h2><p>Máximo un examen puntuado por hora, así el leaderboard no se llena de intentos repetidos.</p><p class="ex-cooldown" id="ex-cd">'+fmt(restantes)+'</p><p>Mientras tanto podés seguir practicando sin límite en modo Práctica.</p>');
+    var t = restantes;
+    var iv = setInterval(function(){
+      t--; var el = document.getElementById("ex-cd");
+      if(!el){ clearInterval(iv); return; }
+      if(t<=0){ clearInterval(iv); mostrarIntro(); return; }
+      el.textContent = fmt(t);
+    }, 1000);
+  }
+
+  function mostrarIntro(){
+    abrir(
+      '<button class="ex-cerrar" data-ex-cerrar>✕ cerrar</button><h2>Examen puntuado</h2>' +
+      '<p>2 casos al azar (8 preguntas), <strong>20 minutos</strong>. Se corrige al terminar y cuenta para el leaderboard. Podés volver a intentarlo recién dentro de 1 hora.</p>' +
+      '<button type="button" class="btn on" data-ex-empezar>Empezar</button>'
+    );
+  }
+
+  function empezar(){
+    abrir('<h2>Preparando…</h2>');
+    ExamenApi.iniciarIntento(MATERIA).then(function(r){
+      ex = { intentoId: r.intento_id, inicioAt: new Date(r.inicio_at).getTime(), preguntas: r.preguntas, respuestas: {} };
+      pintarExamen();
+      ex.timer = setInterval(tick, 1000);
+    }).catch(function(err){
+      abrir('<button class="ex-cerrar" data-ex-cerrar>✕ cerrar</button><h2>No se pudo empezar</h2><p>'+esc(err.message)+'</p>');
+    });
+  }
+
+  function tick(){
+    if(!ex) return;
+    var faltan = DURACION_SEG - Math.floor((Date.now()-ex.inicioAt)/1000);
+    var cron = document.getElementById("ex-cron");
+    if(cron){ cron.textContent = fmt(faltan); cron.parentElement.classList.toggle("urgente", faltan<=60); }
+    if(faltan<=0){ clearInterval(ex.timer); terminar(); }
+  }
+
+  function porCaso(preguntas){
+    var casos = {}, orden = [];
+    preguntas.forEach(function(p){
+      if(!casos[p.caso_id]){ casos[p.caso_id]=[]; orden.push(p.caso_id); }
+      casos[p.caso_id].push(p);
+    });
+    return orden.map(function(id){ return { id:id, preguntas:casos[id] }; });
+  }
+
+  function pintarExamen(){
+    var respondidas = Object.keys(ex.respuestas).length;
+    var h = '<div class="ex-cronometro"><span>'+respondidas+' / '+ex.preguntas.length+' respondidas</span><span id="ex-cron">'+fmt(DURACION_SEG-Math.floor((Date.now()-ex.inicioAt)/1000))+'</span></div>';
+    porCaso(ex.preguntas).forEach(function(c){
+      var p0 = c.preguntas[0];
+      h += '<div class="ex-caso"><h3>'+esc(p0.caso_titulo)+'</h3><p style="font-size:.88rem">'+esc(p0.caso_escenario)+'</p>';
+      c.preguntas.forEach(function(p){
+        var elegida = ex.respuestas[p.id];
+        h += '<div class="ex-pregunta" data-ex-p="'+p.id+'"><p>'+esc(p.sub)+') '+esc(p.texto)+'</p><div class="ex-opciones">';
+        ["a","b","c","d"].forEach(function(L){
+          h += '<button type="button" data-ex-l="'+L+'" class="'+(elegida===L?"elegida":"")+'">'+esc(p.opciones[L])+'</button>';
+        });
+        h += '</div></div>';
+      });
+      h += '</div>';
+    });
+    h += '<p style="text-align:center; margin-top:1.5rem"><button type="button" class="btn on" data-ex-finalizar>Finalizar examen</button></p>';
+    panel.innerHTML = h;
+  }
+
+  function terminar(){
+    if(!ex) return;
+    if(ex.timer) clearInterval(ex.timer);
+    var intentoId = ex.intentoId;
+    abrir('<h2>Corrigiendo…</h2>');
+    ExamenApi.finalizarIntento(intentoId).then(function(r){
+      var pct = r.total ? Math.round(r.puntaje/r.total*100) : 0;
+      var h = '<button class="ex-cerrar" data-ex-cerrar>✕ cerrar</button><div class="ex-resultado"><div class="num">'+r.puntaje+'/'+r.total+'</div><p>'+pct+'% de acierto · '+fmt(r.duracion_seg)+' minutos</p></div>';
+      (r.detalle||[]).forEach(function(d){
+        var p = ex.preguntas.filter(function(x){ return x.id===d.pregunta_id; })[0];
+        if(!p) return;
+        h += '<div class="ex-pregunta"><p>'+esc(p.sub)+') '+esc(p.texto)+'</p><div class="ex-opciones">';
+        ["a","b","c","d"].forEach(function(L){
+          var cls = L===d.ok ? "correcta" : (L===d.opcion ? "incorrecta" : "");
+          h += '<button type="button" disabled class="'+cls+'">'+esc(p.opciones[L])+'</button>';
+        });
+        h += '</div><p style="font-size:.85rem; color:var(--tinta-2)">'+esc(d.explicacion||"")+'</p></div>';
+      });
+      h += '<p style="text-align:center; margin-top:1rem"><a class="btn on" href="leaderboard.html">Ver leaderboard</a></p>';
+      panel.innerHTML = h;
+      ex = null;
+    }).catch(function(err){
+      abrir('<button class="ex-cerrar" data-ex-cerrar>✕ cerrar</button><h2>Error al corregir</h2><p>'+esc(err.message)+'</p>');
+    });
+  }
+})();
 
 /* ---------- CARGA DE DATOS (server-side, requiere sesión) ---------- */
 function cargarDatos(){

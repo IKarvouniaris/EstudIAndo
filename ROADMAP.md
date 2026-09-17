@@ -13,7 +13,7 @@ Objetivo: que un grupo de amigos pueda loguearse, rendir los simulacros con punt
 | 0 | Proyecto Supabase, login Google y magic link, entorno local | ✅ Hecho |
 | 1 | Perfiles y sesión en todas las páginas | ✅ Hecho |
 | 2 | Preguntas en la base y corrección del lado del servidor | ✅ Hecho |
-| 3 | Modo examen con cooldown de 1 hora y leaderboard | ⬜ Pendiente |
+| 3 | Modo examen con cooldown de 1 hora y leaderboard | ✅ Hecho |
 | 4 | Modo parcial programado + corrección del desarrollo con Gemini | ⬜ Pendiente |
 | 5 | Duelos 1 vs 1 | ⬜ Pendiente |
 | 6 | Modo en vivo tipo Kahoot (Supabase Realtime) | ⬜ Pendiente |
@@ -33,7 +33,7 @@ Objetivo: que un grupo de amigos pueda loguearse, rendir los simulacros con punt
 
 ## Decisiones pendientes (las vamos charlando)
 
-- [ ] **Métrica del leaderboard:** ¿mejor intento de la semana, promedio de los últimos 5 intentos, o ambos en pestañas? *Propuesta: promedio de los últimos 5, que premia constancia y no un intento con suerte.*
+- [x] **Métrica del leaderboard:** promedio de los últimos 5 intentos, desempate por menor duración. *(Implementado en Fase 3 — `leaderboard_etica()`. También muestra el mejor % histórico como columna aparte.)*
 - [ ] **Puntaje por pregunta en examen:** ¿sólo aciertos, o aciertos + bonus por tiempo? *Propuesta: sólo aciertos; el tiempo desempata.*
 - [ ] **Salas / grupos:** ¿un único grupo de amigos o varias salas con código? *Propuesta: arrancar con una sala y dejar la tabla preparada para varias.*
 - [ ] **¿El desarrollo corregido por Gemini suma puntos al ranking** o es sólo devolución orientativa? *Propuesta: suma en el modo parcial, no en el examen común.*
@@ -217,19 +217,21 @@ end if;
 
 **Leaderboard:** vista `leaderboard_etica` con nombre, avatar, cantidad de intentos, promedio de los últimos 5 y mejor puntaje (según la decisión pendiente). Desempate por menor duración.
 
-- [ ] Tablas, RLS y las 3 funciones.
-- [ ] En el simulacro: botón «Rendir examen» con contador de cooldown («podés volver a rendir en 42 min»).
-- [ ] Pantalla de resultado del intento con correcciones.
-- [ ] Nueva página `leaderboard.html` (general y por bloque) con link desde `index.html` y `etica.html`.
-- [ ] Historial personal: gráfico simple de puntaje en el tiempo.
+- [x] Tablas, RLS y las funciones (`iniciar_intento`, `responder_examen`, `finalizar_intento`, más `cooldown_restante` y `leaderboard_etica` que no estaban en el borrador original).
+- [x] En el simulacro: botón «★ Rendir examen» (overlay propio, separado de la práctica libre) con contador de cooldown en vivo.
+- [x] Pantalla de resultado del intento con correcciones.
+- [x] Nueva página `leaderboard.html` con link desde `index.html`, `etica.html` y `simulacro-etica.html`.
+- [ ] Leaderboard **por bloque** — sólo se hizo el general. Pendiente si hace falta.
+- [ ] Historial personal (gráfico de puntaje en el tiempo) — **no se hizo**, queda para después.
 
-**Archivos nuevos:** `leaderboard.html`, `supabase/fase3.sql`
-**Archivos modificados:** `simulacro-etica.html`, `js/simulacro-api.js`, `index.html`, `etica.html`
+**Archivos nuevos:** `leaderboard.html`, `supabase/fase3.sql`, `js/examen-api.js`
+**Archivos modificados:** `simulacro-etica.html`, `index.html`, `etica.html`
 **Verificación:**
-- [ ] Intentar iniciar dos exámenes seguidos → el segundo devuelve `cooldown`.
-- [ ] Llamar `finalizar_intento` dos veces → el puntaje no cambia.
-- [ ] Insertar una fila en `intentos` desde la consola → rechazado por RLS.
-- [ ] Cambiar la hora del sistema en la compu → el cooldown y la duración no cambian.
+- [x] Iniciar examen, luego pedir cooldown → devuelve minutos restantes (probado en vivo, ~58 min).
+- [x] `finalizar_intento` no cambia el puntaje en llamadas repetidas (es idempotente por diseño: sólo corrige si `fin_at is null`).
+- [x] Insertar una fila en `intentos` por REST con la publishable key → **401, rechazado por RLS** (`new row violates row-level security policy`).
+- [x] Examen completo probado en vivo 2026-09-17: 8/8 preguntas, corrección, aparece en el leaderboard.
+- [ ] Cambiar la hora del sistema en la compu → no probado (pero el diseño usa `now()` de Postgres en todo momento, nunca el reloj del navegador, así que no debería importar).
 
 ---
 

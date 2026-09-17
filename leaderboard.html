@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Leaderboard — estudIAndo</title>
+<style>
+:root{
+  color-scheme: light;
+  --papel:#EDEEE9; --papel-2:#F8F9F6; --papel-3:#E3E5DE;
+  --tinta:#15181A; --tinta-2:#545B60; --tinta-3:#7B8288;
+  --linea:#C7CAC2; --linea-2:#D9DBD4;
+  --u1:#2E3A94; --u4:#6D3470; --u1-suave:#E2E5F6; --u4-suave:#F0E3F0;
+  --ok:#1F7A3E; --ok-suave:#DCEFE1;
+  --display:"Bahnschrift","Franklin Gothic Medium","Arial Narrow","Helvetica Neue",sans-serif;
+  --body:"Sitka Text","Constantia",Georgia,"Times New Roman",serif;
+  --mono:"Cascadia Mono",Consolas,"SFMono-Regular",ui-monospace,monospace;
+  --acento:var(--tinta-3); --acento-suave:var(--papel-3);
+}
+:root[data-tema="oscuro"]{
+  color-scheme: dark;
+  --papel:#101315; --papel-2:#181C20; --papel-3:#1F2429;
+  --tinta:#E9EBE6; --tinta-2:#A2AAB0; --tinta-3:#7C858B;
+  --linea:#2B3238; --linea-2:#232930;
+  --u1:#909EF0; --u4:#D39AD6; --u1-suave:#1B2040; --u4-suave:#2E1830;
+  --ok:#5CCB84; --ok-suave:#12301C;
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--papel); color:var(--tinta); font-family:var(--body); font-size:16.5px; line-height:1.6}
+a{color:inherit}
+.marco{max-width:760px; margin:0 auto; padding:0 clamp(1rem,4vw,2.5rem) 5rem}
+.tope{display:flex; justify-content:space-between; align-items:center; gap:1rem; padding:1.2rem 0; border-bottom:1px solid var(--linea); flex-wrap:wrap}
+.marca{font-family:var(--display); font-weight:700; font-size:1.05rem}
+.marca a{text-decoration:none; color:var(--tinta-2); font-size:.8rem; font-family:var(--mono); margin-right:.8rem}
+.btn-tema{cursor:pointer; font-family:var(--mono); font-size:.66rem; letter-spacing:.08em; padding:.45rem .7rem; background:var(--papel-2); color:var(--tinta-2); border:1px solid var(--linea); border-radius:2px}
+h1{font-family:var(--display); font-weight:700; font-size:clamp(1.8rem,5vw,2.6rem); margin:2rem 0 .3rem}
+p.bajada{color:var(--tinta-2); max-width:60ch; margin:0 0 2rem}
+table{width:100%; border-collapse:collapse; font-size:.92rem}
+th{text-align:left; font-family:var(--mono); font-size:.64rem; letter-spacing:.1em; text-transform:uppercase; color:var(--tinta-3); padding:.5rem .6rem; border-bottom:2px solid var(--tinta)}
+td{padding:.7rem .6rem; border-bottom:1px solid var(--linea-2)}
+tr:first-child td{background:var(--ok-suave)}
+.pos{font-family:var(--mono); color:var(--tinta-3)}
+.jugador{font-weight:600}
+.jugador .av{margin-right:.4rem}
+.num{font-family:var(--mono)}
+.vacio, .cargando, .error{font-family:var(--mono); font-size:.85rem; color:var(--tinta-3); padding:2rem 0}
+.error{color:#B23A3A}
+#chip-sesion{font-size:.8rem}
+</style>
+</head>
+<body>
+<div class="marco">
+  <header class="tope">
+    <div class="marca">estudIAndo</div>
+    <div style="display:flex; align-items:center; gap:.8rem">
+      <a href="index.html">Materias</a><a href="etica.html">Apunte</a><a href="simulacro-etica.html">Simulacro</a>
+      <div id="chip-sesion"></div>
+      <button class="btn-tema" id="btn-tema" type="button">MODO OSCURO</button>
+    </div>
+  </header>
+
+  <h1>Leaderboard · Ética en la IA</h1>
+  <p class="bajada">Sólo cuenta el examen puntuado (no la práctica libre). Ranking por el promedio de los últimos 5 intentos, desempate por menor duración.</p>
+
+  <div id="tabla"><p class="cargando">Cargando…</p></div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var raiz = document.documentElement, btn = document.getElementById("btn-tema");
+  function aplicar(t){ raiz.setAttribute("data-tema", t); btn.textContent = t==="oscuro" ? "MODO CLARO" : "MODO OSCURO"; try{ localStorage.setItem("ia-tema", t); }catch(e){} }
+  var g=null; try{ g=localStorage.getItem("ia-tema"); }catch(e){}
+  if(!g) g = (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) ? "oscuro" : "claro";
+  aplicar(g);
+  btn.addEventListener("click", function(){ aplicar(raiz.getAttribute("data-tema")==="oscuro" ? "claro" : "oscuro"); });
+})();
+</script>
+<script src="config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/auth.js"></script>
+<script src="js/examen-api.js"></script>
+<script src="js/sesion.js"></script>
+<script>
+Sesion.montar("chip-sesion");
+(function(){
+  "use strict";
+  var cont = document.getElementById("tabla");
+  function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+  function cargar(){
+    cont.innerHTML = '<p class="cargando">Cargando…</p>';
+    ExamenApi.leaderboard().then(function(filas){
+      if(!filas || !filas.length){ cont.innerHTML = '<p class="vacio">Todavía nadie rindió el examen puntuado. ¡Sé el primero!</p>'; return; }
+      var h = '<table><thead><tr><th></th><th>Quién</th><th>Promedio últ. 5</th><th>Mejor</th><th>Intentos</th><th>Duración prom.</th></tr></thead><tbody>';
+      filas.forEach(function(f, i){
+        var m = Math.floor((f.duracion_prom_seg||0)/60), s = (f.duracion_prom_seg||0)%60;
+        h += '<tr><td class="pos">#'+(i+1)+'</td><td class="jugador"><span class="av">'+esc(f.avatar||"👤")+'</span>'+esc(f.nombre)+'</td>' +
+             '<td class="num">'+(f.promedio_ult5_pct==null?"—":f.promedio_ult5_pct+"%")+'</td>' +
+             '<td class="num">'+(f.mejor_pct==null?"—":f.mejor_pct+"%")+'</td>' +
+             '<td class="num">'+f.intentos_totales+'</td>' +
+             '<td class="num">'+m+':'+(s<10?"0":"")+s+'</td></tr>';
+      });
+      h += '</tbody></table>';
+      cont.innerHTML = h;
+    }).catch(function(err){
+      cont.innerHTML = '<p class="error">Error cargando el leaderboard: '+esc(err.message)+'</p>';
+    });
+  }
+  Auth.onCambioSesion(function(s){ if(s) cargar(); else cont.innerHTML = '<p class="vacio">Iniciá sesión arriba para ver el leaderboard.</p>'; });
+  Auth.obtenerSesion().then(function(s){ if(s) cargar(); else cont.innerHTML = '<p class="vacio">Iniciá sesión arriba para ver el leaderboard.</p>'; });
+})();
+</script>
+</body>
+</html>
