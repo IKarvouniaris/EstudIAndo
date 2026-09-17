@@ -88,7 +88,10 @@ a{color:inherit}
 <div class="marco">
   <header class="tope">
     <div class="marca">estudIAndo <span>· Lic. en IA y Ciencia de Datos · UADE</span></div>
-    <button class="btn-tema" id="btn-tema" type="button">MODO OSCURO</button>
+    <div style="display:flex; align-items:center; gap:.7rem">
+      <div id="chip-sesion"></div>
+      <button class="btn-tema" id="btn-tema" type="button">MODO OSCURO</button>
+    </div>
   </header>
 
   <section class="portada">
@@ -164,5 +167,10 @@ a{color:inherit}
   }
 })();
 </script>
+<script src="config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/auth.js"></script>
+<script src="js/sesion.js"></script>
+<script>Sesion.montar("chip-sesion");</script>
 </body>
 </html>

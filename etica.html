@@ -672,7 +672,7 @@ td.caso-nombre small{display:block; font-family:var(--mono); font-weight:400; fo
 .estado-caso{font-family:var(--mono); font-size:.66rem; color:var(--alerta)}
 
 /* ---- Enlace a Materias en el riel ---- */
-.riel-volver{display:block; padding:.55rem 1.1rem; font-family:var(--mono); font-size:.66rem; letter-spacing:.06em; color:var(--tinta-2); text-decoration:none; border-bottom:1px solid var(--linea)}
+.riel-volver{display:block; padding:.85rem 1.1rem; margin-bottom:.3rem; font-family:var(--mono); font-size:.68rem; letter-spacing:.06em; color:var(--tinta-2); text-decoration:none; border-bottom:1px solid var(--linea)}
 .riel-volver:hover{color:var(--tinta); background:var(--papel-2)}
 .par-trampa .bien h5{color:var(--u3)}
 </style></head>
@@ -732,6 +732,7 @@ td.caso-nombre small{display:block; font-family:var(--mono); font-weight:400; fo
   </nav>
 
   <div class="riel-pie">
+    <div id="chip-sesion" style="margin-bottom:.6rem"></div>
     <button class="btn-tema" id="btn-tema" type="button">MODO OSCURO</button>
   </div>
 </aside>
@@ -3227,5 +3228,10 @@ estado.textContent = "6 clases · " + document.querySelectorAll(".ficha").length
 textoInicial = estado.textContent;
 })();
 </script>
+<script src="config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/auth.js"></script>
+<script src="js/sesion.js"></script>
+<script>Sesion.montar("chip-sesion");</script>
 </body>
 </html>

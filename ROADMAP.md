@@ -11,8 +11,8 @@ Objetivo: que un grupo de amigos pueda loguearse, rendir los simulacros con punt
 | Fase | Qué agrega | Estado |
 |---|---|---|
 | 0 | Proyecto Supabase, login Google y magic link, entorno local | ✅ Hecho |
-| 1 | Perfiles y sesión en todas las páginas | ⬜ Pendiente |
-| 2 | Preguntas en la base y corrección del lado del servidor | ⬜ Pendiente |
+| 1 | Perfiles y sesión en todas las páginas | ✅ Hecho |
+| 2 | Preguntas en la base y corrección del lado del servidor | ✅ Hecho |
 | 3 | Modo examen con cooldown de 1 hora y leaderboard | ⬜ Pendiente |
 | 4 | Modo parcial programado + corrección del desarrollo con Gemini | ⬜ Pendiente |
 | 5 | Duelos 1 vs 1 | ⬜ Pendiente |
@@ -106,13 +106,14 @@ create policy "cada uno edita su perfil" on perfiles for update to authenticated
 create policy "cada uno crea su perfil" on perfiles for insert to authenticated with check (id = auth.uid());
 ```
 
-- [ ] Correr el SQL.
-- [ ] Al primer login, pedir nombre (único en la sala) y emoji.
-- [ ] En `index.html`: chip con nombre + avatar arriba a la derecha, y botón «Salir».
-- [ ] En `etica.html` y `simulacro-etica.html`: mismo chip.
+- [x] Correr el SQL. *(con `unique` agregado al nombre, ver nota en el chat de la fase)*
+- [x] Al primer login, pedir nombre (único en la sala) y emoji. (`js/sesion.js`, componente `#chip-sesion`)
+- [x] En `index.html`: chip con nombre + avatar arriba a la derecha, y botón «Salir».
+- [x] En `etica.html` y `simulacro-etica.html`: mismo chip.
 
+**Archivos nuevos:** `js/sesion.js`
 **Archivos modificados:** `index.html`, `etica.html`, `simulacro-etica.html`
-**Verificación:** con dos cuentas distintas (una Google, una magic link) se ven los dos perfiles; ninguno puede editar el del otro (probar desde la consola del navegador y esperar error de RLS).
+**Verificación:** ✅ probado 2026-09-17 con una cuenta real (Google + magic link, mismo usuario): onboarding pide nombre/avatar una sola vez, el chip aparece logueado en las 3 páginas, "Salir" funciona. *(Pendiente probar RLS entre dos cuentas distintas cuando haya una segunda persona del grupo.)*
 
 ---
 
@@ -153,18 +154,18 @@ create policy "lectura preguntas" on preguntas for select to authenticated using
 -- preguntas_clave: SIN policies a propósito.
 ```
 
-- [ ] Script `tools/seed.py` que lee `casos.json` y genera `supabase/seed_etica.sql` separando lo público de lo privado.
-- [ ] Función `responder_practica(pregunta_id, opcion)` security definer: devuelve `{correcta, ok, explicacion, porque}`.
-- [ ] Quitar `var CASOS=[...]` del HTML y cargar casos + preguntas desde Supabase.
-- [ ] Mantener el orden de opciones mezclado (se mezcla en el cliente sobre las letras; la corrección es por letra original).
-- [ ] Estado de carga y mensaje de error si no hay sesión o conexión.
+- [x] Script `tools/seed.py` que lee `tools/casos_etica.json` y genera `supabase/seed_etica.sql` separando lo público de lo privado.
+- [x] Función `responder_practica(pregunta_id, opcion)` security definer: devuelve `{correcta, ok, explicacion, porque}`. Se sumó también `modelo_desarrollo(caso_id)` para la respuesta modelo del desarrollo (antes estaba siempre visible en el HTML, ahora se carga al abrir el `<details>`).
+- [x] Quitar `var CASOS=[...]` del HTML y cargar casos + preguntas desde Supabase.
+- [x] Mantener el orden de opciones mezclado (se mezcla en el cliente sobre las letras; la corrección es por letra original).
+- [x] Estado de carga y mensaje si no hay sesión o hay error de conexión.
 
-**Archivos nuevos:** `tools/seed.py`, `supabase/schema.sql`, `supabase/seed_etica.sql`, `js/simulacro-api.js`
+**Archivos nuevos:** `tools/seed.py`, `tools/casos_etica.json`, `supabase/schema.sql`, `supabase/seed_etica.sql`, `js/simulacro-api.js`
 **Archivos modificados:** `simulacro-etica.html`
 **Verificación:**
-- [ ] Buscar `"ok"` en el código fuente de la página publicada: **0 resultados**.
-- [ ] Desde la consola, `select * from preguntas_clave` con la anon key: **0 filas / error**.
-- [ ] Las 48 preguntas se responden igual que antes y las explicaciones coinciden.
+- [x] Buscar `"ok"` en el código fuente de la página publicada: **0 resultados** (verificado por consola del navegador).
+- [x] `fetch` a `preguntas_clave` con la anon/publishable key: **`[]`, 0 filas**.
+- [x] Las 48 preguntas se responden igual que antes, modo práctica y examen probados, y la respuesta modelo carga bien.
 
 ---
 
