@@ -78,17 +78,26 @@ async function preguntarGemini(args: { pregunta: string; contexto: string; histo
   });
   contents.push({ role: "user", parts: [{ text: args.pregunta }] });
 
-  const r = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_API_KEY}`,
-    {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ contents, generationConfig: { temperature: 0.3 } }),
-    },
-  );
-  if (!r.ok) throw new Error("Gemini respondió " + r.status + ": " + (await r.text()).slice(0, 300));
-  const data = await r.json();
-  const texto = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-  if (!texto) throw new Error("Gemini no devolvió texto");
-  return texto;
+  async function intento(): Promise<string> {
+    const r = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_API_KEY}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ contents, generationConfig: { temperature: 0.3 } }),
+      },
+    );
+    if (!r.ok) throw new Error("Gemini respondió " + r.status + ": " + (await r.text()).slice(0, 300));
+    const data = await r.json();
+    const texto = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+    if (!texto) throw new Error("Gemini no devolvió texto");
+    return texto;
+  }
+
+  try {
+    return await intento();
+  } catch (_e) {
+    await new Promise((res) => setTimeout(res, 800)); // pequeña espera, el 503 suele ser saturación momentánea
+    return await intento(); // un reintento; si vuelve a fallar, se propaga y el caller responde 500
+  }
 }
