@@ -222,7 +222,7 @@ end if;
 - [x] Pantalla de resultado del intento con correcciones.
 - [x] Nueva página `leaderboard.html` con link desde `index.html`, `etica.html` y `simulacro-etica.html`.
 - [ ] Leaderboard **por bloque** — sólo se hizo el general. Pendiente si hace falta.
-- [ ] Historial personal (gráfico de puntaje en el tiempo) — **no se hizo**, queda para después.
+- [x] Historial personal (gráfico de puntaje en el tiempo) — agregado el 2026-09-17 en `leaderboard.html`, sección "Tu historial" (línea de tiempo + tabla alternativa).
 
 **Archivos nuevos:** `leaderboard.html`, `supabase/fase3.sql`, `js/examen-api.js`
 **Archivos modificados:** `simulacro-etica.html`, `index.html`, `etica.html`
