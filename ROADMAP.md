@@ -34,7 +34,7 @@ Objetivo: que un grupo de amigos pueda loguearse, rendir los simulacros con punt
 ## Decisiones pendientes (las vamos charlando)
 
 - [x] **Métrica del leaderboard:** promedio de los últimos 5 intentos, desempate por menor duración. *(Implementado en Fase 3 — `leaderboard_etica()`. También muestra el mejor % histórico como columna aparte.)*
-- [ ] **Puntaje por pregunta en examen:** ¿sólo aciertos, o aciertos + bonus por tiempo? *Propuesta: sólo aciertos; el tiempo desempata.*
+- [x] **Puntaje por pregunta en examen:** sólo aciertos (opción múltiple + % de criterios del desarrollo); el tiempo sólo desempata en el leaderboard. *Implementado tal cual la propuesta.*
 - [ ] **Salas / grupos:** ¿un único grupo de amigos o varias salas con código? *Propuesta: arrancar con una sala y dejar la tabla preparada para varias.*
 - [x] **¿El desarrollo corregido por Gemini suma puntos al ranking?** Sí. *Decisión del 2026-09-17: en vez de un "parcial" separado, se integró un desarrollo escrito directo dentro de "Rendir examen" (Fase 3). El puntaje final es 50% opción múltiple + 50% criterios de la grilla cumplidos según Gemini, y ESE combinado es el que usa el leaderboard.*
 - [ ] **¿Se agrega también el simulacro de Intro a la IA** al sistema o sólo Ética al principio? *Propuesta: Ética primero, IA después con el mismo esquema.*
