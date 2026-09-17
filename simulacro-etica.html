@@ -224,7 +224,7 @@ details.modelo .cuerpo div b{font-family:var(--mono); color:var(--acento)}
   <button class="btn" id="btn-corregir" type="button" title="Corrige todas las respuestas marcadas (modo examen)">Corregir todo</button>
   <button class="btn peligro" id="btn-reiniciar" type="button">Reiniciar</button>
   <a class="btn" href="leaderboard.html">Leaderboard</a>
-  <button class="btn on" id="btn-rendir" type="button" title="Examen puntuado, cuenta para el leaderboard, 1 vez por hora">★ Rendir examen</button>
+  <button class="btn on" id="btn-rendir" type="button" title="Examen puntuado, cuenta para el leaderboard, cooldown de 5 minutos">★ Rendir examen</button>
   <button class="btn" id="btn-tema" type="button">Modo oscuro</button>
   <div id="chip-sesion"></div>
 </header>
@@ -614,6 +614,20 @@ aplicarModo(estado.modo);
     }
   });
 
+  var tGuardarDesarrollo = null;
+  panel.addEventListener("input", function(e){
+    var ta = e.target.closest("[data-ex-desarrollo]");
+    if(!ta || !ex) return;
+    ex.textoDesarrollo = ta.value;
+    clearTimeout(tGuardarDesarrollo);
+    tGuardarDesarrollo = setTimeout(function(){
+      if(!ex || !ex.desarrollo) return;
+      ExamenApi.guardarDesarrollo(ex.intentoId, ex.desarrollo.caso_id, ex.textoDesarrollo).catch(function(err){
+        console.error("no se guardó el desarrollo", err);
+      });
+    }, 600);
+  });
+
   function fmt(seg){
     seg = Math.max(0, seg|0);
     var m = Math.floor(seg/60), s = seg%60;
@@ -634,7 +648,7 @@ aplicarModo(estado.modo);
   });
 
   function mostrarCooldown(restantes){
-    abrir('<button class="ex-cerrar" data-ex-cerrar>✕ cerrar</button><h2>Ya rendiste hace poco</h2><p>Máximo un examen puntuado por hora, así el leaderboard no se llena de intentos repetidos.</p><p class="ex-cooldown" id="ex-cd">'+fmt(restantes)+'</p><p>Mientras tanto podés seguir practicando sin límite en modo Práctica.</p>');
+    abrir('<button class="ex-cerrar" data-ex-cerrar>✕ cerrar</button><h2>Descansá 5 minutos, tomá agua y probá de nuevo</h2><p class="ex-cooldown" id="ex-cd">'+fmt(restantes)+'</p><p>Mientras tanto podés seguir practicando sin límite en modo Práctica.</p>');
     var t = restantes;
     var iv = setInterval(function(){
       t--; var el = document.getElementById("ex-cd");
@@ -647,7 +661,7 @@ aplicarModo(estado.modo);
   function mostrarIntro(){
     abrir(
       '<button class="ex-cerrar" data-ex-cerrar>✕ cerrar</button><h2>Examen puntuado</h2>' +
-      '<p>2 casos al azar (8 preguntas), <strong>20 minutos</strong>. Se corrige al terminar y cuenta para el leaderboard. Podés volver a intentarlo recién dentro de 1 hora.</p>' +
+      '<p>2 casos al azar (8 preguntas), <strong>20 minutos</strong>. Se corrige al terminar y cuenta para el leaderboard. Podés volver a intentarlo recién dentro de 5 minutos.</p>' +
       '<button type="button" class="btn on" data-ex-empezar>Empezar</button>'
     );
   }
@@ -655,7 +669,10 @@ aplicarModo(estado.modo);
   function empezar(){
     abrir('<h2>Preparando…</h2>');
     ExamenApi.iniciarIntento(MATERIA).then(function(r){
-      ex = { intentoId: r.intento_id, inicioAt: new Date(r.inicio_at).getTime(), preguntas: r.preguntas, respuestas: {} };
+      ex = {
+        intentoId: r.intento_id, inicioAt: new Date(r.inicio_at).getTime(),
+        preguntas: r.preguntas, respuestas: {}, desarrollo: r.desarrollo, textoDesarrollo: ""
+      };
       pintarExamen();
       ex.timer = setInterval(tick, 1000);
     }).catch(function(err){
@@ -696,34 +713,79 @@ aplicarModo(estado.modo);
       });
       h += '</div>';
     });
+    if(ex.desarrollo){
+      h += '<div class="ex-caso"><h3>Desarrollo escrito · '+esc(ex.desarrollo.titulo)+'</h3>' +
+           '<p style="font-size:.88rem">'+esc(ex.desarrollo.consigna)+'</p>' +
+           '<textarea data-ex-desarrollo placeholder="Escribí tu respuesta acá (se corrige con IA al finalizar)" style="width:100%; min-height:8rem; padding:.6rem .7rem; font-family:var(--body); font-size:.92rem; color:var(--tinta); background:var(--papel-2); border:1px solid var(--linea); border-radius:2px">'+esc(ex.textoDesarrollo||"")+'</textarea>' +
+           '<details style="margin-top:.5rem"><summary style="cursor:pointer; font-family:var(--mono); font-size:.68rem; color:var(--tinta-3)">Ver grilla (para autoevaluarte)</summary><ul style="font-size:.85rem; color:var(--tinta-2)">' +
+           (ex.desarrollo.rubrica||[]).map(function(r){ return '<li>'+esc(r)+'</li>'; }).join("") +
+           '</ul></details></div>';
+    }
     h += '<p style="text-align:center; margin-top:1.5rem"><button type="button" class="btn on" data-ex-finalizar>Finalizar examen</button></p>';
     panel.innerHTML = h;
+  }
+
+  function htmlResultadoMc(r, ex){
+    var pct = r.total ? Math.round(r.puntaje/r.total*100) : 0;
+    var h = '<p style="font-size:.85rem; color:var(--tinta-3); margin:0 0 .3rem">Opción múltiple: '+r.puntaje+'/'+r.total+' ('+pct+'%)</p>';
+    (r.detalle||[]).forEach(function(d){
+      var p = ex.preguntas.filter(function(x){ return x.id===d.pregunta_id; })[0];
+      if(!p) return;
+      h += '<div class="ex-pregunta"><p>'+esc(p.sub)+') '+esc(p.texto)+'</p><div class="ex-opciones">';
+      ["a","b","c","d"].forEach(function(L){
+        var cls = L===d.ok ? "correcta" : (L===d.opcion ? "incorrecta" : "");
+        h += '<button type="button" disabled class="'+cls+'">'+esc(p.opciones[L])+'</button>';
+      });
+      h += '</div><p style="font-size:.85rem; color:var(--tinta-2)">'+esc(d.explicacion||"")+'</p></div>';
+    });
+    return h;
+  }
+
+  function htmlResultadoDesarrollo(gr){
+    var h = '<div class="ex-caso"><h3>Desarrollo — corregido por IA</h3>';
+    (gr.criterios||[]).forEach(function(c){
+      h += '<p style="font-size:.88rem; margin:.4rem 0"><b style="color:'+(c.cumple?"var(--ok)":"var(--mal)")+'">'+(c.cumple?"✓":"✗")+'</b> '+esc(c.criterio)+'<br><span style="color:var(--tinta-2); font-size:.85rem">'+esc(c.justificacion||"")+'</span></p>';
+    });
+    h += '<p style="margin-top:.6rem">'+esc(gr.devolucion||"")+'</p></div>';
+    return h;
   }
 
   function terminar(){
     if(!ex) return;
     if(ex.timer) clearInterval(ex.timer);
-    var intentoId = ex.intentoId;
+    var intentoId = ex.intentoId, exLocal = ex;
     abrir('<h2>Corrigiendo…</h2>');
-    ExamenApi.finalizarIntento(intentoId).then(function(r){
-      var pct = r.total ? Math.round(r.puntaje/r.total*100) : 0;
-      var h = '<button class="ex-cerrar" data-ex-cerrar>✕ cerrar</button><div class="ex-resultado"><div class="num">'+r.puntaje+'/'+r.total+'</div><p>'+pct+'% de acierto · '+fmt(r.duracion_seg)+' minutos</p></div>';
-      (r.detalle||[]).forEach(function(d){
-        var p = ex.preguntas.filter(function(x){ return x.id===d.pregunta_id; })[0];
-        if(!p) return;
-        h += '<div class="ex-pregunta"><p>'+esc(p.sub)+') '+esc(p.texto)+'</p><div class="ex-opciones">';
-        ["a","b","c","d"].forEach(function(L){
-          var cls = L===d.ok ? "correcta" : (L===d.opcion ? "incorrecta" : "");
-          h += '<button type="button" disabled class="'+cls+'">'+esc(p.opciones[L])+'</button>';
-        });
-        h += '</div><p style="font-size:.85rem; color:var(--tinta-2)">'+esc(d.explicacion||"")+'</p></div>';
+
+    var guardarTexto = exLocal.desarrollo
+      ? ExamenApi.guardarDesarrollo(intentoId, exLocal.desarrollo.caso_id, exLocal.textoDesarrollo || "").catch(function(){})
+      : Promise.resolve();
+
+    guardarTexto.then(function(){
+      return ExamenApi.finalizarIntento(intentoId);
+    }).then(function(r){
+      var htmlMc = htmlResultadoMc(r, exLocal);
+      if(!r.desarrollo_pendiente){
+        mostrarResultadoFinal(r.puntaje_final_pct, htmlMc, "");
+        return;
+      }
+      abrir('<h2>Corrigiendo el desarrollo con IA…</h2><p style="font-size:.85rem; color:var(--tinta-3)">Puede tardar unos segundos.</p>');
+      ExamenApi.corregirDesarrollo(intentoId).then(function(gr){
+        mostrarResultadoFinal(gr.puntaje_final_pct, htmlMc, htmlResultadoDesarrollo(gr));
+      }).catch(function(err){
+        mostrarResultadoFinal(r.puntaje_final_pct, htmlMc, '<p style="color:var(--mal)">No se pudo corregir el desarrollo con IA: '+esc(err.message)+'. El puntaje de opción múltiple ya quedó guardado.</p>');
       });
-      h += '<p style="text-align:center; margin-top:1rem"><a class="btn on" href="leaderboard.html">Ver leaderboard</a></p>';
-      panel.innerHTML = h;
-      ex = null;
     }).catch(function(err){
       abrir('<button class="ex-cerrar" data-ex-cerrar>✕ cerrar</button><h2>Error al corregir</h2><p>'+esc(err.message)+'</p>');
     });
+  }
+
+  function mostrarResultadoFinal(puntajeFinalPct, htmlMc, htmlDesarrollo){
+    var num = (puntajeFinalPct==null) ? "—" : puntajeFinalPct + "%";
+    var h = '<button class="ex-cerrar" data-ex-cerrar>✕ cerrar</button><div class="ex-resultado"><div class="num">'+num+'</div><p>puntaje final (opción múltiple + desarrollo)</p></div>';
+    h += htmlMc + htmlDesarrollo;
+    h += '<p style="text-align:center; margin-top:1rem"><a class="btn on" href="leaderboard.html">Ver leaderboard</a></p>';
+    panel.innerHTML = h;
+    ex = null;
   }
 })();
 

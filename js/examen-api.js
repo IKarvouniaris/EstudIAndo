@@ -36,11 +36,26 @@ window.ExamenApi = (function () {
     });
   }
 
+  function guardarDesarrollo(intentoId, casoId, texto) {
+    return Auth.cliente.rpc("guardar_desarrollo", { p_intento_id: intentoId, p_caso_id: casoId, p_texto: texto }).then(function (r) {
+      if (r.error) throw r.error;
+    });
+  }
+
+  function corregirDesarrollo(intentoId) {
+    return Auth.cliente.functions.invoke("corregir-desarrollo", { body: { intento_id: intentoId } }).then(function (r) {
+      if (r.error) throw r.error;
+      return r.data; // {criterios, devolucion, puntaje_desarrollo_pct, puntaje_final_pct}
+    });
+  }
+
   return {
     iniciarIntento: iniciarIntento,
     responderExamen: responderExamen,
     finalizarIntento: finalizarIntento,
     cooldownRestante: cooldownRestante,
     leaderboard: leaderboard,
+    guardarDesarrollo: guardarDesarrollo,
+    corregirDesarrollo: corregirDesarrollo,
   };
 })();

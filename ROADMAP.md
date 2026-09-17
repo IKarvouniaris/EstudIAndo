@@ -14,7 +14,7 @@ Objetivo: que un grupo de amigos pueda loguearse, rendir los simulacros con punt
 | 1 | Perfiles y sesión en todas las páginas | ✅ Hecho |
 | 2 | Preguntas en la base y corrección del lado del servidor | ✅ Hecho |
 | 3 | Modo examen con cooldown de 1 hora y leaderboard | ✅ Hecho |
-| 4 | Modo parcial programado + corrección del desarrollo con Gemini | ⬜ Pendiente |
+| 4 | Modo parcial programado + corrección del desarrollo con Gemini | 🟡 Parcial (ver nota) |
 | 5 | Duelos 1 vs 1 | ⬜ Pendiente |
 | 6 | Modo en vivo tipo Kahoot (Supabase Realtime) | ⬜ Pendiente |
 | 7 | Extras: rachas, «lo que el grupo no sabe», logros | ⬜ Pendiente |
@@ -25,7 +25,7 @@ Objetivo: que un grupo de amigos pueda loguearse, rendir los simulacros con punt
 
 - **Backend:** Supabase (Postgres + Auth + Realtime + Edge Functions). El frontend sigue siendo HTML estático en Vercel y carga `supabase-js` desde CDN.
 - **Login:** Google OAuth y magic link por email.
-- **Leaderboard:** sólo cuenta el **modo examen**. Se puede repetir, pero **como máximo 1 intento por hora** por usuario.
+- **Leaderboard:** sólo cuenta el **modo examen**. Se puede repetir, pero **como máximo 1 intento cada 5 minutos** por usuario (bajado de 1 hora original, decisión del 2026-09-17).
 - **Corrección siempre en el servidor:** las respuestas correctas **salen del HTML** y viven en una tabla privada. El puntaje lo calcula Postgres, nunca el navegador.
 - **Modo práctica:** sigue existiendo, corrige al instante, pero no suma al ranking.
 - **Gemini:** se usa para corregir el **desarrollo escrito**, llamado desde una **Edge Function**. La API key nunca va al frontend.
@@ -36,7 +36,7 @@ Objetivo: que un grupo de amigos pueda loguearse, rendir los simulacros con punt
 - [x] **Métrica del leaderboard:** promedio de los últimos 5 intentos, desempate por menor duración. *(Implementado en Fase 3 — `leaderboard_etica()`. También muestra el mejor % histórico como columna aparte.)*
 - [ ] **Puntaje por pregunta en examen:** ¿sólo aciertos, o aciertos + bonus por tiempo? *Propuesta: sólo aciertos; el tiempo desempata.*
 - [ ] **Salas / grupos:** ¿un único grupo de amigos o varias salas con código? *Propuesta: arrancar con una sala y dejar la tabla preparada para varias.*
-- [ ] **¿El desarrollo corregido por Gemini suma puntos al ranking** o es sólo devolución orientativa? *Propuesta: suma en el modo parcial, no en el examen común.*
+- [x] **¿El desarrollo corregido por Gemini suma puntos al ranking?** Sí. *Decisión del 2026-09-17: en vez de un "parcial" separado, se integró un desarrollo escrito directo dentro de "Rendir examen" (Fase 3). El puntaje final es 50% opción múltiple + 50% criterios de la grilla cumplidos según Gemini, y ESE combinado es el que usa el leaderboard.*
 - [ ] **¿Se agrega también el simulacro de Intro a la IA** al sistema o sólo Ética al principio? *Propuesta: Ética primero, IA después con el mismo esquema.*
 
 ---
@@ -236,6 +236,12 @@ end if;
 ---
 
 ## Fase 4 · Modo parcial + corrección con Gemini
+
+> **Nota del 2026-09-17 — lo que se hizo distinto de este plan original:** en vez de un «parcial» separado con ventana fija (`parciales`, `admin.html`), se integró la corrección con Gemini directo dentro de **"Rendir examen"** (Fase 3): cada intento de examen ahora sortea, además de las 8 preguntas, UN desarrollo escrito (de uno de los 2 casos elegidos), con textarea + grilla visible para autoevaluarse. Al finalizar, la Edge Function `corregir-desarrollo` lo corrige con Gemini y el puntaje final del intento (el que usa el leaderboard) es 50% opción múltiple + 50% criterios cumplidos.
+>
+> Lo que **sí** se hizo de esta fase: la Edge Function con JWT/ownership check, JSON estructurado, un reintento automático, rate limit diario, tratamiento del texto del estudiante como dato (no instrucción), y el secret cargado vía `supabase secrets set` (nunca en el repo). Lo que **no** se hizo (y sigue pendiente si en algún momento hace falta un parcial "de verdad", con fecha fija para todo el grupo y los mismos casos): `parciales`, `admin.html`, ventana `abre_at`/`cierra_at`, y el chequeo de "segundo intento en la misma ventana → bloqueado". Ver SQL en `supabase/fase4.sql` y `supabase/functions/corregir-desarrollo/index.ts`.
+>
+> **Extra no planeado:** se agregó un botón flotante de "tutor IA" en `etica.html` (sólo ahí, no en el simulacro) que responde preguntas sobre el apunte usando Gemini con el texto de la página como contexto. Edge Function `preguntar-apunte`, tabla `preguntas_ia` (rate limit 40/día), SQL en `supabase/fase4b_tutor.sql`.
 
 **Objetivo:** un «parcial» con fecha y hora, iguales casos para todos, cronómetro, opción múltiple + desarrollo escrito, y devolución del desarrollo con Gemini.
 
