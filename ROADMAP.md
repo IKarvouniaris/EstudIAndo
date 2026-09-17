@@ -10,7 +10,7 @@ Objetivo: que un grupo de amigos pueda loguearse, rendir los simulacros con punt
 
 | Fase | Qué agrega | Estado |
 |---|---|---|
-| 0 | Proyecto Supabase, login Google y magic link, entorno local | ⬜ Pendiente |
+| 0 | Proyecto Supabase, login Google y magic link, entorno local | ✅ Hecho |
 | 1 | Perfiles y sesión en todas las páginas | ⬜ Pendiente |
 | 2 | Preguntas en la base y corrección del lado del servidor | ⬜ Pendiente |
 | 3 | Modo examen con cooldown de 1 hora y leaderboard | ⬜ Pendiente |
@@ -75,17 +75,17 @@ Supabase (Postgres)
 
 **Objetivo:** proyecto creado, login funcionando en local y en Vercel.
 
-- [ ] Crear proyecto en Supabase (región más cercana disponible).
-- [ ] Auth → Providers → habilitar **Email (magic link)**.
-- [ ] Crear credenciales OAuth en Google Cloud Console y habilitar **Google** en Supabase.
-- [ ] Auth → URL Configuration: agregar como redirect `http://localhost:3000` y la URL de Vercel.
-- [ ] Crear `config.js` con `SUPABASE_URL` y la anon key (pública).
-- [ ] Servir el sitio en local con `npx serve .` (el login no funciona abriendo el HTML con `file://`).
-- [ ] Página de prueba mínima: botón «Entrar con Google», «Mandame un link», y mostrar el email logueado.
+- [x] Crear proyecto en Supabase (región más cercana disponible).
+- [x] Auth → Providers → habilitar **Email (magic link)**.
+- [x] Crear credenciales OAuth en Google Cloud Console y habilitar **Google** en Supabase.
+- [x] Auth → URL Configuration: agregar como redirect `http://localhost:3000`. *(Falta agregar la URL de Vercel cuando se despliegue — ver Fase 3/deploy).*
+- [x] Crear `config.js` con `SUPABASE_URL` y la anon/publishable key (pública).
+- [x] Servir el sitio en local con `npx serve .` (el login no funciona abriendo el HTML con `file://`).
+- [x] Página de prueba mínima: botón «Entrar con Google», «Mandame un link», y mostrar el email logueado. (`test-auth.html`, temporal — se borra en la Fase 1).
 
-**Archivos nuevos:** `config.js`, `js/auth.js`, `.gitignore`
+**Archivos nuevos:** `config.js`, `js/auth.js`, `.gitignore`, `test-auth.html` (temporal), `.claude/launch.json`
 **Archivos modificados:** ninguno todavía
-**Verificación:** login con Google y con magic link funciona en `localhost` y el email aparece en pantalla. Cerrar sesión funciona.
+**Verificación:** ✅ login con Google y con magic link probado en `localhost:3000` el 2026-09-16/17, el email aparece en pantalla y "Salir" cierra la sesión correctamente.
 
 ---
 
