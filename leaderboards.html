@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Leaderboards — estudIAndo</title>
+<style>
+:root{
+  color-scheme: light;
+  --papel:#EDEEE9; --papel-2:#F8F9F6; --papel-3:#E3E5DE;
+  --tinta:#15181A; --tinta-2:#545B60; --tinta-3:#7B8288;
+  --linea:#C7CAC2; --linea-2:#D9DBD4;
+  --u1:#2E3A94; --u3:#1B6A5B; --u4:#6D3470;
+  --u1-suave:#E2E5F6; --u3-suave:#DCEDE8; --u4-suave:#F0E3F0;
+  --display:"Bahnschrift","Franklin Gothic Medium","Arial Narrow","Helvetica Neue",sans-serif;
+  --body:"Sitka Text","Constantia",Georgia,"Times New Roman",serif;
+  --mono:"Cascadia Mono",Consolas,"SFMono-Regular",ui-monospace,monospace;
+}
+:root[data-tema="oscuro"]{
+  color-scheme: dark;
+  --papel:#101315; --papel-2:#181C20; --papel-3:#1F2429;
+  --tinta:#E9EBE6; --tinta-2:#A2AAB0; --tinta-3:#7C858B;
+  --linea:#2B3238; --linea-2:#232930;
+  --u1:#909EF0; --u3:#4FC7AC; --u4:#D39AD6;
+  --u1-suave:#1B2040; --u3-suave:#10302B; --u4-suave:#2E1830;
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--papel); color:var(--tinta); font-family:var(--body); font-size:16.5px; line-height:1.6}
+a{color:inherit}
+.marco{max-width:760px; margin:0 auto; padding:0 clamp(1rem,4vw,2.5rem) 5rem}
+.tope{display:flex; justify-content:space-between; align-items:center; gap:1rem; padding:1.2rem 0; border-bottom:1px solid var(--linea)}
+.marca{font-family:var(--display); font-weight:700; font-size:1.05rem}
+.btn-tema{cursor:pointer; font-family:var(--mono); font-size:.66rem; letter-spacing:.08em; padding:.45rem .7rem; background:var(--papel-2); color:var(--tinta-2); border:1px solid var(--linea); border-radius:2px}
+h1{font-family:var(--display); font-weight:700; font-size:clamp(1.8rem,5vw,2.6rem); margin:2.2rem 0 .4rem}
+p.bajada{color:var(--tinta-2); max-width:60ch; margin:0 0 2rem}
+.lista{list-style:none; margin:0; padding:0; border-top:2px solid var(--tinta)}
+.materia{border-bottom:1px solid var(--linea); border-left:3px solid var(--acento)}
+.materia a{display:block; text-decoration:none; padding:1.2rem 0 1.2rem 1rem}
+.materia:hover{background:linear-gradient(90deg, var(--acento-suave), transparent 70%)}
+.materia h2{font-family:var(--display); font-weight:700; font-size:1.3rem; margin:0 0 .25rem; color:var(--tinta)}
+.materia p{margin:0; color:var(--tinta-2); font-size:.9rem}
+.materia[data-u="3"]{--acento:var(--u3); --acento-suave:var(--u3-suave)}
+.materia[data-u="4"]{--acento:var(--u4); --acento-suave:var(--u4-suave)}
+</style>
+</head>
+<body>
+<div class="marco">
+  <header class="tope">
+    <div class="marca"><a href="index.html" style="text-decoration:none; color:inherit">estudIAndo</a></div>
+    <button class="btn-tema" id="btn-tema" type="button">MODO OSCURO</button>
+  </header>
+
+  <h1>¿Qué leaderboard<br>querés ver?</h1>
+  <p class="bajada">Cada materia tiene su propio ranking, cooldown y modo examen.</p>
+
+  <ol class="lista">
+    <li class="materia" data-u="4"><a href="leaderboard.html">
+      <h2>Ética en la Inteligencia Artificial</h2>
+      <p>Examen de opción múltiple + desarrollo escrito, corregido por Gemini.</p>
+    </a></li>
+    <li class="materia" data-u="3"><a href="leaderboard-python.html">
+      <h2>Python para Ciencia de Datos</h2>
+      <p>Ejercicios de código real (NumPy/Pandas/Matplotlib), corregidos por Gemini.</p>
+    </a></li>
+  </ol>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var raiz = document.documentElement, btn = document.getElementById("btn-tema");
+  function aplicar(t){ raiz.setAttribute("data-tema", t); btn.textContent = t==="oscuro" ? "MODO CLARO" : "MODO OSCURO"; try{ localStorage.setItem("ia-tema", t); }catch(e){} }
+  var g=null; try{ g=localStorage.getItem("ia-tema"); }catch(e){}
+  if(!g) g = (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) ? "oscuro" : "claro";
+  aplicar(g);
+  btn.addEventListener("click", function(){ aplicar(raiz.getAttribute("data-tema")==="oscuro" ? "claro" : "oscuro"); });
+})();
+</script>
+</body>
+</html>
