@@ -50,5 +50,19 @@ window.SimulacroApi = (function () {
     });
   }
 
-  return { cargarCasos: cargarCasos, responderPractica: responderPractica, obtenerModelo: obtenerModelo };
+  function corregirPractica(casoId, texto) {
+    return Auth.cliente.functions.invoke("corregir-practica", { body: { caso_id: casoId, texto: texto } }).then(function (r) {
+      if (r.error) {
+        // Los 4xx del Edge Function traen el motivo real en el cuerpo de la respuesta.
+        var ctx = r.error.context;
+        if (ctx && typeof ctx.json === "function") {
+          return ctx.json().then(function (b) { throw new Error(b && b.error ? b.error : r.error.message); }, function () { throw r.error; });
+        }
+        throw r.error;
+      }
+      return r.data; // {criterios, devolucion, puntaje_desarrollo_pct, restantes_hoy}
+    });
+  }
+
+  return { cargarCasos: cargarCasos, responderPractica: responderPractica, obtenerModelo: obtenerModelo, corregirPractica: corregirPractica };
 })();

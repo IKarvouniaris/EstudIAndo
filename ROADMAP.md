@@ -50,6 +50,10 @@ Segunda materia con el esquema completo (apunte + simulacro + leaderboard), pero
 - **Pendiente:** ampliar el banco de ejercicios más allá de los 6 iniciales.
 - **2026-09-18:** el apunte ya no es liviano — se agregó buscador, riel plegable, glosario (30 términos), flashcards (30 tarjetas por clase) y una **chuleta rápida** (cheatsheet de funciones por biblioteca, en vez de la línea de tiempo de Ética que no aplica acá). Mismo aparato que Ética, adaptado a una materia de programación.
 
+### Corrección con IA del desarrollo en práctica libre (2026-09-18)
+
+Botón "✦ Corregir con IA" en el desarrollo escrito de `simulacro-etica.html` (modo práctica). Edge Function `corregir-practica`: misma grilla y prompt que `corregir-desarrollo`, pero sin intento puntuado — no guarda el texto ni toca puntajes/leaderboard. Límite de 15 por día por usuario, registrado en `correcciones_practica` (`supabase/fase6_correccion_practica.sql`). La última corrección de cada caso queda en el localStorage del navegador.
+
 ### Tu dominio por tema (2026-09-18)
 
 Barra de progreso directo en el apunte (Ética y Python), justo después de la portada — no hay que esperar a terminar un examen para verla. Se calcula con los exámenes puntuados ya rendidos (la práctica libre no suma, a propósito, para que sea una medida "bajo presión"). `dominio_etica()` agrupa por unidad (1-4). `dominio_python()` agrupa por tema de ejercicio (numpy/pandas/matplotlib). Widget compartido `js/dominio-widget.js`, SQL en `supabase/fase6_dominio.sql`.

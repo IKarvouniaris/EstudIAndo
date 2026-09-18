@@ -185,6 +185,14 @@ details.modelo .cuerpo div b{font-family:var(--mono); color:var(--acento)}
 .desarrollo .puntaje{margin:.2rem 0 .3rem; font-family:var(--mono); font-size:.7rem; letter-spacing:.08em; color:var(--tinta-2)}
 .desarrollo .modelo-txt{font-size:.93rem; padding:.7rem .85rem; background:var(--acento-suave); border-left:3px solid var(--acento); border-radius:2px; margin:.2rem 0 0}
 .ayuda-parcial{font-family:var(--mono); font-size:.64rem; color:var(--tinta-3)}
+.corregir-ia{display:flex; flex-wrap:wrap; align-items:center; gap:.6rem; margin:.5rem 0 .2rem}
+.resultado-ia:empty{display:none}
+.resultado-ia{margin:.5rem 0 .3rem; padding:.7rem .85rem; background:var(--papel-3); border-left:3px solid var(--acento); border-radius:2px}
+.resultado-ia .puntaje-ia{margin:0 0 .4rem; font-family:var(--mono); font-size:.7rem; letter-spacing:.08em; color:var(--tinta-2)}
+.resultado-ia .crit-ia{font-size:.88rem; margin:.4rem 0} .resultado-ia .crit-ia span{color:var(--tinta-2); font-size:.85rem}
+.resultado-ia .crit-ia .si{color:var(--ok)} .resultado-ia .crit-ia .no{color:var(--mal)}
+.resultado-ia .devol-ia{margin:.6rem 0 0; font-size:.93rem}
+.resultado-ia .error-ia{margin:0; color:var(--mal); font-size:.88rem}
 @media print{ .desarrollo textarea{min-height:14rem} }
 
 /* ---- EXAMEN OFICIAL (overlay) ---- */
@@ -306,14 +314,14 @@ document.addEventListener("keydown", function(e){ if((e.ctrlKey||e.metaKey) && e
 
 /* ---------- ESTADO ---------- */
 var CLAVE = "etica-simulacro-v2";
-var estado = { modo:"practica", semilla:1, resp:{}, texto:{}, rub:{}, revelado:{}, modeloTexto:{} };
+var estado = { modo:"practica", semilla:1, resp:{}, texto:{}, rub:{}, revelado:{}, modeloTexto:{}, correccionIA:{} };
 /* resp[clave] = letra elegida; revelado[clave] = {correcta,ok,explicacion,porque} una vez corregida por el servidor */
 try{
   var g = JSON.parse(localStorage.getItem(CLAVE) || "null");
   if(g && g.resp){
     estado = Object.assign(estado, g);
     estado.texto = estado.texto || {}; estado.rub = estado.rub || {};
-    estado.revelado = estado.revelado || {}; estado.modeloTexto = estado.modeloTexto || {};
+    estado.revelado = estado.revelado || {}; estado.modeloTexto = estado.modeloTexto || {}; estado.correccionIA = estado.correccionIA || {};
   }
 }catch(e){}
 function guardar(){ try{ localStorage.setItem(CLAVE, JSON.stringify(estado)); }catch(e){} }
@@ -369,7 +377,7 @@ btnCorregir.addEventListener("click", function(){
 });
 document.getElementById("btn-reiniciar").addEventListener("click", function(){
   if(!confirm("¿Borrar todas las respuestas, textos y grillas?")) return;
-  estado.resp={}; estado.revelado={}; estado.texto={}; estado.rub={}; filtro.ids=null; guardar(); pintar();
+  estado.resp={}; estado.revelado={}; estado.texto={}; estado.rub={}; estado.correccionIA={}; filtro.ids=null; guardar(); pintar();
 });
 document.getElementById("btn-mezclar").addEventListener("click", function(){
   if(Object.keys(estado.resp).length && !confirm("Mezclar reinicia las respuestas. ¿Seguir?")) return;
@@ -444,12 +452,23 @@ function htmlCaso(c){
   h += '<p class="consigna"><b>Desarrollo escrito · como en el parcial</b>'+esc(d.consigna)+'</p>';
   h += '<textarea data-texto="'+c.n+'" placeholder="Problema ético → principios en conflicto → teorías / normas / precedente → posición fundamentada y medidas">'+esc(estado.texto[c.n]||"")+'</textarea>';
   h += '<p class="contador-pal" data-cont="'+c.n+'">'+contarPalabras(estado.texto[c.n]||"")+' palabras</p>';
+  h += '<div class="corregir-ia"><button type="button" class="btn" data-corregir-ia="'+c.n+'">✦ Corregir con IA</button><span class="ayuda-parcial">Práctica: no puntúa ni entra al leaderboard · máx. 15 por día</span></div>';
+  h += '<div class="resultado-ia" data-res-ia="'+c.n+'">'+(estado.correccionIA[c.n] ? htmlCorreccionIA(estado.correccionIA[c.n]) : "")+'</div>';
   h += '<details><summary>Grilla de autocorrección</summary><ul class="rubrica">';
   d.rubrica.forEach(function(r,i){ h += '<li><label><input type="checkbox" data-rub="'+c.n+'-'+i+'" '+(estado.rub[c.n+"-"+i]?"checked":"")+'><span>'+esc(r)+'</span></label></li>'; });
   h += '</ul><p class="puntaje" data-punt="'+c.n+'">'+marcadas+' / '+d.rubrica.length+' criterios cubiertos</p></details>';
   h += '<details class="modelo" data-caso="'+c.n+'"><summary>Respuesta modelo</summary><p class="modelo-txt" data-modelo="'+c.n+'">'+(estado.modeloTexto[c.n] ? esc(estado.modeloTexto[c.n]) : "Abrí esto para cargarla…")+'</p></details>';
   h += '</div>';
   h += '</article>';
+  return h;
+}
+
+function htmlCorreccionIA(gr){
+  var h = '<p class="puntaje-ia">'+gr.puntaje_desarrollo_pct+'% de la grilla cubierta · corregido por IA</p>';
+  (gr.criterios||[]).forEach(function(c){
+    h += '<p class="crit-ia"><b class="'+(c.cumple?"si":"no")+'">'+(c.cumple?"✓":"✗")+'</b> '+esc(c.criterio)+'<br><span>'+esc(c.justificacion||"")+'</span></p>';
+  });
+  h += '<p class="devol-ia">'+esc(gr.devolucion||"")+'</p>';
   return h;
 }
 
@@ -561,6 +580,20 @@ contCasos.addEventListener("change", function(e){
   var c = CASOS.filter(function(x){ return String(x.n) === n; })[0];
   var m = c.desarrollo.rubrica.filter(function(_,i){ return estado.rub[n+"-"+i]; }).length;
   var p = contCasos.querySelector('[data-punt="'+n+'"]'); if(p) p.textContent = m + " / " + c.desarrollo.rubrica.length + " criterios cubiertos";
+});
+contCasos.addEventListener("click", function(e){
+  var b = e.target.closest("[data-corregir-ia]");
+  if(!b || b.disabled) return;
+  var n = b.getAttribute("data-corregir-ia");
+  var caja = contCasos.querySelector('[data-res-ia="'+n+'"]');
+  b.disabled = true; var txtBtn = b.textContent; b.textContent = "Corrigiendo…";
+  if(caja) caja.innerHTML = '<p class="ayuda-parcial">Puede tardar unos segundos…</p>';
+  SimulacroApi.corregirPractica(+n, estado.texto[n] || "").then(function(gr){
+    estado.correccionIA[n] = gr; guardar();
+    if(caja) caja.innerHTML = htmlCorreccionIA(gr);
+  }).catch(function(err){
+    if(caja) caja.innerHTML = '<p class="error-ia">'+esc(err.message)+'</p>';
+  }).then(function(){ b.disabled = false; b.textContent = txtBtn; });
 });
 document.getElementById("btn-sortear").addEventListener("click", function(){
   var ids = CASOS.map(function(c){ return c.n; });
