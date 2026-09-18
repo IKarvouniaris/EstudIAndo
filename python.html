@@ -97,6 +97,15 @@ code{font-family:var(--mono)}
 .herramienta h2{font-family:var(--display); font-weight:700; font-size:1.5rem; margin:0 0 .5rem}
 .herramienta .intro{color:var(--tinta-2); margin:0 0 1rem}
 
+.dominio-fila{margin:0 0 1rem; max-width:640px}
+.dominio-cab{display:flex; justify-content:space-between; align-items:baseline; font-family:var(--display); font-size:.95rem; margin-bottom:.3rem}
+.dominio-cab b{font-family:var(--mono); font-size:.85rem; color:var(--tinta)}
+.dominio-barra{height:10px; background:var(--papel-3); border:1px solid var(--linea); border-radius:5px; overflow:hidden}
+.dominio-relleno{height:100%; background:var(--acento); border-radius:5px 0 0 5px; transition:width .4s ease}
+.dominio-nota{margin:.25rem 0 0; font-family:var(--mono); font-size:.62rem; color:var(--tinta-3)}
+.dominio-vacio{font-family:var(--mono); font-size:.85rem; color:var(--tinta-3)}
+.dominio-vacio.error{color:var(--alerta)}
+
 .chuleta-grupo{margin:1.6rem 0}
 .chuleta-grupo h3{font-family:var(--display); font-weight:700; font-size:1.05rem; margin:0 0 .6rem; color:var(--acento)}
 .chuleta{display:grid; gap:0; border-top:1px solid var(--linea)}
@@ -154,6 +163,8 @@ code{font-family:var(--mono)}
   </div>
 
   <nav id="nav">
+    <div class="riel-grupo">Panorama</div>
+    <a class="item" href="#dominio-sec">▲ Tu dominio por tema</a>
     <div class="riel-grupo">Clases</div>
     <a class="item" href="#c0">00 · Introducción y calendario</a>
     <a class="item" href="#c2">02 · Buenas prácticas y excepciones</a>
@@ -188,6 +199,13 @@ code{font-family:var(--mono)}
       clave, ejemplos de código reales de las diapositivas, y los errores típicos que marca la cátedra.
     </p>
   </header>
+
+  <section class="herramienta" id="dominio-sec" data-busca="tu dominio por tema progreso mastery">
+    <p class="eyebrow">Basado en tus exámenes rendidos</p>
+    <h2>Tu dominio por tema</h2>
+    <p class="intro">Se actualiza con cada "★ Rendir examen" que corregís con IA — la práctica libre no suma acá.</p>
+    <div id="dominio"><p class="dominio-vacio">Cargando…</p></div>
+  </section>
 
   <section class="clase" id="c0">
     <p class="eyebrow">Clase 00</p>
@@ -595,6 +613,8 @@ sns.scatterplot(data=df, x="Horas", y="Nota", hue="Curso", size="Proyectos",
 <script src="config.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="js/auth.js"></script>
+<script src="js/codigo-api.js"></script>
+<script src="js/dominio-widget.js"></script>
 <script src="js/sesion.js"></script>
 <script>
 (function(){
@@ -786,6 +806,7 @@ sns.scatterplot(data=df, x="Horas", y="Nota", hue="Curso", size="Proyectos",
   textoInicial = estado.textContent;
 })();
 Sesion.montar("chip-sesion");
+DominioWidget.montar("dominio", CodigoApi.dominioPropio);
 </script>
 </body>
 </html>

@@ -42,6 +42,13 @@ window.CodigoApi = (function () {
     });
   }
 
+  function dominioPropio() {
+    return Auth.cliente.rpc("dominio_python").then(function (r) {
+      if (r.error) throw r.error;
+      return r.data;
+    });
+  }
+
   function revelarSolucion(ejercicioId) {
     return Auth.cliente.rpc("revelar_solucion_codigo", { p_ejercicio_id: ejercicioId }).then(function (r) {
       if (r.error) throw r.error;
@@ -85,5 +92,6 @@ window.CodigoApi = (function () {
     cooldownRestante: cooldownRestante,
     leaderboard: leaderboard,
     historialPropio: historialPropio,
+    dominioPropio: dominioPropio,
   };
 })();

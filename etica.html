@@ -229,6 +229,16 @@ h4{font-family:var(--display); font-weight:600; font-size:1rem; margin:1.5rem 0 
 p{max-width:var(--medida)}
 .intro{font-size:1.05rem; color:var(--tinta-2); max-width:60ch; margin:0 0 1.2rem}
 
+/* ---- Tu dominio (barras de progreso por tema) ---- */
+.dominio-fila{margin:0 0 1rem; max-width:var(--medida)}
+.dominio-cab{display:flex; justify-content:space-between; align-items:baseline; font-family:var(--display); font-size:.95rem; margin-bottom:.3rem}
+.dominio-cab b{font-family:var(--mono); font-size:.85rem; color:var(--tinta)}
+.dominio-barra{height:10px; background:var(--papel-3); border:1px solid var(--linea); border-radius:5px; overflow:hidden}
+.dominio-relleno{height:100%; background:var(--tinta); border-radius:5px 0 0 5px; transition:width .4s ease}
+.dominio-nota{margin:.25rem 0 0; font-family:var(--mono); font-size:.62rem; color:var(--tinta-3)}
+.dominio-vacio{font-family:var(--mono); font-size:.85rem; color:var(--tinta-3)}
+.dominio-vacio.error{color:var(--alerta)}
+
 /* ============================================================
    FICHAS DE CONCEPTO
    ============================================================ */
@@ -729,6 +739,7 @@ td.caso-nombre small{display:block; font-family:var(--mono); font-weight:400; fo
 
   <nav id="nav">
     <div class="riel-grupo">Panorama</div>
+    <a href="#dominio-sec"><em>▲</em> Tu dominio por tema</a>
     <a href="#mapa"><em>◎</em> Mapa maestro</a>
     <a href="#metodo"><em>✎</em> Cómo resolver un caso</a>
 
@@ -803,6 +814,14 @@ td.caso-nombre small{display:block; font-family:var(--mono); font-weight:400; fo
     <div><b>25+</b><span>Casos reales</span></div>
   </div>
 </header>
+
+<!-- ============================ TU DOMINIO ============================ -->
+<section id="dominio-sec" class="neutra" data-busca="tu dominio por tema progreso mastery bloques">
+  <p class="eyebrow">Basado en tus exámenes rendidos</p>
+  <h2>Tu dominio por tema</h2>
+  <p class="intro">Se actualiza con cada "Rendir examen" que finalizás — la práctica libre no suma acá, para que esto refleje sólo lo que ya probaste bajo presión.</p>
+  <div id="dominio"><p class="dominio-vacio">Cargando…</p></div>
+</section>
 
 <!-- ============================ MAPA MAESTRO ============================ -->
 <section id="mapa" class="neutra" data-busca="mapa maestro hilo conductor esquema general panorama recorrido">
@@ -3273,8 +3292,13 @@ textoInicial = estado.textContent;
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="js/auth.js"></script>
 <script src="js/tutor-api.js"></script>
+<script src="js/examen-api.js"></script>
+<script src="js/dominio-widget.js"></script>
 <script src="js/sesion.js"></script>
-<script>Sesion.montar("chip-sesion");</script>
+<script>
+Sesion.montar("chip-sesion");
+DominioWidget.montar("dominio", ExamenApi.dominioPropio);
+</script>
 <script>
 (function(){
   "use strict";
