@@ -34,13 +34,34 @@ a{color:var(--acento)}
 .riel{position:sticky; top:0; align-self:start; height:100vh; overflow-y:auto; border-right:1px solid var(--linea); background:var(--papel-3); padding:0 0 2rem}
 .riel-volver{display:block; padding:.85rem 1.1rem; margin-bottom:.3rem; font-family:var(--mono); font-size:.68rem; letter-spacing:.06em; color:var(--tinta-2); text-decoration:none; border-bottom:1px solid var(--linea)}
 .riel-volver:hover{color:var(--tinta); background:var(--papel-2)}
-.riel-marca{padding:1rem 1.1rem 1rem; border-bottom:1px solid var(--linea)}
+.riel-marca{display:flex; align-items:flex-start; justify-content:space-between; gap:.5rem; padding:1rem 1.1rem 1rem; border-bottom:1px solid var(--linea)}
 .riel-marca b{display:block; font-family:var(--display); font-weight:600; font-size:.82rem; letter-spacing:.1em; text-transform:uppercase; line-height:1.3}
 .riel-marca span{display:block; font-family:var(--mono); font-size:.64rem; color:var(--tinta-3); letter-spacing:.05em; margin-top:.3rem}
+.btn-riel{cursor:pointer; font-family:var(--mono); font-size:.64rem; letter-spacing:.08em; background:var(--papel-2); color:var(--tinta-2); border:1px solid var(--linea); border-radius:2px; padding:.3rem .5rem; line-height:1; flex-shrink:0}
+.btn-riel:hover{color:var(--tinta); border-color:var(--tinta-3)}
+#btn-abrir{position:fixed; top:.75rem; left:.75rem; z-index:50; display:none; padding:.45rem .6rem; font-size:.8rem; box-shadow:0 1px 4px rgba(0,0,0,.12)}
+.envoltorio.riel-oculto{grid-template-columns:minmax(0,1fr)}
+.envoltorio.riel-oculto .riel{display:none}
+.envoltorio.riel-oculto #btn-abrir{display:block}
+.envoltorio.riel-oculto .lienzo{margin:0 auto}
+
+.buscador{padding:.9rem 1.1rem; border-bottom:1px solid var(--linea)}
+.buscador input{width:100%; padding:.5rem .6rem; font-family:var(--mono); font-size:.75rem; background:var(--papel-2); color:var(--tinta); border:1px solid var(--linea); border-radius:2px}
+.buscador p{margin:.45rem 0 0; font-family:var(--mono); font-size:.64rem; color:var(--tinta-3)}
+#q-resultados{list-style:none; margin:.4rem 0 0; padding:0; max-height:42vh; overflow:auto; border:1px solid var(--linea); border-radius:2px; background:var(--papel-2)}
+#q-resultados li + li{border-top:1px solid var(--linea-2)}
+#q-resultados button{width:100%; text-align:left; cursor:pointer; background:none; border:0; padding:.4rem .6rem; color:var(--tinta); font-family:var(--display)}
+#q-resultados button:hover{background:var(--papel-3)}
+#q-resultados b{display:block; font-weight:600; font-size:.8rem; line-height:1.3}
+#q-resultados small{display:block; font-family:var(--mono); font-size:.6rem; color:var(--tinta-3); letter-spacing:.04em}
+.resaltado{outline:3px solid var(--acento); outline-offset:4px; animation:resaltar 2.4s ease-out forwards}
+@keyframes resaltar{0%,60%{outline-color:var(--acento)} 100%{outline-color:transparent}}
+
 .riel nav{padding:.6rem 0}
 .riel-grupo{padding:.5rem 1.1rem .2rem; font-family:var(--mono); font-size:.6rem; letter-spacing:.14em; text-transform:uppercase; color:var(--tinta-3)}
 .riel a.item{display:block; padding:.4rem 1.1rem; font-family:var(--display); font-size:.88rem; color:var(--tinta-2); text-decoration:none; border-left:3px solid transparent}
 .riel a.item:hover{background:var(--papel-2); color:var(--tinta)}
+.riel a.item.activo{border-left-color:var(--acento); color:var(--tinta); background:var(--papel-2); font-weight:600}
 .riel a.item.externo{color:var(--acento); font-weight:600}
 .riel-pie{padding:1rem 1.1rem 0; margin-top:1rem; border-top:1px solid var(--linea)}
 .btn-tema{cursor:pointer; font-family:var(--mono); font-size:.66rem; letter-spacing:.08em; padding:.45rem .7rem; background:var(--papel-2); color:var(--tinta-2); border:1px solid var(--linea); border-radius:2px; width:100%}
@@ -70,18 +91,69 @@ code{font-family:var(--mono)}
 .acceso-simulacro a{font-family:var(--display); font-size:.9rem; text-decoration:none; padding:.55rem .9rem; border:1px solid var(--linea); border-radius:2px; background:var(--papel-2); color:var(--tinta)}
 .acceso-simulacro a.principal{background:var(--acento); border-color:var(--acento); color:var(--papel)}
 
-@media (max-width:900px){ .envoltorio{grid-template-columns:minmax(0,1fr)} .riel{position:static; height:auto} }
+/* ---- Herramientas transversales: chuleta, glosario, flashcards ---- */
+.herramienta{border-top:2px solid var(--tinta); padding-top:1.2rem; margin-top:2.8rem}
+.herramienta .eyebrow{font-family:var(--mono); font-size:.64rem; letter-spacing:.14em; text-transform:uppercase; color:var(--acento); margin:0 0 .3rem}
+.herramienta h2{font-family:var(--display); font-weight:700; font-size:1.5rem; margin:0 0 .5rem}
+.herramienta .intro{color:var(--tinta-2); margin:0 0 1rem}
+
+.chuleta-grupo{margin:1.6rem 0}
+.chuleta-grupo h3{font-family:var(--display); font-weight:700; font-size:1.05rem; margin:0 0 .6rem; color:var(--acento)}
+.chuleta{display:grid; gap:0; border-top:1px solid var(--linea)}
+.chuleta > div{display:grid; grid-template-columns:minmax(150px,240px) 1fr; gap:1rem; padding:.55rem 0; border-bottom:1px solid var(--linea-2)}
+.chuleta code{font-family:var(--mono); font-size:.83rem; color:var(--tinta); font-weight:600}
+.chuleta span{font-size:.88rem; color:var(--tinta-2)}
+
+.glosario{display:grid; gap:0; margin:1.4rem 0; border-top:1px solid var(--linea)}
+.glosario > div{display:grid; grid-template-columns:minmax(150px,220px) 1fr; gap:1.2rem; padding:.75rem 0; border-bottom:1px solid var(--linea-2)}
+.glosario dt{font-family:var(--display); font-weight:600; font-size:.98rem}
+.glosario dt small{display:block; font-family:var(--mono); font-size:.6rem; color:var(--tinta-3); letter-spacing:.08em; text-transform:uppercase; font-weight:400; margin-top:.15rem}
+.glosario dd{margin:0; font-size:.9rem; color:var(--tinta-2)}
+.glosario dd code{font-size:.85rem}
+.glosario dd a{color:var(--acento); text-decoration:none; border-bottom:1px solid transparent}
+.glosario dd a:hover{border-bottom-color:currentColor}
+
+.mazo-barra{display:flex; flex-wrap:wrap; gap:.4rem; align-items:center; margin:1.2rem 0}
+.mazo-barra button{font-family:var(--mono); font-size:.7rem; letter-spacing:.05em; padding:.4rem .7rem; cursor:pointer; background:var(--papel-2); color:var(--tinta-2); border:1px solid var(--linea); border-radius:2px}
+.mazo-barra button:hover{color:var(--tinta); border-color:var(--tinta-3)}
+.mazo-barra button.on{background:var(--tinta); color:var(--papel); border-color:var(--tinta)}
+.mazo-contador{font-family:var(--mono); font-size:.7rem; color:var(--tinta-3); margin-left:auto}
+.tarjeta{position:relative; margin:1rem 0; min-height:200px; cursor:pointer; background:var(--papel-2); border:1px solid var(--linea); border-top:3px solid var(--acento); border-radius:2px; padding:1.6rem 1.6rem 3rem; max-width:720px}
+.tarjeta .marca{font-family:var(--mono); font-size:.6rem; letter-spacing:.13em; text-transform:uppercase; color:var(--acento); margin-bottom:.8rem}
+.tarjeta .frente{font-family:var(--display); font-weight:700; font-size:1.3rem; line-height:1.3; margin:0}
+.tarjeta .dorso{margin:1.1rem 0 0; font-size:.95rem; border-top:1px dashed var(--linea); padding-top:1rem; white-space:pre-wrap; font-family:var(--mono)}
+.tarjeta .pista{position:absolute; left:1.6rem; bottom:1rem; font-family:var(--mono); font-size:.66rem; color:var(--tinta-3)}
+.mazo-nav{display:flex; gap:.4rem; align-items:center; max-width:720px}
+.mazo-nav button{font-family:var(--mono); font-size:.72rem; padding:.45rem .9rem; cursor:pointer; background:var(--papel-2); color:var(--tinta); border:1px solid var(--linea); border-radius:2px}
+.mazo-nav button:hover{border-color:var(--tinta-3)}
+
+@media (max-width:900px){
+  .envoltorio{grid-template-columns:minmax(0,1fr)}
+  .riel{position:static; height:auto}
+  .glosario > div, .chuleta > div{grid-template-columns:1fr; gap:.25rem}
+}
 </style>
 </head>
 <body>
-<div class="envoltorio">
+<div class="envoltorio" id="envoltorio">
+<button class="btn-riel" id="btn-abrir" type="button" title="Mostrar barra lateral" aria-label="Mostrar barra lateral">☰ ÍNDICE</button>
 <aside class="riel">
   <a class="riel-volver" href="index.html">← Materias</a>
   <div class="riel-marca">
-    <b>Python para<br>Ciencia de Datos</b>
-    <span>UADE · 2.º cuatrimestre 2026 · Clases 0-6</span>
+    <div>
+      <b>Python para<br>Ciencia de Datos</b>
+      <span>UADE · 2.º cuatrimestre 2026 · Clases 0-6</span>
+    </div>
+    <button class="btn-riel" id="btn-cerrar" type="button" title="Ocultar barra lateral" aria-label="Ocultar barra lateral">✕</button>
   </div>
-  <nav>
+
+  <div class="buscador">
+    <label class="oculto" for="q">Buscar concepto</label>
+    <input id="q" type="search" placeholder="buscar función o concepto…" autocomplete="off">
+    <p id="q-estado">7 clases · glosario · chuleta · flashcards</p>
+  </div>
+
+  <nav id="nav">
     <div class="riel-grupo">Clases</div>
     <a class="item" href="#c0">00 · Introducción y calendario</a>
     <a class="item" href="#c2">02 · Buenas prácticas y excepciones</a>
@@ -91,6 +163,10 @@ code{font-family:var(--mono)}
     <a class="item" href="#c4">04 · Limpieza, índices y formatos</a>
     <a class="item" href="#c5">05 · Matplotlib</a>
     <a class="item" href="#c6">06 · Seaborn</a>
+    <div class="riel-grupo">Herramientas</div>
+    <a class="item" href="#chuleta">◎ Chuleta rápida</a>
+    <a class="item" href="#glosario">A–Z Glosario</a>
+    <a class="item" href="#flashcards">▤ Flashcards</a>
     <div class="riel-grupo">Práctica</div>
     <a class="item externo" href="simulacro-python.html">▶ Simulacro del parcial ↗</a>
     <a class="item externo" href="leaderboard-python.html">★ Leaderboard ↗</a>
@@ -354,6 +430,161 @@ sns.scatterplot(data=df, x="Horas", y="Nota", hue="Curso", size="Proyectos",
     </div>
   </section>
 
+  <section class="herramienta" id="chuleta" data-busca="chuleta cheatsheet referencia rapida funciones">
+    <p class="eyebrow">Herramienta transversal</p>
+    <h2>Chuleta rápida</h2>
+    <p class="intro">Las funciones que más se usan, agrupadas por biblioteca. Para cuando sabés qué querés hacer pero no te acordás cómo se llama.</p>
+
+    <div class="chuleta-grupo">
+      <h3>Python base y manejo de errores</h3>
+      <div class="chuleta">
+        <div><code>try / except / else / finally</code><span>Intenta, atrapa errores específicos, corre <code>else</code> si no hubo error, y <code>finally</code> siempre al final.</span></div>
+        <div><code>raise ... from exc</code><span>Relanza una excepción nueva conservando la causa original (no se pierde el traceback).</span></div>
+        <div><code>with open(...) as f</code><span>Abre un recurso y lo cierra solo, incluso si algo falla adentro.</span></div>
+        <div><code>pathlib.Path(ruta)</code><span>Rutas de archivo multiplataforma: <code>.exists()</code>, <code>.read_text()</code>, <code>.stat()</code>.</span></div>
+        <div><code>logging.exception(msg)</code><span>Registra el traceback completo del error sin cortar la ejecución.</span></div>
+        <div><code>csv.DictReader</code> / <code>json.load</code><span>Leer CSV/JSON directo como diccionarios, sin parsear a mano.</span></div>
+      </div>
+    </div>
+
+    <div class="chuleta-grupo">
+      <h3>NumPy</h3>
+      <div class="chuleta">
+        <div><code>np.array(lista)</code><span>Crea un <code>ndarray</code> a partir de una lista o lista de listas.</span></div>
+        <div><code>.ndim .shape .size .dtype</code><span>Dimensiones, forma, cantidad de elementos y tipo de dato de un <code>ndarray</code>.</span></div>
+        <div><code>arr[arr &gt; x]</code><span>Máscara booleana: selecciona sólo los elementos que cumplen la condición.</span></div>
+        <div><code>np.mean() np.std() np.median()</code><span>Estadística descriptiva vectorizada, sin loops.</span></div>
+        <div><code>np.where(cond, si, no)</code><span>Una regla condicional vectorizada.</span></div>
+        <div><code>np.select([c1,c2], [v1,v2], default=)</code><span>Varias reglas condicionales evaluadas en orden.</span></div>
+        <div><code>np.argmax() / np.argmin()</code><span>Índice del valor máximo/mínimo del arreglo.</span></div>
+        <div><code>np.polyfit(x, y, 1)</code><span>Pendiente e intercepto de la recta que mejor ajusta los puntos.</span></div>
+      </div>
+    </div>
+
+    <div class="chuleta-grupo">
+      <h3>Pandas — selección y limpieza</h3>
+      <div class="chuleta">
+        <div><code>df.head() .info() .describe()</code><span>Primeras filas, tipos/nulos por columna, estadística resumen.</span></div>
+        <div><code>df.loc[] vs df.iloc[]</code><span><code>loc</code> por etiqueta (incluye el extremo). <code>iloc</code> por posición (lo excluye).</span></div>
+        <div><code>df[(c1) &amp; (c2)]</code><span>Filtrado booleano combinado — nunca <code>and</code>/<code>or</code>.</span></div>
+        <div><code>pd.to_numeric(col, errors="coerce")</code><span>Convierte a número; lo que no se puede convertir queda <code>NaN</code>.</span></div>
+        <div><code>df.fillna() / df.dropna()</code><span>Imputar o eliminar valores nulos.</span></div>
+        <div><code>df.drop_duplicates(subset=[...])</code><span>Saca filas duplicadas según una clave.</span></div>
+        <div><code>df.astype("category")</code><span>Convierte una columna a tipo categórico.</span></div>
+      </div>
+    </div>
+
+    <div class="chuleta-grupo">
+      <h3>Pandas — combinar y agrupar</h3>
+      <div class="chuleta">
+        <div><code>pd.concat([...], axis=0)</code><span>Apila filas de tablas con la misma estructura, sin clave común.</span></div>
+        <div><code>pd.merge(a, b, on=, how=)</code><span>Relaciona dos tablas por una clave común (como un JOIN de SQL).</span></div>
+        <div><code>df.groupby(col).agg({...})</code><span>Agregación por grupo (suma, promedio, conteo, etc.).</span></div>
+        <div><code>pd.pivot_table(values=, index=, columns=, aggfunc=)</code><span>Tabla pivote: cruza dos dimensiones con un valor agregado.</span></div>
+      </div>
+    </div>
+
+    <div class="chuleta-grupo">
+      <h3>Pandas — formatos de archivo</h3>
+      <div class="chuleta">
+        <div><code>pd.read_csv(sep=, decimal=, parse_dates=[...])</code><span>Leer CSV controlando separador, decimal y columnas de fecha.</span></div>
+        <div><code>pd.read_excel(sheet_name=)</code><span>Leer una hoja (o todas, con <code>sheet_name=None</code>) de un Excel.</span></div>
+        <div><code>pd.read_json() / json_normalize()</code><span>Leer JSON y aplanar estructuras anidadas a columnas.</span></div>
+        <div><code>df.to_csv(archivo, index=False)</code><span>Exportar sin escribir el índice como columna extra.</span></div>
+      </div>
+    </div>
+
+    <div class="chuleta-grupo">
+      <h3>Matplotlib</h3>
+      <div class="chuleta">
+        <div><code>fig, ax = plt.subplots()</code><span>Crea la figura (lienzo) y el área de dibujo (<code>Axes</code>).</span></div>
+        <div><code>ax.plot() .bar() .hist() .scatter()</code><span>Línea, barras, histograma, dispersión.</span></div>
+        <div><code>plt.subplots(n, m)</code><span>Panel con varios gráficos (<code>n</code>×<code>m</code>), indexado <code>axes[i,j]</code>.</span></div>
+        <div><code>fig.savefig(archivo, dpi=)</code><span>Exportar la figura a un archivo de imagen.</span></div>
+      </div>
+    </div>
+
+    <div class="chuleta-grupo">
+      <h3>Seaborn</h3>
+      <div class="chuleta">
+        <div><code>sns.heatmap(df.corr(), annot=True)</code><span>Mapa de calor de correlaciones entre variables numéricas.</span></div>
+        <div><code>sns.boxplot() / sns.stripplot()</code><span>Distribución por grupo + observaciones individuales superpuestas.</span></div>
+        <div><code>sns.pairplot(df, hue=)</code><span>Relaciones por pares entre variables numéricas.</span></div>
+        <div><code>sns.scatterplot(hue=, size=, style=)</code><span>Varias variables codificadas en un mismo gráfico.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="herramienta" id="glosario" data-busca="glosario definiciones terminos vocabulario">
+    <p class="eyebrow">Herramienta transversal</p>
+    <h2>Glosario</h2>
+    <p class="intro">Definiciones cortas para repaso rápido. El enlace lleva a la clase donde se desarrolla.</p>
+    <dl class="glosario">
+      <div><dt>astype("category")<small>Clase 04</small></dt><dd>Convierte una columna a tipo categórico: usa menos memoria y deja claro que son valores discretos. <a href="#c4">Ver clase 04</a></dd></div>
+      <div><dt>broadcasting<small>Clase 03</small></dt><dd>NumPy expande automáticamente arreglos de formas compatibles para operar elemento a elemento (ej. arreglo + escalar). <a href="#c3">Ver clase 03</a></dd></div>
+      <div><dt>cardinalidad (merge)<small>Clase 04</small></dt><dd>La relación entre las claves de dos tablas al unirlas: 1:1, 1:N o N:M. No validarla puede multiplicar filas sin darte cuenta. <a href="#c4">Ver clase 04</a></dd></div>
+      <div><dt>concat vs merge<small>Clase 04</small></dt><dd><code>concat</code> apila (misma estructura, sin clave). <code>merge</code> relaciona (clave común, como un JOIN). Son operaciones distintas que se confunden seguido. <a href="#c4">Ver clase 04</a></dd></div>
+      <div><dt>DataFileError (patrón)<small>Clase 02.1</small></dt><dd>Excepción propia que envuelve errores técnicos de lectura de archivos con <code>raise ... from exc</code>, para dar un mensaje de dominio claro. <a href="#c21">Ver clase 02.1</a></dd></div>
+      <div><dt>DataFrame<small>Clase 03</small></dt><dd>Estructura tabular de Pandas: filas + columnas con nombre, cada columna puede tener su propio tipo de dato. <a href="#c3">Ver clase 03</a></dd></div>
+      <div><dt>docstring (PEP 257)<small>Clase 02</small></dt><dd>Cadena de documentación entre <code>"""..."""</code> al inicio de módulo/función/clase; se accede con <code>__doc__</code> o <code>help()</code>. <a href="#c2">Ver clase 02</a></dd></div>
+      <div><dt>dpi / vectorial<small>Clase 06</small></dt><dd>PNG con <code>dpi</code> alto sirve para web/Office; PDF/SVG son vectoriales (no pierden calidad al ampliar), mejores para impresión. <a href="#c6">Ver clase 06</a></dd></div>
+      <div><dt>errors="coerce"<small>Clase 03</small></dt><dd>Parámetro de <code>pd.to_numeric</code>/<code>pd.to_datetime</code>: lo que no se puede convertir se vuelve <code>NaN</code>/<code>NaT</code> en vez de romper el programa. <a href="#c3">Ver clase 03</a></dd></div>
+      <div><dt>fallar pronto<small>Clase 02.1</small></dt><dd>Principio de manejo de errores: detectar y reportar un problema apenas ocurre, no dejar que se propague silenciosamente. <a href="#c21">Ver clase 02.1</a></dd></div>
+      <div><dt>Figure vs Axes<small>Clase 05</small></dt><dd><code>Figure</code> es el lienzo completo (puede tener varios gráficos). <code>Axes</code> es el área de dibujo individual dentro de esa figura. <a href="#c5">Ver clase 05</a></dd></div>
+      <div><dt>fit / predict / score<small>Clase 02.2</small></dt><dd>Patrón de scikit-learn: <code>fit()</code> entrena, <code>predict()</code> genera predicciones, <code>score()</code> evalúa el modelo. <a href="#c22">Ver clase 02.2</a></dd></div>
+      <div><dt>groupby<small>Clase 03</small></dt><dd>Agrupa filas por el valor de una columna para aplicar una agregación (suma, promedio, conteo) a cada grupo. <a href="#c3">Ver clase 03</a></dd></div>
+      <div><dt>heatmap<small>Clase 06</small></dt><dd>Mapa de calor: matriz coloreada según un valor numérico, típicamente correlaciones (<code>df.corr()</code>). <a href="#c6">Ver clase 06</a></dd></div>
+      <div><dt>hue / size / style<small>Clase 06</small></dt><dd>Canales visuales de Seaborn para codificar variables extra en un mismo gráfico: color, tamaño y forma del marcador. <a href="#c6">Ver clase 06</a></dd></div>
+      <div><dt>indicator=True<small>Clase 04</small></dt><dd>Parámetro de <code>merge</code> que agrega una columna <code>_merge</code> indicando si cada fila vino de un lado, del otro, o de ambos. <a href="#c4">Ver clase 04</a></dd></div>
+      <div><dt>index=False<small>Clase 04</small></dt><dd>Parámetro al exportar (<code>to_csv</code>, etc.) para no escribir el índice del DataFrame como columna extra. <a href="#c4">Ver clase 04</a></dd></div>
+      <div><dt>loc vs iloc<small>Clase 03</small></dt><dd><code>loc</code> selecciona por etiqueta (incluye ambos extremos del rango). <code>iloc</code> selecciona por posición (excluye el final). <a href="#c3">Ver clase 03</a></dd></div>
+      <div><dt>logging.exception()<small>Clase 02.1</small></dt><dd>Registra el traceback completo de un error capturado, sin interrumpir el programa ni exponerlo al usuario final. <a href="#c21">Ver clase 02.1</a></dd></div>
+      <div><dt>máscara booleana<small>Clase 03</small></dt><dd>Indexar un arreglo/Series con una condición (<code>arr[arr &gt;= 18]</code>) para quedarte sólo con lo que la cumple. <a href="#c3">Ver clase 03</a></dd></div>
+      <div><dt>ndarray<small>Clase 03</small></dt><dd>Estructura base de NumPy: arreglo n-dimensional homogéneo, con <code>ndim</code>, <code>shape</code>, <code>size</code>, <code>dtype</code>. <a href="#c3">Ver clase 03</a></dd></div>
+      <div><dt>pairplot<small>Clase 06</small></dt><dd>Matriz de gráficos con las relaciones por pares entre varias variables numéricas. Lento/difícil de leer con muchas columnas. <a href="#c6">Ver clase 06</a></dd></div>
+      <div><dt>pathlib.Path<small>Clase 02</small></dt><dd>Manejo de rutas de archivo orientado a objetos y multiplataforma, en vez de concatenar strings. <a href="#c2">Ver clase 02</a></dd></div>
+      <div><dt>PEP 8<small>Clase 02</small></dt><dd>Guía de estilo de Python: indentación de 4 espacios, <code>snake_case</code>, <code>CapWords</code> para clases, imports agrupados. <a href="#c2">Ver clase 02</a></dd></div>
+      <div><dt>pivot_table<small>Clases 03/04</small></dt><dd>Tabla pivote: cruza dos columnas como filas/columnas nuevas, con un valor agregado en cada celda. <a href="#c4">Ver clase 04</a></dd></div>
+      <div><dt>raise ... from exc<small>Clase 02</small></dt><dd>Relanza una excepción nueva (más específica o de dominio) conservando la excepción original como causa. <a href="#c2">Ver clase 02</a></dd></div>
+      <div><dt>Series<small>Clase 03</small></dt><dd>Estructura unidimensional de Pandas con índice; una columna de un DataFrame es una Series. <a href="#c3">Ver clase 03</a></dd></div>
+      <div><dt>threshold de bins<small>Clase 05</small></dt><dd>La cantidad de intervalos de un histograma cambia lo que se ve; conviene probar varias opciones, no dejarla arbitraria. <a href="#c5">Ver clase 05</a></dd></div>
+      <div><dt>to_datetime<small>Clase 04</small></dt><dd>Convierte texto a fecha; <code>dayfirst=True</code> interpreta DD/MM/AAAA, <code>errors="coerce"</code> evita que falle todo por una fecha mala. <a href="#c4">Ver clase 04</a></dd></div>
+      <div><dt>validate= (merge)<small>Clase 04</small></dt><dd>Parámetro de <code>merge</code> que chequea la cardinalidad esperada (ej. <code>"many_to_one"</code>) y falla si no se cumple. <a href="#c4">Ver clase 04</a></dd></div>
+    </dl>
+  </section>
+
+  <section class="herramienta" id="flashcards" data-busca="flashcards tarjetas repaso autoevaluacion practica">
+    <p class="eyebrow">Herramienta transversal</p>
+    <h2>Flashcards</h2>
+    <p class="intro">
+      Repaso activo sobre las 7 clases. Hacé clic en la tarjeta (o apretá
+      <strong>Espacio</strong>) para ver la respuesta; <strong>→</strong> pasa a la siguiente.
+    </p>
+    <div class="mazo-barra">
+      <button type="button" data-filtro="todas" class="on">TODAS</button>
+      <button type="button" data-filtro="2">CLASE 02</button>
+      <button type="button" data-filtro="2.1">CLASE 02.1</button>
+      <button type="button" data-filtro="2.2">CLASE 02.2</button>
+      <button type="button" data-filtro="3">CLASE 03</button>
+      <button type="button" data-filtro="4">CLASE 04</button>
+      <button type="button" data-filtro="5">CLASE 05</button>
+      <button type="button" data-filtro="6">CLASE 06</button>
+      <button type="button" id="mezclar">↻ MEZCLAR</button>
+      <span class="mazo-contador" id="contador">—</span>
+    </div>
+    <div class="tarjeta" id="tarjeta" tabindex="0" role="button" aria-live="polite">
+      <p class="marca" id="t-marca">—</p>
+      <p class="frente" id="t-frente">Cargando…</p>
+      <div class="dorso oculto" id="t-dorso"></div>
+      <p class="pista" id="t-pista">clic o Espacio para revelar</p>
+    </div>
+    <div class="mazo-nav">
+      <button type="button" id="anterior">← Anterior</button>
+      <button type="button" id="revelar">Revelar</button>
+      <button type="button" id="siguiente">Siguiente →</button>
+    </div>
+  </section>
+
   <div class="acceso-simulacro">
     <a class="principal" href="simulacro-python.html">Ir al simulacro</a>
     <a href="leaderboard-python.html">Ver leaderboard</a>
@@ -368,12 +599,191 @@ sns.scatterplot(data=df, x="Horas", y="Nota", hue="Curso", size="Proyectos",
 <script>
 (function(){
   "use strict";
+
+  /* ---------- TEMA ---------- */
   var raiz = document.documentElement, btn = document.getElementById("btn-tema");
   function aplicar(t){ raiz.setAttribute("data-tema", t); btn.textContent = t==="oscuro" ? "MODO CLARO" : "MODO OSCURO"; try{ localStorage.setItem("ia-tema", t); }catch(e){} }
   var g=null; try{ g=localStorage.getItem("ia-tema"); }catch(e){}
   if(!g) g = (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) ? "oscuro" : "claro";
   aplicar(g);
   btn.addEventListener("click", function(){ aplicar(raiz.getAttribute("data-tema")==="oscuro" ? "claro" : "oscuro"); });
+
+  /* ---------- RIEL PLEGABLE ---------- */
+  var envoltorio = document.getElementById("envoltorio");
+  function aplicarRiel(estado){
+    envoltorio.classList.toggle("riel-oculto", estado === "oculto");
+    try{ localStorage.setItem("python-riel", estado); }catch(e){}
+  }
+  var rielGuardado = null;
+  try{ rielGuardado = localStorage.getItem("python-riel"); }catch(e){}
+  if(rielGuardado === "oculto") aplicarRiel("oculto");
+  document.getElementById("btn-cerrar").addEventListener("click", function(){ aplicarRiel("oculto"); });
+  document.getElementById("btn-abrir").addEventListener("click", function(){ aplicarRiel("visible"); });
+  document.addEventListener("keydown", function(e){
+    if((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "b"){
+      e.preventDefault();
+      aplicarRiel(envoltorio.classList.contains("riel-oculto") ? "visible" : "oculto");
+    }
+  });
+
+  /* ---------- BUSCADOR ---------- */
+  var entrada = document.getElementById("q");
+  var estado  = document.getElementById("q-estado");
+  var textoInicial = estado.textContent;
+  function normalizar(t){ return String(t).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, ""); }
+
+  var lista = document.createElement("ul");
+  lista.id = "q-resultados"; lista.className = "oculto";
+  entrada.parentNode.insertBefore(lista, estado);
+
+  var INDICE = [];
+  function tituloSeccion(el){ var sec = el.closest("section"); var h = sec && sec.querySelector("h2"); return h ? h.textContent.trim() : ""; }
+  function agregar(el, titulo, extra){
+    var t = (titulo || "").trim(); if(!t) return;
+    INDICE.push({ el:el, titulo:t, seccion:tituloSeccion(el), texto:normalizar(t + " " + (extra || "") + " " + el.textContent) });
+  }
+  Array.prototype.forEach.call(document.querySelectorAll("main .glosario > div"), function(gl){ var dt=gl.querySelector("dt"); agregar(gl, dt && dt.childNodes[0] && dt.childNodes[0].textContent); });
+  Array.prototype.forEach.call(document.querySelectorAll("main .chuleta > div"), function(ch){ var c=ch.querySelector("code"); agregar(ch, c && c.textContent); });
+  Array.prototype.forEach.call(document.querySelectorAll("main h2"), function(h){
+    var extra = "", n = h.nextElementSibling;
+    while(n && n.tagName !== "H2"){ extra += " " + n.textContent; n = n.nextElementSibling; }
+    var sec = h.closest("section");
+    INDICE.push({ el:h, titulo:h.textContent.trim(), seccion:tituloSeccion(h), texto:normalizar(h.textContent + " " + extra + " " + (sec ? sec.getAttribute("data-busca") || "" : "")) });
+  });
+
+  var resultados = [];
+  function irA(item){
+    Array.prototype.forEach.call(document.querySelectorAll(".resaltado"), function(x){ x.classList.remove("resaltado"); });
+    item.el.classList.add("resaltado");
+    item.el.scrollIntoView({ behavior:"smooth", block:"start" });
+  }
+  function buscar(){
+    var q = normalizar(entrada.value.trim());
+    lista.innerHTML = "";
+    if(q.length < 2){ lista.classList.add("oculto"); estado.textContent = textoInicial; resultados = []; return; }
+    var palabras = q.split(/\s+/);
+    resultados = INDICE.filter(function(it){ return palabras.every(function(w){ return it.texto.indexOf(w) !== -1; }); });
+    resultados.sort(function(a,b){ var ta = normalizar(a.titulo).indexOf(q) !== -1 ? 0 : 1, tb = normalizar(b.titulo).indexOf(q) !== -1 ? 0 : 1; return ta - tb; });
+    var max = 30;
+    resultados.slice(0, max).forEach(function(it){
+      var li = document.createElement("li"); var b = document.createElement("button"); b.type = "button";
+      b.innerHTML = "<b></b><small></small>";
+      b.querySelector("b").textContent = it.titulo; b.querySelector("small").textContent = it.seccion;
+      b.addEventListener("click", function(){ irA(it); });
+      li.appendChild(b); lista.appendChild(li);
+    });
+    lista.classList.toggle("oculto", resultados.length === 0);
+    estado.textContent = resultados.length === 0 ? "Sin coincidencias" :
+      resultados.length + (resultados.length === 1 ? " coincidencia" : " coincidencias") + (resultados.length > max ? " · se muestran " + max : "") + " · Enter salta a la primera";
+  }
+  entrada.addEventListener("input", buscar);
+  entrada.addEventListener("keydown", function(e){
+    if(e.key === "Enter" && resultados.length){ e.preventDefault(); irA(resultados[0]); }
+    if(e.key === "Escape"){ entrada.value = ""; buscar(); entrada.blur(); }
+  });
+
+  /* ---------- NAVEGACIÓN ACTIVA ---------- */
+  var enlaces = Array.prototype.slice.call(document.querySelectorAll("#nav a"));
+  var mapaEnlaces = {};
+  enlaces.forEach(function(a){ var h=a.getAttribute("href"); if(h.charAt(0)==="#") mapaEnlaces[h.slice(1)] = a; });
+  if("IntersectionObserver" in window){
+    var observador = new IntersectionObserver(function(entradas){
+      entradas.forEach(function(e){
+        var a = mapaEnlaces[e.target.id];
+        if(!a || !e.isIntersecting) return;
+        enlaces.forEach(function(x){ x.classList.remove("activo"); });
+        a.classList.add("activo");
+      });
+    }, { rootMargin: "-10% 0px -75% 0px", threshold: 0 });
+    Array.prototype.forEach.call(document.querySelectorAll("main section"), function(s){ observador.observe(s); });
+  }
+
+  /* ---------- FLASHCARDS ---------- */
+  var MAZO = [
+    {c:"2", p:"¿Qué exige PEP8 en indentación y nombres?", r:"4 espacios de indentación, snake_case para variables/funciones, CapWords para clases, imports agrupados al inicio."},
+    {c:"2", p:"¿Qué partes tiene un docstring completo según PEP257?", r:"Primera línea descriptiva, luego Args (parámetros), Returns (qué devuelve) y Raises (qué excepciones puede lanzar). Se accede con __doc__ o help()."},
+    {c:"2", p:"¿Para qué sirve raise ... from exc?", r:"Para relanzar una excepción nueva (más específica o de dominio) conservando la excepción original como causa, así no se pierde el traceback real."},
+    {c:"2", p:"¿Qué diferencia try/except de try/except/else/finally?", r:"else corre sólo si NO hubo excepción; finally corre siempre, haya o no error (típico para cerrar recursos)."},
+    {c:"2", p:"¿Por qué está mal except: pass?", r:"Porque oculta cualquier error, incluidos bugs reales, sin dejar rastro. Hay que capturar excepciones específicas y nunca silenciarlas."},
+
+    {c:"2.1", p:"¿Cuáles son los 6 pasos del flujo recomendado para leer un archivo de datos?", r:"Comprobar ruta → abrir seguro → parsear formato → validar estructura → convertir tipos → reportar/elevar."},
+    {c:"2.1", p:"Nombrá 3 antipatrones de manejo de errores marcados en la cátedra.", r:"Capturar todo con except Exception sin registrar; ignorar errores (except: pass); no validar columnas del CSV/JSON asumiendo estructura perfecta."},
+    {c:"2.1", p:"¿Qué hace logging.exception() que print() no hace?", r:"Registra el traceback completo del error (dónde y por qué ocurrió) sin interrumpir la ejecución del programa."},
+
+    {c:"2.2", p:"¿Cuándo uso NumPy y cuándo Pandas?", r:"NumPy para cálculo vectorizado con arreglos numéricos (ndarray). Pandas para datos tabulares con columnas de distinto tipo (DataFrame), con métodos como groupby y merge."},
+    {c:"2.2", p:"¿Qué patrón siguen los modelos de scikit-learn?", r:"fit() entrena el modelo, predict() genera predicciones, score() evalúa qué tan bien predice."},
+
+    {c:"3", p:"¿Qué diferencia loc de iloc?", r:"loc selecciona por etiqueta e incluye ambos extremos del rango (df.loc[0:2] trae 0,1,2). iloc selecciona por posición numérica y excluye el final (df.iloc[0:2] trae sólo 0,1)."},
+    {c:"3", p:"¿Por qué usar & y | en vez de and/or en Pandas?", r:"and/or evalúan un solo valor booleano; & y | operan elemento por elemento sobre Series completas, que es lo que hace falta para filtrar filas."},
+    {c:"3", p:"Una columna de precios da error al hacer .mean(). ¿Qué pasó probablemente?", r:"La columna quedó como tipo object (texto) por símbolos como $ o comas. Hay que limpiar con .str.replace() y convertir con pd.to_numeric(errors='coerce')."},
+    {c:"3", p:"¿Qué hace una máscara booleana como arr[arr >= 18]?", r:"Devuelve sólo los elementos del arreglo que cumplen la condición — es indexación vectorizada, sin loops."},
+    {c:"3", p:"np.where() vs np.select(): ¿cuándo uso cada uno?", r:"np.where(cond, si, no) es para UNA regla condicional. np.select([cond1, cond2, ...], [val1, val2, ...], default=...) es para VARIAS reglas evaluadas en orden."},
+
+    {c:"4", p:"¿Cuál es la diferencia conceptual entre concat y merge?", r:"concat apila filas o columnas de tablas con la misma estructura, sin necesitar una clave común. merge relaciona dos tablas por una clave común, como un JOIN de SQL."},
+    {c:"4", p:"¿Qué controla el parámetro how= en un merge?", r:"El tipo de unión: inner (sólo coincidencias), left/right (todo de un lado + coincidencias del otro), outer (todo de ambos lados, con NaN donde no hay match)."},
+    {c:"4", p:"¿Para qué sirve indicator=True en un merge?", r:"Agrega una columna _merge que dice si cada fila vino de 'left_only', 'right_only' o 'both' — útil para detectar filas sin correspondencia."},
+    {c:"4", p:"¿Qué hace pd.to_datetime(col, errors='coerce', dayfirst=True)?", r:"Convierte texto a fecha; dayfirst=True interpreta DD/MM/AAAA (formato argentino); errors='coerce' vuelve NaT lo que no se puede parsear en vez de fallar."},
+    {c:"4", p:"¿Por qué hay que pasar index=False al exportar con to_csv?", r:"Si no, pandas escribe el índice numérico del DataFrame como una columna extra en el archivo, que normalmente no se quiere."},
+    {c:"4", p:"¿Qué riesgo hay si no controlo la cardinalidad antes de un merge?", r:"Una relación N:M inesperada puede multiplicar filas (explosión de filas) sin que el error sea obvio; por eso se usa validate='many_to_one', etc."},
+
+    {c:"5", p:"¿Qué tipo de gráfico corresponde a cada pregunta: tendencia, comparación, distribución, relación?", r:"Tendencia → líneas. Comparación → barras (empezando en cero). Distribución → histograma. Relación → dispersión (scatter, no prueba causalidad)."},
+    {c:"5", p:"¿Qué diferencia hay entre Figure y Axes?", r:"Figure es el lienzo completo (puede tener varios gráficos). Axes es el área de dibujo individual dentro de esa figura, donde realmente se grafica."},
+    {c:"5", p:"¿Para qué sirve np.polyfit(x, y, 1)?", r:"Calcula la pendiente y el intercepto de la recta que mejor ajusta los puntos (regresión lineal simple), para dibujar una línea de tendencia sobre un scatter."},
+    {c:"5", p:"Nombrá 3 errores frecuentes en gráficos según la cátedra.", r:"Eje de barras que no empieza en cero (exagera diferencias); título genérico sin comunicar el hallazgo; miles de puntos superpuestos sin usar alpha (transparencia)."},
+
+    {c:"6", p:"Si dos variables tienen correlación cercana a 0, ¿qué puedo concluir?", r:"Sólo que hay poca asociación LINEAL entre ellas — no significa que sean independientes, podría haber una relación no lineal."},
+    {c:"6", p:"¿Qué muestra un boxplot?", r:"La mediana (línea central), el rango intercuartílico (la caja, Q1 a Q3), los bigotes, y los puntos fuera de los bigotes como posibles atípicos (outliers)."},
+    {c:"6", p:"¿Cuándo conviene evitar sns.pairplot()?", r:"Cuando hay muchas columnas numéricas: se vuelve lento y difícil de leer. Conviene preseleccionar las variables relevantes con el parámetro vars=."},
+    {c:"6", p:"¿Qué formato de exportación conviene para un informe académico impreso?", r:"PDF o SVG (vectoriales, no pierden calidad al hacer zoom o imprimir). PNG con dpi alto sirve para web/Office, pero no es ideal para impresión de calidad."},
+    {c:"6", p:"¿Qué tres canales visuales puedo usar en un solo scatterplot de Seaborn para codificar más variables?", r:"hue (color), size (tamaño) y style (forma) — pero sin sobrecargar más de una variable por canal a la vez."}
+  ];
+
+  var elTarjeta = document.getElementById("tarjeta");
+  var elMarca   = document.getElementById("t-marca");
+  var elFrente  = document.getElementById("t-frente");
+  var elDorso   = document.getElementById("t-dorso");
+  var elPista   = document.getElementById("t-pista");
+  var elContador= document.getElementById("contador");
+  var mazoActivo = MAZO.slice(), indice = 0, revelada = false;
+
+  function pintar(){
+    if(!mazoActivo.length){ elMarca.textContent="—"; elFrente.textContent="No hay tarjetas para ese filtro."; elDorso.classList.add("oculto"); elContador.textContent="0 / 0"; return; }
+    var t = mazoActivo[indice];
+    elMarca.textContent = "Clase " + t.c;
+    elFrente.textContent = t.p; elDorso.textContent = t.r;
+    elDorso.classList.add("oculto"); elPista.textContent = "clic o Espacio para revelar"; revelada = false;
+    elContador.textContent = (indice + 1) + " / " + mazoActivo.length;
+  }
+  function revelar(){ if(!mazoActivo.length) return; revelada = true; elDorso.classList.remove("oculto"); elPista.textContent = "→ siguiente"; }
+  function mover(d){ if(!mazoActivo.length) return; indice = (indice + d + mazoActivo.length) % mazoActivo.length; pintar(); }
+  function mezclar(){
+    for(var i = mazoActivo.length - 1; i > 0; i--){ var j = Math.floor(Math.random() * (i + 1)); var tmp = mazoActivo[i]; mazoActivo[i] = mazoActivo[j]; mazoActivo[j] = tmp; }
+    indice = 0; pintar();
+  }
+  elTarjeta.addEventListener("click", function(){ revelada ? mover(1) : revelar(); });
+  elTarjeta.addEventListener("keydown", function(e){
+    if(e.key === " " || e.key === "Enter"){ e.preventDefault(); revelada ? mover(1) : revelar(); }
+    else if(e.key === "ArrowRight"){ e.preventDefault(); mover(1); }
+    else if(e.key === "ArrowLeft"){ e.preventDefault(); mover(-1); }
+  });
+  document.getElementById("revelar").addEventListener("click", revelar);
+  document.getElementById("siguiente").addEventListener("click", function(){ mover(1); });
+  document.getElementById("anterior").addEventListener("click", function(){ mover(-1); });
+  document.getElementById("mezclar").addEventListener("click", mezclar);
+  Array.prototype.forEach.call(document.querySelectorAll("[data-filtro]"), function(b){
+    b.addEventListener("click", function(){
+      Array.prototype.forEach.call(document.querySelectorAll("[data-filtro]"), function(x){ x.classList.remove("on"); });
+      b.classList.add("on");
+      var f = b.getAttribute("data-filtro");
+      mazoActivo = (f === "todas") ? MAZO.slice() : MAZO.filter(function(t){ return t.c === f; });
+      indice = 0; pintar();
+    });
+  });
+  pintar();
+
+  /* ---------- CONTEO ---------- */
+  estado.textContent = "7 clases · " + document.querySelectorAll(".glosario > div").length + " términos · " + MAZO.length + " tarjetas";
+  textoInicial = estado.textContent;
 })();
 Sesion.montar("chip-sesion");
 </script>

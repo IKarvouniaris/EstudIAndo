@@ -47,7 +47,8 @@ Segunda materia con el esquema completo (apunte + simulacro + leaderboard), pero
 - **Archivos modificados:** `index.html` (fila de Python activada, día jueves).
 - **Contenido:** 7 clases resumidas (00, 02, 02.1, 02.2, 03, 04, 05, 06 — no hay clase 1 propia en el material fuente) a partir de los PPT/DOCX reales de la cátedra. 6 ejercicios de práctica (los 2 exámenes simulados reales del profesor, variantes A y B, con sus 3 ejercicios cada uno).
 - **Examen puntuado:** 3 ejercicios al azar, **45 minutos**, cooldown de 5 min (igual que Ética), puntaje = promedio del % de tareas cumplidas en cada ejercicio según Gemini.
-- **Pendiente:** ampliar el banco de ejercicios más allá de los 6 iniciales; apunte liviano (sin el aparato rico de Ética todavía).
+- **Pendiente:** ampliar el banco de ejercicios más allá de los 6 iniciales.
+- **2026-09-18:** el apunte ya no es liviano — se agregó buscador, riel plegable, glosario (30 términos), flashcards (30 tarjetas por clase) y una **chuleta rápida** (cheatsheet de funciones por biblioteca, en vez de la línea de tiempo de Ética que no aplica acá). Mismo aparato que Ética, adaptado a una materia de programación.
 
 ---
 
