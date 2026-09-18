@@ -688,14 +688,14 @@ td.caso-nombre small{display:block; font-family:var(--mono); font-weight:400; fo
 
 /* ---- Tutor IA (botón flotante) ---- */
 #tutor-btn{
-  position:fixed; left:1.2rem; bottom:1.2rem; z-index:80; cursor:pointer;
+  position:fixed; right:1.2rem; bottom:1.2rem; z-index:80; cursor:pointer;
   width:3.2rem; height:3.2rem; border-radius:50%; border:1px solid var(--linea);
   background:var(--tinta); color:var(--papel); font-size:1.3rem; display:grid; place-items:center;
   box-shadow:0 4px 14px rgba(0,0,0,.25);
 }
 #tutor-btn:hover{filter:brightness(1.15)}
 #tutor-panel{
-  position:fixed; left:1.2rem; bottom:5rem; z-index:80; width:min(24rem, calc(100vw - 2.4rem));
+  position:fixed; right:1.2rem; bottom:5rem; z-index:80; width:min(24rem, calc(100vw - 2.4rem));
   height:min(28rem, calc(100vh - 8rem)); background:var(--papel); border:1px solid var(--linea);
   border-radius:6px; box-shadow:0 8px 28px rgba(0,0,0,.3); display:flex; flex-direction:column; overflow:hidden;
 }
@@ -714,7 +714,7 @@ td.caso-nombre small{display:block; font-family:var(--mono); font-weight:400; fo
 .tutor-form textarea{flex:1; resize:none; min-height:2.4rem; max-height:6rem; padding:.5rem .6rem; font-family:var(--body); font-size:.85rem; color:var(--tinta); background:var(--papel-2); border:1px solid var(--linea); border-radius:4px}
 .tutor-form button{cursor:pointer; padding:0 .9rem; font-family:var(--display); font-weight:600; background:var(--tinta); color:var(--papel); border:0; border-radius:4px}
 .tutor-form button:disabled{opacity:.5; cursor:default}
-@media (max-width:640px){ #tutor-btn{left:.8rem; bottom:.8rem} #tutor-panel{left:.8rem; bottom:4.6rem} }
+@media (max-width:640px){ #tutor-btn{right:.8rem; bottom:.8rem} #tutor-panel{right:.8rem; bottom:4.6rem} }
 </style></head>
 <body>
 <div class="envoltorio" id="envoltorio">
