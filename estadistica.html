@@ -1,0 +1,1011 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Estadística General — Apunte y hoja de fórmulas</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<style>
+:root{
+  --rail: 280px;
+  color-scheme: light;
+  --papel:#EDEEE9; --papel-2:#F8F9F6; --papel-3:#E3E5DE;
+  --tinta:#15181A; --tinta-2:#545B60; --tinta-3:#7B8288;
+  --linea:#C7CAC2; --linea-2:#D9DBD4;
+  --acento:#9A5A12; --acento-suave:#F4E7D2;
+  --alerta:#9E3122; --alerta-suave:#F7E4E0;
+  --ok:#1F7A3E; --ok-suave:#DCEFE1;
+  --display:"Bahnschrift","Franklin Gothic Medium","Arial Narrow","Helvetica Neue",sans-serif;
+  --body:"Sitka Text","Constantia",Georgia,"Times New Roman",serif;
+  --mono:"Cascadia Mono",Consolas,"SFMono-Regular",ui-monospace,monospace;
+}
+:root[data-tema="oscuro"]{
+  color-scheme: dark;
+  --papel:#101315; --papel-2:#181C20; --papel-3:#1F2429;
+  --tinta:#E9EBE6; --tinta-2:#A2AAB0; --tinta-3:#7C858B;
+  --linea:#2B3238; --linea-2:#232930;
+  --acento:#E2A95B; --acento-suave:#35270F;
+  --alerta:#EC8878; --alerta-suave:#331915;
+  --ok:#5CCB84; --ok-suave:#12301C;
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--papel); color:var(--tinta); font-family:var(--body); font-size:16.5px; line-height:1.65; -webkit-font-smoothing:antialiased}
+a{color:var(--acento)}
+.oculto{display:none !important}
+
+.envoltorio{display:grid; grid-template-columns:var(--rail) minmax(0,1fr); min-height:100vh}
+.riel{position:sticky; top:0; align-self:start; height:100vh; overflow-y:auto; border-right:1px solid var(--linea); background:var(--papel-3); padding:0 0 2rem}
+.riel-volver{display:block; padding:.85rem 1.1rem; margin-bottom:.3rem; font-family:var(--mono); font-size:.68rem; letter-spacing:.06em; color:var(--tinta-2); text-decoration:none; border-bottom:1px solid var(--linea)}
+.riel-volver:hover{color:var(--tinta); background:var(--papel-2)}
+.riel-marca{display:flex; align-items:flex-start; justify-content:space-between; gap:.5rem; padding:1rem 1.1rem 1rem; border-bottom:1px solid var(--linea)}
+.riel-marca b{display:block; font-family:var(--display); font-weight:600; font-size:.82rem; letter-spacing:.1em; text-transform:uppercase; line-height:1.3}
+.riel-marca span{display:block; font-family:var(--mono); font-size:.64rem; color:var(--tinta-3); letter-spacing:.05em; margin-top:.3rem}
+.btn-riel{cursor:pointer; font-family:var(--mono); font-size:.64rem; letter-spacing:.08em; background:var(--papel-2); color:var(--tinta-2); border:1px solid var(--linea); border-radius:2px; padding:.3rem .5rem; line-height:1; flex-shrink:0}
+.btn-riel:hover{color:var(--tinta); border-color:var(--tinta-3)}
+#btn-abrir{position:fixed; top:.75rem; left:.75rem; z-index:50; display:none; padding:.45rem .6rem; font-size:.8rem; box-shadow:0 1px 4px rgba(0,0,0,.12)}
+.envoltorio.riel-oculto{grid-template-columns:minmax(0,1fr)}
+.envoltorio.riel-oculto .riel{display:none}
+.envoltorio.riel-oculto #btn-abrir{display:block}
+.envoltorio.riel-oculto .lienzo{margin:0 auto}
+
+.buscador{padding:.9rem 1.1rem; border-bottom:1px solid var(--linea)}
+.buscador input{width:100%; padding:.5rem .6rem; font-family:var(--mono); font-size:.75rem; background:var(--papel-2); color:var(--tinta); border:1px solid var(--linea); border-radius:2px}
+.buscador p{margin:.45rem 0 0; font-family:var(--mono); font-size:.64rem; color:var(--tinta-3)}
+#q-resultados{list-style:none; margin:.4rem 0 0; padding:0; max-height:42vh; overflow:auto; border:1px solid var(--linea); border-radius:2px; background:var(--papel-2)}
+#q-resultados li + li{border-top:1px solid var(--linea-2)}
+#q-resultados button{width:100%; text-align:left; cursor:pointer; background:none; border:0; padding:.4rem .6rem; color:var(--tinta); font-family:var(--display)}
+#q-resultados button:hover{background:var(--papel-3)}
+#q-resultados b{display:block; font-weight:600; font-size:.8rem; line-height:1.3}
+#q-resultados small{display:block; font-family:var(--mono); font-size:.6rem; color:var(--tinta-3); letter-spacing:.04em}
+.resaltado{outline:3px solid var(--acento); outline-offset:4px; animation:resaltar 2.4s ease-out forwards}
+@keyframes resaltar{0%,60%{outline-color:var(--acento)} 100%{outline-color:transparent}}
+
+.riel nav{padding:.6rem 0}
+.riel-grupo{padding:.5rem 1.1rem .2rem; font-family:var(--mono); font-size:.6rem; letter-spacing:.14em; text-transform:uppercase; color:var(--tinta-3)}
+.riel a.item{display:block; padding:.4rem 1.1rem; font-family:var(--display); font-size:.88rem; color:var(--tinta-2); text-decoration:none; border-left:3px solid transparent}
+.riel a.item:hover{background:var(--papel-2); color:var(--tinta)}
+.riel a.item.activo{border-left-color:var(--acento); color:var(--tinta); background:var(--papel-2); font-weight:600}
+.riel a.item.externo{color:var(--acento); font-weight:600}
+.riel-pie{padding:1rem 1.1rem 0; margin-top:1rem; border-top:1px solid var(--linea)}
+.btn-tema{cursor:pointer; font-family:var(--mono); font-size:.66rem; letter-spacing:.08em; padding:.45rem .7rem; background:var(--papel-2); color:var(--tinta-2); border:1px solid var(--linea); border-radius:2px; width:100%}
+.btn-tema:hover{color:var(--tinta); border-color:var(--tinta-3)}
+
+.lienzo{max-width:860px; margin:0 auto; padding:2.4rem clamp(1rem,3vw,2.4rem) 6rem}
+.portada .cintillo{font-family:var(--mono); font-size:.66rem; letter-spacing:.17em; text-transform:uppercase; color:var(--tinta-3); margin:0}
+.portada h1{font-family:var(--display); font-weight:700; font-size:clamp(1.9rem,4.5vw,2.7rem); line-height:1.05; letter-spacing:-.01em; margin:.3rem 0 .8rem}
+.portada p{color:var(--tinta-2); max-width:66ch}
+
+.clase, .herramienta{border-top:2px solid var(--tinta); padding-top:1.2rem; margin-top:2.6rem}
+.clase .eyebrow, .herramienta .eyebrow{font-family:var(--mono); font-size:.64rem; letter-spacing:.14em; text-transform:uppercase; color:var(--acento); margin:0 0 .3rem}
+.clase h2, .herramienta h2{font-family:var(--display); font-weight:700; font-size:1.5rem; margin:0 0 .6rem; letter-spacing:-.01em}
+.clase .objetivo, .herramienta .intro{color:var(--tinta-2); margin:0 0 1rem}
+.clase h3{font-family:var(--display); font-weight:700; font-size:1.08rem; margin:1.6rem 0 .5rem; color:var(--acento)}
+.clase h4{font-family:var(--mono); font-size:.68rem; letter-spacing:.1em; text-transform:uppercase; color:var(--tinta-3); margin:1.1rem 0 .4rem}
+.conceptos{margin:0; padding-left:1.3rem}
+.conceptos li{margin:.35rem 0}
+code{font-family:var(--mono); font-size:.88em}
+.katex{font-size:1.05em}
+.expr{overflow-x:auto; overflow-y:hidden}
+
+.cuando{background:var(--acento-suave); border-left:3px solid var(--acento); border-radius:2px; padding:.7rem 1rem; margin:.7rem 0; font-size:.93rem}
+.cuando b:first-child{font-family:var(--mono); font-size:.66rem; letter-spacing:.1em; text-transform:uppercase; color:var(--acento); display:block; margin-bottom:.15rem}
+.cuando p{margin:.25rem 0}
+.cuando ul{margin:.25rem 0 0; padding-left:1.2rem}
+.errores{background:var(--alerta-suave); border-left:3px solid var(--alerta); border-radius:2px; padding:.8rem 1rem; margin-top:.9rem}
+.errores p{margin:0 0 .4rem; font-size:.92rem}
+.errores ul{margin:0; padding-left:1.2rem}
+.errores li{margin:.25rem 0; font-size:.9rem}
+
+.ejemplo{background:var(--papel-2); border:1px solid var(--linea); border-left:4px solid var(--tinta); border-radius:2px; padding:.9rem 1.1rem; margin:1rem 0}
+.ejemplo > .titulo{font-family:var(--mono); font-size:.64rem; letter-spacing:.12em; text-transform:uppercase; color:var(--tinta-3); margin:0 0 .3rem}
+.ejemplo p{margin:.35rem 0; font-size:.95rem}
+.ejemplo ol, .ejemplo ul{margin:.3rem 0 .3rem; padding-left:1.3rem; font-size:.94rem}
+.ejemplo li{margin:.25rem 0}
+.ejemplo .resp{font-family:var(--display); font-weight:700; color:var(--ok)}
+table.tabla{border-collapse:collapse; margin:.5rem 0; font-family:var(--mono); font-size:.8rem}
+table.tabla th, table.tabla td{border:1px solid var(--linea); padding:.25rem .6rem; text-align:right}
+table.tabla th{background:var(--papel-3); font-weight:600}
+.scroll-x{overflow-x:auto}
+
+/* ---- Hoja de fórmulas ---- */
+.hoja-barra{display:flex; gap:.5rem; flex-wrap:wrap; margin:.2rem 0 1rem}
+.hoja-barra button{cursor:pointer; font-family:var(--mono); font-size:.68rem; letter-spacing:.06em; padding:.45rem .8rem; background:var(--papel-2); color:var(--tinta-2); border:1px solid var(--linea); border-radius:2px}
+.hoja-barra button:hover{color:var(--tinta); border-color:var(--tinta-3)}
+.formula-grupo{margin:1.8rem 0 0}
+.formula-grupo > h3{font-family:var(--display); font-weight:700; font-size:1.1rem; color:var(--acento); margin:0 0 .5rem; padding-bottom:.3rem; border-bottom:1px solid var(--linea)}
+.formula-item{display:grid; grid-template-columns:minmax(140px,210px) minmax(0,1fr); gap:.3rem 1.2rem; padding:.7rem 0; border-bottom:1px solid var(--linea-2)}
+.formula-item .nombre{font-family:var(--display); font-weight:600; font-size:.93rem; line-height:1.3}
+.formula-item .nombre small{display:block; font-family:var(--mono); font-weight:400; font-size:.62rem; color:var(--tinta-3); letter-spacing:.03em; margin-top:.2rem; text-transform:none}
+.formula-item .expr{font-size:.98rem}
+.formula-item .nota{font-size:.84rem; color:var(--tinta-2); margin:.15rem 0 0}
+table.frases{border-collapse:collapse; width:100%; margin:.6rem 0; font-size:.9rem}
+table.frases th, table.frases td{border-bottom:1px solid var(--linea-2); padding:.4rem .5rem; text-align:left; vertical-align:top}
+table.frases th{font-family:var(--mono); font-size:.62rem; letter-spacing:.1em; text-transform:uppercase; color:var(--tinta-3); font-weight:400; border-bottom:1px solid var(--linea)}
+table.frases td:first-child{font-family:var(--display); font-weight:600}
+
+.dominio-fila{margin:0 0 1rem; max-width:640px}
+.dominio-cab{display:flex; justify-content:space-between; align-items:baseline; font-family:var(--display); font-size:.95rem; margin-bottom:.3rem}
+.dominio-cab b{font-family:var(--mono); font-size:.85rem; color:var(--tinta)}
+.dominio-barra{height:10px; background:var(--papel-3); border:1px solid var(--linea); border-radius:5px; overflow:hidden}
+.dominio-relleno{height:100%; background:var(--acento); border-radius:5px 0 0 5px; transition:width .4s ease}
+.dominio-nota{margin:.25rem 0 0; font-family:var(--mono); font-size:.62rem; color:var(--tinta-3)}
+.dominio-vacio{font-family:var(--mono); font-size:.85rem; color:var(--tinta-3)}
+.dominio-vacio.error{color:var(--alerta)}
+
+.glosario{display:grid; gap:0; margin:1.4rem 0; border-top:1px solid var(--linea)}
+.glosario > div{display:grid; grid-template-columns:minmax(150px,220px) 1fr; gap:1.2rem; padding:.75rem 0; border-bottom:1px solid var(--linea-2)}
+.glosario dt{font-family:var(--display); font-weight:600; font-size:.98rem}
+.glosario dt small{display:block; font-family:var(--mono); font-size:.6rem; color:var(--tinta-3); letter-spacing:.08em; text-transform:uppercase; font-weight:400; margin-top:.15rem}
+.glosario dd{margin:0; font-size:.9rem; color:var(--tinta-2)}
+
+.mazo-barra{display:flex; flex-wrap:wrap; gap:.4rem; align-items:center; margin:1.2rem 0}
+.mazo-barra button{font-family:var(--mono); font-size:.7rem; letter-spacing:.05em; padding:.4rem .7rem; cursor:pointer; background:var(--papel-2); color:var(--tinta-2); border:1px solid var(--linea); border-radius:2px}
+.mazo-barra button:hover{color:var(--tinta); border-color:var(--tinta-3)}
+.mazo-barra button.on{background:var(--tinta); color:var(--papel); border-color:var(--tinta)}
+.mazo-contador{font-family:var(--mono); font-size:.7rem; color:var(--tinta-3); margin-left:auto}
+.tarjeta{position:relative; margin:1rem 0; min-height:200px; cursor:pointer; background:var(--papel-2); border:1px solid var(--linea); border-top:3px solid var(--acento); border-radius:2px; padding:1.6rem 1.6rem 3rem; max-width:720px}
+.tarjeta .marca{font-family:var(--mono); font-size:.6rem; letter-spacing:.13em; text-transform:uppercase; color:var(--acento); margin-bottom:.8rem}
+.tarjeta .frente{font-family:var(--display); font-weight:700; font-size:1.3rem; line-height:1.3; margin:0}
+.tarjeta .dorso{margin:1.1rem 0 0; font-size:.95rem; border-top:1px dashed var(--linea); padding-top:1rem; white-space:pre-wrap}
+.tarjeta .pista{position:absolute; left:1.6rem; bottom:1rem; font-family:var(--mono); font-size:.66rem; color:var(--tinta-3)}
+.mazo-nav{display:flex; gap:.4rem; align-items:center; max-width:720px}
+.mazo-nav button{font-family:var(--mono); font-size:.72rem; padding:.45rem .9rem; cursor:pointer; background:var(--papel-2); color:var(--tinta); border:1px solid var(--linea); border-radius:2px}
+.mazo-nav button:hover{border-color:var(--tinta-3)}
+
+.acceso-simulacro{display:flex; gap:.6rem; flex-wrap:wrap; margin-top:2.5rem; padding-top:1.5rem; border-top:1px solid var(--linea)}
+.acceso-simulacro a{font-family:var(--display); font-size:.9rem; text-decoration:none; padding:.55rem .9rem; border:1px solid var(--linea); border-radius:2px; background:var(--papel-2); color:var(--tinta)}
+.acceso-simulacro a.principal{background:var(--acento); border-color:var(--acento); color:var(--papel)}
+
+@media (max-width:900px){
+  .envoltorio{grid-template-columns:minmax(0,1fr)}
+  .riel{position:static; height:auto}
+  .glosario > div, .formula-item{grid-template-columns:1fr; gap:.25rem}
+}
+@media print{
+  .riel, #btn-abrir, .hoja-barra, .acceso-simulacro{display:none !important}
+  .envoltorio{display:block}
+  body{background:#fff; color:#000; font-size:11.5px}
+  .lienzo{max-width:none; padding:0}
+  .clase, .herramienta{break-inside:auto}
+  .formula-item{break-inside:avoid}
+  .ejemplo, .cuando, .errores{break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<div class="envoltorio" id="envoltorio">
+<button class="btn-riel" id="btn-abrir" type="button" title="Mostrar barra lateral" aria-label="Mostrar barra lateral">☰ ÍNDICE</button>
+<aside class="riel">
+  <a class="riel-volver" href="index.html">← Materias</a>
+  <div class="riel-marca">
+    <div>
+      <b>Estadística<br>General</b>
+      <span>UADE · 2.º cuatrimestre 2026 · 1.er parcial</span>
+    </div>
+    <button class="btn-riel" id="btn-cerrar" type="button" title="Ocultar barra lateral" aria-label="Ocultar barra lateral">✕</button>
+  </div>
+
+  <div class="buscador">
+    <label class="oculto" for="q">Buscar concepto</label>
+    <input id="q" type="search" placeholder="buscar fórmula o concepto…" autocomplete="off">
+    <p id="q-estado">hoja de fórmulas · 3 temas · glosario · flashcards</p>
+  </div>
+
+  <nav id="nav">
+    <div class="riel-grupo">Panorama</div>
+    <a class="item" href="#dominio-sec">▲ Tu dominio por tema</a>
+    <a class="item" href="#hoja">∑ Hoja de fórmulas</a>
+    <a class="item" href="#decidir">? ¿Qué uso en cada caso?</a>
+    <div class="riel-grupo">Temas</div>
+    <a class="item" href="#t1">1 · Estadística descriptiva</a>
+    <a class="item" href="#t2">2 · Probabilidad</a>
+    <a class="item" href="#t3">3 · Variables discretas</a>
+    <a class="item" href="#t3b">3b · Binomial, Pascal, Hipergeométrico</a>
+    <div class="riel-grupo">Herramientas</div>
+    <a class="item" href="#errores-tipicos">⚠ Errores típicos</a>
+    <a class="item" href="#calculadora">▦ Calculadora y GeoGebra</a>
+    <a class="item" href="#glosario">A–Z Glosario</a>
+    <a class="item" href="#flashcards">▤ Flashcards</a>
+    <div class="riel-grupo">Práctica</div>
+    <a class="item externo" href="simulacro-estadistica.html">▶ Simulacro del parcial ↗</a>
+    <a class="item externo" href="leaderboard-estadistica.html">★ Leaderboard ↗</a>
+  </nav>
+  <div class="riel-pie">
+    <div id="chip-sesion" style="margin-bottom:.6rem"></div>
+    <button class="btn-tema" id="btn-tema" type="button">MODO OSCURO</button>
+  </div>
+</aside>
+
+<main class="lienzo">
+  <header class="portada">
+    <p class="cintillo">Apunte práctico · Temas 1 a 3 · Primer parcial</p>
+    <h1>Todo lo que hace falta<br>para resolver<br><i>y saber cuándo usar qué</i></h1>
+    <p>
+      La cátedra evalúa si <strong>reconocés el modelo</strong> y lo aplicás con las fórmulas correctas. Por eso este apunte arranca con la
+      <a href="#hoja">hoja de fórmulas</a> (para tener al lado mientras practicás), sigue con una <a href="#decidir">guía para decidir qué herramienta usar</a>
+      según cómo esté escrito el enunciado, y después cada tema con ejemplos resueltos paso a paso. Cubre lo que entra en el primer parcial:
+      temas 1 y 2 completos y del tema 3 la parte de variables discretas (sin expectativas parciales).
+    </p>
+  </header>
+
+  <section class="herramienta" id="dominio-sec" data-busca="tu dominio por tema progreso mastery">
+    <p class="eyebrow">Basado en tus exámenes rendidos</p>
+    <h2>Tu dominio por tema</h2>
+    <p class="intro">Se actualiza con cada "★ Rendir examen" que finalizás — la práctica libre no suma acá.</p>
+    <div id="dominio"><p class="dominio-vacio">Cargando…</p></div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <section class="herramienta" id="hoja" data-busca="hoja de formulas formulario resumen chuleta cheat sheet">
+    <p class="eyebrow">Para tener a mano</p>
+    <h2>Hoja de fórmulas</h2>
+    <p class="intro">Todo lo que se usa en los ejercicios del primer parcial, ordenado por tema y con una nota de <em>cuándo</em> se usa. Notación de la cátedra: <strong>F</strong> = probabilidad acumulada hasta el valor (≤), <strong>G</strong> = desde el valor (≥).</p>
+    <div class="hoja-barra"><button type="button" id="btn-imprimir">⎙ Imprimir / guardar PDF</button></div>
+
+    <div class="formula-grupo">
+      <h3>1 · Estadística descriptiva</h3>
+
+      <div class="formula-item"><div class="nombre">Datos agrupados: preparación<small>siempre lo primero</small></div><div>
+        <div class="expr">\( x_i=\dfrac{L_{inf}+L_{sup}}{2}\qquad A=L_{sup}-L_{inf}\qquad n=\sum f_i \)</div>
+        <p class="nota">Marca de clase \(x_i\), amplitud \(A\), frecuencia acumulada \(F_i\) (suma de las f hasta esa clase). Armá siempre la tabla con columnas \(f_i\), \(x_i\), \(F_i\).</p></div></div>
+
+      <div class="formula-item"><div class="nombre">Media<small>promedio</small></div><div>
+        <div class="expr">\( \bar x=\dfrac{\sum x_i}{n}\ \text{(sin agrupar)}\qquad \bar x=\dfrac{\sum x_i\,f_i}{n}\ \text{(agrupados)} \)</div>
+        <p class="nota">Sensible a valores extremos (outliers).</p></div></div>
+
+      <div class="formula-item"><div class="nombre">Mediana<small>valor central</small></div><div>
+        <div class="expr">\( Me=L_{i-1}+\dfrac{\frac{n}{2}-F_{i-1}}{f_i}\cdot A \)</div>
+        <p class="nota">Agrupados: \(L_{i-1}\) = límite inferior de la clase donde se alcanza la posición \(n/2\); \(F_{i-1}\) = acumulada de la clase anterior; \(f_i\) = frecuencia de esa clase. Sin agrupar: ordenar; \(n\) impar → dato central; \(n\) par → promedio de los dos centrales. Robusta frente a outliers.</p></div></div>
+
+      <div class="formula-item"><div class="nombre">Moda<small>lo más frecuente</small></div><div>
+        <div class="expr">\( Mo=L_{i-1}+\dfrac{d_1}{d_1+d_2}\cdot A\qquad d_1=f_i-f_{i-1},\ \ d_2=f_i-f_{i+1} \)</div>
+        <p class="nota">Clase modal = la de mayor \(f_i\). Sin agrupar: el valor que más se repite.</p></div></div>
+
+      <div class="formula-item"><div class="nombre">Cuartiles y percentiles<small>fractiles (agrupados)</small></div><div>
+        <div class="expr">\( P_k=L_{i-1}+\dfrac{\frac{k\,n}{100}-F_{i-1}}{f_i}\cdot A\qquad Q_1=P_{25},\ \ Q_3=P_{75} \)</div>
+        <p class="nota">Se busca la clase donde la acumulada llega a la posición \(kn/100\) (para \(Q_1\): \(n/4\); para \(Q_3\): \(3n/4\)). "El 25 % más rápido/bajo" → \(Q_1\). "Lo superan el 95 %" → percentil 5.</p></div></div>
+
+      <div class="formula-item"><div class="nombre">Rango<small>dispersión simple</small></div><div>
+        <div class="expr">\( R=x_{max}-x_{min}\qquad RIC=Q_3-Q_1 \)</div>
+        <p class="nota">Agrupados: límite superior de la última clase − límite inferior de la primera.</p></div></div>
+
+      <div class="formula-item"><div class="nombre">Varianza y desvío<small>muestrales (n − 1)</small></div><div>
+        <div class="expr">\( s^2=\dfrac{\sum f_i\,(x_i-\bar x)^2}{n-1}\qquad s=\sqrt{s^2} \)</div>
+        <p class="nota">Equivalente: \( s^2=\dfrac{\sum f_i x_i^2-n\bar x^2}{n-1} \). Si los datos son la población entera se divide por \(n\) (σ). En el parcial: <strong>muestra → n − 1</strong>. Unidades: la varianza en unidades², el desvío en las unidades originales.</p></div></div>
+
+      <div class="formula-item"><div class="nombre">Coeficiente de variación<small>¿es representativa la media?</small></div><div>
+        <div class="expr">\( CV=\dfrac{s}{\bar x}\cdot 100\,\% \)</div>
+        <p class="nota">Hasta 20 % → datos homogéneos, la media es representativa (menos de 5 %: muy representativa). Más de 20 % → heterogéneos/dispersos, la media representa mal.</p></div></div>
+
+      <div class="formula-item"><div class="nombre">Asimetría<small>forma</small></div><div>
+        <div class="expr">\( Mo<Me<\bar x\ \Rightarrow\ \text{positiva (cola a la derecha)}\qquad Mo>Me>\bar x\ \Rightarrow\ \text{negativa} \)</div>
+        <p class="nota">Si media, mediana y moda coinciden, la distribución es simétrica.</p></div></div>
+
+      <div class="formula-item"><div class="nombre">Porcentaje de casos<small>P(x &lt; a) en tablas</small></div><div>
+        <div class="expr">\( P(x\lt a)=\dfrac{F_{i-1}+\frac{a-L_{i-1}}{A}\,f_i}{n} \)</div>
+        <p class="nota">Interpolación en la ojiva: si \(a\) cae justo en un límite de clase alcanza con la acumulada. \(P(x\gt a)=1-P(x\lt a)\). Entre \(a\) y \(b\): resta de acumuladas. Condicional: se divide por la probabilidad de la condición.</p></div></div>
+    </div>
+
+    <div class="formula-grupo">
+      <h3>2 · Probabilidad</h3>
+
+      <div class="formula-item"><div class="nombre">Laplace<small>casos equiprobables</small></div><div>
+        <div class="expr">\( P(A)=\dfrac{\text{casos favorables}}{\text{casos posibles}} \)</div></div></div>
+
+      <div class="formula-item"><div class="nombre">Complemento<small>"al menos uno"</small></div><div>
+        <div class="expr">\( P(A')=1-P(A)\qquad P(\text{al menos uno})=1-P(\text{ninguno}) \)</div></div></div>
+
+      <div class="formula-item"><div class="nombre">Unión (regla de la suma)<small>"A o B"</small></div><div>
+        <div class="expr">\( P(A\cup B)=P(A)+P(B)-P(A\cap B) \)</div>
+        <p class="nota">Si A y B son <strong>excluyentes</strong> (no pueden ocurrir juntos), \(P(A\cap B)=0\) y se suman directo. Ni A ni B: \(1-P(A\cup B)\). Sólo A: \(P(A)-P(A\cap B)\).</p></div></div>
+
+      <div class="formula-item"><div class="nombre">Condicional<small>"dado que", "de los que"</small></div><div>
+        <div class="expr">\( P(A\mid B)=\dfrac{P(A\cap B)}{P(B)} \)</div>
+        <p class="nota">Se reduce el espacio muestral a B. Es lo que se calcula cuando la pregunta empieza con "de los que…" o "si sabemos que…".</p></div></div>
+
+      <div class="formula-item"><div class="nombre">Intersección (regla del producto)<small>"A y B"</small></div><div>
+        <div class="expr">\( P(A\cap B)=P(A)\,P(B\mid A)\qquad \text{independientes: } P(A\cap B)=P(A)\,P(B) \)</div>
+        <p class="nota">A y B son independientes si \(P(A\mid B)=P(A)\), o equivalentemente si \(P(A\cap B)=P(A)P(B)\). Con reposición las extracciones son independientes; sin reposición no.</p></div></div>
+
+      <div class="formula-item"><div class="nombre">Probabilidad total<small>hay etapas o "orígenes"</small></div><div>
+        <div class="expr">\( P(B)=\sum_i P(A_i)\,P(B\mid A_i) \)</div>
+        <p class="nota">\(A_1,A_2,\dots\) son los orígenes posibles (máquinas, cajas, ramas del árbol): excluyentes y cubren todo.</p></div></div>
+
+      <div class="formula-item"><div class="nombre">Bayes<small>"si salió B, ¿de dónde vino?"</small></div><div>
+        <div class="expr">\( P(A_i\mid B)=\dfrac{P(A_i)\,P(B\mid A_i)}{\sum_j P(A_j)\,P(B\mid A_j)} \)</div>
+        <p class="nota">El denominador es la probabilidad total de B. Se usa cuando conocés el resultado y preguntás por la causa.</p></div></div>
+    </div>
+
+    <div class="formula-grupo">
+      <h3>3 · Variables aleatorias discretas</h3>
+
+      <div class="formula-item"><div class="nombre">Función de probabilidad<small>condiciones</small></div><div>
+        <div class="expr">\( p(x)\ge 0\qquad \sum p(x)=1\qquad F(x)=P(X\le x)=\sum_{t\le x}p(t) \)</div>
+        <p class="nota">Para hallar una constante desconocida: igualar la suma de todas las probabilidades a 1.</p></div></div>
+
+      <div class="formula-item"><div class="nombre">Esperanza y varianza</div><div>
+        <div class="expr">\( E(X)=\sum x\,p(x)\qquad V(X)=E(X^2)-[E(X)]^2\qquad E(X^2)=\sum x^2p(x) \)</div>
+        <p class="nota">\(\sigma=\sqrt{V(X)}\). Propiedades: \(E(aX+b)=aE(X)+b\); \(V(aX+b)=a^2V(X)\).</p></div></div>
+
+      <div class="formula-item"><div class="nombre">Binomial<small>éxitos en n ensayos</small></div><div>
+        <div class="expr">\( p(r)=\binom{n}{r}p^{r}(1-p)^{n-r}\quad r=0,1,\dots,n\qquad E=np\qquad V=np(1-p) \)</div>
+        <p class="nota">\(X\sim B(n,p)\). \(F_b(r/n;p)=P(X\le r)\); \(G_b(r/n;p)=P(X\ge r)\).</p></div></div>
+
+      <div class="formula-item"><div class="nombre">Pascal<small>ensayos hasta el r-ésimo éxito</small></div><div>
+        <div class="expr">\( p(n)=\binom{n-1}{r-1}p^{r}(1-p)^{n-r}\quad n=r,r+1,\dots\qquad E=\dfrac{r}{p}\qquad V=\dfrac{r(1-p)}{p^2} \)</div>
+        <p class="nota">Relación con la binomial: \(P(N\le n)=P\big(B(n,p)\ge r\big)\) y \(P(N\gt n)=P\big(B(n,p)\le r-1\big)\).</p></div></div>
+
+      <div class="formula-item"><div class="nombre">Hipergeométrico<small>éxitos en n extracciones sin reposición</small></div><div>
+        <div class="expr">\( p(r)=\dfrac{\binom{R}{r}\binom{N-R}{n-r}}{\binom{N}{n}}\qquad E=n\dfrac{R}{N}\qquad V=n\dfrac{R}{N}\Big(1-\dfrac{R}{N}\Big)\dfrac{N-n}{N-1} \)</div>
+        <p class="nota">\(N\) = total, \(R\) = éxitos en el total, \(n\) = muestra. Dominio: \(\max(0,\,n-(N-R))\le r\le\min(n,R)\).</p></div></div>
+
+      <div class="formula-item"><div class="nombre">HiperPascal<small>extracciones hasta el r-ésimo éxito</small></div><div>
+        <div class="expr">\( p(n)=\dfrac{\binom{R}{r-1}\binom{N-R}{n-r}}{\binom{N}{n-1}}\cdot\dfrac{R-r+1}{N-n+1}\qquad r\le n\le N-R+r \)</div>
+        <p class="nota">Lectura: en las primeras \(n-1\) extracciones hay \(r-1\) éxitos (hipergeométrica) y la \(n\)-ésima es éxito.</p></div></div>
+
+      <div class="formula-item"><div class="nombre">Traducir frases a F y G<small>la clave para no equivocarse</small></div><div>
+        <table class="frases">
+          <tr><th>El enunciado dice…</th><th>Se calcula</th></tr>
+          <tr><td>"exactamente k"</td><td>\(P(X=k)\)</td></tr>
+          <tr><td>"a lo sumo k", "como máximo k", "k o menos"</td><td>\(P(X\le k)=F(k)\)</td></tr>
+          <tr><td>"menos de k"</td><td>\(P(X\le k-1)=F(k-1)\)</td></tr>
+          <tr><td>"al menos k", "como mínimo k", "k o más"</td><td>\(P(X\ge k)=G(k)=1-F(k-1)\)</td></tr>
+          <tr><td>"más de k"</td><td>\(P(X\ge k+1)=1-F(k)\)</td></tr>
+          <tr><td>"entre a y b" (inclusive)</td><td>\(F(b)-F(a-1)\)</td></tr>
+          <tr><td>"menos de 12 buenas" (con X = defectuosas de 15)</td><td>≤ 11 buenas ⇔ ≥ 4 defectuosas → \(G(4)\)</td></tr>
+        </table></div></div>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <section class="clase" id="decidir" data-busca="decidir que modelo usar binomial pascal hipergeometrico hiperpascal cuando usar tipo de problema">
+    <p class="eyebrow">Guía de decisión</p>
+    <h2>¿Qué herramienta uso en cada caso?</h2>
+    <p class="objetivo">Antes de calcular, identificá <strong>qué tipo de problema es</strong>. Casi todo el parcial se resuelve preguntándote estas cosas en orden.</p>
+
+    <h3>Paso 1 · ¿Qué me piden?</h3>
+    <table class="frases">
+      <tr><th>Si el enunciado habla de…</th><th>Es un problema de…</th><th>Herramienta</th></tr>
+      <tr><td>Una tabla de intervalos, promedios, "desvío", "el 25 % más bajo", "coeficiente de variación"</td><td>Estadística descriptiva</td><td>Tabla con \(f_i,x_i,F_i\) → media, mediana, percentiles, \(s\), CV</td></tr>
+      <tr><td>Cajas/urnas, cartas, "elige al azar", "de los que…", porcentajes de personas con dos características</td><td>Probabilidad</td><td>Unión, condicional, árbol, tabla de doble entrada</td></tr>
+      <tr><td>"Si salió X, ¿cuál es la probabilidad de que venga de…?", pruebas médicas, máquinas que fabrican</td><td>Bayes</td><td>Probabilidad total + Bayes</td></tr>
+      <tr><td>Una tabla o fórmula de \(p(x)\), "media", "varianza", "constante"</td><td>Variable discreta genérica</td><td>\(E(X)\), \(V(X)\), \(F(x)\)</td></tr>
+      <tr><td>Piezas defectuosas en una muestra, aciertos, éxitos/fracasos repetidos</td><td>Proceso de Bernoulli o hipergeométrico</td><td>Paso 2</td></tr>
+    </table>
+
+    <h3>Paso 2 · Si hay "éxitos" y "fracasos": ¿qué modelo?</h3>
+    <p>Respondé dos preguntas:</p>
+    <ol class="conceptos">
+      <li><b>¿Hay reposición (o la población es enorme y la probabilidad \(p\) no cambia)?</b> Sí → proceso de <b>Bernoulli</b> (binomial / Pascal). No, y me dicen cuántos hay en el total (\(N\), \(R\)) → proceso <b>hipergeométrico</b>.</li>
+      <li><b>¿Qué es fijo y qué es lo que cuento?</b> Fijo el <em>número de pruebas/muestra</em> y cuento éxitos → binomial / hipergeométrico. Fijo el <em>número de éxitos</em> y cuento cuántas pruebas hacen falta → Pascal / hiperPascal.</li>
+    </ol>
+
+    <div class="scroll-x"><table class="frases">
+      <tr><th></th><th>Cuento ÉXITOS en una muestra fija (n)</th><th>Cuento PRUEBAS hasta r éxitos (r fijo)</th></tr>
+      <tr><td>Con reposición<br>(\(p\) constante)</td><td><b>Binomial</b><br>\(B(n,p)\)</td><td><b>Pascal</b><br>\(Pa(r,p)\)</td></tr>
+      <tr><td>Sin reposición<br>(población finita \(N\), \(R\) éxitos)</td><td><b>Hipergeométrico</b><br>\(H(N,R,n)\)</td><td><b>HiperPascal</b><br>\(HP(N,R,r)\)</td></tr>
+    </table></div>
+
+    <div class="cuando"><b>Frases gatillo</b>
+      <ul>
+        <li>"Una muestra de <em>15 piezas</em>… ¿cuál es la probabilidad de encontrar 2 defectuosas?" → <b>Binomial</b> (n fijo, p dada).</li>
+        <li>"Se examinan piezas <em>hasta encontrar la segunda</em> defectuosa" → <b>Pascal</b> (r = 2 fijo, cuento piezas).</li>
+        <li>"Un lote de <em>40 elementos</em> con 5 defectuosos, se prueban 5 <em>sin devolverlos</em>" → <b>Hipergeométrico</b>.</li>
+        <li>"Se sacan bolillas de una urna de 12 <em>hasta obtener la segunda roja</em>" → <b>HiperPascal</b>.</li>
+        <li>"Un proceso trabaja con un 10 % de defectuosas" (sin lote finito) → <b>Bernoulli</b>: binomial o Pascal.</li>
+      </ul>
+    </div>
+
+    <h3>Paso 3 · ¿Es un problema en dos pasos?</h3>
+    <p>Muchos ejercicios combinan cosas. Los patrones más comunes:</p>
+    <ul class="conceptos">
+      <li><b>Probabilidad total → binomial.</b> Primero calculás \(p\) de un evento mezclando orígenes; después contás cuántas veces ocurre en \(n\) ensayos. <em>(Envíos con retraso: motos, autos, camiones.)</em></li>
+      <li><b>Hipergeométrica → binomial.</b> Dentro de un lote sacás sin reposición (hipergeométrica) y calculás la probabilidad de aceptarlo; después los <em>lotes</em> son los ensayos y contás lotes aceptados (binomial). <em>(Tornillos: aceptar el lote, luego 18 de 20 lotes.)</em></li>
+      <li><b>Verosimilitud → Bayes.</b> Cada origen tiene una probabilidad de lo observado calculada con un modelo (binomial, hipergeométrico…), y después aplicás Bayes con esas verosimilitudes. <em>(Dos cajas sin identificar.)</em></li>
+      <li><b>Diseño ("¿cuántas pruebas?").</b> Se plantea la probabilidad en función de \(n\) y se despeja: \(1-q^n\ge\text{objetivo}\).</li>
+    </ul>
+  </section>
+
+  <!-- ===================================================================== -->
+  <section class="clase" id="t1" data-busca="estadistica descriptiva media mediana moda desvio varianza coeficiente de variacion cuartil percentil histograma ojiva datos agrupados">
+    <p class="eyebrow">Tema 1 · Clases 1 y 2</p>
+    <h2>Estadística descriptiva</h2>
+    <p class="objetivo">Resumir un conjunto de datos con números: dónde se centran (posición) y cuánto se dispersan (variabilidad).</p>
+
+    <h3>Conceptos base</h3>
+    <ul class="conceptos">
+      <li><b>Población</b> (tamaño \(N\)) es el total bajo estudio; <b>muestra</b> (tamaño \(n\)) es un subconjunto representativo. Medidas de la población = <em>parámetros</em>; de la muestra = <em>estimadores</em>.</li>
+      <li><b>Variable cualitativa</b>: nominal (sin orden: nacionalidad) u ordinal (con orden: nivel socioeconómico). <b>Cuantitativa</b>: discreta (valores sueltos, ej. hijos) o continua (cualquier valor en un intervalo, ej. saldo).</li>
+      <li><b>Frecuencias</b>: absoluta \(f_i\) (cuántas veces), relativa \(h_i=f_i/n\), porcentual \(h_i\cdot100\), y las acumuladas \(F_i\).</li>
+    </ul>
+
+    <div class="cuando"><b>¿Datos agrupados o sin agrupar?</b>
+      <ul>
+        <li>Te dan la lista de valores (12, 14, 9, …) → <b>sin agrupar</b>: trabajás directo con los valores (ordenás para mediana).</li>
+        <li>Te dan una tabla con intervalos y frecuencias → <b>agrupados</b>: usás marcas de clase e interpolación (las fórmulas de la hoja).</li>
+      </ul>
+    </div>
+
+    <h3>¿Media o mediana?</h3>
+    <div class="cuando"><b>Cuándo usar cada una</b>
+      <p><b>Media</b> si los datos son homogéneos y sin valores extremos. <b>Mediana</b> si hay outliers o la distribución es asimétrica (sueldos, precios de propiedades): la media se "tira" hacia el extremo.</p>
+    </div>
+    <div class="ejemplo"><p class="titulo">Ejemplo · sueldos con un valor extremo</p>
+      <p>Sueldos (miles de $): 90, 92, 95, 97, 100, 102, 105, 108, 110 y 800 (el gerente).</p>
+      <ul>
+        <li>Media = 1699 / 10 = <b>169,9</b> → "sueldo típico" engañoso: 9 de 10 cobran entre 90 y 110.</li>
+        <li>Mediana (n par → promedio de los dos centrales, 100 y 102) = <b>101</b> → mucho más representativa.</li>
+        <li>Moda &lt; mediana &lt; media → asimetría <b>positiva</b> (cola a la derecha).</li>
+      </ul>
+    </div>
+
+    <h3>Datos agrupados: el método paso a paso</h3>
+    <div class="ejemplo"><p class="titulo">Ejemplo resuelto · tiempos de fractura del acero (n = 75, A = 5)</p>
+      <div class="scroll-x"><table class="tabla">
+        <tr><th>Tiempo (min)</th><th>f</th><th>x<sub>i</sub></th><th>F</th><th>f·(x<sub>i</sub>−x̄)²</th></tr>
+        <tr><td>45–50</td><td>6</td><td>47,5</td><td>6</td><td>835,44</td></tr>
+        <tr><td>50–55</td><td>14</td><td>52,5</td><td>20</td><td>647,36</td></tr>
+        <tr><td>55–60</td><td>22</td><td>57,5</td><td>42</td><td>71,28</td></tr>
+        <tr><td>60–65</td><td>18</td><td>62,5</td><td>60</td><td>184,32</td></tr>
+        <tr><td>65–70</td><td>10</td><td>67,5</td><td>70</td><td>672,40</td></tr>
+        <tr><td>70–75</td><td>5</td><td>72,5</td><td>75</td><td>871,20</td></tr>
+        <tr><td><b>Total</b></td><td>75</td><td></td><td></td><td>3282</td></tr>
+      </table></div>
+      <ol>
+        <li><b>Media:</b> \(\sum x_if_i=4447{,}5\) → \(\bar x=4447{,}5/75=\mathbf{59{,}3}\) min.</li>
+        <li><b>Mediana:</b> \(n/2=37{,}5\) cae en 55–60 (\(F_{i-1}=20\), \(f_i=22\)): \(Me=55+\dfrac{37{,}5-20}{22}\cdot5=\mathbf{58{,}98}\).</li>
+        <li><b>Moda:</b> clase modal 55–60 (\(f=22\)): \(Mo=55+\dfrac{22-14}{(22-14)+(22-18)}\cdot5=\mathbf{58{,}33}\).</li>
+        <li><b>Varianza y desvío:</b> \(s^2=3282/74=44{,}35\); \(s=\sqrt{44{,}35}=\mathbf{6{,}66}\) min.</li>
+        <li><b>Q<sub>1</sub>:</b> \(n/4=18{,}75\) cae en 50–55 (\(F_{i-1}=6\), \(f=14\)): \(Q_1=50+\dfrac{18{,}75-6}{14}\cdot5=\mathbf{54{,}55}\) → "el tiempo máximo del 25 % más rápido".</li>
+        <li><b>CV:</b> \(6{,}66/59{,}3\cdot100=\mathbf{11{,}23\,\%}\) → menor a 20 %: <b>homogéneo</b>, la media es representativa.</li>
+      </ol>
+    </div>
+
+    <h3>Porcentajes a partir de una tabla (ojiva)</h3>
+    <div class="ejemplo"><p class="titulo">Ejemplo resuelto · defectuosas diarias (n = 160 días)</p>
+      <div class="scroll-x"><table class="tabla">
+        <tr><th>x (%)</th><th>0–2</th><th>2–4</th><th>4–6</th><th>6–8</th><th>8–10</th><th>10–12</th><th>12–14</th></tr>
+        <tr><td>días</td><td>4</td><td>26</td><td>50</td><td>35</td><td>25</td><td>14</td><td>6</td></tr>
+        <tr><td>F</td><td>4</td><td>30</td><td>80</td><td>115</td><td>140</td><td>154</td><td>160</td></tr>
+      </table></div>
+      <ul>
+        <li>\(P(x\gt2)=1-\dfrac{4}{160}=\mathbf{97{,}5\,\%}\) (hasta 2 se acumulan 4 días).</li>
+        <li>\(P(x\lt10)=\dfrac{140}{160}=\mathbf{87{,}5\,\%}\).</li>
+        <li>Condicional: \(P(x\lt10\mid x\gt4)=\dfrac{140-30}{160-30}=\dfrac{110}{130}=\mathbf{84{,}62\,\%}\) → el "de los días que…" reduce el universo: en el denominador van sólo los días con \(x\gt4\).</li>
+      </ul>
+    </div>
+
+    <div class="errores"><p><b>Errores típicos</b></p>
+      <ul>
+        <li>Usar el límite de clase en vez de la <b>marca de clase</b> para la media y el desvío.</li>
+        <li>Dividir por \(n\) en lugar de \(n-1\) en la varianza cuando los datos son una muestra.</li>
+        <li>En la mediana, usar \(F_i\) de la clase en vez de \(F_{i-1}\) (la acumulada <em>anterior</em>).</li>
+        <li>Confundir "el 25 % más lento" (\(Q_3\)) con "el 25 % más rápido" (\(Q_1\)).</li>
+        <li>Interpretar el CV con la media de otro conjunto: el CV compara dispersión relativa, no absoluta.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <section class="clase" id="t2" data-busca="probabilidad condicional bayes probabilidad total independencia union excluyentes compatibles laplace complemento reposicion arbol">
+    <p class="eyebrow">Tema 2 · Clases 3 y 4</p>
+    <h2>Teoría de la probabilidad</h2>
+    <p class="objetivo">Calcular la probabilidad de eventos combinando reglas: suma, producto, condicional, total y Bayes.</p>
+
+    <h3>Vocabulario</h3>
+    <ul class="conceptos">
+      <li><b>Experimento aleatorio</b>: repetido en las mismas condiciones no garantiza el mismo resultado. <b>Espacio muestral</b> \(S\): todos los resultados posibles. <b>Evento</b>: subconjunto de \(S\).</li>
+      <li><b>Excluyentes</b> (incompatibles): no pueden ocurrir a la vez (cara y ceca). <b>Compatibles</b>: pueden ocurrir juntos (par y mayor que 3 en un dado: 4 y 6). <b>Independientes</b>: que ocurra uno no cambia la probabilidad del otro.</li>
+    </ul>
+
+    <h3>¿Qué regla uso?</h3>
+    <table class="frases">
+      <tr><th>Pregunta del tipo…</th><th>Regla</th></tr>
+      <tr><td>"A <b>o</b> B", "al menos uno de los dos", "lee algún diario"</td><td>Unión: \(P(A)+P(B)-P(A\cap B)\)</td></tr>
+      <tr><td>"A <b>y</b> B", "ambos", "los dos"</td><td>Intersección: \(P(A)\cdot P(B\mid A)\) (o producto si son independientes)</td></tr>
+      <tr><td>"<b>De los que</b> tienen A, ¿qué porcentaje tiene B?", "sabiendo que…", "dado que…"</td><td>Condicional: \(P(B\cap A)/P(A)\)</td></tr>
+      <tr><td>"Sólo A", "A y no B"</td><td>\(P(A)-P(A\cap B)\)</td></tr>
+      <tr><td>"Ninguno", "no tiene cuenta en ninguno"</td><td>\(1-P(A\cup B)\)</td></tr>
+      <tr><td>"Al menos uno" en varias extracciones</td><td>Complemento: \(1-P(\text{ninguno})\)</td></tr>
+      <tr><td>Se elige <b>una caja/máquina al azar</b> y después pasa algo</td><td>Probabilidad total (árbol)</td></tr>
+      <tr><td>Te dan el resultado y preguntás por el origen</td><td>Bayes</td></tr>
+    </table>
+
+    <div class="cuando"><b>Truco: tabla de doble entrada</b>
+      <p>Cuando hay dos características (A y B), armá una tabla con \(P(A\cap B)\), \(P(A\cap B')\), \(P(A'\cap B)\), \(P(A'\cap B')\) y sus totales. Con dos o tres datos del enunciado completás todo, y cualquier condicional sale dividiendo una celda por un total.</p>
+    </div>
+
+    <div class="ejemplo"><p class="titulo">Ejemplo resuelto · P(A)=1/2, P(B)=1/3, P(A∩B)=1/4</p>
+      <div class="scroll-x"><table class="tabla">
+        <tr><th></th><th>A</th><th>A'</th><th>total</th></tr>
+        <tr><td>B</td><td>1/4</td><td>1/12</td><td>1/3</td></tr>
+        <tr><td>B'</td><td>1/4</td><td>5/12</td><td>2/3</td></tr>
+        <tr><td>total</td><td>1/2</td><td>1/2</td><td>1</td></tr>
+      </table></div>
+      <ul>
+        <li>\(P(A\mid B)=\dfrac{1/4}{1/3}=\mathbf{3/4}\)  ·  \(P(B\mid A)=\dfrac{1/4}{1/2}=\mathbf{1/2}\)</li>
+        <li>\(P(A\cup B)=\dfrac12+\dfrac13-\dfrac14=\mathbf{7/12}\)</li>
+        <li>\(P(A'\mid B')=\dfrac{5/12}{2/3}=\mathbf{5/8}\)  ·  \(P(B'\mid A')=\dfrac{5/12}{1/2}=\mathbf{5/6}\)</li>
+        <li>¿Independientes? \(P(A)P(B)=1/6\ne1/4=P(A\cap B)\) → <b>no</b>.</li>
+      </ul>
+    </div>
+
+    <h3>Con y sin reposición</h3>
+    <div class="ejemplo"><p class="titulo">Ejemplo resuelto · caja con 7 bolillas blancas y 3 rojas, se sacan 2</p>
+      <ul>
+        <li><b>Con reposición</b> (independientes): \(P(BB)=\dfrac{7}{10}\cdot\dfrac{7}{10}=\mathbf{0{,}49}\); mismo color: \(0{,}49+\dfrac{3}{10}\cdot\dfrac{3}{10}=\mathbf{0{,}58}\).</li>
+        <li><b>Sin reposición</b> (la 2.ª depende de la 1.ª): \(P(BB)=\dfrac{7}{10}\cdot\dfrac{6}{9}=\dfrac{7}{15}=\mathbf{0{,}4667}\).</li>
+        <li>"Al menos una roja" sin reposición: \(1-P(BB)=1-\dfrac{7}{15}=\mathbf{0{,}5333}\).</li>
+      </ul>
+    </div>
+
+    <h3>Probabilidad total y Bayes</h3>
+    <div class="cuando"><b>Cómo distinguirlos</b>
+      <p><b>Total</b>: conocés los orígenes y preguntás por la probabilidad de un <em>resultado</em> (¿qué probabilidad hay de que salga blanca?). <b>Bayes</b>: conocés el resultado y preguntás por el <em>origen</em> (si salió blanca, ¿cuál es la probabilidad de que venga de la caja 1?). El denominador de Bayes es justamente la probabilidad total.</p>
+    </div>
+    <div class="ejemplo"><p class="titulo">Ejemplo resuelto · dos cajas al azar</p>
+      <p>C1: 7 blancas y 3 rojas. C2: 8 blancas y 12 rojas. Se elige una caja al azar y se extrae una bolilla.</p>
+      <ol>
+        <li><b>Total:</b> \(P(B)=\tfrac12\cdot\tfrac{7}{10}+\tfrac12\cdot\tfrac{8}{20}=0{,}35+0{,}20=\mathbf{0{,}55}\).</li>
+        <li><b>Bayes:</b> \(P(C_1\mid B)=\dfrac{\tfrac12\cdot\tfrac{7}{10}}{0{,}55}=\dfrac{0{,}35}{0{,}55}=\dfrac{7}{11}=\mathbf{0{,}6364}\).</li>
+      </ol>
+    </div>
+    <div class="ejemplo"><p class="titulo">Ejemplo resuelto · test para una enfermedad</p>
+      <p>Confiabilidad 95 % en enfermos y 99 % en sanos; el 4 % de la población está enferma.</p>
+      <ol>
+        <li>\(P(+)=0{,}04\cdot0{,}95+0{,}96\cdot0{,}01=0{,}038+0{,}0096=\mathbf{0{,}0476}\).</li>
+        <li>\(P(\text{enfermo}\mid+)=\dfrac{0{,}038}{0{,}0476}=\mathbf{0{,}7983}\).</li>
+      </ol>
+      <p>Aunque el test es "muy bueno", sólo ~80 % de los positivos están enfermos porque la enfermedad es rara.</p>
+    </div>
+
+    <div class="errores"><p><b>Errores típicos</b></p>
+      <ul>
+        <li>Restar \(P(A\cap B)\) al sumar eventos <em>excluyentes</em> (no hace falta: es 0) o <em>olvidarlo</em> con compatibles.</li>
+        <li>Tomar como \(P(A\cap B)\) un porcentaje que en realidad es condicional ("el 20 % <em>de éstos</em> tiene…").</li>
+        <li>Multiplicar directo en extracciones sin reposición sin actualizar las cantidades (7/10·<b>6/9</b>, no 7/10·7/10).</li>
+        <li>Creer que una bolilla apartada <em>sin mirar</em> cambia la probabilidad de la siguiente: por simetría no cambia.</li>
+        <li>En Bayes, olvidar dividir por la probabilidad <em>total</em> del resultado.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <section class="clase" id="t3" data-busca="variable aleatoria discreta funcion de probabilidad esperanza varianza distribucion acumulada constante">
+    <p class="eyebrow">Tema 3 · Clases 5, 6 y 7</p>
+    <h2>Variables aleatorias discretas</h2>
+    <p class="objetivo">Una variable aleatoria asigna un número a cada resultado de un experimento. Es <b>discreta</b> si toma valores sueltos (0, 1, 2…).</p>
+
+    <ul class="conceptos">
+      <li>Hay que fijar el <b>dominio</b> de la variable (qué valores puede tomar).</li>
+      <li>La <b>función de probabilidad</b> \(p(x)=P(X=x)\) es válida si \(p(x)\ge0\) y \(\sum p(x)=1\). Puede venir de una tabla o de un <b>modelo</b> (binomial, Pascal…).</li>
+      <li>La <b>función de distribución</b> es la acumulada: \(F(x)=P(X\le x)\).</li>
+    </ul>
+
+    <div class="cuando"><b>Cómo saber si una tabla es una distribución válida</b>
+      <p>Sumá todas las probabilidades: tiene que dar exactamente 1 y ninguna puede ser negativa. Si la suma da 7/10 o 11/10, <em>no</em> es válida.</p>
+    </div>
+
+    <div class="ejemplo"><p class="titulo">Ejemplo resuelto · esperanza y varianza</p>
+      <p>\(X\): 1, 2, 3, 4 con probabilidades 0,2 · 0,4 · 0,3 · 0,1.</p>
+      <ol>
+        <li>Válida: \(0{,}2+0{,}4+0{,}3+0{,}1=1\) ✓.</li>
+        <li>\(E(X)=1(0{,}2)+2(0{,}4)+3(0{,}3)+4(0{,}1)=\mathbf{2{,}3}\).</li>
+        <li>\(E(X^2)=1(0{,}2)+4(0{,}4)+9(0{,}3)+16(0{,}1)=6{,}1\) → \(V(X)=6{,}1-2{,}3^2=\mathbf{0{,}81}\); \(\sigma=0{,}9\).</li>
+        <li>\(P(X\ge3)=0{,}3+0{,}1=0{,}4\); \(F(2)=0{,}2+0{,}4=0{,}6\).</li>
+      </ol>
+    </div>
+
+    <div class="ejemplo"><p class="titulo">Ejemplo resuelto · hallar una constante</p>
+      <p>\(P(r)=a/2^r\) para \(r=0,1,2,3\).</p>
+      <ol>
+        <li>Suma = 1: \(a\left(1+\tfrac12+\tfrac14+\tfrac18\right)=a\cdot\tfrac{15}{8}=1\) → \(a=\tfrac{8}{15}=\mathbf{0{,}5333}\).</li>
+        <li>Media: \(a\left(0+\tfrac12+\tfrac24+\tfrac38\right)=a\cdot\tfrac{11}{8}=\tfrac{11}{15}=\mathbf{0{,}7333}\).</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <section class="clase" id="t3b" data-busca="binomial pascal hipergeometrico hiperpascal bernoulli proceso control de calidad lote muestra defectuosas">
+    <p class="eyebrow">Tema 3 · Clases 6 y 7</p>
+    <h2>Binomial, Pascal e hipergeométrico</h2>
+    <p class="objetivo">Los tres modelos que más aparecen en control de calidad. Repasá la <a href="#decidir">guía de decisión</a> para elegir el correcto.</p>
+
+    <h3>Proceso de Bernoulli</h3>
+    <p>Un experimento con solo dos resultados (éxito / fracaso), repetido en las mismas condiciones, con ensayos <b>independientes</b> y probabilidad de éxito \(p\) <b>constante</b> (típico: tirar una moneda, sacar <em>con</em> reposición, un proceso que trabaja con un % de defectuosas). Según qué fijes, la variable es distinta: fijás \(n\) → contás éxitos (binomial); fijás \(r\) → contás ensayos (Pascal).</p>
+
+    <h3>Binomial</h3>
+    <div class="cuando"><b>Cuándo</b>
+      <p>n ensayos independientes, p constante, cuento cuántos éxitos hubo. Palabras: "en una muestra de 15 piezas", "en 20 días", "de 100 envíos".</p></div>
+    <div class="ejemplo"><p class="titulo">Ejemplo resuelto · muestra de 15 piezas con 10 % de defectuosas</p>
+      <p>\(X\sim B(15;\,0{,}10)\), \(X\) = defectuosas.</p>
+      <ul>
+        <li>"2 o menos": \(P(X\le2)=F_b(2/15;0{,}1)=\mathbf{0{,}8159}\).</li>
+        <li>"Exactamente 2": \(\binom{15}{2}0{,}1^2\,0{,}9^{13}=105\cdot0{,}01\cdot0{,}2542=\mathbf{0{,}2669}\).</li>
+        <li>"Menos de 12 buenas" = 11 buenas o menos = <b>4 o más defectuosas</b>: \(P(X\ge4)=1-P(X\le3)=\mathbf{0{,}0556}\).</li>
+      </ul>
+      <p>Regla: traducí siempre a la variable que estás modelando (defectuosas), no a la del enunciado (buenas).</p>
+    </div>
+    <div class="ejemplo"><p class="titulo">Ejemplo resuelto · "al menos una" y diseño</p>
+      <p>Una muestra de 10 latas; se detiene el proceso si alguna es defectuosa. El proceso trabaja al 1 %.</p>
+      <ul>
+        <li>Se revisa innecesariamente: \(P(X\ge1)=1-0{,}99^{10}=\mathbf{0{,}0956}\).</li>
+        <li>¿Cuántas latas para detectar con 0,95 un proceso al 10 %? \(1-0{,}9^n\ge0{,}95\Rightarrow n\ge\dfrac{\ln0{,}05}{\ln0{,}9}=28{,}4\Rightarrow\mathbf{n=29}\).</li>
+      </ul>
+    </div>
+
+    <h3>Pascal</h3>
+    <div class="cuando"><b>Cuándo</b>
+      <p>Repito ensayos hasta conseguir el \(r\)-ésimo éxito y cuento cuántos ensayos hicieron falta. Palabras: "hasta encontrar la segunda defectuosa", "cuántas piezas hay que fabricar para obtener 10 buenas". Dominio: \(n\ge r\).</p></div>
+    <div class="ejemplo"><p class="titulo">Ejemplo resuelto · hasta la 2.ª defectuosa (p = 0,20)</p>
+      <ul>
+        <li>Exactamente 12: \(\binom{11}{1}0{,}2^2\,0{,}8^{10}=11\cdot0{,}04\cdot0{,}1074=\mathbf{0{,}0473}\).</li>
+        <li>8 o menos: \(F_{pa}(8/2;0{,}2)=\mathbf{0{,}4967}\).</li>
+        <li>12 o más: \(1-F_{pa}(11/2;0{,}2)=\mathbf{0{,}3221}\).</li>
+        <li>Verificación con la binomial: "necesito 8 o menos" ⇔ "en 8 pruebas hay al menos 2 defectuosas" = \(G_b(2/8;0{,}2)\) = 0,4967 ✓.</li>
+      </ul>
+    </div>
+
+    <h3>Hipergeométrico</h3>
+    <div class="cuando"><b>Cuándo</b>
+      <p>Población <b>finita</b> de \(N\) elementos con \(R\) éxitos; se extraen \(n\) <b>sin reposición</b>; cuento éxitos en la muestra. La probabilidad cambia en cada extracción (por eso no es binomial). Palabras: "un lote de 40 elementos con 5 defectuosos, se prueban 5", "una caja de 65 con 5 de segunda calidad".</p></div>
+    <div class="ejemplo"><p class="titulo">Ejemplo resuelto · cargamento de 40 elementos</p>
+      <p>Se prueban 5; si dos o más son defectuosos, se devuelve el cargamento.</p>
+      <ul>
+        <li>Con \(R=5\) defectuosos, se acepta si \(X\le1\): \(\dfrac{\binom50\binom{35}{5}+\binom51\binom{35}{4}}{\binom{40}{5}}=\mathbf{0{,}8912}\).</li>
+        <li>Con \(R=10\), no se acepta si \(X\ge2\): \(1-P(X\le1)=\mathbf{0{,}3669}\).</li>
+        <li>Esperanza con \(R=10\): \(nR/N=5\cdot10/40=1{,}25\) defectuosos.</li>
+      </ul>
+    </div>
+
+    <h3>HiperPascal</h3>
+    <div class="cuando"><b>Cuándo</b>
+      <p>Igual que el hipergeométrico, pero fijo la cantidad de éxitos \(r\) y cuento cuántas extracciones necesito. Palabras: "se extraen bolillas sin reposición hasta obtener la segunda roja". Dominio: \(r\le n\le N-R+r\).</p></div>
+    <div class="ejemplo"><p class="titulo">Ejemplo resuelto · urna de 12 bolillas (5 rojas), hasta la 2.ª roja</p>
+      <ul>
+        <li>Justo en la 4.ª extracción: \(\dfrac{\binom51\binom72}{\binom{12}{3}}\cdot\dfrac{5-2+1}{12-4+1}=\dfrac{105}{220}\cdot\dfrac49=\mathbf{0{,}2121}\).</li>
+        <li>5 extracciones o menos: \(P(2)+P(3)+P(4)+P(5)=\mathbf{0{,}7525}\).</li>
+      </ul>
+    </div>
+
+    <h3>Modelos combinados (los más "de parcial")</h3>
+    <div class="ejemplo"><p class="titulo">Probabilidad total → binomial</p>
+      <p>Mensajería: 40 % de los envíos en moto (5 % de retraso), 35 % en auto (3 %), 25 % en camión (7 %).</p>
+      <ol>
+        <li>\(p=0{,}40(0{,}05)+0{,}35(0{,}03)+0{,}25(0{,}07)=\mathbf{0{,}048}\).</li>
+        <li>En 100 envíos, \(X\sim B(100;0{,}048)\): como máximo 6 retrasos → \(F_b(6/100;0{,}048)=\mathbf{0{,}7950}\).</li>
+      </ol>
+    </div>
+    <div class="ejemplo"><p class="titulo">Hipergeométrica → binomial</p>
+      <p>Lote de 50 tornillos con 8 defectuosos; se revisan 5 y se acepta con máximo 1 defectuoso. Después se revisan 20 lotes iguales.</p>
+      <ol>
+        <li>Aceptar un lote (hipergeométrica): \(P(X\le1)=\mathbf{0{,}8241}\).</li>
+        <li>Lotes aceptados \(Y\sim B(20;\,0{,}8241)\): \(P(Y\ge18)=G_b(18/20;0{,}8241)=\mathbf{0{,}2907}\).</li>
+      </ol>
+    </div>
+    <div class="ejemplo"><p class="titulo">Hipergeométrico vs. hiperPascal (dos inspectores)</p>
+      <p>Cajas de 65 con 5 piezas de segunda. El inspector A toma 5 y rechaza si hay alguna de segunda. El inspector B saca hasta encontrar la 2.ª de segunda y rechaza si necesita 5 o menos.</p>
+      <ul>
+        <li>A (muestra fija) → hipergeométrica: \(1-\dfrac{\binom{60}{5}}{\binom{65}{5}}=\mathbf{33{,}88\,\%}\).</li>
+        <li>B (éxitos fijos) → hiperPascal: \(P(n\le5)=\mathbf{4{,}36\,\%}\).</li>
+      </ul>
+    </div>
+
+    <div class="errores"><p><b>Errores típicos</b></p>
+      <ul>
+        <li>Usar binomial cuando hay lote finito y extracción sin reposición (corresponde hipergeométrico).</li>
+        <li>Confundir Pascal con binomial: en Pascal la variable es el <em>número de ensayos</em>, y el último es siempre un éxito (por eso \(\binom{n-1}{r-1}\)).</li>
+        <li>"Menos de k" tomado como \(\le k\): es \(\le k-1\). "Más de k" es \(\ge k+1\).</li>
+        <li>Calcular G como 1 − F(k) en vez de 1 − F(<b>k − 1</b>).</li>
+        <li>En problemas en dos pasos, olvidarse de que el resultado del paso 1 es el \(p\) del paso 2.</li>
+        <li>Tomar como "éxito" lo bueno cuando el enunciado modela lo defectuoso (o al revés) y no traducir la desigualdad.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="herramienta" id="errores-tipicos" data-busca="errores tipicos trampas checklist antes de entregar">
+    <p class="eyebrow">Antes de entregar</p>
+    <h2>Checklist de parcial</h2>
+    <ol class="conceptos">
+      <li>¿Identifiqué el tipo de problema (descriptiva, probabilidad, modelo)? ¿Escribí <b>qué variable</b> estoy modelando y su dominio?</li>
+      <li>¿Los parámetros del modelo están bien puestos (\(n\), \(p\), \(r\), \(N\), \(R\))? ¿Es \(p\) o \(1-p\)?</li>
+      <li>¿Traduje bien "a lo sumo / menos de / al menos / más de / entre"?</li>
+      <li>¿El resultado tiene sentido? Una probabilidad va de 0 a 1; un desvío no es negativo; la media de una binomial es \(np\), no puede ser mayor que \(n\).</li>
+      <li>¿Contesté <b>todo lo que se pregunta</b> (a, b, c…) y con las unidades?</li>
+      <li>Redondeo: guardá 4 decimales en los pasos intermedios.</li>
+    </ol>
+  </section>
+
+  <section class="herramienta" id="calculadora" data-busca="calculadora geogebra distribuciones probability distributions binomial pascal hipergeometrica como cargar">
+    <p class="eyebrow">Para calcular rápido</p>
+    <h2>Calculadora y GeoGebra</h2>
+    <p class="intro">La cátedra permite la <b>GeoGebra Calculator Suite</b> (con "Modo Examen") y la app <i>Probability Distributions</i>. En GeoGebra: menú → <b>Distribuciones de probabilidad</b>.</p>
+    <ul class="conceptos">
+      <li><b>Binomial:</b> cargá <em>n</em> y <em>p</em>, elegí "P(X = k)", "P(X ≤ k)" o "P(X ≥ k)" y el valor <em>k</em>. Ideal para las acumuladas F y G.</li>
+      <li><b>Pascal:</b> cargá <em>r</em> (éxitos) y <em>p</em>. Devuelve la probabilidad para el número de ensayos.</li>
+      <li><b>Hipergeométrica:</b> cargá población <em>N</em>, éxitos en la población <em>R</em> y tamaño de muestra <em>n</em>.</li>
+      <li>Si no tenés tabla para tu distribución, usá la relación con la binomial (Pascal ↔ binomial) o sumá términos.</li>
+      <li>La hiperPascal no siempre está en la calculadora: se arma con la fórmula de la hoja o con la hipergeométrica más el factor \((R-r+1)/(N-n+1)\).</li>
+    </ul>
+  </section>
+
+  <section class="herramienta" id="glosario" data-busca="glosario definiciones terminos vocabulario">
+    <p class="eyebrow">Vocabulario</p>
+    <h2>Glosario</h2>
+    <dl class="glosario">
+      <div><dt>Población<small>N</small></dt><dd>Conjunto total de elementos bajo estudio. Sus medidas son parámetros.</dd></div>
+      <div><dt>Muestra<small>n</small></dt><dd>Subconjunto representativo de la población; se elige al azar. Sus medidas son estimadores.</dd></div>
+      <div><dt>Frecuencia acumulada<small>F<sub>i</sub></small></dt><dd>Suma de las frecuencias absolutas hasta una clase. Se usa para mediana, percentiles y probabilidades en tablas.</dd></div>
+      <div><dt>Marca de clase<small>x<sub>i</sub></small></dt><dd>Punto medio del intervalo. Representa a todos los datos de la clase.</dd></div>
+      <div><dt>Media</dt><dd>Promedio. Suma de los valores dividida por n. Afectada por valores extremos.</dd></div>
+      <div><dt>Mediana</dt><dd>Valor central: el 50 % de los datos queda por debajo. Robusta frente a outliers.</dd></div>
+      <div><dt>Moda</dt><dd>Valor o clase más frecuente.</dd></div>
+      <div><dt>Cuartil / Percentil</dt><dd>Fractil que deja por debajo el 25/50/75 % (cuartiles) o el k % (percentil) de los datos.</dd></div>
+      <div><dt>Rango intercuartílico</dt><dd>Q<sub>3</sub> − Q<sub>1</sub>: dispersión del 50 % central de los datos.</dd></div>
+      <div><dt>Varianza muestral<small>s²</small></dt><dd>Promedio de los desvíos al cuadrado respecto de la media, dividiendo por n − 1.</dd></div>
+      <div><dt>Coeficiente de variación</dt><dd>s / x̄ en %. Mide dispersión relativa: hasta 20 % la media es representativa.</dd></div>
+      <div><dt>Asimetría</dt><dd>Si la cola se estira a la derecha (media &gt; mediana &gt; moda) es positiva; a la izquierda, negativa.</dd></div>
+      <div><dt>Outlier</dt><dd>Valor muy alejado del resto; distorsiona la media.</dd></div>
+      <div><dt>Espacio muestral<small>S</small></dt><dd>Conjunto de todos los resultados posibles de un experimento aleatorio.</dd></div>
+      <div><dt>Eventos excluyentes</dt><dd>No pueden ocurrir a la vez: P(A∩B) = 0.</dd></div>
+      <div><dt>Eventos independientes</dt><dd>La ocurrencia de uno no cambia la probabilidad del otro: P(A∩B) = P(A)·P(B).</dd></div>
+      <div><dt>Probabilidad condicional</dt><dd>P(A|B) = P(A∩B) / P(B): probabilidad de A sabiendo que ocurrió B.</dd></div>
+      <div><dt>Probabilidad total</dt><dd>P(B) = Σ P(A<sub>i</sub>)·P(B|A<sub>i</sub>) sobre una partición de orígenes.</dd></div>
+      <div><dt>Teorema de Bayes</dt><dd>"Invierte" la condición: P(A<sub>i</sub>|B) = P(A<sub>i</sub>)P(B|A<sub>i</sub>) / P(B).</dd></div>
+      <div><dt>Variable aleatoria</dt><dd>Regla que asigna un número real a cada resultado de un experimento aleatorio.</dd></div>
+      <div><dt>Función de probabilidad<small>p(x)</small></dt><dd>Da P(X = x). Debe ser ≥ 0 y sumar 1.</dd></div>
+      <div><dt>Esperanza<small>E(X)</small></dt><dd>Valor medio de la variable: Σ x·p(x).</dd></div>
+      <div><dt>Proceso de Bernoulli</dt><dd>Ensayos independientes con dos resultados y probabilidad de éxito constante p.</dd></div>
+      <div><dt>Binomial</dt><dd>Número de éxitos en n ensayos de Bernoulli. E = np; V = np(1−p).</dd></div>
+      <div><dt>Pascal</dt><dd>Número de ensayos hasta obtener el r-ésimo éxito. E = r/p.</dd></div>
+      <div><dt>Hipergeométrico</dt><dd>Número de éxitos en una muestra sin reposición de una población finita (N, R).</dd></div>
+      <div><dt>HiperPascal</dt><dd>Número de extracciones sin reposición hasta obtener el r-ésimo éxito.</dd></div>
+    </dl>
+  </section>
+
+  <section class="herramienta" id="flashcards" data-busca="flashcards tarjetas repaso autoevaluacion practica">
+    <p class="eyebrow">Para repasar</p>
+    <h2>Flashcards</h2>
+    <p class="intro">Preguntas de reconocimiento y de "cuándo uso qué". Clic o Espacio para revelar la respuesta, flechas para moverte.</p>
+    <div class="mazo-barra">
+      <button type="button" class="on" data-filtro="todas">Todas</button>
+      <button type="button" data-filtro="1">Descriptiva</button>
+      <button type="button" data-filtro="2">Probabilidad</button>
+      <button type="button" data-filtro="3">Discretas</button>
+      <button type="button" id="mezclar">↻ MEZCLAR</button>
+      <span class="mazo-contador" id="contador">—</span>
+    </div>
+    <div class="tarjeta" id="tarjeta" tabindex="0" role="button" aria-live="polite">
+      <p class="marca" id="t-marca">—</p>
+      <p class="frente" id="t-frente">Cargando…</p>
+      <div class="dorso oculto" id="t-dorso"></div>
+      <p class="pista" id="t-pista">clic o Espacio para revelar</p>
+    </div>
+    <div class="mazo-nav">
+      <button type="button" id="anterior">← Anterior</button>
+      <button type="button" id="revelar">Revelar</button>
+      <button type="button" id="siguiente">Siguiente →</button>
+    </div>
+  </section>
+
+  <div class="acceso-simulacro">
+    <a class="principal" href="simulacro-estadistica.html">Ir al simulacro</a>
+    <a href="leaderboard-estadistica.html">Ver leaderboard</a>
+  </div>
+</main>
+</div>
+
+<script src="config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/auth.js"></script>
+<script src="js/num-api.js"></script>
+<script src="js/dominio-widget.js"></script>
+<script src="js/sesion.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<script>
+(function(){
+  "use strict";
+
+  /* ---------- FÓRMULAS (KaTeX) ---------- */
+  function renderizarFormulas(){
+    if(typeof renderMathInElement !== "function") return;
+    renderMathInElement(document.querySelector("main"), {
+      delimiters: [ {left:"\\(", right:"\\)", display:false}, {left:"\\[", right:"\\]", display:true} ],
+      throwOnError: false
+    });
+  }
+  window.addEventListener("load", renderizarFormulas);
+
+  /* ---------- TEMA ---------- */
+  var raiz = document.documentElement, btn = document.getElementById("btn-tema");
+  function aplicar(t){ raiz.setAttribute("data-tema", t); btn.textContent = t==="oscuro" ? "MODO CLARO" : "MODO OSCURO"; try{ localStorage.setItem("ia-tema", t); }catch(e){} }
+  var g=null; try{ g=localStorage.getItem("ia-tema"); }catch(e){}
+  if(!g) g = (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) ? "oscuro" : "claro";
+  aplicar(g);
+  btn.addEventListener("click", function(){ aplicar(raiz.getAttribute("data-tema")==="oscuro" ? "claro" : "oscuro"); });
+
+  document.getElementById("btn-imprimir").addEventListener("click", function(){
+    var h = document.getElementById("hoja");
+    h.scrollIntoView(); window.print();
+  });
+
+  /* ---------- RIEL PLEGABLE ---------- */
+  var envoltorio = document.getElementById("envoltorio");
+  function aplicarRiel(estado){
+    envoltorio.classList.toggle("riel-oculto", estado === "oculto");
+    try{ localStorage.setItem("estadistica-riel", estado); }catch(e){}
+  }
+  var rielGuardado = null;
+  try{ rielGuardado = localStorage.getItem("estadistica-riel"); }catch(e){}
+  if(rielGuardado === "oculto") aplicarRiel("oculto");
+  document.getElementById("btn-cerrar").addEventListener("click", function(){ aplicarRiel("oculto"); });
+  document.getElementById("btn-abrir").addEventListener("click", function(){ aplicarRiel("visible"); });
+  document.addEventListener("keydown", function(e){
+    if((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "b"){
+      e.preventDefault();
+      aplicarRiel(envoltorio.classList.contains("riel-oculto") ? "visible" : "oculto");
+    }
+  });
+
+  /* ---------- BUSCADOR ---------- */
+  var entrada = document.getElementById("q");
+  var estado  = document.getElementById("q-estado");
+  var textoInicial = estado.textContent;
+  function normalizar(t){ return String(t).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, ""); }
+
+  var lista = document.createElement("ul");
+  lista.id = "q-resultados"; lista.className = "oculto";
+  entrada.parentNode.insertBefore(lista, estado);
+
+  var INDICE = [];
+  function tituloSeccion(el){ var sec = el.closest("section"); var h = sec && sec.querySelector("h2"); return h ? h.textContent.trim() : ""; }
+  function agregar(el, titulo, extra){
+    var t = (titulo || "").trim(); if(!t) return;
+    INDICE.push({ el:el, titulo:t, seccion:tituloSeccion(el), texto:normalizar(t + " " + (extra || "") + " " + el.textContent) });
+  }
+  Array.prototype.forEach.call(document.querySelectorAll("main .glosario > div"), function(gl){ var dt=gl.querySelector("dt"); agregar(gl, dt && dt.childNodes[0] && dt.childNodes[0].textContent); });
+  Array.prototype.forEach.call(document.querySelectorAll("main .formula-item"), function(f){ var n=f.querySelector(".nombre"); agregar(f, n && n.childNodes[0] && n.childNodes[0].textContent); });
+  Array.prototype.forEach.call(document.querySelectorAll("main .ejemplo"), function(ej){ var t=ej.querySelector(".titulo"); agregar(ej, t && t.textContent); });
+  Array.prototype.forEach.call(document.querySelectorAll("main h2, main h3"), function(h){
+    var extra = "", n = h.nextElementSibling;
+    while(n && n.tagName !== "H2" && n.tagName !== "H3"){ extra += " " + n.textContent; n = n.nextElementSibling; }
+    var sec = h.closest("section");
+    INDICE.push({ el:h, titulo:h.textContent.trim(), seccion:tituloSeccion(h), texto:normalizar(h.textContent + " " + extra + " " + (sec ? sec.getAttribute("data-busca") || "" : "")) });
+  });
+
+  var resultados = [];
+  function irA(item){
+    Array.prototype.forEach.call(document.querySelectorAll(".resaltado"), function(x){ x.classList.remove("resaltado"); });
+    item.el.classList.add("resaltado");
+    item.el.scrollIntoView({ behavior:"smooth", block:"start" });
+  }
+  function buscar(){
+    var q = normalizar(entrada.value.trim());
+    lista.innerHTML = "";
+    if(q.length < 2){ lista.classList.add("oculto"); estado.textContent = textoInicial; resultados = []; return; }
+    var palabras = q.split(/\s+/);
+    resultados = INDICE.filter(function(it){ return palabras.every(function(w){ return it.texto.indexOf(w) !== -1; }); });
+    resultados.sort(function(a,b){ var ta = normalizar(a.titulo).indexOf(q) !== -1 ? 0 : 1, tb = normalizar(b.titulo).indexOf(q) !== -1 ? 0 : 1; return ta - tb; });
+    var max = 30;
+    resultados.slice(0, max).forEach(function(it){
+      var li = document.createElement("li"); var b = document.createElement("button"); b.type = "button";
+      b.innerHTML = "<b></b><small></small>";
+      b.querySelector("b").textContent = it.titulo; b.querySelector("small").textContent = it.seccion;
+      b.addEventListener("click", function(){ irA(it); });
+      li.appendChild(b); lista.appendChild(li);
+    });
+    lista.classList.toggle("oculto", resultados.length === 0);
+    estado.textContent = resultados.length === 0 ? "Sin coincidencias" :
+      resultados.length + (resultados.length === 1 ? " coincidencia" : " coincidencias") + (resultados.length > max ? " · se muestran " + max : "") + " · Enter salta a la primera";
+  }
+  entrada.addEventListener("input", buscar);
+  entrada.addEventListener("keydown", function(e){
+    if(e.key === "Enter" && resultados.length){ e.preventDefault(); irA(resultados[0]); }
+    if(e.key === "Escape"){ entrada.value = ""; buscar(); entrada.blur(); }
+  });
+
+  /* ---------- NAVEGACIÓN ACTIVA ---------- */
+  var enlaces = Array.prototype.slice.call(document.querySelectorAll("#nav a"));
+  var mapaEnlaces = {};
+  enlaces.forEach(function(a){ var h=a.getAttribute("href"); if(h.charAt(0)==="#") mapaEnlaces[h.slice(1)] = a; });
+  if("IntersectionObserver" in window){
+    var observador = new IntersectionObserver(function(entradas){
+      entradas.forEach(function(e){
+        var a = mapaEnlaces[e.target.id];
+        if(!a || !e.isIntersecting) return;
+        enlaces.forEach(function(x){ x.classList.remove("activo"); });
+        a.classList.add("activo");
+      });
+    }, { rootMargin: "-10% 0px -75% 0px", threshold: 0 });
+    Array.prototype.forEach.call(document.querySelectorAll("main section"), function(s){ observador.observe(s); });
+  }
+
+  /* ---------- FLASHCARDS ---------- */
+  var MAZO = [
+    {c:"1", p:"¿Cuándo uso la mediana en lugar de la media?", r:"Cuando hay valores extremos (outliers) o la distribución es asimétrica: la media se tira hacia el extremo, la mediana no."},
+    {c:"1", p:"Fórmula de la mediana en datos agrupados.", r:"Me = L(i−1) + [(n/2 − F(i−1)) / f(i)] · A\n\nL(i−1): límite inferior de la clase mediana · F(i−1): acumulada anterior · f(i): frecuencia de la clase · A: amplitud."},
+    {c:"1", p:"Fórmula de la moda en datos agrupados.", r:"Mo = L(i−1) + [d1/(d1+d2)] · A\n\nd1 = f(i) − f(i−1) · d2 = f(i) − f(i+1). La clase modal es la de mayor frecuencia."},
+    {c:"1", p:"¿Cómo se calcula Q1 con datos agrupados?", r:"Se busca la clase donde la acumulada llega a n/4 y se aplica: Q1 = L + [(n/4 − F(i−1)) / f(i)] · A. Q3 usa 3n/4."},
+    {c:"1", p:"¿Varianza muestral: dividir por n o por n−1?", r:"Si los datos son una muestra: n − 1. Si son toda la población: n (σ²). En el parcial se usa n − 1."},
+    {c:"1", p:"¿Cómo interpreto el coeficiente de variación?", r:"CV = s/x̄ · 100. Hasta 20 %: datos homogéneos, la media es representativa (menos de 5 %: muy representativa). Más de 20 %: heterogéneos, la media representa mal."},
+    {c:"1", p:"¿Qué es una asimetría positiva?", r:"La cola se estira hacia la derecha: moda < mediana < media."},
+    {c:"1", p:"En una tabla de intervalos me piden 'de los días con x > 4, el % con x < 10'. ¿Cómo lo resuelvo?", r:"Es una condicional: (F(10) − F(4)) / (n − F(4)). El denominador restringe el universo a la condición."},
+    {c:"1", p:"¿Cuál es la diferencia entre marca de clase y límite de clase?", r:"La marca de clase es el punto medio del intervalo y se usa en media y desvío. Los límites se usan en mediana, moda y percentiles (interpolación)."},
+
+    {c:"2", p:"¿Cuál es la regla de la suma para eventos compatibles?", r:"P(A∪B) = P(A) + P(B) − P(A∩B). Para excluyentes, P(A∩B) = 0 y se suman directo."},
+    {c:"2", p:"¿Cómo se calcula 'al menos uno'?", r:"Por el complemento: 1 − P(ninguno). Casi siempre es más corto que sumar todos los casos."},
+    {c:"2", p:"¿Qué significa que A y B sean independientes y cómo lo compruebo?", r:"Que la ocurrencia de uno no cambia la probabilidad del otro. Se comprueba con P(A∩B) = P(A)·P(B) (o P(A|B) = P(A))."},
+    {c:"2", p:"¿Cómo cambia el cálculo con y sin reposición?", r:"Con reposición las extracciones son independientes (7/10·7/10). Sin reposición cada extracción depende de la anterior (7/10·6/9)."},
+    {c:"2", p:"¿Cuándo uso probabilidad total y cuándo Bayes?", r:"Total: conozco los orígenes y pregunto por un resultado. Bayes: conozco el resultado y pregunto por el origen. El denominador de Bayes es la probabilidad total."},
+    {c:"2", p:"Fórmula de Bayes.", r:"P(Ai|B) = P(Ai)·P(B|Ai) / Σ P(Aj)·P(B|Aj)"},
+    {c:"2", p:"Un test con 95 % de sensibilidad da positivo. ¿Por qué no es 95 % la probabilidad de estar enfermo?", r:"Porque depende de la prevalencia: si la enfermedad es rara, la mayoría de los positivos son falsos positivos de la gran población sana. Hay que aplicar Bayes."},
+    {c:"2", p:"Un 20 % 'de éstos' tiene cuenta corriente. ¿Es P(A∩B)?", r:"No: es una condicional P(B|A). La intersección es P(A)·P(B|A)."},
+    {c:"2", p:"¿Cómo se calcula el porcentaje que 'sólo' tiene A?", r:"P(A) − P(A∩B). Y 'ni A ni B' es 1 − P(A∪B)."},
+
+    {c:"3", p:"¿Cuándo una tabla es una distribución de probabilidad válida?", r:"Cuando todas las p(x) son ≥ 0 y suman exactamente 1."},
+    {c:"3", p:"Fórmulas de E(X) y V(X) para una variable discreta.", r:"E(X) = Σ x·p(x)\nV(X) = E(X²) − [E(X)]², con E(X²) = Σ x²·p(x)\nσ = √V"},
+    {c:"3", p:"¿Cuándo uso binomial?", r:"n ensayos independientes, probabilidad de éxito p constante, cuento éxitos. p(r) = C(n,r)·p^r·(1−p)^(n−r); E = np; V = np(1−p)."},
+    {c:"3", p:"¿Cuándo uso Pascal?", r:"Repito ensayos hasta el r-ésimo éxito y cuento los ensayos. p(n) = C(n−1,r−1)·p^r·(1−p)^(n−r), n ≥ r; E = r/p."},
+    {c:"3", p:"¿Cuándo uso hipergeométrico?", r:"Población finita N con R éxitos, extracción SIN reposición de n elementos, cuento éxitos. p(r) = C(R,r)·C(N−R,n−r) / C(N,n)."},
+    {c:"3", p:"¿Cuándo uso hiperPascal?", r:"Como el hipergeométrico pero fijo la cantidad de éxitos r y cuento cuántas extracciones hacen falta. Dominio: r ≤ n ≤ N−R+r."},
+    {c:"3", p:"Traducí: 'a lo sumo k', 'menos de k', 'al menos k', 'más de k'.", r:"a lo sumo k → X ≤ k = F(k)\nmenos de k → X ≤ k−1 = F(k−1)\nal menos k → X ≥ k = 1 − F(k−1)\nmás de k → X ≥ k+1 = 1 − F(k)"},
+    {c:"3", p:"¿Cómo se relacionan Pascal y binomial?", r:"P(N ≤ n) = P(Bin(n,p) ≥ r): necesitar n ensayos o menos para r éxitos equivale a tener r o más éxitos en n ensayos."},
+    {c:"3", p:"Calculás la probabilidad de aceptar un lote y luego 'al menos 18 de 20 lotes'. ¿Qué modelo uso en el 2.º paso?", r:"Binomial con n = 20 y p = la probabilidad de aceptar un lote calculada en el 1.er paso (hipergeométrica)."},
+    {c:"3", p:"Un proceso tiene 10 % de defectuosas. ¿Binomial o hipergeométrico?", r:"Binomial (Bernoulli): no hay un lote finito con cantidades conocidas, y p es constante."},
+    {c:"3", p:"¿Cuántas pruebas necesito para detectar con probabilidad 0,95 un proceso al 10 %?", r:"1 − 0,9^n ≥ 0,95 → n ≥ ln(0,05)/ln(0,9) = 28,4 → n = 29."}
+  ];
+
+  var elTarjeta = document.getElementById("tarjeta");
+  var elMarca   = document.getElementById("t-marca");
+  var elFrente  = document.getElementById("t-frente");
+  var elDorso   = document.getElementById("t-dorso");
+  var elPista   = document.getElementById("t-pista");
+  var elContador= document.getElementById("contador");
+  var NOMBRE_TEMA = { "1":"Descriptiva", "2":"Probabilidad", "3":"Variables discretas" };
+  var mazoActivo = MAZO.slice(), indice = 0, revelada = false;
+
+  function pintar(){
+    if(!mazoActivo.length){ elMarca.textContent="—"; elFrente.textContent="No hay tarjetas para ese filtro."; elDorso.classList.add("oculto"); elContador.textContent="0 / 0"; return; }
+    var t = mazoActivo[indice];
+    elMarca.textContent = NOMBRE_TEMA[t.c] || ("Tema " + t.c);
+    elFrente.textContent = t.p; elDorso.textContent = t.r;
+    elDorso.classList.add("oculto"); elPista.textContent = "clic o Espacio para revelar"; revelada = false;
+    elContador.textContent = (indice + 1) + " / " + mazoActivo.length;
+  }
+  function revelar(){ if(!mazoActivo.length) return; revelada = true; elDorso.classList.remove("oculto"); elPista.textContent = "→ siguiente"; }
+  function mover(d){ if(!mazoActivo.length) return; indice = (indice + d + mazoActivo.length) % mazoActivo.length; pintar(); }
+  function mezclar(){
+    for(var i = mazoActivo.length - 1; i > 0; i--){ var j = Math.floor(Math.random() * (i + 1)); var tmp = mazoActivo[i]; mazoActivo[i] = mazoActivo[j]; mazoActivo[j] = tmp; }
+    indice = 0; pintar();
+  }
+  elTarjeta.addEventListener("click", function(){ revelada ? mover(1) : revelar(); });
+  elTarjeta.addEventListener("keydown", function(e){
+    if(e.key === " " || e.key === "Enter"){ e.preventDefault(); revelada ? mover(1) : revelar(); }
+    else if(e.key === "ArrowRight"){ e.preventDefault(); mover(1); }
+    else if(e.key === "ArrowLeft"){ e.preventDefault(); mover(-1); }
+  });
+  document.getElementById("revelar").addEventListener("click", revelar);
+  document.getElementById("siguiente").addEventListener("click", function(){ mover(1); });
+  document.getElementById("anterior").addEventListener("click", function(){ mover(-1); });
+  document.getElementById("mezclar").addEventListener("click", mezclar);
+  Array.prototype.forEach.call(document.querySelectorAll("[data-filtro]"), function(b){
+    b.addEventListener("click", function(){
+      Array.prototype.forEach.call(document.querySelectorAll("[data-filtro]"), function(x){ x.classList.remove("on"); });
+      b.classList.add("on");
+      var f = b.getAttribute("data-filtro");
+      mazoActivo = (f === "todas") ? MAZO.slice() : MAZO.filter(function(t){ return t.c === f; });
+      indice = 0; pintar();
+    });
+  });
+  pintar();
+
+  /* ---------- CONTEO ---------- */
+  estado.textContent = "hoja de fórmulas · " + document.querySelectorAll(".glosario > div").length + " términos · " + MAZO.length + " tarjetas";
+  textoInicial = estado.textContent;
+})();
+Sesion.montar("chip-sesion");
+DominioWidget.montar("dominio", NumApi.dominioPropio);
+</script>
+</body>
+</html>

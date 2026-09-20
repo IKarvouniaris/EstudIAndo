@@ -50,6 +50,16 @@ Segunda materia con el esquema completo (apunte + simulacro + leaderboard), pero
 - **Pendiente:** ampliar el banco de ejercicios más allá de los 6 iniciales.
 - **2026-09-18:** el apunte ya no es liviano — se agregó buscador, riel plegable, glosario (30 términos), flashcards (30 tarjetas por clase) y una **chuleta rápida** (cheatsheet de funciones por biblioteca, en vez de la línea de tiempo de Ética que no aplica acá). Mismo aparato que Ética, adaptado a una materia de programación.
 
+### Estadística General — apunte, hoja de fórmulas y simulacro numérico (2026-09-20)
+
+Tercera materia, con un tercer modelo de examen: **el estudiante escribe sólo el resultado numérico** de cada parte y la corrección es automática, en Postgres (sin Gemini). Alcance: primer parcial (Temas 1-3 discretos; el material de la cátedra llega hasta la clase 7). Segundo parcial (continuas, normal, Poisson, TCL) queda pendiente hasta tener las clases.
+
+- **Apunte** `estadistica.html`: hoja de fórmulas (KaTeX, imprimible) con nota de "cuándo se usa", guía de decisión (¿binomial, Pascal, hipergeométrico o hiperPascal?, tabla de frases gatillo y patrones de dos pasos), ejemplos resueltos por tema, traducción de "a lo sumo / menos de / al menos…" a F y G, checklist, GeoGebra, glosario y flashcards.
+- **Banco** `tools/ejercicios_estadistica.json` (32 ejercicios, 110 respuestas), generado por `tools/generar_estadistica.py`: **cada respuesta se calcula por código y, cuando el ejercicio sale de la guía de la cátedra, se verifica (assert) contra la respuesta impresa en la guía**. `tools/seed_estadistica.py` → `supabase/seed_estadistica.sql` (idempotente, `on conflict do update`).
+- **SQL** `supabase/fase6_estadistica.sql`: `ejercicios_num` (público) + `ejercicios_num_clave` (privado: valores, tolerancias y resolución), `num_respuestas`, `num_ok()` (tolerancia max(abs, 1 % rel) y acepta la otra escala % ↔ decimal), `iniciar_intento_num` (1 ejercicio por tema), `guardar_respuesta_num`, `finalizar_intento_num`, `verificar_num`/`revelar_resolucion_num` (práctica), `leaderboard_estadistica`, `dominio_estadistica`.
+- **Simulacro** `simulacro-estadistica.html` (práctica con verificar por parte + resolución; examen de 5 ejercicios, 60 min, cooldown 5 min) y `leaderboard-estadistica.html`. Cliente en `js/num-api.js`.
+- Decisión: sin ejercicios de cuartiles con datos sin agrupar (la cátedra no muestra en las diapositivas qué convención de posición usa); sí con datos agrupados, que confirma el repaso.
+
 ### Corrección con IA del desarrollo en práctica libre (2026-09-18)
 
 Botón "✦ Corregir con IA" en el desarrollo escrito de `simulacro-etica.html` (modo práctica). Edge Function `corregir-practica`: misma grilla y prompt que `corregir-desarrollo`, pero sin intento puntuado — no guarda el texto ni toca puntajes/leaderboard. Límite de 15 por día por usuario, registrado en `correcciones_practica` (`supabase/fase6_correccion_practica.sql`). La última corrección de cada caso queda en el localStorage del navegador.

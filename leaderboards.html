@@ -10,8 +10,8 @@
   --papel:#EDEEE9; --papel-2:#F8F9F6; --papel-3:#E3E5DE;
   --tinta:#15181A; --tinta-2:#545B60; --tinta-3:#7B8288;
   --linea:#C7CAC2; --linea-2:#D9DBD4;
-  --u1:#2E3A94; --u3:#1B6A5B; --u4:#6D3470;
-  --u1-suave:#E2E5F6; --u3-suave:#DCEDE8; --u4-suave:#F0E3F0;
+  --u1:#2E3A94; --u2:#9A5A12; --u3:#1B6A5B; --u4:#6D3470;
+  --u1-suave:#E2E5F6; --u2-suave:#F4E7D2; --u3-suave:#DCEDE8; --u4-suave:#F0E3F0;
   --display:"Bahnschrift","Franklin Gothic Medium","Arial Narrow","Helvetica Neue",sans-serif;
   --body:"Sitka Text","Constantia",Georgia,"Times New Roman",serif;
   --mono:"Cascadia Mono",Consolas,"SFMono-Regular",ui-monospace,monospace;
@@ -21,8 +21,8 @@
   --papel:#101315; --papel-2:#181C20; --papel-3:#1F2429;
   --tinta:#E9EBE6; --tinta-2:#A2AAB0; --tinta-3:#7C858B;
   --linea:#2B3238; --linea-2:#232930;
-  --u1:#909EF0; --u3:#4FC7AC; --u4:#D39AD6;
-  --u1-suave:#1B2040; --u3-suave:#10302B; --u4-suave:#2E1830;
+  --u1:#909EF0; --u2:#E2A95B; --u3:#4FC7AC; --u4:#D39AD6;
+  --u1-suave:#1B2040; --u2-suave:#35270F; --u3-suave:#10302B; --u4-suave:#2E1830;
 }
 *{box-sizing:border-box}
 body{margin:0; background:var(--papel); color:var(--tinta); font-family:var(--body); font-size:16.5px; line-height:1.6}
@@ -39,6 +39,7 @@ p.bajada{color:var(--tinta-2); max-width:60ch; margin:0 0 2rem}
 .materia:hover{background:linear-gradient(90deg, var(--acento-suave), transparent 70%)}
 .materia h2{font-family:var(--display); font-weight:700; font-size:1.3rem; margin:0 0 .25rem; color:var(--tinta)}
 .materia p{margin:0; color:var(--tinta-2); font-size:.9rem}
+.materia[data-u="2"]{--acento:var(--u2); --acento-suave:var(--u2-suave)}
 .materia[data-u="3"]{--acento:var(--u3); --acento-suave:var(--u3-suave)}
 .materia[data-u="4"]{--acento:var(--u4); --acento-suave:var(--u4-suave)}
 </style>
@@ -57,6 +58,10 @@ p.bajada{color:var(--tinta-2); max-width:60ch; margin:0 0 2rem}
     <li class="materia" data-u="4"><a href="leaderboard.html">
       <h2>Ética en la Inteligencia Artificial</h2>
       <p>Examen de opción múltiple + desarrollo escrito, corregido por Gemini.</p>
+    </a></li>
+    <li class="materia" data-u="2"><a href="leaderboard-estadistica.html">
+      <h2>Probabilidad y Estadística</h2>
+      <p>Ejercicios de cálculo donde sólo se escribe el resultado, con corrección automática.</p>
     </a></li>
     <li class="materia" data-u="3"><a href="leaderboard-python.html">
       <h2>Python para Ciencia de Datos</h2>
