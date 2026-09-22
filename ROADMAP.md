@@ -50,6 +50,10 @@ Segunda materia con el esquema completo (apunte + simulacro + leaderboard), pero
 - **Pendiente:** ampliar el banco de ejercicios más allá de los 6 iniciales.
 - **2026-09-18:** el apunte ya no es liviano — se agregó buscador, riel plegable, glosario (30 términos), flashcards (30 tarjetas por clase) y una **chuleta rápida** (cheatsheet de funciones por biblioteca, en vez de la línea de tiempo de Ética que no aplica acá). Mismo aparato que Ética, adaptado a una materia de programación.
 
+### Ejemplos del apunte de Estadística: consigna completa + resolución paso a paso (2026-09-22)
+
+Los 17 ejemplos resueltos de `estadistica.html` tenían la consigna resumida y los pasos como fórmula-directo-al-resultado. Se reescribieron todos con: a) la consigna completa (mismo texto que usan los ejercicios equivalentes del banco, cuando existen, para que apunte y simulacro queden consistentes), en un recuadro `.consigna` destacado; b) cada paso explica primero en palabras *qué* se está calculando y *por qué* ese paso (no sólo la fórmula), con una frase final de "por qué da ese resultado" o "qué error evita" donde ayuda. Verificado: 238 fórmulas KaTeX renderizadas sin error, sin desborde horizontal en mobile.
+
 ### Tutor IA en Estadística (2026-09-22)
 
 Agregado el botón flotante del tutor (💬, lado derecho) a `estadistica.html`, igual que en Ética. La Edge Function `preguntar-apunte` estaba con el prompt hardcodeado a "Ética en la Inteligencia Artificial" (arrastrado de cuando sólo existía esa materia); se generalizó con un mapa `NOMBRE_MATERIA` (`etica`/`python`/`estadistica`) para que el tutor se presente bien sin importar desde qué apunte lo invoquen. Python sigue sin tutor (no se pidió).

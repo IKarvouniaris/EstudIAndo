@@ -100,8 +100,13 @@ code{font-family:var(--mono); font-size:.88em}
 .ejemplo > .titulo{font-family:var(--mono); font-size:.64rem; letter-spacing:.12em; text-transform:uppercase; color:var(--tinta-3); margin:0 0 .3rem}
 .ejemplo p{margin:.35rem 0; font-size:.95rem}
 .ejemplo ol, .ejemplo ul{margin:.3rem 0 .3rem; padding-left:1.3rem; font-size:.94rem}
-.ejemplo li{margin:.25rem 0}
+.ejemplo li{margin:.6rem 0}
+.ejemplo li > p:first-child{margin-top:0}
 .ejemplo .resp{font-family:var(--display); font-weight:700; color:var(--ok)}
+.consigna{font-style:italic; color:var(--tinta); background:var(--papel-3); border-left:3px solid var(--tinta-3); border-radius:2px; padding:.65rem .85rem; margin:0 0 .8rem; font-size:.94rem; line-height:1.5}
+.consigna b{font-style:normal; font-family:var(--mono); font-size:.6rem; letter-spacing:.1em; text-transform:uppercase; color:var(--tinta-3); display:block; margin-bottom:.3rem}
+.ejemplo .paso-titulo{font-family:var(--display); font-weight:600}
+.ejemplo .porque{color:var(--tinta-2)}
 table.tabla{border-collapse:collapse; margin:.5rem 0; font-family:var(--mono); font-size:.8rem}
 table.tabla th, table.tabla td{border:1px solid var(--linea); padding:.25rem .6rem; text-align:right}
 table.tabla th{background:var(--papel-3); font-weight:600}
@@ -459,17 +464,23 @@ table.frases td:first-child{font-family:var(--display); font-weight:600}
     <div class="cuando"><b>Cuándo usar cada una</b>
       <p><b>Media</b> si los datos son homogéneos y sin valores extremos. <b>Mediana</b> si hay outliers o la distribución es asimétrica (sueldos, precios de propiedades): la media se "tira" hacia el extremo.</p>
     </div>
-    <div class="ejemplo"><p class="titulo">Ejemplo · sueldos con un valor extremo</p>
-      <p>Sueldos (miles de $): 90, 92, 95, 97, 100, 102, 105, 108, 110 y 800 (el gerente).</p>
-      <ul>
-        <li>Media = 1699 / 10 = <b>169,9</b> → "sueldo típico" engañoso: 9 de 10 cobran entre 90 y 110.</li>
-        <li>Mediana (n par → promedio de los dos centrales, 100 y 102) = <b>101</b> → mucho más representativa.</li>
-        <li>Moda &lt; mediana &lt; media → asimetría <b>positiva</b> (cola a la derecha).</li>
-      </ul>
+    <div class="ejemplo"><p class="titulo">Ejemplo resuelto · sueldos con un valor extremo</p>
+      <div class="consigna"><b>Consigna</b>Los sueldos (en miles de pesos) de 10 empleados de una empresa son: 90, 92, 95, 97, 100, 102, 105, 108, 110 y 800 (el gerente). Calcular la media, la mediana, y decidir cuál describe mejor el "sueldo típico" de la empresa.</div>
+      <ol>
+        <li><p><span class="paso-titulo">Media.</span> Se suman los 10 sueldos y se divide por la cantidad de datos:</p>
+          <div class="expr">\( \bar x=\dfrac{90+92+95+97+100+102+105+108+110+800}{10}=\dfrac{1699}{10}=\mathbf{169{,}9} \)</div>
+          <p class="porque">Ya con esta cuenta hay algo raro: nadie del grupo gana cerca de 170. La media "subió" arrastrada por el 800 del gerente.</p></li>
+        <li><p><span class="paso-titulo">Mediana.</span> Se ordenan los datos (ya vienen ordenados) y, como hay <b>n = 10</b> (par), se promedian los dos valores centrales — las posiciones 5 y 6:</p>
+          <div class="expr">\( Me=\dfrac{100+102}{2}=\mathbf{101} \)</div>
+          <p class="porque">La mediana no "ve" cuánto gana el gerente, sólo que hay 5 sueldos por debajo y 5 por arriba de ese punto. Por eso no se deja arrastrar por el outlier.</p></li>
+        <li><p><span class="paso-titulo">¿Cuál conviene usar?</span> Comparando: 9 de los 10 empleados cobran entre 90 y 110, muy cerca de la mediana (101) y lejos de la media (169,9). Conclusión: con un valor extremo en los datos, <b>la mediana describe mejor</b> al grupo.</p></li>
+        <li><p><span class="paso-titulo">Forma de la distribución.</span> Como el valor extremo tira hacia arriba, se cumple moda &lt; mediana &lt; media (la moda, el sueldo más común, está en la zona de 90-110). Esto es asimetría <b>positiva</b>: la cola larga queda del lado derecho (los valores altos), aunque la mayoría de los datos esté agrupada a la izquierda.</p></li>
+      </ol>
     </div>
 
     <h3>Datos agrupados: el método paso a paso</h3>
-    <div class="ejemplo"><p class="titulo">Ejemplo resuelto · tiempos de fractura del acero (n = 75, A = 5)</p>
+    <div class="ejemplo"><p class="titulo">Ejemplo resuelto · tiempos de fractura del acero</p>
+      <div class="consigna"><b>Consigna</b>En un laboratorio de ingeniería se registraron los minutos que tardan distintas muestras de acero en fracturarse bajo una prueba de resistencia. Los tiempos se agruparon en la tabla (son datos de una muestra: usar varianza con n − 1). Se pide: a) media, mediana y moda; b) varianza y desvío estándar; c) el tiempo máximo de fractura que experimenta el 25 % de las muestras más rápidas; d) el coeficiente de variación, y sacar conclusiones sobre la homogeneidad de los datos.</div>
       <div class="scroll-x"><table class="tabla">
         <tr><th>Tiempo (min)</th><th>f</th><th>x<sub>i</sub></th><th>F</th><th>f·(x<sub>i</sub>−x̄)²</th></tr>
         <tr><td>45–50</td><td>6</td><td>47,5</td><td>6</td><td>835,44</td></tr>
@@ -480,28 +491,45 @@ table.frases td:first-child{font-family:var(--display); font-weight:600}
         <tr><td>70–75</td><td>5</td><td>72,5</td><td>75</td><td>871,20</td></tr>
         <tr><td><b>Total</b></td><td>75</td><td></td><td></td><td>3282</td></tr>
       </table></div>
+      <p class="porque">Antes de calcular nada, se arma esta tabla auxiliar: <b>x<sub>i</sub></b> es la marca de clase (el punto medio de cada intervalo — con ella se trabaja como si todos los datos de esa clase valieran exactamente eso) y <b>F</b> es la frecuencia acumulada (cuántos datos hay hasta el final de esa clase, inclusive). n = 75, amplitud A = 5.</p>
       <ol>
-        <li><b>Media:</b> \(\sum x_if_i=4447{,}5\) → \(\bar x=4447{,}5/75=\mathbf{59{,}3}\) min.</li>
-        <li><b>Mediana:</b> \(n/2=37{,}5\) cae en 55–60 (\(F_{i-1}=20\), \(f_i=22\)): \(Me=55+\dfrac{37{,}5-20}{22}\cdot5=\mathbf{58{,}98}\).</li>
-        <li><b>Moda:</b> clase modal 55–60 (\(f=22\)): \(Mo=55+\dfrac{22-14}{(22-14)+(22-18)}\cdot5=\mathbf{58{,}33}\).</li>
-        <li><b>Varianza y desvío:</b> \(s^2=3282/74=44{,}35\); \(s=\sqrt{44{,}35}=\mathbf{6{,}66}\) min.</li>
-        <li><b>Q<sub>1</sub>:</b> \(n/4=18{,}75\) cae en 50–55 (\(F_{i-1}=6\), \(f=14\)): \(Q_1=50+\dfrac{18{,}75-6}{14}\cdot5=\mathbf{54{,}55}\) → "el tiempo máximo del 25 % más rápido".</li>
-        <li><b>CV:</b> \(6{,}66/59{,}3\cdot100=\mathbf{11{,}23\,\%}\) → menor a 20 %: <b>homogéneo</b>, la media es representativa.</li>
+        <li><p><span class="paso-titulo">a) Media.</span> Se multiplica cada marca de clase por su frecuencia, se suma todo y se divide por n:</p>
+          <div class="expr">\( \bar x=\dfrac{\sum x_if_i}{n}=\dfrac{47{,}5\cdot6+52{,}5\cdot14+\dots+72{,}5\cdot5}{75}=\dfrac{4447{,}5}{75}=\mathbf{59{,}3}\ \text{min} \)</div></li>
+        <li><p><span class="paso-titulo">Mediana.</span> Primero hay que encontrar la <b>clase mediana</b>: la que contiene a la posición n/2 = 37,5. Mirando la columna F, en la clase 50-55 se llega a 20 y en 55-60 se llega a 42 → la posición 37,5 cae <b>dentro de 55-60</b>. Ahí dentro se interpola linealmente, suponiendo que los 22 datos de esa clase están repartidos parejo entre 55 y 60:</p>
+          <div class="expr">\( Me=L_{i-1}+\dfrac{\frac{n}{2}-F_{i-1}}{f_i}\cdot A=55+\dfrac{37{,}5-20}{22}\cdot5=\mathbf{58{,}98}\ \text{min} \)</div>
+          <p class="porque">\(F_{i-1}=20\) es la acumulada de la clase <em>anterior</em> (50-55), no la de la clase mediana; ese es el error más común acá.</p></li>
+        <li><p><span class="paso-titulo">Moda.</span> La clase modal es la de mayor frecuencia: 55-60, con f = 22. Se compara esa frecuencia con la de sus vecinas (14 a la izquierda, 18 a la derecha) para ver "hacia qué lado" se inclina el pico dentro de la clase:</p>
+          <div class="expr">\( Mo=L_{i-1}+\dfrac{d_1}{d_1+d_2}\cdot A=55+\dfrac{22-14}{(22-14)+(22-18)}\cdot5=55+\dfrac{8}{12}\cdot5=\mathbf{58{,}33}\ \text{min} \)</div></li>
+        <li><p><span class="paso-titulo">b) Varianza y desvío.</span> La última columna de la tabla ya trae, para cada clase, \(f_i(x_i-\bar x)^2\) — el aporte de esa clase a la dispersión total. Se suman esos aportes y, como es una muestra, se divide por n − 1:</p>
+          <div class="expr">\( s^2=\dfrac{\sum f_i(x_i-\bar x)^2}{n-1}=\dfrac{835{,}44+647{,}36+\dots+871{,}20}{74}=\dfrac{3282}{74}=\mathbf{44{,}35}\ \text{min}^2 \)</div>
+          <div class="expr">\( s=\sqrt{s^2}=\sqrt{44{,}35}=\mathbf{6{,}66}\ \text{min} \)</div></li>
+        <li><p><span class="paso-titulo">c) Q<sub>1</sub>.</span> "El 25 % más rápido" son los tiempos más bajos, así que se busca el cuartil 1 (deja el 25 % de los datos por debajo). Misma lógica que la mediana, pero con la posición n/4 = 18,75, que cae en la clase 50-55 (\(F_{i-1}=6\), f = 14):</p>
+          <div class="expr">\( Q_1=50+\dfrac{18{,}75-6}{14}\cdot5=\mathbf{54{,}55}\ \text{min} \)</div>
+          <p class="porque">Es decir: el 25 % de las muestras que se fracturan más rápido lo hace en 54,55 minutos o menos.</p></li>
+        <li><p><span class="paso-titulo">d) Coeficiente de variación.</span> Compara la dispersión (desvío) con el tamaño de la media, en porcentaje:</p>
+          <div class="expr">\( CV=\dfrac{s}{\bar x}\cdot100=\dfrac{6{,}66}{59{,}3}\cdot100=\mathbf{11{,}23\,\%} \)</div>
+          <p class="porque"><b>Conclusión:</b> 11,23 % está por debajo del 20 %, así que los tiempos de fractura son un conjunto <b>homogéneo</b> y la media (59,3 min) es una medida representativa del grupo.</p></li>
       </ol>
     </div>
 
     <h3>Porcentajes a partir de una tabla (ojiva)</h3>
-    <div class="ejemplo"><p class="titulo">Ejemplo resuelto · defectuosas diarias (n = 160 días)</p>
+    <div class="ejemplo"><p class="titulo">Ejemplo resuelto · defectuosas diarias</p>
+      <div class="consigna"><b>Consigna</b>En un proceso productivo, el porcentaje diario de piezas defectuosas es una variable aleatoria de la cual se registraron 160 observaciones (días), agrupadas en el cuadro. Calcular el porcentaje de los días donde x &gt; 2 y donde x &lt; 10, y de los días que superan el 4 % de defectuosas, qué porcentaje tiene menos del 10 %.</div>
       <div class="scroll-x"><table class="tabla">
         <tr><th>x (%)</th><th>0–2</th><th>2–4</th><th>4–6</th><th>6–8</th><th>8–10</th><th>10–12</th><th>12–14</th></tr>
         <tr><td>días</td><td>4</td><td>26</td><td>50</td><td>35</td><td>25</td><td>14</td><td>6</td></tr>
         <tr><td>F</td><td>4</td><td>30</td><td>80</td><td>115</td><td>140</td><td>154</td><td>160</td></tr>
       </table></div>
-      <ul>
-        <li>\(P(x\gt2)=1-\dfrac{4}{160}=\mathbf{97{,}5\,\%}\) (hasta 2 se acumulan 4 días).</li>
-        <li>\(P(x\lt10)=\dfrac{140}{160}=\mathbf{87{,}5\,\%}\).</li>
-        <li>Condicional: \(P(x\lt10\mid x\gt4)=\dfrac{140-30}{160-30}=\dfrac{110}{130}=\mathbf{84{,}62\,\%}\) → el "de los días que…" reduce el universo: en el denominador van sólo los días con \(x\gt4\).</li>
-      </ul>
+      <p class="porque">Acá los intervalos coinciden exactamente con los límites de clase que preguntan (2, 4, 10), así que no hace falta interpolar: alcanza con leer directamente la columna F (frecuencia acumulada).</p>
+      <ol>
+        <li><p><span class="paso-titulo">P(x &gt; 2).</span> "Hasta x = 2" acumula 4 días (la primera clase completa). Los días con x &gt; 2 son el resto:</p>
+          <div class="expr">\( P(x\gt2)=1-\dfrac{F(2)}{n}=1-\dfrac{4}{160}=\mathbf{97{,}5\,\%} \)</div></li>
+        <li><p><span class="paso-titulo">P(x &lt; 10).</span> Se lee directo la acumulada hasta 10: 140 de los 160 días.</p>
+          <div class="expr">\( P(x\lt10)=\dfrac{F(10)}{n}=\dfrac{140}{160}=\mathbf{87{,}5\,\%} \)</div></li>
+        <li><p><span class="paso-titulo">Condicional: "de los días con x &gt; 4, ¿qué % tiene x &lt; 10?"</span> Acá la frase "de los días que…" avisa que hay que <b>restringir el universo</b>: ya no se compara contra los 160 días totales, sino sólo contra los que cumplen x &gt; 4 (160 − F(4) = 160 − 30 = 130 días). De esos 130, hay que quedarse con los que además tienen x &lt; 10 (F(10) − F(4) = 140 − 30 = 110 días):</p>
+          <div class="expr">\( P(x\lt10\mid x\gt4)=\dfrac{F(10)-F(4)}{n-F(4)}=\dfrac{140-30}{160-30}=\dfrac{110}{130}=\mathbf{84{,}62\,\%} \)</div>
+          <p class="porque">El truco general: en cualquier condicional, el <b>denominador</b> es siempre la cantidad de casos que cumplen la condición dada ("de los días con x &gt; 4"), no el total de la muestra.</p></li>
+      </ol>
     </div>
 
     <div class="errores"><p><b>Errores típicos</b></p>
@@ -544,28 +572,43 @@ table.frases td:first-child{font-family:var(--display); font-weight:600}
       <p>Cuando hay dos características (A y B), armá una tabla con \(P(A\cap B)\), \(P(A\cap B')\), \(P(A'\cap B)\), \(P(A'\cap B')\) y sus totales. Con dos o tres datos del enunciado completás todo, y cualquier condicional sale dividiendo una celda por un total.</p>
     </div>
 
-    <div class="ejemplo"><p class="titulo">Ejemplo resuelto · P(A)=1/2, P(B)=1/3, P(A∩B)=1/4</p>
+    <div class="ejemplo"><p class="titulo">Ejemplo resuelto · dos sucesos con P(A), P(B) y P(A∩B) dados</p>
+      <div class="consigna"><b>Consigna</b>Dados dos sucesos con P(A) = 1/2, P(B) = 1/3 y P(A∩B) = 1/4, calcular: a) P(A|B); b) P(B|A); c) P(A∪B); d) P(A'|B'); e) P(B'|A'). ¿A y B son independientes?</div>
+      <p><span class="paso-titulo">Paso 1 · armar la tabla de doble entrada.</span> Con sólo tres datos se puede completar toda la tabla, restando de los totales:</p>
       <div class="scroll-x"><table class="tabla">
         <tr><th></th><th>A</th><th>A'</th><th>total</th></tr>
         <tr><td>B</td><td>1/4</td><td>1/12</td><td>1/3</td></tr>
         <tr><td>B'</td><td>1/4</td><td>5/12</td><td>2/3</td></tr>
         <tr><td>total</td><td>1/2</td><td>1/2</td><td>1</td></tr>
       </table></div>
-      <ul>
-        <li>\(P(A\mid B)=\dfrac{1/4}{1/3}=\mathbf{3/4}\)  ·  \(P(B\mid A)=\dfrac{1/4}{1/2}=\mathbf{1/2}\)</li>
-        <li>\(P(A\cup B)=\dfrac12+\dfrac13-\dfrac14=\mathbf{7/12}\)</li>
-        <li>\(P(A'\mid B')=\dfrac{5/12}{2/3}=\mathbf{5/8}\)  ·  \(P(B'\mid A')=\dfrac{5/12}{1/2}=\mathbf{5/6}\)</li>
-        <li>¿Independientes? \(P(A)P(B)=1/6\ne1/4=P(A\cap B)\) → <b>no</b>.</li>
-      </ul>
+      <p class="porque">Cómo se completa: la fila B (total 1/3) menos la celda A∩B (1/4) da la celda A'∩B (1/4 − 1/4... en realidad 1/3 − 1/4 = 1/12). La columna A (total 1/2) menos A∩B da A∩B' (1/2 − 1/4 = 1/4). Y la celda que falta, A'∩B', sale de "1 menos todo lo demás" = 5/12. Una vez completa la tabla, cada probabilidad pedida es sólo dividir una celda por un total.</p>
+      <ol>
+        <li><p><span class="paso-titulo">a) y b) Condicionales directas.</span> P(A|B) restringe el universo a la fila B; P(B|A) lo restringe a la columna A:</p>
+          <div class="expr">\( P(A\mid B)=\dfrac{P(A\cap B)}{P(B)}=\dfrac{1/4}{1/3}=\mathbf{3/4}\qquad P(B\mid A)=\dfrac{P(A\cap B)}{P(A)}=\dfrac{1/4}{1/2}=\mathbf{1/2} \)</div></li>
+        <li><p><span class="paso-titulo">c) Unión.</span> Se suman los totales de A y B y se resta la intersección (que si no, quedaría contada dos veces):</p>
+          <div class="expr">\( P(A\cup B)=P(A)+P(B)-P(A\cap B)=\dfrac12+\dfrac13-\dfrac14=\mathbf{7/12} \)</div></li>
+        <li><p><span class="paso-titulo">d) y e) Condicionales con complementos.</span> Se usan las celdas de la fila B' y la columna A':</p>
+          <div class="expr">\( P(A'\mid B')=\dfrac{P(A'\cap B')}{P(B')}=\dfrac{5/12}{2/3}=\mathbf{5/8}\qquad P(B'\mid A')=\dfrac{P(A'\cap B')}{P(A')}=\dfrac{5/12}{1/2}=\mathbf{5/6} \)</div></li>
+        <li><p><span class="paso-titulo">¿Son independientes?</span> Se compara la intersección real contra la que habría si fueran independientes (producto de las marginales):</p>
+          <div class="expr">\( P(A)\cdot P(B)=\dfrac12\cdot\dfrac13=\dfrac16\ne\dfrac14=P(A\cap B) \)</div>
+          <p class="porque">No coinciden, así que A y B <b>no son independientes</b>: saber que ocurrió B cambia la probabilidad de A (subió de 1/2 a 3/4).</p></li>
+      </ol>
     </div>
 
     <h3>Con y sin reposición</h3>
     <div class="ejemplo"><p class="titulo">Ejemplo resuelto · caja con 7 bolillas blancas y 3 rojas, se sacan 2</p>
-      <ul>
-        <li><b>Con reposición</b> (independientes): \(P(BB)=\dfrac{7}{10}\cdot\dfrac{7}{10}=\mathbf{0{,}49}\); mismo color: \(0{,}49+\dfrac{3}{10}\cdot\dfrac{3}{10}=\mathbf{0{,}58}\).</li>
-        <li><b>Sin reposición</b> (la 2.ª depende de la 1.ª): \(P(BB)=\dfrac{7}{10}\cdot\dfrac{6}{9}=\dfrac{7}{15}=\mathbf{0{,}4667}\).</li>
-        <li>"Al menos una roja" sin reposición: \(1-P(BB)=1-\dfrac{7}{15}=\mathbf{0{,}5333}\).</li>
-      </ul>
+      <div class="consigna"><b>Consigna</b>Una caja contiene 7 bolillas blancas y 3 rojas. Se extraen dos bolillas. Calcular la probabilidad de que: a) con reposición, ambas sean blancas; b) con reposición, ambas sean del mismo color; c) sin reposición, ambas sean blancas; d) sin reposición, al menos una sea roja.</div>
+      <ol>
+        <li><p><span class="paso-titulo">a) Con reposición, ambas blancas.</span> Devolver la bolilla antes de la segunda extracción hace que la caja quede exactamente igual: las dos extracciones son <b>independientes</b> y cada una tiene P(blanca) = 7/10. Se multiplican las dos probabilidades:</p>
+          <div class="expr">\( P(BB)=\dfrac{7}{10}\cdot\dfrac{7}{10}=\mathbf{0{,}49} \)</div></li>
+        <li><p><span class="paso-titulo">b) Con reposición, mismo color.</span> "Mismo color" pasa de dos formas que no se pueden dar a la vez (excluyentes): ambas blancas <b>o</b> ambas rojas. Se calcula cada una y se suman:</p>
+          <div class="expr">\( P(RR)=\dfrac{3}{10}\cdot\dfrac{3}{10}=0{,}09\qquad P(\text{mismo color})=P(BB)+P(RR)=0{,}49+0{,}09=\mathbf{0{,}58} \)</div></li>
+        <li><p><span class="paso-titulo">c) Sin reposición, ambas blancas.</span> Ahora la bolilla no vuelve a la caja: después de sacar una blanca quedan 9 bolillas en total y sólo 6 blancas. La segunda probabilidad cambió porque la primera extracción "consumió" una bolilla:</p>
+          <div class="expr">\( P(BB)=\dfrac{7}{10}\cdot\dfrac{6}{9}=\dfrac{42}{90}=\dfrac{7}{15}=\mathbf{0{,}4667} \)</div></li>
+        <li><p><span class="paso-titulo">d) Sin reposición, al menos una roja.</span> Calcular directo "al menos una roja" obligaría a sumar tres casos (RB, BR, RR). Es mucho más corto ir por el <b>complemento</b>: lo opuesto a "al menos una roja" es "ninguna roja" = "las dos blancas", que ya se calculó en el paso anterior:</p>
+          <div class="expr">\( P(\text{al menos una roja})=1-P(BB)=1-\dfrac{7}{15}=\mathbf{0{,}5333} \)</div>
+          <p class="porque">Regla general: cada vez que aparece "al menos uno", conviene probar primero con el complemento (1 − P(ninguno)).</p></li>
+      </ol>
     </div>
 
     <h3>Probabilidad total y Bayes</h3>
@@ -573,19 +616,25 @@ table.frases td:first-child{font-family:var(--display); font-weight:600}
       <p><b>Total</b>: conocés los orígenes y preguntás por la probabilidad de un <em>resultado</em> (¿qué probabilidad hay de que salga blanca?). <b>Bayes</b>: conocés el resultado y preguntás por el <em>origen</em> (si salió blanca, ¿cuál es la probabilidad de que venga de la caja 1?). El denominador de Bayes es justamente la probabilidad total.</p>
     </div>
     <div class="ejemplo"><p class="titulo">Ejemplo resuelto · dos cajas al azar</p>
-      <p>C1: 7 blancas y 3 rojas. C2: 8 blancas y 12 rojas. Se elige una caja al azar y se extrae una bolilla.</p>
+      <div class="consigna"><b>Consigna</b>La caja C1 contiene 7 bolillas blancas y 3 rojas; la caja C2 tiene 8 blancas y 12 rojas. Se elige una caja al azar y se extrae una bolilla. Calcular: a) la probabilidad de que sea blanca; b) si es blanca, la probabilidad de que se haya elegido la caja C1.</div>
       <ol>
-        <li><b>Total:</b> \(P(B)=\tfrac12\cdot\tfrac{7}{10}+\tfrac12\cdot\tfrac{8}{20}=0{,}35+0{,}20=\mathbf{0{,}55}\).</li>
-        <li><b>Bayes:</b> \(P(C_1\mid B)=\dfrac{\tfrac12\cdot\tfrac{7}{10}}{0{,}55}=\dfrac{0{,}35}{0{,}55}=\dfrac{7}{11}=\mathbf{0{,}6364}\).</li>
+        <li><p><span class="paso-titulo">a) Probabilidad total.</span> El resultado "blanca" puede llegar por dos caminos distintos (vino de C1, o vino de C2), cada uno con su propia probabilidad de elegir la caja y su propia probabilidad de sacar blanca de ella. Se arma un pequeño árbol: primero la probabilidad de cada caja (50 % y 50 %, "al azar"), y de cada rama la probabilidad de blanca <em>dentro</em> de esa caja:</p>
+          <div class="expr">\( P(B)=\underbrace{P(C_1)\cdot P(B\mid C_1)}_{\text{camino por C1}}+\underbrace{P(C_2)\cdot P(B\mid C_2)}_{\text{camino por C2}}=\tfrac12\cdot\tfrac{7}{10}+\tfrac12\cdot\tfrac{8}{20}=0{,}35+0{,}20=\mathbf{0{,}55} \)</div></li>
+        <li><p><span class="paso-titulo">b) Bayes: "si salió blanca, ¿de qué caja vino?"</span> Ya se sabe el resultado (salió blanca) y se pregunta por el origen. La fórmula de Bayes es, en el fondo, "la parte del camino por C1" dividido "todos los caminos que terminan en blanca" — y ese denominador es justo el P(B) = 0,55 que se calculó en el paso a):</p>
+          <div class="expr">\( P(C_1\mid B)=\dfrac{P(C_1)\cdot P(B\mid C_1)}{P(B)}=\dfrac{\tfrac12\cdot\tfrac{7}{10}}{0{,}55}=\dfrac{0{,}35}{0{,}55}=\dfrac{7}{11}=\mathbf{0{,}6364} \)</div>
+          <p class="porque">Tiene sentido que dé más de 0,5: C1 tiene proporcionalmente más bolillas blancas (70 %) que C2 (40 %), así que si salió blanca, es más probable que haya venido de C1.</p></li>
       </ol>
     </div>
     <div class="ejemplo"><p class="titulo">Ejemplo resuelto · test para una enfermedad</p>
-      <p>Confiabilidad 95 % en enfermos y 99 % en sanos; el 4 % de la población está enferma.</p>
+      <div class="consigna"><b>Consigna</b>Un análisis para detectar una enfermedad da positivo en el 95 % de los casos cuando el paciente está realmente enfermo, y da negativo en el 99 % de los casos cuando está sano. Se sabe que el 4 % de la población tiene la enfermedad. Se le hace el análisis a una persona elegida al azar y da positivo. ¿Cuál es la probabilidad de que esté realmente enferma?</div>
       <ol>
-        <li>\(P(+)=0{,}04\cdot0{,}95+0{,}96\cdot0{,}01=0{,}038+0{,}0096=\mathbf{0{,}0476}\).</li>
-        <li>\(P(\text{enfermo}\mid+)=\dfrac{0{,}038}{0{,}0476}=\mathbf{0{,}7983}\).</li>
+        <li><p><span class="paso-titulo">Ordenar los datos.</span> Conviene nombrar los eventos antes de calcular: E = "está enfermo" (4 % = 0,04, S = "está sano" = 0,96). El test acierta con probabilidad P(+|E) = 0,95 en los enfermos y P(−|S) = 0,99 en los sanos — pero ojo, eso implica que un sano da <em>falso positivo</em> con P(+|S) = 1 − 0,99 = 0,01.</p></li>
+        <li><p><span class="paso-titulo">Probabilidad total del positivo.</span> Un positivo puede salir de un enfermo detectado correctamente, o de un sano mal diagnosticado (falso positivo). Se suman ambos caminos:</p>
+          <div class="expr">\( P(+)=P(E)P(+\mid E)+P(S)P(+\mid S)=0{,}04\cdot0{,}95+0{,}96\cdot0{,}01=0{,}038+0{,}0096=\mathbf{0{,}0476} \)</div></li>
+        <li><p><span class="paso-titulo">Bayes: dado el positivo, ¿está realmente enfermo?</span> Se divide el camino "enfermo y dio positivo" por el total de positivos:</p>
+          <div class="expr">\( P(E\mid+)=\dfrac{P(E)P(+\mid E)}{P(+)}=\dfrac{0{,}038}{0{,}0476}=\mathbf{0{,}7983} \)</div></li>
+        <li><p><span class="paso-titulo">Por qué el resultado sorprende.</span> Aunque el test parece "muy bueno" (95 % y 99 % de aciertos), sólo el 80 % de los positivos corresponde a gente realmente enferma. Esto pasa porque la enfermedad es <b>rara</b> (4 %): entre toda la gente sana (96 % de la población), incluso un 1 % de falsos positivos genera muchos casos — casi tantos como los verdaderos positivos entre el pequeño grupo de enfermos. Es el fenómeno que en la clase se llama "base rate": hay que mirar siempre la prevalencia, no sólo la calidad del test.</p></li>
       </ol>
-      <p>Aunque el test es "muy bueno", sólo ~80 % de los positivos están enfermos porque la enfermedad es rara.</p>
     </div>
 
     <div class="errores"><p><b>Errores típicos</b></p>
@@ -616,20 +665,33 @@ table.frases td:first-child{font-family:var(--display); font-weight:600}
     </div>
 
     <div class="ejemplo"><p class="titulo">Ejemplo resuelto · esperanza y varianza</p>
-      <p>\(X\): 1, 2, 3, 4 con probabilidades 0,2 · 0,4 · 0,3 · 0,1.</p>
+      <div class="consigna"><b>Consigna</b>Una variable aleatoria discreta X toma los valores 1, 2, 3 y 4 con probabilidades 0,2; 0,4; 0,3 y 0,1 respectivamente (por ejemplo, la cantidad de clientes que llegan a una estación de servicio en un lapso de 15 minutos). Calcular: a) la esperanza E(X); b) la varianza V(X) y el desvío estándar; c) P(X ≥ 3); d) F(2) = P(X ≤ 2).</div>
       <ol>
-        <li>Válida: \(0{,}2+0{,}4+0{,}3+0{,}1=1\) ✓.</li>
-        <li>\(E(X)=1(0{,}2)+2(0{,}4)+3(0{,}3)+4(0{,}1)=\mathbf{2{,}3}\).</li>
-        <li>\(E(X^2)=1(0{,}2)+4(0{,}4)+9(0{,}3)+16(0{,}1)=6{,}1\) → \(V(X)=6{,}1-2{,}3^2=\mathbf{0{,}81}\); \(\sigma=0{,}9\).</li>
-        <li>\(P(X\ge3)=0{,}3+0{,}1=0{,}4\); \(F(2)=0{,}2+0{,}4=0{,}6\).</li>
+        <li><p><span class="paso-titulo">Verificar que es una distribución válida</span> (paso obligatorio antes de calcular cualquier cosa): la suma de todas las probabilidades tiene que dar exactamente 1.</p>
+          <div class="expr">\( \sum p(x)=0{,}2+0{,}4+0{,}3+0{,}1=1\ \checkmark \)</div></li>
+        <li><p><span class="paso-titulo">a) Esperanza.</span> Se multiplica cada valor posible por su probabilidad y se suma — es un "promedio ponderado" donde el peso de cada valor es lo probable que es:</p>
+          <div class="expr">\( E(X)=\sum x\cdot p(x)=1(0{,}2)+2(0{,}4)+3(0{,}3)+4(0{,}1)=\mathbf{2{,}3} \)</div></li>
+        <li><p><span class="paso-titulo">b) Varianza y desvío.</span> No hay una fórmula directa para restar "cada valor menos la media"; se usa el atajo \(V(X)=E(X^2)-[E(X)]^2\). Primero se calcula \(E(X^2)\) (igual que la esperanza, pero elevando cada valor al cuadrado):</p>
+          <div class="expr">\( E(X^2)=1^2(0{,}2)+2^2(0{,}4)+3^2(0{,}3)+4^2(0{,}1)=0{,}2+1{,}6+2{,}7+1{,}6=6{,}1 \)</div>
+          <div class="expr">\( V(X)=E(X^2)-[E(X)]^2=6{,}1-2{,}3^2=6{,}1-5{,}29=\mathbf{0{,}81}\qquad \sigma=\sqrt{0{,}81}=\mathbf{0{,}9} \)</div></li>
+        <li><p><span class="paso-titulo">c) P(X ≥ 3).</span> Se suman las probabilidades de los valores que cumplen la condición (3 y 4):</p>
+          <div class="expr">\( P(X\ge3)=p(3)+p(4)=0{,}3+0{,}1=\mathbf{0{,}4} \)</div></li>
+        <li><p><span class="paso-titulo">d) F(2).</span> Es la acumulada hasta 2: se suman las probabilidades de todos los valores ≤ 2:</p>
+          <div class="expr">\( F(2)=P(X\le2)=p(1)+p(2)=0{,}2+0{,}4=\mathbf{0{,}6} \)</div></li>
       </ol>
     </div>
 
     <div class="ejemplo"><p class="titulo">Ejemplo resuelto · hallar una constante</p>
-      <p>\(P(r)=a/2^r\) para \(r=0,1,2,3\).</p>
+      <div class="consigna"><b>Consigna</b>Una variable discreta r toma los valores 0, 1, 2 y 3 con probabilidades \(P(r)=a/2^r\). Calcular: a) la constante a; b) la media y el desvío estándar; c) P(r ≤ 1).</div>
       <ol>
-        <li>Suma = 1: \(a\left(1+\tfrac12+\tfrac14+\tfrac18\right)=a\cdot\tfrac{15}{8}=1\) → \(a=\tfrac{8}{15}=\mathbf{0{,}5333}\).</li>
-        <li>Media: \(a\left(0+\tfrac12+\tfrac24+\tfrac38\right)=a\cdot\tfrac{11}{8}=\tfrac{11}{15}=\mathbf{0{,}7333}\).</li>
+        <li><p><span class="paso-titulo">a) Constante a.</span> Todavía no se conocen las probabilidades porque falta a — pero se sabe que, sean cuales sean, tienen que sumar 1. Se reemplaza r = 0, 1, 2, 3 en la fórmula y se plantea esa ecuación:</p>
+          <div class="expr">\( \sum P(r)=a\left(\dfrac{1}{2^0}+\dfrac{1}{2^1}+\dfrac{1}{2^2}+\dfrac{1}{2^3}\right)=a\left(1+\tfrac12+\tfrac14+\tfrac18\right)=a\cdot\dfrac{15}{8}=1 \)</div>
+          <div class="expr">\( a=\dfrac{8}{15}=\mathbf{0{,}5333} \)</div>
+          <p class="porque">Con esto ya se puede armar la tabla completa: \(P(0)=8/15\), \(P(1)=4/15\), \(P(2)=2/15\), \(P(3)=1/15\) (cada una es a dividido \(2^r\)).</p></li>
+        <li><p><span class="paso-titulo">b) Media.</span> Igual que en el ejemplo anterior, se multiplica cada valor por su probabilidad y se suma:</p>
+          <div class="expr">\( E(r)=a\left(0\cdot1+1\cdot\tfrac12+2\cdot\tfrac14+3\cdot\tfrac18\right)=a\left(0+\tfrac12+\tfrac24+\tfrac38\right)=a\cdot\dfrac{11}{8}=\dfrac{8}{15}\cdot\dfrac{11}{8}=\dfrac{11}{15}=\mathbf{0{,}7333} \)</div></li>
+        <li><p><span class="paso-titulo">c) P(r ≤ 1).</span> Se suman P(0) y P(1) usando las probabilidades ya calculadas:</p>
+          <div class="expr">\( P(r\le1)=P(0)+P(1)=\dfrac{8}{15}+\dfrac{4}{15}=\dfrac{12}{15}=\mathbf{0{,}8} \)</div></li>
       </ol>
     </div>
   </section>
@@ -647,77 +709,114 @@ table.frases td:first-child{font-family:var(--display); font-weight:600}
     <div class="cuando"><b>Cuándo</b>
       <p>n ensayos independientes, p constante, cuento cuántos éxitos hubo. Palabras: "en una muestra de 15 piezas", "en 20 días", "de 100 envíos".</p></div>
     <div class="ejemplo"><p class="titulo">Ejemplo resuelto · muestra de 15 piezas con 10 % de defectuosas</p>
-      <p>\(X\sim B(15;\,0{,}10)\), \(X\) = defectuosas.</p>
-      <ul>
-        <li>"2 o menos": \(P(X\le2)=F_b(2/15;0{,}1)=\mathbf{0{,}8159}\).</li>
-        <li>"Exactamente 2": \(\binom{15}{2}0{,}1^2\,0{,}9^{13}=105\cdot0{,}01\cdot0{,}2542=\mathbf{0{,}2669}\).</li>
-        <li>"Menos de 12 buenas" = 11 buenas o menos = <b>4 o más defectuosas</b>: \(P(X\ge4)=1-P(X\le3)=\mathbf{0{,}0556}\).</li>
-      </ul>
-      <p>Regla: traducí siempre a la variable que estás modelando (defectuosas), no a la del enunciado (buenas).</p>
+      <div class="consigna"><b>Consigna</b>Un proceso tecnológico produce piezas con un 10 % de defectuosas. Se toma una muestra de 15 piezas. ¿Cuál es la probabilidad de encontrar: a) 2 o menos defectuosas?; b) exactamente 2 defectuosas?; c) menos de 12 buenas?</div>
+      <p><span class="paso-titulo">Identificar el modelo.</span> Hay n = 15 piezas fijas (la muestra), cada una es independiente de las demás y la probabilidad de ser defectuosa es siempre 10 % (no dice que se saque de un lote finito con una cantidad exacta de defectuosas, así que no es hipergeométrico). Se define \(X\) = "cantidad de piezas defectuosas en la muestra" y \(X\sim B(15;\,0{,}10)\).</p>
+      <ol>
+        <li><p><span class="paso-titulo">a) 2 o menos defectuosas.</span> "2 o menos" es la acumulada hasta 2, que se calcula con calculadora o GeoGebra sumando P(0)+P(1)+P(2):</p>
+          <div class="expr">\( P(X\le2)=F_b(2/15;\,0{,}1)=\mathbf{0{,}8159} \)</div></li>
+        <li><p><span class="paso-titulo">b) Exactamente 2.</span> Se aplica directamente la fórmula de la binomial: cuántas formas hay de elegir cuáles 2 de las 15 son las defectuosas (\(\binom{15}{2}\)), multiplicado por la probabilidad de que esas 2 sean defectuosas y las otras 13 buenas:</p>
+          <div class="expr">\( P(X=2)=\binom{15}{2}\,0{,}1^2\,0{,}9^{13}=105\cdot0{,}01\cdot0{,}2542=\mathbf{0{,}2669} \)</div></li>
+        <li><p><span class="paso-titulo">c) Menos de 12 buenas.</span> Acá hay que traducir con cuidado: el enunciado habla de <em>buenas</em>, pero la variable que se definió es <em>defectuosas</em>. Como hay 15 piezas en total, "11 buenas o menos" equivale a "4 defectuosas o más" (15 − 11 = 4):</p>
+          <div class="expr">\( P(\text{buenas}\le11)=P(X\ge4)=1-P(X\le3)=\mathbf{0{,}0556} \)</div>
+          <p class="porque">Regla general: siempre traducí la pregunta a la variable que estás modelando (acá, defectuosas), no la dejes en los términos del enunciado (buenas) — es la fuente de error más común en este tipo de ejercicio.</p></li>
+      </ol>
     </div>
-    <div class="ejemplo"><p class="titulo">Ejemplo resuelto · "al menos una" y diseño</p>
-      <p>Una muestra de 10 latas; se detiene el proceso si alguna es defectuosa. El proceso trabaja al 1 %.</p>
-      <ul>
-        <li>Se revisa innecesariamente: \(P(X\ge1)=1-0{,}99^{10}=\mathbf{0{,}0956}\).</li>
-        <li>¿Cuántas latas para detectar con 0,95 un proceso al 10 %? \(1-0{,}9^n\ge0{,}95\Rightarrow n\ge\dfrac{\ln0{,}05}{\ln0{,}9}=28{,}4\Rightarrow\mathbf{n=29}\).</li>
-      </ul>
+    <div class="ejemplo"><p class="titulo">Ejemplo resuelto · "al menos una" y un problema de diseño</p>
+      <div class="consigna"><b>Consigna</b>Un proceso de producción de latas de gaseosa no debe superar el 1 % de defectuosas. Se lo controla examinando periódicamente una muestra de 10 latas, y si alguna resulta fallada se detiene el proceso para revisarlo. a) Si el proceso realmente trabaja al 1 %, ¿cuál es la probabilidad de revisarlo innecesariamente? b) ¿Cuántas latas habría que probar (en vez de 10) para que la probabilidad de detectar un proceso que produce 10 % de defectuosas sea 0,95?</div>
+      <ol>
+        <li><p><span class="paso-titulo">a) Revisar innecesariamente.</span> "Se detiene el proceso" = "aparece al menos una defectuosa en la muestra de 10". Si el proceso en realidad está bien (trabaja al 1 %), detenerlo igual es innecesario. Con \(X\sim B(10;\,0{,}01)\), conviene ir por el complemento de "ninguna defectuosa":</p>
+          <div class="expr">\( P(X\ge1)=1-P(X=0)=1-0{,}99^{10}=\mathbf{0{,}0956} \)</div>
+          <p class="porque">Casi un 10 % de las veces se va a detener el proceso aunque esté funcionando perfecto — es el costo de controlar con una muestra chica.</p></li>
+        <li><p><span class="paso-titulo">b) ¿Cuántas latas probar?</span> Ahora se invierte el problema: en vez de calcular una probabilidad con n fijo, hay que <b>encontrar n</b>. Se plantea la misma idea que en a) pero con el proceso funcionando mal (10 % de defectuosas) y se exige que la probabilidad de detectarlo sea al menos 0,95:</p>
+          <div class="expr">\( P(X\ge1)=1-0{,}9^n\ge0{,}95 \)</div>
+          <p>Se despeja n aislando la potencia y aplicando logaritmo (recordando invertir la desigualdad porque \(\ln(0{,}9)\) es negativo):</p>
+          <div class="expr">\( 0{,}9^n\le0{,}05\quad\Rightarrow\quad n\ln(0{,}9)\le\ln(0{,}05)\quad\Rightarrow\quad n\ge\dfrac{\ln(0{,}05)}{\ln(0{,}9)}=28{,}4 \)</div>
+          <div class="expr">\( \Rightarrow\ \mathbf{n=29}\ \text{latas (se redondea siempre hacia arriba)} \)</div></li>
+      </ol>
     </div>
 
     <h3>Pascal</h3>
     <div class="cuando"><b>Cuándo</b>
       <p>Repito ensayos hasta conseguir el \(r\)-ésimo éxito y cuento cuántos ensayos hicieron falta. Palabras: "hasta encontrar la segunda defectuosa", "cuántas piezas hay que fabricar para obtener 10 buenas". Dominio: \(n\ge r\).</p></div>
-    <div class="ejemplo"><p class="titulo">Ejemplo resuelto · hasta la 2.ª defectuosa (p = 0,20)</p>
-      <ul>
-        <li>Exactamente 12: \(\binom{11}{1}0{,}2^2\,0{,}8^{10}=11\cdot0{,}04\cdot0{,}1074=\mathbf{0{,}0473}\).</li>
-        <li>8 o menos: \(F_{pa}(8/2;0{,}2)=\mathbf{0{,}4967}\).</li>
-        <li>12 o más: \(1-F_{pa}(11/2;0{,}2)=\mathbf{0{,}3221}\).</li>
-        <li>Verificación con la binomial: "necesito 8 o menos" ⇔ "en 8 pruebas hay al menos 2 defectuosas" = \(G_b(2/8;0{,}2)\) = 0,4967 ✓.</li>
-      </ul>
+    <div class="ejemplo"><p class="titulo">Ejemplo resuelto · piezas revisadas hasta la 2.ª defectuosa</p>
+      <div class="consigna"><b>Consigna</b>En un proceso de control de calidad se efectúa una revisión periódica examinando la cantidad de piezas necesarias hasta encontrar la segunda defectuosa. Si el proceso trabaja con un 20 % de defectuosas, ¿cuál es la probabilidad de tener que revisar: a) 8 piezas o menos?; b) 12 piezas o más?; c) exactamente 12 piezas?</div>
+      <p><span class="paso-titulo">Identificar el modelo.</span> Acá lo que se cuenta no es "cuántas defectuosas salen en n pruebas" sino "cuántas piezas hace falta revisar para juntar 2 defectuosas" — se fija la cantidad de éxitos (r = 2) y la variable es el número de pruebas. Es Pascal, con N (número de piezas revisadas) \(\sim Pa(r=2;\,p=0{,}2)\). El dominio empieza en N = 2 (como mínimo, las dos primeras ya podrían ser defectuosas).</p>
+      <ol>
+        <li><p><span class="paso-titulo">c) Exactamente 12 (se resuelve primero, porque de ahí sale la lógica de las otras).</span> Que la 2.ª defectuosa aparezca justo en la pieza 12 significa que, en las primeras 11 piezas, hubo <em>exactamente 1</em> defectuosa (en cualquier posición: por eso el combinatorio \(\binom{11}{1}\)), y la pieza 12 fue, sí o sí, defectuosa:</p>
+          <div class="expr">\( P(N=12)=\binom{11}{1}\,0{,}2^2\,0{,}8^{10}=11\cdot0{,}04\cdot0{,}1074=\mathbf{0{,}0473} \)</div></li>
+        <li><p><span class="paso-titulo">a) 8 piezas o menos.</span> Es la acumulada de Pascal hasta N = 8 (con calculadora, sumando P(2)+P(3)+…+P(8)):</p>
+          <div class="expr">\( P(N\le8)=F_{pa}(8/2;\,0{,}2)=\mathbf{0{,}4967} \)</div>
+          <p class="porque"><b>Chequeo cruzado con la binomial</b> (útil si la calculadora no tiene Pascal): "necesitar 8 piezas o menos" para juntar 2 defectuosas equivale a que, en las primeras 8 piezas, ya haya <em>al menos 2</em> defectuosas. Eso es \(G_b(2/8;\,0{,}2)=0{,}4967\) — da exactamente lo mismo.</p></li>
+        <li><p><span class="paso-titulo">b) 12 piezas o más.</span> Por complemento de la acumulada hasta 11:</p>
+          <div class="expr">\( P(N\ge12)=1-P(N\le11)=1-F_{pa}(11/2;\,0{,}2)=\mathbf{0{,}3221} \)</div></li>
+      </ol>
     </div>
 
     <h3>Hipergeométrico</h3>
     <div class="cuando"><b>Cuándo</b>
       <p>Población <b>finita</b> de \(N\) elementos con \(R\) éxitos; se extraen \(n\) <b>sin reposición</b>; cuento éxitos en la muestra. La probabilidad cambia en cada extracción (por eso no es binomial). Palabras: "un lote de 40 elementos con 5 defectuosos, se prueban 5", "una caja de 65 con 5 de segunda calidad".</p></div>
     <div class="ejemplo"><p class="titulo">Ejemplo resuelto · cargamento de 40 elementos</p>
-      <p>Se prueban 5; si dos o más son defectuosos, se devuelve el cargamento.</p>
-      <ul>
-        <li>Con \(R=5\) defectuosos, se acepta si \(X\le1\): \(\dfrac{\binom50\binom{35}{5}+\binom51\binom{35}{4}}{\binom{40}{5}}=\mathbf{0{,}8912}\).</li>
-        <li>Con \(R=10\), no se acepta si \(X\ge2\): \(1-P(X\le1)=\mathbf{0{,}3669}\).</li>
-        <li>Esperanza con \(R=10\): \(nR/N=5\cdot10/40=1{,}25\) defectuosos.</li>
-      </ul>
+      <div class="consigna"><b>Consigna</b>Un cargamento contiene 40 elementos. Se seleccionan al azar y se prueban 5. Si dos o más resultan defectuosos, se devuelve el cargamento. a) Si el cargamento contiene en realidad 5 elementos defectuosos, ¿cuál es la probabilidad de que sea aceptado? b) Si el cargamento contiene en realidad 10 elementos defectuosos, ¿cuál es la probabilidad de que <b>no</b> sea aceptado?</div>
+      <p><span class="paso-titulo">Identificar el modelo.</span> Hay una población finita y conocida (N = 40 elementos), se extrae una muestra fija (n = 5) <b>sin reposición</b> (se prueban 5 elementos del mismo cargamento, no se devuelven para volver a probar), y se cuentan éxitos (defectuosos) en esa muestra. Es hipergeométrico: \(X\sim H(N=40,\,R,\,n=5)\), donde R cambia según el ítem.</p>
+      <ol>
+        <li><p><span class="paso-titulo">a) Con R = 5 defectuosos reales.</span> "Se acepta" significa que, de los 5 probados, aparece 0 ó 1 defectuoso (\(X\le1\)). Se calcula cada término por separado y se suman:</p>
+          <div class="expr">\( P(X=0)=\dfrac{\binom{5}{0}\binom{35}{5}}{\binom{40}{5}}\qquad P(X=1)=\dfrac{\binom{5}{1}\binom{35}{4}}{\binom{40}{5}} \)</div>
+          <div class="expr">\( P(X\le1)=P(X=0)+P(X=1)=\mathbf{0{,}8912} \)</div>
+          <p class="porque">Se lee cada combinatorio como "de cuántas formas": \(\binom{5}{1}\) es "de cuántas formas elijo 1 defectuoso entre los 5 que hay", y \(\binom{35}{4}\) es "de cuántas formas elijo los otros 4 buenos entre los 35 buenos que hay"; todo dividido por \(\binom{40}{5}\), las formas totales de elegir la muestra de 5.</p></li>
+        <li><p><span class="paso-titulo">b) Con R = 10 defectuosos reales.</span> Ahora "no se acepta" es \(X\ge2\). Es más corto ir por el complemento de \(X\le1\) (0 ó 1 defectuoso), calculado igual que arriba pero con R = 10:</p>
+          <div class="expr">\( P(X\ge2)=1-P(X\le1)=1-0{,}6331=\mathbf{0{,}3669} \)</div>
+          <p class="porque">Tiene sentido que ahora sea mucho más probable devolver el cargamento: con el doble de defectuosos reales (10 en vez de 5), la muestra de 5 tiene más chances de agarrar 2 o más.</p></li>
+      </ol>
     </div>
 
     <h3>HiperPascal</h3>
     <div class="cuando"><b>Cuándo</b>
       <p>Igual que el hipergeométrico, pero fijo la cantidad de éxitos \(r\) y cuento cuántas extracciones necesito. Palabras: "se extraen bolillas sin reposición hasta obtener la segunda roja". Dominio: \(r\le n\le N-R+r\).</p></div>
-    <div class="ejemplo"><p class="titulo">Ejemplo resuelto · urna de 12 bolillas (5 rojas), hasta la 2.ª roja</p>
-      <ul>
-        <li>Justo en la 4.ª extracción: \(\dfrac{\binom51\binom72}{\binom{12}{3}}\cdot\dfrac{5-2+1}{12-4+1}=\dfrac{105}{220}\cdot\dfrac49=\mathbf{0{,}2121}\).</li>
-        <li>5 extracciones o menos: \(P(2)+P(3)+P(4)+P(5)=\mathbf{0{,}7525}\).</li>
-      </ul>
+    <div class="ejemplo"><p class="titulo">Ejemplo resuelto · urna de 12 bolillas, hasta la 2.ª roja</p>
+      <div class="consigna"><b>Consigna</b>Una urna tiene 12 bolillas: 5 rojas y 7 blancas. Se extraen bolillas sin reposición hasta obtener la segunda roja. Calcular: a) la probabilidad de que la segunda roja aparezca justo en la 4.ª extracción; b) la probabilidad de necesitar 5 extracciones o menos; c) la menor cantidad de extracciones que puede hacer falta.</div>
+      <p><span class="paso-titulo">Identificar el modelo.</span> Es como el caso anterior pero sin reposición y contando pruebas en vez de éxitos: población finita (N = 12), sin reposición, y se fija la cantidad de éxitos buscados (r = 2 rojas). Es hiperPascal: N = número de extracciones \(\sim HP(N_{total}=12,\,R=5,\,r=2)\).</p>
+      <ol>
+        <li><p><span class="paso-titulo">c) Mínimo de extracciones (conviene pensarlo primero).</span> Para tener 2 rojas hacen falta como mínimo 2 extracciones (si las dos primeras ya son rojas). El dominio de la variable arranca en <b>n = 2</b>.</p></li>
+        <li><p><span class="paso-titulo">a) Justo en la 4.ª extracción.</span> Esto pasa si, en las primeras 3 extracciones, salió <em>exactamente 1</em> roja (hipergeométrica con n = 3) — y además, la 4.ª extracción tiene que ser roja. Ese segundo factor no es una probabilidad fija: depende de cuántas rojas y bolillas totales <em>quedan</em> después de las primeras 3:</p>
+          <div class="expr">\( \underbrace{\dfrac{\binom{5}{1}\binom{7}{2}}{\binom{12}{3}}}_{\text{1 roja en las primeras 3}}\cdot\underbrace{\dfrac{5-1}{12-3}}_{\substack{\text{rojas y bolillas}\\\text{que quedan}}}=\dfrac{105}{220}\cdot\dfrac{4}{9}=\mathbf{0{,}2121} \)</div>
+          <p class="porque">Esto es exactamente lo que hace la fórmula de hiperPascal de la hoja: el primer factor es la hipergeométrica de "r−1 éxitos en n−1 extracciones" y el segundo factor, \(\frac{R-r+1}{N-n+1}\), es la probabilidad de que la última extracción complete el éxito que falta.</p></li>
+        <li><p><span class="paso-titulo">b) 5 extracciones o menos.</span> Se suman las probabilidades de necesitar 2, 3, 4 ó 5 extracciones (cada una calculada con la misma lógica que en a):</p>
+          <div class="expr">\( P(n\le5)=P(2)+P(3)+P(4)+P(5)=\mathbf{0{,}7525} \)</div></li>
+      </ol>
     </div>
 
     <h3>Modelos combinados (los más "de parcial")</h3>
-    <div class="ejemplo"><p class="titulo">Probabilidad total → binomial</p>
-      <p>Mensajería: 40 % de los envíos en moto (5 % de retraso), 35 % en auto (3 %), 25 % en camión (7 %).</p>
+    <div class="ejemplo"><p class="titulo">Ejemplo resuelto · probabilidad total seguida de binomial</p>
+      <div class="consigna"><b>Consigna</b>Una empresa de mensajería utiliza tres tipos de vehículos para repartir paquetes: el 40 % de los envíos se realizan con motos, que tienen un 5 % de probabilidad de retraso; el 35 % con autos, que tienen un 3 % de probabilidad de retraso; y el resto con camiones, que tienen un 7 % de probabilidad de retraso. a) ¿Cuál es la probabilidad de que un envío cualquiera tenga retraso? b) ¿Cuál es la probabilidad de que en una muestra de 100 envíos haya como máximo 6 retrasos?</div>
       <ol>
-        <li>\(p=0{,}40(0{,}05)+0{,}35(0{,}03)+0{,}25(0{,}07)=\mathbf{0{,}048}\).</li>
-        <li>En 100 envíos, \(X\sim B(100;0{,}048)\): como máximo 6 retrasos → \(F_b(6/100;0{,}048)=\mathbf{0{,}7950}\).</li>
+        <li><p><span class="paso-titulo">Paso 1 (a) · probabilidad total.</span> El retraso de "un envío cualquiera" puede venir de tres orígenes distintos (moto, auto o camión), cada uno con su propia probabilidad de ser elegido y su propia tasa de retraso. Como no dicen el porcentaje de camiones, se calcula por diferencia: 100 % − 40 % − 35 % = 25 %. Se suman los tres caminos:</p>
+          <div class="expr">\( p=\underbrace{0{,}40\cdot0{,}05}_{\text{moto}}+\underbrace{0{,}35\cdot0{,}03}_{\text{auto}}+\underbrace{0{,}25\cdot0{,}07}_{\text{camión}}=0{,}02+0{,}0105+0{,}0175=\mathbf{0{,}048} \)</div>
+          <p class="porque">Este 4,8 % es "la probabilidad de retraso de un envío promedio", mezclando los tres vehículos según cómo se reparten los envíos.</p></li>
+        <li><p><span class="paso-titulo">Paso 2 (b) · ese p pasa a ser el parámetro de una binomial.</span> Ahora la pregunta cambia de foco: ya no es sobre un envío, sino sobre <b>cuántos</b> de 100 envíos tienen retraso. Los 100 envíos son ensayos independientes, cada uno con la misma probabilidad de retraso que se acaba de calcular (0,048) — exactamente las condiciones de una binomial. Se define \(Y\) = "cantidad de envíos con retraso entre 100":</p>
+          <div class="expr">\( Y\sim B(100;\,0{,}048)\qquad P(Y\le6)=F_b(6/100;\,0{,}048)=\mathbf{0{,}7950} \)</div>
+          <p class="porque">Este es el patrón "en dos pasos" más común: el resultado del paso de probabilidad total (un número entre 0 y 1) se convierte directamente en el <b>p</b> del modelo binomial del paso siguiente.</p></li>
       </ol>
     </div>
-    <div class="ejemplo"><p class="titulo">Hipergeométrica → binomial</p>
-      <p>Lote de 50 tornillos con 8 defectuosos; se revisan 5 y se acepta con máximo 1 defectuoso. Después se revisan 20 lotes iguales.</p>
+    <div class="ejemplo"><p class="titulo">Ejemplo resuelto · hipergeométrica seguida de binomial</p>
+      <div class="consigna"><b>Consigna</b>Un lote contiene 50 tornillos, de los cuales 8 son defectuosos. Un inspector selecciona 5 tornillos al azar y el lote se acepta si en la muestra aparecen como máximo 1 tornillo defectuoso. a) Calcular la probabilidad de aceptar el lote. b) Si el inspector debe revisar 20 lotes bajo el mismo criterio, ¿cuál es la probabilidad de que se acepten al menos 18?</div>
       <ol>
-        <li>Aceptar un lote (hipergeométrica): \(P(X\le1)=\mathbf{0{,}8241}\).</li>
-        <li>Lotes aceptados \(Y\sim B(20;\,0{,}8241)\): \(P(Y\ge18)=G_b(18/20;0{,}8241)=\mathbf{0{,}2907}\).</li>
+        <li><p><span class="paso-titulo">Paso 1 (a) · dentro de UN lote, es hipergeométrica.</span> Hay una población finita conocida (N = 50 tornillos, R = 8 defectuosos), se extrae una muestra fija sin reposición (n = 5) y se cuentan defectuosos. Se acepta el lote si \(X\le1\):</p>
+          <div class="expr">\( P(\text{aceptar})=P(X\le1)=\dfrac{\binom{8}{0}\binom{42}{5}+\binom{8}{1}\binom{42}{4}}{\binom{50}{5}}=\mathbf{0{,}8241} \)</div></li>
+        <li><p><span class="paso-titulo">Paso 2 (b) · ahora los LOTES son los ensayos.</span> Cambia el nivel del problema: ya no se mira adentro de un lote, sino que cada uno de los 20 lotes es un "ensayo" que resulta aceptado o rechazado. Si todos los lotes tienen la misma composición (8 defectuosos en 50), cada uno se acepta, independientemente, con la probabilidad calculada en el paso 1 (0,8241). Eso son las condiciones de una binomial. Se define \(Z\) = "cantidad de lotes aceptados, de los 20":</p>
+          <div class="expr">\( Z\sim B(20;\,0{,}8241)\qquad P(Z\ge18)=G_b(18/20;\,0{,}8241)=\mathbf{0{,}2907} \)</div>
+          <p class="porque">Mismo patrón que el ejemplo anterior: la probabilidad calculada con el modelo del "nivel de adentro" (hipergeométrica, un lote) se convierte en el p del modelo del "nivel de afuera" (binomial, muchos lotes).</p></li>
       </ol>
     </div>
-    <div class="ejemplo"><p class="titulo">Hipergeométrico vs. hiperPascal (dos inspectores)</p>
-      <p>Cajas de 65 con 5 piezas de segunda. El inspector A toma 5 y rechaza si hay alguna de segunda. El inspector B saca hasta encontrar la 2.ª de segunda y rechaza si necesita 5 o menos.</p>
-      <ul>
-        <li>A (muestra fija) → hipergeométrica: \(1-\dfrac{\binom{60}{5}}{\binom{65}{5}}=\mathbf{33{,}88\,\%}\).</li>
-        <li>B (éxitos fijos) → hiperPascal: \(P(n\le5)=\mathbf{4{,}36\,\%}\).</li>
-      </ul>
+    <div class="ejemplo"><p class="titulo">Ejemplo resuelto · hipergeométrico vs. hiperPascal (dos inspectores)</p>
+      <div class="consigna"><b>Consigna</b>En una empresa se reciben periódicamente piezas de repuesto en cajas de 65 unidades, de las cuales 5 son de segunda calidad. El control de recepción lo pueden realizar dos inspectores. El inspector A toma una muestra de 5 unidades al azar y rechaza la caja si encuentra alguna pieza de segunda calidad. El inspector B va sacando piezas una por una hasta encontrar la segunda de segunda calidad, y acepta la caja si necesita sacar más de 5 piezas para lograrlo (la rechaza si necesita 5 o menos). Calcular el porcentaje de cajas rechazadas por cada inspector.</div>
+      <p><span class="paso-titulo">Por qué son dos modelos distintos</span> aunque los dos revisan la misma caja: A fija <b>cuántas piezas mira</b> (siempre 5) y cuenta éxitos → hipergeométrica. B fija <b>cuántos éxitos busca</b> (siempre 2) y cuenta piezas → hiperPascal. El mismo problema, mirado con dos criterios de muestreo distintos, da modelos distintos.</p>
+      <ol>
+        <li><p><span class="paso-titulo">Inspector A (hipergeométrica).</span> N = 65, R = 5, n = 5. Rechaza si aparece al menos 1 de segunda (\(X\ge1\)); conviene ir por el complemento de "ninguna de segunda":</p>
+          <div class="expr">\( P(\text{rechaza A})=1-P(X=0)=1-\dfrac{\binom{60}{5}}{\binom{65}{5}}=\mathbf{33{,}88\,\%} \)</div></li>
+        <li><p><span class="paso-titulo">Inspector B (hiperPascal).</span> N = 65, R = 5, r = 2 (busca la 2.ª de segunda). Rechaza si necesita 5 piezas o menos para encontrarla (\(n\le5\)); acá sí conviene sumar directo los pocos términos del dominio (n va de 2 a 5):</p>
+          <div class="expr">\( P(\text{rechaza B})=P(n=2)+P(n=3)+P(n=4)+P(n=5)=\mathbf{4{,}36\,\%} \)</div>
+          <p class="porque">La diferencia es enorme (33,88 % contra 4,36 %): B necesita <em>dos</em> piezas de segunda para rechazar, así que tolera mucho más que A, a quien le alcanza con encontrar una sola. Es el ejemplo de la clase donde un mal criterio de inspección (B) le hace perder plata a la empresa.</p></li>
+      </ol>
     </div>
 
     <div class="errores"><p><b>Errores típicos</b></p>
