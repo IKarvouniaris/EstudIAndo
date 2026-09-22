@@ -50,6 +50,10 @@ Segunda materia con el esquema completo (apunte + simulacro + leaderboard), pero
 - **Pendiente:** ampliar el banco de ejercicios más allá de los 6 iniciales.
 - **2026-09-18:** el apunte ya no es liviano — se agregó buscador, riel plegable, glosario (30 términos), flashcards (30 tarjetas por clase) y una **chuleta rápida** (cheatsheet de funciones por biblioteca, en vez de la línea de tiempo de Ética que no aplica acá). Mismo aparato que Ética, adaptado a una materia de programación.
 
+### Tutor IA en Estadística (2026-09-22)
+
+Agregado el botón flotante del tutor (💬, lado derecho) a `estadistica.html`, igual que en Ética. La Edge Function `preguntar-apunte` estaba con el prompt hardcodeado a "Ética en la Inteligencia Artificial" (arrastrado de cuando sólo existía esa materia); se generalizó con un mapa `NOMBRE_MATERIA` (`etica`/`python`/`estadistica`) para que el tutor se presente bien sin importar desde qué apunte lo invoquen. Python sigue sin tutor (no se pidió).
+
 ### Estadística General — apunte, hoja de fórmulas y simulacro numérico (2026-09-20)
 
 Tercera materia, con un tercer modelo de examen: **el estudiante escribe sólo el resultado numérico** de cada parte y la corrección es automática, en Postgres (sin Gemini). Alcance: primer parcial (Temas 1-3 discretos; el material de la cátedra llega hasta la clase 7). Segundo parcial (continuas, normal, Poisson, TCL) queda pendiente hasta tener las clases.

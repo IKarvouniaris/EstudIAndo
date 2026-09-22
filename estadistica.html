@@ -170,6 +170,35 @@ table.frases td:first-child{font-family:var(--display); font-weight:600}
   .formula-item{break-inside:avoid}
   .ejemplo, .cuando, .errores{break-inside:avoid}
 }
+/* ---- Tutor IA (botón flotante) ---- */
+#tutor-btn{
+  position:fixed; right:1.2rem; bottom:1.2rem; z-index:80; cursor:pointer;
+  width:3.2rem; height:3.2rem; border-radius:50%; border:1px solid var(--linea);
+  background:var(--tinta); color:var(--papel); font-size:1.3rem; display:grid; place-items:center;
+  box-shadow:0 4px 14px rgba(0,0,0,.25);
+}
+#tutor-btn:hover{filter:brightness(1.15)}
+#tutor-panel{
+  position:fixed; right:1.2rem; bottom:5rem; z-index:80; width:min(24rem, calc(100vw - 2.4rem));
+  height:min(28rem, calc(100vh - 8rem)); background:var(--papel); border:1px solid var(--linea);
+  border-radius:6px; box-shadow:0 8px 28px rgba(0,0,0,.3); display:flex; flex-direction:column; overflow:hidden;
+}
+#tutor-panel.oculto{display:none}
+.tutor-cab{padding:.6rem .9rem; border-bottom:1px solid var(--linea); background:var(--papel-3); display:flex; justify-content:space-between; align-items:center}
+.tutor-cab b{font-family:var(--display); font-size:.85rem}
+.tutor-cab button{cursor:pointer; background:none; border:0; color:var(--tinta-3); font-size:.9rem}
+.tutor-cab button:hover{color:var(--tinta)}
+.tutor-msgs{flex:1; overflow-y:auto; padding:.8rem .9rem; display:flex; flex-direction:column; gap:.6rem}
+.tutor-msg{font-size:.88rem; line-height:1.5; padding:.5rem .7rem; border-radius:6px; max-width:88%; white-space:pre-wrap}
+.tutor-msg.user{align-self:flex-end; background:var(--tinta); color:var(--papel)}
+.tutor-msg.model{align-self:flex-start; background:var(--papel-2); border:1px solid var(--linea-2); color:var(--tinta)}
+.tutor-msg.cargando{color:var(--tinta-3); font-style:italic}
+.tutor-vacio{color:var(--tinta-3); font-size:.82rem; text-align:center; margin:auto}
+.tutor-form{display:flex; gap:.4rem; padding:.6rem; border-top:1px solid var(--linea)}
+.tutor-form textarea{flex:1; resize:none; min-height:2.4rem; max-height:6rem; padding:.5rem .6rem; font-family:var(--body); font-size:.85rem; color:var(--tinta); background:var(--papel-2); border:1px solid var(--linea); border-radius:4px}
+.tutor-form button{cursor:pointer; padding:0 .9rem; font-family:var(--display); font-weight:600; background:var(--tinta); color:var(--papel); border:0; border-radius:4px}
+.tutor-form button:disabled{opacity:.5; cursor:default}
+@media (max-width:640px){ #tutor-btn{right:.8rem; bottom:.8rem} #tutor-panel{right:.8rem; bottom:4.6rem} }
 </style>
 </head>
 <body>
@@ -795,10 +824,21 @@ table.frases td:first-child{font-family:var(--display); font-weight:600}
 </main>
 </div>
 
+<button id="tutor-btn" type="button" title="Preguntarle a la IA sobre este apunte">💬</button>
+<div id="tutor-panel" class="oculto">
+  <div class="tutor-cab"><b>Preguntale al apunte</b><button type="button" id="tutor-cerrar" title="Cerrar">✕</button></div>
+  <div class="tutor-msgs" id="tutor-msgs"><p class="tutor-vacio">Preguntá lo que quieras sobre estadística descriptiva, probabilidad, variables discretas o los modelos (binomial, Pascal, hipergeométrico) — la IA responde en base a este apunte.</p></div>
+  <form class="tutor-form" id="tutor-form">
+    <textarea id="tutor-input" placeholder="Ej: ¿cuándo uso Pascal en vez de binomial?" rows="1"></textarea>
+    <button type="submit" id="tutor-enviar">Enviar</button>
+  </form>
+</div>
+
 <script src="config.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="js/auth.js"></script>
 <script src="js/num-api.js"></script>
+<script src="js/tutor-api.js"></script>
 <script src="js/dominio-widget.js"></script>
 <script src="js/sesion.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
@@ -1006,6 +1046,75 @@ table.frases td:first-child{font-family:var(--display); font-weight:600}
 })();
 Sesion.montar("chip-sesion");
 DominioWidget.montar("dominio", NumApi.dominioPropio);
+</script>
+<script>
+(function(){
+  "use strict";
+  var btn = document.getElementById("tutor-btn"), panel = document.getElementById("tutor-panel");
+  var msgs = document.getElementById("tutor-msgs"), form = document.getElementById("tutor-form");
+  var input = document.getElementById("tutor-input"), enviar = document.getElementById("tutor-enviar");
+  var historial = [], contexto = null;
+
+  function agregarMensaje(rol, texto, cls){
+    var vacio = msgs.querySelector(".tutor-vacio"); if(vacio) vacio.remove();
+    var div = document.createElement("div");
+    div.className = "tutor-msg " + rol + (cls ? " " + cls : "");
+    div.textContent = texto;
+    msgs.appendChild(div);
+    msgs.scrollTop = msgs.scrollHeight;
+    return div;
+  }
+
+  btn.addEventListener("click", function(){
+    panel.classList.toggle("oculto");
+    if(!panel.classList.contains("oculto")) input.focus();
+  });
+  document.getElementById("tutor-cerrar").addEventListener("click", function(){ panel.classList.add("oculto"); });
+
+  function obtenerContexto(){
+    if(contexto) return contexto;
+    var lienzo = document.querySelector(".lienzo");
+    contexto = lienzo ? lienzo.innerText : document.body.innerText;
+    return contexto;
+  }
+
+  form.addEventListener("submit", function(e){
+    e.preventDefault();
+    var pregunta = input.value.trim();
+    if(!pregunta) return;
+
+    Auth.obtenerSesion().then(function(sesion){
+      if(!sesion){
+        agregarMensaje("model", "Iniciá sesión arriba a la derecha para poder preguntarle a la IA.");
+        return;
+      }
+      agregarMensaje("user", pregunta);
+      input.value = ""; input.style.height = "auto";
+      enviar.disabled = true;
+      var cargando = agregarMensaje("model", "Pensando…", "cargando");
+
+      TutorApi.preguntar(pregunta, obtenerContexto(), historial, "estadistica").then(function(respuesta){
+        cargando.remove();
+        agregarMensaje("model", respuesta);
+        historial.push({ rol: "user", texto: pregunta });
+        historial.push({ rol: "model", texto: respuesta });
+      }).catch(function(err){
+        cargando.remove();
+        agregarMensaje("model", "No pude responder: " + err.message);
+      }).finally(function(){
+        enviar.disabled = false;
+      });
+    });
+  });
+
+  input.addEventListener("input", function(){
+    input.style.height = "auto";
+    input.style.height = Math.min(input.scrollHeight, 96) + "px";
+  });
+  input.addEventListener("keydown", function(e){
+    if(e.key === "Enter" && !e.shiftKey){ e.preventDefault(); form.requestSubmit(); }
+  });
+})();
 </script>
 </body>
 </html>
