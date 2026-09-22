@@ -68,6 +68,10 @@ Tercera materia, con un tercer modelo de examen: **el estudiante escribe sólo e
 - **Simulacro** `simulacro-estadistica.html` (práctica con verificar por parte + resolución; examen de 5 ejercicios, 60 min, cooldown 5 min) y `leaderboard-estadistica.html`. Cliente en `js/num-api.js`.
 - Decisión: sin ejercicios de cuartiles con datos sin agrupar (la cátedra no muestra en las diapositivas qué convención de posición usa); sí con datos agrupados, que confirma el repaso.
 
+### Tutor IA: el mensaje de error era genérico (2026-09-22)
+
+`js/tutor-api.js` no desenvolvía el error real de la Edge Function: ante cualquier falla (límite diario, Gemini caído, lo que sea) el usuario veía siempre "Edge Function returned a non-2xx status code" — el mensaje genérico del SDK de Supabase, sin el motivo real que sí viaja en el cuerpo de la respuesta. Se aplicó el mismo desenvolvido que ya tenía `CodigoApi.corregirPractica` (leer `error.context.json()`), así que de ahora en más el chat del tutor muestra la causa real (por ejemplo, el límite diario o el error puntual de Gemini) en vez de ese mensaje sin información. Probado con mocks: con cuerpo de error lo muestra, sin cuerpo cae al mensaje genérico sin romperse. No pude ver el log real de este incidente puntual (el CLI de Supabase no tiene `functions logs`; hay que mirar el Dashboard), así que si vuelve a pasar el próximo mensaje ya va a decir la causa.
+
 ### Corrección con IA del desarrollo en práctica libre (2026-09-18)
 
 Botón "✦ Corregir con IA" en el desarrollo escrito de `simulacro-etica.html` (modo práctica). Edge Function `corregir-practica`: misma grilla y prompt que `corregir-desarrollo`, pero sin intento puntuado — no guarda el texto ni toca puntajes/leaderboard. Límite de 15 por día por usuario, registrado en `correcciones_practica` (`supabase/fase6_correccion_practica.sql`). La última corrección de cada caso queda en el localStorage del navegador.
