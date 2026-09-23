@@ -490,6 +490,9 @@ sns.scatterplot(data=df, x="Horas", y="Nota", hue="Curso", size="Proyectos",
         <div><code>df.fillna() / df.dropna()</code><span>Imputar o eliminar valores nulos.</span></div>
         <div><code>df.drop_duplicates(subset=[...])</code><span>Saca filas duplicadas según una clave.</span></div>
         <div><code>df.astype("category")</code><span>Convierte una columna a tipo categórico.</span></div>
+        <div><code>pd.to_datetime(col, errors="coerce")</code><span>Texto a fecha real. Recién ahí podés ordenar cronológicamente o usar <code>.dt.month</code>.</span></div>
+        <div><code>df.sort_values(by=, ascending=False)</code><span>Ordena por valor. Por defecto es ascendente: "de mayor a menor" necesita <code>ascending=False</code>.</span></div>
+        <div><code>serie.idxmax() / .idxmin()</code><span>Etiqueta de la fila con el valor máximo o mínimo. Se combina con <code>df.loc[]</code> para traer esa fila entera — <code>max()</code> da el valor, <code>idxmax()</code> da dónde está.</span></div>
       </div>
     </div>
 
@@ -510,6 +513,8 @@ sns.scatterplot(data=df, x="Horas", y="Nota", hue="Curso", size="Proyectos",
         <div><code>pd.read_excel(sheet_name=)</code><span>Leer una hoja (o todas, con <code>sheet_name=None</code>) de un Excel.</span></div>
         <div><code>pd.read_json() / json_normalize()</code><span>Leer JSON y aplanar estructuras anidadas a columnas.</span></div>
         <div><code>df.to_csv(archivo, index=False)</code><span>Exportar sin escribir el índice como columna extra.</span></div>
+        <div><code>df.to_excel(archivo, index=False)</code><span>Exportar a Excel. La extensión manda: si el archivo pedido es <code>.csv</code>, va <code>to_csv</code>.</span></div>
+        <div><code>df.to_json(archivo, orient="records")</code><span>Exportar JSON con un objeto por fila, el formato que esperan las APIs.</span></div>
       </div>
     </div>
 
@@ -519,7 +524,12 @@ sns.scatterplot(data=df, x="Horas", y="Nota", hue="Curso", size="Proyectos",
         <div><code>fig, ax = plt.subplots()</code><span>Crea la figura (lienzo) y el área de dibujo (<code>Axes</code>).</span></div>
         <div><code>ax.plot() .bar() .hist() .scatter()</code><span>Línea, barras, histograma, dispersión.</span></div>
         <div><code>plt.subplots(n, m)</code><span>Panel con varios gráficos (<code>n</code>×<code>m</code>), indexado <code>axes[i,j]</code>.</span></div>
-        <div><code>fig.savefig(archivo, dpi=)</code><span>Exportar la figura a un archivo de imagen.</span></div>
+        <div><code>plt.title() .xlabel() .ylabel()</code><span>Título y nombre de cada eje. Con la interfaz de <code>Axes</code> llevan prefijo: <code>ax.set_title()</code>.</span></div>
+        <div><code>plt.grid(True, alpha=.3)</code><span>Cuadrícula discreta de fondo.</span></div>
+        <div><code>plt.bar_label(barras)</code><span>Escribe el valor encima de cada barra. Necesita guardar lo que devuelve <code>plt.bar()</code>.</span></div>
+        <div><code>ax.axvline() / ax.axhline()</code><span>Línea de referencia vertical u horizontal: la media sobre un histograma, el umbral sobre barras.</span></div>
+        <div><code>plt.tight_layout() / plt.show()</code><span>Acomoda los márgenes para que no se recorten las etiquetas, y muestra la figura.</span></div>
+        <div><code>fig.savefig(archivo, dpi=)</code><span>Exportar la figura a un archivo de imagen. Siempre antes de <code>show()</code>.</span></div>
       </div>
     </div>
 
