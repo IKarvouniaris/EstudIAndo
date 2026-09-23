@@ -1173,7 +1173,19 @@ DominioWidget.montar("dominio", NumApi.dominioPropio);
   function obtenerContexto(){
     if(contexto) return contexto;
     var lienzo = document.querySelector(".lienzo");
-    contexto = lienzo ? lienzo.innerText : document.body.innerText;
+    if(!lienzo){ contexto = document.body.innerText; return contexto; }
+    // Cada fórmula KaTeX trae dos capas (la visual y una MathML accesible) que, leídas como texto, salen como
+    // letras sueltas una debajo de otra y repetidas. Se reemplazan por el LaTeX original, que el modelo entiende bien.
+    // innerText necesita el nodo en el documento para respetar los saltos de línea: se lo pone fuera de pantalla un instante.
+    var clon = lienzo.cloneNode(true);
+    clon.querySelectorAll(".katex").forEach(function(k){
+      var anotacion = k.querySelector('annotation[encoding="application/x-tex"]');
+      k.replaceWith(document.createTextNode(" " + (anotacion ? anotacion.textContent : k.textContent) + " "));
+    });
+    clon.style.cssText = "position:absolute; left:-99999px; top:0; width:800px";
+    document.body.appendChild(clon);
+    contexto = clon.innerText;
+    clon.remove();
     return contexto;
   }
 
