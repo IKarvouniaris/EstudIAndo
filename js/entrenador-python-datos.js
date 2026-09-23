@@ -16,16 +16,16 @@ const BANCO = [
  codigo:"ventas = [\n    {'venta_id': 1, 'cliente_id': 101, 'mes': 'Marzo', 'importe': 85000},\n    {'venta_id': 2, 'cliente_id': 102, 'mes': 'Marzo', 'importe': 120000},\n]",
  pide:"¿Qué usás para construir la tabla?",
  ops:[
-  "<code>pd.DataFrame(ventas)</code>",
-  "<code>np.array(ventas)</code>",
-  "<code>pd.Series(ventas)</code>",
-  "<code>list(ventas)</code>"
+  "<code>df = pd.DataFrame(ventas)</code>",
+  "<code>df = pd.DataFrame(ventas.values())</code>",
+  "<code>df = pd.Series(ventas).to_frame()</code>",
+  "<code>df = pd.read_json(ventas)</code>"
  ],
  aprendido:"Una lista de diccionarios es exactamente el formato que <code>pd.DataFrame()</code> espera: cada diccionario es una fila y cada clave se convierte en columna. Es el primer paso de casi todos los prácticos: las consignas dan colecciones de Python y vos tenés que armar los DataFrames.",
  porque:{
-  "<code>np.array(ventas)</code>":"NumPy trabaja con arreglos homogéneos de números. Con diccionarios te devuelve un array de objetos inútil para filtrar por columna.",
-  "<code>pd.Series(ventas)</code>":"Una Series es <b>unidimensional</b>: te quedaría una sola columna donde cada celda es un diccionario entero.",
-  "<code>list(ventas)</code>":"Ya es una lista; no la transforma en nada útil."
+  "<code>df = pd.DataFrame(ventas.values())</code>":"Una lista no tiene <code>.values()</code> (es método de diccionarios): tira <code>AttributeError</code>.",
+  "<code>df = pd.Series(ventas).to_frame()</code>":"Corre, pero arma <b>una sola columna</b> donde cada celda es un diccionario entero: no separa <code>venta_id</code>, <code>mes</code> ni <code>importe</code>.",
+  "<code>df = pd.read_json(ventas)</code>":"<code>read_json</code> espera una ruta o un texto JSON, no una lista que ya está cargada en memoria."
  }
 },
 {
@@ -34,15 +34,15 @@ const BANCO = [
  pide:"¿Cómo recorrés el diccionario?",
  ops:[
   "<code>for clave, valor in parametros.items():</code>",
-  "<code>for clave in parametros.keys(): print(clave)</code>",
-  "<code>for i, v in enumerate(parametros):</code>",
-  "<code>for valor in parametros.values():</code>"
+  "<code>for clave, valor in sorted(parametros):</code>",
+  "<code>for clave, valor in enumerate(parametros):</code>",
+  "<code>for clave, valor in parametros.values():</code>"
  ],
  aprendido:"<code>.items()</code> devuelve pares (clave, valor), que es justo lo que pide la consigna de “recorrerlo, consultar sus claves y usar sus valores”. <code>.keys()</code> da solo las claves y <code>.values()</code> solo los valores.",
  porque:{
-  "<code>for clave in parametros.keys(): print(clave)</code>":"Te da las claves pero perdés el valor, que es lo que después usás para controlar el filtro.",
-  "<code>for i, v in enumerate(parametros):</code>":"Sobre un diccionario, <code>enumerate</code> numera las <b>claves</b>; el índice numérico no aporta nada acá.",
-  "<code>for valor in parametros.values():</code>":"Tenés el valor pero no sabés a qué parámetro corresponde."
+  "<code>for clave, valor in sorted(parametros):</code>":"Iterar un diccionario (aunque sea ordenado) da <b>sólo las claves</b>; desempaquetar cada clave en dos variables falla con <code>ValueError</code>.",
+  "<code>for clave, valor in enumerate(parametros):</code>":"<code>enumerate</code> numera: <code>clave</code> valdría 0, 1, 2… y <code>valor</code> sería el nombre del parámetro. Ninguna de las dos cosas es lo que pide la consigna.",
+  "<code>for clave, valor in parametros.values():</code>":"<code>.values()</code> devuelve sólo los valores; intentar separar cada uno en <code>clave, valor</code> falla, y aunque no fallara perdés el nombre del parámetro."
  }
 },
 {
@@ -51,16 +51,16 @@ const BANCO = [
  codigo:"sedes = ['Palermo', 'Belgrano', 'Palermo', 'Centro', 'Belgrano']",
  pide:"¿Qué estructura usás?",
  ops:[
-  "<code>set(sedes)</code>",
-  "<code>tuple(sedes)</code>",
-  "<code>sorted(sedes)</code>",
-  "<code>len(sedes)</code>"
+  "<code>unicas = list(set(sedes))</code>",
+  "<code>len(set(sedes)) == len(sedes)</code>",
+  "<code>sedes.drop_duplicates()</code>",
+  "<code>[s for s in sedes if sedes.count(s) < 2]</code>"
  ],
  aprendido:"Un <code>set</code> es una colección sin elementos repetidos: convertir una lista a set es la forma más corta de sacar duplicados. En Pandas el equivalente sobre una columna es <code>df['sede'].unique()</code> o <code>nunique()</code>.",
  porque:{
-  "<code>tuple(sedes)</code>":"Una tupla es inmutable pero conserva los repetidos.",
-  "<code>sorted(sedes)</code>":"Ordena, no deduplica.",
-  "<code>len(sedes)</code>":"Cuenta elementos, incluidos los repetidos."
+  "<code>len(set(sedes)) == len(sedes)</code>":"Responde <b>si había repetidas</b> (True/False); no devuelve la lista de sedes distintas.",
+  "<code>sedes.drop_duplicates()</code>":"<code>drop_duplicates()</code> es de Pandas: una lista de Python no tiene ese método y tira <code>AttributeError</code>.",
+  "<code>[s for s in sedes if sedes.count(s) < 2]</code>":"Se queda sólo con las sedes que aparecen <b>una única vez</b> (acá, solamente 'Centro'): descarta las repetidas en vez de deduplicarlas."
  }
 },
 {
@@ -69,15 +69,15 @@ const BANCO = [
  pide:"¿Qué función te da índice y valor al mismo tiempo?",
  ops:[
   "<code>for i, act in enumerate(actividades, start=1):</code>",
-  "<code>for act in actividades:</code>",
-  "<code>for i in range(actividades):</code>",
-  "<code>for i, act in zip(actividades):</code>"
+  "<code>for i, act in enumerate(actividades):</code>",
+  "<code>for i, act in zip(range(1, len(actividades)), actividades):</code>",
+  "<code>for i, act in enumerate(actividades, stop=1):</code>"
  ],
  aprendido:"<code>enumerate()</code> recorre y numera a la vez, y <code>start=1</code> hace que la numeración empiece en 1 en lugar de 0. Evita el clásico contador manual y es más legible (criterio PEP 8).",
  porque:{
-  "<code>for act in actividades:</code>":"Recorre pero no te da el número de orden.",
-  "<code>for i in range(actividades):</code>":"<code>range()</code> necesita un entero, no una lista: tira <code>TypeError</code>.",
-  "<code>for i, act in zip(actividades):</code>":"<code>zip()</code> combina <b>dos o más</b> secuencias; con una sola no genera pares."
+  "<code>for i, act in enumerate(actividades):</code>":"Numera desde 0: la primera actividad quedaría como “0. estudiar Python”.",
+  "<code>for i, act in zip(range(1, len(actividades)), actividades):</code>":"<code>range(1, len(actividades))</code> genera <b>un número menos</b> que actividades: <code>zip</code> corta y la última actividad nunca se muestra.",
+  "<code>for i, act in enumerate(actividades, stop=1):</code>":"<code>enumerate</code> no tiene parámetro <code>stop</code> (sólo <code>start</code>): tira <code>TypeError</code>."
  }
 },
 {
@@ -86,16 +86,16 @@ const BANCO = [
  codigo:"cantidad = int(input('¿Cuántos contactos? '))",
  pide:"¿Qué excepción tenés que capturar?",
  ops:[
-  "<code>ValueError</code>",
-  "<code>TypeError</code>",
-  "<code>KeyError</code>",
-  "<code>OSError</code>"
+  "<code>ValueError</code>: el texto es un <code>str</code> válido, pero su contenido no representa un número",
+  "<code>TypeError</code>: <code>int()</code> recibió un objeto de un tipo que no sabe convertir a entero",
+  "<code>EOFError</code>: <code>input()</code> no pudo leer lo que la persona escribió por el teclado",
+  "<code>OverflowError</code>: el número escrito es demasiado grande para convertirlo a entero"
  ],
  aprendido:"<code>int()</code> sobre un texto que no representa un número lanza <code>ValueError</code>. Es el error típico de toda entrada por teclado; por eso los ejercicios piden envolver la conversión en <code>try/except ValueError</code> con un mensaje claro para la persona usuaria.",
  porque:{
-  "<code>TypeError</code>":"Aparece cuando el <b>tipo</b> es incompatible (por ejemplo <code>int(None)</code>), no cuando el texto tiene mal contenido.",
-  "<code>KeyError</code>":"Es de diccionarios: clave inexistente.",
-  "<code>OSError</code>":"Es de sistema de archivos: rutas, permisos, disco."
+  "<code>TypeError</code>: <code>int()</code> recibió un objeto de un tipo que no sabe convertir a entero":"Ese es el caso de <code>int(None)</code> o <code>int([1, 2])</code>. Acá el tipo (<code>str</code>) es aceptable; lo que está mal es el <b>contenido</b>.",
+  "<code>EOFError</code>: <code>input()</code> no pudo leer lo que la persona escribió por el teclado":"<code>EOFError</code> aparece cuando <code>input()</code> se queda sin datos (Ctrl+D, entrada redirigida). Escribir “dos” es una lectura exitosa.",
+  "<code>OverflowError</code>: el número escrito es demasiado grande para convertirlo a entero":"Los enteros de Python no tienen tope, y “dos” ni siquiera es un número: el error es de formato, no de tamaño."
  }
 },
 
@@ -106,15 +106,15 @@ const BANCO = [
  pide:"¿Qué convención de PEP 8 corresponde?",
  ops:[
   "Función en <code>snake_case</code> (<code>calcular_promedio</code>) y clase en <code>CapWords</code> (<code>DatosInvalidosError</code>)",
-  "Ambas en <code>camelCase</code>: <code>calcularPromedio</code> y <code>datosInvalidosError</code>",
-  "Función en <code>CapWords</code> y clase en <code>snake_case</code>",
-  "Todo en MAYÚSCULAS porque son elementos públicos"
+  "Función en <code>snake_case</code> (<code>calcular_promedio</code>) y clase en <code>snake_case</code> (<code>datos_invalidos_error</code>)",
+  "Función en <code>camelCase</code> (<code>calcularPromedio</code>) y clase en <code>CapWords</code> (<code>DatosInvalidosError</code>)",
+  "Función en <code>CapWords</code> (<code>CalcularPromedio</code>) y clase en <code>camelCase</code> (<code>datosInvalidosError</code>)"
  ],
  aprendido:"PEP 8 fija: <b>funciones y variables en <code>snake_case</code></b>, <b>clases en <code>CapWords</code></b> y <b>constantes en MAYÚSCULAS</b>. Indentación de 4 espacios, imports agrupados al inicio del archivo y líneas cortas. No es decoración: es el idioma común para que otra persona lea el código sin adivinar.",
  porque:{
-  "Ambas en <code>camelCase</code>: <code>calcularPromedio</code> y <code>datosInvalidosError</code>":"<code>camelCase</code> es convención de Java/JavaScript, no de Python.",
-  "Función en <code>CapWords</code> y clase en <code>snake_case</code>":"Está exactamente al revés.",
-  "Todo en MAYÚSCULAS porque son elementos públicos":"Las MAYÚSCULAS se reservan para constantes, como <code>STOCK_MINIMO = 3</code>."
+  "Función en <code>snake_case</code> (<code>calcular_promedio</code>) y clase en <code>snake_case</code> (<code>datos_invalidos_error</code>)":"La mitad es correcta, pero las clases van en <code>CapWords</code>, no en <code>snake_case</code>.",
+  "Función en <code>camelCase</code> (<code>calcularPromedio</code>) y clase en <code>CapWords</code> (<code>DatosInvalidosError</code>)":"La clase está bien, pero <code>camelCase</code> es de Java/JavaScript: en Python las funciones van en <code>snake_case</code>.",
+  "Función en <code>CapWords</code> (<code>CalcularPromedio</code>) y clase en <code>camelCase</code> (<code>datosInvalidosError</code>)":"Está prácticamente al revés de PEP 8: <code>CapWords</code> es para clases, y <code>camelCase</code> no se usa para nada."
  }
 },
 {
@@ -122,16 +122,16 @@ const BANCO = [
  caso:"Tenés que documentar <code>cargar_datos(ruta)</code>: qué hace, qué parámetros espera, qué devuelve y qué excepción puede lanzar.",
  pide:"¿Dónde y cómo se escribe?",
  ops:[
-  "Como <b>primera sentencia</b> de la función, con triple comilla doble <code>\"\"\"…\"\"\"</code>",
-  "Con <code>#</code> arriba del <code>def</code>, como comentario de bloque",
-  "En un archivo <code>README.md</code> aparte del código",
-  "Como <code>print()</code> al inicio de la función"
+  "Como primera sentencia de la función, entre triple comilla doble <code>\"\"\"…\"\"\"</code>",
+  "Como primera línea del archivo, entre triple comilla doble, antes del <code>def cargar_datos</code>",
+  "Inmediatamente arriba del <code>def</code>, como bloque de comentarios <code>#</code> de varias líneas",
+  "Al final de la función, después del <code>return</code>, entre triple comilla doble"
  ],
  aprendido:"PEP 257: el docstring es un literal de texto que aparece <b>como primera sentencia</b> del módulo, clase, función o método, y se escribe con triple comilla doble. Python lo expone en <code>__doc__</code> y en <code>help()</code>. Documenta el contrato público: qué hace, qué espera (<code>Args</code>), qué devuelve (<code>Returns</code>) y qué puede fallar (<code>Raises</code>).",
  porque:{
-  "Con <code>#</code> arriba del <code>def</code>, como comentario de bloque":"Es un comentario: no queda accesible desde <code>help()</code> ni <code>__doc__</code>.",
-  "En un archivo <code>README.md</code> aparte del código":"Se desactualiza enseguida; el docstring vive <b>dentro</b> del código.",
-  "Como <code>print()</code> al inicio de la función":"Ensucia la salida del programa cada vez que se llama."
+  "Como primera línea del archivo, entre triple comilla doble, antes del <code>def cargar_datos</code>":"Eso documenta el <b>módulo</b>, no la función: <code>cargar_datos.__doc__</code> quedaría vacío.",
+  "Inmediatamente arriba del <code>def</code>, como bloque de comentarios <code>#</code> de varias líneas":"Los comentarios <code>#</code> los ignora el intérprete: no quedan en <code>__doc__</code> ni aparecen con <code>help()</code>.",
+  "Al final de la función, después del <code>return</code>, entre triple comilla doble":"El docstring tiene que ser la <b>primera</b> sentencia; un texto después del <code>return</code> es sólo una cadena suelta que nunca se ejecuta."
  }
 },
 {
@@ -141,15 +141,15 @@ const BANCO = [
  pide:"¿Cuál es el comentario correcto según el criterio de la cursada?",
  ops:[
   "<code># Se descartan importes negativos porque representan anulaciones ya procesadas.</code>",
-  "<code># Filtra la lista importes y guarda en importes_validos.</code>",
-  "<code># comprensión de lista</code>",
-  "<code># i >= 0</code>"
+  "<code># Se descartan los importes negativos para quedarnos únicamente con los válidos.</code>",
+  "<code># Comprensión de lista: recorre importes y conserva los que cumplen i >= 0.</code>",
+  "<code># Atención: este filtro se aplica antes de calcular los totales del mes.</code>"
  ],
  aprendido:"Un comentario útil explica el <b>por qué</b>, no repite el <b>qué</b>. Registra decisiones no obvias y reglas de negocio. Si necesitás comentar cada línea, probablemente el código necesita mejores nombres o funciones más chicas.",
  porque:{
-  "<code># Filtra la lista importes y guarda en importes_validos.</code>":"Repite literalmente lo que ya dice el código: es ruido que además se desactualiza.",
-  "<code># comprensión de lista</code>":"Describe la sintaxis, no la decisión de negocio.",
-  "<code># i >= 0</code>":"Copia la condición sin explicar qué significa un importe negativo."
+  "<code># Se descartan los importes negativos para quedarnos únicamente con los válidos.</code>":"Repite <b>qué</b> hace la línea (el código ya lo dice) pero no explica <b>por qué</b> esos importes se descartan.",
+  "<code># Comprensión de lista: recorre importes y conserva los que cumplen i >= 0.</code>":"Describe la sintaxis, no la decisión de negocio; alguien que sepa Python ya lo lee en el código.",
+  "<code># Atención: este filtro se aplica antes de calcular los totales del mes.</code>":"Da contexto de orden, pero no justifica la regla ni explica qué representa un importe negativo."
  }
 },
 
@@ -159,17 +159,17 @@ const BANCO = [
  caso:"Leés un archivo de configuración JSON. Puede pasar que el archivo no exista, o que exista pero su contenido no sea JSON válido.",
  pide:"¿Qué excepciones capturás, en ese orden?",
  ops:[
-  "<code>FileNotFoundError</code> y <code>json.JSONDecodeError</code>, cada una en su <code>except</code>",
-  "Un solo <code>except Exception:</code> que atrape las dos",
-  "<code>except:</code> vacío, porque cubre cualquier caso",
-  "<code>ValueError</code> y <code>TypeError</code>"
+  "<code>FileNotFoundError</code> y <code>json.JSONDecodeError</code>, cada una en su propio <code>except</code>",
+  "<code>OSError</code> y <code>ValueError</code> juntas, en un solo <code>except (OSError, ValueError):</code>",
+  "<code>PermissionError</code> y <code>json.JSONDecodeError</code>, cada una en su propio <code>except</code>",
+  "<code>FileNotFoundError</code> y <code>KeyError</code>, cada una en su propio <code>except</code>"
  ],
  aprendido:"Capturar excepciones <b>específicas</b> es la regla central de la clase: cada error dice algo distinto y merece un mensaje distinto. <code>FileNotFoundError</code> = revisá la ruta. <code>json.JSONDecodeError</code> = el archivo existe pero está mal formado. Capturar todo junto oculta bugs reales.",
  codigo:"try:\n    texto = Path(ruta).read_text(encoding=\"utf-8\")\n    return json.loads(texto)\nexcept FileNotFoundError as exc:\n    raise FileNotFoundError(f\"No existe: {ruta}\") from exc\nexcept json.JSONDecodeError as exc:\n    raise ValueError(\"El archivo no contiene JSON válido\") from exc",
  porque:{
-  "Un solo <code>except Exception:</code> que atrape las dos":"Funciona, pero perdés la distinción entre “no está el archivo” y “el archivo está corrupto”: el mensaje al usuario queda ambiguo.",
-  "<code>except:</code> vacío, porque cubre cualquier caso":"Es el antipatrón número uno de la clase: atrapa hasta <code>KeyboardInterrupt</code> y esconde la causa.",
-  "<code>ValueError</code> y <code>TypeError</code>":"<code>JSONDecodeError</code> <i>hereda</i> de <code>ValueError</code>, pero <code>FileNotFoundError</code> no tiene nada que ver con <code>TypeError</code>."
+  "<code>OSError</code> y <code>ValueError</code> juntas, en un solo <code>except (OSError, ValueError):</code>":"Las atrapa a las dos (son sus clases padre), pero con un único mensaje: no se distingue “no está el archivo” de “está corrupto”.",
+  "<code>PermissionError</code> y <code>json.JSONDecodeError</code>, cada una en su propio <code>except</code>":"Un archivo inexistente lanza <code>FileNotFoundError</code>, no <code>PermissionError</code> (que es cuando existe pero no podés leerlo).",
+  "<code>FileNotFoundError</code> y <code>KeyError</code>, cada una en su propio <code>except</code>":"<code>json.loads</code> con un texto mal formado lanza <code>JSONDecodeError</code>; <code>KeyError</code> recién aparece si después accedés a una clave inexistente."
  }
 },
 {
@@ -177,16 +177,16 @@ const BANCO = [
  caso:"Capturás un <code>FileNotFoundError</code> técnico y querés relanzarlo con un mensaje claro, sin perder la causa original para poder depurar.",
  pide:"¿Qué sintaxis usás?",
  ops:[
-  "<code>raise DataFileError(f\"No existe el archivo: {ruta}\") from exc</code>",
-  "<code>raise DataFileError(f\"No existe el archivo: {ruta}\")</code>",
-  "<code>print(f\"No existe el archivo: {ruta}\")</code>",
-  "<code>pass</code>"
+  "<code>raise DataFileError(f'No existe el archivo: {ruta}') from exc</code>",
+  "<code>raise DataFileError(f'No existe el archivo: {ruta}') from None</code>",
+  "<code>raise DataFileError(f'No existe el archivo: {ruta}', exc)</code>",
+  "<code>raise exc(f'No existe el archivo: {ruta}')</code>"
  ],
  aprendido:"<code>raise ... from exc</code> es el <b>encadenamiento de excepciones</b>: lanzás un error nuevo con un mensaje entendible, pero Python conserva el traceback del error original. Es la forma profesional de envolver un error técnico en una excepción de dominio sin perder información.",
  porque:{
-  "<code>raise DataFileError(f\"No existe el archivo: {ruta}\")</code>":"Levanta el error nuevo pero <b>sin</b> <code>from exc</code> se pierde el encadenamiento explícito con la causa original.",
-  "<code>print(f\"No existe el archivo: {ruta}\")</code>":"Imprime y sigue como si nada: el flujo continúa con datos incompletos.",
-  "<code>pass</code>":"Silencia el error por completo. Antipatrón."
+  "<code>raise DataFileError(f'No existe el archivo: {ruta}') from None</code>":"<code>from None</code> <b>borra</b> a propósito la causa original del traceback: justo lo contrario de lo que se quiere.",
+  "<code>raise DataFileError(f'No existe el archivo: {ruta}', exc)</code>":"<code>exc</code> viaja como un argumento más del mensaje; no queda encadenado como causa del error.",
+  "<code>raise exc(f'No existe el archivo: {ruta}')</code>":"<code>exc</code> es una <b>instancia</b> del error, no una clase: llamarla como función tira <code>TypeError</code>."
  }
 },
 {
@@ -194,16 +194,16 @@ const BANCO = [
  caso:"Querés que un archivo abierto se cierre sí o sí, haya o no error durante la lectura.",
  pide:"¿Cuál es la forma recomendada?",
  ops:[
-  "<code>with open(ruta, encoding=\"utf-8\") as f:</code>",
-  "<code>f = open(ruta)</code> y confiar en el recolector de basura",
-  "<code>try: f = open(ruta)</code> … <code>except: pass</code>",
-  "<code>f = open(ruta)</code> y <code>f.close()</code> solo al final del <code>try</code>"
+  "<code>with open(ruta, encoding='utf-8') as f:</code> y leer dentro del bloque",
+  "<code>f = open(ruta)</code>, leer y llamar a <code>f.close()</code> al final",
+  "<code>try:</code> con <code>f = open(ruta)</code> adentro y <code>finally: f.close()</code>",
+  "<code>with open(ruta):</code> sin <code>as f</code>, porque el <code>with</code> cierra solo"
  ],
  aprendido:"El <b>context manager</b> <code>with</code> cierra el archivo automáticamente aunque se lance una excepción dentro del bloque. Es la alternativa limpia a <code>finally: f.close()</code>. Siempre acompañado de <code>encoding=\"utf-8\"</code> para no depender del encoding por defecto del sistema.",
  porque:{
-  "<code>f = open(ruta)</code> y confiar en el recolector de basura":"No es determinista: el archivo puede quedar bloqueado un tiempo indefinido.",
-  "<code>try: f = open(ruta)</code> … <code>except: pass</code>":"No cierra nada y además silencia el error.",
-  "<code>f = open(ruta)</code> y <code>f.close()</code> solo al final del <code>try</code>":"Si salta una excepción antes, el <code>close()</code> nunca se ejecuta. Habría que usar <code>finally</code>."
+  "<code>f = open(ruta)</code>, leer y llamar a <code>f.close()</code> al final":"Si se lanza una excepción antes de <code>f.close()</code>, esa línea no se ejecuta y el archivo queda abierto.",
+  "<code>try:</code> con <code>f = open(ruta)</code> adentro y <code>finally: f.close()</code>":"Si el <code>open</code> falla, <code>f</code> nunca llegó a existir y el <code>finally</code> tira <code>NameError</code>, tapando el error real.",
+  "<code>with open(ruta):</code> sin <code>as f</code>, porque el <code>with</code> cierra solo":"El archivo se cierra, pero sin <code>as f</code> no tenés ninguna variable para leerlo."
  }
 },
 {
@@ -211,17 +211,17 @@ const BANCO = [
  caso:"Tenés que leer <code>clientes.csv</code> accediendo a las columnas <b>por su nombre</b> (<code>fila[\"email\"]</code>), usando solo la librería estándar.",
  pide:"¿Qué usás?",
  ops:[
-  "<code>csv.DictReader(f)</code>, abriendo con <code>newline=\"\"</code>",
-  "<code>csv.reader(f)</code> y acceder por posición",
-  "<code>json.load(f)</code>",
-  "<code>f.read().split(',')</code>"
+  "<code>csv.DictReader(f)</code>, con el archivo abierto usando <code>newline=''</code>",
+  "<code>csv.reader(f)</code> y acceder con <code>fila[3]</code>, que es la posición de la columna <code>email</code>",
+  "<code>csv.DictReader(f)</code>, con el archivo abierto en modo binario <code>'rb'</code>",
+  "<code>csv.DictWriter(f)</code>, con el archivo abierto usando <code>newline=''</code>"
  ],
  codigo:"import csv\n\nwith open(\"clientes.csv\", newline=\"\", encoding=\"utf-8\") as f:\n    for fila in csv.DictReader(f):\n        print(fila[\"email\"])",
  aprendido:"<code>csv.DictReader</code> devuelve cada fila como diccionario usando la primera línea como encabezado, así accedés por nombre de columna en vez de por índice. La documentación pide abrir el archivo con <code>newline=\"\"</code> para que el módulo maneje correctamente los saltos de línea dentro de campos entrecomillados.",
  porque:{
-  "<code>csv.reader(f)</code> y acceder por posición":"Funciona, pero <code>fila[3]</code> se rompe silenciosamente si cambia el orden de las columnas.",
-  "<code>json.load(f)</code>":"Es para JSON, no para texto tabular separado por comas.",
-  "<code>f.read().split(',')</code>":"Se rompe con comas dentro de comillas, con saltos de línea y con encabezados."
+  "<code>csv.reader(f)</code> y acceder con <code>fila[3]</code>, que es la posición de la columna <code>email</code>":"Funciona hoy, pero se rompe en silencio si alguien cambia el orden de las columnas; no accede “por su nombre”.",
+  "<code>csv.DictReader(f)</code>, con el archivo abierto en modo binario <code>'rb'</code>":"El módulo <code>csv</code> trabaja con texto: en modo binario recibe <code>bytes</code> y falla.",
+  "<code>csv.DictWriter(f)</code>, con el archivo abierto usando <code>newline=''</code>":"<code>DictWriter</code> sirve para <b>escribir</b> filas, no para leerlas; además exige <code>fieldnames</code>."
  }
 },
 {
@@ -229,16 +229,16 @@ const BANCO = [
  caso:"Tenés un archivo <code>config.json</code> ya abierto y querés convertir su contenido en un diccionario de Python.",
  pide:"¿Cuál de las cuatro funciones de <code>json</code> corresponde?",
  ops:[
-  "<code>json.load(f)</code> — desde un objeto archivo",
-  "<code>json.loads(f)</code> — desde una cadena de texto",
-  "<code>json.dump(datos, f)</code> — escribe a un archivo",
-  "<code>json.dumps(datos)</code> — devuelve una cadena"
+  "<code>json.load(f)</code>, que lee desde un objeto archivo ya abierto",
+  "<code>json.loads(f)</code>, que lee desde un objeto archivo ya abierto",
+  "<code>json.dump(f)</code>, que lee desde un objeto archivo ya abierto",
+  "<code>json.loads(f.readline())</code>, que lee sólo la primera línea del archivo"
  ],
  aprendido:"La <b>s</b> final significa <i>string</i>: <code>load</code>/<code>dump</code> trabajan con un <b>archivo</b>, <code>loads</code>/<code>dumps</code> con una <b>cadena</b>. Y <code>load*</code> lee (JSON → Python), <code>dump*</code> escribe (Python → JSON). Si ya hiciste <code>Path(ruta).read_text()</code> tenés un string, entonces te toca <code>json.loads()</code>.",
  porque:{
-  "<code>json.loads(f)</code> — desde una cadena de texto":"Espera un <code>str</code>; si le pasás el objeto archivo tira <code>TypeError</code>.",
-  "<code>json.dump(datos, f)</code> — escribe a un archivo":"Es la operación inversa: serializa Python a JSON.",
-  "<code>json.dumps(datos)</code> — devuelve una cadena":"También escribe, no lee."
+  "<code>json.loads(f)</code>, que lee desde un objeto archivo ya abierto":"<code>loads</code> (con <b>s</b>) lee desde una cadena de texto; si le pasás el archivo tira <code>TypeError</code>.",
+  "<code>json.dump(f)</code>, que lee desde un objeto archivo ya abierto":"<code>dump</code> <b>escribe</b> (de Python a JSON) y además necesita dos argumentos: los datos y el archivo.",
+  "<code>json.loads(f.readline())</code>, que lee sólo la primera línea del archivo":"Un JSON formateado ocupa muchas líneas: con la primera sola queda incompleto y falla con <code>JSONDecodeError</code>."
  }
 },
 {
@@ -247,15 +247,15 @@ const BANCO = [
  pide:"¿Cómo lo escribís?",
  ops:[
   "<code>json.dump(config, f, indent=2, ensure_ascii=False)</code>",
-  "<code>json.dump(config, f)</code>",
-  "<code>f.write(str(config))</code>",
-  "<code>json.dumps(config, f, indent=2)</code>"
+  "<code>json.dump(config, f, indent=2, ensure_ascii=True)</code>",
+  "<code>json.dump(config, f, indent=2, encoding='utf-8')</code>",
+  "<code>json.dumps(config, indent=2, ensure_ascii=False)</code>"
  ],
  aprendido:"<code>indent=2</code> genera JSON indentado y legible; <code>ensure_ascii=False</code> conserva los caracteres acentuados tal cual (siempre que abras el archivo con <code>encoding=\"utf-8\"</code>). Sin esas opciones el JSON sale en una sola línea y con los acentos escapados.",
  porque:{
-  "<code>json.dump(config, f)</code>":"Válido pero sale todo en una línea y con acentos escapados.",
-  "<code>f.write(str(config))</code>":"Escribe la repr de Python (comillas simples, <code>True</code>, <code>None</code>): <b>no es JSON válido</b> y no se puede releer.",
-  "<code>json.dumps(config, f, indent=2)</code>":"<code>dumps</code> devuelve una cadena y no recibe el archivo como segundo argumento."
+  "<code>json.dump(config, f, indent=2, ensure_ascii=True)</code>":"<code>ensure_ascii=True</code> es el valor por defecto: los acentos salen escapados como <code>\\u00e1</code>.",
+  "<code>json.dump(config, f, indent=2, encoding='utf-8')</code>":"En Python 3 <code>dump</code> ya no acepta <code>encoding</code>: tira <code>TypeError</code>. El encoding se declara al abrir el archivo.",
+  "<code>json.dumps(config, indent=2, ensure_ascii=False)</code>":"<code>dumps</code> <b>devuelve un texto</b>; no escribe nada en el archivo."
  }
 },
 {
@@ -263,16 +263,16 @@ const BANCO = [
  caso:"Querés leer un <code>.txt</code> completo a una variable de texto, con la forma moderna que muestra la cursada en vez de trabajar con rutas como cadenas.",
  pide:"¿Qué usás?",
  ops:[
-  "<code>Path(\"notas.txt\").read_text(encoding=\"utf-8\")</code>",
-  "<code>open(\"notas.txt\").readlines()</code>",
-  "<code>csv.reader(open(\"notas.txt\"))</code>",
-  "<code>pd.read_csv(\"notas.txt\")</code>"
+  "<code>Path('notas.txt').read_text(encoding='utf-8')</code>",
+  "<code>Path('notas.txt').open(encoding='utf-8')</code>",
+  "<code>Path('notas.txt').read_text(encoding='utf-8').split()</code>",
+  "<code>Path('notas.txt').readlines(encoding='utf-8')</code>"
  ],
  aprendido:"<code>pathlib.Path</code> es la forma moderna y legible de manejar rutas. Ofrece <code>read_text()</code>, <code>write_text()</code>, <code>exists()</code>, <code>is_file()</code>, <code>mkdir()</code> y <code>stat()</code>, y maneja bien las diferencias entre sistemas operativos.",
  porque:{
-  "<code>open(\"notas.txt\").readlines()</code>":"Devuelve una lista de líneas y además deja el archivo abierto (falta <code>with</code>).",
-  "<code>csv.reader(open(\"notas.txt\"))</code>":"Un TXT es texto libre, no una tabla con delimitador.",
-  "<code>pd.read_csv(\"notas.txt\")</code>":"Intenta imponerle una estructura tabular a texto libre."
+  "<code>Path('notas.txt').open(encoding='utf-8')</code>":"Devuelve un <b>objeto archivo</b> abierto (que además queda sin cerrar), no el texto completo.",
+  "<code>Path('notas.txt').read_text(encoding='utf-8').split()</code>":"Devuelve una <b>lista de palabras</b>, no el texto completo en una sola variable.",
+  "<code>Path('notas.txt').readlines(encoding='utf-8')</code>":"<code>Path</code> no tiene <code>readlines</code>: ese método es de los objetos archivo. Tira <code>AttributeError</code>."
  }
 },
 {
@@ -281,16 +281,16 @@ const BANCO = [
  codigo:"columnas = {\"fecha\", \"producto\", \"region_ventas\", \"cantidad_ventas\"}\nlector = csv.DictReader(archivo)\nif not lector.fieldnames or not columnas.issubset(lector.fieldnames):\n    faltantes = columnas - set(lector.fieldnames or [])\n    raise ???(f\"Columnas faltantes: {faltantes}\")",
  pide:"¿Qué excepción levantás?",
  ops:[
-  "<code>ValueError</code> — el contenido no cumple lo esperado",
-  "<code>FileNotFoundError</code> — problema de ruta",
-  "<code>KeyError</code> — se accedió a una clave inexistente",
-  "<code>csv.Error</code> — error del parser"
+  "<code>ValueError</code>: el archivo se leyó bien, pero su contenido no cumple lo esperado",
+  "<code>KeyError</code>: falta una clave, y las columnas son las claves de cada fila",
+  "<code>csv.Error</code>: el CSV tiene un problema de estructura",
+  "<code>FileNotFoundError</code>: falta algo que el programa esperaba encontrar"
  ],
  aprendido:"La clase separa los errores en capas: <b>lectura</b> (<code>FileNotFoundError</code>, <code>PermissionError</code>, <code>OSError</code>), <b>parseo</b> (<code>JSONDecodeError</code>, <code>csv.Error</code>, <code>UnicodeDecodeError</code>) y <b>validación</b> (<code>ValueError</code>, <code>KeyError</code>, <code>TypeError</code>). Una columna faltante es un problema de validación de estructura: <code>ValueError</code>.",
  porque:{
-  "<code>FileNotFoundError</code> — problema de ruta":"El archivo se abrió sin problemas; el error es de contenido.",
-  "<code>KeyError</code> — se accedió a una clave inexistente":"Se usa cuando realmente intentás acceder a la clave. Acá validás <b>antes</b>, justamente para no llegar a un <code>KeyError</code>.",
-  "<code>csv.Error</code> — error del parser":"El CSV se parseó bien; lo que falla es el contrato de columnas."
+  "<code>KeyError</code>: falta una clave, y las columnas son las claves de cada fila":"<code>KeyError</code> lo lanza Python cuando <b>accedés</b> a una clave inexistente. Acá se valida antes justamente para no llegar a eso.",
+  "<code>csv.Error</code>: el CSV tiene un problema de estructura":"<code>csv.Error</code> es del parser (comillas mal cerradas, por ejemplo). Este CSV se leyó bien; lo que falla es el contrato de columnas.",
+  "<code>FileNotFoundError</code>: falta algo que el programa esperaba encontrar":"Esa excepción es sólo para rutas inexistentes. El archivo se abrió sin problema."
  }
 },
 {
@@ -298,16 +298,16 @@ const BANCO = [
  caso:"Querés diferenciar una falla técnica de una falla de negocio: “la edad no puede ser negativa” no es lo mismo que “el disco está lleno”.",
  pide:"¿Cómo lo resolvés?",
  ops:[
-  "Definir una excepción propia: <code>class DatosInvalidosError(ValueError): ...</code>",
-  "Usar <code>assert edad >= 0</code> y listo",
-  "Devolver <code>None</code> y que el que llama se dé cuenta",
-  "Heredar de <code>BaseException</code> para que sea prioritaria"
+  "Definir <code>class DatosInvalidosError(ValueError): ...</code> y levantarla con <code>raise</code>",
+  "Definir <code>class DatosInvalidosError(BaseException): ...</code> para que ningún <code>except</code> la atrape por error",
+  "Levantar <code>raise Exception('edad negativa')</code> con un mensaje distinto en cada caso",
+  "Validar con <code>assert edad >= 0, 'edad negativa'</code> para que el programa corte"
  ],
  aprendido:"Se crean excepciones propias cuando el error pertenece al dominio del problema, cuando querés distinguir fallas técnicas de fallas de negocio, o cuando distintas capas deben reaccionar distinto. La documentación de Python recomienda derivar de <code>Exception</code> o de una subclase como <code>ValueError</code>, <b>nunca</b> de <code>BaseException</code>.",
  porque:{
-  "Usar <code>assert edad >= 0</code> y listo":"Los <code>assert</code> se desactivan al ejecutar con <code>-O</code>: no sirven como validación de datos de entrada.",
-  "Devolver <code>None</code> y que el que llama se dé cuenta":"Deja pasar el error silenciosamente; el análisis sigue con datos parciales.",
-  "Heredar de <code>BaseException</code> para que sea prioritaria":"<code>BaseException</code> incluye <code>KeyboardInterrupt</code> y <code>SystemExit</code>: heredar de ahí rompe el mecanismo de interrupción."
+  "Definir <code>class DatosInvalidosError(BaseException): ...</code> para que ningún <code>except</code> la atrape por error":"<code>BaseException</code> incluye <code>KeyboardInterrupt</code> y <code>SystemExit</code>: heredar de ahí rompe la interrupción normal del programa.",
+  "Levantar <code>raise Exception('edad negativa')</code> con un mensaje distinto en cada caso":"Con <code>Exception</code> genérica no se puede distinguir una falla de negocio de una técnica: habría que comparar textos.",
+  "Validar con <code>assert edad >= 0, 'edad negativa'</code> para que el programa corte":"Los <code>assert</code> se desactivan al ejecutar con <code>python -O</code>: no sirven como validación de datos de entrada."
  }
 },
 {
@@ -315,16 +315,16 @@ const BANCO = [
  caso:"El archivo existe y tiene permisos, pero tiene caracteres raros y al leerlo revienta porque el encoding no coincide.",
  pide:"¿Qué excepción esperás y cómo lo prevenís?",
  ops:[
-  "<code>UnicodeDecodeError</code>; se previene declarando <code>encoding=\"utf-8\"</code> al abrir",
-  "<code>PermissionError</code>; se previene con <code>chmod</code>",
-  "<code>csv.Error</code>; se previene con <code>newline=\"\"</code>",
-  "<code>MemoryError</code>; se previene leyendo por chunks"
+  "<code>UnicodeDecodeError</code>; se previene declarando <code>encoding='utf-8'</code> al abrir",
+  "<code>UnicodeEncodeError</code>; se previene declarando <code>encoding='utf-8'</code> al abrir",
+  "<code>UnicodeDecodeError</code>; se previene abriendo el archivo en modo <code>'rb'</code>",
+  "<code>ValueError</code>; se previene con <code>errors='strict'</code> al abrir"
  ],
  aprendido:"No declarar el encoding es uno de los antipatrones de la clase: el programa queda atado al encoding por defecto del sistema y funciona en tu máquina pero falla en otra. Declarar siempre <code>encoding=\"utf-8\"</code> al abrir y capturar <code>UnicodeDecodeError</code> como error de <b>parseo</b>.",
  porque:{
-  "<code>PermissionError</code>; se previene con <code>chmod</code>":"Es cuando no tenés permiso de lectura; acá el archivo se abre bien.",
-  "<code>csv.Error</code>; se previene con <code>newline=\"\"</code>":"Es un error del parser CSV, no de decodificación de bytes.",
-  "<code>MemoryError</code>; se previene leyendo por chunks":"Es por tamaño, no por caracteres."
+  "<code>UnicodeEncodeError</code>; se previene declarando <code>encoding='utf-8'</code> al abrir":"<code>Encode</code> es el error al <b>escribir</b> (texto → bytes). Al leer bytes que no coinciden con el encoding es <code>Decode</code>.",
+  "<code>UnicodeDecodeError</code>; se previene abriendo el archivo en modo <code>'rb'</code>":"En <code>'rb'</code> no hay decodificación, pero recibís <code>bytes</code> en lugar de texto: no resuelve el problema, lo esquiva.",
+  "<code>ValueError</code>; se previene con <code>errors='strict'</code> al abrir":"<code>'strict'</code> es justamente el comportamiento por defecto (el que falla): no previene nada."
  }
 },
 {
@@ -332,16 +332,16 @@ const BANCO = [
  caso:"En el bloque <code>try</code> querés que quede <b>solo</b> lo que puede fallar, y separar el camino exitoso.",
  pide:"¿Qué cláusula usás para el camino sin error?",
  ops:[
-  "<code>else:</code> — se ejecuta solo si no hubo excepción",
-  "<code>finally:</code> — se ejecuta siempre",
-  "<code>except:</code> — se ejecuta si hubo error",
-  "No existe tal cláusula: hay que poner todo dentro del <code>try</code>"
+  "<code>else:</code> después de los <code>except</code>; corre sólo si el <code>try</code> no lanzó ninguna excepción",
+  "<code>finally:</code> después de los <code>except</code>; corre sólo si el <code>try</code> no lanzó ninguna excepción",
+  "<code>except None:</code> después del <code>try</code>; corre cuando no hubo nada que capturar",
+  "<code>elif:</code> después de los <code>except</code>; se evalúa si el <code>try</code> no lanzó ninguna excepción"
  ],
  aprendido:"El modelo completo es <code>try / except / else / finally</code>. <b><code>else</code></b> corre solo si no hubo excepción (el camino feliz), <b><code>finally</code></b> corre siempre (limpieza de recursos). Mantener el <code>try</code> chico y mover el resto al <code>else</code> evita capturar errores de cálculo que nada tienen que ver con la lectura.",
  porque:{
-  "<code>finally:</code> — se ejecuta siempre":"Sirve para limpieza, pero corre igual si hubo error: no es el “camino exitoso”.",
-  "<code>except:</code> — se ejecuta si hubo error":"Es justo el caso contrario.",
-  "No existe tal cláusula: hay que poner todo dentro del <code>try</code>":"Sí existe, y además “mezclar lectura y análisis dentro del try” figura como antipatrón."
+  "<code>finally:</code> después de los <code>except</code>; corre sólo si el <code>try</code> no lanzó ninguna excepción":"<code>finally</code> corre <b>siempre</b>, haya error o no: sirve para limpiar recursos, no para el camino sin error.",
+  "<code>except None:</code> después del <code>try</code>; corre cuando no hubo nada que capturar":"Un <code>except</code> sólo corre cuando <b>hubo</b> una excepción: nunca es el camino sin error (y <code>except None</code> no captura nada).",
+  "<code>elif:</code> después de los <code>except</code>; se evalúa si el <code>try</code> no lanzó ninguna excepción":"<code>elif</code> necesita una condición y sólo existe dentro de un <code>if</code>: en un <code>try</code> es un error de sintaxis."
  }
 },
 
@@ -353,15 +353,15 @@ const BANCO = [
  pide:"¿Cómo lo hacés vectorizado?",
  ops:[
   "<code>precios = np.array(precios); precios * 1.21</code>",
-  "<code>[p * 1.21 for p in precios]</code>",
-  "<code>precios * 1.21</code> sobre la lista de Python",
-  "<code>sum(precios) * 1.21</code>"
+  "<code>precios = np.array(precios); precios + 1.21</code>",
+  "<code>precios = np.array(precios); precios.apply(lambda p: p * 1.21)</code>",
+  "<code>precios = np.array(precios); (precios * 1.21).sum()</code>"
  ],
  aprendido:"<b>Vectorizar</b> es aplicar una operación a todos los elementos de una sola vez. Con un <code>ndarray</code> de NumPy, <code>precios * 1.21</code> se aplica elemento por elemento y el código se lee como una fórmula matemática. En datos hay que pensar en columnas y vectores completos, no elemento por elemento.",
  porque:{
-  "<code>[p * 1.21 for p in precios]</code>":"Da el resultado correcto, pero sigue siendo un ciclo: más lento para volúmenes grandes y menos expresivo.",
-  "<code>precios * 1.21</code> sobre la lista de Python":"Multiplicar una <b>lista</b> por un número la <i>repite</i>, y con un decimal directamente tira <code>TypeError</code>.",
-  "<code>sum(precios) * 1.21</code>":"Devuelve un único número, no el precio de cada producto."
+  "<code>precios = np.array(precios); precios + 1.21</code>":"Suma 1,21 <b>pesos</b> a cada precio; un IVA del 21 % se aplica multiplicando por 1,21.",
+  "<code>precios = np.array(precios); precios.apply(lambda p: p * 1.21)</code>":"<code>apply</code> es de Pandas: un <code>ndarray</code> no lo tiene y tira <code>AttributeError</code> (y además volvería a ser un ciclo).",
+  "<code>precios = np.array(precios); (precios * 1.21).sum()</code>":"Devuelve <b>un único número</b> (el total): la consigna pide el precio de cada producto."
  }
 },
 {
@@ -370,15 +370,15 @@ const BANCO = [
  pide:"¿Qué propiedades consultás?",
  ops:[
   "<code>.ndim</code>, <code>.shape</code>, <code>.size</code> y <code>.dtype</code>",
-  "<code>.head()</code>, <code>.info()</code> y <code>.describe()</code>",
-  "<code>len()</code> y <code>type()</code>",
-  "<code>.columns</code> y <code>.index</code>"
+  "<code>.ndim</code>, <code>.shape</code>, <code>.size</code> y <code>.type</code>",
+  "<code>.dims</code>, <code>.shape</code>, <code>.count</code> y <code>.dtype</code>",
+  "<code>.rank</code>, <code>.shape</code>, <code>.size</code> y <code>.dtypes</code>"
  ],
  aprendido:"Las cuatro preguntas básicas de un <code>ndarray</code>: <b><code>ndim</code></b> (cantidad de ejes), <b><code>shape</code></b> (elementos por eje, ej. <code>(2, 3)</code>), <b><code>size</code></b> (total de elementos) y <b><code>dtype</code></b> (tipo: <code>int64</code>, <code>float64</code>, <code>bool</code>). Si entendés estas cuatro, entendés por qué un cálculo funciona o por qué salta un error de forma.",
  porque:{
-  "<code>.head()</code>, <code>.info()</code> y <code>.describe()</code>":"Son métodos de <b>Pandas</b> (DataFrame/Series), no de arreglos NumPy.",
-  "<code>len()</code> y <code>type()</code>":"<code>len()</code> te da solo la primera dimensión y <code>type()</code> te dice <code>ndarray</code>, sin detalle.",
-  "<code>.columns</code> y <code>.index</code>":"Son atributos de DataFrame; un arreglo NumPy no tiene etiquetas."
+  "<code>.ndim</code>, <code>.shape</code>, <code>.size</code> y <code>.type</code>":"Casi: el tipo de los elementos se consulta con <code>.dtype</code>; un <code>ndarray</code> no tiene <code>.type</code>.",
+  "<code>.dims</code>, <code>.shape</code>, <code>.count</code> y <code>.dtype</code>":"Ni <code>.dims</code> ni <code>.count</code> existen en NumPy: los nombres correctos son <code>.ndim</code> y <code>.size</code>.",
+  "<code>.rank</code>, <code>.shape</code>, <code>.size</code> y <code>.dtypes</code>":"<code>.rank</code> no es un atributo del arreglo (la cantidad de ejes es <code>.ndim</code>) y <code>.dtypes</code> (plural) es de los DataFrames."
  }
 },
 {
@@ -387,16 +387,16 @@ const BANCO = [
  codigo:"edades = np.array([17, 22, 19, 15])",
  pide:"¿Qué técnica aplicás?",
  ops:[
-  "Máscara booleana: <code>edades[edades >= 18]</code>",
-  "Slicing: <code>edades[1:3]</code>",
-  "Indexación: <code>edades[0]</code>",
-  "<code>edades.sort()</code> y tomar la mitad de arriba"
+  "<code>edades[edades >= 18]</code>",
+  "<code>edades[edades > 18]</code>",
+  "<code>edades.where(edades >= 18)</code>",
+  "<code>edades[edades >= 18] = 0</code>"
  ],
  aprendido:"Una comparación sobre un arreglo devuelve otro arreglo de <code>True/False</code> (<code>[False, True, True, False]</code>). Ese arreglo booleano se usa como filtro entre corchetes. Es el mismo mecanismo que en Pandas con <code>df[df['nota'] >= 6]</code>.",
  porque:{
-  "Slicing: <code>edades[1:3]</code>":"Toma un rango de <b>posiciones</b>, no filtra por condición: si cambia el orden de los datos, filtra otra cosa.",
-  "Indexación: <code>edades[0]</code>":"Devuelve un único elemento.",
-  "<code>edades.sort()</code> y tomar la mitad de arriba":"Ordena pero no aplica el umbral de 18; además altera el arreglo original."
+  "<code>edades[edades > 18]</code>":"Deja afuera a quien tiene exactamente 18, que ya es mayor de edad: el umbral es <code>>=</code>.",
+  "<code>edades.where(edades >= 18)</code>":"<code>where</code> es un método de Pandas: un <code>ndarray</code> no lo tiene y tira <code>AttributeError</code>.",
+  "<code>edades[edades >= 18] = 0</code>":"Es una <b>asignación</b>: pisa con 0 a los mayores y no devuelve ningún arreglo filtrado."
  }
 },
 {
@@ -405,15 +405,15 @@ const BANCO = [
  pide:"¿Qué función usás?",
  ops:[
   "<code>np.where(df['cantidad'] >= 5, 0.10, 0.00)</code>",
-  "<code>np.select(df['cantidad'] >= 5, 0.10)</code>",
-  "<code>df['cantidad'].apply(lambda x: 0.10 if x >= 5 else 0)</code>",
-  "<code>np.maximum(df['cantidad'], 5)</code>"
+  "<code>np.where(df['cantidad'] > 5, 0.10, 0.00)</code>",
+  "<code>np.where(df['cantidad'] >= 5, 0.00, 0.10)</code>",
+  "<code>np.where(df['cantidad'] >= 5) * 0.10</code>"
  ],
  aprendido:"<b><code>np.where(condición, valor_si_true, valor_si_false)</code></b> es el <code>if/else</code> vectorizado: una sola condición y dos salidas. Aparece en casi todos los ejercicios del bloque 2: descuentos, “Aprobado/Desaprobado”, “Alto/Moderado”, “Sí/No”.",
  porque:{
-  "<code>np.select(df['cantidad'] >= 5, 0.10)</code>":"<code>np.select</code> existe, pero recibe <b>listas</b> de condiciones y de opciones: <code>np.select([cond1, cond2], [op1, op2], default=…)</code>. Se usa cuando hay <b>tres o más</b> categorías.",
-  "<code>df['cantidad'].apply(lambda x: 0.10 if x >= 5 else 0)</code>":"Da el resultado correcto pero recorre fila por fila: es lo opuesto a vectorizar, y la consigna pide NumPy.",
-  "<code>np.maximum(df['cantidad'], 5)</code>":"Devuelve el mayor entre cada valor y 5: no clasifica ni asigna tasas."
+  "<code>np.where(df['cantidad'] > 5, 0.10, 0.00)</code>":"Deja sin descuento a quien compra exactamente 5, y la consigna dice “5 <b>o más</b>”.",
+  "<code>np.where(df['cantidad'] >= 5, 0.00, 0.10)</code>":"Los valores están invertidos: daría 0 % a quien compra 5 o más y 10 % a los demás.",
+  "<code>np.where(df['cantidad'] >= 5) * 0.10</code>":"Con un solo argumento <code>np.where</code> devuelve los <b>índices</b> donde se cumple la condición (una tupla); multiplicarla por 0,10 tira <code>TypeError</code>."
  }
 },
 {
@@ -422,15 +422,15 @@ const BANCO = [
  pide:"¿Qué función de NumPy corresponde?",
  ops:[
   "<code>np.select([m <= 25, m <= 40], ['Rápida', 'Normal'], default='Demorada')</code>",
-  "<code>np.where(m <= 25, 'Rápida', 'Normal')</code>",
-  "<code>np.clip(m, 25, 40)</code>",
-  "<code>np.percentile(m, [25, 40])</code>"
+  "<code>np.select([m <= 40, m <= 25], ['Normal', 'Rápida'], default='Demorada')</code>",
+  "<code>np.select([m <= 25, m <= 40], ['Rápida', 'Normal', 'Demorada'])</code>",
+  "<code>np.select([m <= 25, 25 < m <= 40], ['Rápida', 'Normal'], default='Demorada')</code>"
  ],
  aprendido:"Cuando hay <b>más de dos</b> categorías, <code>np.where</code> se queda corto y va <b><code>np.select</code></b>: recibe una lista de condiciones, una lista de resultados en el mismo orden, y un <code>default</code> para lo que no entra en ninguna. Las condiciones se evalúan <b>en orden</b>, así que la primera que se cumple gana.",
  porque:{
-  "<code>np.where(m <= 25, 'Rápida', 'Normal')</code>":"Solo maneja dos salidas: perdés la categoría “Demorada”.",
-  "<code>np.clip(m, 25, 40)</code>":"Recorta valores a un rango numérico; no etiqueta categorías.",
-  "<code>np.percentile(m, [25, 40])</code>":"Calcula percentiles de la distribución, que es otra pregunta."
+  "<code>np.select([m <= 40, m <= 25], ['Normal', 'Rápida'], default='Demorada')</code>":"Las condiciones se evalúan <b>en orden</b> y gana la primera que se cumple: todo lo que es ≤ 25 ya es ≤ 40, así que 'Rápida' nunca aparece.",
+  "<code>np.select([m <= 25, m <= 40], ['Rápida', 'Normal', 'Demorada'])</code>":"Hay 2 condiciones y 3 resultados: las listas tienen que tener el mismo largo (el resto va en <code>default</code>). Tira <code>ValueError</code>.",
+  "<code>np.select([m <= 25, 25 < m <= 40], ['Rápida', 'Normal'], default='Demorada')</code>":"La comparación encadenada <code>25 < m <= 40</code> no funciona con arreglos: tira el error de “valor de verdad ambiguo”."
  }
 },
 {
@@ -439,15 +439,15 @@ const BANCO = [
  pide:"¿Qué usás?",
  ops:[
   "<code>np.percentile(reporte['minutos'], 75)</code>",
-  "<code>np.median(reporte['minutos'])</code>",
-  "<code>np.std(reporte['minutos'])</code>",
-  "<code>reporte['minutos'].quantile()</code> sin argumentos"
+  "<code>np.percentile(reporte['minutos'], 0.75)</code>",
+  "<code>np.quantile(reporte['minutos'], 75)</code>",
+  "<code>np.percentile(reporte['minutos'], [25, 75])</code>"
  ],
  aprendido:"Para estadística descriptiva con NumPy: <b>tendencia central</b> con <code>np.mean()</code> y <code>np.median()</code>; <b>dispersión</b> con <code>np.std()</code>, <code>np.var()</code> y <code>np.percentile()</code>. El percentil 75 es el valor por debajo del cual queda el 75% de las observaciones.",
  porque:{
-  "<code>np.median(reporte['minutos'])</code>":"La mediana es el percentil 50, no el 75.",
-  "<code>np.std(reporte['minutos'])</code>":"Mide dispersión, no un corte de la distribución.",
-  "<code>reporte['minutos'].quantile()</code> sin argumentos":"En Pandas existe <code>.quantile(0.75)</code>, pero sin argumento devuelve la mediana por defecto."
+  "<code>np.percentile(reporte['minutos'], 0.75)</code>":"<code>percentile</code> espera un valor de 0 a 100: con 0,75 calcula el percentil 0,75 (casi el mínimo).",
+  "<code>np.quantile(reporte['minutos'], 75)</code>":"<code>quantile</code> espera un valor entre 0 y 1: con 75 tira <code>ValueError</code>.",
+  "<code>np.percentile(reporte['minutos'], [25, 75])</code>":"Devuelve <b>dos</b> valores (el percentil 25 y el 75); la consigna pide sólo el 75."
  }
 },
 {
@@ -456,15 +456,15 @@ const BANCO = [
  pide:"¿Qué combinación usás?",
  ops:[
   "<code>np.ceil(np.maximum(4 * venta_semanal - stock, 0))</code>",
-  "<code>round(4 * venta_semanal - stock)</code>",
-  "<code>np.floor(4 * venta_semanal - stock)</code>",
-  "<code>abs(4 * venta_semanal - stock)</code>"
+  "<code>np.ceil(np.minimum(4 * venta_semanal - stock, 0))</code>",
+  "<code>np.maximum(np.floor(4 * venta_semanal - stock), 0)</code>",
+  "<code>np.ceil(np.abs(4 * venta_semanal - stock))</code>"
  ],
  aprendido:"<b><code>np.maximum(x, 0)</code></b> pisa los negativos con cero (si sobra stock, no hay que reponer nada). <b><code>np.ceil()</code></b> redondea hacia arriba, porque no se pueden pedir 3,2 unidades: hay que pedir 4. Son dos operaciones vectorizadas encadenadas.",
  porque:{
-  "<code>round(4 * venta_semanal - stock)</code>":"Redondea al más cercano: 3,2 quedaría en 3 y te faltaría stock. Además no corrige negativos.",
-  "<code>np.floor(4 * venta_semanal - stock)</code>":"Redondea hacia <b>abajo</b>: siempre te queda corto.",
-  "<code>abs(4 * venta_semanal - stock)</code>":"Convierte el sobrante en un pedido positivo: pedirías mercadería que te sobra."
+  "<code>np.ceil(np.minimum(4 * venta_semanal - stock, 0))</code>":"<code>minimum</code> se queda con los <b>negativos</b> (el sobrante) y pisa con 0 lo que falta: al revés de lo pedido.",
+  "<code>np.maximum(np.floor(4 * venta_semanal - stock), 0)</code>":"<code>floor</code> redondea hacia abajo y la consigna pide siempre hacia arriba: te queda corto.",
+  "<code>np.ceil(np.abs(4 * venta_semanal - stock))</code>":"<code>abs</code> convierte el sobrante en un pedido positivo: pedirías mercadería que ya te sobra."
  }
 },
 {
@@ -474,15 +474,15 @@ const BANCO = [
  pide:"¿Cómo los filtrás?",
  ops:[
   "<code>limpias = temperaturas[~np.isnan(temperaturas)]</code>",
+  "<code>limpias = temperaturas[np.isnan(temperaturas)]</code>",
   "<code>limpias = temperaturas[temperaturas != np.nan]</code>",
-  "<code>limpias = temperaturas.dropna()</code>",
-  "<code>limpias = temperaturas.fillna(0)</code>"
+  "<code>limpias = np.nan_to_num(temperaturas)</code>"
  ],
  aprendido:"<code>np.nan</code> <b>no es igual a sí mismo</b>: hay que detectarlo con <code>np.isnan()</code>, nunca con <code>==</code>. El <code>~</code> es la negación de la máscara booleana, así que <code>~np.isnan(x)</code> significa “los que <b>no</b> son nulos”.",
  porque:{
-  "<code>limpias = temperaturas[temperaturas != np.nan]</code>":"<code>nan != nan</code> da <code>True</code> siempre: no filtra nada. Es el error clásico.",
-  "<code>limpias = temperaturas.dropna()</code>":"<code>dropna()</code> es de Pandas, no de arreglos NumPy.",
-  "<code>limpias = temperaturas.fillna(0)</code>":"También es de Pandas, y además imputar con 0 distorsiona el promedio."
+  "<code>limpias = temperaturas[np.isnan(temperaturas)]</code>":"Sin el <code>~</code> se queda <b>sólo con los nulos</b>: es la máscara opuesta.",
+  "<code>limpias = temperaturas[temperaturas != np.nan]</code>":"<code>nan != nan</code> es siempre <code>True</code>: la máscara deja pasar todo, nulos incluidos.",
+  "<code>limpias = np.nan_to_num(temperaturas)</code>":"No filtra: reemplaza cada nulo por 0 y conserva la longitud, con lo que el promedio queda distorsionado."
  }
 },
 
@@ -492,16 +492,16 @@ const BANCO = [
  caso:"Acabás de cargar un DataFrame y todavía no calculaste nada. Querés ver las primeras filas, saber qué tipo tiene cada columna, cuántos nulos hay y un resumen estadístico.",
  pide:"¿Qué tres métodos usás, en ese orden?",
  ops:[
-  "<code>df.head()</code>, <code>df.info()</code> y <code>df.describe()</code>",
-  "<code>df.sum()</code>, <code>df.mean()</code> y <code>df.count()</code>",
-  "<code>df.merge()</code>, <code>df.groupby()</code> y <code>df.plot()</code>",
-  "<code>print(df)</code> tres veces"
+  "<code>df.head()</code>, <code>df.info()</code> y <code>df.describe()</code>, en ese orden",
+  "<code>df.head()</code>, <code>df.describe()</code> y <code>df.count()</code>, en ese orden",
+  "<code>df.tail()</code>, <code>df.dtypes</code> y <code>df.shape</code>, en ese orden",
+  "<code>df.info()</code>, <code>df.head()</code> y <code>df.mean()</code>, en ese orden"
  ],
  aprendido:"Regla de oro de la clase: <b>inspeccionar antes de calcular</b>. <code>head()</code> muestra un vistazo, <code>info()</code> resume columnas, tipos y no-nulos, y <code>describe()</code> da el resumen estadístico de las columnas numéricas. Si una columna numérica aparece como <code>object</code>, casi seguro tiene símbolos, comas o texto mal escrito.",
  porque:{
-  "<code>df.sum()</code>, <code>df.mean()</code> y <code>df.count()</code>":"Ya son cálculos: si el tipo está mal, el resultado sale mal y no te enterás.",
-  "<code>df.merge()</code>, <code>df.groupby()</code> y <code>df.plot()</code>":"Son transformaciones y visualización, que van después del diagnóstico.",
-  "<code>print(df)</code> tres veces":"No te informa tipos, nulos ni estadísticos."
+  "<code>df.head()</code>, <code>df.describe()</code> y <code>df.count()</code>, en ese orden":"Falta <code>info()</code>: <code>count()</code> da los no-nulos pero no muestra los <b>tipos</b> de cada columna.",
+  "<code>df.tail()</code>, <code>df.dtypes</code> y <code>df.shape</code>, en ese orden":"Ves tipos y tamaño, pero ningún resumen estadístico ni la cantidad de nulos.",
+  "<code>df.info()</code>, <code>df.head()</code> y <code>df.mean()</code>, en ese orden":"<code>mean()</code> ya es un cálculo (y sólo de una métrica): no reemplaza al resumen que da <code>describe()</code>."
  }
 },
 {
@@ -509,16 +509,16 @@ const BANCO = [
  caso:"Querés seleccionar de un DataFrame las columnas <code>nombre</code> y <code>promedio</code>, y que el resultado siga siendo un DataFrame (no una Series).",
  pide:"¿Cómo lo escribís?",
  ops:[
-  "<code>df[['nombre', 'promedio']]</code> — lista de nombres",
-  "<code>df['nombre', 'promedio']</code>",
-  "<code>df['nombre']['promedio']</code>",
-  "<code>df.nombre.promedio</code>"
+  "<code>df[['nombre', 'promedio']]</code>, con una lista dentro de los corchetes",
+  "<code>df.loc['nombre', 'promedio']</code>, con las dos etiquetas separadas por coma",
+  "<code>df.iloc[:, ['nombre', 'promedio']]</code>, seleccionando todas las filas",
+  "<code>df['nombre':'promedio']</code>, con un rango entre las dos etiquetas"
  ],
  aprendido:"La regla de los corchetes: <b>un corchete con un nombre → Series</b> (<code>df['edad']</code>), <b>corchete con una lista de nombres → DataFrame</b> (<code>df[['nombre','edad']]</code>). Es la confusión más frecuente al armar reportes con varias columnas.",
  porque:{
-  "<code>df['nombre', 'promedio']</code>":"Pandas interpreta la tupla como una sola clave: <code>KeyError</code>.",
-  "<code>df['nombre']['promedio']</code>":"Selecciona la Series <code>nombre</code> y después busca la etiqueta <code>'promedio'</code> <b>dentro</b> de ella.",
-  "<code>df.nombre.promedio</code>":"El acceso por punto sirve para una columna sola y se rompe si el nombre tiene espacios."
+  "<code>df.loc['nombre', 'promedio']</code>, con las dos etiquetas separadas por coma":"<code>loc[fila, columna]</code> interpreta <code>'nombre'</code> como una <b>fila</b>: tira <code>KeyError</code>.",
+  "<code>df.iloc[:, ['nombre', 'promedio']]</code>, seleccionando todas las filas":"<code>iloc</code> trabaja con <b>posiciones numéricas</b>, no con nombres de columnas: falla con un error de indexación.",
+  "<code>df['nombre':'promedio']</code>, con un rango entre las dos etiquetas":"Un rango entre corchetes <b>corta filas</b>, no columnas."
  }
 },
 {
@@ -527,15 +527,15 @@ const BANCO = [
  pide:"¿Qué operación usás?",
  ops:[
   "<code>df.groupby('sede', as_index=False)['importe'].sum()</code>",
-  "<code>df['importe'].sum()</code>",
-  "<code>df.sort_values('sede')['importe'].sum()</code>",
-  "<code>pd.pivot_table(df, values='importe')</code>"
+  "<code>df.groupby('importe', as_index=False)['sede'].sum()</code>",
+  "<code>df.groupby('sede', as_index=False)['importe'].count()</code>",
+  "<code>df.groupby(['sede', 'importe'])['importe'].sum()</code>"
  ],
  aprendido:"<b><code>groupby</code> resume</b>: agrupa filas por categoría y aplica una métrica (<code>sum()</code>, <code>mean()</code>, <code>size()</code>, <code>count()</code>). <code>as_index=False</code> deja la clave de agrupación como columna normal en vez de convertirla en índice, cosa que facilita después graficar o cruzar.",
  porque:{
-  "<code>df['importe'].sum()</code>":"Te da el total general, no el total <b>por sede</b>.",
-  "<code>df.sort_values('sede')['importe'].sum()</code>":"Ordenar no agrupa: sigue sumando todo junto.",
-  "<code>pd.pivot_table(df, values='importe')</code>":"Sin <code>index</code> no agrupa por sede; <code>pivot_table</code> sirve para <b>comparar</b> cruzando dos dimensiones."
+  "<code>df.groupby('importe', as_index=False)['sede'].sum()</code>":"Los roles están cruzados: agrupa por importe y suma texto (los nombres de sede).",
+  "<code>df.groupby('sede', as_index=False)['importe'].count()</code>":"<code>count()</code> cuenta cuántas filas hay por sede; no suma la facturación.",
+  "<code>df.groupby(['sede', 'importe'])['importe'].sum()</code>":"Agrupar también por <code>importe</code> da una fila por cada combinación: nunca llegás a un total por sede."
  }
 },
 {
@@ -544,15 +544,15 @@ const BANCO = [
  pide:"¿Qué usás?",
  ops:[
   "<code>pd.pivot_table(df, values='total', index='region', columns='producto', aggfunc='sum')</code>",
-  "<code>df.groupby(['region', 'producto'])['total'].sum()</code>",
-  "<code>pd.concat([regiones, productos], axis=1)</code>",
-  "<code>df.merge(productos, on='producto')</code>"
+  "<code>pd.pivot_table(df, values='total', index='producto', columns='region', aggfunc='sum')</code>",
+  "<code>pd.pivot_table(df, values='total', index='region', columns='producto', aggfunc='count')</code>",
+  "<code>pd.pivot_table(df, values='region', index='total', columns='producto', aggfunc='sum')</code>"
  ],
  aprendido:"La tríada de la clase: <b><code>groupby</code> resume</b>, <b><code>pivot_table</code> compara</b> (reorganiza categorías en filas y columnas) y <b><code>merge</code> integra</b> (une fuentes por clave). Cuando la pregunta es “comparar A contra B en una grilla”, es <code>pivot_table</code>.",
  porque:{
-  "<code>df.groupby(['region', 'producto'])['total'].sum()</code>":"Da los mismos números pero en formato largo (una fila por combinación), no en grilla.",
-  "<code>pd.concat([regiones, productos], axis=1)</code>":"Apila datasets; no calcula agregados.",
-  "<code>df.merge(productos, on='producto')</code>":"Agrega columnas por clave; no reorganiza en filas × columnas."
+  "<code>pd.pivot_table(df, values='total', index='producto', columns='region', aggfunc='sum')</code>":"Está traspuesta: dejaría los productos en las filas y las regiones en las columnas, al revés de lo pedido.",
+  "<code>pd.pivot_table(df, values='total', index='region', columns='producto', aggfunc='count')</code>":"Con <code>count</code> la grilla muestra <b>cuántas ventas</b> hubo, no cuánto se facturó.",
+  "<code>pd.pivot_table(df, values='region', index='total', columns='producto', aggfunc='sum')</code>":"Los roles están cruzados: intenta sumar una columna de texto (<code>region</code>) y usa <code>total</code> como filas."
  }
 },
 
@@ -564,14 +564,14 @@ const BANCO = [
  ops:[
   "<code>.loc[101]</code> para la etiqueta y <code>.iloc[0]</code> para la posición",
   "<code>.iloc[101]</code> para la etiqueta y <code>.loc[0]</code> para la posición",
-  "<code>.loc</code> para las dos cosas",
-  "<code>df[101]</code> y <code>df[0]</code>"
+  "<code>.loc[101]</code> para la etiqueta y <code>.loc[0]</code> para la posición",
+  "<code>.iloc[101]</code> para la etiqueta y <code>.iloc[0]</code> para la posición"
  ],
  aprendido:"<b><code>loc</code> responde “¿qué etiqueta?”</b> y <b><code>iloc</code> responde “¿qué posición?”</b>. Otra diferencia clave: con etiquetas, <code>loc[0:2]</code> <b>incluye</b> ambos extremos; con posiciones, <code>iloc[0:2]</code> <b>excluye</b> el 2, como el slicing de Python.",
  porque:{
-  "<code>.iloc[101]</code> para la etiqueta y <code>.loc[0]</code> para la posición":"Está invertido: <code>iloc[101]</code> buscaría la fila número 101 y saltaría <code>IndexError</code>.",
-  "<code>.loc</code> para las dos cosas":"Si el índice es <code>id_venta</code>, <code>loc[0]</code> busca la <i>etiqueta</i> 0, que puede no existir.",
-  "<code>df[101]</code> y <code>df[0]</code>":"Los corchetes directos sobre un DataFrame buscan <b>columnas</b>, no filas."
+  "<code>.iloc[101]</code> para la etiqueta y <code>.loc[0]</code> para la posición":"Está invertido: <code>iloc[101]</code> busca la fila número 101 y tira <code>IndexError</code>.",
+  "<code>.loc[101]</code> para la etiqueta y <code>.loc[0]</code> para la posición":"<code>loc[0]</code> busca la <b>etiqueta</b> 0, que no existe si el índice es <code>id_venta</code>: tira <code>KeyError</code>.",
+  "<code>.iloc[101]</code> para la etiqueta y <code>.iloc[0]</code> para la posición":"<code>iloc[101]</code> es la posición 101, no el <code>id_venta</code> 101; sólo <code>iloc[0]</code> está bien."
  }
 },
 {
@@ -579,16 +579,16 @@ const BANCO = [
  caso:"Querés las ventas con importe ≥ 800 <b>y</b> producto A o B.",
  pide:"¿Cuál es la sintaxis correcta en Pandas?",
  ops:[
-  "<code>df[(df['importe'] >= 800) &amp; df['producto'].isin(['A','B'])]</code>",
-  "<code>df[df['importe'] >= 800 and df['producto'] in ['A','B']]</code>",
-  "<code>df[df['importe'] >= 800 &amp; df['producto'].isin(['A','B'])]</code>",
-  "<code>df[(df['importe'] >= 800) or (df['producto'] == 'A')]</code>"
+  "<code>df[(df['importe'] >= 800) & df['producto'].isin(['A','B'])]</code>",
+  "<code>df[(df['importe'] >= 800) | df['producto'].isin(['A','B'])]</code>",
+  "<code>df[df['importe'] >= 800 & df['producto'].isin(['A','B'])]</code>",
+  "<code>df[(df['importe'] >= 800) & (df['producto'] == ['A','B'])]</code>"
  ],
  aprendido:"Dos reglas que se toman siempre: <b>en Pandas se usa <code>&amp;</code> para “y”, <code>|</code> para “o” y <code>~</code> para negar</b> (no <code>and</code>/<code>or</code>/<code>not</code>), y <b>cada condición va entre paréntesis</b> porque <code>&amp;</code> tiene más precedencia que <code>&gt;=</code>. Para pertenencia a una lista, <code>isin()</code>; para rangos, <code>between()</code>; para texto, <code>str.contains()</code>.",
  porque:{
-  "<code>df[df['importe'] >= 800 and df['producto'] in ['A','B']]</code>":"<code>and</code> e <code>in</code> esperan un único <code>True/False</code>: con una Series tiran <i>“The truth value of a Series is ambiguous”</i>.",
-  "<code>df[df['importe'] >= 800 &amp; df['producto'].isin(['A','B'])]</code>":"Sin paréntesis, Python evalúa primero <code>800 &amp; df[...]</code> y el resultado es incorrecto o directamente error.",
-  "<code>df[(df['importe'] >= 800) or (df['producto'] == 'A')]</code>":"Además de usar <code>or</code>, cambia la lógica: pide una cosa <b>o</b> la otra."
+  "<code>df[(df['importe'] >= 800) | df['producto'].isin(['A','B'])]</code>":"<code>|</code> es “o”: trae también lo que cumple sólo una condición; se pidió importe alto <b>y</b> producto A o B.",
+  "<code>df[df['importe'] >= 800 & df['producto'].isin(['A','B'])]</code>":"Sin paréntesis, <code>&</code> se evalúa antes que <code>>=</code>: Python intenta <code>800 & df[...]</code> y falla o da un resultado incorrecto.",
+  "<code>df[(df['importe'] >= 800) & (df['producto'] == ['A','B'])]</code>":"Comparar una columna con <code>==</code> contra una lista no equivale a “es A o B”: para pertenencia se usa <code>isin()</code>."
  }
 },
 {
@@ -597,15 +597,15 @@ const BANCO = [
  pide:"¿Cómo lo escribís sin que explote?",
  ops:[
   "<code>df[df['producto'].str.contains('B', na=False)]</code>",
-  "<code>df[df['producto'].str.contains('B')]</code>",
-  "<code>df[df['producto'] == 'B']</code>",
-  "<code>df[df['producto'].isin(['B'])]</code>"
+  "<code>df[df['producto'].str.contains('B', na=True)]</code>",
+  "<code>df[df['producto'].str.contains('B', case=False)]</code>",
+  "<code>df[df['producto'].str.match('B', na=False)]</code>"
  ],
  aprendido:"<code>str.contains()</code> busca subcadenas dentro de una columna de texto. Con nulos devuelve <code>NaN</code>, que rompe el filtro booleano: por eso <b><code>na=False</code></b> los trata como “no cumple”. También existe <code>case=False</code> para ignorar mayúsculas.",
  porque:{
-  "<code>df[df['producto'].str.contains('B')]</code>":"Con nulos en la columna lanza <i>“Cannot mask with non-boolean array containing NA”</i>.",
-  "<code>df[df['producto'] == 'B']</code>":"Busca coincidencia <b>exacta</b>: no encuentra “Bota” ni “B-12”.",
-  "<code>df[df['producto'].isin(['B'])]</code>":"También es coincidencia exacta, solo que contra una lista."
+  "<code>df[df['producto'].str.contains('B', na=True)]</code>":"<code>na=True</code> trata los nulos como <b>coincidencias</b>: los devuelve dentro del resultado.",
+  "<code>df[df['producto'].str.contains('B', case=False)]</code>":"Ignora mayúsculas, pero no dice qué hacer con los nulos: siguen rompiendo el filtro booleano.",
+  "<code>df[df['producto'].str.match('B', na=False)]</code>":"<code>match</code> sólo detecta el texto que <b>empieza</b> con “B”: se pierden los que la contienen sin empezar con ella, como “Sombrero B-12” o “AB”."
  }
 },
 {
@@ -614,15 +614,15 @@ const BANCO = [
  pide:"¿<code>concat</code> o <code>merge</code>?",
  ops:[
   "<code>pd.concat([enero, febrero], axis=0, ignore_index=True)</code>",
-  "<code>enero.merge(febrero, on='venta', how='outer')</code>",
-  "<code>pd.concat([enero, febrero], axis=1)</code>",
-  "<code>enero.join(febrero)</code>"
+  "<code>pd.concat([enero, febrero], axis=1, ignore_index=True)</code>",
+  "<code>pd.concat(enero, febrero, ignore_index=True)</code>",
+  "<code>enero.combine_first(febrero).reset_index(drop=True)</code>"
  ],
  aprendido:"<b>Misma estructura → <code>concat</code>. Entidades relacionadas → <code>merge</code>.</b> <code>concat</code> apila sin interpretar claves de negocio: <code>axis=0</code> agrega filas (como <code>UNION ALL</code>) y <code>ignore_index=True</code> reconstruye un índice continuo 0,1,2… <code>axis=1</code> pega al costado alineando por índice.",
  porque:{
-  "<code>enero.merge(febrero, on='venta', how='outer')</code>":"<code>merge</code> busca coincidencias por clave: acá no querés relacionar registros, querés apilarlos.",
-  "<code>pd.concat([enero, febrero], axis=1)</code>":"<code>axis=1</code> los pone lado a lado alineando por índice: si los índices no representan la misma entidad, genera asociaciones incorrectas.",
-  "<code>enero.join(febrero)</code>":"<code>join</code> une por índice, no apila filas."
+  "<code>pd.concat([enero, febrero], axis=1, ignore_index=True)</code>":"<code>axis=1</code> pega las tablas <b>una al lado de la otra</b>: duplicaría las columnas en vez de apilar los registros.",
+  "<code>pd.concat(enero, febrero, ignore_index=True)</code>":"<code>concat</code> recibe <b>una lista</b> de DataFrames como primer argumento; pasarlos sueltos tira <code>TypeError</code>.",
+  "<code>enero.combine_first(febrero).reset_index(drop=True)</code>":"<code>combine_first</code> alinea por índice y completa los <b>huecos</b> de una tabla con la otra: con índices 0, 1, 2… repetidos mezcla filas en vez de apilarlas."
  }
 },
 {
@@ -631,15 +631,15 @@ const BANCO = [
  pide:"¿Qué tipo de unión usás?",
  ops:[
   "<code>ventas.merge(clientes, on='cliente_id', how='left')</code>",
+  "<code>clientes.merge(ventas, on='cliente_id', how='left')</code>",
   "<code>ventas.merge(clientes, on='cliente_id', how='inner')</code>",
-  "<code>ventas.merge(clientes, on='cliente_id', how='right')</code>",
-  "<code>pd.concat([ventas, clientes], axis=1)</code>"
+  "<code>ventas.merge(clientes, on='cliente_id', how='right')</code>"
  ],
  aprendido:"Los cuatro <code>how</code>: <b><code>inner</code></b> conserva solo las coincidencias, <b><code>left</code></b> mantiene todas las filas de la izquierda, <b><code>right</code></b> hace lo inverso y <b><code>outer</code></b> conserva todas las claves de ambos lados. “Conservar todas las ventas” = <code>left</code>, con la tabla de ventas a la izquierda.",
  porque:{
-  "<code>ventas.merge(clientes, on='cliente_id', how='inner')</code>":"Descarta las ventas de clientes que no estén en el padrón: perdés facturación sin darte cuenta.",
-  "<code>ventas.merge(clientes, on='cliente_id', how='right')</code>":"Conserva todos los <b>clientes</b>, incluso los que no compraron, y pierde ventas huérfanas.",
-  "<code>pd.concat([ventas, clientes], axis=1)</code>":"Alinea por índice, no por <code>cliente_id</code>: cruza filas que no tienen nada que ver."
+  "<code>clientes.merge(ventas, on='cliente_id', how='left')</code>":"Con <code>clientes</code> a la izquierda se conservan <b>todos los clientes</b> y se pierden las ventas de quien no está en el padrón.",
+  "<code>ventas.merge(clientes, on='cliente_id', how='inner')</code>":"Descarta las ventas de clientes que no están en el padrón: perdés facturación sin darte cuenta.",
+  "<code>ventas.merge(clientes, on='cliente_id', how='right')</code>":"Conserva todos los clientes (hayan comprado o no) y pierde las ventas huérfanas: al revés de lo pedido."
  }
 },
 {
@@ -648,15 +648,15 @@ const BANCO = [
  pide:"¿Qué parámetro agregás y cómo lo leés?",
  ops:[
   "<code>indicator=True</code>, y después filtrar por <code>df['_merge'] == 'left_only'</code>",
-  "<code>validate='one_to_one'</code>, y revisar si lanza error",
-  "<code>how='inner'</code>, que ya descarta lo que no cruza",
-  "<code>on=None</code>, para que una por todas las columnas"
+  "<code>indicator=True</code>, y después filtrar por <code>df['_merge'] == 'right_only'</code>",
+  "<code>indicator=True</code>, y después filtrar por <code>df['_merge'] == 'both'</code>",
+  "<code>validate='one_to_one'</code>, y después filtrar por <code>df['_merge'] == 'left_only'</code>"
  ],
  aprendido:"<code>indicator=True</code> agrega una columna <code>_merge</code> con tres valores posibles: <code>both</code> (cruzó), <code>left_only</code> (está solo en la izquierda) y <code>right_only</code>. Es la forma de <b>auditar</b> un merge: <code>df['_merge'].value_counts()</code> te dice cuántas claves quedaron huérfanas antes de propagar el error al reporte.",
  porque:{
-  "<code>validate='one_to_one'</code>, y revisar si lanza error":"<code>validate</code> verifica la <b>cardinalidad</b> (1:1, 1:N, N:M) y aborta si no se cumple, pero no te lista qué IDs no cruzaron.",
-  "<code>how='inner'</code>, que ya descarta lo que no cruza":"Los descarta en silencio: es exactamente lo que la consigna quiere evitar.",
-  "<code>on=None</code>, para que una por todas las columnas":"Une por todas las columnas comunes, lo que normalmente rompe el cruce."
+  "<code>indicator=True</code>, y después filtrar por <code>df['_merge'] == 'right_only'</code>":"<code>right_only</code> son las claves que están <b>sólo en el catálogo</b>; lo que se busca son los movimientos (izquierda) que no cruzaron.",
+  "<code>indicator=True</code>, y después filtrar por <code>df['_merge'] == 'both'</code>":"<code>both</code> son justamente las filas que <b>sí</b> cruzaron: es el conjunto opuesto al pedido.",
+  "<code>validate='one_to_one'</code>, y después filtrar por <code>df['_merge'] == 'left_only'</code>":"Sin <code>indicator=True</code> la columna <code>_merge</code> no existe: tira <code>KeyError</code>. Además <code>validate</code> controla cardinalidad, no cruces."
  }
 },
 {
@@ -664,16 +664,16 @@ const BANCO = [
  caso:"Antes de unir ventas con clientes querés asegurarte de que la relación sea “muchas ventas para un cliente” y que el proceso corte si aparece un cliente duplicado.",
  pide:"¿Qué parámetro usás?",
  ops:[
-  "<code>validate=\"many_to_one\"</code>",
-  "<code>indicator=True</code>",
-  "<code>how=\"many_to_one\"</code>",
-  "<code>df.drop_duplicates()</code> antes del merge y nada más"
+  "<code>validate='many_to_one'</code>, que corta con <code>MergeError</code> si el cliente aparece repetido",
+  "<code>validate='one_to_many'</code>, que corta con <code>MergeError</code> si el cliente aparece repetido",
+  "<code>validate='one_to_one'</code>, que corta con <code>MergeError</code> si el cliente aparece repetido",
+  "<code>indicator=True</code>, que corta con <code>MergeError</code> si el cliente aparece repetido"
  ],
  aprendido:"El cardinal importa: 1:1, 1:N o N:M. <b><code>validate</code></b> declara la relación esperada y hace fallar el merge si no se cumple, antes de que un N:M inesperado te multiplique las filas (“explosión de filas”). Frase de la clase: <i>si no conocés la cardinalidad, todavía no estás listo para unir</i>.",
  porque:{
-  "<code>indicator=True</code>":"Te dice qué filas cruzaron y cuáles no, pero no valida la cardinalidad.",
-  "<code>how=\"many_to_one\"</code>":"<code>how</code> solo acepta <code>inner</code>, <code>left</code>, <code>right</code>, <code>outer</code> y <code>cross</code>.",
-  "<code>df.drop_duplicates()</code> antes del merge y nada más":"Borra evidencia sin avisar: puede que esos duplicados sean un problema real de la fuente."
+  "<code>validate='one_to_many'</code>, que corta con <code>MergeError</code> si el cliente aparece repetido":"Es la relación inversa: exigiría que sea único el lado de <b>ventas</b> y aceptaría clientes duplicados.",
+  "<code>validate='one_to_one'</code>, que corta con <code>MergeError</code> si el cliente aparece repetido":"Es demasiado estricto: también corta si un mismo cliente tiene varias ventas, que es justo lo esperado.",
+  "<code>indicator=True</code>, que corta con <code>MergeError</code> si el cliente aparece repetido":"<code>indicator</code> sólo agrega la columna <code>_merge</code>; nunca corta ni valida la cardinalidad."
  }
 },
 
@@ -684,15 +684,15 @@ const BANCO = [
  pide:"¿Cómo la convertís?",
  ops:[
   "<code>pd.to_numeric(df['precio'], errors='coerce')</code>",
-  "<code>df['precio'].astype(float)</code>",
-  "<code>int(df['precio'])</code>",
-  "<code>df['precio'].apply(float)</code>"
+  "<code>pd.to_numeric(df['precio'], errors='ignore')</code>",
+  "<code>pd.to_numeric(df['precio'], errors='raise')</code>",
+  "<code>df['precio'].astype('float', errors='coerce')</code>"
  ],
  aprendido:"<b><code>errors='coerce'</code></b> convierte lo que no se puede parsear en <code>NaN</code> en lugar de lanzar una excepción. Eso te deja el problema <b>visible y localizable</b>: después de convertir, siempre inspeccionar los nulos nuevos, porque suelen revelar errores de formato. Lo mismo aplica a <code>pd.to_datetime(..., errors='coerce')</code>.",
  porque:{
-  "<code>df['precio'].astype(float)</code>":"Con <code>'error'</code> en la columna lanza <code>ValueError</code> y corta el proceso.",
-  "<code>int(df['precio'])</code>":"<code>int()</code> no funciona sobre una Series completa.",
-  "<code>df['precio'].apply(float)</code>":"Recorre fila por fila y explota igual en el primer valor inválido."
+  "<code>pd.to_numeric(df['precio'], errors='ignore')</code>":"Si hay un valor inválido devuelve la columna <b>sin convertir</b>, dejando todo como texto (y esa opción está en desuso).",
+  "<code>pd.to_numeric(df['precio'], errors='raise')</code>":"<code>'raise'</code> es el comportamiento por defecto: corta con <code>ValueError</code> en el primer 'error'.",
+  "<code>df['precio'].astype('float', errors='coerce')</code>":"<code>astype</code> sólo acepta <code>'raise'</code> o <code>'ignore'</code>; <code>'coerce'</code> es de <code>to_numeric</code> y <code>to_datetime</code>."
  }
 },
 {
@@ -701,15 +701,15 @@ const BANCO = [
  pide:"¿Con qué los imputás?",
  ops:[
   "<code>df['importe'].fillna(df['importe'].median())</code>",
+  "<code>df['importe'].fillna(df['importe'].mode())</code>",
   "<code>df['importe'].fillna(df['importe'].mean())</code>",
-  "<code>df['importe'].fillna(0)</code>",
-  "<code>df['importe'].dropna()</code>"
+  "<code>df['importe'].ffill()</code>"
  ],
  aprendido:"<b>Mediana</b>: robusta ante valores extremos, la elección por defecto para numéricos. <b>Moda</b>: útil en categorías. <b><code>ffill</code></b>: útil en series ordenadas cuando el último valor sigue vigente. Para categóricas, crear una categoría explícita (<code>fillna('Sin informar')</code>). Y si la ausencia aporta información, agregar una bandera: <code>df['importe_faltante'] = df['importe'].isna()</code>.",
  porque:{
-  "<code>df['importe'].fillna(df['importe'].mean())</code>":"El promedio se corre con un solo outlier; por eso la consigna pide mediana.",
-  "<code>df['importe'].fillna(0)</code>":"Un cero es un importe real: te baja artificialmente todos los totales y promedios.",
-  "<code>df['importe'].dropna()</code>":"Elimina filas en lugar de completarlas. Es válido si la ausencia es chica y no sistemática, pero no es lo que pide la consigna."
+  "<code>df['importe'].fillna(df['importe'].mode())</code>":"<code>mode()</code> devuelve una <b>Series</b>, no un valor: <code>fillna</code> la alinea por índice y completa sólo unas pocas filas.",
+  "<code>df['importe'].fillna(df['importe'].mean())</code>":"El promedio se corre con un solo valor extremo; por eso la consigna pide algo robusto como la mediana.",
+  "<code>df['importe'].ffill()</code>":"Repite el valor de la fila anterior: sólo tiene sentido en series ordenadas, y el resultado depende del orden de las filas."
  }
 },
 {
@@ -718,15 +718,15 @@ const BANCO = [
  pide:"¿Cómo lo hacés?",
  ops:[
   "<code>df.drop_duplicates(subset='estudiante_id', keep='first')</code>",
-  "<code>df.drop_duplicates()</code>",
-  "<code>df.dropna(subset=['estudiante_id'])</code>",
-  "<code>df.groupby('estudiante_id').first()</code> sin más"
+  "<code>df.drop_duplicates(subset='estudiante_id', keep='last')</code>",
+  "<code>df.drop_duplicates(subset='estudiante_id', keep=False)</code>",
+  "<code>df.drop_duplicates(keep='first')</code>"
  ],
  aprendido:"<b><code>subset</code></b> define qué significa “la misma fila”: sin él, <code>drop_duplicates()</code> exige que <b>todas</b> las columnas coincidan (duplicado completo), y un duplicado <i>semántico</i> comparte la clave aunque cambien otros campos. <b><code>keep</code></b> elige cuál conservar: <code>'first'</code>, <code>'last'</code> (útil si el registro más reciente corrige al anterior, ordenando antes por fecha) o <code>False</code> para marcarlos todos e inspeccionarlos.",
  porque:{
-  "<code>df.drop_duplicates()</code>":"Solo borra filas idénticas en todas las columnas: si cambia la carrera, el ID duplicado sobrevive.",
-  "<code>df.dropna(subset=['estudiante_id'])</code>":"Elimina nulos, no duplicados.",
-  "<code>df.groupby('estudiante_id').first()</code> sin más":"Funciona pero convierte el ID en índice y descarta el resto en silencio; <code>drop_duplicates</code> expresa mejor la intención."
+  "<code>df.drop_duplicates(subset='estudiante_id', keep='last')</code>":"Conserva la <b>última</b> aparición de cada ID, no la primera.",
+  "<code>df.drop_duplicates(subset='estudiante_id', keep=False)</code>":"<code>keep=False</code> borra <b>todas</b> las filas repetidas, incluida la primera: el estudiante desaparece.",
+  "<code>df.drop_duplicates(keep='first')</code>":"Sin <code>subset</code> sólo elimina filas idénticas en <b>todas</b> las columnas: si cambia la carrera, el ID duplicado sobrevive."
  }
 },
 {
@@ -735,15 +735,15 @@ const BANCO = [
  pide:"¿Qué encadenás?",
  ops:[
   "<code>df['zona'].str.strip().str.title()</code>",
-  "<code>df['zona'].str.replace(' ', '')</code>",
-  "<code>df['zona'].astype('category')</code>",
-  "<code>df['zona'].str.upper()</code>"
+  "<code>df['zona'].str.strip().str.upper()</code>",
+  "<code>df['zona'].strip().title()</code>",
+  "<code>df['zona'].str.lstrip().str.title()</code>"
  ],
  aprendido:"El accesor <code>.str</code> aplica métodos de texto a toda la columna. <b><code>strip()</code></b> saca espacios al principio y al final, <b><code>title()</code></b> pone la primera letra de cada palabra en mayúscula. Regla de la clase: <b>primero normalizar texto, después convertir</b>. Sin normalizar, <code>groupby('zona')</code> te genera tres grupos distintos para la misma zona.",
  porque:{
-  "<code>df['zona'].str.replace(' ', '')</code>":"Saca <b>todos</b> los espacios, incluso los internos: “Nueva Cordoba” quedaría “NuevaCordoba”.",
-  "<code>df['zona'].astype('category')</code>":"Cambia el tipo para ahorrar memoria, pero congela las variantes mal escritas como categorías distintas.",
-  "<code>df['zona'].str.upper()</code>":"Unifica mayúsculas pero deja los espacios y queda “ CENTRO ”."
+  "<code>df['zona'].str.strip().str.upper()</code>":"Saca los espacios, pero deja todo en mayúsculas: 'CENTRO', 'NORTE', 'SUR', no 'Centro', 'Norte', 'Sur'.",
+  "<code>df['zona'].strip().title()</code>":"Falta el accesor <code>.str</code>: una Series no tiene <code>strip()</code> ni <code>title()</code> y tira <code>AttributeError</code>.",
+  "<code>df['zona'].str.lstrip().str.title()</code>":"<code>lstrip</code> sólo saca los espacios del <b>principio</b>: ' centro ' quedaría como 'Centro ' (con un espacio al final)."
  }
 },
 {
@@ -752,15 +752,15 @@ const BANCO = [
  pide:"¿Cómo marcás las notas fuera de rango?",
  ops:[
   "<code>notas.loc[~notas['nota'].between(0, 10), 'nota'] = pd.NA</code>",
-  "<code>notas[notas['nota'] > 10] = 10</code>",
-  "<code>notas['nota'].replace(12, None)</code>",
-  "<code>notas.drop(notas['nota'] > 10)</code>"
+  "<code>notas.loc[notas['nota'].between(0, 10), 'nota'] = pd.NA</code>",
+  "<code>notas.loc[~notas['nota'].between(0, 10)] = pd.NA</code>",
+  "<code>notas['nota'][~notas['nota'].between(0, 10)] = pd.NA</code>"
  ],
  aprendido:"<b><code>between(a, b)</code></b> devuelve <code>True</code> para el rango (inclusive), y <code>~</code> lo niega: “las que <b>no</b> están entre 0 y 10”. Se combina con <code>.loc[máscara, 'columna'] = valor</code>, que es la forma correcta de asignar sobre un subconjunto sin caer en el <i>chained assignment</i> que Pandas advierte.",
  porque:{
-  "<code>notas[notas['nota'] > 10] = 10</code>":"Pisa el valor con 10 (inventa un dato) y además asigna sobre <b>todas</b> las columnas de esas filas.",
-  "<code>notas['nota'].replace(12, None)</code>":"Solo atrapa el 12 literal; si mañana aparece un 15 se te escapa.",
-  "<code>notas.drop(notas['nota'] > 10)</code>":"<code>drop()</code> espera etiquetas de índice, no una máscara booleana."
+  "<code>notas.loc[notas['nota'].between(0, 10), 'nota'] = pd.NA</code>":"Sin el <code>~</code> invalida las notas <b>correctas</b> (las que sí están entre 0 y 10).",
+  "<code>notas.loc[~notas['nota'].between(0, 10)] = pd.NA</code>":"Sin nombrar la columna, vacía <b>todas</b> las columnas de esas filas, no sólo la nota.",
+  "<code>notas['nota'][~notas['nota'].between(0, 10)] = pd.NA</code>":"Es asignación encadenada: puede escribir sobre una copia y no modificar el DataFrame original."
  }
 },
 
@@ -770,16 +770,16 @@ const BANCO = [
  caso:"Tenés que leer un CSV europeo: separador <code>;</code>, coma decimal, una columna de fechas y los IDs que deben quedar enteros aunque haya nulos.",
  pide:"¿Cómo lo cargás de forma explícita?",
  ops:[
-  "<code>pd.read_csv(f, sep=';', decimal=',', parse_dates=['fecha'], dtype={'cliente_id':'Int64'})</code>",
-  "<code>pd.read_csv(f)</code> y corregir después",
-  "<code>pd.read_excel(f, sheet_name='Enero')</code>",
-  "<code>pd.read_table(f)</code>"
+  "<code>pd.read_csv(f, sep=';', decimal=',', parse_dates=['fecha'], dtype={'cliente_id': 'Int64'})</code>",
+  "<code>pd.read_csv(f, sep=';', decimal='.', parse_dates=['fecha'], dtype={'cliente_id': 'Int64'})</code>",
+  "<code>pd.read_csv(f, sep=',', decimal=',', parse_dates=['fecha'], dtype={'cliente_id': 'Int64'})</code>",
+  "<code>pd.read_csv(f, sep=';', decimal=',', parse_dates=['fecha'], dtype={'cliente_id': 'int64'})</code>"
  ],
  aprendido:"<b>CSV no almacena tipos</b>: Pandas los infiere, y suele equivocarse. Por eso la regla es <i>leer de forma explícita</i>: <code>sep</code>, <code>decimal</code>, <code>encoding</code>, <code>parse_dates</code> y <code>dtype</code> cuando conocés el origen. <code>'Int64'</code> con I mayúscula es el entero <i>nullable</i> de Pandas, que admite nulos sin pasarse a <code>float</code>.",
  porque:{
-  "<code>pd.read_csv(f)</code> y corregir después":"Con <code>sep=','</code> por defecto te carga todo en una sola columna, y los decimales con coma quedan como texto.",
-  "<code>pd.read_excel(f, sheet_name='Enero')</code>":"Es para <code>.xlsx</code>, no para CSV.",
-  "<code>pd.read_table(f)</code>":"Asume tabulador como separador."
+  "<code>pd.read_csv(f, sep=';', decimal='.', parse_dates=['fecha'], dtype={'cliente_id': 'Int64'})</code>":"Con <code>decimal='.'</code> los valores como <code>12,5</code> quedan como texto: hay que declarar la coma.",
+  "<code>pd.read_csv(f, sep=',', decimal=',', parse_dates=['fecha'], dtype={'cliente_id': 'Int64'})</code>":"Con <code>sep=','</code> el archivo (separado por <code>;</code>) queda en una sola columna.",
+  "<code>pd.read_csv(f, sep=';', decimal=',', parse_dates=['fecha'], dtype={'cliente_id': 'int64'})</code>":"<code>int64</code> en minúscula no admite nulos: falla al leer si hay algún ID vacío. Para nulos hace falta <code>Int64</code> (con I mayúscula)."
  }
 },
 {
@@ -788,15 +788,15 @@ const BANCO = [
  pide:"¿Qué parámetro agregás?",
  ops:[
   "<code>df.to_csv('salida.csv', index=False)</code>",
-  "<code>df.to_csv('salida.csv', header=False)</code>",
-  "<code>df.reset_index().to_csv('salida.csv')</code>",
-  "<code>df.to_csv('salida.csv', index=True)</code>"
+  "<code>df.to_csv('salida.csv', index_label=False)</code>",
+  "<code>df.reset_index(drop=True).to_csv('salida.csv')</code>",
+  "<code>df.to_csv('salida.csv', header=False)</code>"
  ],
  aprendido:"Por defecto Pandas escribe el índice como primera columna. <b><code>index=False</code></b> lo evita y es la costumbre al exportar reportes (vale igual para <code>to_excel()</code> y <code>to_sql()</code>). Si no, cada vez que releés el archivo te vas sumando una columna basura.",
  porque:{
-  "<code>df.to_csv('salida.csv', header=False)</code>":"Saca los <b>nombres de columna</b>, que es lo contrario de lo que querés.",
-  "<code>df.reset_index().to_csv('salida.csv')</code>":"Convierte el índice en una columna explícita y además igual escribe el índice nuevo.",
-  "<code>df.to_csv('salida.csv', index=True)</code>":"Es el comportamiento por defecto: justamente el problema."
+  "<code>df.to_csv('salida.csv', index_label=False)</code>":"<code>index_label=False</code> sólo quita el <b>nombre</b> de esa columna; el índice 0, 1, 2… se sigue escribiendo.",
+  "<code>df.reset_index(drop=True).to_csv('salida.csv')</code>":"Reinicia el índice pero, sin <code>index=False</code>, igual lo escribe como primera columna.",
+  "<code>df.to_csv('salida.csv', header=False)</code>":"Saca los <b>nombres de columna</b>, no el índice: es lo contrario de lo que se quiere."
  }
 },
 {
@@ -804,16 +804,16 @@ const BANCO = [
  caso:"Tenés que traer de SQLite las ventas con importe mayor o igual a un valor que ingresa la persona usuaria.",
  pide:"¿Cómo lo escribís de forma segura?",
  ops:[
-  "<code>pd.read_sql_query(\"SELECT * FROM ventas WHERE importe >= ?\", con, params=(800,))</code>",
-  "<code>pd.read_sql_query(f\"SELECT * FROM ventas WHERE importe >= {minimo}\", con)</code>",
-  "<code>pd.read_csv(\"ventas.db\")</code>",
-  "<code>pd.read_sql_table(\"ventas\", con)</code> y filtrar todo en Python"
+  "<code>pd.read_sql_query('SELECT * FROM ventas WHERE importe >= ?', con, params=(minimo,))</code>",
+  "<code>pd.read_sql_query(f'SELECT * FROM ventas WHERE importe >= {minimo}', con)</code>",
+  "<code>pd.read_sql_query('SELECT * FROM ventas WHERE importe >= ?', con, minimo)</code>",
+  "<code>pd.read_sql_query('SELECT * FROM ventas WHERE importe >= ?', con, params={'minimo': minimo})</code>"
  ],
  aprendido:"<b>Nunca concatenar parámetros de la persona usuaria dentro de una consulta SQL.</b> Se usan <b>consultas parametrizadas</b>: <code>?</code> en el texto y los valores en <code>params</code>. El motor los escapa y evita la inyección SQL. Del otro lado, <code>to_sql(tabla, con, if_exists='replace', index=False)</code> escribe el DataFrame.",
  porque:{
-  "<code>pd.read_sql_query(f\"SELECT * FROM ventas WHERE importe >= {minimo}\", con)</code>":"Es exactamente la concatenación que la clase marca como riesgo de inyección SQL.",
-  "<code>pd.read_csv(\"ventas.db\")</code>":"Una base SQLite no es un archivo de texto tabular.",
-  "<code>pd.read_sql_table(\"ventas\", con)</code> y filtrar todo en Python":"Trae toda la tabla a memoria; además requiere SQLAlchemy y desaprovecha el motor."
+  "<code>pd.read_sql_query(f'SELECT * FROM ventas WHERE importe >= {minimo}', con)</code>":"Es la concatenación que la clase marca como riesgo de <b>inyección SQL</b>: el valor del usuario se pega dentro de la consulta.",
+  "<code>pd.read_sql_query('SELECT * FROM ventas WHERE importe >= ?', con, minimo)</code>":"El tercer argumento posicional es <code>index_col</code>, no los parámetros: hay que pasarlos con <code>params=</code>.",
+  "<code>pd.read_sql_query('SELECT * FROM ventas WHERE importe >= ?', con, params={'minimo': minimo})</code>":"Con el marcador <code>?</code> los parámetros van en una <b>tupla o lista</b>; un diccionario sólo sirve con marcadores con nombre (<code>:minimo</code>)."
  }
 },
 {
@@ -822,15 +822,15 @@ const BANCO = [
  pide:"¿Qué usás?",
  ops:[
   "<code>pd.json_normalize(datos)</code>",
-  "<code>pd.read_json(ruta, orient='records')</code>",
-  "<code>json.load(f)</code> y listo",
-  "<code>pd.DataFrame(datos)</code>"
+  "<code>pd.DataFrame(datos)</code>",
+  "<code>pd.json_normalize(datos, max_level=0)</code>",
+  "<code>pd.read_json(datos)</code>"
  ],
  aprendido:"<b><code>read_json</code></b> maneja orientaciones comunes cuando los registros son <b>planos</b>; cuando hay <b>estructuras anidadas</b>, <b><code>json_normalize</code></b> las aplana generando columnas como <code>cliente.ciudad</code>. La clase lo resume así: <i>en SQL parametrizá; en JSON definí la orientación</i>.",
  porque:{
-  "<code>pd.read_json(ruta, orient='records')</code>":"Es lo correcto para una lista de objetos <b>planos</b>, pero deja los anidados como diccionarios dentro de la celda.",
-  "<code>json.load(f)</code> y listo":"Te da diccionarios de Python, no un DataFrame.",
-  "<code>pd.DataFrame(datos)</code>":"Con anidados te crea columnas cuyo contenido son diccionarios."
+  "<code>pd.DataFrame(datos)</code>":"Con objetos anidados crea columnas cuyo contenido son diccionarios completos, no columnas planas.",
+  "<code>pd.json_normalize(datos, max_level=0)</code>":"<code>max_level=0</code> le pide <b>no aplanar</b> ningún nivel: deja los diccionarios anidados dentro de las celdas.",
+  "<code>pd.read_json(datos)</code>":"<code>read_json</code> espera una ruta o un texto JSON; una lista de diccionarios ya cargada tira error."
  }
 },
 {
@@ -839,15 +839,15 @@ const BANCO = [
  pide:"¿Cómo lo expresás?",
  ops:[
   "<code>assert final['id_venta'].is_unique</code> y <code>assert final['cliente_id'].notna().all()</code>",
-  "<code>print(final['id_venta'].is_unique)</code>",
-  "<code>final = final.drop_duplicates()</code>",
-  "<code>try: final.to_csv(...) except: pass</code>"
+  "<code>assert final['id_venta'].is_unique</code> y <code>assert final['cliente_id'].notna().any()</code>",
+  "<code>assert final['id_venta'].nunique()</code> y <code>assert final['cliente_id'].notna().all()</code>",
+  "<code>assert final['id_venta'].is_unique or final['cliente_id'].notna().all()</code>"
  ],
  aprendido:"Un pipeline confiable <b>falla temprano y explica por qué</b>. Las aserciones de calidad frenan el proceso antes de exportar datos malos. El orden del pipeline es: normalizar nombres → convertir tipos → tratar nulos → deduplicar → <b>validar</b> → exportar. <code>.copy()</code> al inicio evita modificar la entrada.",
  porque:{
-  "<code>print(final['id_venta'].is_unique)</code>":"Informa pero no corta: el archivo con datos rotos se exporta igual.",
-  "<code>final = final.drop_duplicates()</code>":"Corrige sin avisar: ocultás que la fuente tiene un problema.",
-  "<code>try: final.to_csv(...) except: pass</code>":"Silencia el error de escritura y no valida nada del contenido."
+  "<code>assert final['id_venta'].is_unique</code> y <code>assert final['cliente_id'].notna().any()</code>":"<code>any()</code> sólo exige que <b>haya al menos un</b> cliente no nulo: con la mayoría vacíos, el <code>assert</code> igual pasa.",
+  "<code>assert final['id_venta'].nunique()</code> y <code>assert final['cliente_id'].notna().all()</code>":"<code>nunique()</code> devuelve una cantidad, que es verdadera siempre que haya datos: no chequea unicidad.",
+  "<code>assert final['id_venta'].is_unique or final['cliente_id'].notna().all()</code>":"Con <code>or</code> alcanza con que <b>una</b> de las dos cosas se cumpla: una condición rota queda tapada por la otra."
  }
 },
 
@@ -859,13 +859,13 @@ const BANCO = [
  ops:[
   "Líneas — <code>ax.plot(meses, ventas, marker='o')</code>",
   "Barras — <code>ax.bar(meses, ventas)</code>",
-  "Histograma — <code>ax.hist(ventas)</code>",
+  "Torta — <code>ax.pie(ventas, labels=meses)</code>",
   "Dispersión — <code>ax.scatter(meses, ventas)</code>"
  ],
  aprendido:"La tabla de decisión de la clase: <b>tendencia → líneas</b>, <b>comparación entre categorías → barras</b>, <b>distribución → histograma</b>, <b>relación entre dos cuantitativas → dispersión</b>. La línea solo se usa cuando el orden es continuo y significativo: unir categorías sin orden natural sugiere valores intermedios que no existen.",
  porque:{
-  "Barras — <code>ax.bar(meses, ventas)</code>":"Sirve, pero enfatiza la comparación entre meses en vez de la trayectoria.",
-  "Histograma — <code>ax.hist(ventas)</code>":"Muestra cómo se distribuyen los valores, perdiendo por completo el eje temporal.",
+  "Barras — <code>ax.bar(meses, ventas)</code>":"Sirve para comparar meses entre sí, pero no muestra la <b>trayectoria</b>; la pregunta es cómo evolucionaron.",
+  "Torta — <code>ax.pie(ventas, labels=meses)</code>":"La torta representa <b>partes de un total en un momento</b>: no dice nada de cómo cambia algo en el tiempo.",
   "Dispersión — <code>ax.scatter(meses, ventas)</code>":"Muestra los puntos sin la línea que guía la lectura de la evolución."
  }
 },
@@ -874,16 +874,16 @@ const BANCO = [
  caso:"Pregunta analítica: “¿Dónde se concentran los tiempos de entrega y qué forma tiene esa distribución?”",
  pide:"¿Qué gráfico usás y qué parámetro es clave?",
  ops:[
-  "Histograma: <code>ax.hist(tiempos, bins=10, edgecolor='black')</code>",
-  "Barras: <code>ax.bar(range(len(tiempos)), tiempos)</code>",
-  "Líneas: <code>ax.plot(tiempos)</code>",
-  "Torta: <code>ax.pie(tiempos)</code>"
+  "Histograma — <code>ax.hist(tiempos, bins=10)</code>",
+  "Histograma — <code>ax.hist(tiempos, bins=len(tiempos))</code>",
+  "Barras — <code>ax.bar(tiempos.index, tiempos)</code>",
+  "Líneas — <code>ax.plot(tiempos, marker='o')</code>"
  ],
  aprendido:"El histograma agrupa una variable cuantitativa <b>continua</b> en intervalos y cuenta observaciones. El parámetro clave es <b><code>bins</code></b>: pocos bins ocultan estructura, demasiados muestran ruido. Hay que probar varias cantidades y documentar la elección. No confundir con barras: en barras las categorías están separadas; en el histograma los intervalos son contiguos.",
  porque:{
-  "Barras: <code>ax.bar(range(len(tiempos)), tiempos)</code>":"Dibuja una barra por observación: no resume la distribución.",
-  "Líneas: <code>ax.plot(tiempos)</code>":"Sugiere una secuencia temporal que acá no existe.",
-  "Torta: <code>ax.pie(tiempos)</code>":"Codifica por ángulo/área (precisión media) y sirve para partes de un total, no para distribuciones."
+  "Histograma — <code>ax.hist(tiempos, bins=len(tiempos))</code>":"Con un intervalo por observación ya no se <b>resume</b> nada: cada barra vale 1 y se pierde la forma de la distribución.",
+  "Barras — <code>ax.bar(tiempos.index, tiempos)</code>":"Dibuja una barra por observación (el tiempo de cada pedido): muestra los datos crudos, no cómo se distribuyen.",
+  "Líneas — <code>ax.plot(tiempos, marker='o')</code>":"Sugiere una secuencia temporal que acá no existe: los pedidos no tienen un orden que importe."
  }
 },
 {
@@ -891,16 +891,16 @@ const BANCO = [
  caso:"Querés ver si la inversión en publicidad y las ventas varían juntas, y dibujar encima la recta de tendencia.",
  pide:"¿Qué combinación usás?",
  ops:[
-  "<code>ax.scatter(x, y, alpha=.65)</code> + <code>np.polyfit(x, y, 1)</code> y <code>ax.plot()</code>",
-  "<code>ax.bar(x, y)</code> + <code>ax.axhline()</code>",
-  "<code>ax.hist2d(x, y)</code>",
-  "<code>ax.plot(x, y)</code> ordenando por x"
+  "<code>ax.scatter(x, y, alpha=.65)</code> y la recta con <code>np.polyfit(x, y, 1)</code> + <code>ax.plot()</code>",
+  "<code>ax.scatter(x, y, alpha=.65)</code> y la recta con <code>np.polyfit(x, y, 2)</code> + <code>ax.plot()</code>",
+  "<code>ax.scatter(x, y, alpha=.65)</code> y la recta con <code>np.corrcoef(x, y)</code> + <code>ax.plot()</code>",
+  "<code>ax.plot(x, y, alpha=.65)</code> y la recta con <code>np.polyfit(x, y, 1)</code> + <code>ax.plot()</code>"
  ],
  aprendido:"La dispersión revela dirección, intensidad aparente, curvatura, grupos, huecos y atípicos. <code>np.polyfit(x, y, 1)</code> ajusta una recta de primer grado y devuelve pendiente e intercepto; se dibuja con <code>ax.plot()</code> sobre los puntos. <code>alpha</code> da transparencia para que miles de puntos no oculten la densidad. <b>Aviso obligatorio: una recta ajustada resume asociación, no prueba causalidad.</b>",
  porque:{
-  "<code>ax.bar(x, y)</code> + <code>ax.axhline()</code>":"Las barras comparan categorías; acá las dos variables son cuantitativas.",
-  "<code>ax.hist2d(x, y)</code>":"Sirve para densidad con muchísimos puntos, pero no es lo que pide la consigna.",
-  "<code>ax.plot(x, y)</code> ordenando por x":"Une observaciones independientes con una línea, sugiriendo una continuidad falsa."
+  "<code>ax.scatter(x, y, alpha=.65)</code> y la recta con <code>np.polyfit(x, y, 2)</code> + <code>ax.plot()</code>":"El tercer argumento es el <b>grado</b>: con 2 ajusta una parábola, no una recta.",
+  "<code>ax.scatter(x, y, alpha=.65)</code> y la recta con <code>np.corrcoef(x, y)</code> + <code>ax.plot()</code>":"<code>corrcoef</code> devuelve la matriz de correlaciones, no la pendiente ni el intercepto que hacen falta para dibujar la recta.",
+  "<code>ax.plot(x, y, alpha=.65)</code> y la recta con <code>np.polyfit(x, y, 1)</code> + <code>ax.plot()</code>":"Trazar los datos con <code>plot</code> los une con líneas, sugiriendo una continuidad que no existe entre observaciones independientes."
  }
 },
 {
@@ -909,15 +909,15 @@ const BANCO = [
  pide:"¿Cómo la creás?",
  ops:[
   "<code>fig, axes = plt.subplots(1, 2, figsize=(11, 4))</code> y usar <code>axes[0]</code> y <code>axes[1]</code>",
-  "<code>plt.bar(...)</code> y después <code>plt.hist(...)</code>",
-  "<code>plt.figure()</code> dos veces",
-  "<code>fig, ax = plt.subplots()</code> y llamar <code>ax.bar()</code> y <code>ax.hist()</code>"
+  "<code>fig, axes = plt.subplots(2, 1, figsize=(11, 4))</code> y usar <code>axes[0]</code> y <code>axes[1]</code>",
+  "<code>fig, ax = plt.subplots(1, 2, figsize=(11, 4))</code> y usar <code>ax.bar()</code> y <code>ax.hist()</code>",
+  "<code>fig, axes = plt.subplots(1, 2, figsize=(11, 4))</code> y usar <code>axes[1]</code> y <code>axes[2]</code>"
  ],
  aprendido:"La interfaz <b>orientada a objetos</b> es la que pide la cursada: <code>plt.subplots(filas, columnas)</code> devuelve la <b>Figure</b> (el lienzo) y los <b>Axes</b> (cada área de dibujo). Con una grilla 2×2 se indexa <code>axes[0, 1]</code>. Cada eje conserva su propia pregunta, escala y lectura: no se comparan alturas entre gráficos con unidades distintas.",
  porque:{
-  "<code>plt.bar(...)</code> y después <code>plt.hist(...)</code>":"La interfaz <code>plt.*</code> dibuja siempre sobre el eje activo: los dos gráficos se superponen en el mismo.",
-  "<code>plt.figure()</code> dos veces":"Genera dos figuras separadas, no dos paneles de la misma.",
-  "<code>fig, ax = plt.subplots()</code> y llamar <code>ax.bar()</code> y <code>ax.hist()</code>":"Crea un solo eje: las barras y el histograma quedan encimados."
+  "<code>fig, axes = plt.subplots(2, 1, figsize=(11, 4))</code> y usar <code>axes[0]</code> y <code>axes[1]</code>":"<code>(2, 1)</code> son 2 filas y 1 columna: los gráficos quedan <b>uno arriba del otro</b>, no lado a lado.",
+  "<code>fig, ax = plt.subplots(1, 2, figsize=(11, 4))</code> y usar <code>ax.bar()</code> y <code>ax.hist()</code>":"Con dos paneles, <code>ax</code> es un <b>arreglo</b> de ejes: <code>ax.bar()</code> tira <code>AttributeError</code>; hay que indexar <code>ax[0]</code>, <code>ax[1]</code>.",
+  "<code>fig, axes = plt.subplots(1, 2, figsize=(11, 4))</code> y usar <code>axes[1]</code> y <code>axes[2]</code>":"Los índices van desde 0: <code>axes[2]</code> no existe y tira <code>IndexError</code>. Los paneles son <code>axes[0]</code> y <code>axes[1]</code>."
  }
 },
 {
@@ -927,14 +927,14 @@ const BANCO = [
  ops:[
   "<code>ax.set_title()</code>, <code>ax.set_xlabel()</code>, <code>ax.set_ylabel()</code>",
   "<code>ax.title()</code>, <code>ax.xlabel()</code>, <code>ax.ylabel()</code>",
-  "<code>fig.set_title()</code>, <code>fig.set_xlabel()</code>, <code>fig.set_ylabel()</code>",
-  "<code>ax.legend()</code> con los tres textos"
+  "<code>ax.set_title()</code>, <code>ax.set_xlabel()</code>, <code>ax.set_label()</code>",
+  "<code>fig.suptitle()</code>, <code>fig.xlabel()</code>, <code>fig.ylabel()</code>"
  ],
  aprendido:"Sobre un <b>Axes</b> los rótulos llevan el prefijo <code>set_</code>. También existe la forma compacta <code>ax.set(title='…', xlabel='…', ylabel='…')</code>. Para el título general de una figura con varios paneles es <code>fig.suptitle()</code>. Criterio de la clase: el título puede enunciar la conclusión (“Las ventas crecen 18% desde marzo”), no solo el tema (“Ventas”).",
  porque:{
-  "<code>ax.title()</code>, <code>ax.xlabel()</code>, <code>ax.ylabel()</code>":"Esos nombres sin <code>set_</code> son de la interfaz <code>plt.*</code>; sobre un <code>Axes</code> no son llamables así.",
-  "<code>fig.set_title()</code>, <code>fig.set_xlabel()</code>, <code>fig.set_ylabel()</code>":"La Figure es el lienzo y no tiene ejes propios; el título general de la figura es <code>fig.suptitle()</code>.",
-  "<code>ax.legend()</code> con los tres textos":"La leyenda identifica <b>series</b>, no rotula ejes."
+  "<code>ax.title()</code>, <code>ax.xlabel()</code>, <code>ax.ylabel()</code>":"Esos nombres sin <code>set_</code> son de la interfaz <code>plt.*</code>; sobre un <code>Axes</code> no se pueden llamar así.",
+  "<code>ax.set_title()</code>, <code>ax.set_xlabel()</code>, <code>ax.set_label()</code>":"<code>set_label</code> no rotula el eje vertical: sirve para darle nombre a una serie en la leyenda. El eje es <code>set_ylabel()</code>.",
+  "<code>fig.suptitle()</code>, <code>fig.xlabel()</code>, <code>fig.ylabel()</code>":"<code>suptitle</code> es el título general de la figura, pero <code>Figure</code> no tiene <code>xlabel()</code> ni <code>ylabel()</code>: cada eje se rotula por separado."
  }
 },
 {
@@ -943,15 +943,15 @@ const BANCO = [
  pide:"¿Qué usás?",
  ops:[
   "<code>ax.axvline(media, linestyle='--', label='Media')</code> y luego <code>ax.legend()</code>",
-  "<code>ax.axhline(media, label='Media')</code>",
-  "<code>ax.plot([media], [0], 'o')</code>",
-  "<code>ax.vlines(media)</code> sin más"
+  "<code>ax.axhline(media, linestyle='--', label='Media')</code> y luego <code>ax.legend()</code>",
+  "<code>ax.axvline(media, linestyle='--', label='Media')</code> sin llamar a <code>ax.legend()</code>",
+  "<code>ax.vlines(media, linestyle='--', label='Media')</code> y luego <code>ax.legend()</code>"
  ],
  aprendido:"<b><code>axvline</code></b> dibuja una línea <b>vertical</b> en un valor del eje x (ideal sobre un histograma, donde x es la variable). <b><code>axhline</code></b> dibuja una <b>horizontal</b>, que es lo que se usa para marcar el umbral de aprobación sobre un gráfico de barras de promedios. El <code>label=</code> es lo que después muestra <code>ax.legend()</code>.",
  porque:{
-  "<code>ax.axhline(media, label='Media')</code>":"Dibuja horizontal: sobre un histograma cortaría el eje de frecuencias, que no es lo que querés marcar.",
-  "<code>ax.plot([media], [0], 'o')</code>":"Pone un punto en el piso: casi invisible y no atraviesa la distribución.",
-  "<code>ax.vlines(media)</code> sin más":"<code>vlines</code> necesita también <code>ymin</code> e <code>ymax</code>; <code>axvline</code> ocupa todo el alto automáticamente."
+  "<code>ax.axhline(media, linestyle='--', label='Media')</code> y luego <code>ax.legend()</code>":"Dibuja una línea <b>horizontal</b>: sobre un histograma cortaría el eje de frecuencias, no marcaría la media.",
+  "<code>ax.axvline(media, linestyle='--', label='Media')</code> sin llamar a <code>ax.legend()</code>":"El <code>label=</code> sólo se muestra cuando se llama a <code>ax.legend()</code>: la línea quedaría sin identificar.",
+  "<code>ax.vlines(media, linestyle='--', label='Media')</code> y luego <code>ax.legend()</code>":"<code>vlines</code> necesita también <code>ymin</code> e <code>ymax</code>; sin ellos tira <code>TypeError</code>. <code>axvline</code> ocupa todo el alto automáticamente."
  }
 },
 {
@@ -960,15 +960,15 @@ const BANCO = [
  pide:"¿Qué dos llamadas cierran el gráfico?",
  ops:[
   "<code>fig.tight_layout()</code> y <code>fig.savefig('panel.png', dpi=180)</code>",
-  "<code>plt.show()</code> y <code>plt.close()</code>",
-  "<code>fig.set_size_inches()</code> y <code>plt.show()</code>",
-  "<code>fig.clear()</code> y <code>fig.savefig()</code>"
+  "<code>fig.savefig('panel.png', dpi=180)</code> y luego <code>fig.tight_layout()</code>",
+  "<code>fig.tight_layout()</code> y <code>fig.savefig('panel.png', resolution=180)</code>",
+  "<code>plt.show()</code> y luego <code>fig.savefig('panel.png', dpi=180)</code>"
  ],
  aprendido:"Cierre recomendado: <b><code>tight_layout()</code></b> ajusta los espacios para que no se recorten textos, <b><code>savefig()</code></b> exporta (con <code>dpi=300</code> para impresión y <code>bbox_inches='tight'</code> para recortar márgenes) y <b><code>show()</code></b> muestra en pantalla. <code>savefig</code> siempre <b>antes</b> de <code>show()</code>, porque en algunos backends <code>show()</code> vacía la figura.",
  porque:{
-  "<code>plt.show()</code> y <code>plt.close()</code>":"Muestra y cierra, pero no arregla la superposición ni guarda el archivo.",
-  "<code>fig.set_size_inches()</code> y <code>plt.show()</code>":"Agrandar la figura puede disimular el problema, pero <code>tight_layout()</code> es la solución directa.",
-  "<code>fig.clear()</code> y <code>fig.savefig()</code>":"<code>clear()</code> borra el contenido: guardarías una figura vacía."
+  "<code>fig.savefig('panel.png', dpi=180)</code> y luego <code>fig.tight_layout()</code>":"El orden importa: <code>tight_layout</code> se aplica <b>después</b> de guardar, así que el archivo sale con las etiquetas superpuestas.",
+  "<code>fig.tight_layout()</code> y <code>fig.savefig('panel.png', resolution=180)</code>":"El parámetro de resolución se llama <code>dpi</code>; <code>resolution</code> no existe y falla al guardar.",
+  "<code>plt.show()</code> y luego <code>fig.savefig('panel.png', dpi=180)</code>":"En algunos entornos <code>show()</code> cierra la figura: guardarías una imagen vacía. Además nada corrige la superposición."
  }
 },
 {
@@ -976,16 +976,16 @@ const BANCO = [
  caso:"Te muestran un gráfico de barras donde el eje vertical empieza en 400 en lugar de en 0, y las diferencias entre regiones parecen enormes.",
  pide:"¿Cuál es el error y cómo se corrige?",
  ops:[
-  "Eje truncado: las barras deben tener base común en cero salvo justificación explícita",
-  "Faltan colores: hay que usar una paleta más variada",
-  "Faltan bins: hay que elegir mejor la cantidad de intervalos",
-  "Está bien: acercar el eje permite ver mejor el detalle"
+  "Eje truncado: las barras deben tener base común en cero, salvo justificación explícita",
+  "Eje sesgado: el eje debería arrancar en el promedio de las barras para comparar mejor los desvíos",
+  "Falta de bins: hay que elegir mejor la cantidad de intervalos del eje vertical",
+  "Tipo equivocado: conviene reemplazar las barras por una torta para comparar las regiones"
  ],
  aprendido:"Las barras codifican magnitud por <b>longitud</b>, y la longitud solo se lee bien con base común en cero. Truncar el eje exagera diferencias. Los otros errores frecuentes de la clase: color sin función, título genérico, cantidad de bins arbitraria, sobreposición de puntos y confundir correlación con causalidad.",
  porque:{
-  "Faltan colores: hay que usar una paleta más variada":"Al revés: demasiados colores compiten. Se usa una paleta corta y el acento se reserva para el hallazgo.",
-  "Faltan bins: hay que elegir mejor la cantidad de intervalos":"Los bins son del histograma, no de las barras.",
-  "Está bien: acercar el eje permite ver mejor el detalle":"En un gráfico de <b>líneas</b> puede justificarse; en barras distorsiona la comparación."
+  "Eje sesgado: el eje debería arrancar en el promedio de las barras para comparar mejor los desvíos":"Sería aún más engañoso: cambiar la base exagera las diferencias. Las barras codifican magnitud por longitud desde el cero.",
+  "Falta de bins: hay que elegir mejor la cantidad de intervalos del eje vertical":"Los bins pertenecen al histograma; un gráfico de barras compara categorías y no tiene intervalos.",
+  "Tipo equivocado: conviene reemplazar las barras por una torta para comparar las regiones":"La torta codifica por ángulo (menos precisa) y sirve para partes de un total; no arregla una comparación de magnitudes."
  }
 },
 
@@ -996,15 +996,15 @@ const BANCO = [
  pide:"¿Qué combinación usás?",
  ops:[
   "<code>corr = df.select_dtypes('number').corr()</code> y <code>sns.heatmap(corr, annot=True, cmap='vlag', vmin=-1, vmax=1)</code>",
-  "<code>sns.heatmap(df, annot=True)</code>",
-  "<code>sns.pairplot(df)</code>",
-  "<code>sns.barplot(data=df)</code>"
+  "<code>cov = df.select_dtypes('number').cov()</code> y <code>sns.heatmap(cov, annot=True, cmap='vlag', vmin=-1, vmax=1)</code>",
+  "<code>corr = df.select_dtypes('number').corr()</code> y <code>sns.heatmap(corr, annot=True, cmap='vlag', vmin=0, vmax=1)</code>",
+  "<code>corr = df.select_dtypes('number').corr()</code> y <code>sns.heatmap(corr, annot=False, cmap='vlag', vmin=-1, vmax=1)</code>"
  ],
  aprendido:"El mapa de calor de correlaciones se arma en dos pasos: primero <b><code>.corr()</code></b> sobre las columnas numéricas (<code>select_dtypes('number')</code> las filtra), después <b><code>sns.heatmap()</code></b>. <code>annot=True</code> escribe el coeficiente, y <code>vmin=-1, vmax=1</code> fija la escala para que el color sea comparable entre gráficos. Lectura: cerca de +1 asociación lineal positiva fuerte, cerca de −1 negativa fuerte, cerca de 0 poca asociación lineal (que <b>no</b> es lo mismo que independencia). Y correlación no implica causalidad.",
  porque:{
-  "<code>sns.heatmap(df, annot=True)</code>":"Colorea los valores crudos de la tabla, no las correlaciones entre variables.",
-  "<code>sns.pairplot(df)</code>":"Muestra las relaciones por pares como dispersiones, pero no da los coeficientes.",
-  "<code>sns.barplot(data=df)</code>":"Compara magnitudes por categoría; no mide asociación."
+  "<code>cov = df.select_dtypes('number').cov()</code> y <code>sns.heatmap(cov, annot=True, cmap='vlag', vmin=-1, vmax=1)</code>":"<code>cov()</code> es la <b>covarianza</b>, que depende de las unidades y no está entre −1 y 1: no son coeficientes de correlación.",
+  "<code>corr = df.select_dtypes('number').corr()</code> y <code>sns.heatmap(corr, annot=True, cmap='vlag', vmin=0, vmax=1)</code>":"Con escala de 0 a 1 las correlaciones <b>negativas</b> quedan recortadas: se pierde la mitad de la información.",
+  "<code>corr = df.select_dtypes('number').corr()</code> y <code>sns.heatmap(corr, annot=False, cmap='vlag', vmin=-1, vmax=1)</code>":"Con <code>annot=False</code> los coeficientes <b>no se escriben</b> en las celdas, que es justo lo que pide la dirección."
  }
 },
 {
@@ -1014,14 +1014,14 @@ const BANCO = [
  ops:[
   "<code>sns.boxplot(data=df, x='Area', y='Salario')</code>",
   "<code>sns.barplot(data=df, x='Area', y='Salario')</code>",
-  "<code>sns.lineplot(data=df, x='Area', y='Salario')</code>",
-  "<code>sns.heatmap(df.corr())</code>"
+  "<code>sns.pointplot(data=df, x='Area', y='Salario')</code>",
+  "<code>sns.countplot(data=df, x='Area')</code>"
  ],
  aprendido:"El boxplot muestra en una sola caja: <b>línea central = mediana</b>, <b>caja = 50% central entre Q1 y Q3</b>, <b>alto de la caja = rango intercuartílico</b>, <b>bigotes y puntos externos = extensión y posibles atípicos</b>. Es el gráfico para “nivel + dispersión + atípicos” por categoría. Se le puede superponer <code>sns.stripplot(..., color='black', alpha=.4)</code> para ver las observaciones individuales.",
  porque:{
-  "<code>sns.barplot(data=df, x='Area', y='Salario')</code>":"Muestra solo el promedio (con su intervalo): oculta la dispersión y los atípicos.",
-  "<code>sns.lineplot(data=df, x='Area', y='Salario')</code>":"Une categorías sin orden natural con una línea.",
-  "<code>sns.heatmap(df.corr())</code>":"Es para correlaciones entre variables numéricas."
+  "<code>sns.barplot(data=df, x='Area', y='Salario')</code>":"Muestra sólo el promedio (con su intervalo): oculta la dispersión y los valores atípicos.",
+  "<code>sns.pointplot(data=df, x='Area', y='Salario')</code>":"Marca el promedio de cada área con su intervalo de confianza: no muestra la distribución ni señala atípicos.",
+  "<code>sns.countplot(data=df, x='Area')</code>":"Cuenta cuántas personas hay en cada área; no dice nada sobre los salarios."
  }
 },
 {
@@ -1030,15 +1030,15 @@ const BANCO = [
  pide:"¿Qué usás?",
  ops:[
   "<code>sns.pairplot(df, vars=['Horas','Nota','Proyectos'], hue='Curso', corner=True, diag_kind='hist')</code>",
-  "<code>sns.scatterplot(data=df, x='Horas', y='Nota')</code>",
-  "<code>sns.heatmap(df.corr(), annot=True)</code>",
-  "<code>sns.histplot(df, x='Horas', hue='Curso')</code>"
+  "<code>sns.pairplot(df, vars=['Horas','Nota','Proyectos'], color='Curso', corner=True, diag_kind='hist')</code>",
+  "<code>sns.pairplot(df, vars=['Horas','Nota','Proyectos'], hue='Curso', corner=True, diag_kind='scatter')</code>",
+  "<code>sns.jointplot(data=df, x='Horas', y='Nota', hue='Curso')</code>"
  ],
  aprendido:"El <b>pairplot</b> arma una matriz: fuera de la diagonal, las relaciones bivariadas; en la diagonal, la distribución de cada variable. <code>vars=</code> limita las columnas (con muchas se vuelve lento e ilegible: primero seleccionar las relevantes), <code>corner=True</code> dibuja solo el triángulo inferior y <code>hue=</code> colorea por categoría.",
  porque:{
-  "<code>sns.scatterplot(data=df, x='Horas', y='Nota')</code>":"Muestra un solo par de variables.",
-  "<code>sns.heatmap(df.corr(), annot=True)</code>":"Resume la asociación en un número, pero no deja ver la forma (curvatura, grupos, atípicos).",
-  "<code>sns.histplot(df, x='Horas', hue='Curso')</code>":"Muestra la distribución de una variable, no las relaciones por pares."
+  "<code>sns.pairplot(df, vars=['Horas','Nota','Proyectos'], color='Curso', corner=True, diag_kind='hist')</code>":"<code>color=</code> fija <b>un</b> color para todo el gráfico (y 'Curso' no es un color): para colorear por categoría hace falta <code>hue=</code>.",
+  "<code>sns.pairplot(df, vars=['Horas','Nota','Proyectos'], hue='Curso', corner=True, diag_kind='scatter')</code>":"<code>diag_kind</code> sólo acepta <code>'hist'</code>, <code>'kde'</code> o <code>None</code>: con <code>'scatter'</code> tira <code>ValueError</code>.",
+  "<code>sns.jointplot(data=df, x='Horas', y='Nota', hue='Curso')</code>":"<code>jointplot</code> muestra <b>un solo par</b> de variables; no arma la matriz con Horas, Nota y Proyectos."
  }
 },
 {
@@ -1047,15 +1047,15 @@ const BANCO = [
  pide:"¿Qué función y qué parámetros?",
  ops:[
   "<code>sns.scatterplot(data=df, x='Horas', y='Nota', hue='Curso', size='Proyectos', style='Curso', sizes=(40,220), alpha=.78)</code>",
-  "<code>sns.scatterplot(data=df, x='Horas', y='Nota', color='Curso')</code>",
-  "<code>sns.pairplot(df, hue='Curso')</code>",
-  "<code>sns.barplot(data=df, x='Curso', y='Nota', hue='Proyectos')</code>"
+  "<code>sns.scatterplot(data=df, x='Horas', y='Nota', hue='Curso', size='Curso', style='Proyectos', sizes=(40,220), alpha=.78)</code>",
+  "<code>sns.scatterplot(data=df, x='Horas', y='Nota', hue='Curso', size='Proyectos', marker='Curso', sizes=(40,220))</code>",
+  "<code>sns.scatterplot(data=df, x='Horas', y='Nota', hue='Curso', size='Proyectos', style='Curso', sizes=(40,220), alpha=78)</code>"
  ],
  aprendido:"Los canales visuales de Seaborn: <b><code>hue</code></b> → color, <b><code>size</code></b> → tamaño, <b><code>style</code></b> → forma del marcador. Regla: <b>una variable por canal visual</b>. Posición para las cuantitativas principales, color o forma para una categoría importante, tamaño solo para magnitudes positivas y comparables, y transparencia (<code>alpha</code>) para reducir superposición.",
  porque:{
-  "<code>sns.scatterplot(data=df, x='Horas', y='Nota', color='Curso')</code>":"<code>color=</code> fija <b>un</b> color para todos los puntos; el mapeo por categoría es <code>hue=</code>.",
-  "<code>sns.pairplot(df, hue='Curso')</code>":"Genera una matriz de gráficos, no un único gráfico con cuatro canales.",
-  "<code>sns.barplot(data=df, x='Curso', y='Nota', hue='Proyectos')</code>":"Las barras comparan categorías; se pierden horas y nota como variables continuas."
+  "<code>sns.scatterplot(data=df, x='Horas', y='Nota', hue='Curso', size='Curso', style='Proyectos', sizes=(40,220), alpha=.78)</code>":"Cruza los canales: el tamaño codifica el curso y la forma los proyectos; la consigna pide proyectos por <b>tamaño</b>.",
+  "<code>sns.scatterplot(data=df, x='Horas', y='Nota', hue='Curso', size='Proyectos', marker='Curso', sizes=(40,220))</code>":"<code>marker=</code> es <b>un</b> marcador para todos los puntos ('Curso' no es un marcador válido); para variarlo por categoría se usa <code>style=</code>.",
+  "<code>sns.scatterplot(data=df, x='Horas', y='Nota', hue='Curso', size='Proyectos', style='Curso', sizes=(40,220), alpha=78)</code>":"<code>alpha</code> es una transparencia entre 0 y 1: con 78 tira <code>ValueError</code>. Es el detalle de un <code>.78</code> mal escrito."
  }
 },
 {
@@ -1064,15 +1064,15 @@ const BANCO = [
  pide:"¿Qué función usás?",
  ops:[
   "<code>sns.countplot(data=df, x='clasificacion')</code>",
+  "<code>sns.countplot(data=df, x='clasificacion', y='minutos')</code>",
   "<code>sns.barplot(data=df, x='clasificacion', y='minutos')</code>",
-  "<code>sns.histplot(data=df, x='clasificacion')</code>",
-  "<code>sns.boxplot(data=df, x='clasificacion', y='minutos')</code>"
+  "<code>sns.value_counts(df['clasificacion'])</code>"
  ],
  aprendido:"<b><code>countplot</code></b> cuenta las ocurrencias de cada categoría: es un <code>barplot</code> cuya altura es la frecuencia, así que no necesita variable <code>y</code>. <b><code>barplot</code></b>, en cambio, muestra un <b>agregado</b> (por defecto la media) de una variable numérica por categoría.",
  porque:{
-  "<code>sns.barplot(data=df, x='clasificacion', y='minutos')</code>":"Muestra el promedio de minutos por clase, no cuántos tickets hay.",
-  "<code>sns.histplot(data=df, x='clasificacion')</code>":"Está pensado para variables continuas agrupadas en intervalos.",
-  "<code>sns.boxplot(data=df, x='clasificacion', y='minutos')</code>":"Muestra la distribución de minutos, no el conteo."
+  "<code>sns.countplot(data=df, x='clasificacion', y='minutos')</code>":"<code>countplot</code> cuenta filas y no acepta a la vez <code>x</code> e <code>y</code>: tira <code>ValueError</code>.",
+  "<code>sns.barplot(data=df, x='clasificacion', y='minutos')</code>":"Muestra el <b>promedio</b> de minutos por clase, no cuántos tickets hay.",
+  "<code>sns.value_counts(df['clasificacion'])</code>":"<code>value_counts</code> es un método de Pandas, no una función de Seaborn: tira <code>AttributeError</code>."
  }
 },
 {
@@ -1081,15 +1081,15 @@ const BANCO = [
  pide:"¿Qué usás?",
  ops:[
   "<code>sns.regplot(data=df, x='inversion', y='conversiones')</code>",
-  "<code>sns.scatterplot(data=df, x='inversion', y='conversiones')</code>",
-  "<code>sns.lineplot(data=df, x='inversion', y='conversiones')</code>",
+  "<code>sns.regplot(data=df, x='inversion', y='conversiones', fit_reg=False)</code>",
+  "<code>sns.regplot(data=df, x='inversion', y='conversiones', ci=None)</code>",
   "<code>sns.residplot(data=df, x='inversion', y='conversiones')</code>"
  ],
  aprendido:"<b><code>regplot</code></b> dibuja la dispersión <b>más</b> la recta de regresión con su intervalo de confianza en una sola llamada (el equivalente manual en Matplotlib es <code>scatter</code> + <code>np.polyfit</code>). Como siempre: la recta resume una asociación, no demuestra causalidad.",
  porque:{
-  "<code>sns.scatterplot(data=df, x='inversion', y='conversiones')</code>":"Dibuja los puntos pero sin la recta de ajuste.",
-  "<code>sns.lineplot(data=df, x='inversion', y='conversiones')</code>":"Une los puntos en secuencia; no es un ajuste.",
-  "<code>sns.residplot(data=df, x='inversion', y='conversiones')</code>":"Grafica los <b>residuos</b> del ajuste, útil para diagnosticar, no para mostrar la relación."
+  "<code>sns.regplot(data=df, x='inversion', y='conversiones', fit_reg=False)</code>":"<code>fit_reg=False</code> apaga la recta: queda una dispersión común, sin ajuste ni banda.",
+  "<code>sns.regplot(data=df, x='inversion', y='conversiones', ci=None)</code>":"<code>ci=None</code> saca la <b>banda de confianza</b> y la consigna la pide expresamente.",
+  "<code>sns.residplot(data=df, x='inversion', y='conversiones')</code>":"Grafica los residuos del ajuste: sirve para diagnosticar el modelo, no para mostrar la relación."
  }
 },
 {
@@ -1098,15 +1098,15 @@ const BANCO = [
  pide:"¿Qué función y qué parámetro?",
  ops:[
   "<code>sns.relplot(data=df, x='mes', y='ventas', col='region', hue='canal', kind='line')</code>",
-  "<code>sns.lineplot(data=df, x='mes', y='ventas', hue='region')</code>",
-  "<code>plt.subplots(1, 4)</code> y un <code>lineplot</code> por eje a mano",
-  "<code>sns.pairplot(df, hue='region')</code>"
+  "<code>sns.relplot(data=df, x='mes', y='ventas', hue='region', col='canal', kind='line')</code>",
+  "<code>sns.relplot(data=df, x='mes', y='ventas', col='region', hue='canal', kind='bar')</code>",
+  "<code>sns.lineplot(data=df, x='mes', y='ventas', col='region', hue='canal')</code>"
  ],
  aprendido:"<b><code>relplot</code></b> (y <code>catplot</code>, <code>displot</code>) son funciones a <b>nivel de figura</b>: aceptan <code>col=</code> y <code>row=</code> para generar automáticamente una grilla de paneles con ejes compartidos. Es la forma directa de hacer pequeños múltiplos. <code>kind=</code> elige el tipo de gráfico dentro de cada panel.",
  porque:{
-  "<code>sns.lineplot(data=df, x='mes', y='ventas', hue='region')</code>":"Superpone todas las regiones en un mismo eje: con varias líneas se vuelve ilegible.",
-  "<code>plt.subplots(1, 4)</code> y un <code>lineplot</code> por eje a mano":"Funciona, pero es justo lo que <code>relplot</code> automatiza, incluida la escala compartida.",
-  "<code>sns.pairplot(df, hue='region')</code>":"Cruza variables entre sí, no repite un mismo gráfico por categoría."
+  "<code>sns.relplot(data=df, x='mes', y='ventas', hue='region', col='canal', kind='line')</code>":"Cruza los roles: hace un panel por canal y colorea por región, en vez de un panel por región.",
+  "<code>sns.relplot(data=df, x='mes', y='ventas', col='region', hue='canal', kind='bar')</code>":"<code>relplot</code> sólo acepta <code>kind='scatter'</code> o <code>'line'</code>: con <code>'bar'</code> tira <code>ValueError</code>.",
+  "<code>sns.lineplot(data=df, x='mes', y='ventas', col='region', hue='canal')</code>":"<code>lineplot</code> no tiene <code>col=</code>: es una función de <b>eje</b>, no de figura. Los paneles los genera <code>relplot</code>."
  }
 },
 {
@@ -1115,15 +1115,15 @@ const BANCO = [
  pide:"¿Qué formatos elegís?",
  ops:[
   "PNG con <code>dpi=300</code> para impresión y PDF o SVG vectorial para publicación/edición",
-  "Solo PNG con <code>dpi=72</code>",
-  "Solo JPG, que ocupa menos",
-  "Captura de pantalla del notebook"
+  "PNG con <code>dpi=72</code> para impresión y SVG vectorial para la versión web editable",
+  "JPG con <code>dpi=300</code> para impresión y PNG para la versión editable",
+  "GIF con <code>dpi=300</code> para impresión y PDF vectorial para publicación"
  ],
  aprendido:"<b>PNG</b>: ideal para Word, PowerPoint y web, con <code>dpi=300</code> para impresión. <b>PDF</b>: vectorial, recomendado para informes académicos. <b>SVG</b>: vectorial y editable, excelente para web y diseño. La llamada típica: <code>plt.savefig('informe.png', dpi=300, bbox_inches='tight', facecolor='white')</code>.",
  porque:{
-  "Solo PNG con <code>dpi=72</code>":"72 dpi es resolución de pantalla: impreso se ve pixelado.",
-  "Solo JPG, que ocupa menos":"JPG comprime con pérdida y ensucia los bordes de texto y líneas finas.",
-  "Captura de pantalla del notebook":"Baja resolución y no reproducible."
+  "PNG con <code>dpi=72</code> para impresión y SVG vectorial para la versión web editable":"72 dpi es resolución de pantalla: impreso se ve pixelado.",
+  "JPG con <code>dpi=300</code> para impresión y PNG para la versión editable":"JPG comprime con pérdida (ensucia texto y líneas finas) y PNG es de píxeles: no se edita como un vector.",
+  "GIF con <code>dpi=300</code> para impresión y PDF vectorial para publicación":"GIF limita a 256 colores: degrada un gráfico con paleta continua o degradados."
  }
 },
 {
@@ -1131,16 +1131,16 @@ const BANCO = [
  caso:"Querés aplicar un estilo con cuadrícula suave a todos los gráficos y fijar colores propios para cada curso, consistentes entre todas las figuras del informe.",
  pide:"¿Qué usás?",
  ops:[
-  "<code>sns.set_theme(style='whitegrid')</code> y un dict en <code>palette={'Datos':'#00A6A6', ...}</code>",
-  "<code>plt.style.use('dark_background')</code> y colores al azar por gráfico",
-  "<code>sns.color_palette()</code> y nada más",
-  "<code>ax.set_facecolor('white')</code> en cada gráfico"
+  "<code>sns.set_theme(style='whitegrid')</code> y un diccionario en <code>palette={'Datos':'#00A6A6', ...}</code>",
+  "<code>sns.set_theme(style='whitegrid')</code> y un diccionario en <code>color={'Datos':'#00A6A6', ...}</code>",
+  "<code>plt.style.use('whitegrid')</code> y un diccionario en <code>palette={'Datos':'#00A6A6', ...}</code>",
+  "<code>sns.set_theme(style='grid')</code> y un diccionario en <code>palette={'Datos':'#00A6A6', ...}</code>"
  ],
  aprendido:"<code>sns.set_theme(style=…)</code> aplica el estilo a toda la sesión (<code>whitegrid</code>, <code>darkgrid</code>, <code>ticks</code>…). Pasar un <b>diccionario</b> a <code>palette=</code> fija qué color le toca a cada categoría, y eso mantiene la coherencia entre gráficos. Criterio: paletas consistentes, colores intensos reservados para lo importante, y nada de estilos que bajen el contraste.",
  porque:{
-  "<code>plt.style.use('dark_background')</code> y colores al azar por gráfico":"Si el color de cada curso cambia entre figuras, quien lee tiene que reaprender la leyenda cada vez.",
-  "<code>sns.color_palette()</code> y nada más":"Devuelve una paleta, pero no la asocia a categorías concretas.",
-  "<code>ax.set_facecolor('white')</code> en cada gráfico":"Cambia solo el fondo de un eje; no es un tema ni una paleta."
+  "<code>sns.set_theme(style='whitegrid')</code> y un diccionario en <code>color={'Datos':'#00A6A6', ...}</code>":"<code>color=</code> admite <b>un</b> color para todo el gráfico; el mapeo categoría → color va en <code>palette=</code>.",
+  "<code>plt.style.use('whitegrid')</code> y un diccionario en <code>palette={'Datos':'#00A6A6', ...}</code>":"<code>whitegrid</code> es un estilo de <b>Seaborn</b>, no de Matplotlib: <code>plt.style.use</code> tira un error de estilo desconocido.",
+  "<code>sns.set_theme(style='grid')</code> y un diccionario en <code>palette={'Datos':'#00A6A6', ...}</code>":"Los estilos válidos son <code>darkgrid</code>, <code>whitegrid</code>, <code>dark</code>, <code>white</code> y <code>ticks</code>: <code>'grid'</code> no existe y tira <code>ValueError</code>."
  }
 },
 {
@@ -1150,15 +1150,15 @@ const BANCO = [
  pide:"¿Qué usás para la anotación?",
  ops:[
   "<code>ax.annotate('Mayor nota', xy=(mejor['Horas'], mejor['Nota']), xytext=(...), arrowprops={'arrowstyle':'->'})</code>",
-  "<code>ax.set_title('Mayor nota')</code>",
-  "<code>ax.legend(['Mayor nota'])</code>",
-  "<code>print(mejor)</code>"
+  "<code>ax.annotate('Mayor nota', xy=(mejor['Horas'], mejor['Nota']), xytext=(...), arrowstyle='->')</code>",
+  "<code>ax.text('Mayor nota', mejor['Horas'], mejor['Nota'], arrowprops={'arrowstyle':'->'})</code>",
+  "<code>ax.annotate(xy=(mejor['Horas'], mejor['Nota']), xytext=(...), arrowprops={'arrowstyle':'->'})</code>"
  ],
  aprendido:"<b><code>idxmax()</code></b> devuelve la <b>etiqueta de índice</b> de la fila con el valor máximo (a diferencia de <code>max()</code>, que devuelve el valor), y se combina con <code>.loc[]</code> para traer la fila completa. <b><code>ax.annotate()</code></b> pone el texto: <code>xy</code> es el punto señalado, <code>xytext</code> dónde va el texto y <code>arrowprops</code> dibuja la flecha. Criterio: anotar solo hallazgos relevantes.",
  porque:{
-  "<code>ax.set_title('Mayor nota')</code>":"Pone un título general; no señala ningún punto concreto.",
-  "<code>ax.legend(['Mayor nota'])</code>":"La leyenda identifica series, no observaciones individuales.",
-  "<code>print(mejor)</code>":"Lo muestra en consola, fuera del gráfico."
+  "<code>ax.annotate('Mayor nota', xy=(mejor['Horas'], mejor['Nota']), xytext=(...), arrowstyle='->')</code>":"El estilo de la flecha va <b>dentro</b> de <code>arrowprops={...}</code>; como argumento suelto no se reconoce y tira error.",
+  "<code>ax.text('Mayor nota', mejor['Horas'], mejor['Nota'], arrowprops={'arrowstyle':'->'})</code>":"<code>text</code> recibe primero las coordenadas (<code>x, y, texto</code>) y no admite <code>arrowprops</code>: la flecha es propia de <code>annotate</code>.",
+  "<code>ax.annotate(xy=(mejor['Horas'], mejor['Nota']), xytext=(...), arrowprops={'arrowstyle':'->'})</code>":"Falta el primer argumento, el <b>texto</b> de la anotación: <code>annotate</code> lo exige y tira <code>TypeError</code>."
  }
 },
 {
@@ -1167,15 +1167,15 @@ const BANCO = [
  pide:"¿Cuál es la división de tareas?",
  ops:[
   "Pandas organiza los datos en DataFrames · Seaborn da la interfaz estadística de alto nivel · Matplotlib controla figura, ejes, títulos y exportación",
-  "Seaborn reemplaza a Matplotlib por completo",
-  "NumPy dibuja los gráficos y Pandas los exporta",
-  "Matplotlib organiza los datos y Seaborn los limpia"
+  "Pandas organiza los datos en DataFrames · Matplotlib da la interfaz estadística de alto nivel · Seaborn controla figura, ejes, títulos y exportación",
+  "NumPy organiza los datos en DataFrames · Seaborn da la interfaz estadística de alto nivel · Matplotlib controla figura, ejes, títulos y exportación",
+  "Pandas organiza los datos en DataFrames · Seaborn reemplaza por completo a Matplotlib, que ya no hace falta importar para títulos ni exportación"
  ],
  aprendido:"Seaborn está <b>construido sobre</b> Matplotlib: le pasás un DataFrame de Pandas y resuelve el gráfico estadístico en una línea, pero el título, la figura, el <code>tight_layout()</code> y el <code>savefig()</code> los seguís manejando con Matplotlib (<code>plt.*</code> o el <code>ax</code> que Seaborn devuelve). Por eso en todos los ejemplos se importan las tres.",
  porque:{
-  "Seaborn reemplaza a Matplotlib por completo":"Todos los ejemplos de la clase importan igual <code>matplotlib.pyplot</code> para título, layout y exportación.",
-  "NumPy dibuja los gráficos y Pandas los exporta":"NumPy hace cálculo numérico; no dibuja.",
-  "Matplotlib organiza los datos y Seaborn los limpia":"Ninguna de las dos organiza ni limpia datos: eso es Pandas."
+  "Pandas organiza los datos en DataFrames · Matplotlib da la interfaz estadística de alto nivel · Seaborn controla figura, ejes, títulos y exportación":"Cruza los roles de las dos librerías de gráficos: la interfaz estadística es de Seaborn, y el control fino de figura y ejes es de Matplotlib.",
+  "NumPy organiza los datos en DataFrames · Seaborn da la interfaz estadística de alto nivel · Matplotlib controla figura, ejes, títulos y exportación":"Los DataFrames son de Pandas; NumPy trabaja con arreglos numéricos.",
+  "Pandas organiza los datos en DataFrames · Seaborn reemplaza por completo a Matplotlib, que ya no hace falta importar para títulos ni exportación":"Seaborn está construido sobre Matplotlib: todos los ejemplos de la clase siguen importando <code>matplotlib.pyplot</code> para título, layout y <code>savefig</code>."
  }
 },
 {
@@ -1185,14 +1185,14 @@ const BANCO = [
  ops:[
   "<code>sns.violinplot(data=df, x='modalidad', y='satisfaccion')</code>",
   "<code>sns.boxplot(data=df, x='modalidad', y='satisfaccion')</code>",
-  "<code>sns.countplot(data=df, x='modalidad')</code>",
+  "<code>sns.barplot(data=df, x='modalidad', y='satisfaccion')</code>",
   "<code>sns.regplot(data=df, x='modalidad', y='satisfaccion')</code>"
  ],
  aprendido:"El <b>violinplot</b> combina el resumen del boxplot con una estimación de densidad: muestra la <b>forma</b> de la distribución (si es simétrica, si tiene dos picos). El boxplot es más sobrio y mejor para detectar atípicos; el violín es mejor cuando la pregunta es por la forma.",
  porque:{
-  "<code>sns.boxplot(data=df, x='modalidad', y='satisfaccion')</code>":"Correcto para nivel, dispersión y atípicos, pero resume en cuartiles: una distribución con dos picos se ve igual que una simétrica.",
-  "<code>sns.countplot(data=df, x='modalidad')</code>":"Cuenta cuántas respuestas hay por modalidad, no cómo se distribuye la satisfacción.",
-  "<code>sns.regplot(data=df, x='modalidad', y='satisfaccion')</code>":"La regresión necesita que x sea cuantitativa."
+  "<code>sns.boxplot(data=df, x='modalidad', y='satisfaccion')</code>":"Resume en cuartiles: una distribución con dos picos se ve igual que una simétrica. Sirve para nivel y atípicos, no para la forma.",
+  "<code>sns.barplot(data=df, x='modalidad', y='satisfaccion')</code>":"Muestra sólo el <b>promedio</b> de cada modalidad: no deja ver ninguna forma de la distribución.",
+  "<code>sns.regplot(data=df, x='modalidad', y='satisfaccion')</code>":"La regresión necesita que <code>x</code> sea cuantitativa; <code>modalidad</code> es una categoría."
  }
 }
 
@@ -1215,16 +1215,16 @@ const PARCIALES = [
  codigo:"Unidades vendidas: [12, 15, 11, 18, 20, 17, 22]\nPrecios unitarios: [1500, 1500, 1550, 1550, 1600, 1600, 1650]",
  pide:"¿Cómo los creás?",
  ops:[
-  "<code>unidades = np.array([12,15,11,18,20,17,22])</code> y lo mismo con precios",
-  "<code>unidades = np.list([12,15,11,18,20,17,22])</code>",
-  "<code>unidades = pd.Series([12,15,11,18,20,17,22])</code>",
-  "<code>unidades = [12,15,11,18,20,17,22]</code> tal cual"
+  "<code>unidades = np.array([12,15,11,18,20,17,22])</code> y lo mismo con <code>precios</code>",
+  "<code>unidades = np.arange([12,15,11,18,20,17,22])</code> y lo mismo con <code>precios</code>",
+  "<code>unidades = np.array(12,15,11,18,20,17,22)</code> y lo mismo con <code>precios</code>",
+  "<code>unidades = np.array([12,15,11,18,20,17,22], dtype=str)</code> y lo mismo con <code>precios</code>"
  ],
  aprendido:"<code>np.array(lista)</code> es la forma de crear un <code>ndarray</code> desde una lista de Python. Ese paso es el que habilita todo lo que viene después: multiplicar los dos arreglos elemento a elemento sin escribir ningún <code>for</code>.",
  porque:{
-  "<code>unidades = np.list([12,15,11,18,20,17,22])</code>":"<code>np.list</code> no existe en NumPy.",
-  "<code>unidades = pd.Series([12,15,11,18,20,17,22])</code>":"Funcionaría para multiplicar, pero la consigna pide explícitamente NumPy.",
-  "<code>unidades = [12,15,11,18,20,17,22]</code> tal cual":"Sigue siendo una lista: <code>lista * lista</code> tira <code>TypeError</code>."
+  "<code>unidades = np.arange([12,15,11,18,20,17,22])</code> y lo mismo con <code>precios</code>":"<code>arange</code> genera una secuencia a partir de números (inicio, fin, paso): con una lista adentro tira <code>TypeError</code>.",
+  "<code>unidades = np.array(12,15,11,18,20,17,22)</code> y lo mismo con <code>precios</code>":"<code>np.array</code> recibe <b>un</b> objeto (la lista); pasar los números sueltos hace que el segundo se lea como <code>dtype</code> y tira <code>TypeError</code>.",
+  "<code>unidades = np.array([12,15,11,18,20,17,22], dtype=str)</code> y lo mismo con <code>precios</code>":"Los guarda como <b>texto</b>: multiplicar dos arreglos de cadenas tira <code>TypeError</code>."
  }
 },
 {
@@ -1233,15 +1233,15 @@ const PARCIALES = [
  pide:"¿Cómo lo escribís?",
  ops:[
   "<code>ingresos = unidades * precios</code>",
-  "<code>ingresos = [u * p for u, p in zip(unidades, precios)]</code>",
   "<code>ingresos = np.dot(unidades, precios)</code>",
-  "<code>ingresos = unidades.sum() * precios.sum()</code>"
+  "<code>ingresos = np.outer(unidades, precios)</code>",
+  "<code>ingresos = unidades.sum() * precios.mean()</code>"
  ],
  aprendido:"Con dos arreglos NumPy de la misma forma, el operador <code>*</code> multiplica <b>elemento a elemento</b>: el día 1 con el día 1, el 2 con el 2, etc. Eso es la multiplicación vectorizada que pide la consigna, y devuelve un arreglo de 7 ingresos.",
  porque:{
-  "<code>ingresos = [u * p for u, p in zip(unidades, precios)]</code>":"Da los mismos números, pero es un ciclo: la consigna pide operación vectorizada.",
-  "<code>ingresos = np.dot(unidades, precios)</code>":"El producto punto devuelve <b>un solo número</b> (la suma de los productos): te saltearías el detalle diario.",
-  "<code>ingresos = unidades.sum() * precios.sum()</code>":"Multiplica totales entre sí: matemáticamente no es el ingreso."
+  "<code>ingresos = np.dot(unidades, precios)</code>":"El producto punto devuelve <b>un solo número</b> (la suma de los productos): perdés el detalle de cada día.",
+  "<code>ingresos = np.outer(unidades, precios)</code>":"Arma una <b>matriz de 7×7</b> con todas las combinaciones (cada día contra cada precio), no un ingreso por día.",
+  "<code>ingresos = unidades.sum() * precios.mean()</code>":"Mezcla dos totales distintos en un único número: matemáticamente no es el ingreso de cada día."
  }
 },
 {
@@ -1250,15 +1250,15 @@ const PARCIALES = [
  pide:"¿Qué usás?",
  ops:[
   "<code>ingresos.sum()</code> y <code>ingresos.mean()</code>",
-  "<code>len(ingresos)</code> y <code>ingresos.median()</code>",
-  "<code>ingresos.max()</code> y <code>ingresos.std()</code>",
-  "<code>np.cumsum(ingresos)</code> y <code>np.percentile(ingresos, 50)</code>"
+  "<code>ingresos.sum()</code> y <code>ingresos.median()</code>",
+  "<code>ingresos.cumsum()</code> y <code>ingresos.mean()</code>",
+  "<code>ingresos.sum()</code> y <code>ingresos.std()</code>"
  ],
  aprendido:"Sobre un arreglo NumPy funcionan tanto los métodos (<code>ingresos.sum()</code>, <code>ingresos.mean()</code>) como las funciones (<code>np.sum(ingresos)</code>, <code>np.mean(ingresos)</code>): son equivalentes. “Total” es suma y “promedio diario” es media.",
  porque:{
-  "<code>len(ingresos)</code> y <code>ingresos.median()</code>":"<code>len</code> cuenta los días y la mediana no es lo que pide la consigna.",
-  "<code>ingresos.max()</code> y <code>ingresos.std()</code>":"Máximo y desvío responden otras preguntas.",
-  "<code>np.cumsum(ingresos)</code> y <code>np.percentile(ingresos, 50)</code>":"<code>cumsum</code> da el acumulado día a día, no el total en un número."
+  "<code>ingresos.sum()</code> y <code>ingresos.median()</code>":"La mediana es el valor central, no el promedio: “promedio diario” es la media.",
+  "<code>ingresos.cumsum()</code> y <code>ingresos.mean()</code>":"<code>cumsum()</code> devuelve el <b>acumulado día a día</b> (un arreglo), no el total de la semana en un número.",
+  "<code>ingresos.sum()</code> y <code>ingresos.std()</code>":"<code>std()</code> es el desvío estándar (dispersión), no el promedio diario."
  }
 },
 {
@@ -1266,16 +1266,16 @@ const PARCIALES = [
  caso:"<b>Ejercicio 1.</b> Tarea 3, segunda parte: identificar <b>qué día</b> tuvo el mayor ingreso (no cuánto fue, sino cuál día).",
  pide:"¿Qué función usás?",
  ops:[
-  "<code>dia = ingresos.argmax()</code> — devuelve la <b>posición</b> del máximo",
-  "<code>dia = ingresos.max()</code> — devuelve el valor máximo",
-  "<code>dia = np.sort(ingresos)[-1]</code>",
-  "<code>dia = ingresos.idxmax()</code>"
+  "<code>dia = ingresos.argmax()</code>, que devuelve la posición del máximo",
+  "<code>dia = ingresos.max()</code>, que devuelve el valor más alto del arreglo",
+  "<code>dia = ingresos.argmin()</code>, que devuelve la posición del mínimo",
+  "<code>dia = ingresos.idxmax()</code>, que devuelve la etiqueta del máximo"
  ],
  aprendido:"<b><code>max()</code> devuelve el valor; <code>argmax()</code> devuelve la posición</b> donde está ese valor. Como el arreglo está ordenado por día, esa posición <i>es</i> el día. El equivalente en Pandas se llama <code>idxmax()</code> y devuelve la etiqueta del índice.",
  porque:{
-  "<code>dia = ingresos.max()</code> — devuelve el valor máximo":"Te dice cuánto se facturó, no qué día.",
-  "<code>dia = np.sort(ingresos)[-1]</code>":"También te da el valor más alto, y además pierde la referencia al día original.",
-  "<code>dia = ingresos.idxmax()</code>":"<code>idxmax()</code> es de Pandas (Series/DataFrame); sobre un <code>ndarray</code> no existe."
+  "<code>dia = ingresos.max()</code>, que devuelve el valor más alto del arreglo":"Te dice <b>cuánto</b> se facturó ese día, no cuál fue el día.",
+  "<code>dia = ingresos.argmin()</code>, que devuelve la posición del mínimo":"Es el caso opuesto: encuentra el día de <b>menor</b> ingreso.",
+  "<code>dia = ingresos.idxmax()</code>, que devuelve la etiqueta del máximo":"<code>idxmax()</code> es de Pandas: un <code>ndarray</code> no lo tiene y tira <code>AttributeError</code>."
  }
 },
 {
@@ -1284,15 +1284,15 @@ const PARCIALES = [
  pide:"¿Cómo lo hacés?",
  ops:[
   "<code>precios_nuevos = precios * 1.08</code>",
-  "<code>precios_nuevos = precios + 0.08</code>",
-  "<code>precios_nuevos = precios * 0.08</code>",
-  "<code>for p in precios: p = p * 1.08</code>"
+  "<code>precios_nuevos = precios + precios * 0.8</code>",
+  "<code>precios_nuevos = precios * 1.8</code>",
+  "<code>precios_nuevos = precios + 8</code>"
  ],
  aprendido:"Multiplicar un arreglo por un escalar es <b>broadcasting</b>: NumPy aplica el 1.08 a todos los elementos de una sola vez. Un aumento del 8 % es multiplicar por <code>1.08</code> (el 100 % original más el 8 %), no por <code>0.08</code>, que daría solo el monto del aumento.",
  porque:{
-  "<code>precios_nuevos = precios + 0.08</code>":"Suma 8 centavos a cada precio; no es un aumento porcentual.",
-  "<code>precios_nuevos = precios * 0.08</code>":"Devuelve solo el <b>valor del aumento</b>, no el precio final.",
-  "<code>for p in precios: p = p * 1.08</code>":"Además de no ser vectorizado, reasigna una variable temporal: el arreglo queda intacto."
+  "<code>precios_nuevos = precios + precios * 0.8</code>":"Un 0,8 es un aumento del <b>80 %</b>, no del 8 %: el decimal está mal ubicado.",
+  "<code>precios_nuevos = precios * 1.8</code>":"Multiplicar por 1,8 equivale a un aumento del 80 %; el 8 % es 1,08.",
+  "<code>precios_nuevos = precios + 8</code>":"Suma <b>8 pesos</b> a cada precio; un aumento porcentual es proporcional al precio de cada producto."
  }
 },
 
@@ -1304,15 +1304,15 @@ const PARCIALES = [
  pide:"¿Qué función usás?",
  ops:[
   "<code>df = pd.read_csv('productos.csv')</code>",
-  "<code>df = pd.read_excel('productos.csv')</code>",
-  "<code>df = csv.DictReader(open('productos.csv'))</code>",
-  "<code>df = pd.DataFrame('productos.csv')</code>"
+  "<code>df = pd.read_csv('productos.csv', header=None)</code>",
+  "<code>df = pd.read_csv('productos.csv', sep=';')</code>",
+  "<code>df = pd.read_csv('productos.csv', header=1)</code>"
  ],
  aprendido:"<code>pd.read_csv()</code> lee el archivo y usa la primera línea como encabezado, así que las columnas quedan <code>producto</code>, <code>categoria</code>, <code>precio</code> y <code>stock</code>. Conviene seguir con <code>df.head()</code> y <code>df.dtypes</code> para confirmar que precio y stock quedaron numéricos.",
  porque:{
-  "<code>df = pd.read_excel('productos.csv')</code>":"<code>read_excel</code> es para <code>.xlsx</code>/<code>.xls</code>, no para texto separado por comas.",
-  "<code>df = csv.DictReader(open('productos.csv'))</code>":"Es la vía de la librería estándar y te devuelve diccionarios, no un DataFrame: la consigna pide Pandas.",
-  "<code>df = pd.DataFrame('productos.csv')</code>":"<code>pd.DataFrame()</code> construye desde datos en memoria, no lee archivos."
+  "<code>df = pd.read_csv('productos.csv', header=None)</code>":"Con <code>header=None</code> la fila de nombres se lee como un dato más y las columnas se llaman 0, 1, 2, 3.",
+  "<code>df = pd.read_csv('productos.csv', sep=';')</code>":"El archivo está separado por <b>comas</b>: con <code>sep=';'</code> quedaría todo en una única columna.",
+  "<code>df = pd.read_csv('productos.csv', header=1)</code>":"<code>header=1</code> toma la <b>segunda</b> fila como encabezado y descarta la primera: se pierde 'producto, categoria, precio, stock'."
  }
 },
 {
@@ -1321,15 +1321,15 @@ const PARCIALES = [
  pide:"¿Cómo lo escribís?",
  ops:[
   "<code>df[['producto', 'precio', 'stock']]</code>",
-  "<code>df['producto', 'precio', 'stock']</code>",
-  "<code>df.loc['producto':'stock']</code>",
-  "<code>df.iloc[0:3]</code>"
+  "<code>df.drop('categoria', inplace=True)</code>",
+  "<code>df.loc[:, 'producto':'stock']</code>",
+  "<code>df.iloc[:, [0, 1, 3]].copy()</code>"
  ],
  aprendido:"Para varias columnas va la <b>lista de nombres dentro de los corchetes</b>, y el resultado sigue siendo un DataFrame. Con un solo corchete y un solo nombre obtendrías una Series.",
  porque:{
-  "<code>df['producto', 'precio', 'stock']</code>":"Pandas lee la tupla como una única clave y lanza <code>KeyError</code>.",
-  "<code>df.loc['producto':'stock']</code>":"Sin la coma, <code>loc</code> corta <b>filas</b> por etiqueta, no columnas.",
-  "<code>df.iloc[0:3]</code>":"Selecciona las tres primeras <b>filas</b>."
+  "<code>df.drop('categoria', inplace=True)</code>":"Por defecto <code>drop</code> borra <b>filas</b> (<code>axis=0</code>): busca una fila llamada 'categoria' y tira <code>KeyError</code>.",
+  "<code>df.loc[:, 'producto':'stock']</code>":"Con <code>loc</code> el rango incluye ambos extremos y todo lo que hay en medio: <code>categoria</code> queda adentro.",
+  "<code>df.iloc[:, [0, 1, 3]].copy()</code>":"Las posiciones 0, 1 y 3 son producto, <b>categoria</b> y stock: saltea precio y deja la columna que había que sacar."
  }
 },
 {
@@ -1337,16 +1337,16 @@ const PARCIALES = [
  caso:"<b>Ejercicio 2.</b> Tarea 7: filtrar los productos con precio mayor a 40000 <b>y</b> stock mayor a 0.",
  pide:"¿Cuál es la sintaxis correcta?",
  ops:[
-  "<code>df[(df['precio'] &gt; 40000) &amp; (df['stock'] &gt; 0)]</code>",
-  "<code>df[df['precio'] &gt; 40000 and df['stock'] &gt; 0]</code>",
-  "<code>df[df['precio'] &gt; 40000 &amp; df['stock'] &gt; 0]</code>",
-  "<code>df[(df['precio'] &gt; 40000) | (df['stock'] &gt; 0)]</code>"
+  "<code>df[(df['precio'] > 40000) & (df['stock'] > 0)]</code>",
+  "<code>df[(df['precio'] > 40000) | (df['stock'] > 0)]</code>",
+  "<code>df[(df['precio'] > 40000) and (df['stock'] > 0)]</code>",
+  "<code>df[(df['precio'] > 40000) & (df['stock'] == 0)]</code>"
  ],
  aprendido:"Las dos reglas de oro del filtrado en Pandas: <b>se usa <code>&amp;</code>, no <code>and</code></b>, y <b>cada condición va entre paréntesis</b> porque <code>&amp;</code> tiene mayor precedencia que los comparadores. Con estos datos el resultado son Monitor, Webcam y Notebook: el Mouse sale por precio y por stock 0.",
  porque:{
-  "<code>df[df['precio'] &gt; 40000 and df['stock'] &gt; 0]</code>":"<code>and</code> espera un único valor de verdad; con Series lanza <i>“The truth value of a Series is ambiguous”</i>.",
-  "<code>df[df['precio'] &gt; 40000 &amp; df['stock'] &gt; 0]</code>":"Sin paréntesis, Python evalúa primero <code>40000 &amp; df['stock']</code>: error o resultado incorrecto.",
-  "<code>df[(df['precio'] &gt; 40000) | (df['stock'] &gt; 0)]</code>":"<code>|</code> es “o”: dejaría pasar el Teclado, que cumple solo una de las dos condiciones."
+  "<code>df[(df['precio'] > 40000) | (df['stock'] > 0)]</code>":"<code>|</code> es “o”: deja pasar al Teclado, que cumple sólo una de las dos condiciones.",
+  "<code>df[(df['precio'] > 40000) and (df['stock'] > 0)]</code>":"<code>and</code> espera un único valor de verdad; con Series lanza “The truth value of a Series is ambiguous”.",
+  "<code>df[(df['precio'] > 40000) & (df['stock'] == 0)]</code>":"Con <code>stock == 0</code> filtra los productos <b>sin</b> stock, justo lo contrario de los disponibles."
  }
 },
 {
@@ -1355,15 +1355,15 @@ const PARCIALES = [
  pide:"¿Cómo lo exportás?",
  ops:[
   "<code>disponibles.to_csv('productos_disponibles.csv', index=False)</code>",
-  "<code>disponibles.to_csv('productos_disponibles.csv')</code>",
-  "<code>disponibles.to_csv('productos_disponibles.csv', header=False)</code>",
-  "<code>disponibles.to_excel('productos_disponibles.csv', index=False)</code>"
+  "<code>disponibles.to_csv('productos_disponibles.csv', index_label='')</code>",
+  "<code>disponibles.to_excel('productos_disponibles.csv', index=False)</code>",
+  "<code>disponibles.to_csv('productos_disponibles', index=False)</code>"
  ],
  aprendido:"Por defecto Pandas escribe el índice como una primera columna sin nombre. <b><code>index=False</code></b> es exactamente lo que pide la consigna “sin guardar el índice”. Aparece en los tres modelos de parcial: memorizalo.",
  porque:{
-  "<code>disponibles.to_csv('productos_disponibles.csv')</code>":"Es el comportamiento por defecto: escribe el índice, que es justo lo que la consigna prohíbe.",
-  "<code>disponibles.to_csv('productos_disponibles.csv', header=False)</code>":"Saca los nombres de columna, no el índice.",
-  "<code>disponibles.to_excel('productos_disponibles.csv', index=False)</code>":"Genera un archivo Excel con extensión <code>.csv</code>: no se puede abrir como CSV."
+  "<code>disponibles.to_csv('productos_disponibles.csv', index_label='')</code>":"<code>index_label</code> sólo cambia el <b>nombre</b> de la columna del índice; el índice se sigue escribiendo.",
+  "<code>disponibles.to_excel('productos_disponibles.csv', index=False)</code>":"Escribe un libro de Excel con extensión <code>.csv</code>: no se puede abrir como CSV.",
+  "<code>disponibles.to_csv('productos_disponibles', index=False)</code>":"Falta la extensión: el archivo se llamaría <code>productos_disponibles</code>, no <code>productos_disponibles.csv</code> como pide la consigna."
  }
 },
 
@@ -1375,15 +1375,15 @@ const PARCIALES = [
  pide:"¿Cómo lo dibujás?",
  ops:[
   "<code>plt.plot(dias, visitas, marker='o')</code>",
-  "<code>plt.plot(dias, visitas)</code>",
-  "<code>plt.scatter(dias, visitas)</code>",
-  "<code>plt.bar(dias, visitas)</code>"
+  "<code>plt.plot(dias, visitas, markers='o')</code>",
+  "<code>plt.plot(dias, visitas, 'o')</code>",
+  "<code>plt.scatter(dias, visitas, marker='o')</code>"
  ],
  aprendido:"<code>plt.plot()</code> dibuja la línea y <b><code>marker='o'</code></b> agrega un círculo en cada observación, que es lo que pide “con marcadores”. Los días son una secuencia ordenada, así que la línea es el gráfico correcto para mostrar la evolución.",
  porque:{
-  "<code>plt.plot(dias, visitas)</code>":"Dibuja la línea pero sin marcar cada punto: falta el <code>marker</code> que pide la consigna.",
-  "<code>plt.scatter(dias, visitas)</code>":"Pone los puntos pero no los une con la línea.",
-  "<code>plt.bar(dias, visitas)</code>":"Es un gráfico de barras: la consigna pide líneas."
+  "<code>plt.plot(dias, visitas, markers='o')</code>":"El parámetro se llama <code>marker</code> (singular); <code>markers</code> no existe y tira <code>AttributeError</code>.",
+  "<code>plt.plot(dias, visitas, 'o')</code>":"El formato <code>'o'</code> dibuja <b>sólo los círculos</b>, sin línea que los una: la consigna pide líneas con marcadores.",
+  "<code>plt.scatter(dias, visitas, marker='o')</code>":"Pone los círculos pero no los une con una línea: es una dispersión, no un gráfico de líneas."
  }
 },
 {
@@ -1392,15 +1392,15 @@ const PARCIALES = [
  pide:"¿Qué llamadas usás?",
  ops:[
   "<code>plt.title(...)</code>, <code>plt.xlabel(...)</code>, <code>plt.ylabel(...)</code> y <code>plt.grid(True)</code>",
-  "<code>plt.title(...)</code>, <code>plt.label(...)</code> y <code>plt.lines(True)</code>",
-  "<code>plt.legend(...)</code> y <code>plt.grid(True)</code>",
-  "<code>plt.suptitle(...)</code>, <code>plt.set_xlabel(...)</code> y <code>plt.axis('on')</code>"
+  "<code>plt.title(...)</code>, <code>plt.xlabel(...)</code>, <code>plt.ylabel(...)</code> y <code>plt.gridlines(True)</code>",
+  "<code>plt.set_title(...)</code>, <code>plt.set_xlabel(...)</code>, <code>plt.set_ylabel(...)</code> y <code>plt.grid(True)</code>",
+  "<code>plt.title(...)</code>, <code>plt.xlabel(...)</code>, <code>plt.ylabel(...)</code> y <code>plt.grid(False)</code>"
  ],
  aprendido:"Con la interfaz <code>plt.*</code> los rótulos van <b>sin</b> el prefijo <code>set_</code>: <code>plt.title()</code>, <code>plt.xlabel()</code>, <code>plt.ylabel()</code>, <code>plt.grid()</code>. Si en cambio usás la interfaz orientada a objetos (<code>fig, ax = plt.subplots()</code>) son <code>ax.set_title()</code>, <code>ax.set_xlabel()</code>… Conviene que la cuadrícula sea discreta: <code>plt.grid(True, alpha=.3)</code>.",
  porque:{
-  "<code>plt.title(...)</code>, <code>plt.label(...)</code> y <code>plt.lines(True)</code>":"<code>plt.label</code> y <code>plt.lines</code> no existen.",
-  "<code>plt.legend(...)</code> y <code>plt.grid(True)</code>":"La leyenda identifica series; no reemplaza el título ni las etiquetas de ejes.",
-  "<code>plt.suptitle(...)</code>, <code>plt.set_xlabel(...)</code> y <code>plt.axis('on')</code>":"<code>set_xlabel</code> es del <code>Axes</code>, no de <code>plt</code>, y <code>axis('on')</code> no dibuja cuadrícula."
+  "<code>plt.title(...)</code>, <code>plt.xlabel(...)</code>, <code>plt.ylabel(...)</code> y <code>plt.gridlines(True)</code>":"<code>plt.gridlines</code> no existe: la cuadrícula se activa con <code>plt.grid(True)</code>.",
+  "<code>plt.set_title(...)</code>, <code>plt.set_xlabel(...)</code>, <code>plt.set_ylabel(...)</code> y <code>plt.grid(True)</code>":"Los métodos con <code>set_</code> son del <code>Axes</code> (<code>ax.set_title()</code>); en <code>plt.*</code> se llaman <code>title</code>, <code>xlabel</code>, <code>ylabel</code>.",
+  "<code>plt.title(...)</code>, <code>plt.xlabel(...)</code>, <code>plt.ylabel(...)</code> y <code>plt.grid(False)</code>":"<code>grid(False)</code> <b>apaga</b> la cuadrícula: los rótulos están bien pero falta justamente la cuadrícula que se pide."
  }
 },
 {
@@ -1409,15 +1409,15 @@ const PARCIALES = [
  pide:"¿Dónde va el color?",
  ops:[
   "Como parámetro del trazado: <code>plt.plot(dias, visitas, marker='o', color='blue')</code>",
-  "<code>plt.color('blue')</code> después del <code>plot</code>",
-  "<code>plt.grid(color='blue')</code>",
-  "<code>plt.style.use('blue')</code>"
+  "Como parámetro del trazado: <code>plt.plot(dias, visitas, marker='o', colour='blue')</code>",
+  "Como parámetro de la cuadrícula: <code>plt.plot(dias, visitas, marker='o')</code> y <code>plt.grid(color='blue')</code>",
+  "Como parámetro de un rótulo: <code>plt.plot(dias, visitas, marker='o')</code> y <code>plt.xlabel('Día', color='blue')</code>"
  ],
  aprendido:"El color es un parámetro de la función que dibuja: <code>color='blue'</code> (también valen <code>'b'</code> o un hexadecimal como <code>'#1f77b4'</code>). Se puede combinar con <code>linewidth=</code> y <code>linestyle=</code>. En barras es exactamente igual: <code>plt.bar(..., color=…)</code>.",
  porque:{
-  "<code>plt.color('blue')</code> después del <code>plot</code>":"<code>plt.color()</code> no existe.",
-  "<code>plt.grid(color='blue')</code>":"Pinta la cuadrícula de azul, no la línea de datos.",
-  "<code>plt.style.use('blue')</code>":"<code>style.use</code> aplica temas completos (<code>'ggplot'</code>, <code>'seaborn-v0_8'</code>), no colores sueltos."
+  "Como parámetro del trazado: <code>plt.plot(dias, visitas, marker='o', colour='blue')</code>":"<code>colour</code> (a la inglesa) no existe en Matplotlib: el parámetro es <code>color</code> y con <code>colour</code> tira error.",
+  "Como parámetro de la cuadrícula: <code>plt.plot(dias, visitas, marker='o')</code> y <code>plt.grid(color='blue')</code>":"Pinta las <b>líneas de la cuadrícula</b> de azul; la línea de datos sigue con el color por defecto.",
+  "Como parámetro de un rótulo: <code>plt.plot(dias, visitas, marker='o')</code> y <code>plt.xlabel('Día', color='blue')</code>":"Cambia el color del <b>texto</b> del rótulo del eje, no el de la línea que muestra la evolución."
  }
 },
 {
@@ -1426,15 +1426,15 @@ const PARCIALES = [
  pide:"¿Cómo cerrás el bloque?",
  ops:[
   "<code>plt.tight_layout()</code> y después <code>plt.show()</code>",
-  "Solo <code>plt.show()</code>",
-  "<code>plt.close()</code>",
-  "<code>plt.draw()</code>"
+  "<code>plt.show()</code> y después <code>plt.tight_layout()</code>",
+  "<code>plt.tight_layout()</code> y después <code>plt.close()</code>",
+  "<code>plt.autoscale()</code> y después <code>plt.show()</code>"
  ],
  aprendido:"<code>plt.show()</code> presenta la figura. <code>plt.tight_layout()</code> justo antes ajusta los márgenes para que no se corten títulos ni etiquetas: aparece en todos los ejemplos de la cursada. Y si además hay que guardar, <code>plt.savefig()</code> va <b>antes</b> de <code>show()</code>.",
  porque:{
-  "Solo <code>plt.show()</code>":"Muestra el gráfico, pero si las etiquetas se superponen el <code>tight_layout()</code> lo resuelve.",
-  "<code>plt.close()</code>":"Cierra la figura sin mostrarla.",
-  "<code>plt.draw()</code>":"Redibuja en modo interactivo; no abre la ventana como <code>show()</code>."
+  "<code>plt.show()</code> y después <code>plt.tight_layout()</code>":"<code>show()</code> presenta la figura ya armada: el ajuste llega tarde y no afecta lo que se mostró.",
+  "<code>plt.tight_layout()</code> y después <code>plt.close()</code>":"<code>close()</code> cierra la figura <b>sin mostrarla</b>: el ajuste queda hecho pero nadie lo ve.",
+  "<code>plt.autoscale()</code> y después <code>plt.show()</code>":"<code>autoscale</code> reajusta los <b>límites</b> de los ejes a los datos; no acomoda los márgenes para que las etiquetas no se recorten."
  }
 }
 
@@ -1450,15 +1450,15 @@ const PARCIALES = [
  pide:"¿Cómo lo construís?",
  ops:[
   "<code>df = pd.DataFrame({'Legajo':[1001,1002,...], 'Nombre':['Ana','Bruno',...], ...})</code>",
-  "<code>df = pd.DataFrame([1001, 'Ana', 8, 7, 90])</code>",
-  "<code>df = pd.Series({'Legajo':1001, 'Nombre':'Ana'})</code>",
-  "<code>df = pd.read_csv(tabla)</code>"
+  "<code>df = pd.DataFrame({'Legajo':1001, 'Nombre':'Ana', 'Parcial1':8, ...})</code>",
+  "<code>df = pd.DataFrame({'Legajo':[1001,1002,1003], 'Nombre':['Ana','Bruno'], ...})</code>",
+  "<code>df = pd.DataFrame([['Legajo','Nombre',...], [1001,'Ana',...], [1002,'Bruno',...]])</code>"
  ],
  aprendido:"El patrón más usado: un <b>diccionario donde cada clave es una columna y cada valor es la lista de sus datos</b>. Todas las listas tienen que tener el mismo largo. La alternativa equivalente es una lista de diccionarios (una fila por diccionario), que también acepta <code>pd.DataFrame()</code>.",
  porque:{
-  "<code>df = pd.DataFrame([1001, 'Ana', 8, 7, 90])</code>":"Crea una sola columna de 5 filas con valores mezclados.",
-  "<code>df = pd.Series({'Legajo':1001, 'Nombre':'Ana'})</code>":"Una Series es unidimensional: no arma una tabla.",
-  "<code>df = pd.read_csv(tabla)</code>":"No hay ningún archivo: los datos están dados en el enunciado."
+  "<code>df = pd.DataFrame({'Legajo':1001, 'Nombre':'Ana', 'Parcial1':8, ...})</code>":"Con valores sueltos (escalares) y sin índice, Pandas tira <code>ValueError</code>: necesita listas, una por columna.",
+  "<code>df = pd.DataFrame({'Legajo':[1001,1002,1003], 'Nombre':['Ana','Bruno'], ...})</code>":"Todas las listas tienen que tener el <b>mismo largo</b>: con una de 3 y otra de 2 tira <code>ValueError</code>.",
+  "<code>df = pd.DataFrame([['Legajo','Nombre',...], [1001,'Ana',...], [1002,'Bruno',...]])</code>":"Los nombres de las columnas entran como <b>una fila más de datos</b>: las columnas quedarían llamadas 0, 1, 2…"
  }
 },
 {
@@ -1467,15 +1467,15 @@ const PARCIALES = [
  pide:"¿Cómo la calculás?",
  ops:[
   "<code>df['Promedio'] = (df['Parcial1'] + df['Parcial2']) / 2</code>",
-  "<code>df['Promedio'] = df.mean()</code>",
-  "<code>df['Promedio'] = np.mean(df['Parcial1'], df['Parcial2'])</code>",
-  "<code>df['Promedio'] = df['Parcial1'].mean()</code>"
+  "<code>df['Promedio'] = df['Parcial1'] + df['Parcial2'] / 2</code>",
+  "<code>df['Promedio'] = (df['Parcial1'] + df['Parcial2']) // 2</code>",
+  "<code>df['Promedio'] = df[['Parcial1', 'Parcial2']].mean()</code>"
  ],
  aprendido:"Las operaciones entre columnas son <b>vectorizadas</b>: se aplican fila por fila automáticamente. La forma equivalente con varias notas es <code>df[['Parcial1','Parcial2']].mean(axis=1)</code>, donde <b><code>axis=1</code></b> significa “promediar a lo ancho de cada fila”.",
  porque:{
-  "<code>df['Promedio'] = df.mean()</code>":"Sin <code>axis=1</code> promedia <b>cada columna</b> a lo largo de todas las filas, y encima incluiría Legajo y Asistencia.",
-  "<code>df['Promedio'] = np.mean(df['Parcial1'], df['Parcial2'])</code>":"El segundo argumento de <code>np.mean</code> es el eje, no una segunda serie.",
-  "<code>df['Promedio'] = df['Parcial1'].mean()</code>":"Calcula el promedio general del primer parcial y lo repite en todas las filas."
+  "<code>df['Promedio'] = df['Parcial1'] + df['Parcial2'] / 2</code>":"Sin paréntesis, la división se hace primero: calcula <code>Parcial1 + (Parcial2 / 2)</code>, que no es el promedio.",
+  "<code>df['Promedio'] = (df['Parcial1'] + df['Parcial2']) // 2</code>":"<code>//</code> es división <b>entera</b>: descarta los decimales, y 7,5 quedaría como 7.",
+  "<code>df['Promedio'] = df[['Parcial1', 'Parcial2']].mean()</code>":"Sin <code>axis=1</code> promedia cada <b>columna</b> (dos números) y al asignarlos alinea por índice: casi todas las filas quedan en NaN."
  }
 },
 {
@@ -1483,16 +1483,16 @@ const PARCIALES = [
  caso:"<b>Ejercicio 1.</b> Tarea 3: crear la columna <code>Estado</code> con “Aprueba” si <code>Promedio &gt;= 6</code> <b>y</b> <code>Asistencia &gt;= 75</code>; en otro caso, “Revisa”.",
  pide:"¿Cómo la generás?",
  ops:[
-  "<code>df['Estado'] = np.where((df['Promedio'] &gt;= 6) &amp; (df['Asistencia'] &gt;= 75), 'Aprueba', 'Revisa')</code>",
-  "<code>df['Estado'] = np.where(df['Promedio'] &gt;= 6 and df['Asistencia'] &gt;= 75, 'Aprueba', 'Revisa')</code>",
-  "<code>df['Estado'] = np.select((df['Promedio'] &gt;= 6), 'Aprueba')</code>",
-  "<code>if df['Promedio'] &gt;= 6: df['Estado'] = 'Aprueba'</code>"
+  "<code>df['Estado'] = np.where((df['Promedio'] >= 6) & (df['Asistencia'] >= 75), 'Aprueba', 'Revisa')</code>",
+  "<code>df['Estado'] = np.where((df['Promedio'] >= 6) | (df['Asistencia'] >= 75), 'Aprueba', 'Revisa')</code>",
+  "<code>df['Estado'] = np.where((df['Promedio'] >= 6) & (df['Asistencia'] >= 75), 'Revisa', 'Aprueba')</code>",
+  "<code>df['Estado'] = np.where(df['Promedio'] >= 6 & df['Asistencia'] >= 75, 'Aprueba', 'Revisa')</code>"
  ],
  aprendido:"Dos resultados posibles → <b><code>np.where(condición, si_true, si_false)</code></b>. Como hay <b>dos condiciones que deben cumplirse a la vez</b>, se combinan con <code>&amp;</code> y cada una va entre paréntesis. Si hubiera tres o más categorías, iría <code>np.select</code> con listas de condiciones y opciones.",
  porque:{
-  "<code>df['Estado'] = np.where(df['Promedio'] &gt;= 6 and df['Asistencia'] &gt;= 75, 'Aprueba', 'Revisa')</code>":"<code>and</code> no funciona sobre Series: lanza el error de valor de verdad ambiguo.",
-  "<code>df['Estado'] = np.select((df['Promedio'] &gt;= 6), 'Aprueba')</code>":"<code>np.select</code> necesita <b>listas</b> de condiciones y de opciones, y además falta la condición de asistencia y el valor por defecto.",
-  "<code>if df['Promedio'] &gt;= 6: df['Estado'] = 'Aprueba'</code>":"Un <code>if</code> de Python no puede evaluar una Series entera."
+  "<code>df['Estado'] = np.where((df['Promedio'] >= 6) | (df['Asistencia'] >= 75), 'Aprueba', 'Revisa')</code>":"<code>|</code> es “o”: aprobaría a quien cumple sólo una de las dos condiciones; la consigna pide las <b>dos a la vez</b>.",
+  "<code>df['Estado'] = np.where((df['Promedio'] >= 6) & (df['Asistencia'] >= 75), 'Revisa', 'Aprueba')</code>":"Los resultados están invertidos: marcaría “Revisa” justo a quien cumple ambas condiciones.",
+  "<code>df['Estado'] = np.where(df['Promedio'] >= 6 & df['Asistencia'] >= 75, 'Aprueba', 'Revisa')</code>":"Sin paréntesis, <code>&</code> se evalúa antes que <code>>=</code>: Python intenta <code>6 & df['Asistencia']</code> y falla o da un resultado incorrecto."
  }
 },
 {
@@ -1501,15 +1501,15 @@ const PARCIALES = [
  pide:"¿Cómo lo mostrás?",
  ops:[
   "<code>print(df[['Nombre', 'Promedio', 'Estado']])</code>",
-  "<code>print(df['Nombre', 'Promedio', 'Estado'])</code>",
-  "<code>print(df.Nombre, df.Promedio, df.Estado)</code>",
-  "<code>print(df.head(3))</code>"
+  "<code>print(df.loc[['Nombre', 'Promedio', 'Estado']])</code>",
+  "<code>print(df[['Nombre', 'Promedio', 'Estado']].head(1))</code>",
+  "<code>print(df.drop(['Legajo', 'Parcial1', 'Parcial2', 'Asistencia']))</code>"
  ],
  aprendido:"De nuevo la lista de columnas entre dobles corchetes: devuelve un DataFrame con esas tres columnas y se imprime como una tabla prolija. Es el cierre típico de todo ejercicio: quedarse con las columnas pertinentes antes de mostrar.",
  porque:{
-  "<code>print(df['Nombre', 'Promedio', 'Estado'])</code>":"Faltan los corchetes de la lista: <code>KeyError</code>.",
-  "<code>print(df.Nombre, df.Promedio, df.Estado)</code>":"Imprime tres Series sueltas, una debajo de otra, no una tabla.",
-  "<code>print(df.head(3))</code>":"Muestra las 3 primeras <b>filas</b> con todas las columnas."
+  "<code>print(df.loc[['Nombre', 'Promedio', 'Estado']])</code>":"<code>loc</code> con una lista busca <b>filas</b> con esas etiquetas: tira <code>KeyError</code>.",
+  "<code>print(df[['Nombre', 'Promedio', 'Estado']].head(1))</code>":"Muestra las tres columnas correctas, pero sólo la <b>primera fila</b> (<code>head(1)</code>).",
+  "<code>print(df.drop(['Legajo', 'Parcial1', 'Parcial2', 'Asistencia']))</code>":"<code>drop</code> sin <code>axis=1</code> busca <b>filas</b> con esos nombres y tira <code>KeyError</code>."
  }
 },
 
@@ -1521,15 +1521,15 @@ const PARCIALES = [
  pide:"¿Cómo lo cargás a un DataFrame?",
  ops:[
   "<code>df = pd.read_json('pedidos.json')</code>",
-  "<code>df = pd.read_csv('pedidos.json')</code>",
-  "<code>df = json.load('pedidos.json')</code>",
-  "<code>df = pd.json_normalize('pedidos.json')</code>"
+  "<code>df = pd.read_json('pedidos.json', lines=True)</code>",
+  "<code>df = pd.json_normalize('pedidos.json')</code>",
+  "<code>df = json.load('pedidos.json')</code>"
  ],
  aprendido:"<code>pd.read_json()</code> con una <b>lista de objetos planos</b> arma directamente el DataFrame: cada objeto es una fila y cada clave una columna. La alternativa manual es <code>json.load(f)</code> (que devuelve una lista de diccionarios) y después <code>pd.DataFrame(datos)</code>. <code>json_normalize</code> se reserva para JSON <b>anidado</b>.",
  porque:{
-  "<code>df = pd.read_csv('pedidos.json')</code>":"JSON no es texto separado por comas.",
-  "<code>df = json.load('pedidos.json')</code>":"<code>json.load</code> recibe un <b>objeto archivo</b> abierto, no una ruta en texto; y devuelve una lista, no un DataFrame.",
-  "<code>df = pd.json_normalize('pedidos.json')</code>":"Recibe los datos ya cargados en memoria, no un nombre de archivo; además acá no hay anidamiento."
+  "<code>df = pd.read_json('pedidos.json', lines=True)</code>":"<code>lines=True</code> espera un objeto JSON por línea (formato JSON Lines); este archivo es una lista y falla con <code>ValueError</code>.",
+  "<code>df = pd.json_normalize('pedidos.json')</code>":"Recibe los datos ya cargados en memoria, no un nombre de archivo; además acá no hay anidamiento.",
+  "<code>df = json.load('pedidos.json')</code>":"<code>json.load</code> espera un objeto archivo abierto, no una ruta en texto; y devolvería una lista, no un DataFrame."
  }
 },
 {
@@ -1538,15 +1538,15 @@ const PARCIALES = [
  pide:"¿Cómo los convertís?",
  ops:[
   "<code>df['importe'] = pd.to_numeric(df['importe'], errors='coerce')</code>",
-  "<code>df['importe'] = int(df['importe'])</code>",
-  "<code>df['importe'] = df['importe'].astype(int)</code>",
-  "<code>df['importe'] = float(df['importe'])</code>"
+  "<code>df['importe'] = df['importe'].astype(int, errors='raise')</code>",
+  "<code>df['importe'] = df['importe'].apply(lambda x: int(x))</code>",
+  "<code>df['importe'] = df['importe'].str.replace('.', '', regex=False)</code>"
  ],
  aprendido:"<code>pd.to_numeric()</code> con <b><code>errors='coerce'</code></b> convierte y deja en <code>NaN</code> lo que no se pueda parsear, en vez de cortar el programa. <code>df['importe'].astype(float)</code> también funcionaría con estos datos limpios, pero explota ante el primer valor raro: por eso <code>to_numeric</code> es la opción defensiva que enseña la cursada.",
  porque:{
-  "<code>df['importe'] = int(df['importe'])</code>":"<code>int()</code> no opera sobre una Series completa.",
-  "<code>df['importe'] = df['importe'].astype(int)</code>":"Además de fallar con el texto, <code>int</code> trunca los decimales: perderías los centavos.",
-  "<code>df['importe'] = float(df['importe'])</code>":"Igual que <code>int()</code>: no funciona sobre una Series."
+  "<code>df['importe'] = df['importe'].astype(int, errors='raise')</code>":"<code>'12500.50'</code> no se puede pasar a entero directamente, y aunque se pudiera perderías los centavos.",
+  "<code>df['importe'] = df['importe'].apply(lambda x: int(x))</code>":"<code>int('12500.50')</code> tira <code>ValueError</code>: <code>int</code> no acepta un texto con decimales.",
+  "<code>df['importe'] = df['importe'].str.replace('.', '', regex=False)</code>":"Borra el punto decimal (12500.50 pasa a 1250050) y el resultado sigue siendo <b>texto</b>."
  }
 },
 {
@@ -1555,15 +1555,15 @@ const PARCIALES = [
  pide:"¿Cómo los filtrás?",
  ops:[
   "<code>entregados = df[df['estado'] == 'entregado']</code>",
-  "<code>entregados = df['estado'] == 'entregado'</code>",
-  "<code>entregados = df.loc['entregado']</code>",
-  "<code>entregados = df[df['estado'] = 'entregado']</code>"
+  "<code>entregados = df[df['estado'] is 'entregado']</code>",
+  "<code>entregados = df[df['estado'].isin('entregado')]</code>",
+  "<code>entregados = df[df['estado'] != 'entregado']</code>"
  ],
  aprendido:"El filtrado tiene dos pasos que conviene ver por separado: <code>df['estado'] == 'entregado'</code> genera la <b>máscara booleana</b>, y recién al ponerla entre corchetes (<code>df[máscara]</code>) obtenés las filas. Es el mismo mecanismo que las máscaras de NumPy.",
  porque:{
-  "<code>entregados = df['estado'] == 'entregado'</code>":"Te queda solo la máscara de True/False, no las filas.",
-  "<code>entregados = df.loc['entregado']</code>":"<code>loc</code> busca una <b>etiqueta de índice</b>, no un valor dentro de una columna.",
-  "<code>entregados = df[df['estado'] = 'entregado']</code>":"Un solo <code>=</code> es asignación: error de sintaxis. La comparación es <code>==</code>."
+  "<code>entregados = df[df['estado'] is 'entregado']</code>":"<code>is</code> compara identidad de objetos y devuelve un único <code>False</code>, no una máscara: <code>df[False]</code> tira <code>KeyError</code>.",
+  "<code>entregados = df[df['estado'].isin('entregado')]</code>":"<code>isin</code> exige una <b>lista</b> de valores; con un texto suelto tira <code>TypeError</code>.",
+  "<code>entregados = df[df['estado'] != 'entregado']</code>":"Es la condición opuesta: trae los pedidos que <b>no</b> se entregaron."
  }
 },
 {
@@ -1572,15 +1572,15 @@ const PARCIALES = [
  pide:"¿Cómo lo calculás?",
  ops:[
   "<code>total = entregados['importe'].sum()</code>",
-  "<code>total = entregados.sum()</code>",
   "<code>total = entregados['importe'].count()</code>",
-  "<code>total = len(entregados)</code>"
+  "<code>total = entregados['importe'].cumsum()</code>",
+  "<code>total = entregados['importe'].mean() * len(df)</code>"
  ],
  aprendido:"<code>.sum()</code> aplicado a <b>una columna</b> devuelve el total de esa columna. Si lo aplicás al DataFrame entero, Pandas suma todas las columnas numéricas (incluido el número de pedido, que no tiene sentido sumar) y hasta concatena los textos.",
  porque:{
-  "<code>total = entregados.sum()</code>":"Suma todas las columnas: te devuelve una Series, no el total de importes.",
-  "<code>total = entregados['importe'].count()</code>":"<code>count()</code> cuenta valores no nulos, no los suma.",
-  "<code>total = len(entregados)</code>":"Cuenta cuántos pedidos hay entregados."
+  "<code>total = entregados['importe'].count()</code>":"<code>count()</code> cuenta cuántos valores no nulos hay; no los suma.",
+  "<code>total = entregados['importe'].cumsum()</code>":"Devuelve el <b>acumulado</b> fila por fila (una Series), no un total.",
+  "<code>total = entregados['importe'].mean() * len(df)</code>":"Multiplica por la cantidad de filas de <b>todos</b> los pedidos (<code>df</code>), no sólo de los entregados: el total sale inflado."
  }
 },
 {
@@ -1589,15 +1589,15 @@ const PARCIALES = [
  pide:"¿Cómo lo exportás?",
  ops:[
   "<code>entregados.to_csv('entregados.csv', index=False)</code>",
-  "<code>entregados.to_excel('entregados.csv', index=False)</code>",
-  "<code>entregados.to_json('entregados.csv')</code>",
-  "<code>entregados.to_csv('entregados.csv', index=True)</code>"
+  "<code>entregados.to_excel('entregados.xlsx', index=False)</code>",
+  "<code>entregados.to_csv('entregados.csv', index=False, header=False)</code>",
+  "<code>entregados.to_csv('entregados.csv', columns=['importe'], index=False)</code>"
  ],
  aprendido:"Ojo con el enunciado: dice “exportar a Excel como <code>entregados.csv</code>”, pero el <b>nombre del archivo manda</b>. La extensión <code>.csv</code> pide <code>to_csv()</code>; si de verdad quisieran un libro de Excel, el archivo tendría que llamarse <code>entregados.xlsx</code> y ahí sí iría <code>to_excel(..., index=False, engine='openpyxl')</code>. En ambos casos, <code>index=False</code>.",
  porque:{
-  "<code>entregados.to_excel('entregados.csv', index=False)</code>":"Escribe un binario de Excel con extensión <code>.csv</code>: ningún programa lo abre bien.",
-  "<code>entregados.to_json('entregados.csv')</code>":"Formato equivocado para la extensión pedida.",
-  "<code>entregados.to_csv('entregados.csv', index=True)</code>":"Agrega la columna de índice, que nadie pidió."
+  "<code>entregados.to_excel('entregados.xlsx', index=False)</code>":"Cambia tanto el formato como el nombre del archivo: la consigna pide <code>entregados.csv</code>, y el nombre manda.",
+  "<code>entregados.to_csv('entregados.csv', index=False, header=False)</code>":"Deja afuera los <b>nombres de las columnas</b>: el archivo quedaría sin encabezado.",
+  "<code>entregados.to_csv('entregados.csv', columns=['importe'], index=False)</code>":"Exporta <b>sólo la columna</b> <code>importe</code>: se pierden el pedido, el cliente y el estado."
  }
 },
 
@@ -1610,14 +1610,14 @@ const PARCIALES = [
  ops:[
   "<code>plt.bar(categorias, ventas)</code>",
   "<code>plt.barh(categorias, ventas)</code>",
-  "<code>plt.hist(ventas)</code>",
-  "<code>plt.plot(categorias, ventas)</code>"
+  "<code>plt.bar(ventas, categorias)</code>",
+  "<code>plt.stem(categorias, ventas)</code>"
  ],
  aprendido:"<b><code>bar</code> = barras verticales</b> (la categoría va en x y el valor en y); <b><code>barh</code> = horizontales</b>, útiles cuando las etiquetas son largas. Las barras comparan magnitudes entre categorías y el eje cuantitativo debe arrancar en cero.",
  porque:{
   "<code>plt.barh(categorias, ventas)</code>":"Dibuja barras <b>horizontales</b>: la consigna pide verticales.",
-  "<code>plt.hist(ventas)</code>":"El histograma agrupa una variable continua en intervalos; acá las categorías ya están dadas.",
-  "<code>plt.plot(categorias, ventas)</code>":"Une con una línea categorías sin orden natural, sugiriendo valores intermedios inexistentes."
+  "<code>plt.bar(ventas, categorias)</code>":"Los argumentos están al revés: intenta usar los nombres de categoría como alturas y falla.",
+  "<code>plt.stem(categorias, ventas)</code>":"Dibuja palitos con un círculo en la punta (gráfico de tallos), no barras."
  }
 },
 {
@@ -1626,15 +1626,15 @@ const PARCIALES = [
  pide:"¿Cuál es la forma directa en Matplotlib?",
  ops:[
   "<code>barras = plt.bar(categorias, ventas)</code> y después <code>plt.bar_label(barras)</code>",
-  "<code>plt.legend(ventas)</code>",
-  "<code>plt.annotate(ventas)</code>",
-  "<code>plt.bar(categorias, ventas, label=ventas)</code>"
+  "<code>barras = plt.bar(categorias, ventas)</code> y después <code>plt.bar_label(ventas)</code>",
+  "<code>barras = plt.bar(categorias, ventas)</code> y después <code>plt.text(barras)</code>",
+  "<code>barras = plt.bar(categorias, ventas, label=True)</code> y después <code>plt.legend()</code>"
  ],
  aprendido:"<code>plt.bar()</code> <b>devuelve</b> el contenedor de las barras; pasándoselo a <b><code>plt.bar_label(barras)</code></b> Matplotlib escribe el valor de cada una automáticamente. Se puede formatear con <code>fmt='%.0f'</code> y separar del borde con <code>padding=3</code>. Es lo que la cursada llama “valores visibles”.",
  porque:{
-  "<code>plt.legend(ventas)</code>":"La leyenda va en un recuadro aparte e identifica series enteras.",
-  "<code>plt.annotate(ventas)</code>":"<code>annotate</code> escribe <b>un</b> texto en <b>una</b> coordenada; para hacerlo así habría que recorrer las barras a mano.",
-  "<code>plt.bar(categorias, ventas, label=ventas)</code>":"<code>label</code> nombra la serie para la leyenda; no dibuja nada sobre las barras."
+  "<code>barras = plt.bar(categorias, ventas)</code> y después <code>plt.bar_label(ventas)</code>":"<code>bar_label</code> necesita el <b>contenedor de barras</b> que devuelve <code>plt.bar</code>, no la lista de valores.",
+  "<code>barras = plt.bar(categorias, ventas)</code> y después <code>plt.text(barras)</code>":"<code>text</code> escribe un texto en una coordenada (<code>x, y, texto</code>): no acepta un contenedor de barras.",
+  "<code>barras = plt.bar(categorias, ventas, label=True)</code> y después <code>plt.legend()</code>":"<code>label</code> y la leyenda identifican la serie en un recuadro aparte; no escriben el valor encima de cada barra."
  }
 },
 {
@@ -1643,15 +1643,15 @@ const PARCIALES = [
  pide:"¿Cómo lo resolvés?",
  ops:[
   "Armar una lista de colores condicional y pasarla a <code>color=</code>: <code>colores = ['crimson' if v == max(ventas) else 'steelblue' for v in ventas]</code>",
-  "<code>plt.bar(categorias, ventas, color='crimson')</code>",
-  "<code>plt.bar(max(ventas), color='crimson')</code>",
-  "<code>plt.highlight(ventas.index(max(ventas)))</code>"
+  "Pasar dos colores a <code>color=</code> y confiar en que Matplotlib elija: <code>plt.bar(categorias, ventas, color=['crimson', 'steelblue'])</code>",
+  "Marcar el máximo con un parámetro propio: <code>plt.bar(categorias, ventas, color='steelblue', highlight=max(ventas))</code>",
+  "Usar un mapa de colores por valor: <code>plt.bar(categorias, ventas, cmap='Reds')</code>"
  ],
  aprendido:"<b><code>color=</code> acepta una lista con un color por barra</b>. La lista se arma comparando cada valor con el máximo: en Matplotlib puro con una comprensión de lista, y si venís de un DataFrame, con <code>np.where(ventas == ventas.max(), 'crimson', 'steelblue')</code>. Es el mismo criterio de la cursada: reservar el color de acento para el hallazgo.",
  porque:{
-  "<code>plt.bar(categorias, ventas, color='crimson')</code>":"Pinta <b>todas</b> las barras del mismo color: no destaca ninguna.",
-  "<code>plt.bar(max(ventas), color='crimson')</code>":"Dibujaría una sola barra en la posición x=140, encimada al resto del gráfico.",
-  "<code>plt.highlight(ventas.index(max(ventas)))</code>":"<code>plt.highlight()</code> no existe en Matplotlib."
+  "Pasar dos colores a <code>color=</code> y confiar en que Matplotlib elija: <code>plt.bar(categorias, ventas, color=['crimson', 'steelblue'])</code>":"Los reparte <b>por posición</b> (alternando), sin mirar los valores: no destaca la barra de mayor venta.",
+  "Marcar el máximo con un parámetro propio: <code>plt.bar(categorias, ventas, color='steelblue', highlight=max(ventas))</code>":"<code>highlight</code> no existe en <code>plt.bar</code>: tira un error de argumento desconocido.",
+  "Usar un mapa de colores por valor: <code>plt.bar(categorias, ventas, cmap='Reds')</code>":"<code>plt.bar</code> no tiene <code>cmap</code> (eso es de <code>scatter</code> o <code>imshow</code>), y un degradado no destacaría sólo a la de mayor venta."
  }
 },
 {
@@ -1659,16 +1659,16 @@ const PARCIALES = [
  caso:"<b>Ejercicio 3.</b> Tarea 11: “agregar título y etiquetas sugeridos por usted”. Te toca redactarlos.",
  pide:"¿Qué título elegirías, según el criterio de la cursada?",
  ops:[
-  "<code>plt.title('Tecnología lidera las ventas del período')</code> — el título enuncia la conclusión",
-  "<code>plt.title('Ventas')</code>",
-  "<code>plt.title('Gráfico de barras')</code>",
-  "Dejar la figura sin título y explicarlo de palabra"
+  "<code>plt.title('Tecnología lidera las ventas del período')</code>, que enuncia la conclusión",
+  "<code>plt.title('Ventas por categoría en el período analizado')</code>, que describe el contenido",
+  "<code>plt.title('Gráfico de barras de ventas de cada categoría')</code>, que nombra el tipo",
+  "<code>plt.title('Tecnología, Libros, Hogar, Deportes y Moda')</code>, que lista las categorías"
  ],
  aprendido:"Criterio explícito de la clase de Matplotlib: <b>“Ventas” informa poco; el título puede enunciar la conclusión, no solo el tema</b>. Y las etiquetas de eje deben nombrar la variable <b>con su unidad</b>: <code>plt.xlabel('Categoría')</code>, <code>plt.ylabel('Ventas (unidades)')</code>. Criterio de éxito: que otra persona entienda el mensaje sin leer el código.",
  porque:{
-  "<code>plt.title('Ventas')</code>":"Es el ejemplo literal de “título genérico” que la clase marca como error frecuente.",
-  "<code>plt.title('Gráfico de barras')</code>":"Describe la técnica, no el hallazgo: eso ya se ve mirando la figura.",
-  "Dejar la figura sin título y explicarlo de palabra":"El gráfico tiene que sostenerse solo; además la consigna pide el título."
+  "<code>plt.title('Ventas por categoría en el período analizado')</code>, que describe el contenido":"Nombra el tema, pero no comunica ningún hallazgo: es el tipo de título genérico que la clase marca como error.",
+  "<code>plt.title('Gráfico de barras de ventas de cada categoría')</code>, que nombra el tipo":"Describe la técnica, no el hallazgo: que son barras ya se ve mirando la figura.",
+  "<code>plt.title('Tecnología, Libros, Hogar, Deportes y Moda')</code>, que lista las categorías":"Repite las etiquetas del eje horizontal: no agrega información ni dice qué mostrar."
  }
 }
 
@@ -1684,15 +1684,15 @@ const PARCIALES = [
  pide:"¿Cómo la convertís?",
  ops:[
   "<code>df['Fecha'] = pd.to_datetime(df['Fecha'])</code>",
-  "<code>df['Fecha'] = df['Fecha'].astype('datetime')</code>",
-  "<code>df['Fecha'] = datetime(df['Fecha'])</code>",
-  "<code>df['Fecha'] = pd.to_numeric(df['Fecha'])</code>"
+  "<code>df['Fecha'] = pd.to_datetime(df['Fecha'], format='%d/%m/%Y')</code>",
+  "<code>df['Fecha'] = pd.to_datetime(df['Fecha']).dt.month</code>",
+  "<code>df['Fecha'] = pd.to_datetime(df['Fecha'], unit='s')</code>"
  ],
  aprendido:"<code>pd.to_datetime()</code> pasa texto a fecha real, y recién ahí podés extraer año, mes o día (<code>df['Fecha'].dt.month</code>), ordenar cronológicamente o calcular duraciones. Parámetros útiles: <code>errors='coerce'</code> para que lo inválido quede <code>NaT</code>, y <code>dayfirst=True</code> cuando el formato es dd/mm/aaaa.",
  porque:{
-  "<code>df['Fecha'] = df['Fecha'].astype('datetime')</code>":"No es un tipo válido; sería <code>'datetime64[ns]'</code>, y aun así <code>to_datetime</code> es lo idiomático porque parsea formatos.",
-  "<code>df['Fecha'] = datetime(df['Fecha'])</code>":"<code>datetime()</code> del módulo estándar construye una fecha desde año, mes y día, no desde una Series.",
-  "<code>df['Fecha'] = pd.to_numeric(df['Fecha'])</code>":"Convertiría a número: con <code>errors='coerce'</code> te dejaría toda la columna en <code>NaN</code>."
+  "<code>df['Fecha'] = pd.to_datetime(df['Fecha'], format='%d/%m/%Y')</code>":"El formato declarado (día/mes/año) no coincide con '2026-03-01': tira <code>ValueError</code>.",
+  "<code>df['Fecha'] = pd.to_datetime(df['Fecha']).dt.month</code>":"Convierte bien pero se queda <b>sólo con el mes</b>: la columna pierde el año y el día.",
+  "<code>df['Fecha'] = pd.to_datetime(df['Fecha'], unit='s')</code>":"<code>unit</code> es para números que representan segundos desde 1970; con texto de fechas tira error."
  }
 },
 {
@@ -1701,15 +1701,15 @@ const PARCIALES = [
  pide:"¿Cómo la creás?",
  ops:[
   "<code>df['Importe'] = df['Unidades'] * df['Precio']</code>",
-  "<code>df['Importe'] = df['Unidades'].sum() * df['Precio'].sum()</code>",
-  "<code>df['Importe'] = df.apply(lambda f: f['Unidades'] * f['Precio'])</code>",
-  "<code>df['Importe'] = np.dot(df['Unidades'], df['Precio'])</code>"
+  "<code>df['Importe'] = df['Unidades'].sum() * df['Precio']</code>",
+  "<code>df['Importe'] = df['Unidades'] @ df['Precio']</code>",
+  "<code>df['Importe'] = df[['Unidades', 'Precio']].prod()</code>"
  ],
  aprendido:"Multiplicar dos columnas es una operación vectorizada: Pandas alinea por índice y calcula fila por fila sin ciclos. Es el paso que se repite en casi todos los prácticos (<code>cantidad * precio</code>, <code>margen * cantidad</code>) y siempre se resuelve igual.",
  porque:{
-  "<code>df['Importe'] = df['Unidades'].sum() * df['Precio'].sum()</code>":"Multiplica dos totales y repite ese número en todas las filas.",
-  "<code>df['Importe'] = df.apply(lambda f: f['Unidades'] * f['Precio'])</code>":"Sin <code>axis=1</code> no recorre filas, y aun corregido sería mucho más lento que la multiplicación directa.",
-  "<code>df['Importe'] = np.dot(df['Unidades'], df['Precio'])</code>":"El producto punto devuelve un único escalar."
+  "<code>df['Importe'] = df['Unidades'].sum() * df['Precio']</code>":"Multiplica el <b>total de unidades</b> de todas las ventas por el precio de cada fila: el resultado sale inflado.",
+  "<code>df['Importe'] = df['Unidades'] @ df['Precio']</code>":"<code>@</code> es el producto punto: devuelve <b>un solo número</b> que se repite en todas las filas.",
+  "<code>df['Importe'] = df[['Unidades', 'Precio']].prod()</code>":"Sin <code>axis=1</code>, <code>prod()</code> multiplica dentro de cada <b>columna</b> (dos números) y la asignación queda casi toda en NaN."
  }
 },
 {
@@ -1718,15 +1718,15 @@ const PARCIALES = [
  pide:"¿Cómo lo escribís?",
  ops:[
   "<code>df.groupby('Vendedor', as_index=False)['Importe'].sum()</code>",
-  "<code>df.groupby('Vendedor').sum()</code>",
-  "<code>df['Importe'].sum()</code>",
-  "<code>df.sort_values('Vendedor')['Importe'].sum()</code>"
+  "<code>df.groupby('Importe', as_index=False)['Vendedor'].sum()</code>",
+  "<code>df.groupby('Vendedor', as_index=False)['Importe'].mean()</code>",
+  "<code>df.groupby(['Vendedor', 'Región'], as_index=False)['Importe'].sum()</code>"
  ],
  aprendido:"El patrón completo de <code>groupby</code>: <b>agrupar por → elegir la columna → aplicar la métrica</b>. <code>as_index=False</code> deja <code>Vendedor</code> como columna normal en vez de convertirla en índice, cosa que facilita graficar o exportar después.",
  porque:{
-  "<code>df.groupby('Vendedor').sum()</code>":"Suma <b>todas</b> las columnas numéricas: te mezcla Unidades y Precio con Importe.",
-  "<code>df['Importe'].sum()</code>":"Da el total general de la empresa, no el de cada vendedor.",
-  "<code>df.sort_values('Vendedor')['Importe'].sum()</code>":"Ordenar no agrupa: sigue sumando todo junto."
+  "<code>df.groupby('Importe', as_index=False)['Vendedor'].sum()</code>":"Los roles están cruzados: agrupa por importe y trata de sumar nombres de vendedores.",
+  "<code>df.groupby('Vendedor', as_index=False)['Importe'].mean()</code>":"<code>mean()</code> da el importe <b>promedio</b> por venta, no el total del vendedor.",
+  "<code>df.groupby(['Vendedor', 'Región'], as_index=False)['Importe'].sum()</code>":"Agrupar también por región da una fila por cada combinación vendedor-región, no el total de cada vendedor."
  }
 },
 {
@@ -1735,15 +1735,15 @@ const PARCIALES = [
  pide:"¿Cómo encadenás las operaciones?",
  ops:[
   "<code>df.groupby('Producto')['Unidades'].sum().sort_values(ascending=False)</code>",
-  "<code>df.groupby('Producto')['Unidades'].sum().sort_index()</code>",
-  "<code>df.sort_values('Unidades', ascending=False).groupby('Producto').sum()</code>",
-  "<code>df.groupby('Producto')['Unidades'].sum().sort_values()</code>"
+  "<code>df.groupby('Producto')['Unidades'].sum().sort_index(ascending=False)</code>",
+  "<code>df.groupby('Producto')['Unidades'].sort_values(ascending=False).sum()</code>",
+  "<code>df.groupby('Producto')['Unidades'].mean().sort_values(ascending=False)</code>"
  ],
  aprendido:"Los métodos de Pandas se <b>encadenan</b>: cada uno devuelve un objeto nuevo sobre el que seguís operando. <code>sort_values()</code> ordena por <b>valor</b> y por defecto es ascendente, así que “de mayor a menor” exige <b><code>ascending=False</code></b>. <code>sort_index()</code>, en cambio, ordena por la etiqueta (acá, alfabéticamente por producto).",
  porque:{
-  "<code>df.groupby('Producto')['Unidades'].sum().sort_index()</code>":"Ordena alfabéticamente por nombre de producto, no por cantidad.",
-  "<code>df.sort_values('Unidades', ascending=False).groupby('Producto').sum()</code>":"Ordenar antes de agrupar no sirve: <code>groupby</code> reordena el resultado por la clave.",
-  "<code>df.groupby('Producto')['Unidades'].sum().sort_values()</code>":"Sin <code>ascending=False</code> ordena de menor a mayor."
+  "<code>df.groupby('Producto')['Unidades'].sum().sort_index(ascending=False)</code>":"<code>sort_index</code> ordena por el <b>nombre del producto</b> (de la Z a la A), no por cantidad de unidades.",
+  "<code>df.groupby('Producto')['Unidades'].sort_values(ascending=False).sum()</code>":"El objeto agrupado no tiene <code>sort_values</code>: primero hay que sumar y recién después ordenar. Tira <code>AttributeError</code>.",
+  "<code>df.groupby('Producto')['Unidades'].mean().sort_values(ascending=False)</code>":"Ordena bien pero con el <b>promedio</b> por venta: el pedido era el total de unidades."
  }
 },
 {
@@ -1752,15 +1752,15 @@ const PARCIALES = [
  pide:"¿Cómo la obtenés?",
  ops:[
   "<code>df.loc[df['Importe'].idxmax()]</code>",
-  "<code>df['Importe'].max()</code>",
-  "<code>df.groupby('Vendedor')['Importe'].max()</code>",
-  "<code>df.sort_values('Importe').head(1)</code>"
+  "<code>df['Importe'].idxmax()</code>",
+  "<code>df.loc[df['Importe'].max()]</code>",
+  "<code>df.loc[df['Importe'].idxmin()]</code>"
  ],
  aprendido:"<b><code>idxmax()</code> devuelve la etiqueta de índice de la fila con el valor máximo</b>, y <code>.loc[]</code> trae esa fila entera. Es el patrón para “identificar el registro de mayor X”, que se repite en los prácticos como “el pedido de mayor importe” o “el estudiante con mejor nota”.",
  porque:{
-  "<code>df['Importe'].max()</code>":"Devuelve el número más alto, pero no te dice de qué venta se trata.",
-  "<code>df.groupby('Vendedor')['Importe'].max()</code>":"Da el máximo de cada vendedor: es otra pregunta.",
-  "<code>df.sort_values('Importe').head(1)</code>":"Sin <code>ascending=False</code> te devuelve la venta <b>más chica</b>."
+  "<code>df['Importe'].idxmax()</code>":"Devuelve sólo la <b>etiqueta</b> de esa fila (un número), no los datos de la venta.",
+  "<code>df.loc[df['Importe'].max()]</code>":"Usa el <b>valor</b> del importe como si fuera una etiqueta de fila: tira <code>KeyError</code>.",
+  "<code>df.loc[df['Importe'].idxmin()]</code>":"<code>idxmin</code> apunta a la venta de <b>menor</b> importe, no a la mayor."
  }
 },
 
@@ -1772,15 +1772,15 @@ const PARCIALES = [
  pide:"¿Cómo lo hacés?",
  ops:[
   "<code>enero = pd.read_csv('ventas_enero.csv'); enero['mes'] = 'Enero'</code> (ídem febrero)",
-  "<code>enero = pd.read_csv('ventas_enero.csv', mes='Enero')</code>",
-  "<code>enero['mes'].append('Enero')</code>",
-  "<code>enero = pd.read_csv('ventas_enero.csv').insert('mes')</code>"
+  "<code>enero = pd.read_csv('ventas_enero.csv'); enero['mes'] = ['Enero']</code> (ídem febrero)",
+  "<code>enero = pd.read_csv('ventas_enero.csv'); enero.mes = 'Enero'</code> (ídem febrero)",
+  "<code>enero = pd.read_csv('ventas_enero.csv'); enero['mes'] == 'Enero'</code> (ídem febrero)"
  ],
  aprendido:"Asignar un <b>valor escalar</b> a una columna nueva lo replica en todas las filas: <code>df['mes'] = 'Enero'</code>. Es exactamente el mismo paso que en los prácticos de la cursada aparece como <code>ventas_centro['sede'] = 'Centro'</code>. Sirve para no perder el origen cuando después se concatenan las tablas.",
  porque:{
-  "<code>enero = pd.read_csv('ventas_enero.csv', mes='Enero')</code>":"<code>read_csv</code> no tiene un parámetro <code>mes</code>.",
-  "<code>enero['mes'].append('Enero')</code>":"La columna todavía no existe: <code>KeyError</code>. Y <code>append</code> sobre Series está eliminado en Pandas 2.",
-  "<code>enero = pd.read_csv('ventas_enero.csv').insert('mes')</code>":"<code>insert()</code> necesita posición, nombre y valor, y además devuelve <code>None</code>."
+  "<code>enero = pd.read_csv('ventas_enero.csv'); enero['mes'] = ['Enero']</code> (ídem febrero)":"Una lista de un solo elemento no coincide con la cantidad de filas: tira <code>ValueError</code>. Para repetir un valor se asigna el texto solo.",
+  "<code>enero = pd.read_csv('ventas_enero.csv'); enero.mes = 'Enero'</code> (ídem febrero)":"La asignación por atributo <b>no crea una columna nueva</b>: sólo agrega un atributo al objeto (Pandas avisa con una advertencia).",
+  "<code>enero = pd.read_csv('ventas_enero.csv'); enero['mes'] == 'Enero'</code> (ídem febrero)":"El doble <code>==</code> <b>compara</b>, no asigna, y como la columna no existe tira <code>KeyError</code>."
  }
 },
 {
@@ -1789,15 +1789,15 @@ const PARCIALES = [
  pide:"¿<code>concat</code> o <code>merge</code>?",
  ops:[
   "<code>ventas = pd.concat([enero, febrero], ignore_index=True)</code>",
-  "<code>ventas = enero.merge(febrero, on='producto', how='outer')</code>",
-  "<code>ventas = pd.concat([enero, febrero], axis=1)</code>",
-  "<code>ventas = enero.join(febrero)</code>"
+  "<code>ventas = pd.concat([enero, febrero], ignore_index=False)</code>",
+  "<code>ventas = pd.concat([enero, febrero], axis=1, ignore_index=True)</code>",
+  "<code>ventas = pd.merge(enero, febrero, ignore_index=True)</code>"
  ],
  aprendido:"Regla de la clase: <b>misma estructura → <code>concat</code>; entidades relacionadas → <code>merge</code></b>. Enero y febrero tienen exactamente las mismas columnas, así que se apilan. <code>axis=0</code> (el valor por defecto) agrega filas, e <b><code>ignore_index=True</code></b> reconstruye el índice 0,1,2… en lugar de repetir 0,1,2 / 0,1,2.",
  porque:{
-  "<code>ventas = enero.merge(febrero, on='producto', how='outer')</code>":"<code>merge</code> cruza por clave: acá multiplicaría filas y armaría combinaciones que no existen.",
-  "<code>ventas = pd.concat([enero, febrero], axis=1)</code>":"<code>axis=1</code> pega las tablas <b>al costado</b>, duplicando los nombres de columna.",
-  "<code>ventas = enero.join(febrero)</code>":"<code>join</code> une por índice y agrega columnas, no filas."
+  "<code>ventas = pd.concat([enero, febrero], ignore_index=False)</code>":"Es el valor por defecto: conserva los índices originales y quedan repetidos (0, 1, 2… dos veces) en lugar de un índice continuo.",
+  "<code>ventas = pd.concat([enero, febrero], axis=1, ignore_index=True)</code>":"<code>axis=1</code> pega las tablas al costado y duplica las columnas; además renumera las <b>columnas</b>, no las filas.",
+  "<code>ventas = pd.merge(enero, febrero, ignore_index=True)</code>":"<code>merge</code> no tiene <code>ignore_index</code> (tira <code>TypeError</code>) y además cruzaría por columnas en común en vez de apilar filas."
  }
 },
 {
@@ -1806,15 +1806,15 @@ const PARCIALES = [
  pide:"¿Cómo agrupás por dos columnas?",
  ops:[
   "<code>ventas.groupby(['sucursal', 'producto'], as_index=False)['unidades'].sum()</code>",
-  "<code>ventas.groupby('sucursal', 'producto')['unidades'].sum()</code>",
-  "<code>ventas.groupby('sucursal')['unidades'].sum().groupby('producto').sum()</code>",
-  "<code>ventas.groupby('sucursal + producto')['unidades'].sum()</code>"
+  "<code>ventas.groupby('sucursal', 'producto', as_index=False)['unidades'].sum()</code>",
+  "<code>ventas.groupby(['sucursal', 'producto'], as_index=False)['unidades'].count()</code>",
+  "<code>ventas.groupby('sucursal', as_index=False)['unidades'].sum()</code>"
  ],
  aprendido:"Para agrupar por más de una columna se pasa una <b>lista</b>: <code>groupby(['sucursal','producto'])</code>. El resultado tiene una fila por combinación existente. Si además quisieras la grilla sucursales × productos para comparar de un vistazo, ahí va <code>pd.pivot_table(ventas, values='unidades', index='sucursal', columns='producto', aggfunc='sum')</code>.",
  porque:{
-  "<code>ventas.groupby('sucursal', 'producto')['unidades'].sum()</code>":"El segundo argumento posicional de <code>groupby</code> es <code>axis</code>, no otra clave: hay que pasar la lista.",
-  "<code>ventas.groupby('sucursal')['unidades'].sum().groupby('producto').sum()</code>":"Tras el primer <code>groupby</code> ya perdiste la columna <code>producto</code>.",
-  "<code>ventas.groupby('sucursal + producto')['unidades'].sum()</code>":"Busca una columna literalmente llamada así: <code>KeyError</code>."
+  "<code>ventas.groupby('sucursal', 'producto', as_index=False)['unidades'].sum()</code>":"El segundo argumento posicional de <code>groupby</code> es <code>axis</code>, no otra clave: hay que pasar una <b>lista</b> de columnas.",
+  "<code>ventas.groupby(['sucursal', 'producto'], as_index=False)['unidades'].count()</code>":"<code>count()</code> cuenta cuántos registros hay por combinación; no suma las unidades.",
+  "<code>ventas.groupby('sucursal', as_index=False)['unidades'].sum()</code>":"Agrupa sólo por sucursal: se pierde el detalle por producto que pide la consigna."
  }
 },
 {
@@ -1823,15 +1823,15 @@ const PARCIALES = [
  pide:"¿Qué dos llamadas usás?",
  ops:[
   "<code>ventas.to_csv('consolidado_ventas.csv', index=False)</code> y <code>ventas.to_json('ventas.json', orient='records', indent=2)</code>",
-  "<code>ventas.to_csv(...)</code> y <code>json.dump(ventas, open('ventas.json','w'))</code>",
-  "<code>ventas.to_csv(...)</code> y <code>ventas.to_sql('ventas.json')</code>",
-  "<code>ventas.write_csv(...)</code> y <code>ventas.write_json(...)</code>"
+  "<code>ventas.to_csv('consolidado_ventas.csv')</code> y <code>ventas.to_json('ventas.json', orient='records', indent=2)</code>",
+  "<code>ventas.to_csv('consolidado_ventas.json', index=False)</code> y <code>ventas.to_json('ventas.csv', orient='records', indent=2)</code>",
+  "<code>ventas.to_csv('consolidado_ventas.csv', index=False)</code> y <code>ventas.to_json('ventas.json', index=False, indent=2)</code>"
  ],
  aprendido:"El mismo DataFrame se publica a varios destinos: <code>to_csv</code>, <code>to_excel</code>, <code>to_sql</code> y <code>to_json</code>, siempre con parámetros explícitos. En JSON, <b><code>orient='records'</code></b> genera un objeto por fila (el formato que espera cualquier API) e <code>indent=2</code> lo deja legible.",
  porque:{
-  "<code>ventas.to_csv(...)</code> y <code>json.dump(ventas, open('ventas.json','w'))</code>":"<code>json.dump</code> no sabe serializar un DataFrame: lanza <code>TypeError</code>.",
-  "<code>ventas.to_csv(...)</code> y <code>ventas.to_sql('ventas.json')</code>":"<code>to_sql</code> escribe en una base de datos y necesita una conexión.",
-  "<code>ventas.write_csv(...)</code> y <code>ventas.write_json(...)</code>":"Esos métodos no existen en Pandas (son de Polars)."
+  "<code>ventas.to_csv('consolidado_ventas.csv')</code> y <code>ventas.to_json('ventas.json', orient='records', indent=2)</code>":"El CSV se escribe <b>con la columna de índice</b> (0, 1, 2…): falta <code>index=False</code>.",
+  "<code>ventas.to_csv('consolidado_ventas.json', index=False)</code> y <code>ventas.to_json('ventas.csv', orient='records', indent=2)</code>":"Los nombres de archivo están cruzados: quedaría un CSV llamado <code>.json</code> y un JSON llamado <code>.csv</code>.",
+  "<code>ventas.to_csv('consolidado_ventas.csv', index=False)</code> y <code>ventas.to_json('ventas.json', index=False, indent=2)</code>":"<code>index=False</code> en <code>to_json</code> sólo se permite con ciertas orientaciones (<code>'split'</code>, <code>'table'</code>): con la de por defecto tira <code>ValueError</code>."
  }
 },
 
@@ -1843,15 +1843,15 @@ const PARCIALES = [
  pide:"¿Cuál es el bloque completo y correcto?",
  ops:[
   "<code>plt.plot(meses, ventas, marker='o', color='blue')</code> + <code>plt.title/xlabel/ylabel</code> + <code>plt.grid(True, alpha=.3)</code> + <code>plt.tight_layout()</code> + <code>plt.show()</code>",
-  "<code>plt.plot(meses, ventas)</code> + <code>plt.show()</code>",
-  "<code>plt.bar(meses, ventas, color='blue')</code> + <code>plt.grid(True)</code> + <code>plt.show()</code>",
-  "<code>plt.scatter(meses, ventas, color='blue')</code> + <code>plt.legend()</code> + <code>plt.show()</code>"
+  "<code>plt.plot(meses, ventas, marker='o', color='blue')</code> + <code>plt.title/xlabel/ylabel</code> + <code>plt.grid(True, alpha=.3)</code> + <code>plt.show()</code> + <code>plt.tight_layout()</code>",
+  "<code>plt.plot(meses, ventas, marker='o', color='blue')</code> + <code>plt.title/xlabel/ylabel</code> + <code>plt.legend()</code> + <code>plt.tight_layout()</code> + <code>plt.show()</code>",
+  "<code>plt.plot(meses, ventas, marker='o')</code> + <code>plt.title/xlabel/ylabel</code> + <code>plt.grid(True, alpha=.3)</code> + <code>plt.tight_layout()</code> + <code>plt.show()</code>"
  ],
  aprendido:"Las cuatro tareas se resuelven en un bloque: <code>plot</code> con <code>marker</code> y <code>color</code>, los tres rótulos, la cuadrícula y el <code>show()</code> al final. Es exactamente el mismo ejercicio que el modelo A pero con datos mensuales: si lo tenés automatizado, ganás tiempo para los otros dos.",
  porque:{
-  "<code>plt.plot(meses, ventas)</code> + <code>plt.show()</code>":"Faltan marcadores, color, título, etiquetas y cuadrícula: cuatro tareas sin hacer.",
-  "<code>plt.bar(meses, ventas, color='blue')</code> + <code>plt.grid(True)</code> + <code>plt.show()</code>":"Son barras, y la consigna pide líneas.",
-  "<code>plt.scatter(meses, ventas, color='blue')</code> + <code>plt.legend()</code> + <code>plt.show()</code>":"La dispersión no traza la línea de evolución, y la leyenda no reemplaza título ni etiquetas."
+  "<code>plt.plot(meses, ventas, marker='o', color='blue')</code> + <code>plt.title/xlabel/ylabel</code> + <code>plt.grid(True, alpha=.3)</code> + <code>plt.show()</code> + <code>plt.tight_layout()</code>":"El <code>tight_layout()</code> llega <b>después</b> de mostrar la figura: el ajuste ya no se ve reflejado.",
+  "<code>plt.plot(meses, ventas, marker='o', color='blue')</code> + <code>plt.title/xlabel/ylabel</code> + <code>plt.legend()</code> + <code>plt.tight_layout()</code> + <code>plt.show()</code>":"Falta la <b>cuadrícula</b>: la leyenda no la reemplaza (además, con una sola serie sin <code>label</code> no muestra nada).",
+  "<code>plt.plot(meses, ventas, marker='o')</code> + <code>plt.title/xlabel/ylabel</code> + <code>plt.grid(True, alpha=.3)</code> + <code>plt.tight_layout()</code> + <code>plt.show()</code>":"Falta el <code>color='blue'</code>: una de las cuatro tareas queda sin hacer."
  }
 },
 {
@@ -1860,15 +1860,15 @@ const PARCIALES = [
  pide:"¿Cuál es la lectura correcta del gráfico?",
  ops:[
   "Crecimiento sostenido de 130 a 205, con la aceleración más marcada a partir de abril",
-  "Las ventas son estacionales y volverán a bajar en julio",
-  "Hay correlación entre el mes y las ventas, por lo tanto el paso del tiempo causa el aumento",
-  "La distribución de las ventas es simétrica alrededor de la media"
+  "Crecimiento sostenido de 130 a 205, con la aceleración más marcada entre enero y marzo",
+  "Crecimiento sostenido de 130 a 205, lo que confirma que las ventas seguirán subiendo en julio",
+  "Crecimiento sostenido de 130 a 205, explicado por la mejora de la campaña de marketing"
  ],
  aprendido:"Interpretar es describir <b>lo que el gráfico muestra</b>: patrón general, anomalías puntuales y la siguiente pregunta que abre. Dos límites que la cursada repite: no extrapolar más allá de los datos, y no confundir correlación con causalidad. Un gráfico de línea muestra tendencia, no causa ni distribución.",
  porque:{
-  "Las ventas son estacionales y volverán a bajar en julio":"Es una predicción: con seis meses de datos no hay evidencia de estacionalidad.",
-  "Hay correlación entre el mes y las ventas, por lo tanto el paso del tiempo causa el aumento":"Correlación no implica causalidad: el aumento puede deberse a publicidad, precios o contexto.",
-  "La distribución de las ventas es simétrica alrededor de la media":"La distribución se lee en un histograma o un boxplot, no en un gráfico de líneas."
+  "Crecimiento sostenido de 130 a 205, con la aceleración más marcada entre enero y marzo":"Los aumentos de enero a marzo son de apenas +12 y +6; la aceleración recién se ve desde abril (+17, +20, +20).",
+  "Crecimiento sostenido de 130 a 205, lo que confirma que las ventas seguirán subiendo en julio":"Es una <b>predicción</b>: con seis meses de datos no se puede extrapolar más allá de lo observado.",
+  "Crecimiento sostenido de 130 a 205, explicado por la mejora de la campaña de marketing":"Atribuye una <b>causa</b> que el gráfico no muestra: correlación en el tiempo no es causalidad."
  }
 },
 {
@@ -1877,15 +1877,15 @@ const PARCIALES = [
  pide:"¿Cuál es el motivo?",
  ops:[
   "Porque así se convierte una sola vez sobre la tabla completa y se garantiza que las dos fuentes queden con el mismo tipo",
-  "Porque <code>pd.concat</code> no funciona si las columnas son de tipo fecha",
-  "Porque <code>to_datetime</code> solo acepta DataFrames de más de 5 filas",
-  "Da exactamente lo mismo: el orden no afecta en nada"
+  "Porque <code>pd.concat</code> no acepta columnas de tipo fecha, así que hay que convertir después de unir las tablas",
+  "Porque <code>to_datetime</code> sólo funciona sobre columnas de más de cinco filas, y cada archivo tiene menos",
+  "Porque si se convierte antes, <code>concat</code> ya no puede reiniciar el índice con <code>ignore_index=True</code>"
  ],
  aprendido:"El orden del pipeline importa: <b>cargar → concatenar → convertir tipos → agrupar → exportar</b>. Convertir después del <code>concat</code> evita duplicar código y, sobre todo, evita que una fuente quede como <code>datetime</code> y la otra como texto, lo que rompería el ordenamiento y cualquier <code>.dt</code> posterior.",
  porque:{
-  "Porque <code>pd.concat</code> no funciona si las columnas son de tipo fecha":"Funciona perfectamente con columnas de fecha.",
-  "Porque <code>to_datetime</code> solo acepta DataFrames de más de 5 filas":"No existe tal restricción.",
-  "Da exactamente lo mismo: el orden no afecta en nada":"Técnicamente ambos caminos funcionan, pero convertir antes duplica el paso y abre la puerta a que las dos fuentes queden con tipos distintos."
+  "Porque <code>pd.concat</code> no acepta columnas de tipo fecha, así que hay que convertir después de unir las tablas":"<code>concat</code> funciona perfectamente con columnas de fecha: no hay ninguna restricción de ese tipo.",
+  "Porque <code>to_datetime</code> sólo funciona sobre columnas de más de cinco filas, y cada archivo tiene menos":"No existe tal restricción: <code>to_datetime</code> convierte una columna de cualquier tamaño.",
+  "Porque si se convierte antes, <code>concat</code> ya no puede reiniciar el índice con <code>ignore_index=True</code>":"<code>ignore_index</code> reinicia el índice sin importar los tipos de las columnas: no tiene relación con las fechas."
  }
 }
 
