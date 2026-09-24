@@ -161,8 +161,9 @@ function renderInicio(){
   var resueltos = EJERCICIOS.filter(function(e){ return hechos[e.id]; }).length;
   document.getElementById("mazos-lab").innerHTML =
     tarjeta("__lab__", "Python en vivo", "Resolver los ejercicios en el navegador",
-      "Los " + EJERCICIOS.length + " ejercicios de los modelos A, B y C, con editor y corrección automática. " +
-      "Los archivos <code>productos.csv</code>, <code>pedidos.json</code> y los dos CSV mensuales ya están cargados.",
+      "Los " + EJERCICIOS.filter(function(e){ return e.modelo !== "Extra"; }).length + " ejercicios de los modelos A, B y C, más " +
+      EJERCICIOS.filter(function(e){ return e.modelo === "Extra"; }).length + " de práctica extra con comandos que los parciales no tocan " +
+      "(limpieza, merge, pivot_table, subplots, Seaborn, try/except…). Editor y corrección automática; los archivos ya están cargados.",
       resueltos + " de " + EJERCICIOS.length + " resueltos",
       Math.round(resueltos / EJERCICIOS.length * 100), true);
 
@@ -478,6 +479,8 @@ function arrancarPython(){
   return pyCargando;
 }
 
+/* Seaborn no viene en el catálogo de Pyodide: se instala desde PyPI con micropip,
+   después de matplotlib/pandas/numpy (que sí son del catálogo). */
 function asegurarPaquetes(lista){
   return arrancarPython().then(function(){
     var faltan = lista.filter(function(p){ return !paquetesOk[p]; });
@@ -485,10 +488,18 @@ function asegurarPaquetes(lista){
       estado("Python listo · " + Object.keys(paquetesOk).join(", "), "listo");
       return;
     }
+    var conSeaborn = faltan.indexOf("seaborn") >= 0;
+    var delCatalogo = faltan.filter(function(p){ return p !== "seaborn"; });
     estado("Instalando " + faltan.join(", ") + " (~10 MB)… solo se descarga la primera vez.", "cargando");
-    return py.loadPackage(faltan).then(function(){
-      faltan.forEach(function(p){ paquetesOk[p] = true; });
-      if(faltan.indexOf("matplotlib") >= 0) py.runPython(SETUP_MPL);
+    return py.loadPackage(delCatalogo).then(function(){
+      delCatalogo.forEach(function(p){ paquetesOk[p] = true; });
+      if(delCatalogo.indexOf("matplotlib") >= 0) py.runPython(SETUP_MPL);
+      if(!conSeaborn) return;
+      estado("Instalando Seaborn desde PyPI… solo se descarga la primera vez.", "cargando");
+      return py.loadPackage("micropip").then(function(){
+        return py.runPythonAsync("import micropip\nawait micropip.install('seaborn')");
+      }).then(function(){ paquetesOk.seaborn = true; });
+    }).then(function(){
       estado("Python listo · " + Object.keys(paquetesOk).join(", "), "listo");
     });
   });
@@ -539,6 +550,8 @@ function setEditor(v){
   else { var ta = document.getElementById("ed-area"); if(ta) ta.value = v; }
 }
 
+function etiquetaModelo(ej){ return ej.modelo === "Extra" ? "Práctica extra" : "Modelo " + ej.modelo; }
+
 function pintarFichas(){
   var hechos = leerJSON(K_LAB);
   document.getElementById("lab-fichas").innerHTML = EJERCICIOS.map(function(e){
@@ -557,7 +570,7 @@ function renderLab(){
   var ej = EJERCICIOS.filter(function(e){ return e.id === labActual; })[0];
 
   document.getElementById("lab-enunciado").innerHTML =
-    '<div class="sub">Modelo ' + ej.modelo + ' · ' + ej.ej + '</div>' +
+    '<div class="sub">' + etiquetaModelo(ej) + ' · ' + ej.ej + '</div>' +
     '<h3>' + ej.titulo + '</h3>' +
     '<p class="desc">' + ej.enunciado + '</p>' +
     '<h4>Datos de trabajo</h4>' +
@@ -617,7 +630,7 @@ function pintarMetodos(ej){
   if(!lista.length){ caja.style.display = "none"; return; }
   caja.style.display = "";
   caja.innerHTML =
-    '<div class="sub">Modelo ' + ej.modelo + ' · ' + ej.ej + '</div>' +
+    '<div class="sub">' + etiquetaModelo(ej) + ' · ' + ej.ej + '</div>' +
     '<h3>Métodos que vas a usar (' + lista.length + ')</h3>' +
     '<p class="desc">Los que aparecen en la solución de este ejercicio, en el orden en que se usan. ' +
     'Si uno se repite en otro ejercicio, abajo te lo marca.</p>' +

@@ -469,6 +469,15 @@ estudIAndo/
 └─ ROADMAP.md
 ```
 
+### Entrenador de Python: panel de métodos y práctica extra (2026-09-23)
+
+- **Panel «Métodos que vas a usar»** en cada ejercicio del laboratorio (46 métodos en los 9 originales): qué hace, la línea de código, el error típico y en qué otros ejercicios se repite. Los datos viven en `METODOS` (al final de `js/entrenador-python-datos.js`).
+- **Editor más ancho y con el fondo del tema** (el CSS de CodeMirror del CDN pisaba el fondo; las reglas ahora llevan el prefijo `.lab`), botón «Ancho completo» y sin desbordes en 375 px.
+- **Siete ejercicios de práctica extra** (`lab-x1`…`lab-x7`, modelo «Extra») con comandos de la chuleta que los parciales no tocan: limpieza (`duplicated`/`drop_duplicates`/`fillna`/`astype`), `merge` + `agg` + `pivot_table`, estadística descriptiva (`describe`/`corr`/`value_counts`/`isin`), `subplots` + `hist` + `axvline` + `savefig`, NumPy 2D (`reshape`/`axis`/`select`), `try/except` con JSON y Seaborn. Archivos nuevos en el disco virtual: `clientes.csv`, `ventas_detalle.csv`, `catalogo.csv`, `config.json`, `config_roto.json`.
+- **Seaborn** no viene en el catálogo de Pyodide 0.26.4: se instala desde PyPI con `micropip` (`asegurarPaquetes` en `js/entrenador-python.js`). Necesita conexión la primera vez.
+- **18 preguntas nuevas** de opción múltiple (ids `c2-15`…`c6-14`, banco de 68 → 86) sobre `try/else/finally`, `json.loads`, orden de los `except`, `axis`, `arange`, `np.select`, `ddof`, `dropna(subset)`, `duplicated`, `agg`, `value_counts`, mediana vs promedio, `set_title`, `axvline`, `savefig`, leyendas, `hue` y `ax=`. Opciones de largo parejo (la correcta es la más larga en 6 de 18).
+- Verificado en Pyodide real: las 7 soluciones pasan todas sus comprobaciones y variantes incorrectas típicas fallan con el mensaje correcto.
+
 ---
 
 ## Checklist antes de cada push

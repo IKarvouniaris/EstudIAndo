@@ -1194,6 +1194,318 @@ const BANCO = [
   "<code>sns.barplot(data=df, x='modalidad', y='satisfaccion')</code>":"Muestra sólo el <b>promedio</b> de cada modalidad: no deja ver ninguna forma de la distribución.",
   "<code>sns.regplot(data=df, x='modalidad', y='satisfaccion')</code>":"La regresión necesita que <code>x</code> sea cuantitativa; <code>modalidad</code> es una categoría."
  }
+},
+
+/* ---------- PRÁCTICA EXTRA · comandos de la cursada que el banco no tocaba ---------- */
+{
+ id:"c2-15", clase:2, tema:"Excepciones", nivel:"media",
+ caso:"Leés un archivo de configuración con un bloque completo de manejo de errores. El archivo <code>config.json</code> <b>existe</b> y tiene un JSON válido.",
+ codigo:"try:\n    with open('config.json', encoding='utf-8') as f:\n        cfg = json.load(f)\nexcept FileNotFoundError:\n    print('No existe el archivo')\nelse:\n    print('Listo:', cfg)\nfinally:\n    print('Fin')",
+ pide:"¿Qué se imprime?",
+ ops:[
+  "Imprime <code>Listo:</code> con los datos leídos y después <code>Fin</code>, sin ningún mensaje de error",
+  "Solo <code>Listo:</code> con los datos: el bloque <code>finally</code> corre únicamente cuando hubo un error",
+  "<code>No existe el archivo</code> y después <code>Fin</code>, porque el <code>except</code> se evalúa antes que el <code>else</code>",
+  "Primero <code>Fin</code> y después <code>Listo:</code> con los datos, porque <code>finally</code> se adelanta al <code>else</code>"
+ ],
+ aprendido:"El modelo completo de la clase: <b><code>try</code></b> intenta, <b><code>except</code></b> atrapa un error puntual, <b><code>else</code></b> corre solo si todo salió bien y <b><code>finally</code></b> corre siempre y al final. Poner el código “feliz” en el <code>else</code> (y no dentro del <code>try</code>) evita atrapar por accidente errores que no querías capturar.",
+ porque:{
+  "Solo <code>Listo:</code> con los datos: el bloque <code>finally</code> corre únicamente cuando hubo un error":"<code>finally</code> corre <b>siempre</b>, haya error o no. Su uso típico es cerrar o avisar que terminó el intento, salga como salga.",
+  "<code>No existe el archivo</code> y después <code>Fin</code>, porque el <code>except</code> se evalúa antes que el <code>else</code>":"El <code>except</code> solo corre si el <code>try</code> lanzó justo ese error. Como el archivo existe y es válido, nadie lo dispara y se salta directo al <code>else</code>.",
+  "Primero <code>Fin</code> y después <code>Listo:</code> con los datos, porque <code>finally</code> se adelanta al <code>else</code>":"El orden es fijo: <code>try</code> → (<code>except</code> o <code>else</code>) → <code>finally</code>. El <code>finally</code> siempre va <b>último</b>, no se adelanta."
+ }
+},
+{
+ id:"c2-16", clase:2, tema:"Archivos · JSON", nivel:"media",
+ caso:"Una API te devolvió el texto <code>'{\"producto\": \"Mouse\", \"stock\": 4}'</code> guardado en la variable <code>texto</code> (es un <code>str</code>, no un archivo). Necesitás trabajarlo como diccionario.",
+ pide:"¿Qué usás para convertirlo?",
+ ops:[
+  "<code>datos = json.loads(texto)</code>, con la <b>s</b> final porque el origen es un <i>string</i>",
+  "<code>datos = json.load(texto)</code>, que lee cualquier JSON que le pases",
+  "<code>datos = json.dumps(texto)</code>, que arma el diccionario desde el texto",
+  "<code>datos = dict(texto)</code>, porque el texto ya tiene forma de diccionario"
+ ],
+ aprendido:"La <b>s</b> al final indica <i>string</i>: <b><code>loads</code></b> parsea un texto y <b><code>load</code></b> parsea un archivo abierto. Lo mismo al revés: <b><code>dumps</code></b> produce un texto y <b><code>dump</code></b> escribe directo en un archivo.",
+ porque:{
+  "<code>datos = json.load(texto)</code>, que lee cualquier JSON que le pases":"<code>json.load</code> (sin s) espera un <b>archivo abierto</b>, no un texto. Con un <code>str</code> tira <code>AttributeError: 'str' object has no attribute 'read'</code>.",
+  "<code>datos = json.dumps(texto)</code>, que arma el diccionario desde el texto":"<code>dumps</code> hace lo <b>contrario</b>: convierte objetos de Python en texto JSON. Aplicado a un <code>str</code>, solo le agrega comillas y escapes.",
+  "<code>datos = dict(texto)</code>, porque el texto ya tiene forma de diccionario":"<code>dict()</code> sobre un <code>str</code> intenta leer cada carácter como un par clave-valor y falla con <code>ValueError</code>: un texto con llaves sigue siendo solo texto."
+ }
+},
+{
+ id:"c2-17", clase:2, tema:"Excepciones", nivel:"alta",
+ caso:"Un compañero escribió este manejo de errores para leer un JSON y te pide que lo revises antes de entregarlo.",
+ codigo:"try:\n    datos = json.load(f)\nexcept Exception:\n    print('Algo salió mal')\nexcept json.JSONDecodeError:\n    print('El JSON está mal formado')",
+ pide:"¿Cuál es el problema real?",
+ ops:[
+  "El segundo <code>except</code> nunca se ejecuta: el primero ya atrapa todos los errores",
+  "Es un <code>SyntaxError</code>: Python no permite escribir dos <code>except</code> en el mismo <code>try</code>",
+  "<code>json.JSONDecodeError</code> no es una excepción, así que no se puede capturar",
+  "Falta un <code>else</code>: sin él, Python ignora los <code>except</code> y el error corta el programa"
+ ],
+ aprendido:"Los <code>except</code> se evalúan <b>en orden</b> y gana el primero que coincide. Por eso van de lo más específico a lo más general: <code>FileNotFoundError</code> y <code>json.JSONDecodeError</code> primero, y un <code>Exception</code> genérico (si hace falta) al final. Un <code>except Exception</code> al principio tapa a todos los demás.",
+ porque:{
+  "Es un <code>SyntaxError</code>: Python no permite escribir dos <code>except</code> en el mismo <code>try</code>":"Se pueden escribir <b>todos los <code>except</code> que hagan falta</b>: es justamente la forma de dar un mensaje distinto a cada tipo de error.",
+  "<code>json.JSONDecodeError</code> no es una excepción, así que no se puede capturar":"Sí lo es: hereda de <code>ValueError</code>. Es el error que lanza <code>json</code> cuando el archivo existe pero está mal escrito.",
+  "Falta un <code>else</code>: sin él, Python ignora los <code>except</code> y el error corta el programa":"El <code>else</code> es <b>opcional</b> y no tiene que ver con atrapar errores; los <code>except</code> funcionan igual sin él."
+ }
+},
+{
+ id:"c3-13", clase:3, tema:"NumPy", nivel:"media",
+ caso:"Armás una matriz de 3 filas y 4 columnas con los números del 1 al 12 y querés sumar por columnas.",
+ codigo:"m = np.arange(1, 13).reshape(3, 4)\n# [[ 1  2  3  4]\n#  [ 5  6  7  8]\n#  [ 9 10 11 12]]\nresultado = m.sum(axis=0)",
+ pide:"¿Qué contiene <code>resultado</code>?",
+ ops:[
+  "<code>[15 18 21 24]</code>: una suma por cada columna",
+  "<code>[10 26 42]</code>: una suma por cada fila",
+  "<code>78</code>: la suma de todos los elementos juntos",
+  "<code>[ 1  2  3  4]</code>: la primera fila, porque el eje 0 es el primero"
+ ],
+ aprendido:"En un arreglo 2D, <b><code>axis=0</code> recorre hacia abajo</b> (resume las filas y da un resultado por columna) y <b><code>axis=1</code> recorre hacia el costado</b> (da un resultado por fila). Sin <code>axis</code>, resume todo en un solo número.",
+ porque:{
+  "<code>[10 26 42]</code>: una suma por cada fila":"Eso sería <code>axis=1</code>, que suma <b>a lo largo</b> de cada fila (1+2+3+4=10, 5+6+7+8=26…). Con <code>axis=0</code> se suma bajando por las columnas.",
+  "<code>78</code>: la suma de todos los elementos juntos":"El número único sale cuando <b>no</b> pasás <code>axis</code>. Con <code>axis=0</code> conservás una posición por cada columna.",
+  "<code>[ 1  2  3  4]</code>: la primera fila, porque el eje 0 es el primero":"<code>axis=0</code> no es “tomar la fila 0”: es el eje <b>sobre el que se colapsa</b>. Colapsar las filas deja un resultado por columna."
+ }
+},
+{
+ id:"c3-14", clase:3, tema:"NumPy", nivel:"baja",
+ caso:"Necesitás una secuencia de números para un eje y probás <code>np.arange</code> con tres argumentos.",
+ codigo:"x = np.arange(1, 10, 3)",
+ pide:"¿Qué queda en <code>x</code>?",
+ ops:[
+  "<code>[1 4 7]</code>: empieza en 1, avanza de a 3 y no llega al 10",
+  "<code>[1 4 7 10]</code>: el límite superior también se incluye en la secuencia",
+  "<code>[3 6 9]</code>: los múltiplos de 3 que hay entre 1 y 10",
+  "<code>[1 2 3]</code>: toma tres elementos desde el principio de la secuencia"
+ ],
+ aprendido:"<code>np.arange(inicio, fin, paso)</code>: el <code>fin</code> <b>no se incluye</b> y el tercer argumento es el paso. Cuando conocés la cantidad de puntos en vez del paso, se usa <code>np.linspace(inicio, fin, cantidad)</code>, que sí incluye el final.",
+ porque:{
+  "<code>[1 4 7 10]</code>: el límite superior también se incluye en la secuencia":"<code>arange</code> <b>excluye</b> el final, igual que <code>range</code>. Para incluirlo hay que pasar un tope mayor, por ejemplo 11.",
+  "<code>[3 6 9]</code>: los múltiplos de 3 que hay entre 1 y 10":"El tercer argumento es el <b>paso</b>, no un divisor: la secuencia empieza igual en el primer valor (1) y suma 3 cada vez.",
+  "<code>[1 2 3]</code>: toma tres elementos desde el principio de la secuencia":"El 3 no es una cantidad de elementos. Para pedir <b>cuántos</b> valores hay que usar <code>np.linspace</code>."
+ }
+},
+{
+ id:"c3-15", clase:3, tema:"NumPy", nivel:"media",
+ caso:"Tenés un arreglo <code>temps</code> y querés clasificar cada temperatura en <b>tres</b> categorías (<code>Fresco</code>, <code>Templado</code>, <code>Caluroso</code>) sin usar un bucle.",
+ pide:"¿Qué función usás?",
+ ops:[
+  "<code>np.select(condiciones, etiquetas, default=\"Caluroso\")</code>",
+  "<code>np.where(temps &lt; 20, \"Fresco\", \"Templado\", \"Caluroso\")</code>",
+  "<code>np.isin(temps, [\"Fresco\", \"Templado\", \"Caluroso\"])</code>",
+  "<code>np.argmax(temps &lt; 20, temps &lt; 28)</code>"
+ ],
+ aprendido:"<b><code>np.where</code></b> es un “si / si no” (dos resultados). Cuando hay <b>más de dos casos</b>, <b><code>np.select</code></b> recibe una lista de condiciones, una lista de resultados y un <code>default</code>. Las condiciones se evalúan en orden y gana la primera verdadera.",
+ porque:{
+  "<code>np.where(temps &lt; 20, \"Fresco\", \"Templado\", \"Caluroso\")</code>":"<code>np.where</code> solo admite <b>dos</b> resultados (si se cumple / si no). Con tres valores tira <code>TypeError</code>; para más de dos casos se usa <code>np.select</code>.",
+  "<code>np.isin(temps, [\"Fresco\", \"Templado\", \"Caluroso\"])</code>":"<code>isin</code> solo pregunta “¿este valor está en la lista?” y devuelve verdadero/falso: no asigna etiquetas a cada elemento.",
+  "<code>np.argmax(temps &lt; 20, temps &lt; 28)</code>":"<code>argmax</code> devuelve la <b>posición</b> del mayor valor de un arreglo; no clasifica ni acepta dos condiciones."
+ }
+},
+{
+ id:"c3-16", clase:3, tema:"NumPy + Pandas", nivel:"alta",
+ caso:"Con exactamente los mismos datos, <code>np.std(x)</code> te da 1.56 y <code>pd.Series(x).std()</code> te da 1.67, y no entendés por qué difieren.",
+ pide:"¿Cuál es la explicación?",
+ ops:[
+  "NumPy divide por <i>n</i> y pandas por <i>n − 1</i>, el desvío de una muestra",
+  "Pandas redondea internamente los resultados a dos decimales antes de mostrarlos",
+  "<code>np.std</code> calcula la varianza y pandas calcula el desvío estándar, que es su raíz",
+  "Una toma la mediana como centro y la otra toma el promedio de los datos"
+ ],
+ aprendido:"Por defecto, <b><code>np.std</code> usa <code>ddof=0</code></b> (divide por n, desvío poblacional) y <b><code>Series.std()</code> usa <code>ddof=1</code></b> (divide por n−1, desvío de muestra). Con datos de muestra —lo habitual en la cursada— el de pandas es el apropiado; en NumPy se consigue pasando <code>ddof=1</code>.",
+ porque:{
+  "Pandas redondea internamente los resultados a dos decimales antes de mostrarlos":"Ninguna de las dos redondea el cálculo. La diferencia es de fórmula y aparece incluso con todos los decimales.",
+  "<code>np.std</code> calcula la varianza y pandas calcula el desvío estándar, que es su raíz":"Ambas calculan el <b>desvío estándar</b>. La varianza es otra función (<code>np.var</code>) y es justamente el cuadrado del desvío.",
+  "Una toma la mediana como centro y la otra toma el promedio de los datos":"Las dos miden la dispersión respecto del <b>promedio</b>. Lo que cambia es el divisor de la suma."
+ }
+},
+{
+ id:"c4-18", clase:4, tema:"Limpieza", nivel:"media",
+ caso:"Tu DataFrame de clientes tiene 1000 filas y 6 columnas. Algunas filas no tienen <code>email</code>, pero otras columnas como <code>telefono</code> también tienen huecos que <b>no</b> te preocupan.",
+ pide:"¿Cómo descartás solo las filas sin email?",
+ ops:[
+  "<code>df.dropna(subset=[\"email\"])</code>, que revisa los nulos solo en esa columna",
+  "<code>df.dropna()</code>, que mira solamente la columna que más nulos tenga",
+  "<code>df.dropna(axis=1)</code>, que descarta las filas incompletas de la tabla",
+  "<code>df.fillna(\"email\")</code>, que marca como vacías las filas sin ese dato"
+ ],
+ aprendido:"<b><code>dropna()</code></b> borra filas con cualquier nulo; <b><code>subset=[…]</code></b> limita la revisión a las columnas que importan; <b><code>axis=1</code></b> cambia a columnas. Regla de la clase: antes de borrar, medí cuántas filas perdés, porque descartar de más achica el análisis.",
+ porque:{
+  "<code>df.dropna()</code>, que mira solamente la columna que más nulos tenga":"Sin argumentos, <code>dropna()</code> elimina cualquier fila con <b>al menos un nulo en cualquier columna</b>: perderías también las filas a las que solo les falta el teléfono.",
+  "<code>df.dropna(axis=1)</code>, que descarta las filas incompletas de la tabla":"<code>axis=1</code> elimina <b>columnas</b> con nulos, no filas. Te quedarías sin la columna <code>email</code> (y sin <code>telefono</code>).",
+  "<code>df.fillna(\"email\")</code>, que marca como vacías las filas sin ese dato":"<code>fillna</code> <b>rellena</b> los nulos con el valor que le pasás; aquí escribiría el texto “email” en todas las celdas vacías, sin borrar nada."
+ }
+},
+{
+ id:"c4-19", clase:4, tema:"Limpieza", nivel:"media",
+ caso:"Inspeccionando un archivo de ventas, ejecutás <code>df.duplicated().sum()</code> y el resultado es <code>3</code>.",
+ pide:"¿Qué significa ese 3?",
+ ops:[
+  "Hay 3 filas que repiten por completo a otra fila anterior",
+  "Hay 3 columnas que tienen valores repetidos dentro de la tabla",
+  "Hay 6 filas en juego: las 3 repetidas y sus 3 originales, que también cuentan",
+  "Ya se eliminaron 3 filas del DataFrame y por eso ahora tiene menos"
+ ],
+ aprendido:"<b>Inspeccionar antes de limpiar</b>: <code>duplicated()</code> marca con <code>True</code> las filas repetidas (sin contar la primera aparición) y <code>.sum()</code> las cuenta; <code>drop_duplicates()</code> es el que las elimina y <b>devuelve una copia</b>, así que hay que reasignarla.",
+ porque:{
+  "Hay 3 columnas que tienen valores repetidos dentro de la tabla":"<code>duplicated()</code> trabaja sobre <b>filas completas</b>, no sobre columnas: dice si la fila entera coincide con una que ya apareció.",
+  "Hay 6 filas en juego: las 3 repetidas y sus 3 originales, que también cuentan":"<code>duplicated()</code> marca solo la <b>segunda aparición en adelante</b>; la primera (el original) queda en <code>False</code> y no se suma.",
+  "Ya se eliminaron 3 filas del DataFrame y por eso ahora tiene menos":"<code>duplicated()</code> solo <b>detecta</b>; no modifica nada. Para eliminar hay que usar <code>drop_duplicates()</code> y guardar el resultado."
+ }
+},
+{
+ id:"c4-20", clase:4, tema:"Pandas", nivel:"media",
+ caso:"Necesitás, para cada <code>categoria</code>, el total <b>y</b> el promedio del <code>importe</code> en una sola tabla.",
+ pide:"¿Qué escribís?",
+ ops:[
+  "<code>df.groupby(\"categoria\")[\"importe\"].agg([\"sum\", \"mean\"])</code>",
+  "<code>df.groupby(\"categoria\")[\"importe\"].sum().mean()</code>",
+  "<code>df.groupby([\"sum\", \"mean\"])[\"importe\"].agg(\"categoria\")</code>",
+  "<code>df[\"importe\"].agg(\"categoria\").groupby([\"sum\", \"mean\"])</code>"
+ ],
+ aprendido:"Patrón de la clase: <b><code>groupby(clave)[columna].agg([...])</code></b> — primero agrupar, después elegir la columna y por último pedir uno o varios resúmenes. Con <code>agg(nombre=(\"columna\", \"función\"))</code> además le ponés nombre a cada resultado.",
+ porque:{
+  "<code>df.groupby(\"categoria\")[\"importe\"].sum().mean()</code>":"Primero suma por categoría y después <b>promedia esos totales</b>: devuelve un solo número, no una tabla con dos resúmenes por categoría.",
+  "<code>df.groupby([\"sum\", \"mean\"])[\"importe\"].agg(\"categoria\")</code>":"<code>groupby</code> agrupa por <b>columnas</b>, y <code>sum</code>/<code>mean</code> no lo son. Las funciones de resumen van dentro de <code>agg</code>, no como claves.",
+  "<code>df[\"importe\"].agg(\"categoria\").groupby([\"sum\", \"mean\"])</code>":"<code>agg</code> recibe funciones de resumen, no nombres de columna. Además, el <code>groupby</code> tiene que ir <b>antes</b> para que el resumen se haga por grupo."
+ }
+},
+{
+ id:"c4-21", clase:4, tema:"Pandas", nivel:"baja",
+ caso:"Querés saber cuántas veces aparece cada valor de la columna <code>categoria</code>, de la más frecuente a la menos frecuente.",
+ pide:"¿Qué método usás?",
+ ops:[
+  "<code>df[\"categoria\"].value_counts()</code>",
+  "<code>df[\"categoria\"].count()</code>",
+  "<code>df[\"categoria\"].unique()</code>",
+  "<code>df.groupby(\"categoria\").mean()</code>"
+ ],
+ aprendido:"<b><code>value_counts()</code></b> es la forma rápida de ver la distribución de una variable categórica, ya ordenada de mayor a menor. Junto a <code>unique()</code> (qué valores hay) y <code>nunique()</code> (cuántos distintos hay) forma el kit de inspección de columnas de texto.",
+ porque:{
+  "<code>df[\"categoria\"].count()</code>":"<code>count()</code> cuenta cuántos valores <b>no nulos</b> hay en total: devuelve un solo número, no el detalle por categoría.",
+  "<code>df[\"categoria\"].unique()</code>":"<code>unique()</code> lista los valores <b>distintos</b> que existen, pero no dice cuántas veces aparece cada uno.",
+  "<code>df.groupby(\"categoria\").mean()</code>":"Promedia las columnas numéricas dentro de cada grupo; no cuenta filas y con columnas de texto puede fallar."
+ }
+},
+{
+ id:"c4-22", clase:4, tema:"Limpieza", nivel:"alta",
+ caso:"La columna <code>sueldo</code> tiene algunos valores vacíos y un valor extremo: el sueldo del gerente, diez veces mayor que el resto. Querés completar los faltantes sin distorsionar los datos.",
+ pide:"¿Con qué los completás?",
+ ops:[
+  "<code>df[\"sueldo\"].fillna(df[\"sueldo\"].median())</code>",
+  "<code>df[\"sueldo\"].fillna(df[\"sueldo\"].mean())</code>",
+  "<code>df[\"sueldo\"].fillna(df[\"sueldo\"].max())</code>",
+  "<code>df[\"sueldo\"].fillna(0)</code>"
+ ],
+ aprendido:"Para completar nulos numéricos, la <b>mediana</b> es la opción segura cuando hay valores extremos, porque no se deja arrastrar por ellos. Elegir cómo completar es una decisión de análisis, no un detalle técnico: hay que poder justificarla.",
+ porque:{
+  "<code>df[\"sueldo\"].fillna(df[\"sueldo\"].mean())</code>":"El promedio lo <b>arrastra el valor extremo</b>: los faltantes quedarían con un sueldo que casi nadie cobra. La mediana resiste los extremos.",
+  "<code>df[\"sueldo\"].fillna(df[\"sueldo\"].max())</code>":"El máximo es justo el sueldo del gerente: todos los faltantes quedarían con el valor más extremo de la tabla.",
+  "<code>df[\"sueldo\"].fillna(0)</code>":"El 0 es un sueldo inventado que <b>baja</b> el promedio y engaña a cualquier cálculo posterior; los faltantes no son sueldos nulos."
+ }
+},
+{
+ id:"c5-09", clase:5, tema:"Matplotlib", nivel:"media",
+ caso:"Armás un panel con <code>fig, axes = plt.subplots(1, 2)</code> y querés ponerle título <b>solo al gráfico de la derecha</b>.",
+ pide:"¿Cómo lo hacés?",
+ ops:[
+  "<code>axes[1].set_title(\"Ventas por mes\")</code>, eligiendo el gráfico por su posición",
+  "<code>axes.set_title(\"Ventas por mes\")</code>, que aplica el título al panel",
+  "<code>axes[1].title(\"Ventas por mes\")</code>, igual que en <code>plt.title</code>",
+  "<code>fig.title(\"Ventas por mes\")</code>, que rotula la parte derecha de la figura"
+ ],
+ aprendido:"Con varios gráficos, cada uno es un <b>Axes</b> y los rótulos llevan el prefijo <b><code>set_</code></b>: <code>ax.set_title()</code>, <code>ax.set_xlabel()</code>, <code>ax.set_ylabel()</code>. El título de toda la figura es <code>fig.suptitle()</code>. Con <code>subplots(1, 2)</code> se accede por <code>axes[0]</code> y <code>axes[1]</code>.",
+ porque:{
+  "<code>axes.set_title(\"Ventas por mes\")</code>, que aplica el título al panel":"<code>axes</code> es un <b>arreglo</b> con los dos gráficos, no un gráfico: hay que elegir uno (<code>axes[1]</code>) para llamar a <code>set_title</code>.",
+  "<code>axes[1].title(\"Ventas por mes\")</code>, igual que en <code>plt.title</code>":"En un Axes, <code>title</code> es un objeto de texto ya existente, no una función: se cambia con el método <code>set_title(...)</code>. Llamarlo tira <code>TypeError</code>.",
+  "<code>fig.title(\"Ventas por mes\")</code>, que rotula la parte derecha de la figura":"La figura no tiene <code>title()</code>. El título general de la figura es <code>fig.suptitle(...)</code>, y abarca todo el panel."
+ }
+},
+{
+ id:"c5-10", clase:5, tema:"Matplotlib", nivel:"media",
+ caso:"Dibujaste un histograma de edades y querés marcar el <b>promedio</b> con una línea punteada vertical que diga “Promedio” en la leyenda.",
+ pide:"¿Qué línea agregás?",
+ ops:[
+  "<code>ax.axvline(promedio, linestyle=\"--\", label=\"Promedio\")</code>",
+  "<code>ax.axhline(promedio, linestyle=\"--\", label=\"Promedio\")</code>",
+  "<code>ax.vline(promedio, linestyle=\"--\", label=\"Promedio\")</code>",
+  "<code>ax.plot(promedio, linestyle=\"--\", label=\"Promedio\")</code>"
+ ],
+ aprendido:"<b><code>axvline</code></b> = línea <b>v</b>ertical en un valor del eje X; <b><code>axhline</code></b> = línea <b>h</b>orizontal en un valor del eje Y. Sirven para marcar promedios, metas o umbrales. Con <code>label=</code> y <code>ax.legend()</code> aparecen en la leyenda.",
+ porque:{
+  "<code>ax.axhline(promedio, linestyle=\"--\", label=\"Promedio\")</code>":"<code>axhline</code> traza una línea <b>horizontal</b> a esa altura del eje Y; el promedio de edades es un valor del eje X, por eso hace falta la vertical.",
+  "<code>ax.vline(promedio, linestyle=\"--\", label=\"Promedio\")</code>":"El método se llama <code>axvline</code> (con la <i>a</i> de <i>axis</i>). <code>vline</code> sin ese prefijo no existe en un Axes y tira <code>AttributeError</code>.",
+  "<code>ax.plot(promedio, linestyle=\"--\", label=\"Promedio\")</code>":"<code>plot</code> con un solo número dibuja un punto en X=0 con ese valor como altura; no genera una línea que cruce todo el gráfico."
+ }
+},
+{
+ id:"c5-11", clase:5, tema:"Matplotlib", nivel:"media",
+ caso:"Tu programa arma un gráfico con dos paneles y además tiene que dejarlo guardado como imagen <code>panel.png</code> para adjuntarlo al informe.",
+ pide:"¿Cuál es la forma correcta?",
+ ops:[
+  "Llamar a <code>fig.savefig(\"panel.png\")</code> después de dibujar y <b>antes</b> de <code>plt.show()</code>",
+  "Llamar a <code>fig.savefig(\"panel.png\")</code> después de <code>plt.show()</code>, para que incluya todo",
+  "Escribir <code>plt.save(\"panel.png\")</code>, que guarda la figura activa por defecto",
+  "Basta con <code>plt.show()</code>, que además de mostrar el gráfico lo guarda en la carpeta"
+ ],
+ aprendido:"<b><code>savefig</code></b> guarda la figura; se ejecuta después de dibujar todo y <b>antes de <code>plt.show()</code></b>. Podés indicar la resolución con <code>dpi=</code> y evitar recortes con <code>bbox_inches=\"tight\"</code>.",
+ porque:{
+  "Llamar a <code>fig.savefig(\"panel.png\")</code> después de <code>plt.show()</code>, para que incluya todo":"Después de <code>show()</code> la figura suele estar cerrada: el archivo saldría <b>vacío o en blanco</b>. Se guarda antes de mostrar.",
+  "Escribir <code>plt.save(\"panel.png\")</code>, que guarda la figura activa por defecto":"<code>plt.save</code> no existe; el método correcto se llama <code>savefig</code>.",
+  "Basta con <code>plt.show()</code>, que además de mostrar el gráfico lo guarda en la carpeta":"<code>show()</code> solo <b>muestra</b> el gráfico en pantalla. Nunca crea archivos: guardar es una acción aparte."
+ }
+},
+{
+ id:"c5-12", clase:5, tema:"Matplotlib", nivel:"baja",
+ caso:"Llamaste a <code>ax.legend()</code> pero el cuadro de la leyenda sale <b>vacío</b> (o Matplotlib avisa que no hay elementos para mostrar).",
+ pide:"¿Cuál es la causa más probable?",
+ ops:[
+  "Los elementos que dibujaste no tienen <code>label=</code>: sin etiqueta no hay nada para listar",
+  "Falta llamar a <code>plt.show()</code> antes de <code>ax.legend()</code> para que se construya",
+  "<code>legend()</code> solo funciona con gráficos de barras y de dispersión, no con líneas",
+  "Hay que pasarle siempre <code>loc=\"best\"</code>; sin ese argumento no muestra nada"
+ ],
+ aprendido:"La leyenda lista los elementos que tienen <b><code>label=</code></b>. Regla práctica: ponerle <code>label</code> a cada línea o serie al dibujarla y llamar a <code>ax.legend()</code> (o <code>plt.legend()</code>) después.",
+ porque:{
+  "Falta llamar a <code>plt.show()</code> antes de <code>ax.legend()</code> para que se construya":"La leyenda se arma con lo que ya está dibujado en ese momento, y <code>show()</code> va al final: no es un requisito previo.",
+  "<code>legend()</code> solo funciona con gráficos de barras y de dispersión, no con líneas":"Funciona con cualquier elemento que tenga etiqueta: líneas, barras, puntos e histogramas.",
+  "Hay que pasarle siempre <code>loc=\"best\"</code>; sin ese argumento no muestra nada":"<code>loc</code> solo cambia la <b>posición</b> del cuadro y ya tiene un valor por defecto: no decide si aparece contenido."
+ }
+},
+{
+ id:"c6-13", clase:6, tema:"Seaborn", nivel:"media",
+ caso:"Hacés un diagrama de dispersión de <code>horas</code> contra <code>nota</code> y querés que cada punto se pinte según el <code>turno</code> (Tarde o Noche), con su leyenda.",
+ pide:"¿Qué parámetro lo logra?",
+ ops:[
+  "<code>sns.scatterplot(data=df, x=\"horas\", y=\"nota\", hue=\"turno\")</code>",
+  "<code>sns.scatterplot(data=df, x=\"horas\", y=\"nota\", color=\"turno\")</code>",
+  "<code>sns.scatterplot(data=df, x=\"horas\", y=\"nota\", group=\"turno\")</code>",
+  "<code>sns.scatterplot(data=df, x=\"turno\", y=\"nota\", hue=\"horas\")</code>"
+ ],
+ aprendido:"En Seaborn, <b><code>hue=</code></b> agrega una dimensión categórica como <b>color</b> y arma la leyenda automáticamente. Los ejes se indican con <code>x=</code> e <code>y=</code> y las columnas se nombran como texto, dentro de <code>data=</code>.",
+ porque:{
+  "<code>sns.scatterplot(data=df, x=\"horas\", y=\"nota\", color=\"turno\")</code>":"<code>color</code> espera un <b>color concreto</b> (<code>\"red\"</code>, <code>\"#1f77b4\"</code>), no el nombre de una columna. <code>hue</code> es el que colorea según una columna.",
+  "<code>sns.scatterplot(data=df, x=\"horas\", y=\"nota\", group=\"turno\")</code>":"<code>group</code> no es un parámetro de <code>scatterplot</code>: tira <code>AttributeError</code> al intentar aplicarlo. Para separar por categorías se usa <code>hue</code>.",
+  "<code>sns.scatterplot(data=df, x=\"turno\", y=\"nota\", hue=\"horas\")</code>":"Corre, pero cambia el gráfico: pone el turno en el eje X y colorea por horas. No responde a lo pedido."
+ }
+},
+{
+ id:"c6-14", clase:6, tema:"Seaborn", nivel:"media",
+ caso:"Armaste <code>fig, axes = plt.subplots(1, 2)</code> y querés dibujar un boxplot de Seaborn en el gráfico de la <b>derecha</b>.",
+ pide:"¿Cómo le indicás dónde dibujar?",
+ ops:[
+  "<code>sns.boxplot(data=df, x=\"turno\", y=\"nota\", ax=axes[1])</code>",
+  "<code>sns.boxplot(data=df, x=\"turno\", y=\"nota\", axis=1)</code>",
+  "<code>sns.boxplot(data=df, x=\"turno\", y=\"nota\", subplot=2)</code>",
+  "<code>axes[1].boxplot(data=df, x=\"turno\", y=\"nota\")</code>"
+ ],
+ aprendido:"Las funciones de Seaborn dibujan sobre el gráfico <b>activo</b> salvo que les pases <b><code>ax=</code></b> con el Axes elegido. Así combinás Matplotlib (que arma la grilla con <code>subplots</code>) y Seaborn (que dibuja cada panel).",
+ porque:{
+  "<code>sns.boxplot(data=df, x=\"turno\", y=\"nota\", axis=1)</code>":"<code>axis</code> es un concepto de pandas y NumPy (<code>axis=1</code>). En Seaborn, para elegir el gráfico se pasa el <b>objeto</b> con <code>ax=</code>.",
+  "<code>sns.boxplot(data=df, x=\"turno\", y=\"nota\", subplot=2)</code>":"No existe el parámetro <code>subplot</code> en las funciones de Seaborn: Seaborn no interpreta posiciones numéricas.",
+  "<code>axes[1].boxplot(data=df, x=\"turno\", y=\"nota\")</code>":"Ese es el <code>boxplot</code> de <b>Matplotlib</b>: no tiene un parámetro <code>y</code> y tira <code>TypeError</code>. Seaborn se llama con <code>sns.</code> y se le pasa <code>ax=</code> para elegir el panel."
+ }
 }
 
 ];
@@ -1925,6 +2237,38 @@ Notebook,Computacion,950000,3
 2026-02-03,Norte,Switch,4
 2026-02-14,Centro,Firewall,1
 2026-02-22,Sur,Switch,6
+`,
+"clientes.csv":
+`id,nombre,ciudad,edad,compras
+1,  ana perez,Cordoba,34,5
+2,LUIS GOMEZ,Rosario,,3
+3,marta diaz,Cordoba,41,
+2,LUIS GOMEZ,Rosario,,3
+4,Pedro Ruiz ,Salta,29,8
+5,sofia luna,Rosario,52,2
+6,Jorge Sosa,Salta,38,4
+`,
+"ventas_detalle.csv":
+`venta,sku,unidades,sucursal
+1,A1,3,Norte
+2,B1,1,Sur
+3,A2,5,Norte
+4,C1,1,Centro
+5,A1,2,Sur
+6,B1,2,Norte
+`,
+"catalogo.csv":
+`sku,producto,categoria,precio
+A1,Teclado,Perifericos,25000
+A2,Mouse,Perifericos,18000
+B1,Monitor,Monitores,210000
+C1,Notebook,Computacion,950000
+`,
+"config.json":
+`{"umbral": 50000, "moneda": "ARS"}
+`,
+"config_roto.json":
+`{"umbral": 50000, "moneda": "ARS"
 `
 };
 
@@ -2699,6 +3043,690 @@ plt.grid(True, alpha=0.3)
 
 plt.tight_layout()
 plt.show()`
+},
+
+/* ---------------- PRÁCTICA EXTRA ----------------
+   Comandos de la cursada (chuleta) que los 9 ejercicios de los parciales no tocan:
+   limpieza, merge/agg/pivot_table, estadística descriptiva, subplots, NumPy 2D,
+   try/except con JSON y Seaborn. */
+{
+ id:"lab-x1", modelo:"Extra", ej:"Ej 1", titulo:"Limpieza de un CSV sucio",
+ paquetes:["numpy","pandas"], limpiar:["clientes_limpios.csv"],
+ enunciado:"El archivo clientes.csv viene con los problemas de siempre: una fila repetida, nombres con espacios y mayúsculas mezcladas, y celdas vacías. Hay que dejarlo listo para analizar.",
+ datos:`clientes.csv
+id,nombre,ciudad,edad,compras
+1,  ana perez,Cordoba,34,5
+2,LUIS GOMEZ,Rosario,,3
+3,marta diaz,Cordoba,41,
+2,LUIS GOMEZ,Rosario,,3
+4,Pedro Ruiz ,Salta,29,8
+5,sofia luna,Rosario,52,2
+6,Jorge Sosa,Salta,38,4`,
+ tareas:[
+  "Cargar clientes.csv y contar cuántas filas están duplicadas (antes de borrarlas).",
+  "Eliminar las filas duplicadas.",
+  "Normalizar el nombre: sin espacios de los costados y con la primera letra de cada palabra en mayúscula.",
+  "Completar edad con la mediana y compras con 0, y dejar ambas columnas como enteros.",
+  "Exportar el resultado como clientes_limpios.csv sin el índice."
+ ],
+ variables:[
+  ["df","el DataFrame tal cual se lee del CSV"],
+  ["duplicados","cantidad de filas repetidas (un número)"],
+  ["limpio","el DataFrame ya limpio: 6 filas, nombres normalizados, sin nulos, edad y compras enteras"],
+  ["clientes_limpios.csv","archivo exportado, sin índice"]
+ ],
+ nota:"Orden que pide la cursada: primero <b>inspeccionar</b> (contar duplicados), después <b>limpiar</b> y recién al final <b>convertir tipos</b>. Si hacés <code>astype(int)</code> con nulos todavía presentes, Python corta con error.",
+ inicial:`import pandas as pd
+
+# Tarea 1: cargar clientes.csv y contar duplicados
+df = ...
+duplicados = ...
+
+# Tarea 2: eliminar duplicados
+limpio = ...
+
+# Tarea 3: normalizar el nombre
+
+
+# Tarea 4: completar nulos y pasar a enteros (edad -> mediana, compras -> 0)
+
+
+# Tarea 5: exportar a clientes_limpios.csv sin el índice
+
+
+print(limpio)
+print("Duplicados encontrados:", duplicados)
+`,
+ tests:[
+  {nombre:"duplicados vale 1",
+   codigo:`assert int(duplicados) == 1, f"da {duplicados}; hay una sola fila repetida (el cliente 2). Contala con df.duplicated().sum() antes de borrar"`},
+  {nombre:"limpio no tiene filas repetidas y quedan 6",
+   codigo:`assert len(limpio) == 6, f"limpio tiene {len(limpio)} filas y deberían ser 6"
+assert not limpio.duplicated().any(), "todavía quedan filas duplicadas"`},
+  {nombre:"los nombres están normalizados",
+   codigo:`esperado = ["Ana Perez", "Jorge Sosa", "Luis Gomez", "Marta Diaz", "Pedro Ruiz", "Sofia Luna"]
+assert sorted(limpio["nombre"]) == esperado, f"los nombres quedaron {sorted(limpio['nombre'])}. Hace falta .str.strip() y .str.title()"`},
+  {nombre:"no quedan nulos en edad ni compras",
+   codigo:`nulos = int(limpio[["edad", "compras"]].isna().sum().sum())
+assert nulos == 0, f"todavía hay {nulos} celdas vacías en edad/compras"`},
+  {nombre:"la edad faltante se completó con la mediana (38) y la compra faltante con 0",
+   codigo:`x = limpio.set_index("id")
+assert int(x.loc[2, "edad"]) == 38, f"la edad de Luis quedó {x.loc[2, 'edad']}; la mediana de las edades conocidas es 38"
+assert int(x.loc[3, "compras"]) == 0, f"las compras de Marta quedaron {x.loc[3, 'compras']}; debían completarse con 0"`},
+  {nombre:"edad y compras son enteros",
+   codigo:`assert pd.api.types.is_integer_dtype(limpio["edad"]), f"edad es {limpio['edad'].dtype}; pasala a entero con astype(int) después de completar los nulos"
+assert pd.api.types.is_integer_dtype(limpio["compras"]), f"compras es {limpio['compras'].dtype}; pasala a entero con astype(int)"`},
+  {nombre:"clientes_limpios.csv existe, sin índice y con 6 filas",
+   codigo:`assert os.path.exists("clientes_limpios.csv"), "no se encontró clientes_limpios.csv: falta to_csv"
+chk = pd.read_csv("clientes_limpios.csv")
+assert len(chk) == 6, f"el archivo tiene {len(chk)} filas y deberían ser 6"
+assert chk.columns[0] == "id", "la primera columna del archivo es " + str(chk.columns[0]) + ": se guardó el índice. Usá index=False"`}
+ ],
+ solucion:`import pandas as pd
+
+df = pd.read_csv("clientes.csv")
+duplicados = df.duplicated().sum()
+
+limpio = df.drop_duplicates().copy()
+
+limpio["nombre"] = limpio["nombre"].str.strip().str.title()
+
+limpio["edad"] = limpio["edad"].fillna(limpio["edad"].median()).astype(int)
+limpio["compras"] = limpio["compras"].fillna(0).astype(int)
+
+limpio.to_csv("clientes_limpios.csv", index=False)
+
+print(limpio)
+print("Duplicados encontrados:", duplicados)`
+},
+
+{
+ id:"lab-x2", modelo:"Extra", ej:"Ej 2", titulo:"Unir tablas, resumir y pivotear",
+ paquetes:["numpy","pandas"], limpiar:[],
+ enunciado:"Las ventas están en un archivo y los datos de cada producto en otro, enlazados por el código sku. Hay que unirlos, calcular importes y armar dos resúmenes distintos.",
+ datos:`ventas_detalle.csv
+venta,sku,unidades,sucursal
+1,A1,3,Norte
+2,B1,1,Sur
+3,A2,5,Norte
+4,C1,1,Centro
+5,A1,2,Sur
+6,B1,2,Norte
+
+catalogo.csv
+sku,producto,categoria,precio
+A1,Teclado,Perifericos,25000
+A2,Mouse,Perifericos,18000
+B1,Monitor,Monitores,210000
+C1,Notebook,Computacion,950000`,
+ tareas:[
+  "Cargar los dos CSV.",
+  "Unir las ventas con el catálogo por sku, conservando todas las ventas.",
+  "Crear la columna importe = unidades × precio.",
+  "Resumir por categoría con agg: importe total y unidades promedio.",
+  "Armar una tabla dinámica con sucursales en filas, categorías en columnas y el importe sumado (0 donde no hubo ventas)."
+ ],
+ variables:[
+  ["ventas y catalogo","los dos DataFrames leídos"],
+  ["df","el resultado del merge, con la columna importe"],
+  ["resumen_categoria","índice categoría, columnas importe_total y unidades_prom"],
+  ["tabla","pivot_table: sucursal × categoría, sin NaN"]
+ ],
+ nota:"La regla de la clase: <b>misma estructura → concat; entidades relacionadas → merge</b>. Acá son entidades relacionadas (venta y producto), por eso merge. Dejá la tabla dinámica con las sucursales como índice (no le hagas <code>reset_index</code>).",
+ inicial:`import pandas as pd
+
+# Tarea 1: cargar los dos archivos
+ventas = ...
+catalogo = ...
+
+# Tarea 2: unir por sku (conservando todas las ventas)
+df = ...
+
+# Tarea 3: importe = unidades * precio
+
+
+# Tarea 4: resumen por categoría (importe_total y unidades_prom)
+resumen_categoria = ...
+
+# Tarea 5: tabla dinámica sucursal x categoria
+tabla = ...
+
+print(df)
+print(resumen_categoria)
+print(tabla)
+`,
+ tests:[
+  {nombre:"el merge conserva las 6 ventas y trae producto, categoría y precio",
+   codigo:`assert len(df) == 6, f"df tiene {len(df)} filas y deberían ser 6, una por venta"
+for c in ["producto", "categoria", "precio", "unidades", "sucursal"]:
+    assert c in df.columns, f"falta la columna {c} en df"`},
+  {nombre:"importe es unidades por precio (total 1.795.000)",
+   codigo:`assert "importe" in df.columns, "falta la columna importe"
+assert (df["importe"] == df["unidades"] * df["precio"]).all(), "importe no coincide con unidades * precio"
+assert float(df["importe"].sum()) == 1795000, f"el importe total da {df['importe'].sum()} y debería dar 1795000"`},
+  {nombre:"resumen_categoria: importe total por categoría",
+   codigo:`r = resumen_categoria
+assert isinstance(r, pd.DataFrame), "resumen_categoria tiene que ser un DataFrame con dos columnas: usá .agg(importe_total=('importe', 'sum'), unidades_prom=('unidades', 'mean')) en vez de ['importe'].sum()"
+if "categoria" in r.columns: r = r.set_index("categoria")
+assert "importe_total" in r.columns and "unidades_prom" in r.columns, f"las columnas son {list(r.columns)}; deben llamarse importe_total y unidades_prom (agg con nombres)"
+assert float(r.loc["Perifericos", "importe_total"]) == 215000, f"Perifericos da {r.loc['Perifericos', 'importe_total']} y debería dar 215000"
+assert float(r.loc["Monitores", "importe_total"]) == 630000, "el total de Monitores debería ser 630000"
+assert float(r.loc["Computacion", "importe_total"]) == 950000, "el total de Computacion debería ser 950000"`},
+  {nombre:"resumen_categoria: unidades promedio por categoría",
+   codigo:`r = resumen_categoria
+assert isinstance(r, pd.DataFrame), "resumen_categoria tiene que ser un DataFrame con dos columnas: usá .agg(importe_total=('importe', 'sum'), unidades_prom=('unidades', 'mean')) en vez de ['importe'].sum()"
+if "categoria" in r.columns: r = r.set_index("categoria")
+assert abs(float(r.loc["Perifericos", "unidades_prom"]) - 10/3) < 0.001, f"el promedio de Perifericos es (3+5+2)/3 = 3.33 y da {r.loc['Perifericos', 'unidades_prom']}"
+assert abs(float(r.loc["Monitores", "unidades_prom"]) - 1.5) < 0.001, "el promedio de unidades de Monitores debería ser 1.5"`},
+  {nombre:"tabla tiene 3 sucursales x 3 categorías",
+   codigo:`assert tabla.shape == (3, 3), f"la tabla mide {tabla.shape} y debería ser (3, 3): sucursal en filas, categoría en columnas"
+assert set(tabla.index) == {"Norte", "Sur", "Centro"}, f"las filas son {list(tabla.index)}; deberían ser las sucursales (¿hiciste reset_index?)"`},
+  {nombre:"tabla suma el importe y completa con 0 (sin NaN)",
+   codigo:`assert float(tabla.loc["Norte", "Perifericos"]) == 165000, f"Norte/Perifericos da {tabla.loc['Norte', 'Perifericos']} y debería dar 165000"
+assert float(tabla.loc["Norte", "Monitores"]) == 420000, "Norte/Monitores debería ser 420000"
+assert float(tabla.loc["Centro", "Computacion"]) == 950000, "Centro/Computacion debería ser 950000"
+assert not tabla.isna().any().any(), "la tabla tiene NaN: usá fill_value=0"
+assert float(tabla.loc["Centro", "Perifericos"]) == 0, "donde no hubo ventas debe haber 0"`}
+ ],
+ solucion:`import pandas as pd
+
+ventas = pd.read_csv("ventas_detalle.csv")
+catalogo = pd.read_csv("catalogo.csv")
+
+df = ventas.merge(catalogo, on="sku", how="left")
+
+df["importe"] = df["unidades"] * df["precio"]
+
+resumen_categoria = df.groupby("categoria").agg(
+    importe_total=("importe", "sum"),
+    unidades_prom=("unidades", "mean"),
+)
+
+tabla = pd.pivot_table(df, index="sucursal", columns="categoria",
+                       values="importe", aggfunc="sum", fill_value=0)
+
+print(df)
+print(resumen_categoria)
+print(tabla)`
+},
+
+{
+ id:"lab-x3", modelo:"Extra", ej:"Ej 3", titulo:"Estadística descriptiva y correlación",
+ paquetes:["numpy","pandas"], limpiar:[],
+ enunciado:"Ocho estudiantes registraron cuántas horas estudiaron para el parcial, la nota que sacaron y en qué turno cursan. Hay que describir los datos y ver si estudiar más se nota en la nota.",
+ datos:`horas = [2, 4, 5, 6, 8, 10, 3, 7]
+nota  = [4, 5, 6, 6, 8, 9, 5, 7]
+turno = ["Tarde", "Noche", "Tarde", "Noche", "Tarde", "Noche", "Noche", "Tarde"]`,
+ tareas:[
+  "Crear el DataFrame con las tres columnas.",
+  "Obtener el resumen estadístico de las columnas numéricas.",
+  "Calcular la mediana y el desvío estándar de la nota.",
+  "Calcular la correlación entre horas y nota.",
+  "Contar cuántos estudiantes hay por turno.",
+  "Filtrar a los estudiantes cuya nota es 8 o 9 usando isin."
+ ],
+ variables:[
+  ["df","el DataFrame con horas, nota y turno"],
+  ["resumen","el resultado de describe()"],
+  ["mediana_nota","mediana de la columna nota"],
+  ["desvio_nota","desvío estándar de la columna nota (el de pandas)"],
+  ["correlacion","correlación entre horas y nota"],
+  ["cuenta_turno","cantidad de estudiantes por turno"],
+  ["destacados","las filas con nota 8 o 9"]
+ ],
+ nota:"Trampa clásica: el desvío de pandas (<code>Series.std()</code>) divide por n−1, y el de NumPy (<code>np.std</code>) por n. Con datos de muestra, el que pide la cursada es el de pandas.",
+ inicial:`import pandas as pd
+
+horas = [2, 4, 5, 6, 8, 10, 3, 7]
+nota = [4, 5, 6, 6, 8, 9, 5, 7]
+turno = ["Tarde", "Noche", "Tarde", "Noche", "Tarde", "Noche", "Noche", "Tarde"]
+
+# Tarea 1: el DataFrame
+df = ...
+
+# Tarea 2: resumen estadístico
+resumen = ...
+
+# Tarea 3: mediana y desvío de la nota
+mediana_nota = ...
+desvio_nota = ...
+
+# Tarea 4: correlación horas-nota
+correlacion = ...
+
+# Tarea 5: estudiantes por turno
+cuenta_turno = ...
+
+# Tarea 6: notas 8 o 9
+destacados = ...
+
+print(resumen)
+print("Mediana:", mediana_nota, "| Desvío:", desvio_nota)
+print("Correlación:", correlacion)
+print(cuenta_turno)
+print(destacados)
+`,
+ tests:[
+  {nombre:"df tiene 8 filas y las columnas horas, nota y turno",
+   codigo:`assert len(df) == 8, f"df tiene {len(df)} filas y deberían ser 8"
+for c in ["horas", "nota", "turno"]:
+    assert c in df.columns, f"falta la columna {c}"`},
+  {nombre:"resumen viene de describe()",
+   codigo:`assert isinstance(resumen, pd.DataFrame), "resumen debería ser un DataFrame: df.describe()"
+assert "50%" in resumen.index and "std" in resumen.index, "no se ven count/mean/std/50%: usá df.describe()"
+assert "nota" in resumen.columns and "turno" not in resumen.columns, "describe() resume solo las columnas numéricas"`},
+  {nombre:"mediana_nota da 6.0",
+   codigo:`assert abs(float(mediana_nota) - 6.0) < 1e-9, f"da {mediana_nota} y debería dar 6.0 (ordená las notas y tomá el medio)"`},
+  {nombre:"desvio_nota es el desvío de muestra (pandas, n-1)",
+   codigo:`esperado = float(np.std([4, 5, 6, 6, 8, 9, 5, 7], ddof=1))
+poblacional = float(np.std([4, 5, 6, 6, 8, 9, 5, 7]))
+d = float(desvio_nota)
+assert abs(d - poblacional) > 1e-6 or abs(d - esperado) < 1e-6, f"da {d:.4f}: es el desvío poblacional (np.std, divide por n). Con Series.std() de pandas debería dar {esperado:.4f}"
+assert abs(d - esperado) < 1e-4, f"da {d:.4f} y debería dar {esperado:.4f}"`},
+  {nombre:"correlacion horas-nota es alta y positiva (≈ 0.96)",
+   codigo:`esperado = float(np.corrcoef([2, 4, 5, 6, 8, 10, 3, 7], [4, 5, 6, 6, 8, 9, 5, 7])[0, 1])
+assert abs(float(correlacion) - esperado) < 1e-6, f"da {correlacion} y debería dar {esperado:.4f}. Usá df['horas'].corr(df['nota'])"`},
+  {nombre:"cuenta_turno: 4 de cada turno",
+   codigo:`assert int(cuenta_turno["Tarde"]) == 4 and int(cuenta_turno["Noche"]) == 4, f"debería haber 4 estudiantes por turno y da {dict(cuenta_turno)}. Probá df['turno'].value_counts()"`},
+  {nombre:"destacados tiene las dos filas con nota 8 o 9",
+   codigo:`assert len(destacados) == 2, f"destacados tiene {len(destacados)} filas y deberían ser 2"
+assert set(destacados["nota"]) == {8, 9}, f"las notas que quedaron son {set(destacados['nota'])}"
+assert set(destacados["horas"]) == {8, 10}, "las filas no son las correctas: filtrá con df[df['nota'].isin([8, 9])]"`}
+ ],
+ solucion:`import pandas as pd
+
+horas = [2, 4, 5, 6, 8, 10, 3, 7]
+nota = [4, 5, 6, 6, 8, 9, 5, 7]
+turno = ["Tarde", "Noche", "Tarde", "Noche", "Tarde", "Noche", "Noche", "Tarde"]
+
+df = pd.DataFrame({"horas": horas, "nota": nota, "turno": turno})
+
+resumen = df.describe()
+
+mediana_nota = df["nota"].median()
+desvio_nota = df["nota"].std()
+
+correlacion = df["horas"].corr(df["nota"])
+
+cuenta_turno = df["turno"].value_counts()
+
+destacados = df[df["nota"].isin([8, 9])]
+
+print(resumen)
+print(f"Mediana: {mediana_nota} | Desvío: {desvio_nota:.3f}")
+print(f"Correlación: {correlacion:.3f}")
+print(cuenta_turno)
+print(destacados)`
+},
+
+{
+ id:"lab-x4", modelo:"Extra", ej:"Ej 4", titulo:"Panel de dos gráficos con subplots",
+ paquetes:["numpy","pandas","matplotlib"], limpiar:["panel.png"],
+ enunciado:"Con los datos de doce estudiantes hay que armar un panel de dos gráficos lado a lado: cómo se distribuyen las edades y si estudiar más sube la nota. El panel se guarda como imagen.",
+ datos:`edades = [19, 20, 20, 21, 21, 21, 22, 22, 23, 25, 26, 30]
+horas  = [2, 4, 5, 6, 8, 10, 3, 7, 9, 1, 6, 4]
+nota   = [4, 5, 6, 6, 8, 9, 5, 7, 8, 3, 6, 5]`,
+ tareas:[
+  "Crear una figura con 1 fila y 2 columnas de gráficos (plt.subplots).",
+  "A la izquierda, un histograma de edades con 5 intervalos y una línea vertical en el promedio, con etiqueta.",
+  "A la derecha, un diagrama de dispersión de horas contra nota.",
+  "Título y etiquetas de ejes en los dos gráficos, y leyenda en el de la izquierda.",
+  "Guardar el panel como panel.png y mostrarlo."
+ ],
+ variables:[
+  ["fig, axes","la figura y el arreglo con los 2 gráficos"],
+  ["axes[0]","histograma de 5 barras + línea vertical en el promedio (22.5) + leyenda"],
+  ["axes[1]","dispersión con los 12 puntos"],
+  ["títulos y ejes","en los dos, con set_title, set_xlabel y set_ylabel"],
+  ["panel.png","archivo guardado con savefig"]
+ ],
+ nota:"Con varios gráficos ya no se usa <code>plt.title</code>: cada gráfico es un <b>Axes</b> y los rótulos llevan el prefijo <code>set_</code> (<code>ax.set_title</code>, <code>ax.set_xlabel</code>…). El título general de la figura es <code>fig.suptitle</code>.",
+ inicial:`import matplotlib.pyplot as plt
+
+edades = [19, 20, 20, 21, 21, 21, 22, 22, 23, 25, 26, 30]
+horas = [2, 4, 5, 6, 8, 10, 3, 7, 9, 1, 6, 4]
+nota = [4, 5, 6, 6, 8, 9, 5, 7, 8, 3, 6, 5]
+
+# Tarea 1: figura con 1 fila y 2 columnas
+fig, axes = ...
+
+# Tarea 2: histograma de edades (5 intervalos) y línea vertical en el promedio
+
+
+# Tarea 3: dispersión horas vs nota
+
+
+# Tarea 4: títulos, ejes y leyenda
+
+
+# Tarea 5: guardar panel.png y mostrar
+fig.tight_layout()
+plt.show()
+`,
+ tests:[
+  {nombre:"la figura tiene 2 gráficos",
+   codigo:`fig = plt.gcf()
+assert len(fig.axes) == 2, f"la figura tiene {len(fig.axes)} gráficos y deberían ser 2: plt.subplots(1, 2)"`},
+  {nombre:"el histograma tiene 5 barras que suman 12 estudiantes",
+   codigo:`ax = plt.gcf().axes[0]
+alturas = [float(p.get_height()) for p in ax.patches]
+assert len(alturas) == 5, f"el histograma tiene {len(alturas)} barras y deberían ser 5: bins=5"
+assert sum(alturas) == 12, f"las barras suman {sum(alturas)} y deberían sumar 12 (todos los estudiantes)"`},
+  {nombre:"hay una línea vertical en el promedio de edades (22.5)",
+   codigo:`ax = plt.gcf().axes[0]
+xs = [float(l.get_xdata()[0]) for l in ax.lines if len(set(l.get_xdata())) == 1 and len(l.get_xdata()) == 2]
+assert xs, "no hay ninguna línea vertical en el histograma: probá ax.axvline(promedio)"
+assert any(abs(x - 22.5) < 0.01 for x in xs), f"la línea está en {xs} y el promedio de las edades es 22.5"`},
+  {nombre:"el gráfico de la derecha dibuja los 12 puntos",
+   codigo:`ax = plt.gcf().axes[1]
+puntos = sum(len(c.get_offsets()) for c in ax.collections)
+assert puntos == 12, f"hay {puntos} puntos y deberían ser 12: axes[1].scatter(horas, nota)"`},
+  {nombre:"los dos gráficos tienen título y etiquetas en los ejes",
+   codigo:`for i, ax in enumerate(plt.gcf().axes):
+    assert ax.get_title().strip(), f"falta el título del gráfico {i} (ax.set_title)"
+    assert ax.get_xlabel().strip(), f"falta la etiqueta del eje X del gráfico {i} (ax.set_xlabel)"
+    assert ax.get_ylabel().strip(), f"falta la etiqueta del eje Y del gráfico {i} (ax.set_ylabel)"`},
+  {nombre:"el histograma tiene leyenda",
+   codigo:`ax = plt.gcf().axes[0]
+assert ax.get_legend() is not None, "falta la leyenda: la línea necesita label=... y después ax.legend()"`},
+  {nombre:"panel.png se guardó",
+   codigo:`assert os.path.exists("panel.png"), "no se encontró panel.png: falta fig.savefig('panel.png')"
+assert os.path.getsize("panel.png") > 1000, "panel.png está casi vacío: guardalo después de dibujar los gráficos"`}
+ ],
+ solucion:`import matplotlib.pyplot as plt
+
+edades = [19, 20, 20, 21, 21, 21, 22, 22, 23, 25, 26, 30]
+horas = [2, 4, 5, 6, 8, 10, 3, 7, 9, 1, 6, 4]
+nota = [4, 5, 6, 6, 8, 9, 5, 7, 8, 3, 6, 5]
+
+fig, axes = plt.subplots(1, 2, figsize=(10, 4))
+
+promedio = sum(edades) / len(edades)
+axes[0].hist(edades, bins=5, color="steelblue", edgecolor="white")
+axes[0].axvline(promedio, color="crimson", linestyle="--", label=f"Promedio {promedio:.1f}")
+
+axes[1].scatter(horas, nota, color="darkorange")
+
+axes[0].set_title("Distribución de edades")
+axes[0].set_xlabel("Edad")
+axes[0].set_ylabel("Cantidad de estudiantes")
+axes[0].legend()
+
+axes[1].set_title("Más horas de estudio, mejor nota")
+axes[1].set_xlabel("Horas de estudio")
+axes[1].set_ylabel("Nota")
+
+fig.tight_layout()
+fig.savefig("panel.png")
+plt.show()`
+},
+
+{
+ id:"lab-x5", modelo:"Extra", ej:"Ej 5", titulo:"Matrices y estadísticas con NumPy",
+ paquetes:["numpy","pandas"], limpiar:[],
+ enunciado:"Dos mini-problemas de NumPy: darle forma de tabla a una serie de números y trabajar por filas y columnas, y clasificar mediciones de temperatura sin usar bucles.",
+ datos:`Serie: los números del 1 al 12
+Temperaturas: [18.5, 21.0, 24.5, 30.2, 27.8, 19.4, 15.9, 22.3, 26.7, 29.1, 31.5, 17.2]
+Categorías: menos de 20 → "Fresco", de 20 a 27.9 → "Templado", 28 o más → "Caluroso"`,
+ tareas:[
+  "Crear el arreglo con los números del 1 al 12 con np.arange y darle forma de 3 filas × 4 columnas.",
+  "Sumar por filas y promediar por columnas.",
+  "Crear el arreglo de temperaturas y calcular mediana, desvío estándar y la posición de la temperatura más baja.",
+  "Clasificar cada temperatura como Fresco, Templado o Caluroso con np.select."
+ ],
+ variables:[
+  ["serie, matriz","arange(1, 13) y su versión de forma (3, 4)"],
+  ["suma_filas","un valor por fila: [10 26 42]"],
+  ["medias_col","un valor por columna: [5 6 7 8]"],
+  ["temps","arreglo con las 12 temperaturas"],
+  ["mediana_temp, desvio_temp, pos_min","mediana, desvío (np.std) y posición del mínimo"],
+  ["categoria","arreglo de 12 textos, uno por temperatura"]
+ ],
+ nota:"En un arreglo 2D, <code>axis=0</code> opera <b>bajando</b> por las filas (da un resultado por columna) y <code>axis=1</code> opera <b>a lo largo</b> de cada fila (da un resultado por fila). Además, <code>np.arange(1, 13)</code> llega hasta 12: el final no se incluye.",
+ inicial:`import numpy as np
+
+# Tarea 1: números del 1 al 12 y forma (3, 4)
+serie = ...
+matriz = ...
+
+# Tarea 2: suma por filas y promedio por columnas
+suma_filas = ...
+medias_col = ...
+
+# Tarea 3: temperaturas
+temps = np.array([18.5, 21.0, 24.5, 30.2, 27.8, 19.4, 15.9, 22.3, 26.7, 29.1, 31.5, 17.2])
+mediana_temp = ...
+desvio_temp = ...
+pos_min = ...
+
+# Tarea 4: clasificar con np.select
+categoria = ...
+
+print(matriz)
+print("Suma por filas:", suma_filas)
+print("Medias por columna:", medias_col)
+print("Mediana:", mediana_temp, "| Desvío:", desvio_temp, "| Posición del mínimo:", pos_min)
+print(categoria)
+`,
+ tests:[
+  {nombre:"serie va del 1 al 12 y matriz es de 3 x 4",
+   codigo:`assert list(serie) == list(range(1, 13)), f"serie es {list(serie)}; arange(1, 13) va del 1 al 12 (el final no se incluye)"
+assert matriz.shape == (3, 4), f"matriz mide {matriz.shape} y debería medir (3, 4): serie.reshape(3, 4)"`},
+  {nombre:"suma_filas da [10, 26, 42]",
+   codigo:`assert list(np.ravel(suma_filas)) == [10, 26, 42], f"da {list(np.ravel(suma_filas))}. Sumar por filas es axis=1 (una suma por cada fila)"`},
+  {nombre:"medias_col da [5, 6, 7, 8]",
+   codigo:`assert np.allclose(np.ravel(medias_col), [5, 6, 7, 8]), f"da {list(np.ravel(medias_col))}. Promediar por columnas es axis=0 (un promedio por cada columna)"`},
+  {nombre:"la mediana da 23.4",
+   codigo:`esperado = float(np.median([18.5, 21.0, 24.5, 30.2, 27.8, 19.4, 15.9, 22.3, 26.7, 29.1, 31.5, 17.2]))
+assert abs(float(mediana_temp) - esperado) < 1e-6, f"da {mediana_temp} y debería dar {esperado}"`},
+  {nombre:"el desvío estándar es el de NumPy",
+   codigo:`esperado = float(np.std([18.5, 21.0, 24.5, 30.2, 27.8, 19.4, 15.9, 22.3, 26.7, 29.1, 31.5, 17.2]))
+assert abs(float(desvio_temp) - esperado) < 1e-6, f"da {float(desvio_temp):.4f} y debería dar {esperado:.4f} (np.std de temps)"`},
+  {nombre:"pos_min es 6 (la temperatura 15.9)",
+   codigo:`assert int(pos_min) == 6, f"da {pos_min}; el mínimo (15.9) está en la posición 6. argmin() da la posición, min() da el valor"`},
+  {nombre:"categoria: 4 Fresco, 5 Templado y 3 Caluroso",
+   codigo:`cat = [str(c) for c in np.ravel(categoria)]
+assert len(cat) == 12, f"categoria tiene {len(cat)} elementos y deberían ser 12"
+assert (cat.count("Fresco"), cat.count("Templado"), cat.count("Caluroso")) == (4, 5, 3), f"hay {cat.count('Fresco')} Fresco, {cat.count('Templado')} Templado y {cat.count('Caluroso')} Caluroso; deberían ser 4, 5 y 3"
+assert cat[6] == "Fresco" and cat[10] == "Caluroso" and cat[1] == "Templado", "alguna temperatura quedó en la categoría equivocada"`}
+ ],
+ solucion:`import numpy as np
+
+serie = np.arange(1, 13)
+matriz = serie.reshape(3, 4)
+
+suma_filas = matriz.sum(axis=1)
+medias_col = matriz.mean(axis=0)
+
+temps = np.array([18.5, 21.0, 24.5, 30.2, 27.8, 19.4, 15.9, 22.3, 26.7, 29.1, 31.5, 17.2])
+mediana_temp = np.median(temps)
+desvio_temp = np.std(temps)
+pos_min = np.argmin(temps)
+
+categoria = np.select([temps < 20, temps < 28], ["Fresco", "Templado"], default="Caluroso")
+
+print(matriz)
+print("Suma por filas:", suma_filas)
+print("Medias por columna:", medias_col)
+print("Mediana:", mediana_temp, "| Desvío:", round(desvio_temp, 2), "| Posición del mínimo:", pos_min)
+print(categoria)`
+},
+
+{
+ id:"lab-x6", modelo:"Extra", ej:"Ej 6", titulo:"Leer un JSON sin que el programa explote",
+ paquetes:["numpy","pandas"], limpiar:[],
+ enunciado:"Una función que lee un archivo de configuración JSON tiene que sobrevivir a los dos problemas típicos: que el archivo no exista y que exista pero esté mal escrito. Cada caso merece su propio mensaje.",
+ datos:`config.json          → {"umbral": 50000, "moneda": "ARS"}
+config_roto.json     → {"umbral": 50000, "moneda": "ARS"     (falta cerrar la llave)
+inexistente.json     → no existe`,
+ tareas:[
+  "Escribir la función leer_json(ruta) que abre el archivo con encoding utf-8 y lo carga con json.load.",
+  "Si el archivo no existe, devolver (None, \"No existe el archivo: <ruta>\").",
+  "Si el archivo está mal formado, devolver (None, \"El archivo está mal formado: <ruta>\").",
+  "Si sale bien, devolver (datos, \"OK\"). Agregar un finally que imprima que terminó el intento.",
+  "Llamar a la función con los tres archivos y guardar los resultados."
+ ],
+ variables:[
+  ["leer_json(ruta)","función que devuelve una tupla (datos, mensaje)"],
+  ["r_ok","resultado con config.json"],
+  ["r_falta","resultado con inexistente.json"],
+  ["r_roto","resultado con config_roto.json"]
+ ],
+ nota:"Regla central de la clase: <b>capturar excepciones específicas</b>. Un <code>except Exception</code> (o peor, un <code>except:</code> pelado) tapa errores reales que no querías atrapar. La corrección lo revisa mirando tu código. Los archivos ya están en el disco del laboratorio.",
+ inicial:`import json
+
+# Tareas 1 a 4: la función
+def leer_json(ruta):
+    ...
+
+
+# Tarea 5: probarla con los tres archivos
+r_ok = ...
+r_falta = ...
+r_roto = ...
+
+print(r_ok)
+print(r_falta)
+print(r_roto)
+`,
+ tests:[
+  {nombre:"leer_json existe y es una función",
+   codigo:`assert callable(leer_json), "leer_json tiene que ser una función: def leer_json(ruta):"`},
+  {nombre:"con config.json devuelve los datos y \"OK\"",
+   codigo:`assert isinstance(r_ok, tuple) and len(r_ok) == 2, "la función debe devolver una tupla (datos, mensaje)"
+assert r_ok[0] == {"umbral": 50000, "moneda": "ARS"}, f"los datos leídos son {r_ok[0]}"
+assert r_ok[1] == "OK", f"el mensaje es {r_ok[1]!r} y debería ser 'OK'"`},
+  {nombre:"con un archivo inexistente devuelve (None, \"No existe…\")",
+   codigo:`assert isinstance(r_falta, tuple) and r_falta[0] is None, "para un archivo que no existe el primer valor debe ser None"
+assert "no existe el archivo" in r_falta[1].lower(), f"el mensaje es {r_falta[1]!r}; debe empezar con 'No existe el archivo:'"
+assert "inexistente.json" in r_falta[1], "el mensaje debe incluir el nombre del archivo"`},
+  {nombre:"con un JSON roto devuelve (None, \"…mal formado…\")",
+   codigo:`assert isinstance(r_roto, tuple) and r_roto[0] is None, "para un JSON roto el primer valor debe ser None"
+assert "mal formado" in r_roto[1].lower(), f"el mensaje es {r_roto[1]!r}; debe decir que el archivo está mal formado"
+assert "config_roto.json" in r_roto[1], "el mensaje debe incluir el nombre del archivo"`},
+  {nombre:"funciona con cualquier ruta, no solo con las tres de prueba",
+   codigo:`d, m = leer_json("otro_archivo_que_no_existe.json")
+assert d is None and "no existe" in m.lower(), "la función solo funciona con las rutas del ejemplo: tiene que usar el parámetro ruta"`},
+  {nombre:"captura excepciones específicas, con encoding y finally",
+   codigo:`assert "except:" not in _fuente and "except Exception" not in _fuente and "except BaseException" not in _fuente, "no captures todo junto: usá except FileNotFoundError y except json.JSONDecodeError"
+assert "FileNotFoundError" in _fuente and "JSONDecodeError" in _fuente, "capturá FileNotFoundError y json.JSONDecodeError por separado"
+assert "encoding" in _fuente, "declará siempre encoding='utf-8' al abrir el archivo"
+assert "finally" in _fuente, "falta el bloque finally que avise que terminó el intento"`}
+ ],
+ solucion:`import json
+
+def leer_json(ruta):
+    try:
+        with open(ruta, "r", encoding="utf-8") as f:
+            datos = json.load(f)
+    except FileNotFoundError:
+        return None, f"No existe el archivo: {ruta}"
+    except json.JSONDecodeError:
+        return None, f"El archivo está mal formado: {ruta}"
+    else:
+        return datos, "OK"
+    finally:
+        print(f"Intento de lectura terminado: {ruta}")
+
+r_ok = leer_json("config.json")
+r_falta = leer_json("inexistente.json")
+r_roto = leer_json("config_roto.json")
+
+print(r_ok)
+print(r_falta)
+print(r_roto)`
+},
+
+{
+ id:"lab-x7", modelo:"Extra", ej:"Ej 7", titulo:"Seaborn: caja, dispersión y mapa de calor",
+ paquetes:["numpy","pandas","matplotlib","seaborn"], limpiar:[],
+ enunciado:"Con los mismos ocho estudiantes del ejercicio de estadística, armá tres gráficos de Seaborn en una fila: la distribución de notas por turno, la relación horas–nota con color por turno y la correlación en un mapa de calor.",
+ datos:`horas = [2, 4, 5, 6, 8, 10, 3, 7]
+nota  = [4, 5, 6, 6, 8, 9, 5, 7]
+turno = ["Tarde", "Noche", "Tarde", "Noche", "Tarde", "Noche", "Noche", "Tarde"]`,
+ tareas:[
+  "Armar el DataFrame y una figura con 1 fila y 3 gráficos.",
+  "Diagrama de caja de la nota por turno en el primer gráfico.",
+  "Dispersión de horas contra nota, con color por turno (hue), en el segundo.",
+  "Mapa de calor de la matriz de correlación de horas y nota, con los valores escritos (annot), en el tercero.",
+  "Un título por gráfico."
+ ],
+ variables:[
+  ["axes[0]","boxplot: turno en X, nota en Y"],
+  ["axes[1]","scatterplot de 8 puntos con hue y leyenda"],
+  ["axes[2]","heatmap de 2 × 2 con los números adentro"],
+  ["títulos","uno por gráfico"]
+ ],
+ nota:"Seaborn se apoya en Matplotlib: le pasás el DataFrame en <code>data=</code> y los nombres de columna como texto en <code>x=</code> e <code>y=</code>. El parámetro <code>ax=</code> le dice en cuál de tus gráficos dibujar. La primera vez descarga Seaborn (unos MB extra).",
+ inicial:`import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+horas = [2, 4, 5, 6, 8, 10, 3, 7]
+nota = [4, 5, 6, 6, 8, 9, 5, 7]
+turno = ["Tarde", "Noche", "Tarde", "Noche", "Tarde", "Noche", "Noche", "Tarde"]
+
+# Tarea 1: DataFrame y figura con 3 gráficos
+df = ...
+fig, axes = ...
+
+# Tarea 2: boxplot de nota por turno (axes[0])
+
+
+# Tarea 3: dispersión horas vs nota con color por turno (axes[1])
+
+
+# Tarea 4: mapa de calor de la correlación, con valores (axes[2])
+
+
+# Tarea 5: títulos
+axes[0].set_title("...")
+
+fig.tight_layout()
+plt.show()
+`,
+ tests:[
+  {nombre:"hay tres gráficos en la figura",
+   codigo:`assert len(plt.gcf().axes) >= 3, f"la figura tiene {len(plt.gcf().axes)} gráficos; hacen falta 3 (plt.subplots(1, 3))"`},
+  {nombre:"el primero es un boxplot de nota por turno",
+   codigo:`ax = plt.gcf().axes[0]
+assert ax.get_xlabel() == "turno" and ax.get_ylabel() == "nota", f"los ejes dicen {ax.get_xlabel()!r} y {ax.get_ylabel()!r}; sns.boxplot(data=df, x='turno', y='nota', ax=axes[0]) los rotula solo"
+assert len(ax.get_xticklabels()) == 2, "tiene que haber una caja por turno (2)"
+assert len(ax.lines) >= 10, "no se ven las cajas: usá sns.boxplot"`},
+  {nombre:"el segundo dibuja los 8 puntos con color por turno",
+   codigo:`ax = plt.gcf().axes[1]
+puntos = sum(len(c.get_offsets()) for c in ax.collections)
+assert puntos == 8, f"hay {puntos} puntos y deberían ser 8"
+assert ax.get_legend() is not None, "falta la leyenda del color: pasá hue='turno' a sns.scatterplot"`},
+  {nombre:"el tercero es un mapa de calor de 2 x 2 con los números escritos",
+   codigo:`ax = plt.gcf().axes[2]
+assert ax.collections and ax.collections[0].get_array().size == 4, "el mapa de calor debe ser de 2 x 2: sns.heatmap(df[['horas', 'nota']].corr(), ...)"
+assert len(ax.texts) == 4, "faltan los valores escritos en cada celda: annot=True"`},
+  {nombre:"cada gráfico tiene su título",
+   codigo:`for i in range(3):
+    assert plt.gcf().axes[i].get_title().strip(), f"falta el título del gráfico {i} (ax.set_title)"`}
+ ],
+ solucion:`import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+horas = [2, 4, 5, 6, 8, 10, 3, 7]
+nota = [4, 5, 6, 6, 8, 9, 5, 7]
+turno = ["Tarde", "Noche", "Tarde", "Noche", "Tarde", "Noche", "Noche", "Tarde"]
+
+df = pd.DataFrame({"horas": horas, "nota": nota, "turno": turno})
+fig, axes = plt.subplots(1, 3, figsize=(14, 4))
+
+sns.boxplot(data=df, x="turno", y="nota", ax=axes[0])
+sns.scatterplot(data=df, x="horas", y="nota", hue="turno", ax=axes[1])
+sns.heatmap(df[["horas", "nota"]].corr(), annot=True, vmin=-1, vmax=1, cmap="coolwarm", ax=axes[2])
+
+axes[0].set_title("Notas por turno")
+axes[1].set_title("Horas de estudio vs nota")
+axes[2].set_title("Correlación")
+
+fig.tight_layout()
+plt.show()`
 }
 
 ];
@@ -2808,6 +3836,105 @@ const METODOS = {
  {n:"plt.title / xlabel / ylabel", q:"Ponen el título del gráfico y el nombre de cada eje.", ej:'plt.title("Ventas 2026"); plt.xlabel("Mes"); plt.ylabel("Ventas")'},
  {n:"plt.grid()", q:"Dibuja la cuadrícula de fondo para leer mejor los valores.", ej:"plt.grid(True, alpha=0.3)"},
  {n:"plt.tight_layout() y plt.show()", q:"Acomodan los márgenes y muestran el gráfico. Van al final.", ej:"plt.tight_layout()\nplt.show()"}
+],
+
+"lab-x1":[
+ {n:"pd.read_csv()", q:"Lee un archivo CSV y lo devuelve como DataFrame.", ej:'df = pd.read_csv("clientes.csv")'},
+ {n:".duplicated()", q:"Marca con <code>True</code> cada fila que repite a una anterior. Encadenada con <code>.sum()</code> te dice cuántas son.",
+  ej:"duplicados = df.duplicated().sum()", ojo:"Contalas <b>antes</b> de borrarlas; después ya no hay nada que contar."},
+ {n:".drop_duplicates()", q:"Devuelve el DataFrame sin las filas repetidas (se queda con la primera aparición).", ej:"limpio = df.drop_duplicates().copy()",
+  ojo:"No modifica <code>df</code>: hay que guardar el resultado. El <code>.copy()</code> evita advertencias al modificar columnas después."},
+ {n:".str.strip() / .str.title()", q:"El accesor <code>.str</code> aplica métodos de texto a toda la columna: <code>strip()</code> saca espacios de los costados y <code>title()</code> pone la primera letra de cada palabra en mayúscula.",
+  ej:'limpio["nombre"] = limpio["nombre"].str.strip().str.title()', ojo:"Primero normalizar el texto, después agrupar: si no, «Ana » y «ana» son grupos distintos."},
+ {n:".fillna()", q:"Reemplaza los valores faltantes (<code>NaN</code>) por el valor que le indiques: un número fijo, o un cálculo como la mediana.",
+  ej:'limpio["compras"].fillna(0)', ojo:"Devuelve una copia: hay que reasignar la columna."},
+ {n:".median()", q:"Mediana: el valor del medio cuando ordenás los datos. A diferencia del promedio, no la arrastran los valores extremos, por eso es la favorita para completar nulos.",
+  ej:'limpio["edad"].fillna(limpio["edad"].median())'},
+ {n:".astype()", q:"Cambia el tipo de una columna (por ejemplo a entero o a texto).", ej:'limpio["edad"].astype(int)',
+  ojo:"Con nulos todavía presentes, <code>astype(int)</code> corta con error: completá primero, convertí después."},
+ {n:".to_csv(index=False)", q:"Guarda el DataFrame como CSV sin la columna del índice.", ej:'limpio.to_csv("clientes_limpios.csv", index=False)'}
+],
+
+"lab-x2":[
+ {n:"pd.read_csv()", q:"Lee un archivo CSV y lo devuelve como DataFrame.", ej:'ventas = pd.read_csv("ventas_detalle.csv")'},
+ {n:".merge()", q:"Une dos tablas por una columna clave compartida (como un BUSCARV de Excel, pero para toda la tabla). <code>how=\"left\"</code> conserva todas las filas de la tabla de la izquierda.",
+  ej:'df = ventas.merge(catalogo, on="sku", how="left")', ojo:"Si la clave se repite en las dos tablas, las filas se multiplican. Antes de unir, preguntate cuál es la cardinalidad (1:1, 1:N, N:M)."},
+ {n:"Columna nueva", q:"Asignar a una columna que no existe la crea; con operaciones entre columnas calcula fila por fila.", ej:'df["importe"] = df["unidades"] * df["precio"]'},
+ {n:".groupby()", q:"Agrupa las filas por los valores de una columna para resumir cada grupo.", ej:'df.groupby("categoria")'},
+ {n:".agg()", q:"Aplica varios resúmenes a la vez sobre un grupo. Con nombre nuevo = (columna, función) elegís cómo se llama cada resultado.",
+  ej:'.agg(importe_total=("importe", "sum"), unidades_prom=("unidades", "mean"))', ojo:"Sin nombres nuevos, las columnas salen con nombres genéricos y cuesta leerlas."},
+ {n:"pd.pivot_table()", q:"Reorganiza los datos en una grilla: una variable en filas, otra en columnas, y una función que resume los valores de cada cruce. Es la herramienta para «comparar A contra B».",
+  ej:'pd.pivot_table(df, index="sucursal", columns="categoria", values="importe", aggfunc="sum", fill_value=0)', ojo:"<code>fill_value=0</code> reemplaza los cruces sin datos (NaN) por 0."}
+],
+
+"lab-x3":[
+ {n:"pd.DataFrame({…})", q:"Arma una tabla a partir de un diccionario: clave = nombre de columna, valor = lista de datos.", ej:'df = pd.DataFrame({"horas": horas, "nota": nota, "turno": turno})', ojo:"Todas las listas tienen el mismo largo."},
+ {n:".describe()", q:"Resumen estadístico de las columnas numéricas: cantidad, promedio, desvío, mínimo, cuartiles (25 %, 50 %, 75 %) y máximo. Es el primer paso para conocer un dataset.",
+  ej:"resumen = df.describe()", ojo:"Ignora las columnas de texto; el 50 % es la mediana."},
+ {n:".median()", q:"Mediana: el valor del medio cuando ordenás los datos. No la arrastran los valores extremos.", ej:'mediana_nota = df["nota"].median()'},
+ {n:".std()", q:"Desvío estándar: cuánto se alejan en promedio los datos del promedio. En pandas divide por n−1 (desvío de muestra).",
+  ej:'desvio_nota = df["nota"].std()', ojo:"<code>np.std</code> divide por n y da un número un poco menor: no son intercambiables."},
+ {n:".corr()", q:"Correlación entre dos columnas: va de −1 a 1. Cerca de 1, cuando una sube la otra también; cerca de 0, no hay relación lineal.",
+  ej:'df["horas"].corr(df["nota"])', ojo:"Correlación no es causalidad."},
+ {n:".value_counts()", q:"Cuenta cuántas veces aparece cada valor distinto de una columna, de mayor a menor.", ej:'cuenta_turno = df["turno"].value_counts()'},
+ {n:".isin()", q:"Da verdadero cuando el valor de la fila está dentro de la lista. Entre corchetes sirve como filtro: es más cómodo que encadenar varios <code>==</code> con <code>|</code>.",
+  ej:'destacados = df[df["nota"].isin([8, 9])]'}
+],
+
+"lab-x4":[
+ {n:"plt.subplots()", q:"Crea una figura con una grilla de gráficos. Devuelve la figura y los gráficos (los <b>Axes</b>): <code>subplots(1, 2)</code> es 1 fila × 2 columnas.",
+  ej:"fig, axes = plt.subplots(1, 2, figsize=(10, 4))", ojo:"Con una sola fila, <code>axes</code> es una lista simple: <code>axes[0]</code>, <code>axes[1]</code>."},
+ {n:".hist()", q:"Histograma: agrupa los valores en intervalos (<code>bins</code>) y dibuja cuántos caen en cada uno. Sirve para ver la distribución de una variable.",
+  ej:'axes[0].hist(edades, bins=5, color="steelblue", edgecolor="white")', ojo:"La cantidad de <code>bins</code> cambia la forma del gráfico: no la dejes arbitraria."},
+ {n:".axvline()", q:"Dibuja una línea vertical en un valor del eje X: útil para marcar un promedio o un umbral. (<code>axhline</code> es la horizontal.)",
+  ej:'axes[0].axvline(promedio, color="crimson", linestyle="--", label="Promedio")'},
+ {n:".scatter()", q:"Diagrama de dispersión: un punto por cada par (x, y). Sirve para ver la relación entre dos variables cuantitativas.", ej:'axes[1].scatter(horas, nota)'},
+ {n:"ax.set_title / set_xlabel / set_ylabel", q:"Sobre un Axes, los rótulos llevan el prefijo <code>set_</code>. Es el equivalente de <code>plt.title</code> cuando hay varios gráficos.",
+  ej:'axes[0].set_title("Distribución de edades")', ojo:"<code>fig.suptitle()</code> es el título de toda la figura."},
+ {n:".legend()", q:"Muestra la leyenda con las etiquetas (<code>label=</code>) que le pusiste a cada elemento.", ej:"axes[0].legend()", ojo:"Sin <code>label=</code> en la línea, la leyenda sale vacía."},
+ {n:"fig.savefig()", q:"Guarda la figura como imagen (png, pdf…).", ej:'fig.savefig("panel.png")', ojo:"Se llama antes de <code>plt.show()</code>: después de mostrar, en algunos entornos la figura ya se cerró y sale vacía."},
+ {n:"plt.tight_layout() y plt.show()", q:"Acomodan los márgenes y muestran el gráfico. Van al final.", ej:"fig.tight_layout()\nplt.show()"}
+],
+
+"lab-x5":[
+ {n:"np.arange()", q:"Crea un arreglo con una secuencia de números, como <code>range</code> pero en NumPy. El final <b>no</b> se incluye.",
+  ej:"serie = np.arange(1, 13)", ojo:"Para llegar hasta 12 hay que escribir 13 como tope."},
+ {n:".reshape()", q:"Cambia la forma de un arreglo sin tocar sus datos: de una lista de 12 a una tabla de 3 filas × 4 columnas.",
+  ej:"matriz = serie.reshape(3, 4)", ojo:"Las filas × columnas tienen que dar la cantidad total de elementos."},
+ {n:"axis=0 / axis=1", q:"En un arreglo 2D, <code>axis=0</code> opera bajando por las filas (un resultado por <b>columna</b>) y <code>axis=1</code> opera a lo largo de cada fila (un resultado por <b>fila</b>).",
+  ej:"matriz.sum(axis=1)   # una suma por fila\nmatriz.mean(axis=0)  # un promedio por columna", ojo:"Sin <code>axis</code>, resume todo el arreglo en un solo número."},
+ {n:"np.array()", q:"Convierte una lista de Python en un arreglo de NumPy.", ej:"temps = np.array([18.5, 21.0, 24.5])"},
+ {n:"np.median() y np.std()", q:"Mediana y desvío estándar de un arreglo. <code>np.std</code> divide por n (desvío poblacional).",
+  ej:"np.median(temps)\nnp.std(temps)", ojo:"El <code>.std()</code> de pandas divide por n−1: da un valor levemente distinto con los mismos datos."},
+ {n:".argmin()", q:"Devuelve la <b>posición</b> del valor más chico, no el valor.", ej:"pos_min = np.argmin(temps)", ojo:"<code>min()</code> da el valor; <code>argmin()</code> da dónde está."},
+ {n:"np.select()", q:"Es un «si … si no si … si no» para todo un arreglo: una lista de condiciones, una lista de resultados y un valor por defecto para lo que no cumple ninguna.",
+  ej:'np.select([temps < 20, temps < 28], ["Fresco", "Templado"], default="Caluroso")', ojo:"Se evalúan en orden y gana la primera condición verdadera: por eso van de la más restrictiva a la más amplia."}
+],
+
+"lab-x6":[
+ {n:"try / except / else / finally", q:"<code>try</code> intenta hacer algo riesgoso; <code>except</code> atrapa un error puntual; <code>else</code> corre solo si no hubo error; <code>finally</code> corre siempre, haya o no error.",
+  ej:"try:\n    ...\nexcept FileNotFoundError:\n    ...\nelse:\n    ...\nfinally:\n    ...", ojo:"Cada tipo de error se atrapa por separado, con su mensaje."},
+ {n:"Excepciones específicas", q:"<code>FileNotFoundError</code> = la ruta está mal o el archivo no existe. <code>json.JSONDecodeError</code> = el archivo existe pero el JSON está mal escrito. Distinguirlos permite dar un mensaje útil para cada caso.",
+  ej:"except FileNotFoundError:\nexcept json.JSONDecodeError:", ojo:"Un <code>except Exception</code> o un <code>except:</code> pelado también atrapa bugs que no querías tapar."},
+ {n:"with open(…, encoding=\"utf-8\")", q:"Abre el archivo y lo cierra solo al terminar el bloque, aunque haya un error. Declarar el encoding hace que el programa funcione igual en cualquier computadora.",
+  ej:'with open(ruta, "r", encoding="utf-8") as f:', ojo:"Sin encoding, depende de la configuración de cada sistema."},
+ {n:"json.load()", q:"Lee un archivo JSON ya abierto y lo convierte en objetos de Python (diccionarios y listas).", ej:"datos = json.load(f)", ojo:"<code>json.loads</code> (con s) convierte un <b>texto</b>, no un archivo."},
+ {n:"Devolver una tupla (resultado, mensaje)", q:"Una función puede devolver dos cosas juntas separadas por coma: quien la llama recibe el dato y además un aviso de cómo salió.",
+  ej:'return None, f"No existe el archivo: {ruta}"', ojo:"Los f-strings llevan la <code>f</code> antes de las comillas; sin ella, las llaves se imprimen literales."}
+],
+
+"lab-x7":[
+ {n:"plt.subplots()", q:"Crea una figura con una grilla de gráficos. Devuelve la figura y los Axes: <code>subplots(1, 3)</code> es 1 fila × 3 columnas.", ej:"fig, axes = plt.subplots(1, 3, figsize=(14, 4))"},
+ {n:"sns.boxplot()", q:"Diagrama de caja: por cada categoría muestra mediana, cuartiles y valores extremos. Sirve para comparar distribuciones entre grupos.",
+  ej:'sns.boxplot(data=df, x="turno", y="nota", ax=axes[0])', ojo:"<code>ax=</code> le dice en cuál de tus gráficos dibujar; sin él, dibuja en el último."},
+ {n:"sns.scatterplot()", q:"Dispersión con extras: <code>hue</code> pinta los puntos según una columna categórica y arma la leyenda solo.",
+  ej:'sns.scatterplot(data=df, x="horas", y="nota", hue="turno", ax=axes[1])'},
+ {n:".corr()", q:"Correlación entre columnas numéricas (de −1 a 1). Sobre un DataFrame devuelve la <b>matriz</b> de correlaciones de todas contra todas.",
+  ej:'df[["horas", "nota"]].corr()', ojo:"Con columnas de texto en el DataFrame, hay que quedarse solo con las numéricas."},
+ {n:"sns.heatmap()", q:"Mapa de calor: pinta cada celda de una matriz según su valor. Con <code>annot=True</code> escribe el número adentro. Es la forma clásica de mostrar una matriz de correlación.",
+  ej:'sns.heatmap(df[["horas", "nota"]].corr(), annot=True, vmin=-1, vmax=1, ax=axes[2])', ojo:"<code>vmin=-1, vmax=1</code> fija la escala real de una correlación."},
+ {n:"ax.set_title / set_xlabel / set_ylabel", q:"Sobre un Axes, los rótulos llevan el prefijo <code>set_</code>.", ej:'axes[0].set_title("Notas por turno")'},
+ {n:"plt.tight_layout() y plt.show()", q:"Acomodan los márgenes y muestran el gráfico. Van al final.", ej:"fig.tight_layout()\nplt.show()"}
 ]
 
 };
