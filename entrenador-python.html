@@ -62,7 +62,8 @@ a{color:var(--acento)}
 .btn-tema{cursor:pointer; font-family:var(--mono); font-size:.66rem; letter-spacing:.08em; padding:.45rem .7rem; background:var(--papel-2); color:var(--tinta-2); border:1px solid var(--linea); border-radius:2px; width:100%}
 .btn-tema:hover{color:var(--tinta); border-color:var(--tinta-3)}
 
-.lienzo{max-width:860px; margin:0 auto; padding:2.4rem clamp(1rem,3vw,2.4rem) 6rem; width:100%}
+.lienzo{max-width:860px; margin:0 auto; padding:2.4rem clamp(1rem,3vw,2.4rem) 6rem; width:100%; transition:max-width .2s}
+.lienzo.ancho{max-width:1480px}
 .vista{display:none}
 .vista.on{display:block}
 
@@ -176,7 +177,13 @@ ul.porque b{color:var(--tinta); font-weight:600}
 .ficha-ej.on{background:var(--acento); border-color:var(--acento); color:var(--papel); font-weight:600}
 .ficha-ej.hecho .mk{color:var(--bien)}
 .ficha-ej.on .mk{color:var(--papel)}
-.lab{display:grid; grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr); gap:1rem; align-items:start}
+.lab{display:grid; grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr); gap:1rem; align-items:start}
+.lab > .tabla{min-width:0}
+.lab.foco{grid-template-columns:minmax(0,1fr)}
+.enc-editor{display:flex; align-items:center; justify-content:space-between; gap:.6rem; margin-bottom:.45rem}
+.enc-editor .sub{margin:0}
+.btn-foco{cursor:pointer; font-family:var(--mono); font-size:.62rem; letter-spacing:.06em; padding:.3rem .55rem; background:var(--papel); color:var(--tinta-2); border:1px solid var(--linea); border-radius:2px}
+.btn-foco:hover{color:var(--tinta); border-color:var(--tinta-3)}
 .tabla{background:var(--papel-2); border:1px solid var(--linea); border-radius:2px; padding:1.1rem 1.2rem}
 .tabla .sub{font-family:var(--mono); font-size:.6rem; letter-spacing:.12em; text-transform:uppercase; color:var(--tinta-3); margin-bottom:.25rem}
 .tabla h3{font-family:var(--display); font-weight:700; font-size:1.15rem; margin:0}
@@ -216,22 +223,45 @@ details.solucion summary:hover{color:var(--tinta)}
 details.solucion[open] summary{border-bottom:1px solid var(--linea); color:var(--tinta)}
 details.solucion .cuerpo{padding:.8rem}
 
-/* CodeMirror con los tokens del proyecto */
-.CodeMirror{height:auto; min-height:300px; background:var(--papel); color:var(--tinta); font-family:var(--mono); font-size:.82rem; line-height:1.55; border:1px solid var(--linea); border-radius:2px; padding:.4rem 0}
-.CodeMirror-gutters{background:var(--papel-3); border-right:1px solid var(--linea)}
-.CodeMirror-linenumber{color:var(--tinta-3)}
-.CodeMirror-cursor{border-left:2px solid var(--acento)}
-.CodeMirror-selected{background:var(--acento-suave)}
-.CodeMirror-focused .CodeMirror-selected{background:var(--acento-suave)}
-.cm-s-default .cm-keyword{color:var(--alerta)}
-.cm-s-default .cm-string, .cm-s-default .cm-string-2{color:var(--bien)}
-.cm-s-default .cm-number{color:var(--aviso)}
-.cm-s-default .cm-comment{color:var(--tinta-3); font-style:italic}
-.cm-s-default .cm-builtin, .cm-s-default .cm-variable-2{color:var(--acento)}
-.cm-s-default .cm-def{color:var(--tinta)}
-.cm-s-default .cm-operator{color:var(--tinta-2)}
+/* CodeMirror con los tokens del proyecto.
+   El CSS de CodeMirror se baja del CDN DESPUÉS de esta hoja y trae fondo blanco:
+   por eso cada regla lleva el prefijo .lab (más específico) y no depende del orden. */
+.lab .CodeMirror{height:auto; background:var(--papel); color:var(--tinta); font-family:var(--mono); font-size:.84rem; line-height:1.6; border:1px solid var(--linea); border-radius:2px; padding:.4rem 0}
+.lab .CodeMirror-scroll{min-height:clamp(340px,52vh,560px); max-height:78vh}
+.lab.foco .CodeMirror-scroll{min-height:clamp(420px,62vh,720px); max-height:88vh}
+.lab .CodeMirror-focused{border-color:var(--acento)}
+.lab .CodeMirror-gutters{background:var(--papel-3); border-right:1px solid var(--linea)}
+.lab .CodeMirror-linenumber{color:var(--tinta-3)}
+.lab .CodeMirror-cursor{border-left:2px solid var(--acento)}
+.lab .CodeMirror-selected, .lab .CodeMirror-focused .CodeMirror-selected{background:var(--acento-suave)}
+.lab .CodeMirror-line::selection, .lab .CodeMirror-line > span::selection, .lab .CodeMirror-line > span > span::selection{background:var(--acento-suave)}
+.lab .cm-s-default .cm-keyword{color:var(--alerta)}
+.lab .cm-s-default .cm-string, .lab .cm-s-default .cm-string-2{color:var(--bien)}
+.lab .cm-s-default .cm-number, .lab .cm-s-default .cm-atom{color:var(--aviso)}
+.lab .cm-s-default .cm-comment{color:var(--tinta-3); font-style:italic}
+.lab .cm-s-default .cm-builtin, .lab .cm-s-default .cm-variable-2, .lab .cm-s-default .cm-variable-3{color:var(--acento)}
+.lab .cm-s-default .cm-def{color:var(--tinta); font-weight:600}
+.lab .cm-s-default .cm-variable, .lab .cm-s-default .cm-property{color:var(--tinta)}
+.lab .cm-s-default .cm-operator, .lab .cm-s-default .cm-meta{color:var(--tinta-2)}
+.lab .cm-s-default .cm-error{color:var(--alerta)}
 
-@media (max-width:1000px){ .lab{grid-template-columns:1fr} }
+/* Métodos que usa cada ejercicio */
+.metodos-caja{margin-top:1rem}
+.metodos-caja > .sub{font-family:var(--mono); font-size:.6rem; letter-spacing:.12em; text-transform:uppercase; color:var(--tinta-3); margin-bottom:.25rem}
+.metodos-caja > h3{font-family:var(--display); font-weight:700; font-size:1.15rem; margin:0}
+.metodos-caja > p.desc{font-size:.9rem; color:var(--tinta-2); margin:.4rem 0 .9rem}
+.metodos{display:grid; grid-template-columns:repeat(auto-fill,minmax(min(100%,330px),1fr)); gap:.7rem}
+.metodo{background:var(--papel); border:1px solid var(--linea); border-left:3px solid var(--acento); border-radius:2px; padding:.75rem .9rem; min-width:0; font-size:.88rem; line-height:1.5}
+.metodo h5{margin:0 0 .35rem; font-family:var(--mono); font-size:.8rem; font-weight:700; color:var(--acento); overflow-wrap:anywhere}
+.metodo p{margin:0 0 .5rem; color:var(--tinta-2)}
+.metodo pre{margin:0 0 .5rem; padding:.45rem .6rem; font-size:.76rem; white-space:pre-wrap; overflow-wrap:anywhere; background:var(--papel-2)}
+.metodo .ojo{border-top:1px dashed var(--linea); padding-top:.45rem; margin:0; font-size:.82rem; color:var(--tinta-2)}
+.metodo .ojo b{color:var(--aviso); font-family:var(--mono); font-size:.62rem; letter-spacing:.1em; text-transform:uppercase; margin-right:.3rem}
+.metodo .tambien{margin:.5rem 0 0; font-family:var(--mono); font-size:.62rem; color:var(--tinta-3); line-height:1.6}
+.metodo code{overflow-wrap:anywhere}
+
+@media (max-width:1100px){ .lab{grid-template-columns:minmax(0,1fr)} .btn-foco{display:none} }
+@media (max-width:560px){ .lab .CodeMirror{font-size:.8rem} .lab .CodeMirror-scroll{min-height:280px} .tabla{padding:.9rem .85rem} .acciones .pista{display:none} }
 @media (max-width:900px){
   .envoltorio{grid-template-columns:minmax(0,1fr)}
   .riel{position:static; height:auto}
@@ -368,6 +398,7 @@ details.solucion .cuerpo{padding:.8rem}
       <div class="tabla" id="lab-enunciado"></div>
       <div class="tabla" id="lab-editor"></div>
     </div>
+    <div class="tabla metodos-caja" id="lab-metodos"></div>
   </section>
 
 </main>

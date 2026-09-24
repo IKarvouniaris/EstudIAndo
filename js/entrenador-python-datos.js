@@ -2702,3 +2702,112 @@ plt.show()`
 }
 
 ];
+
+/* ==============================================================
+   LABORATORIO · métodos que se usan en cada ejercicio
+   --------------------------------------------------------------
+   n:  nombre del método (igual en todos los ejercicios donde aparece,
+       así el laboratorio avisa en qué otros ejercicios se repite)
+   q:  qué hace, en criollo
+   ej: la línea tal cual va en el código
+   ojo: el error típico (opcional)
+   ============================================================== */
+const METODOS = {
+
+"lab-a1":[
+ {n:"np.array()", q:"Convierte una lista de Python en un arreglo de NumPy. La diferencia importante: el arreglo permite operar todos los elementos juntos, sin bucle.",
+  ej:"unidades = np.array([12, 15, 11])", ojo:"Una lista común no se puede multiplicar elemento a elemento: <code>[1,2] * [3,4]</code> da error."},
+ {n:"Operaciones vectorizadas", q:"Con dos arreglos del mismo largo, <code>*</code>, <code>+</code>, <code>-</code> y <code>/</code> operan posición por posición. Con un número suelto, lo aplica a todos.",
+  ej:"ingresos = unidades * precios", ojo:"Un aumento del 8 % es multiplicar por <code>1.08</code>, no por <code>0.08</code>."},
+ {n:".sum()", q:"Suma todos los elementos del arreglo o de la columna.", ej:"ingreso_total = ingresos.sum()"},
+ {n:".mean()", q:"Promedio: la suma dividida por la cantidad de elementos.", ej:"promedio_diario = ingresos.mean()"},
+ {n:".argmax()", q:"Devuelve la <b>posición</b> (el índice) del valor más grande, no el valor.", ej:"dia_mayor = ingresos.argmax()",
+  ojo:"<code>max()</code> te da el valor; <code>argmax()</code> te da dónde está. El enunciado pide el día, o sea la posición."}
+],
+
+"lab-a2":[
+ {n:"pd.read_csv()", q:"Lee un archivo CSV y lo devuelve como DataFrame (una tabla con filas y columnas con nombre).",
+  ej:'df = pd.read_csv("productos.csv")', ojo:"El nombre del archivo va entre comillas y tiene que coincidir exacto, con la extensión."},
+ {n:"df[[…]] (varias columnas)", q:"Con <b>doble corchete</b> y una lista de nombres te quedás solo con esas columnas y obtenés otro DataFrame.",
+  ej:'seleccion = df[["producto", "precio", "stock"]]', ojo:"Con un solo corchete, <code>df[\"precio\"]</code>, sale una Series (una columna suelta), no un DataFrame."},
+ {n:"Filtro booleano", q:"Una condición sobre una columna da verdadero/falso por fila; pasada entre corchetes, deja solo las filas verdaderas. Para combinar condiciones se usa <code>&amp;</code> (y) y <code>|</code> (o).",
+  ej:'seleccion[(seleccion["precio"] > 40000) & (seleccion["stock"] > 0)]', ojo:"Cada condición va entre <b>paréntesis</b>, y se usa <code>&amp;</code>, no <code>and</code>."},
+ {n:".to_csv(index=False)", q:"Guarda el DataFrame en un archivo CSV. Con <code>index=False</code> no escribe la columna del índice (0, 1, 2…).",
+  ej:'disponibles.to_csv("productos_disponibles.csv", index=False)', ojo:"Si te olvidás de <code>index=False</code>, el archivo sale con una columna extra sin nombre."}
+],
+
+"lab-a3":[
+ {n:"plt.figure(figsize=…)", q:"Crea la figura y fija su tamaño (ancho, alto) en pulgadas. Va antes de dibujar.", ej:"plt.figure(figsize=(8, 4))"},
+ {n:"plt.plot()", q:"Dibuja un gráfico de líneas: primero los valores del eje X y después los del eje Y. <code>marker</code> pone un punto en cada dato y <code>color</code> pinta la línea.",
+  ej:'plt.plot(dias, visitas, marker="o", color="blue")', ojo:"El orden es <code>plot(x, y)</code>; si los invertís, el gráfico sale al revés."},
+ {n:"plt.title / xlabel / ylabel", q:"Ponen el título del gráfico y el nombre de cada eje. Un gráfico sin ejes rotulados no se entiende.",
+  ej:'plt.title("Visitas por día"); plt.xlabel("Día"); plt.ylabel("Visitas")'},
+ {n:"plt.grid()", q:"Dibuja la cuadrícula de fondo para leer mejor los valores. <code>alpha</code> la hace más tenue.", ej:"plt.grid(True, alpha=0.3)"},
+ {n:"plt.tight_layout() y plt.show()", q:"<code>tight_layout()</code> acomoda los márgenes para que no se corten los rótulos, y <code>show()</code> muestra el gráfico. Van al final.",
+  ej:"plt.tight_layout()\nplt.show()", ojo:"Acá <code>show()</code> no abre ventana: el gráfico aparece debajo del editor."}
+],
+
+"lab-b1":[
+ {n:"pd.DataFrame({…})", q:"Arma una tabla a mano a partir de un diccionario: cada clave es el nombre de una columna y cada valor es la lista de sus datos.",
+  ej:'df = pd.DataFrame({"Nombre": ["Ana", "Bruno"], "Parcial1": [8, 6]})', ojo:"Todas las listas tienen que tener el mismo largo."},
+ {n:"Columna nueva", q:"Asignar a un nombre de columna que no existe la crea. Con operaciones entre columnas se calcula fila por fila.",
+  ej:'df["Promedio"] = (df["Parcial1"] + df["Parcial2"]) / 2', ojo:"La suma va entre paréntesis antes de dividir: sin ellos solo se divide el segundo parcial."},
+ {n:"np.where()", q:"Es un «si … entonces … si no» para toda una columna: <code>np.where(condición, valor_si_cumple, valor_si_no)</code>.",
+  ej:'np.where((df["Promedio"] >= 6) & (df["Asistencia"] >= 75), "Aprueba", "Revisa")', ojo:"Para combinar condiciones, <code>&amp;</code> con cada una entre paréntesis (igual que en un filtro)."},
+ {n:"df[[…]] (varias columnas)", q:"Doble corchete con una lista de nombres: muestra solo esas columnas.", ej:'print(df[["Nombre", "Promedio", "Estado"]])'}
+],
+
+"lab-b2":[
+ {n:"pd.read_json()", q:"Lee un archivo JSON (lista de objetos) y lo convierte en un DataFrame: cada objeto es una fila.", ej:'df = pd.read_json("pedidos.json")'},
+ {n:"pd.to_numeric()", q:"Convierte una columna de texto a número. Con <code>errors=\"coerce\"</code>, lo que no se puede convertir queda como <code>NaN</code> en vez de cortar el programa.",
+  ej:'df["importe"] = pd.to_numeric(df["importe"], errors="coerce")', ojo:"Hay que reasignar el resultado a la columna; sola no la modifica."},
+ {n:"Filtro booleano", q:"Comparar una columna con un valor (<code>==</code>) da verdadero/falso por fila; entre corchetes deja las filas verdaderas.",
+  ej:'entregados = df[df["estado"] == "entregado"]', ojo:"Comparar es <code>==</code> (dos signos); <code>=</code> asigna."},
+ {n:".sum()", q:"Suma los valores de la columna (ignora los NaN).", ej:'total = entregados["importe"].sum()'},
+ {n:".to_csv(index=False)", q:"Guarda el DataFrame como CSV; sin <code>index=False</code> agrega una columna con el índice.",
+  ej:'entregados.to_csv("entregados.csv", index=False)', ojo:"Si el enunciado dice «Excel» pero el archivo termina en <code>.csv</code>, el método es <code>to_csv</code>."}
+],
+
+"lab-b3":[
+ {n:"plt.bar()", q:"Gráfico de barras verticales: categorías en X, valores en Y. Devuelve las barras, que se pueden guardar para rotularlas después. <code>color</code> acepta una lista, una por barra.",
+  ej:"barras = plt.bar(categorias, ventas, color=colores)", ojo:"Para barras horizontales sería <code>plt.barh</code>."},
+ {n:"Lista de colores con comprensión", q:"Una lista armada con un <code>for</code> en una línea, que elige un color por barra según una condición.",
+  ej:'colores = ["crimson" if v == max(ventas) else "steelblue" for v in ventas]', ojo:"Tiene que haber un color por cada barra: mismo largo que <code>ventas</code>."},
+ {n:"plt.bar_label()", q:"Escribe el valor encima de cada barra. Recibe las barras que devolvió <code>plt.bar</code>.", ej:"plt.bar_label(barras, padding=3)"},
+ {n:"plt.title / xlabel / ylabel", q:"Ponen el título del gráfico y el nombre de cada eje.", ej:'plt.title("Ventas por categoría")'},
+ {n:"plt.tight_layout() y plt.show()", q:"Acomodan los márgenes y muestran el gráfico. Van al final.", ej:"plt.tight_layout()\nplt.show()"}
+],
+
+"lab-c1":[
+ {n:"pd.DataFrame({…})", q:"Arma una tabla a partir de un diccionario: clave = nombre de columna, valor = lista de datos.", ej:'df = pd.DataFrame({"Vendedor": ["Lucía", "Mateo"], "Unidades": [3, 5]})', ojo:"Todas las listas tienen el mismo largo."},
+ {n:"pd.to_datetime()", q:"Convierte una columna de texto con fechas al tipo fecha, para poder ordenar y calcular con ellas.", ej:'df["Fecha"] = pd.to_datetime(df["Fecha"])'},
+ {n:"Columna nueva", q:"Asignar a una columna que no existe la crea; con operaciones entre columnas calcula fila por fila.", ej:'df["Importe"] = df["Unidades"] * df["Precio"]'},
+ {n:".groupby()", q:"Agrupa las filas por los valores de una columna y después resumís cada grupo (<code>.sum()</code>, <code>.mean()</code>, <code>.count()</code>). Pensalo como «por cada vendedor, sumá…».",
+  ej:'df.groupby("Vendedor", as_index=False)["Importe"].sum()', ojo:"Con <code>as_index=False</code> el resultado es un DataFrame; sin eso, una Series con el vendedor como índice."},
+ {n:".sort_values()", q:"Ordena por valor. Por defecto es de menor a mayor; para al revés, <code>ascending=False</code>.",
+  ej:'df.groupby("Producto")["Unidades"].sum().sort_values(ascending=False)', ojo:"«De mayor a menor» es <code>ascending=False</code>."},
+ {n:".idxmax() y .loc", q:"<code>idxmax()</code> da la etiqueta de fila del valor máximo y <code>.loc[…]</code> trae esa fila completa. Juntos dan «la fila de la venta más grande».",
+  ej:'venta_mayor = df.loc[df["Importe"].idxmax()]', ojo:"<code>max()</code> solo te da el número, no la venta entera."}
+],
+
+"lab-c10":[
+ {n:"pd.read_csv()", q:"Lee un archivo CSV y lo devuelve como DataFrame.", ej:'enero = pd.read_csv("ventas_enero.csv")'},
+ {n:"Columna nueva", q:"Asignar un valor fijo a una columna nueva lo repite en todas las filas: sirve para marcar de qué archivo viene cada dato.", ej:'enero["mes"] = "Enero"'},
+ {n:"pd.concat()", q:"Apila varios DataFrame uno debajo del otro en uno solo. Con <code>ignore_index=True</code> vuelve a numerar las filas de 0 en adelante.",
+  ej:"ventas = pd.concat([enero, febrero], ignore_index=True)", ojo:"Sin <code>ignore_index=True</code> el índice queda repetido (0,1,2,0,1,2)."},
+ {n:"pd.to_datetime()", q:"Convierte la columna de texto con fechas al tipo fecha.", ej:'ventas["fecha"] = pd.to_datetime(ventas["fecha"])'},
+ {n:".groupby()", q:"Agrupa por una o varias columnas (en una lista) y resume cada grupo.", ej:'ventas.groupby(["sucursal", "producto"], as_index=False)["unidades"].sum()'},
+ {n:".to_csv(index=False)", q:"Guarda el DataFrame como CSV sin la columna del índice.", ej:'ventas.to_csv("consolidado_ventas.csv", index=False)'},
+ {n:".to_json()", q:"Guarda el DataFrame como JSON. Con <code>orient=\"records\"</code> sale una lista de objetos, uno por fila; <code>indent</code> lo deja legible.",
+  ej:'ventas.to_json("ventas.json", orient="records", indent=2)', ojo:"Sin <code>orient=\"records\"</code> el formato sale como columnas anidadas, raro de leer."}
+],
+
+"lab-c13":[
+ {n:"plt.figure(figsize=…)", q:"Crea la figura y fija su tamaño (ancho, alto). Va antes de dibujar.", ej:"plt.figure(figsize=(8, 4))"},
+ {n:"plt.plot()", q:"Gráfico de líneas: X primero, Y después. <code>marker</code> marca cada dato y <code>color</code> pinta la línea.", ej:'plt.plot(meses, ventas, marker="o", color="blue")'},
+ {n:"plt.title / xlabel / ylabel", q:"Ponen el título del gráfico y el nombre de cada eje.", ej:'plt.title("Ventas 2026"); plt.xlabel("Mes"); plt.ylabel("Ventas")'},
+ {n:"plt.grid()", q:"Dibuja la cuadrícula de fondo para leer mejor los valores.", ej:"plt.grid(True, alpha=0.3)"},
+ {n:"plt.tight_layout() y plt.show()", q:"Acomodan los márgenes y muestran el gráfico. Van al final.", ej:"plt.tight_layout()\nplt.show()"}
+]
+
+};

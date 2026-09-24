@@ -89,6 +89,7 @@ function mostrar(id){
   for(i = 0; i < vistas.length; i++) vistas[i].classList.toggle("on", vistas[i].id === id);
   document.getElementById("nav-inicio").classList.toggle("activo", id === "v-inicio");
   document.getElementById("nav-lab").classList.toggle("activo", id === "v-lab");
+  document.querySelector(".lienzo").classList.toggle("ancho", id === "v-lab");
   window.scrollTo({ top:0 });
 }
 function irInicio(){ renderInicio(); mostrar("v-inicio"); }
@@ -570,7 +571,8 @@ function renderLab(){
     (ej.nota ? '<p class="aviso-ej">' + ej.nota + '</p>' : "");
 
   document.getElementById("lab-editor").innerHTML =
-    '<div class="sub">Editor</div>' +
+    '<div class="enc-editor"><div class="sub">Editor</div>' +
+      '<button class="btn-foco" id="btn-foco" type="button" aria-pressed="false">⤢ Ancho completo</button></div>' +
     '<div id="ed-host"></div>' +
     '<div class="acciones">' +
       '<button class="btn principal" id="btn-correr" type="button">Ejecutar y corregir</button>' +
@@ -584,6 +586,19 @@ function renderLab(){
     '</div></details>';
 
   montarEditor(codigoGuardado(ej.id) || ej.inicial);
+  pintarMetodos(ej);
+  var bf = document.getElementById("btn-foco");
+  function pintarFoco(){
+    var foco = document.querySelector(".lab").classList.contains("foco");
+    bf.setAttribute("aria-pressed", foco ? "true" : "false");
+    bf.textContent = foco ? "⤡ Volver a dos columnas" : "⤢ Ancho completo";
+  }
+  pintarFoco();
+  bf.addEventListener("click", function(){
+    document.querySelector(".lab").classList.toggle("foco");
+    pintarFoco();
+    if(cmInstancia) cmInstancia.refresh();
+  });
   document.getElementById("btn-correr").addEventListener("click", ejecutarLab);
   document.getElementById("btn-reset").addEventListener("click", function(){
     setEditor(ej.inicial); guardarCodigo(ej.id, ej.inicial);
@@ -592,6 +607,31 @@ function renderLab(){
   document.getElementById("btn-sol").addEventListener("click", function(){
     setEditor(ej.solucion); guardarCodigo(ej.id, ej.solucion);
   });
+}
+
+/* Panel «Métodos que vas a usar»: sale de METODOS[id]. Si un método aparece en
+   otros ejercicios, lo avisa (se agrupan por nombre exacto). */
+function pintarMetodos(ej){
+  var caja = document.getElementById("lab-metodos");
+  var lista = (typeof METODOS !== "undefined" && METODOS[ej.id]) || [];
+  if(!lista.length){ caja.style.display = "none"; return; }
+  caja.style.display = "";
+  caja.innerHTML =
+    '<div class="sub">Modelo ' + ej.modelo + ' · ' + ej.ej + '</div>' +
+    '<h3>Métodos que vas a usar (' + lista.length + ')</h3>' +
+    '<p class="desc">Los que aparecen en la solución de este ejercicio, en el orden en que se usan. ' +
+    'Si uno se repite en otro ejercicio, abajo te lo marca.</p>' +
+    '<div class="metodos">' + lista.map(function(m){
+      var otros = EJERCICIOS.filter(function(e){
+        return e.id !== ej.id && (METODOS[e.id] || []).some(function(x){ return x.n === m.n; });
+      }).map(function(e){ return e.modelo + " · " + e.ej; });
+      return '<div class="metodo"><h5>' + esc(m.n) + '</h5>' +
+        '<p>' + m.q + '</p>' +
+        '<pre><code>' + esc(m.ej) + '</code></pre>' +
+        (m.ojo ? '<p class="ojo"><b>Ojo</b>' + m.ojo + '</p>' : '') +
+        (otros.length ? '<p class="tambien">También en: ' + esc(otros.join(" · ")) + '</p>' : '') +
+        '</div>';
+    }).join("") + '</div>';
 }
 
 function elegirEj(id){
