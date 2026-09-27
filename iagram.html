@@ -354,7 +354,61 @@ main.contenido{flex:1; padding-bottom:4.5rem}
     }
   ];
 
-  POSTS.etica = [].concat(POSTS_ETICA_C1, POSTS_ETICA_C2, POSTS_ETICA_C3, POSTS_ETICA_C4, POSTS_ETICA_C5);
+  var POSTS_ETICA_C6 = [
+    {
+      tipo: "concepto",
+      clase: 6,
+      titulo: "Una ley de 2000 que ya hablaba de scoring",
+      caption: "El art. 20 de la Ley 25.326 dice que ninguna decisión judicial o acto administrativo que valore la conducta de una persona puede basarse únicamente en un tratamiento informatizado que perfile su personalidad. Si eso pasa, la nulidad es insanable. Una ley argentina del año 2000 ya anticipaba los mismos problemas que hoy discutimos con IA.",
+      hashtags: ["Ley25326", "ProteccionDeDatos", "Bloque4", "ParaElParcial"],
+      href: "etica.html#c6"
+    },
+    {
+      tipo: "trampa",
+      clase: 6,
+      titulo: "No aplica a cualquier decisión automatizada",
+      caption: "El art. 20 habla específicamente de decisiones judiciales o actos administrativos. Si el que decide en base a un algoritmo es un banco privado, el argumento no va por ahí: va por el art. 22 del GDPR (si aplica) o por principios generales, no por el art. 20.",
+      hashtags: ["Trampa", "Ley25326", "GDPR"],
+      href: "etica.html#c6"
+    },
+    {
+      tipo: "caso",
+      clase: 6,
+      titulo: "Cuando lo verdadero deja de ser relevante",
+      caption: "En 1998 un diario publicó el embargo de una deuda ya resuelta. Años después, buscar el nombre de esa persona en Google seguía mostrando la noticia. El Tribunal de Justicia de la UE dijo: un tratamiento inicialmente lícito puede volverse incompatible con el tiempo si la información ya no es relevante. Solución: desindexar, no borrar — el diario conserva la nota.",
+      hashtags: ["DerechoAlOlvido", "Costeja", "CasoReal", "Bloque4"],
+      href: "etica.html#c6"
+    }
+  ];
+
+  var POSTS_ETICA_C7 = [
+    {
+      tipo: "concepto",
+      clase: 7,
+      titulo: "No hace falta probar que \"lo habría conseguido\"",
+      caption: "Hay daño cuando se lesiona un interés protegido: patrimonial, personalísimo, físico, o pérdida de chance — una oportunidad real y razonablemente probable que se perdió. No necesitás demostrar que ibas a conseguir el trabajo con certeza: alcanza con probar que perdiste una chance real de competir en igualdad.",
+      hashtags: ["PerdidaDeChance", "Responsabilidad", "Bloque5", "ParaElParcial"],
+      href: "etica.html#c7"
+    },
+    {
+      tipo: "trampa",
+      clase: 7,
+      titulo: "Cuidado con la certeza que no existe",
+      caption: "Decir que una candidata descartada por un algoritmo \"habría obtenido el empleo\" exige una certeza causal que no existe. Lo que sí se puede discutir, con mucho más sustento, es que perdió una chance real de ser seleccionada.",
+      hashtags: ["Trampa", "PerdidaDeChance", "ResponsabilidadCivil"],
+      href: "etica.html#c7"
+    },
+    {
+      tipo: "caso",
+      clase: 7,
+      titulo: "El sesgo que aprendió del propio historial",
+      caption: "Amazon entrenó un modelo de reclutamiento con diez años de CVs. Como la industria tech había sido mayormente masculina, el modelo aprendió que ese perfil era el \"exitoso\": penalizaba palabras como \"women's\" y favorecía el vocabulario típico de varones. Sacar la palabra \"woman\" no alcanzó: universidades y actividades seguían delatando el género por variables proxy. Amazon lo descartó en 2017 antes de desplegarlo del todo.",
+      hashtags: ["SesgoAlgoritmico", "Amazon", "CasoReal", "Bloque5"],
+      href: "etica.html#c7"
+    }
+  ];
+
+  POSTS.etica = [].concat(POSTS_ETICA_C1, POSTS_ETICA_C2, POSTS_ETICA_C3, POSTS_ETICA_C4, POSTS_ETICA_C5, POSTS_ETICA_C6, POSTS_ETICA_C7);
 
   // ===== VISTAS =====
   function mostrarVista(nombre){
