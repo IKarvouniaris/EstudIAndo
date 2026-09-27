@@ -300,7 +300,61 @@ main.contenido{flex:1; padding-bottom:4.5rem}
     }
   ];
 
-  POSTS.etica = [].concat(POSTS_ETICA_C1, POSTS_ETICA_C2, POSTS_ETICA_C3);
+  var POSTS_ETICA_C4 = [
+    {
+      tipo: "concepto",
+      clase: 4,
+      titulo: "La pregunta que sí sirve: ¿qué lo habría cambiado?",
+      caption: "Una buena explicación contesta 4 preguntas: qué datos usó, qué factores pesaron, qué lo habría cambiado, y cómo lo cuestiono. \"Con el resto igual, un ingreso mensual mayor a X habría cambiado la clasificación\" es mucho más accionable que un simple \"score insuficiente: 618\".",
+      hashtags: ["Explicabilidad", "Contrafactual", "Bloque3", "ParaElParcial"],
+      href: "etica.html#c4"
+    },
+    {
+      tipo: "trampa",
+      clase: 4,
+      titulo: "Esto no es una explicación",
+      caption: "\"Score insuficiente: 618\" no permite entender ni actuar. Sin el contrafactual (qué tendría que cambiar para que el resultado sea distinto), la persona afectada no puede ni cuestionar ni corregir la decisión.",
+      hashtags: ["Trampa", "Explicabilidad", "Contrafactual"],
+      href: "etica.html#c4"
+    },
+    {
+      tipo: "caso",
+      clase: 4,
+      titulo: "Opaco, estadístico, y aun así válido",
+      caption: "COMPAS clasificó a Loomis como alto riesgo en las tres escalas y eso pesó en su condena. Wisconsin resolvió que un algoritmo opaco (trade secret) y basado en estadística grupal puede usarse sin violar el debido proceso, pero con límites: no puede decidir si hay cárcel ni ser determinante por sí solo. Opacidad más generalización, y aun así se admite su uso: la paradoja que la cátedra marca como pregunta de parcial.",
+      hashtags: ["COMPAS", "Loomis", "CasoReal", "Bloque3"],
+      href: "etica.html#c4"
+    }
+  ];
+
+  var POSTS_ETICA_C5 = [
+    {
+      tipo: "concepto",
+      clase: 5,
+      titulo: "Tener acceso no es tener oportunidad",
+      caption: "El AI divide es la desigualdad real en poder desarrollar, acceder y beneficiarse de la IA: skills, idioma, capacidad institucional. Laptop más fibra más universidad más inglés no es lo mismo que un celular viejo con datos limitados, aunque en el papel \"ambos tengan acceso a IA\". Sin decisiones políticas deliberadas, es un círculo que refuerza las ventajas que ya existían.",
+      hashtags: ["AIDivide", "Desigualdad", "Bloque3", "ParaElParcial"],
+      href: "etica.html#c5"
+    },
+    {
+      tipo: "trampa",
+      clase: 5,
+      titulo: "Delegar no es lo mismo que mejorar",
+      caption: "Deskilling: delegás siempre en la IA y perdés la capacidad de detectar cuándo se equivoca. Upskilling: la IA libera tiempo, pero solo mejora el trabajo si hay formación y rediseño de puestos. La herramienta sola no genera upskilling: sin inversión deliberada, el resultado por defecto es deskilling.",
+      hashtags: ["Trampa", "Deskilling", "Upskilling"],
+      href: "etica.html#c5"
+    },
+    {
+      tipo: "caso",
+      clase: 5,
+      titulo: "Gestión algorítmica como subordinación",
+      caption: "La Corte Suprema del Reino Unido falló que los conductores de Uber eran \"workers\" con derecho a salario mínimo y vacaciones pagas, aunque el contrato dijera \"independientes\". Uber fijaba tarifas, monitoreaba cada aceptación y desconectaba automáticamente por ratings bajos, sin ningún gerente humano de por medio. Prevaleció la realidad de la relación sobre la etiqueta del contrato.",
+      hashtags: ["GestionAlgoritmica", "Uber", "CasoReal", "Bloque3"],
+      href: "etica.html#c5"
+    }
+  ];
+
+  POSTS.etica = [].concat(POSTS_ETICA_C1, POSTS_ETICA_C2, POSTS_ETICA_C3, POSTS_ETICA_C4, POSTS_ETICA_C5);
 
   // ===== VISTAS =====
   function mostrarVista(nombre){
