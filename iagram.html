@@ -57,6 +57,18 @@ main.contenido{flex:1; padding-bottom:4.5rem}
 .usuario-perfil{font-family:var(--mono); font-size:.68rem; color:var(--tinta-3)}
 .contador-perfil{font-family:var(--mono); font-size:.62rem; color:var(--tinta-2)}
 .badge-proximamente{font-family:var(--mono); font-size:.6rem; letter-spacing:.06em; color:var(--tinta-3); border:1px solid var(--linea); border-radius:2px; padding:.2rem .5rem}
+
+.perfil-header{display:flex; flex-direction:column; align-items:center; gap:.5rem; padding:1.8rem 1.2rem; border-bottom:1px solid var(--linea); text-align:center}
+.perfil-avatar{width:5rem; height:5rem; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:var(--display); font-weight:700; font-size:2rem; color:var(--papel-2)}
+.perfil-avatar[data-u="1"]{background:var(--u1)}
+.perfil-avatar[data-u="2"]{background:var(--u2)}
+.perfil-avatar[data-u="3"]{background:var(--u3)}
+.perfil-avatar[data-u="4"]{background:var(--u4)}
+#perfil-nombre{font-family:var(--display); font-weight:700; font-size:1.2rem; margin:0}
+#perfil-usuario{font-family:var(--mono); font-size:.72rem; color:var(--tinta-3); margin:0}
+#perfil-bio{font-size:.88rem; color:var(--tinta-2); max-width:32ch; margin:0 auto}
+#perfil-stats{font-family:var(--mono); font-size:.68rem; color:var(--tinta-2); margin:0}
+.feed{display:flex; flex-direction:column}
 </style>
 </head>
 <body>
@@ -180,7 +192,21 @@ main.contenido{flex:1; padding-bottom:4.5rem}
     });
   }
 
-  function renderPerfil(id){ /* se completa en la Tarea 3 */ }
+  function renderPerfil(id){
+    var perfil = PERFILES[id];
+    var avatar = document.querySelector(".perfil-avatar");
+    avatar.setAttribute("data-u", perfil.unidad);
+    avatar.textContent = perfil.nombre.charAt(0);
+    document.getElementById("perfil-nombre").textContent = perfil.nombre;
+    document.getElementById("perfil-usuario").textContent = perfil.usuario;
+    document.getElementById("perfil-bio").textContent = perfil.bio;
+    var posts = POSTS[id] || [];
+    document.getElementById("perfil-stats").textContent = perfil.clases + " clases · " + posts.length + " posts";
+    var feed = document.getElementById("feed");
+    feed.innerHTML = "";
+    posts.forEach(function(post){ feed.appendChild(crearPost(id, post)); });
+    mostrarVista("perfil");
+  }
 
   // ===== ROUTER =====
   function manejarHash(){
