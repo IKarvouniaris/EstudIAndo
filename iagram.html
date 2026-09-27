@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IAgram — estudIAndo</title>
+<style>
+:root{
+  color-scheme: light;
+  --papel:#EDEEE9; --papel-2:#F8F9F6; --papel-3:#E3E5DE;
+  --tinta:#15181A; --tinta-2:#545B60; --tinta-3:#7B8288;
+  --linea:#C7CAC2; --linea-2:#D9DBD4;
+  --u1:#2E3A94; --u2:#9A5A12; --u3:#1B6A5B; --u4:#6D3470;
+  --u1-suave:#E2E5F6; --u2-suave:#F4E7D2; --u3-suave:#DCEDE8; --u4-suave:#F0E3F0;
+  --display:"Bahnschrift","Franklin Gothic Medium","Arial Narrow","Helvetica Neue",sans-serif;
+  --body:"Sitka Text","Constantia",Georgia,"Times New Roman",serif;
+  --mono:"Cascadia Mono",Consolas,"SFMono-Regular",ui-monospace,monospace;
+}
+:root[data-tema="oscuro"]{
+  color-scheme: dark;
+  --papel:#101315; --papel-2:#181C20; --papel-3:#1F2429;
+  --tinta:#E9EBE6; --tinta-2:#A2AAB0; --tinta-3:#7C858B;
+  --linea:#2B3238; --linea-2:#232930;
+  --u1:#909EF0; --u2:#E2A95B; --u3:#4FC7AC; --u4:#D39AD6;
+  --u1-suave:#1B2040; --u2-suave:#35270F; --u3-suave:#10302B; --u4-suave:#2E1830;
+}
+*{box-sizing:border-box}
+@media (prefers-reduced-motion:reduce){ *{animation:none !important; transition:none !important} }
+body{margin:0; background:var(--papel-3); color:var(--tinta); font-family:var(--body); font-size:16px; line-height:1.5; -webkit-font-smoothing:antialiased}
+:focus-visible{outline:2px solid var(--u1); outline-offset:2px}
+a{color:inherit; text-decoration:none}
+
+.telefono{max-width:470px; margin:0 auto; min-height:100vh; background:var(--papel); border-left:1px solid var(--linea); border-right:1px solid var(--linea); display:flex; flex-direction:column}
+
+.barra-superior{position:sticky; top:0; z-index:5; display:flex; align-items:center; justify-content:space-between; gap:.6rem; padding:.8rem 1rem; background:var(--papel-2); border-bottom:1px solid var(--linea)}
+.barra-superior .logo{font-family:var(--display); font-weight:700; font-size:1.1rem}
+.barra-superior .acciones{display:flex; align-items:center; gap:.5rem}
+.barra-superior a, .barra-superior button{font-family:var(--mono); font-size:.62rem; letter-spacing:.06em; padding:.4rem .6rem; background:var(--papel-3); color:var(--tinta-2); border:1px solid var(--linea); border-radius:2px; cursor:pointer}
+.barra-superior button:hover, .barra-superior a:hover{color:var(--tinta); border-color:var(--tinta-3)}
+
+main.contenido{flex:1; padding-bottom:4.5rem}
+.vista[hidden]{display:none}
+
+.barra-inferior{position:sticky; bottom:0; z-index:5; display:flex; justify-content:space-around; padding:.7rem 0; background:var(--papel-2); border-top:1px solid var(--linea)}
+.barra-inferior a{font-family:var(--mono); font-size:.62rem; letter-spacing:.05em; color:var(--tinta-2)}
+.barra-inferior a:hover{color:var(--tinta)}
+</style>
+</head>
+<body>
+<div class="telefono">
+  <header class="barra-superior">
+    <a href="#" class="logo" id="link-inicio-superior">IAgram</a>
+    <div class="acciones">
+      <button class="btn-tema" id="btn-tema" type="button">MODO OSCURO</button>
+      <a href="index.html">estudIAndo →</a>
+    </div>
+  </header>
+
+  <main class="contenido">
+    <section id="vista-explorar" class="vista">
+      <div class="grilla-perfiles" id="grilla-perfiles"></div>
+    </section>
+
+    <section id="vista-perfil" class="vista" hidden>
+      <div class="perfil-header">
+        <span class="perfil-avatar"></span>
+        <h2 id="perfil-nombre"></h2>
+        <p id="perfil-usuario"></p>
+        <p id="perfil-bio"></p>
+        <p id="perfil-stats"></p>
+      </div>
+      <div class="feed" id="feed"></div>
+    </section>
+  </main>
+
+  <nav class="barra-inferior">
+    <a href="#" id="link-inicio-inferior">Inicio</a>
+    <a href="index.html">Salir</a>
+  </nav>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  // ===== TEMA (mismo patrón y misma clave de localStorage que el resto del sitio) =====
+  var raiz = document.documentElement, btnTema = document.getElementById("btn-tema");
+  function aplicarTema(t){
+    raiz.setAttribute("data-tema", t);
+    btnTema.textContent = t === "oscuro" ? "MODO CLARO" : "MODO OSCURO";
+    try{ localStorage.setItem("ia-tema", t); }catch(e){}
+  }
+  var temaGuardado = null;
+  try{ temaGuardado = localStorage.getItem("ia-tema"); }catch(e){}
+  if(!temaGuardado) temaGuardado = (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) ? "oscuro" : "claro";
+  aplicarTema(temaGuardado);
+  btnTema.addEventListener("click", function(){
+    aplicarTema(raiz.getAttribute("data-tema") === "oscuro" ? "claro" : "oscuro");
+  });
+
+  // ===== DATOS: PERFILES Y POSTS =====
+  var PERFILES = {};
+  var POSTS = {};
+
+  // ===== VISTAS =====
+  function mostrarVista(nombre){
+    document.querySelectorAll(".vista").forEach(function(v){
+      v.hidden = (v.id !== "vista-" + nombre);
+    });
+  }
+
+  function renderExplorar(){ /* se completa en la Tarea 2 */ }
+
+  function renderPerfil(id){ /* se completa en la Tarea 3 */ }
+
+  // ===== ROUTER =====
+  function manejarHash(){
+    var hash = location.hash.replace("#", "");
+    if(hash.indexOf("perfil=") === 0){
+      var id = hash.slice("perfil=".length);
+      if(PERFILES[id] && PERFILES[id].estado === "activo"){ renderPerfil(id); return; }
+    }
+    mostrarVista("explorar");
+  }
+  window.addEventListener("hashchange", manejarHash);
+
+  // ===== INICIO =====
+  renderExplorar();
+  manejarHash();
+})();
+</script>
+</body>
+</html>
