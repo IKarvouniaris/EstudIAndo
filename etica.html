@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Ética en la Inteligencia Artificial — Apunte práctico (Clases 1–6)</title>
+<title>Ética en la Inteligencia Artificial — Apunte práctico (Clases 1–7)</title>
 <style>
 /* ============================================================
    TOKENS
@@ -587,12 +587,16 @@ marker path[fill="#8C5A04"]{fill:var(--u2)}
    Cuarto hue (bloque 4, datos personales) + la firma visual de
    esta materia: la PONDERACIÓN (dos principios en una balanza).
    ============================================================ */
-:root{ --u4:#6D3470; --u4-suave:#F0E3F0; }
-:root[data-tema="oscuro"]{ --u4:#D39AD6; --u4-suave:#2E1830; }
+:root{ --u4:#6D3470; --u4-suave:#F0E3F0; --u5:#5B6B1E; --u5-suave:#EAEBD6; }
+:root[data-tema="oscuro"]{ --u4:#D39AD6; --u4-suave:#2E1830; --u5:#B9C766; --u5-suave:#282C10; }
 .u4{--acento:var(--u4); --acento-suave:var(--u4-suave)}
+.u5{--acento:var(--u5); --acento-suave:var(--u5-suave)}
 .riel a[data-u="4"]{--acento:var(--u4)} .riel a[data-u="4"] em{color:var(--u4)}
+.riel a[data-u="5"]{--acento:var(--u5)} .riel a[data-u="5"] em{color:var(--u5)}
 .linea-tiempo li[data-u="4"]{--acento:var(--u4)}
+.linea-tiempo li[data-u="5"]{--acento:var(--u5)}
 .tarjeta[data-u="4"]{--acento:var(--u4)}
+.tarjeta[data-u="5"]{--acento:var(--u5)}
 svg [stroke="#6D3470"]{stroke:var(--u4)} svg [fill="#6D3470"]{fill:var(--u4)}
 svg [stroke="#1B6A5B"]{stroke:var(--u3)}
 
@@ -726,7 +730,7 @@ td.caso-nombre small{display:block; font-family:var(--mono); font-weight:400; fo
   <div class="riel-marca">
     <div>
       <b>Ética en la<br>Inteligencia Artificial</b>
-      <span>UADE · Lic. en IA · Clases 1–6 · Prof. Lascano</span>
+      <span>UADE · Lic. en IA · Clases 1–7 · Prof. Lascano</span>
     </div>
     <button class="btn-riel" id="btn-cerrar" type="button" title="Ocultar barra lateral" aria-label="Ocultar barra lateral">✕</button>
   </div>
@@ -734,7 +738,7 @@ td.caso-nombre small{display:block; font-family:var(--mono); font-weight:400; fo
   <div class="buscador">
     <label class="oculto" for="q">Buscar concepto</label>
     <input id="q" type="search" placeholder="buscar concepto o caso…" autocomplete="off">
-    <p id="q-estado">6 clases · casos · glosario</p>
+    <p id="q-estado">7 clases · casos · glosario</p>
   </div>
 
   <nav id="nav">
@@ -756,6 +760,9 @@ td.caso-nombre small{display:block; font-family:var(--mono); font-weight:400; fo
 
     <div class="riel-grupo">Bloque 4 — Datos personales</div>
     <a href="#c6" data-u="4"><em>06</em> GDPR, Ley 25.326 y olvido</a>
+
+    <div class="riel-grupo">Bloque 5 — Responsabilidad</div>
+    <a href="#c7" data-u="5"><em>07</em> Responsabilidad civil y penal: caso Amazon</a>
 
     <div class="riel-grupo">Casos</div>
     <a href="#impulso"><em>◆</em> Caso IMPULSO resuelto</a>
@@ -783,7 +790,7 @@ td.caso-nombre small{display:block; font-family:var(--mono); font-weight:400; fo
 <main class="lienzo">
 
 <header class="portada">
-  <p class="cintillo">Apunte práctico · Clases 1 a 6 · Primer parcial</p>
+  <p class="cintillo">Apunte práctico · Clases 1 a 7</p>
   <h1>Que algo se pueda hacer<br>no dice si<br><i>se debe hacer</i></h1>
   <p class="bajada">
     Toda la materia es un entrenamiento para una sola habilidad: mirar un sistema de IA
@@ -2589,6 +2596,314 @@ td.caso-nombre small{display:block; font-family:var(--mono); font-weight:400; fo
   </div>
 </section>
 
+<!-- ============================ CLASE 07 — RESPONSABILIDAD ============================ -->
+<section id="c7" class="u5" data-busca="clase 7 responsabilidad civil penal decisiones automatizadas caso amazon algoritmo sexista reclutamiento cccyc articulo 1737 1717 1710 1711 1721 1724 1725 1726 1740 1753 1757 1758 dano antijuridicidad culpa dolo negligencia imprudencia impericia causalidad reparacion perdida de chance variables proxy feedback loop discriminacion algoritmica sistemica ley 23592 ley 27401 ai act directiva 2024 2853 productos defectuosos automation bias control efectivo supervision real formal cadena de actores logs trazabilidad tentativa dilema del prisionero geopolitica finpay argos">
+  <p class="eyebrow">Clase 07 · Bloque 5 · 28 de septiembre</p>
+  <h2>Responsabilidad civil y penal en decisiones automatizadas</h2>
+  <p class="intro">
+    La pregunta ya no es «¿es lícito usar estos datos?» sino <strong>«¿quién responde cuando la decisión
+    que produjo el sistema causa un daño?»</strong>. La IA no rompe el derecho de responsabilidad, pero
+    hace mucho más difícil contestar sus preguntas de siempre: quién causó el daño, por qué ocurrió,
+    quién podía evitarlo y quién debe responder.
+  </p>
+
+  <div class="clave">
+    <b>La trampa a evitar</b>
+    <p>«Lo decidió el algoritmo» no es una respuesta jurídica: es un intento de diluir la responsabilidad
+    entre tantos actores que, al final, nadie responde. Todo el análisis de esta clase sirve para
+    reconstruir esa cadena y asignarla con criterio, no para repartir culpas al azar.</p>
+  </div>
+
+  <figure>
+    <svg viewBox="0 0 760 480" role="img" aria-label="Mapa mental de la clase: responsabilidad de la IA y sus ocho ramas">
+      <g stroke="var(--linea)" stroke-width="1.4">
+        <line x1="380" y1="240" x2="380" y2="88"/>
+        <line x1="380" y1="240" x2="486" y2="134"/>
+        <line x1="380" y1="240" x2="528" y2="240"/>
+        <line x1="380" y1="240" x2="486" y2="346"/>
+        <line x1="380" y1="240" x2="380" y2="392"/>
+        <line x1="380" y1="240" x2="274" y2="346"/>
+        <line x1="380" y1="240" x2="232" y2="240"/>
+        <line x1="380" y1="240" x2="274" y2="134"/>
+      </g>
+      <circle cx="380" cy="240" r="46" fill="var(--papel-2)" stroke="var(--u5)" stroke-width="2"/>
+      <text x="380" y="235" text-anchor="middle" class="svg-t" font-size="11.5" font-weight="700">Responsabilidad</text>
+      <text x="380" y="250" text-anchor="middle" class="svg-t" font-size="11.5" font-weight="700">de la IA</text>
+
+      <circle cx="380" cy="88" r="5" fill="var(--u5)"/>
+      <text x="380" y="70" text-anchor="middle" class="svg-t" font-size="11">Ética y rendición</text>
+      <text x="380" y="82" text-anchor="middle" class="svg-t" font-size="11">de cuentas</text>
+
+      <circle cx="486" cy="134" r="5" fill="var(--u5)"/>
+      <text x="500" y="122" text-anchor="start" class="svg-t" font-size="11">Caso Amazon y</text>
+      <text x="500" y="134" text-anchor="start" class="svg-t" font-size="11">marco jurídico</text>
+
+      <circle cx="528" cy="240" r="5" fill="var(--u5)"/>
+      <text x="542" y="236" text-anchor="start" class="svg-t" font-size="11">Cadena de actores</text>
+      <text x="542" y="248" text-anchor="start" class="svg-t" font-size="11">y control efectivo</text>
+
+      <circle cx="486" cy="346" r="5" fill="var(--u5)"/>
+      <text x="500" y="342" text-anchor="start" class="svg-t" font-size="11">Supervisión</text>
+      <text x="500" y="354" text-anchor="start" class="svg-t" font-size="11">real vs. formal</text>
+
+      <circle cx="380" cy="392" r="5" fill="var(--u5)"/>
+      <text x="380" y="410" text-anchor="middle" class="svg-t" font-size="11">Responsabilidad penal</text>
+      <text x="380" y="422" text-anchor="middle" class="svg-t" font-size="11">y tentativa</text>
+
+      <circle cx="274" cy="346" r="5" fill="var(--u5)"/>
+      <text x="260" y="342" text-anchor="end" class="svg-t" font-size="11">Medidas de</text>
+      <text x="260" y="354" text-anchor="end" class="svg-t" font-size="11">mitigación</text>
+
+      <circle cx="232" cy="240" r="5" fill="var(--u5)"/>
+      <text x="218" y="236" text-anchor="end" class="svg-t" font-size="11">Geopolítica</text>
+      <text x="218" y="248" text-anchor="end" class="svg-t" font-size="11">y regulación</text>
+
+      <circle cx="274" cy="134" r="5" fill="var(--u5)"/>
+      <text x="260" y="122" text-anchor="end" class="svg-t" font-size="11">Remedios y</text>
+      <text x="260" y="134" text-anchor="end" class="svg-t" font-size="11">negociación</text>
+    </svg>
+    <figcaption>Mapa mental de lo trabajado en clase (a partir de la grabación del 28 de septiembre). Cada rama se desarrolla en las secciones siguientes.</figcaption>
+  </figure>
+
+  <h3>7.1 · La cadena de actores y el control efectivo</h3>
+  <p>
+    Un sistema de IA suele involucrar a varios actores: quien provee los datos, quien desarrolla el
+    modelo, quien lo implementa, quien lo opera y quien lo sufre. La pregunta central es a cuál de ellos
+    se le atribuye jurídicamente el daño — y no puede responderse «todos» sin justificar por qué.
+  </p>
+  <div class="fichas">
+    <article class="ficha">
+      <h4>Qué mira el análisis</h4>
+      <dl>
+        <dt>Qué ocurrió</dt><dd>Tipo de decisión, contexto de despliegue y características técnicas del sistema.</dd>
+        <dt>Quién controlaba</dt><dd>Quién eligió el modelo, fijó el umbral (<em>threshold</em>) de decisión, monitoreó errores y podía detenerlo.</dd>
+        <dt>Quién sabía</dt><dd>El conocimiento del riesgo y las obligaciones asumidas por cada parte determinan cuánto responde.</dd>
+      </dl>
+      <div class="trampa"><b>Error típico</b>Creer que «estar en la cadena tecnológica» alcanza para ser responsable. Comprar el software a un tercero, o «solo seguir el score», no borra la responsabilidad si hubo control, conocimiento o provecho.</div>
+    </article>
+    <article class="ficha">
+      <h4>Control → responsabilidad (no automático)</h4>
+      <p class="def">El control efectivo —quién eligió el modelo y los datos, quién fijó el umbral, quién monitoreó y podía frenarlo— es un dato jurídico central, aunque no determina la respuesta por sí solo.</p>
+    </article>
+  </div>
+
+  <h3>7.2 · Tres regímenes que pueden coexistir</h3>
+  <div class="tabla-caja">
+    <table>
+      <caption>Responsabilidad civil, penal y administrativa</caption>
+      <thead><tr><th>Régimen</th><th>Busca</th><th>Estándar</th></tr></thead>
+      <tbody>
+        <tr><th>Civil</th><td>Reparar el daño de la víctima</td><td>Compensatorio; alcanza con culpa u objetiva según el caso</td></tr>
+        <tr><th>Penal</th><td>Sancionar un delito</td><td>Requiere conducta humana que encaje en un tipo penal; estándar mucho más estricto</td></tr>
+        <tr><th>Administrativa</th><td>Sancionar incumplimientos regulatorios</td><td>Puede existir sin daño probado ni delito</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>Ilegal ≠ necesariamente delito.</strong> Una empresa que discrimina con un algoritmo puede recibir sanción administrativa (protección de datos, no discriminación), responder civilmente ante las personas afectadas, y sólo responder penalmente si una conducta humana concreta encaja en un tipo penal. Los tres regímenes pueden activarse a la vez por el mismo hecho.</p>
+
+  <h3>7.3 · Responsabilidad civil, paso a paso (CCyC)</h3>
+  <div class="fichas">
+    <article class="ficha">
+      <h4>1 · El daño (art. 1737)</h4>
+      <p class="def">Hay daño cuando se lesiona un derecho o interés jurídicamente protegido: patrimonial, personalísimo (honor, privacidad, identidad), físico, o <strong>pérdida de chance</strong> (una oportunidad laboral o contractual real y razonablemente probable).</p>
+      <div class="trampa"><b>Ejemplo de cátedra</b>Un algoritmo descarta a una candidata: no puede afirmarse «habría obtenido el empleo» (exigiría una certeza causal que no existe), pero sí puede discutirse que perdió una <strong>chance real</strong> de ser seleccionada.</div>
+    </article>
+    <article class="ficha">
+      <h4>2 · Antijuridicidad por omisión (art. 1717)</h4>
+      <p class="def">Una acción u omisión que causa daño es antijurídica si no está justificada. En IA, la omisión pesa especialmente:</p>
+      <ul class="limpia contra" style="font-size:.9rem">
+        <li>No testear el modelo antes del despliegue.</li>
+        <li>No evaluar sesgos (<em>bias testing</em>).</li>
+        <li>No monitorear el <em>drift</em> (degradación con el tiempo).</li>
+        <li>No corregir errores ya conocidos.</li>
+      </ul>
+    </article>
+    <article class="ficha">
+      <h4>3 · Prevención (arts. 1710–1711)</h4>
+      <p class="def">Toda persona debe evitar causar daño y adoptar medidas razonables para disminuirlo. Testing, red teaming, bias testing, evaluación de impacto, supervisión humana, logs y monitoreo <strong>no son solo buenas prácticas técnicas</strong>: pueden ser jurídicamente relevantes para juzgar la diligencia. El Derecho no espera a que el daño ocurra: la acción preventiva procede si es previsible.</p>
+    </article>
+    <article class="ficha">
+      <h4>4 · Factor de atribución: culpa o dolo (arts. 1721, 1724–1725)</h4>
+      <dl>
+        <dt>Negligencia</dt><dd>No hacer lo que debía hacerse. Ej.: saber que el modelo tiene diferencias de error por género, no investigar y seguir usándolo.</dd>
+        <dt>Imprudencia</dt><dd>Asumir un riesgo injustificado. Ej.: desplegar un modelo médico sin validación externa porque «funcionaba bien en el laboratorio».</dd>
+        <dt>Impericia</dt><dd>Falta de capacidad técnica exigible. Ej.: concluir «93 % de accuracy = sistema seguro» sin mirar subgrupos.</dd>
+        <dt>Dolo</dt><dd>Daño intencional o manifiesta indiferencia — distinto de la culpa y con consecuencias más graves.</dd>
+      </dl>
+      <div class="trampa"><b>Ojo</b>Cuanto mayor el deber de obrar con conocimiento pleno, mayor la diligencia exigible (art. 1725): no se le exige lo mismo al usuario final que al desarrollador profesional.</div>
+    </article>
+    <article class="ficha">
+      <h4>5 · ¿Objetiva por cosa/actividad riesgosa? (art. 1757)</h4>
+      <p class="def">No existe en Argentina una norma que diga «toda IA es cosa riesgosa»: aplicar el art. 1757 exige analizar el caso concreto (naturaleza, medios o circunstancias de la actividad). Responde quien realiza la actividad, quien se sirve de ella o quien obtiene provecho (art. 1758).</p>
+    </article>
+    <article class="ficha">
+      <h4>6 · Causalidad: el gran problema (art. 1726)</h4>
+      <p class="def">Son reparables las consecuencias con nexo adecuado de causalidad. «No sabemos por qué lo hizo el modelo, nadie responde» convertiría la opacidad en ventaja jurídica de quien la creó — por eso <strong>los logs son evidencia</strong>: input, output, timestamp, versión del modelo, intervención humana, overrides y errores.</p>
+    </article>
+    <article class="ficha">
+      <h4>7 · Reparación plena (art. 1740)</h4>
+      <p class="def">Restituir a la víctima a la situación anterior no siempre es sólo indemnizar: puede ser repetir la decisión en condiciones no sesgadas, corregir datos y clasificaciones, o <strong>detener o modificar el modelo</strong> que causó el daño.</p>
+    </article>
+  </div>
+
+  <h3>7.4 · ¿Quién responde civilmente?</h3>
+  <div class="tabla-caja">
+    <table>
+      <caption>Candidatos en la cadena — ninguno responde «por defecto»</caption>
+      <thead><tr><th>Actor</th><th>Conducta relevante</th></tr></thead>
+      <tbody>
+        <tr><th>Desarrollador / proveedor</th><td>Diseñó y entregó el modelo; depende de qué conocía, qué advirtió y cómo documentó sus límites.</td></tr>
+        <tr><th>Empresa que lo implementa</th><td>Decidió desplegarlo y cómo se usaría — rol central en la cadena.</td></tr>
+        <tr><th>Operador / empleador</th><td>Responde objetivamente por sus dependientes en ejercicio de sus funciones (art. 1753).</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>7.5 · Supervisión real vs. supervisión formal</h3>
+  <p class="intro">Tres escenarios jurídicamente distintos, no equivalentes: la IA <strong>recomienda</strong> y el humano decide; la IA <strong>decide</strong> con posibilidad de revisión (<em>override</em>); la IA <strong>decide y ejecuta</strong> sin intervención previa.</p>
+  <div class="cadena">
+    <div><b>Escenario A</b> IA recomienda rechazar → el empleado revisa de forma independiente y decide → <strong>supervisión real</strong></div>
+    <div><b>Escenario B</b> IA decide rechazar → el empleado hace clic en «confirmar» sin analizar → <strong>supervisión formal, no real</strong></div>
+    <div><b>Escenario C</b> IA decide y ejecuta → se cierra automáticamente → <strong>sin intervención humana</strong></div>
+  </div>
+  <div class="panel peligro">
+    <h4>Automation bias</h4>
+    <p style="margin:0;font-size:.93rem">«Si lo dijo la máquina, debe estar bien.» Este sesgo hace que las personas validen acríticamente la salida del sistema, reduciendo a cero la supervisión real aunque exista formalmente. Un humano puede figurar como responsable en el organigrama sin haber participado efectivamente en la decisión que causó el daño — y en el caso de FinPay/ARGOS visto en clase, una revisión de <strong>38 segundos</strong> fue el ejemplo de supervisión meramente formal.</p>
+  </div>
+
+  <h3>7.6 · Caso Amazon: el algoritmo sexista de reclutamiento</h3>
+  <p>
+    No es una sentencia judicial: es un <strong>caso empresarial documentado</strong>, conocido por la
+    investigación de Jeffrey Dastin en Reuters (2018) sobre un proyecto de Amazon entre 2014 y 2017.
+  </p>
+  <div class="fichas">
+    <article class="ficha">
+      <h4>Qué pasó</h4>
+      <p class="def">Amazon entrenó un modelo con los CV recibidos durante los diez años anteriores. Como la industria tecnológica había sido dominada por varones, el modelo aprendió que el perfil masculino era el patrón del «candidato exitoso»: penalizaba la palabra <em>«women's»</em> (ej. «women's chess club captain»), instituciones femeninas y favorecía verbos frecuentes en CV de varones.</p>
+      <div class="trampa"><b>La máquina no inventó la desigualdad</b>La aprendió de datos históricos. El modelo no discriminaba «conscientemente»: identificó correlaciones estadísticas y las usó como predictor.</div>
+    </article>
+    <article class="ficha">
+      <h4>Variables proxy: quitar «sexo» no alcanza</h4>
+      <p class="def">Amazon eliminó la palabra «woman», pero universidad, asociaciones estudiantiles, vocabulario y patrones de carrera pueden reconstruir el género indirectamente. <strong>Corregir una feature ≠ corregir el sistema.</strong> Un algoritmo puede aprender sesgo sin usar explícitamente la variable protegida — por eso la auditoría debe mirar <em>resultados</em>, no solo revisar código.</p>
+    </article>
+    <article class="ficha">
+      <h4>Accuracy no responde la pregunta</h4>
+      <p class="def">Un 93 % de accuracy global puede esconder tasas de error muy distintas por subgrupo. Las preguntas correctas: ¿a quién excluye?, ¿con qué FPR/FNR por grupo?, ¿hay diferencias sistemáticas entre grupos protegidos?</p>
+    </article>
+    <article class="ficha">
+      <h4>Feedback loop y amplificación</h4>
+      <p class="def">Más hombres contratados → el modelo aprende «masculino = éxito» → selecciona más hombres → el próximo dataset tiene más hombres → el sesgo se refuerza. La automatización no crea el sesgo individual: lo aplica a escala, sin fricción, con apariencia de objetividad — lo que lo hace más difícil de cuestionar que el sesgo humano.</p>
+    </article>
+  </div>
+  <p>En 2017 Amazon abandonó el proyecto sin desplegarlo como sistema definitivo — aunque, según Reuters, algunos reclutadores sí habían visto sus recomendaciones. La diferencia entre «herramienta experimental nunca usada» y «usada con supervisión imperfecta» cambia por completo el análisis jurídico.</p>
+
+  <h3>7.7 · Si esto pasara en Argentina: cuatro niveles de daño</h3>
+  <p class="intro">Ejercicio de la cátedra: el mismo sistema descarta candidatas, la empresa conoce las diferencias por género y sigue usándolo. El perjuicio no se agota en «una mujer no consiguió el empleo».</p>
+  <ol class="pasos">
+    <li><b>A · Perjuicio individual directo</b><span>Una candidata concreta pierde una oportunidad puntual — pero debe probar el nexo causal con la decisión, difícil en sistemas opacos.</span></li>
+    <li><b>B · Pérdida de chance</b><span>No hace falta afirmar «la habrían contratado»: alcanza con que perdió una oportunidad real de competir en igualdad (ej.: de 1.000 candidatos, la IA cribó 50; una mujer eliminada en esa criba fue privada de seguir compitiendo).</span></li>
+    <li><b>C · Daño colectivo o estructural</b><span>Aunque ninguna candidata individual pruebe que habría sido contratada, el patrón sistemático de puntuación reducida perpetúa una fuerza laboral desigual: <strong>discriminación sistémica</strong>, visible sólo mirando el conjunto.</span></li>
+    <li><b>D · Daño a la autonomía informativa</b><span>La persona puede ignorar que fue perfilada, qué variables se usaron y no poder impugnar la inferencia — discriminación, protección de datos y explicabilidad quedan inseparables.</span></li>
+  </ol>
+  <p>Marco comprometido, más allá de lo civil: <strong>Ley 23.592</strong> (no discriminación — el acto discriminatorio puede fundar daños por sí solo, sin intención probada), <strong>Ley 25.326 art. 20</strong> (decisiones basadas en perfiles), derecho al trabajo, y régimen administrativo sancionatorio en paralelo.</p>
+  <div class="clave">
+    <b>Culpa o dolo: importa el momento del conocimiento</b>
+    <p>Desconocimiento inicial del sesgo → puede exonerar o atenuar. Detectarlo y suspender de inmediato → diligencia ex post que limita la responsabilidad. Detectarlo y <strong>seguir usándolo dos años</strong> → negligencia grave, posible dolo civil por manifiesta indiferencia (art. 1724).</p>
+  </div>
+
+  <h3>7.8 · Responsabilidad penal: la IA no es sujeto penal</h3>
+  <p>
+    Cambia la lógica por completo: lo civil pregunta quién repara; lo penal pregunta quién cometió un
+    delito, con estándar probatorio mucho más estricto. En Argentina la IA <strong>no puede ser imputada,
+    condenada ni tener culpabilidad penal</strong> — siempre hay que buscar una conducta humana que encaje
+    en un tipo penal ya existente: no se pueden crear delitos por analogía porque la tecnología sea nueva.
+  </p>
+  <div class="tabla-caja">
+    <table>
+      <caption>Tres escenarios de responsabilidad penal con IA</caption>
+      <thead><tr><th>Escenario</th><th>Quién responde</th></tr></thead>
+      <tbody>
+        <tr><th>1 · IA como instrumento del delito</th><td>Una persona la usa deliberadamente para estafar, falsificar o acceder ilícitamente. La tecnología es el medio; el autor sigue siendo humano.</td></tr>
+        <tr><th>2 · IA lícita usada ilícitamente por terceros</th><td>Responde quien la usó con fines maliciosos, no quien la desarrolló para fines lícitos.</td></tr>
+        <tr><th>3 · IA lícita que se extralimita (agencia emergente)</th><td>El sistema muta tras el despliegue y produce un resultado no buscado: la atribución entre desarrollador y comportamiento emergente es el punto más complejo — se evalúa si las medidas preventivas adoptadas eran razonables.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="fichas">
+    <article class="ficha">
+      <h4>La previsibilidad importa</h4>
+      <dl>
+        <dt>Caso A</dt><dd>Fallo imprevisible, sin antecedentes ni advertencias.</dd>
+        <dt>Caso B</dt><dd>El fabricante advirtió expresamente y el usuario lo usó igual: riesgo conocido.</dd>
+        <dt>Caso C</dt><dd>Cien incidentes previos documentados y la organización siguió operando el sistema.</dd>
+      </dl>
+    </article>
+    <article class="ficha">
+      <h4>Tentativa y prueba</h4>
+      <p class="def">Hay que distinguir intención, actos preparatorios y comienzo de ejecución: sólo estos últimos son punibles como tentativa. Ideas aisladas suelen ser preparatorios; planificación detectada en chats junto con actos materiales concretos puede constituir tentativa.</p>
+    </article>
+    <article class="ficha">
+      <h4>Empresas: Ley 27.401</h4>
+      <p class="def">Sí existe responsabilidad penal de personas jurídicas en Argentina, pero <strong>no es general</strong>: se aplica a un conjunto acotado de delitos (corrupción, balances o informes falsos). No puede afirmarse «si la IA de una empresa comete un delito, la empresa responde penalmente» como regla general.</p>
+    </article>
+  </div>
+
+  <h3>7.9 · Mitigación, regulación y el dilema geopolítico</h3>
+  <div class="fichas">
+    <article class="ficha">
+      <h4>Medidas de mitigación</h4>
+      <p class="def">Flagging de casos sospechosos, controles de acceso a funcionalidades avanzadas y pruebas en entornos controlados. Toda medida tiene límites: falsos positivos y negativos, costo de la seguridad, y el riesgo de ataques que alteren registros o evidencia.</p>
+    </article>
+    <article class="ficha">
+      <h4>AI Act (UE) vs. derecho de daños</h4>
+      <p class="def">El AI Act regula riesgos <em>ex ante</em> (antes del daño), clasificando sistemas por nivel de riesgo — por ejemplo, reclutamiento y decisiones laborales son <em>high-risk</em>. El derecho de daños opera <em>ex post</em>. Son planos distintos y complementarios: cumplir el AI Act puede influir en si se cumplió el estándar de diligencia exigible en un litigio civil posterior.</p>
+    </article>
+    <article class="ficha">
+      <h4>Directiva (UE) 2024/2853 — productos digitales</h4>
+      <p class="def">Extiende el régimen de «producto defectuoso» a software, IA y servicios digitales. Empieza a responder preguntas nuevas: ¿qué es un software defectuoso?, ¿una actualización defectuosa?, ¿un modelo de IA que decide mal?</p>
+    </article>
+    <article class="ficha">
+      <h4>El dilema del prisionero regulatorio</h4>
+      <p class="def">Frenar el desarrollo por seguridad puede dejar a un país o empresa en desventaja frente a quienes no lo hacen. Tensión entre pausas coordinadas y presión geoestratégica por liderazgo tecnológico: la coordinación internacional es necesaria pero difícil de lograr.</p>
+    </article>
+  </div>
+
+  <h3>7.10 · Caso de aplicación: FinPay / ARGOS</h3>
+  <p class="intro">
+    El caso práctico asignado para resolver en grupos (cuatro roles: víctima, fiscalía, defensa y
+    tribunal). No está resuelto acá — es el ejercicio de la cátedra — pero deja los hechos ordenados
+    para aplicar todo lo anterior.
+  </p>
+  <div class="clave">
+    <b>Los hechos</b>
+    <p>
+      FinPay (billetera virtual) usa <strong>ARGOS</strong>, un sistema de IA que asigna un índice de
+      riesgo y puede bloquear preventivamente una cuenta por 72 h, con revisión posterior de un
+      empleado. Martín, comerciante, recibe transferencias por $18M (una de ellas, sin saberlo,
+      proveniente de un caso de phishing) y ARGOS bloquea su cuenta con $27M. Un empleado confirma el
+      bloqueo tras <strong>38 segundos</strong> de revisión. El bloqueo dura <strong>17 días</strong>;
+      Martín pierde un proveedor y dos operaciones, unos $12M. Una auditoría posterior revela que ARGOS
+      penalizaba con más frecuencia a comercios con teléfonos de gama baja, múltiples redes Wi-Fi y
+      zonas geográficas determinadas — y que un informe interno ya había advertido el problema tres
+      meses antes; el Director de Prevención de Fraude decidió mantenerlo porque «los falsos positivos
+      están dentro de los parámetros tolerables» (las pérdidas por fraude habían bajado 41 % desde ARGOS).
+    </p>
+  </div>
+  <div class="tabla-caja">
+    <table>
+      <caption>Qué debe argumentar cada rol</caption>
+      <thead><tr><th>Rol</th><th>Preguntas centrales</th></tr></thead>
+      <tbody>
+        <tr><th>Víctima (Martín)</th><td>Daño y nexo causal, legitimidad y proporcionalidad del bloqueo total por 17 días, si la revisión de 38 s fue supervisión real, y qué pesa que FinPay ya conocía el problema.</td></tr>
+        <tr><th>Fiscalía</th><td>Si hay conducta humana penalmente relevante, quién la protagonizó (empresa, directivos, técnicos, empleado revisor), tipicidad y elemento subjetivo — no alcanza con «fue injusto».</td></tr>
+        <tr><th>Defensa (FinPay)</th><td>Finalidad legítima y eficacia de ARGOS (−41 % fraude), que hubo una operación efectivamente vinculada a phishing, que la supervisión humana existió, y que los falsos positivos son inherentes a un sistema probabilístico.</td></tr>
+        <tr><th>Tribunal</th><td>Legitimidad y proporcionalidad del bloqueo, si hubo supervisión real, discriminación indirecta por las variables detectadas, y cómo pesa el conocimiento previo del informe interno en la atribución final.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>Remedios y negociación:</strong> la cátedra insistió en gradar la responsabilidad según la legitimidad y proporcionalidad de la medida (un bloqueo puede ser legítimo en su origen y desproporcionado en su duración), y en priorizar acuerdos conciliatorios frente al litigio cuando sea razonable — menor costo y menor riesgo reputacional para ambas partes.</p>
+</section>
+
 <!-- ============================ IMPULSO ============================ -->
 <section id="impulso" class="neutra" data-busca="caso impulso nexus laura mendoza indice de vulnerabilidad comite de evaluacion etica resuelto 91 threshold 70 78 equal opportunity revisores 96 drift plataformas datos comerciales reliable">
   <p class="eyebrow">Caso integrador de la cátedra · trabajado el 28 de agosto</p>
@@ -3274,14 +3589,14 @@ Array.prototype.forEach.call(document.querySelectorAll("[data-filtro]"), functio
 pintar();
 
 /* ---------- CONTEO ---------- */
-estado.textContent = "6 clases · " + document.querySelectorAll(".ficha").length + " fichas · " + document.querySelectorAll("#casoteca tbody tr").length + " casos · " + MAZO.length + " tarjetas";
+estado.textContent = "7 clases · " + document.querySelectorAll(".ficha").length + " fichas · " + document.querySelectorAll("#casoteca tbody tr").length + " casos · " + MAZO.length + " tarjetas";
 textoInicial = estado.textContent;
 })();
 </script>
 <button id="tutor-btn" type="button" title="Preguntarle a la IA sobre este apunte">💬</button>
 <div id="tutor-panel" class="oculto">
   <div class="tutor-cab"><b>Preguntale al apunte</b><button type="button" id="tutor-cerrar" title="Cerrar">✕</button></div>
-  <div class="tutor-msgs" id="tutor-msgs"><p class="tutor-vacio">Preguntá lo que quieras sobre las clases 1 a 6 — la IA responde en base a este apunte.</p></div>
+  <div class="tutor-msgs" id="tutor-msgs"><p class="tutor-vacio">Preguntá lo que quieras sobre las clases 1 a 7 — la IA responde en base a este apunte.</p></div>
   <form class="tutor-form" id="tutor-form">
     <textarea id="tutor-input" placeholder="Ej: ¿cuál es la diferencia entre supervisión formal y material?" rows="1"></textarea>
     <button type="submit" id="tutor-enviar">Enviar</button>
