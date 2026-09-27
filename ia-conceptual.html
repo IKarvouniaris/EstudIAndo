@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Introducción a la Inteligencia Artificial — Mapa conceptual (Unidades 1–3)</title>
+<title>Introducción a la Inteligencia Artificial — Mapa conceptual (Unidades 1–4)</title>
 <style>
 /* ============================================================
    TOKENS
@@ -24,9 +24,11 @@
   --u1:         #2E3A94;
   --u2:         #8C5A04;
   --u3:         #1B6A5B;
+  --u4:         #6D3470;
   --u1-suave:   #E2E5F6;
   --u2-suave:   #F5EAD6;
   --u3-suave:   #DCEDE8;
+  --u4-suave:   #F0E3F0;
 
   --alerta:     #9E3122;
   --alerta-suave:#F7E4E0;
@@ -54,9 +56,11 @@
   --u1:         #909EF0;
   --u2:         #E2AC55;
   --u3:         #4FC7AC;
+  --u4:         #D39AD6;
   --u1-suave:   #1B2040;
   --u2-suave:   #33260F;
   --u3-suave:   #10302B;
+  --u4-suave:   #2E1830;
 
   --alerta:     #EC8878;
   --alerta-suave:#331915;
@@ -128,6 +132,7 @@ body{
 .riel a[data-u="1"]{--acento:var(--u1)} .riel a[data-u="1"] em{color:var(--u1)}
 .riel a[data-u="2"]{--acento:var(--u2)} .riel a[data-u="2"] em{color:var(--u2)}
 .riel a[data-u="3"]{--acento:var(--u3)} .riel a[data-u="3"] em{color:var(--u3)}
+.riel a[data-u="4"]{--acento:var(--u4)} .riel a[data-u="4"] em{color:var(--u4)}
 .riel a.externo{color:var(--tinta); font-weight:600} .riel a.externo em{color:var(--u3)}
 
 .riel-pie{padding:1.2rem 1.1rem 0; margin-top:1rem; border-top:1px solid var(--linea)}
@@ -208,6 +213,7 @@ section:last-of-type{border-bottom:0}
 .u1{--acento:var(--u1); --acento-suave:var(--u1-suave)}
 .u2{--acento:var(--u2); --acento-suave:var(--u2-suave)}
 .u3{--acento:var(--u3); --acento-suave:var(--u3-suave)}
+.u4{--acento:var(--u4); --acento-suave:var(--u4-suave)}
 .neutra{--acento:var(--tinta); --acento-suave:var(--papel-3)}
 
 .eyebrow{
@@ -396,6 +402,7 @@ marker path[fill="#8C5A04"]{fill:var(--u2)}
 .linea-tiempo li[data-u="1"]{--acento:var(--u1)}
 .linea-tiempo li[data-u="2"]{--acento:var(--u2)}
 .linea-tiempo li[data-u="3"]{--acento:var(--u3)}
+.linea-tiempo li[data-u="4"]{--acento:var(--u4)}
 
 .glosario{display:grid; gap:0; margin:1.4rem 0; border-top:1px solid var(--linea)}
 .glosario > div{
@@ -436,6 +443,7 @@ marker path[fill="#8C5A04"]{fill:var(--u2)}
 .tarjeta[data-u="1"]{--acento:var(--u1)}
 .tarjeta[data-u="2"]{--acento:var(--u2)}
 .tarjeta[data-u="3"]{--acento:var(--u3)}
+.tarjeta[data-u="4"]{--acento:var(--u4)}
 .mazo-nav{display:flex; gap:.4rem; align-items:center; max-width:720px}
 .mazo-nav button{
   font-family:var(--mono); font-size:.72rem; padding:.45rem .9rem; cursor:pointer;
@@ -585,7 +593,7 @@ marker path[fill="#8C5A04"]{fill:var(--u2)}
   <div class="riel-marca">
     <div>
       <b>Introducción a la<br>Inteligencia Artificial</b>
-      <span>UADE · Lic. en IA · Unidades 1–3</span>
+      <span>UADE · Lic. en IA · Unidades 1–4</span>
     </div>
     <button class="btn-riel" id="btn-cerrar" type="button" title="Ocultar barra lateral" aria-label="Ocultar barra lateral">✕</button>
   </div>
@@ -593,7 +601,7 @@ marker path[fill="#8C5A04"]{fill:var(--u2)}
   <div class="buscador">
     <label class="oculto" for="q">Buscar concepto</label>
     <input id="q" type="search" placeholder="buscar concepto…" autocomplete="off">
-    <p id="q-estado">6 clases · 1 mapa · 62 conceptos</p>
+    <p id="q-estado">7 clases · 1 mapa · 62 conceptos</p>
   </div>
 
   <nav id="nav">
@@ -612,6 +620,9 @@ marker path[fill="#8C5A04"]{fill:var(--u2)}
     <div class="riel-grupo">Unidad 3 — Imaginario y ciclos</div>
     <a href="#c5" data-u="3"><em>05</em> Cultura, cine y música</a>
     <a href="#c6" data-u="3"><em>06</em> Inviernos, hype y automatización</a>
+
+    <div class="riel-grupo">Unidad 4 — Automatización responsable</div>
+    <a href="#c7" data-u="4"><em>07</em> De la inteligencia biológica a la automatización</a>
 
     <div class="riel-grupo">Herramientas</div>
     <a href="#confusiones"><em>⚠</em> Confusiones típicas</a>
@@ -638,7 +649,7 @@ marker path[fill="#8C5A04"]{fill:var(--u2)}
 <main class="lienzo">
 
 <header class="portada">
-  <p class="cintillo">Apunte conceptual · Clases 1 a 6 · Primer parcial</p>
+  <p class="cintillo">Apunte conceptual · Clases 1 a 7</p>
   <h1>De máquinas que calculan<br>a sistemas que<br><i>aprenden, razonan y colaboran</i></h1>
   <p class="bajada">
     Toda la materia hasta el primer parcial cuelga de una sola tensión: la ambición de
@@ -3464,6 +3475,363 @@ marker path[fill="#8C5A04"]{fill:var(--u2)}
 
 </section>
 
+<!-- ============================ CLASE 09 — AUTOMATIZACIÓN RESPONSABLE ============================ -->
+<section id="c7" class="u4" data-busca="clase 7 inteligencia biologica automatizacion responsable percepcion memoria aprendizaje lenguaje ocr vision por computadora reconocimiento de voz pln aprendizaje supervisado no supervisado por refuerzo observar digitalizar automatizar aumentar con ia supervisar power automate oracle ibm tokens costos gobernanza de datos gantt beta obsolescencia hype invierno examenes multiple choice automatizacion de tramites reglas ia selectiva expedientes desacoplamiento cluster kpi confianza piloto continuidad arquitectura clinica salud mercosur excepciones normativas glacier repositorio cifrado plan de continuidad recuperacion ante desastres">
+  <p class="eyebrow">Clase 07 · Unidad 4 · 23 de septiembre</p>
+  <h2>De la inteligencia biológica a la automatización con IA</h2>
+  <p class="intro">
+    Clase grabada en dos partes la misma tarde. Dos preguntas la atraviesan: <strong>¿qué tiene de
+    parecido y de distinto una IA respecto de una persona?</strong>, y <strong>¿cómo se diseña, paso a
+    paso, una automatización que no sea sólo copiar un trámite manual a una pantalla?</strong> La idea
+    central: la IA no «copia» al cerebro, construye modelos computacionales especializados que imitan
+    algunas funciones observables — y automatizar bien significa rediseñar el proceso antes de sumarle
+    tecnología. La primera parte (7.1–7.8) da el marco conceptual; la segunda (7.9–7.14) lo aplica al
+    diseño concreto de un trámite digital.
+  </p>
+
+  <figure>
+    <svg viewBox="0 0 760 460" role="img" aria-label="Mapa mental de la clase: automatización responsable y sus seis ramas">
+      <g stroke="var(--linea)" stroke-width="1.4">
+        <line x1="380" y1="240" x2="380" y2="90"/>
+        <line x1="380" y1="240" x2="523" y2="172"/>
+        <line x1="380" y1="240" x2="523" y2="338"/>
+        <line x1="380" y1="240" x2="380" y2="390"/>
+        <line x1="380" y1="240" x2="237" y2="338"/>
+        <line x1="380" y1="240" x2="237" y2="172"/>
+      </g>
+      <circle cx="380" cy="240" r="46" fill="var(--papel-2)" stroke="var(--u4)" stroke-width="2"/>
+      <text x="380" y="235" text-anchor="middle" class="svg-t" font-size="10.5" font-weight="700">Automatización</text>
+      <text x="380" y="250" text-anchor="middle" class="svg-t" font-size="10.5" font-weight="700">responsable</text>
+
+      <circle cx="380" cy="90" r="5" fill="var(--u4)"/>
+      <text x="380" y="72" text-anchor="middle" class="svg-t" font-size="11">Fundamentos de la</text>
+      <text x="380" y="84" text-anchor="middle" class="svg-t" font-size="11">automatización</text>
+
+      <circle cx="523" cy="172" r="5" fill="var(--u4)"/>
+      <text x="537" y="160" text-anchor="start" class="svg-t" font-size="11">Diseño y</text>
+      <text x="537" y="172" text-anchor="start" class="svg-t" font-size="11">preparación</text>
+
+      <circle cx="523" cy="338" r="5" fill="var(--u4)"/>
+      <text x="537" y="334" text-anchor="start" class="svg-t" font-size="11">Implementación</text>
+      <text x="537" y="346" text-anchor="start" class="svg-t" font-size="11">y evolución</text>
+
+      <circle cx="380" cy="390" r="5" fill="var(--u4)"/>
+      <text x="380" y="408" text-anchor="middle" class="svg-t" font-size="11">Casos de uso</text>
+
+      <circle cx="237" cy="338" r="5" fill="var(--u4)"/>
+      <text x="223" y="334" text-anchor="end" class="svg-t" font-size="11">Gobernanza</text>
+      <text x="223" y="346" text-anchor="end" class="svg-t" font-size="11">y riesgos</text>
+
+      <circle cx="237" cy="172" r="5" fill="var(--u4)"/>
+      <text x="223" y="160" text-anchor="end" class="svg-t" font-size="11">Costos</text>
+      <text x="223" y="172" text-anchor="end" class="svg-t" font-size="11">y eficiencia</text>
+    </svg>
+    <figcaption>Mapa mental de lo trabajado en clase (a partir de la grabación del 23 de septiembre). Cada rama se desarrolla en las secciones siguientes.</figcaption>
+  </figure>
+
+  <h3>7.1 · De las capacidades biológicas a sus correlatos artificiales</h3>
+  <p class="intro">La IA no «copia» al cerebro: construye sistemas especializados que imitan algunas funciones observables, no la experiencia completa de tenerlas.</p>
+  <div class="fichas">
+    <article class="ficha">
+      <h4>Percepción</h4>
+      <p class="def"><strong>Biológica</strong>: integra estímulos con atención, contexto y experiencia — no es una foto pasiva, selecciona e interpreta (cruzar una avenida combina luz, sonido, velocidad y experiencia).</p>
+      <dl><dt>Correlato artificial</dt><dd>Visión por computadora (detecta objetos), reconocimiento de voz (audio → texto), sensores (variables físicas → datos).</dd></dl>
+    </article>
+    <article class="ficha">
+      <h4>Memoria</h4>
+      <p class="def"><strong>Biológica</strong>: codifica, conserva y recupera; memoria de trabajo (momentánea) y de largo plazo (organiza experiencia).</p>
+      <dl><dt>Correlato artificial</dt><dd>Bases de datos preservan registros exactos; memorias vectoriales recuperan contenido similar. El modelo no «recuerda» como una persona: calcula patrones.</dd></dl>
+    </article>
+    <article class="ficha">
+      <h4>Aprendizaje</h4>
+      <p class="def"><strong>Biológico</strong>: cambios relativamente estables por práctica, observación, explicación y retroalimentación, transferibles a situaciones nuevas.</p>
+      <dl><dt>Correlato artificial</dt><dd>Supervisado (ejemplos con etiqueta), no supervisado (agrupaciones o estructuras), por refuerzo (recompensas).</dd></dl>
+    </article>
+    <article class="ficha">
+      <h4>Lenguaje</h4>
+      <p class="def"><strong>Biológico</strong>: sistema simbólico para comunicar, razonar y coordinar; depende de contexto y conocimiento social («está frío» puede pedir cerrar una ventana).</p>
+      <dl><dt>Correlato artificial</dt><dd>El PLN clasifica, resume, traduce y genera texto prediciendo secuencias plausibles. <strong>La fluidez no garantiza comprensión ni verdad.</strong></dd></dl>
+    </article>
+  </div>
+
+  <div class="tabla-caja">
+    <table>
+      <caption>Persona vs. sistema de IA, dimensión por dimensión</caption>
+      <thead><tr><th>Dimensión</th><th>Persona</th><th>Sistema de IA</th></tr></thead>
+      <tbody>
+        <tr><th>Adaptación</th><td>Generaliza con pocos ejemplos y contexto</td><td>Excelente en tareas definidas y datos similares a los de entrenamiento</td></tr>
+        <tr><th>Velocidad</th><td>Limitada para cálculo masivo</td><td>Procesa grandes volúmenes rápidamente</td></tr>
+        <tr><th>Sentido común</th><td>Integra experiencia corporal y social</td><td>Puede fallar fuera de los patrones aprendidos</td></tr>
+        <tr><th>Memoria</th><td>Selectiva, reconstructiva y asociativa</td><td>Almacenamiento preciso, pero sin vivencia</td></tr>
+        <tr><th>Responsabilidad</th><td>Puede explicar intenciones y asumir deberes</td><td>Requiere supervisión y gobernanza humana</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="fichas">
+    <article class="ficha">
+      <h4>Fortalezas</h4>
+      <ul class="limpia" style="font-size:.9rem">
+        <li>Escala y velocidad.</li>
+        <li>Consistencia en tareas repetitivas.</li>
+        <li>Detección de patrones complejos.</li>
+        <li>Disponibilidad continua.</li>
+      </ul>
+    </article>
+    <article class="ficha">
+      <h4>Limitaciones</h4>
+      <ul class="limpia contra" style="font-size:.9rem">
+        <li>Dependencia de datos y objetivos.</li>
+        <li>Errores plausibles («alucinaciones»).</li>
+        <li>Sesgos heredados de datos y diseño.</li>
+        <li>Baja comprensión del contexto real.</li>
+      </ul>
+    </article>
+    <article class="ficha">
+      <h4>Principio de la cátedra</h4>
+      <p class="def">Automatizar tareas, no responsabilidades. Humano en el circuito para decisiones críticas. Medir calidad antes y después. Documentar límites y rutas de apelación.</p>
+    </article>
+  </div>
+
+  <h3>7.2 · Automatizar no es copiar el proceso manual</h3>
+  <p>
+    Automatizar sirve cuando una tarea repetitiva puede ejecutarse más rápido y con consistencia — pero
+    trasladar mecánicamente un procedimiento existente a software no es diseñar una automatización.
+  </p>
+  <div class="clave">
+    <b>Ejemplo de la cátedra: el examen de opción múltiple</b>
+    <p>Corregir exámenes uno por uno es lento. La solución fue volverlos <em>multiple choice</em> y comparar automáticamente contra una base de respuestas: rápido y escalable — millones de personas rinden certificaciones así todos los días. Pero el límite es real: que una respuesta coincida con el patrón esperado no demuestra que la persona <strong>comprenda</strong> el contenido. La IA no razona como una persona: la automatización acelera, no sustituye el juicio ni la supervisión humana.</p>
+  </div>
+  <p><strong>Antes de automatizar</strong>: revisar si los pasos actuales son necesarios. Un procedimiento de 20 pasos puede reducirse a 10 antes de trasladarlo a una plataforma. El criterio debe ser el resultado esperado (por ejemplo, reducir el tiempo de entrega), no conservar por defecto todo lo heredado.</p>
+
+  <h3>7.3 · El camino: de observar a supervisar</h3>
+  <ol class="pasos">
+    <li><b>1 · Observar</b><span>Mapear tareas, excepciones y problemas del proceso actual.</span></li>
+    <li><b>2 · Digitalizar</b><span>Convertir papel y datos dispersos a formato digital.</span></li>
+    <li><b>3 · Automatizar</b><span>Reglas para los pasos repetitivos y deterministas.</span></li>
+    <li><b>4 · Aumentar con IA</b><span>Sumar percepción, predicción o lenguaje donde una regla no alcanza.</span></li>
+    <li><b>5 · Supervisar</b><span>Métricas, revisión humana y mejora continua.</span></li>
+  </ol>
+  <div class="panel peligro">
+    <h4>Regla didáctica</h4>
+    <p style="margin:0;font-size:.93rem">Si el proceso está desordenado, la IA automatiza el desorden. Primero se rediseña el proceso; después se incorpora la tecnología.</p>
+  </div>
+
+  <h3>7.4 · Casos de uso</h3>
+  <div class="fichas">
+    <article class="ficha">
+      <h4>Sector público — expedientes y atención ciudadana</h4>
+      <p class="def">De formularios en papel y carga duplicada a: OCR que extrae texto de solicitudes, un repositorio único con trazabilidad, un clasificador que propone categoría y prioridad según casos históricos, y un asistente que redacta respuestas preliminares. <strong>Una persona valida</strong> las decisiones que afectan derechos — menor tiempo administrativo, sin delegar la responsabilidad pública al algoritmo.</p>
+    </article>
+    <article class="ficha">
+      <h4>Sector privado — logística y operaciones</h4>
+      <p class="def">Cámaras verifican etiquetas y daños; el historial integra pedidos, rutas e inventario; modelos predicen demanda y riesgo de atraso; operadores consultan el estado en lenguaje natural. El objetivo no es reemplazar personas, sino reasignar esfuerzo desde la captura repetitiva hacia la supervisión y la mejora.</p>
+    </article>
+    <article class="ficha">
+      <h4>Salud — un caso público sensible</h4>
+      <p class="def">Digitalización de recetas y formularios, historia administrativa unificada con acceso controlado, priorización orientativa de colas (nunca diagnóstico autónomo), chatbot que informa requisitos y deriva casos complejos. Un agente puede convertir voz a texto y priorizar pacientes críticos, pero la supervisión humana sigue siendo necesaria: la rapidez puede afectar la supervivencia de pacientes graves. <strong>A mayor impacto, mayor evidencia, transparencia y supervisión exigidas.</strong></p>
+    </article>
+    <article class="ficha">
+      <h4>Comunicaciones y trabajo operativo</h4>
+      <p class="def">Plataformas de reuniones que generan minutas, identifican tareas y envían recordatorios; respuestas de correo con plantillas y consultas a sistemas internos (los asuntos legales o sensibles exigen redacción formal y controles adicionales); actualización de un ticket que dispara avisos automáticos a todos los clientes afectados por una incidencia.</p>
+    </article>
+  </div>
+
+  <h3>7.5 · Gobernanza, riesgos y supervisión</h3>
+  <div class="fichas">
+    <article class="ficha">
+      <h4>Calidad y gobernanza de datos</h4>
+      <p class="def">Detectar datos no confiables o «basura»: limpiar, completar o descartar según criterios definidos. Identificar los datos estrictamente necesarios, las fuentes, la calidad mínima, los sensibles y la información que <strong>no</strong> debería recopilarse. Los datos que identifican a una persona (nombre, DNI) exigen protección y una ubicación de almacenamiento compatible con la normativa aplicable.</p>
+    </article>
+    <article class="ficha">
+      <h4>Supervisión humana</h4>
+      <p class="def">Definir si una persona puede aprobar, corregir, anular o detener una decisión automática, y qué decisiones se resuelven con reglas y cuáles requieren clasificación, predicción, detección de anomalías u optimización.</p>
+    </article>
+    <article class="ficha">
+      <h4>Pruebas y confiabilidad</h4>
+      <p class="def">Evitar que el sistema perpetúe errores históricos. Probar en un entorno controlado antes del piloto y la producción; definir métricas de éxito, riesgo, tiempo y calidad; preparar un plan de recuperación ante fallas de la IA o de sus integraciones.</p>
+    </article>
+  </div>
+
+  <h3>7.6 · Costos: cuándo conviene un modelo y cuándo una regla</h3>
+  <p>
+    Los modelos de IA se consumen mediante interacciones o <em>tokens</em>: una interacción individual
+    parece barata, pero un sistema con volumen alto acumula costos significativos. Antes de implementar
+    conviene proyectar volumen y costo total — y, si un sistema de reglas puede resolver el mismo caso,
+    suele ser más rápido y más económico que invocar un modelo de lenguaje para una decisión determinista.
+  </p>
+  <div class="tabla-caja">
+    <table>
+      <caption>Referencia citada en clase</caption>
+      <thead><tr><th>Concepto</th><th>Dato</th></tr></thead>
+      <tbody>
+        <tr><th>Configuración profesional (Power Automate, Oracle, IBM)</th><td>Estimación de referencia: ≈500 horas de ingeniería por USD 10.500</td></tr>
+        <tr><th>Cronograma típico</th><td>Beta en 3 meses; automatización más completa en ≈1 año, con retroalimentación y ajustes</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Algunas organizaciones deben desarrollar internamente por razones de confidencialidad, en vez de tercerizar en plataformas comerciales.</p>
+
+  <h3>7.7 · Implementación y evolución continua</h3>
+  <p>
+    La implementación se organiza con un plan de cambio y un cronograma (diagrama de Gantt). No es un
+    proyecto que termina: las herramientas y mejores prácticas cambian constantemente, y la falta de
+    adaptación puede producir obsolescencia — empresas y productos perdieron relevancia por no responder
+    a tiempo a cambios tecnológicos y de mercado. Esta idea conecta directamente con la <a href="#c6">Clase 06</a>:
+    el hype promete una automatización total; la automatización responsable la trata como un proceso
+    que se revisa y se actualiza.
+  </p>
+
+  <h3>7.8 · Actividad de aula</h3>
+  <div class="panel">
+    <h4>Diagnosticar una oportunidad</h4>
+    <p style="margin:0 0 .6rem;font-size:.93rem">Una municipalidad recibe reclamos por correo, papel y teléfono; tres personas leen, copian datos y derivan cada caso a mano.</p>
+    <ul class="limpia" style="font-size:.9rem;margin:0 0 .6rem">
+      <li><strong>Percepción</strong> — ¿qué señales deben capturarse?</li>
+      <li><strong>Memoria</strong> — ¿qué antecedentes deben recuperarse?</li>
+      <li><strong>Aprendizaje</strong> — ¿qué patrón puede inferirse?</li>
+      <li><strong>Lenguaje</strong> — ¿qué interacción puede simplificarse?</li>
+    </ul>
+    <p style="margin:0;font-size:.93rem">Entrega en equipos: propuesta de 5 pasos + un riesgo + una métrica de éxito + un punto de revisión humana.</p>
+  </div>
+  <div class="clave">
+    <b>Cinco ideas para llevar (parte 1)</b>
+    <p>1) La inteligencia surge de varias capacidades conectadas. 2) Los sistemas artificiales son especializados, no equivalentes a una persona. 3) La IA amplifica procesos, buenos o malos. 4) La automatización responsable conserva supervisión humana. 5) Empezar pequeño, medir y aprender reduce riesgos. <em>Pregunta final de la cátedra: ¿qué tarea automatizarías y cuál nunca delegarías por completo?</em></p>
+  </div>
+
+  <h3 style="margin-top:2.4rem">Segunda parte de la clase: diseñar un trámite digital</h3>
+  <p class="intro">
+    Sesión práctica, grabada más tarde el mismo 23 de septiembre: cómo diseñar un sistema para
+    <strong>recibir, validar y derivar expedientes administrativos</strong>. Aplica el paso 3 del camino
+    anterior (automatizar con reglas) con un ejemplo concreto: automatizar con <strong>reglas</strong>
+    todo lo que se pueda —son más rápidas y baratas— y reservar la IA para donde realmente agregue algo
+    que una regla no puede dar.
+  </p>
+
+  <div class="regla">
+    <div class="premisas"><span>si una regla explícita alcanza para decidir…</span></div>
+    <div class="barra"></div>
+    <div class="conclusion">…usar IA ahí es más caro, más lento y no aporta nada</div>
+  </div>
+
+  <figure>
+    <svg viewBox="0 0 760 460" role="img" aria-label="Mapa mental de la segunda parte de la clase: automatización de trámites y sus siete ramas">
+      <g stroke="var(--linea)" stroke-width="1.4">
+        <line x1="380" y1="240" x2="380" y2="90"/>
+        <line x1="380" y1="240" x2="509" y2="152"/>
+        <line x1="380" y1="240" x2="541" y2="277"/>
+        <line x1="380" y1="240" x2="451" y2="374"/>
+        <line x1="380" y1="240" x2="309" y2="374"/>
+        <line x1="380" y1="240" x2="219" y2="277"/>
+        <line x1="380" y1="240" x2="251" y2="152"/>
+      </g>
+      <circle cx="380" cy="240" r="46" fill="var(--papel-2)" stroke="var(--u4)" stroke-width="2"/>
+      <text x="380" y="235" text-anchor="middle" class="svg-t" font-size="11" font-weight="700">Automatización</text>
+      <text x="380" y="250" text-anchor="middle" class="svg-t" font-size="11" font-weight="700">de trámites</text>
+
+      <circle cx="380" cy="90" r="5" fill="var(--u4)"/>
+      <text x="380" y="72" text-anchor="middle" class="svg-t" font-size="11">Flujo digital de</text>
+      <text x="380" y="84" text-anchor="middle" class="svg-t" font-size="11">expedientes</text>
+
+      <circle cx="509" cy="152" r="5" fill="var(--u4)"/>
+      <text x="523" y="140" text-anchor="start" class="svg-t" font-size="11">Desacoplamiento</text>
+      <text x="523" y="152" text-anchor="start" class="svg-t" font-size="11">y clúster</text>
+
+      <circle cx="541" cy="277" r="5" fill="var(--u4)"/>
+      <text x="555" y="273" text-anchor="start" class="svg-t" font-size="11">Reglas, excepciones</text>
+      <text x="555" y="285" text-anchor="start" class="svg-t" font-size="11">e IA</text>
+
+      <circle cx="451" cy="374" r="5" fill="var(--u4)"/>
+      <text x="451" y="392" text-anchor="middle" class="svg-t" font-size="11">Datos y</text>
+      <text x="451" y="404" text-anchor="middle" class="svg-t" font-size="11">almacenamiento</text>
+
+      <circle cx="309" cy="374" r="5" fill="var(--u4)"/>
+      <text x="309" y="392" text-anchor="middle" class="svg-t" font-size="11">Confianza y</text>
+      <text x="309" y="404" text-anchor="middle" class="svg-t" font-size="11">part. humana</text>
+
+      <circle cx="219" cy="277" r="5" fill="var(--u4)"/>
+      <text x="205" y="273" text-anchor="end" class="svg-t" font-size="11">Continuidad</text>
+      <text x="205" y="285" text-anchor="end" class="svg-t" font-size="11">y arquitectura</text>
+
+      <circle cx="251" cy="152" r="5" fill="var(--u4)"/>
+      <text x="237" y="140" text-anchor="end" class="svg-t" font-size="11">Canales y</text>
+      <text x="237" y="152" text-anchor="end" class="svg-t" font-size="11">atención clínica</text>
+    </svg>
+    <figcaption>Mapa mental de la segunda parte de la clase (misma grabación del 23 de septiembre).</figcaption>
+  </figure>
+
+  <h3>7.9 · El flujo: captura, validación y derivación</h3>
+  <div class="fichas">
+    <article class="ficha">
+      <h4>Captura de datos</h4>
+      <p class="def">DNI, nombre, domicilio y planilla, evitando verificaciones visuales innecesarias. El domicilio del DNI puede estar desactualizado: conviene una fuente más confiable (ej. consultar un servicio como Mi Argentina) en vez de confiar en el dato tal cual.</p>
+    </article>
+    <article class="ficha">
+      <h4>Validación</h4>
+      <p class="def">Comprobar que el DNI sea válido y coincida con el nombre. Para empresas: actividad declarada, cumplimiento tributario, pagos a organismos (ANSES, ARCA) y existencia de multas o deudas, siempre que la fuente esté disponible.</p>
+      <div class="trampa"><b>No hay un único supuesto estándar</b>Personas extranjeras, empresas del Mercosur y otros casos que no encajan en el molde necesitan excepciones explícitas, no un rechazo automático.</div>
+    </article>
+    <article class="ficha">
+      <h4>Derivación</h4>
+      <p class="def">En vez de repartir papeles, el portal notifica a cada área por correo con acceso al caso, y los responsables registran checks y comentarios en un espacio común — trazabilidad de quién hizo qué.</p>
+    </article>
+  </div>
+
+  <h3>7.10 · Desacoplamiento y operación en clúster</h3>
+  <p>El desacoplamiento reduce dependencias entre etapas: en vez de una cadena estrictamente secuencial, un conjunto de operadores disponibles puede revisar casos en paralelo.</p>
+  <ol class="pasos">
+    <li><b>Cualquier operador disponible</b><span>toma un caso de la cola — el servicio sigue funcionando aunque falten personas.</span></li>
+    <li><b>KPI: tiempo de atención</b><span>se citó como ejemplo pasar de 2 a 3 minutos como señal de que la fila empieza a crecer.</span></li>
+    <li><b>Supervisión</b><span>si la fila crece, el supervisor redistribuye capacidad; algunas decisiones finales igual requieren una persona.</span></li>
+  </ol>
+
+  <h3>7.11 · Reglas, excepciones, y dónde aporta la IA</h3>
+  <div class="tabla-caja">
+    <table>
+      <caption>Cuándo usar cada herramienta</caption>
+      <thead><tr><th>Herramienta</th><th>Cuándo</th></tr></thead>
+      <tbody>
+        <tr><th>Reglas</th><td>Primera opción: más rápidas y económicas para validar condiciones explícitas y requisitos conocidos.</td></tr>
+        <tr><th>Excepciones</th><td>Situaciones previstas que no siguen la regla general (empresas brasileñas o del Mercosur, por ejemplo) — se codifican aparte, no se fuerzan dentro de la regla principal.</td></tr>
+        <tr><th>IA</th><td>Clasificar solicitudes textuales, detectar anomalías o posible fraude, interpretar documentos o imágenes, optimizar y recomendar — cuando la regla no alcanza.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="trampa"><b>Error típico</b>Usar un modelo de lenguaje para extraer un dato de una base desordenada cuando una consulta estructurada con resultado binario sería más barata y más confiable. La IA no reemplaza un mejor diseño de datos.</div>
+
+  <h3>7.12 · Confianza, datos y almacenamiento</h3>
+  <div class="fichas">
+    <article class="ficha">
+      <h4>Nivel de confianza</h4>
+      <p class="def">Se puede basar en el historial: cantidad de solicitudes previas, consistencia entre actividades declaradas y cambios inusuales de rubro (posible señal de anomalía).</p>
+    </article>
+    <article class="ficha">
+      <h4>Automatización escalonada</h4>
+      <p class="def">Resolver automáticamente los casos simples; derivar a revisión humana los incompletos, ambiguos o excepcionales — y revisar solo una fracción del total, no todo.</p>
+    </article>
+    <article class="ficha">
+      <h4>Gobernanza de datos</h4>
+      <p class="def">Identificar los datos estrictamente necesarios, los sensibles, las fuentes, la calidad mínima y los posibles sesgos — y qué datos <strong>no</strong> deberían recopilarse. La información sensible va a un repositorio cifrado sujeto a la normativa correspondiente, con histórico y auditoría; para datos históricos de baja frecuencia de acceso, un almacenamiento de bajo costo (ej. AWS Glacier) es preferible, aunque extraerlos cueste más.</p>
+    </article>
+  </div>
+
+  <h3>7.13 · Piloto, continuidad y arquitectura</h3>
+  <p>Antes de escalar: una beta con 2 o 3 empresas para detectar fricciones y puntos donde el proceso se traba. Ante una falla de la IA o de una integración, el sistema necesita un <strong>plan de continuidad del negocio</strong> y recuperación ante desastres — infraestructura redundante entre proveedores de nube y regiones, aunque eso suba el costo. La arquitectura conceptual: módulos conectados, una base de datos de solicitudes e histórico, y componentes separados para reglas, guías y excepciones (el histórico retroalimenta la mejora del sistema).</p>
+
+  <h3>7.14 · Cuando el trámite es una urgencia clínica</h3>
+  <div class="panel peligro">
+    <h4>Las reglas administrativas no sirven en salud</h4>
+    <p style="margin:0;font-size:.93rem">
+      Las solicitudes pueden llegar por formulario, correo, llamada o servicios web, y generar avisos
+      automáticos a los responsables — igual que en un trámite comercial. Pero en una clínica el tiempo
+      puede determinar la supervivencia del paciente: una persona inconsciente, o con un nivel de
+      gravedad alto, debe ser atendida y estabilizada <strong>antes</strong> de completar todos los datos
+      administrativos. Un modelo de riesgo puede recomendar prioridades, pero las reglas deben admitir
+      concesiones — nunca bloquear la atención urgente por falta de información.
+    </p>
+  </div>
+</section>
+
 <!-- ============================ CONFUSIONES ============================ -->
 <section id="confusiones" class="neutra" data-busca="confusiones tipicas errores diferencias distinciones captcha turing automatizacion generativa invierno racional hype fluidez">
   <p class="eyebrow">Herramienta transversal</p>
@@ -5575,7 +5943,7 @@ mazoActivo = MAZO.slice(); indice = 0; pintar();
 /* ---------- CONTEO REAL DE CONCEPTOS ---------- */
 var nFichas = document.querySelectorAll(".ficha").length;
 var nTablas = document.querySelectorAll("table").length;
-estado.textContent = "6 clases · " + nFichas + " fichas · " + nTablas + " tablas · " + MAZO.length + " tarjetas";
+estado.textContent = "7 clases · " + nFichas + " fichas · " + nTablas + " tablas · " + MAZO.length + " tarjetas";
 textoInicial = estado.textContent;
 
 })();
