@@ -69,6 +69,30 @@ main.contenido{flex:1; padding-bottom:4.5rem}
 #perfil-bio{font-size:.88rem; color:var(--tinta-2); max-width:32ch; margin:0 auto}
 #perfil-stats{font-family:var(--mono); font-size:.68rem; color:var(--tinta-2); margin:0}
 .feed{display:flex; flex-direction:column}
+
+.post{border-bottom:1px solid var(--linea); padding-bottom:1rem}
+.post-header{display:flex; align-items:center; gap:.5rem; padding:.7rem 1rem}
+.post-avatar{width:1.8rem; height:1.8rem; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:var(--display); font-weight:700; font-size:.8rem; color:var(--papel-2)}
+.post-avatar[data-u="1"]{background:var(--u1)}
+.post-avatar[data-u="2"]{background:var(--u2)}
+.post-avatar[data-u="3"]{background:var(--u3)}
+.post-avatar[data-u="4"]{background:var(--u4)}
+.post-usuario{font-family:var(--display); font-weight:700; font-size:.82rem}
+.post-clase{margin-left:auto; font-family:var(--mono); font-size:.64rem; color:var(--tinta-3)}
+.post-tarjeta{position:relative; margin:0 1rem; aspect-ratio:1/1; border-radius:4px; display:flex; align-items:center; padding:1.6rem; background:var(--papel-3)}
+.post-tarjeta[data-u="1"]{background:var(--u1-suave)}
+.post-tarjeta[data-u="2"]{background:var(--u2-suave)}
+.post-tarjeta[data-u="3"]{background:var(--u3-suave)}
+.post-tarjeta[data-u="4"]{background:var(--u4-suave)}
+.post-tarjeta-titulo{font-family:var(--display); font-weight:700; font-size:clamp(1.3rem,5vw,1.7rem); line-height:1.15; margin:0}
+.post-badge{position:absolute; top:.8rem; left:.8rem; font-family:var(--mono); font-size:.62rem; letter-spacing:.04em; background:var(--tinta); color:var(--papel-2); padding:.25rem .55rem; border-radius:2px}
+.post-trampa .post-badge{background:var(--u2)}
+.post-parcial .post-badge{background:var(--u3)}
+.post-caption{padding:.8rem 1rem 0}
+.post-caption p{margin:0 0 .5rem; font-size:.88rem; color:var(--tinta)}
+.post-hashtags{font-family:var(--mono); font-size:.7rem; color:var(--u1)}
+.post-link{display:inline-block; margin-top:.2rem; font-family:var(--mono); font-size:.68rem; color:var(--tinta-2); border-bottom:1px solid var(--linea)}
+.post-link:hover{color:var(--tinta); border-color:var(--tinta-3)}
 </style>
 </head>
 <body>
@@ -162,7 +186,121 @@ main.contenido{flex:1; padding-bottom:4.5rem}
       clases: 0
     }
   };
+
+  function badgeDePost(tipo){
+    if(tipo === "trampa") return "⚠ Error típico";
+    if(tipo === "caso") return "📌 Caso real";
+    if(tipo === "parcial") return "★ Para el parcial";
+    return "";
+  }
+
+  function crearPost(perfilId, post){
+    var perfil = PERFILES[perfilId];
+    var badge = badgeDePost(post.tipo);
+    var art = document.createElement("article");
+    art.className = "post post-" + post.tipo;
+    art.innerHTML =
+      '<header class="post-header">' +
+        '<span class="post-avatar" data-u="' + perfil.unidad + '">' + perfil.nombre.charAt(0) + '</span>' +
+        '<span class="post-usuario">' + perfil.usuario + '</span>' +
+        '<span class="post-clase">Clase ' + post.clase + '</span>' +
+      '</header>' +
+      '<div class="post-tarjeta" data-u="' + perfil.unidad + '">' +
+        (badge ? '<span class="post-badge">' + badge + '</span>' : '') +
+        '<p class="post-tarjeta-titulo">' + post.titulo + '</p>' +
+      '</div>' +
+      '<div class="post-caption">' +
+        '<p>' + post.caption + '</p>' +
+        '<p class="post-hashtags">' + post.hashtags.map(function(h){ return '#' + h; }).join(' ') + '</p>' +
+        '<a class="post-link" href="' + post.href + '">Ver en el apunte →</a>' +
+      '</div>';
+    return art;
+  }
+
   var POSTS = {};
+
+  var POSTS_ETICA_C1 = [
+    {
+      tipo: "concepto",
+      clase: 1,
+      titulo: "¿Qué persona querés ser?",
+      caption: "La ética de la virtud no pregunta qué regla seguir, sino qué haría alguien íntegro. Aristóteles la resume en el justo medio: ni por exceso ni por defecto. Si tu modelo tiene sesgos, la pregunta no es \"hay una norma que lo prohíba\", es \"qué haría un/a científico/a de datos honesto/a\": notificarlo, documentarlo, corregirlo.",
+      hashtags: ["EticaDeLaVirtud", "Aristoteles", "Bloque1", "ParaElParcial"],
+      href: "etica.html#c1"
+    },
+    {
+      tipo: "trampa",
+      clase: 1,
+      titulo: "No es lo mismo",
+      caption: "Trampa clásica de parcial: confundir virtud con deontología. La deontología mira la regla (\"¿qué deber tengo?\"); la virtud mira el carácter (\"¿qué haría alguien íntegro, aunque no exista una norma que lo obligue?\"). Son preguntas distintas aunque a veces lleguen a la misma acción.",
+      hashtags: ["Trampa", "Deontologia", "EticaDeLaVirtud"],
+      href: "etica.html#c1"
+    },
+    {
+      tipo: "caso",
+      clase: 1,
+      titulo: "La alucinación que se volvió demanda",
+      caption: "ChatGPT inventó que un locutor había cometido fraude, citando una demanda real que nunca decía eso. El afectado demandó a OpenAI por difamación. El fallo dejó una idea incómoda: si hay advertencias claras, el deber de verificar puede recaer en quien usa la herramienta, no en quien la crea. La cátedra es tajante: no existe una responsabilidad \"compartida\" real.",
+      hashtags: ["Alucinaciones", "OpenAI", "CasoReal", "Bloque1"],
+      href: "etica.html#c1"
+    }
+  ];
+
+  var POSTS_ETICA_C2 = [
+    {
+      tipo: "concepto",
+      clase: 2,
+      titulo: "Elegir un número es elegir un error",
+      caption: "El modelo tira un score; alguien decide desde qué valor se actúa. Ese umbral no es un detalle técnico: es una decisión sobre qué error preferís cometer. Umbral alto en detección de fraude significa que se cuela más fraude; umbral bajo significa más gente inocente bloqueada.",
+      hashtags: ["Threshold", "FalsosPositivos", "Bloque2", "ParaElParcial"],
+      href: "etica.html#c2"
+    },
+    {
+      tipo: "trampa",
+      clase: 2,
+      titulo: "No es un ajuste técnico",
+      caption: "Tratar el threshold como si fuera un simple parámetro de sistema es el error típico. En realidad es una decisión ética: define qué errores tolerás y sobre quién caen. Quien elige el número, elige a quién perjudica.",
+      hashtags: ["Trampa", "Threshold", "DecisionesEticas"],
+      href: "etica.html#c2"
+    },
+    {
+      tipo: "caso",
+      clase: 2,
+      titulo: "Pedir el código, no solo el resultado",
+      caption: "BOSCO decidía automáticamente quién accedía al Bono Social Eléctrico en España. Durante años, la Justicia negó el acceso al código por \"propiedad intelectual\". En 2025 el Tribunal Supremo dio vuelta el criterio: si un algoritmo decide sobre derechos sociales, la transparencia no termina en el resultado, también alcanza a la lógica de la herramienta.",
+      hashtags: ["Transparencia", "BOSCO", "CasoReal", "Bloque2"],
+      href: "etica.html#c2"
+    }
+  ];
+
+  var POSTS_ETICA_C3 = [
+    {
+      tipo: "concepto",
+      clase: 3,
+      titulo: "Dos roles, dos responsabilidades",
+      caption: "El AI Act reparte la responsabilidad en toda la cadena, no solo en quien programó. Provider: desarrolla el sistema y lo pone en el mercado bajo su nombre. Deployer: lo usa bajo su propia autoridad para un fin concreto. Una empresa de software de selección es provider; el banco que lo compra y lo usa es deployer.",
+      hashtags: ["ProviderDeployer", "AIAct", "Bloque2", "ParaElParcial"],
+      href: "etica.html#c3"
+    },
+    {
+      tipo: "trampa",
+      clase: 3,
+      titulo: "Ojo con esta lectura",
+      caption: "\"Riesgo mínimo\" no significa \"sin regulación\": solo significa que no hay obligaciones específicas del AI Act para ese caso. Sigue habiendo otras normas aplicables, como protección de datos o defensa del consumidor.",
+      hashtags: ["Trampa", "AIAct", "NivelesDeRiesgo"],
+      href: "etica.html#c3"
+    },
+    {
+      tipo: "caso",
+      clase: 3,
+      titulo: "El Uber que no frenó",
+      caption: "El sistema detectó el obstáculo 6 segundos antes del choque y lo clasificó mal; reconoció que había que frenar 1,3 segundos antes, pero Uber había desactivado el frenado automático para evitar falsas alarmas. La conductora de seguridad miraba el celular. La única condenada fue ella: el eslabón más débil de la cadena cargó con la responsabilidad.",
+      hashtags: ["ResponsabilidadDesplazada", "Uber", "CasoReal", "Bloque2"],
+      href: "etica.html#c3"
+    }
+  ];
+
+  POSTS.etica = [].concat(POSTS_ETICA_C1, POSTS_ETICA_C2, POSTS_ETICA_C3);
 
   // ===== VISTAS =====
   function mostrarVista(nombre){
