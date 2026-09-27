@@ -44,6 +44,19 @@ main.contenido{flex:1; padding-bottom:4.5rem}
 .barra-inferior{position:sticky; bottom:0; z-index:5; display:flex; justify-content:space-around; padding:.7rem 0; background:var(--papel-2); border-top:1px solid var(--linea)}
 .barra-inferior a{font-family:var(--mono); font-size:.62rem; letter-spacing:.05em; color:var(--tinta-2)}
 .barra-inferior a:hover{color:var(--tinta)}
+
+.grilla-perfiles{display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--linea); padding:1px}
+.tarjeta-perfil{display:flex; flex-direction:column; align-items:center; gap:.4rem; background:var(--papel); padding:1.6rem 1rem; text-align:center}
+.tarjeta-perfil.proximamente{opacity:.55; cursor:default}
+.avatar-perfil{width:3.4rem; height:3.4rem; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:var(--display); font-weight:700; font-size:1.3rem; color:var(--papel-2)}
+.avatar-perfil[data-u="1"]{background:var(--u1)}
+.avatar-perfil[data-u="2"]{background:var(--u2)}
+.avatar-perfil[data-u="3"]{background:var(--u3)}
+.avatar-perfil[data-u="4"]{background:var(--u4)}
+.nombre-perfil{font-family:var(--display); font-weight:700; font-size:.92rem}
+.usuario-perfil{font-family:var(--mono); font-size:.68rem; color:var(--tinta-3)}
+.contador-perfil{font-family:var(--mono); font-size:.62rem; color:var(--tinta-2)}
+.badge-proximamente{font-family:var(--mono); font-size:.6rem; letter-spacing:.06em; color:var(--tinta-3); border:1px solid var(--linea); border-radius:2px; padding:.2rem .5rem}
 </style>
 </head>
 <body>
@@ -99,7 +112,44 @@ main.contenido{flex:1; padding-bottom:4.5rem}
   });
 
   // ===== DATOS: PERFILES Y POSTS =====
-  var PERFILES = {};
+  var PERFILES = {
+    etica: {
+      nombre: "Ética en la IA",
+      usuario: "@etica.ia",
+      bio: "Lo que el parcial de Ética puede preguntar, clase por clase.",
+      unidad: 4,
+      apunte: "etica.html",
+      estado: "activo",
+      clases: 7
+    },
+    "ia-conceptual": {
+      nombre: "Introducción a la IA",
+      usuario: "@ia.conceptual",
+      bio: "Próximamente: los conceptos clave de cada clase.",
+      unidad: 1,
+      apunte: "ia-conceptual.html",
+      estado: "proximamente",
+      clases: 0
+    },
+    python: {
+      nombre: "Python para Ciencia de Datos",
+      usuario: "@python.ds",
+      bio: "Próximamente: los conceptos clave de cada clase.",
+      unidad: 3,
+      apunte: "python.html",
+      estado: "proximamente",
+      clases: 0
+    },
+    estadistica: {
+      nombre: "Probabilidad y Estadística",
+      usuario: "@estadistica",
+      bio: "Próximamente: los conceptos clave de cada clase.",
+      unidad: 2,
+      apunte: "estadistica.html",
+      estado: "proximamente",
+      clases: 0
+    }
+  };
   var POSTS = {};
 
   // ===== VISTAS =====
@@ -109,7 +159,26 @@ main.contenido{flex:1; padding-bottom:4.5rem}
     });
   }
 
-  function renderExplorar(){ /* se completa en la Tarea 2 */ }
+  function renderExplorar(){
+    var grilla = document.getElementById("grilla-perfiles");
+    grilla.innerHTML = "";
+    Object.keys(PERFILES).forEach(function(id){
+      var perfil = PERFILES[id];
+      var activo = perfil.estado === "activo";
+      var nodo = document.createElement(activo ? "a" : "div");
+      nodo.className = "tarjeta-perfil" + (activo ? "" : " proximamente");
+      if(activo) nodo.href = "#perfil=" + id;
+      var totalPosts = (POSTS[id] || []).length;
+      nodo.innerHTML =
+        '<span class="avatar-perfil" data-u="' + perfil.unidad + '">' + perfil.nombre.charAt(0) + '</span>' +
+        '<span class="nombre-perfil">' + perfil.nombre + '</span>' +
+        '<span class="usuario-perfil">' + perfil.usuario + '</span>' +
+        (activo
+          ? '<span class="contador-perfil">' + totalPosts + ' posts</span>'
+          : '<span class="badge-proximamente">Próximamente</span>');
+      grilla.appendChild(nodo);
+    });
+  }
 
   function renderPerfil(id){ /* se completa en la Tarea 3 */ }
 
