@@ -2,45 +2,31 @@
 
 **Post de referencia:** Ética · Clase 1 · concepto · `etica.html#c1`
 **Tema:** Ética de la virtud (Aristóteles, justo medio)
-**Duración estimada:** ~35s
+**Duración estimada:** ~30s (76 palabras habladas)
 **Personaje y escenario:** ver [00-personaje-capu.md](00-personaje-capu.md)
 
 ## Guion (Capu habla a cámara)
 
-**[ESCENA 1 — Investigando, 0-8s]**
+**[ESCENA 1 — Investigando, 0-4s]**
 *(Capu está parado frente al tablero de corcho, clavando con una chinche
 un papel que dice "MODELO CON SESGOS DETECTADOS". Se da vuelta de golpe,
 como si acabara de descubrir algo.)*
 
-CAPU: "Pará, pará, pará. Antes de resolver ESTE caso... tenemos que
-resolver uno más importante."
+CAPU: "Antes de resolver este caso... hay una pregunta más importante."
 
-**[ESCENA 2 — Gira a cámara, 8-14s]**
-*(Se acerca a cámara, muy seguro de sí mismo.)*
+**[ESCENA 2 — Explicación, 4-26s]**
+*(Se acerca a cámara, gesticulando con seguridad.)*
 
-CAPU: "¿Qué clase de persona querés ser? Posta. No es una pregunta trampa,
-es LA pregunta de esta clase."
+CAPU: "La ética de la virtud no pregunta qué regla seguir. Pregunta qué
+haría alguien íntegro. Aristóteles lo resume en el justo medio: ni por
+exceso, ni por defecto. Si tu modelo tiene sesgos, la pregunta no es si
+hay una norma que te obligue. Es qué haría un científico de datos
+honesto: notificarlo, documentarlo, corregirlo."
 
-**[ESCENA 3 — Explicación, 14-28s]**
-*(Camina de un lado al otro del escritorio, gesticulando, como dando una
-clase.)*
-
-CAPU: "La ética de la virtud no te pregunta 'qué regla tengo que seguir'.
-Te pregunta 'qué haría alguien íntegro'. Aristóteles la resume con el
-justo medio: ni te quedás corto, ni te vas al horno. Ahora pensalo con el
-modelo con sesgos de ahí atrás —"
-
-*(Señala el tablero sin mirar.)*
-
-CAPU: "— la pregunta no es 'hay una norma que me obligue a decir algo'.
-Es: ¿qué haría un científico de datos honesto? Lo notifica. Lo
-documenta. Lo corrige. Aunque nadie se lo pida."
-
-**[ESCENA 4 — Cierre, 28-35s]**
+**[ESCENA 3 — Cierre, 26-30s]**
 *(Se sienta sobre el escritorio, cierra el expediente con un golpe teatral.)*
 
-CAPU: "Así que la próxima vez que el parcial te pregunte por virtud, no
-busques la regla. Buscá el carácter. Caso cerrado... por ahora."
+CAPU: "En el parcial, no busques la regla. Buscá el carácter."
 
 ## Prompts de imagen (referencia para IA + Seedance)
 
