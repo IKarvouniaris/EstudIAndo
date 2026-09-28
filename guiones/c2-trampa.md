@@ -2,36 +2,28 @@
 
 **Post de referencia:** Ética · Clase 2 · trampa · `etica.html#c2`
 **Tema:** El threshold no es un parámetro neutral, es una decisión ética
-**Duración estimada:** ~28s
+**Duración estimada:** ~20s (49 palabras habladas)
 **Personaje y escenario:** ver [00-personaje-capu.md](00-personaje-capu.md)
 
 ## Guion (Capu habla a cámara)
 
-**[ESCENA 1 — Investigando, 0-6s]**
+**[ESCENA 1 — Investigando, 0-4s]**
 *(Capu lee un cartel que alguien dejó sobre el escritorio: "ES SOLO UN
 AJUSTE TÉCNICO". Lo mira con cara de circunstancia.)*
 
-CAPU: "No. Nooo. Quién escribió esto."
+CAPU: "Alguien dejó un cartel que dice 'es solo un ajuste técnico'."
 
-**[ESCENA 2 — Gira a cámara, 6-10s]**
-*(Levanta el cartel hacia cámara, negando con la cabeza.)*
-
-CAPU: "Esta es LA trampa de esta clase. Prestá atención."
-
-**[ESCENA 3 — Explicación, 10-22s]**
+**[ESCENA 2 — Explicación, 4-15s]**
 *(Rompe el cartel por la mitad, teatral.)*
 
-CAPU: "Tratar el umbral como si fuera un simple parámetro de sistema es
-el error típico. En realidad es una decisión ética: define qué errores
-tolerás... y sobre QUIÉN caen."
+CAPU: "No. Tratar el umbral como un parámetro de sistema es el error
+típico. Es una decisión ética: define qué errores tolerás, y sobre quién
+caen. Quien elige el número, elige a quién perjudica."
 
-CAPU: *(mirando fijo a cámara)* "Quien elige el número, elige a quién
-perjudica. Guardátelo."
-
-**[ESCENA 4 — Cierre, 22-28s]**
+**[ESCENA 3 — Cierre, 15-19s]**
 *(Tira los dos pedazos de cartel a un cesto con puntería exagerada.)*
 
-CAPU: "Encestó Capu. Y la trampa, ya no te la comés."
+CAPU: "Guardátelo. Cae siempre en el parcial."
 
 ## Prompts de imagen (referencia para IA + Seedance)
 
