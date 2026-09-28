@@ -2,37 +2,29 @@
 
 **Post de referencia:** Ética · Clase 3 · trampa · `etica.html#c3`
 **Tema:** Riesgo mínimo no significa "sin regulación"
-**Duración estimada:** ~28s
+**Duración estimada:** ~24s (61 palabras habladas)
 **Personaje y escenario:** ver [00-personaje-capu.md](00-personaje-capu.md)
 
 ## Guion (Capu habla a cámara)
 
-**[ESCENA 1 — Investigando, 0-6s]**
+**[ESCENA 1 — Investigando, 0-3s]**
 *(Capu tiene un sello verde que dice "RIESGO MÍNIMO" y está a punto de
 tirar una carpeta entera al cesto de reciclaje, como si ya no importara.)*
 
-CAPU: "Riesgo mínimo, entonces esto va directo al —"
+CAPU: "Riesgo mínimo, entonces esto va directo al... esperá."
 
-**[ESCENA 2 — Gira a cámara, 6-10s]**
-*(Se detiene en el aire, carpeta a medio camino del cesto.)*
-
-CAPU: "Esperá. Pará todo. Esto es justo la trampa."
-
-**[ESCENA 3 — Explicación, 10-22s]**
+**[ESCENA 2 — Explicación, 3-20s]**
 *(Vuelve a poner la carpeta sobre el escritorio, abriéndola de nuevo.)*
 
-CAPU: "Que el AI Act no te exija nada específico, NO te deja afuera de
-la ley. Un sistema de riesgo mínimo esquiva las obligaciones puntuales de
-esa norma... pero sigue bajo el resto del ordenamiento."
+CAPU: "Que el AI Act no te exija nada específico no te deja fuera de la
+ley. Un sistema de riesgo mínimo esquiva las obligaciones puntuales de
+esa norma, pero sigue bajo el resto del ordenamiento: protección de
+datos, defensa del consumidor y demás."
 
-CAPU: *(cuenta con los dedos)* "Protección de datos. Defensa del
-consumidor. Y lo que sea que aplique. Todo eso sigue de pie."
-
-**[ESCENA 4 — Cierre, 22-28s]**
+**[ESCENA 3 — Cierre, 20-24s]**
 *(Cierra la carpeta y la guarda en el archivero, en vez de tirarla.)*
 
-CAPU: "'Sin regulación específica' no es lo mismo que 'sin ley'. Anotá
-la diferencia."
+CAPU: "'Sin regulación específica' no es lo mismo que 'sin ley'."
 
 ## Prompts de imagen (referencia para IA + Seedance)
 
