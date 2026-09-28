@@ -2,38 +2,30 @@
 
 **Post de referencia:** Ética · Clase 4 · concepto · `etica.html#c4`
 **Tema:** Explicación contrafactual
-**Duración estimada:** ~35s
+**Duración estimada:** ~23s (58 palabras habladas)
 **Personaje y escenario:** ver [00-personaje-capu.md](00-personaje-capu.md)
 
 ## Guion (Capu habla a cámara)
 
-**[ESCENA 1 — Investigando, 0-8s]**
+**[ESCENA 1 — Investigando, 0-3s]**
 *(Capu tiene un papelito que dice "SCORE INSUFICIENTE: 618" en la mano,
 y lo da vuelta una y otra vez, como si no dijera nada.)*
 
-CAPU: "618. Insuficiente. ...¿Y? ¿Qué hago con esta información?"
+CAPU: "618. Insuficiente. ¿Y? Eso no me dice nada."
 
-**[ESCENA 2 — Gira a cámara, 8-13s]**
-*(Baja el papelito, mirando a cámara con cara de "esto no sirve".)*
-
-CAPU: "Nada. No me dice nada. Y ese es justo el problema que vamos a
-resolver hoy."
-
-**[ESCENA 3 — Explicación, 13-28s]**
+**[ESCENA 2 — Explicación, 3-19s]**
 *(Escribe en la pizarra 4 preguntas numeradas mientras habla.)*
 
 CAPU: "Una buena explicación contesta 4 preguntas: qué datos usó, qué
-factores pesaron, qué lo habría cambiado, y cómo lo cuestiono."
+factores pesaron, qué lo habría cambiado, y cómo lo cuestiono. 'Con el
+resto igual, un ingreso mayor a X habría cambiado la clasificación' sí es
+accionable. Un número solo, no."
 
-CAPU: *(tacha el "618" y escribe algo nuevo al lado)* "Mirá la
-diferencia: 'con el resto igual, un ingreso mensual mayor a X habría
-cambiado la clasificación'. ESO sí es accionable."
-
-**[ESCENA 4 — Cierre, 28-35s]**
+**[ESCENA 3 — Cierre, 19-23s]**
 *(Golpea la pizarra con el puntero, satisfecho.)*
 
-CAPU: "Un número solo, no te sirve. Una explicación contrafactual, sí.
-Grabátelo."
+CAPU: "Explicación contrafactual. Grabátelo, porque el parcial la pide
+seguido."
 
 ## Prompts de imagen (referencia para IA + Seedance)
 
