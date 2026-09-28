@@ -132,3 +132,17 @@ Levantar `iagram.html` en navegador: grilla de perfiles → entrar a Ética →
 scrollear el feed completo (24-28 posts) → click en "Ver en el apunte →"
 (ancla a la clase correcta en `etica.html`) → toggle modo oscuro → viewport
 mobile (375px) y desktop.
+
+## Notas de implementación (as shipped)
+
+- El router se implementó con hash simple + evento `hashchange` (sin
+  `history.pushState`/`popstate` explícito) — el resultado es equivalente:
+  el hash en la URL ya hace que "atrás" del navegador funcione.
+- La letra del avatar se deriva de `nombre.charAt(0)` en lugar de un campo
+  `avatarLetra` separado — más simple, un campo menos que mantener en
+  sincro.
+- El piloto de Ética terminó en 21 posts (3 por clase × 7 clases:
+  concepto, trampa, caso), dentro del rango "3-4 por clase" de este
+  documento — no se usó una cuarta categoría "para el parcial" en el
+  piloto, aunque la plantilla existe en el motor de posts para materias
+  futuras.

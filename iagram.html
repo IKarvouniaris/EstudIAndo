@@ -33,7 +33,7 @@ a{color:inherit; text-decoration:none}
 .telefono{max-width:470px; margin:0 auto; min-height:100vh; background:var(--papel); border-left:1px solid var(--linea); border-right:1px solid var(--linea); display:flex; flex-direction:column}
 
 .barra-superior{position:sticky; top:0; z-index:5; display:flex; align-items:center; justify-content:space-between; gap:.6rem; padding:.8rem 1rem; background:var(--papel-2); border-bottom:1px solid var(--linea)}
-.barra-superior .logo{font-family:var(--display); font-weight:700; font-size:1.1rem}
+.barra-superior .logo{font-family:var(--display); font-weight:700; font-size:1.1rem; background:none; border:0; padding:0; color:var(--tinta)}
 .barra-superior .acciones{display:flex; align-items:center; gap:.5rem}
 .barra-superior a, .barra-superior button{font-family:var(--mono); font-size:.62rem; letter-spacing:.06em; padding:.4rem .6rem; background:var(--papel-3); color:var(--tinta-2); border:1px solid var(--linea); border-radius:2px; cursor:pointer}
 .barra-superior button:hover, .barra-superior a:hover{color:var(--tinta); border-color:var(--tinta-3)}
@@ -232,7 +232,7 @@ main.contenido{flex:1; padding-bottom:4.5rem}
       tipo: "trampa",
       clase: 1,
       titulo: "No es lo mismo",
-      caption: "Trampa clásica de parcial: confundir virtud con deontología. La deontología mira la regla (\"¿qué deber tengo?\"); la virtud mira el carácter (\"¿qué haría alguien íntegro, aunque no exista una norma que lo obligue?\"). Son preguntas distintas aunque a veces lleguen a la misma acción.",
+      caption: "No es lo mismo actuar bien porque una norma te obliga que actuar bien porque así es como sos. Eso separa deontología de la ética de la virtud: la primera arranca de la regla, la segunda del carácter de quien decide — y el parcial suele pedirte que distingas cuál está en juego en cada dilema.",
       hashtags: ["Trampa", "Deontologia", "EticaDeLaVirtud"],
       href: "etica.html#c1"
     },
@@ -251,7 +251,7 @@ main.contenido{flex:1; padding-bottom:4.5rem}
       tipo: "concepto",
       clase: 2,
       titulo: "Elegir un número es elegir un error",
-      caption: "El modelo tira un score; alguien decide desde qué valor se actúa. Ese umbral no es un detalle técnico: es una decisión sobre qué error preferís cometer. Umbral alto en detección de fraude significa que se cuela más fraude; umbral bajo significa más gente inocente bloqueada.",
+      caption: "Cada sistema de scoring necesita una línea de corte, y esa línea la pone una persona, no el algoritmo. Subir el umbral deja pasar más casos riesgosos; bajarlo atrapa más pero también castiga a más gente que no había hecho nada. No hay un número neutral: cualquiera que elijas reparte el error de un lado o del otro.",
       hashtags: ["Threshold", "FalsosPositivos", "Bloque2", "ParaElParcial"],
       href: "etica.html#c2"
     },
@@ -286,7 +286,7 @@ main.contenido{flex:1; padding-bottom:4.5rem}
       tipo: "trampa",
       clase: 3,
       titulo: "Ojo con esta lectura",
-      caption: "\"Riesgo mínimo\" no significa \"sin regulación\": solo significa que no hay obligaciones específicas del AI Act para ese caso. Sigue habiendo otras normas aplicables, como protección de datos o defensa del consumidor.",
+      caption: "Que el AI Act no te exija nada específico no te deja fuera de la ley. Un sistema de riesgo mínimo esquiva las obligaciones puntuales de esa norma, pero sigue bajo el resto del ordenamiento — protección de datos, defensa del consumidor y demás siguen aplicando igual.",
       hashtags: ["Trampa", "AIAct", "NivelesDeRiesgo"],
       href: "etica.html#c3"
     },
@@ -332,7 +332,7 @@ main.contenido{flex:1; padding-bottom:4.5rem}
       tipo: "concepto",
       clase: 5,
       titulo: "Tener acceso no es tener oportunidad",
-      caption: "El AI divide es la desigualdad real en poder desarrollar, acceder y beneficiarse de la IA: skills, idioma, capacidad institucional. Laptop más fibra más universidad más inglés no es lo mismo que un celular viejo con datos limitados, aunque en el papel \"ambos tengan acceso a IA\". Sin decisiones políticas deliberadas, es un círculo que refuerza las ventajas que ya existían.",
+      caption: "Dos personas pueden estar técnicamente \"conectadas\" y vivir realidades completamente distintas frente a la IA: una tiene la compu, el idioma, la conexión y la formación para sacarle provecho; la otra entra desde un celular viejo, sin capacitación, sin tiempo. Llamarlo a ambos casos \"acceso a la IA\" esconde una brecha que, sin políticas que la corrijan a propósito, tiende a hacerse más ancha, no más chica.",
       hashtags: ["AIDivide", "Desigualdad", "Bloque3", "ParaElParcial"],
       href: "etica.html#c5"
     },
@@ -375,7 +375,7 @@ main.contenido{flex:1; padding-bottom:4.5rem}
       tipo: "caso",
       clase: 6,
       titulo: "Cuando lo verdadero deja de ser relevante",
-      caption: "El Tribunal de Justicia de la UE marcó un límite temporal: procesar un dato puede haber sido válido al principio y dejar de estarlo más adelante, si ya no aporta nada relevante mantenerlo visible. La salida que impuso no fue borrar la noticia, sino sacarla de los resultados de búsqueda — el diario la sigue publicando, solo que ya no aparece al buscar el nombre.",
+      caption: "En 1998 un diario publicó el embargo de una deuda ya resuelta. Años después, buscar el nombre de esa persona en Google seguía mostrando la noticia. El Tribunal de Justicia de la UE marcó un límite temporal: procesar un dato puede haber sido válido al principio y dejar de estarlo más adelante, si ya no aporta nada relevante mantenerlo visible. La salida que impuso no fue borrar la noticia, sino sacarla de los resultados de búsqueda — el diario la sigue publicando, solo que ya no aparece al buscar el nombre.",
       hashtags: ["DerechoAlOlvido", "Costeja", "CasoReal", "Bloque4"],
       href: "etica.html#c6"
     }
@@ -402,7 +402,7 @@ main.contenido{flex:1; padding-bottom:4.5rem}
       tipo: "caso",
       clase: 7,
       titulo: "El sesgo que aprendió del propio historial",
-      caption: "Amazon entrenó un modelo de reclutamiento con diez años de CVs. Como la industria tech había sido mayormente masculina, el modelo aprendió que ese perfil era el \"exitoso\": penalizaba palabras como \"women's\" y favorecía el vocabulario típico de varones. Sacar la palabra \"woman\" no alcanzó: universidades y actividades seguían delatando el género por variables proxy. Amazon lo descartó en 2017 antes de desplegarlo del todo.",
+      caption: "Amazon quiso automatizar la primera criba de currículums usando una década de contrataciones pasadas como ejemplo de qué buscar. El problema: ese historial venía de una industria con mayoría de varones, así que el sistema copió ese patrón y le bajaba puntaje a currículums con palabras asociadas a mujeres. Ni siquiera borrar el término explícito lo arregló, porque el sesgo se había filtrado en otras señales indirectas — universidad, actividades, vocabulario. Amazon terminó descartando el proyecto en 2017 antes de que llegara a usarse en serio.",
       hashtags: ["SesgoAlgoritmico", "Amazon", "CasoReal", "Bloque5"],
       href: "etica.html#c7"
     }
