@@ -2,38 +2,30 @@
 
 **Post de referencia:** Ética · Clase 6 · trampa · `etica.html#c6`
 **Tema:** Alcance del art. 20 (Estado, no cualquier empresa)
-**Duración estimada:** ~28s
+**Duración estimada:** ~26s (66 palabras habladas)
 **Personaje y escenario:** ver [00-personaje-capu.md](00-personaje-capu.md)
 
 ## Guion (Capu habla a cámara)
 
-**[ESCENA 1 — Investigando, 0-6s]**
+**[ESCENA 1 — Investigando, 0-5s]**
 *(Capu tiene el libro de la Ley 25.326 abierto y, al lado, el logo
 dibujado de un banco. Los mira, dudando si conectarlos con hilo rojo.)*
 
-CAPU: "Un banco privado le niega un crédito por un algoritmo... ¿va el
+CAPU: "Un banco privado te niega un crédito por un algoritmo... ¿va el
 artículo 20?"
 
-**[ESCENA 2 — Gira a cámara, 6-10s]**
-*(Baja el hilo rojo, sin conectarlo, negando con la cabeza.)*
-
-CAPU: "No. Y esta es la trampa que se comen todos."
-
-**[ESCENA 3 — Explicación, 10-22s]**
+**[ESCENA 2 — Explicación, 5-22s]**
 *(Señala el libro y después un cartel nuevo que dice "GDPR ART. 22".)*
 
-CAPU: "Ese artículo protege frente al ESTADO. No frente a cualquier
+CAPU: "No. Ese artículo protege frente al Estado, no frente a cualquier
 empresa. Si quien decide con un algoritmo es un banco privado, la base
-jurídica cambia."
+jurídica cambia: hay que ir al artículo 22 del GDPR, o a principios
+generales de protección de datos."
 
-CAPU: *(señala el cartel de GDPR)* "Ahí hay que ir al artículo 22 del
-GDPR, si aplica, o a principios generales de protección de datos. El
-artículo 20 no te sirve ahí."
-
-**[ESCENA 4 — Cierre, 22-28s]**
+**[ESCENA 3 — Cierre, 22-26s]**
 *(Pone los dos carteles en cajones distintos del archivero.)*
 
-CAPU: "Estado en un cajón. Empresa privada, en otro. No los mezcles."
+CAPU: "Estado en un cajón. Empresa privada, en otro."
 
 ## Prompts de imagen (referencia para IA + Seedance)
 
