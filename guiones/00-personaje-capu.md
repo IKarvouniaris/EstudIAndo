@@ -33,6 +33,25 @@ español rioplatense, tuteando ("vos", "dale", "posta").
 > sin estampados. Postura bípeda, gestual. Iluminación cálida, natural,
 > tipo fotografía o render fotorrealista.
 
+## Imagen principal de referencia
+
+Primera imagen a generar: combina el bloque de personaje y el escenario
+base en una sola foto "ancla", para usar como referencia del aspecto de
+Capu en su hábitat antes de generar las escenas puntuales de cada guion.
+
+> Fotografía realista de cuerpo entero de Capu, un mono capuchino real,
+> de pie en dos patas dentro de una biblioteca antigua y acogedora.
+> Pelaje marrón canela con textura natural, proporciones y anatomía de
+> un mono capuchino real, cara y ojos expresivos pero anatómicamente
+> creíbles. Único accesorio: un chaleco simple de tela marrón/verde
+> oscuro, sin estampados. Está parado sobre un escritorio de madera con
+> algunos papeles encima, con estanterías de madera oscura llenas de
+> libros a los costados, y un tablero de corcho con recortes de diario y
+> notas conectadas con hilo rojo visible de fondo. Luz cálida y natural
+> entrando de costado. Plano medio-entero, cámara a la altura de los
+> ojos, leve profundidad de campo (fondo apenas desenfocado), estilo
+> fotorrealista, alta definición.
+
 ## Escenario base: la Biblioteca de Casos
 
 > Una biblioteca antigua y acogedora: estanterías de madera oscura,
