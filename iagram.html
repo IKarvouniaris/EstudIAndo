@@ -1,0 +1,474 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IAgram — estudIAndo</title>
+<style>
+:root{
+  color-scheme: light;
+  --papel:#EDEEE9; --papel-2:#F8F9F6; --papel-3:#E3E5DE;
+  --tinta:#15181A; --tinta-2:#545B60; --tinta-3:#7B8288;
+  --linea:#C7CAC2; --linea-2:#D9DBD4;
+  --u1:#2E3A94; --u2:#9A5A12; --u3:#1B6A5B; --u4:#6D3470;
+  --u1-suave:#E2E5F6; --u2-suave:#F4E7D2; --u3-suave:#DCEDE8; --u4-suave:#F0E3F0;
+  --display:"Bahnschrift","Franklin Gothic Medium","Arial Narrow","Helvetica Neue",sans-serif;
+  --body:"Sitka Text","Constantia",Georgia,"Times New Roman",serif;
+  --mono:"Cascadia Mono",Consolas,"SFMono-Regular",ui-monospace,monospace;
+}
+:root[data-tema="oscuro"]{
+  color-scheme: dark;
+  --papel:#101315; --papel-2:#181C20; --papel-3:#1F2429;
+  --tinta:#E9EBE6; --tinta-2:#A2AAB0; --tinta-3:#7C858B;
+  --linea:#2B3238; --linea-2:#232930;
+  --u1:#909EF0; --u2:#E2A95B; --u3:#4FC7AC; --u4:#D39AD6;
+  --u1-suave:#1B2040; --u2-suave:#35270F; --u3-suave:#10302B; --u4-suave:#2E1830;
+}
+*{box-sizing:border-box}
+@media (prefers-reduced-motion:reduce){ *{animation:none !important; transition:none !important} }
+body{margin:0; background:var(--papel-3); color:var(--tinta); font-family:var(--body); font-size:16px; line-height:1.5; -webkit-font-smoothing:antialiased}
+:focus-visible{outline:2px solid var(--u1); outline-offset:2px}
+a{color:inherit; text-decoration:none}
+
+.telefono{max-width:470px; margin:0 auto; min-height:100vh; background:var(--papel); border-left:1px solid var(--linea); border-right:1px solid var(--linea); display:flex; flex-direction:column}
+
+.barra-superior{position:sticky; top:0; z-index:5; display:flex; align-items:center; justify-content:space-between; gap:.6rem; padding:.8rem 1rem; background:var(--papel-2); border-bottom:1px solid var(--linea)}
+.barra-superior .logo{font-family:var(--display); font-weight:700; font-size:1.1rem; background:none; border:0; padding:0; color:var(--tinta)}
+.barra-superior .acciones{display:flex; align-items:center; gap:.5rem}
+.barra-superior a, .barra-superior button{font-family:var(--mono); font-size:.62rem; letter-spacing:.06em; padding:.4rem .6rem; background:var(--papel-3); color:var(--tinta-2); border:1px solid var(--linea); border-radius:2px; cursor:pointer}
+.barra-superior button:hover, .barra-superior a:hover{color:var(--tinta); border-color:var(--tinta-3)}
+
+main.contenido{flex:1; padding-bottom:4.5rem}
+.vista[hidden]{display:none}
+
+.barra-inferior{position:sticky; bottom:0; z-index:5; display:flex; justify-content:space-around; padding:.7rem 0; background:var(--papel-2); border-top:1px solid var(--linea)}
+.barra-inferior a{font-family:var(--mono); font-size:.62rem; letter-spacing:.05em; color:var(--tinta-2)}
+.barra-inferior a:hover{color:var(--tinta)}
+
+.grilla-perfiles{display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--linea); padding:1px}
+.tarjeta-perfil{display:flex; flex-direction:column; align-items:center; gap:.4rem; background:var(--papel); padding:1.6rem 1rem; text-align:center}
+.tarjeta-perfil.proximamente{opacity:.55; cursor:default}
+.avatar-perfil{width:3.4rem; height:3.4rem; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:var(--display); font-weight:700; font-size:1.3rem; color:var(--papel-2)}
+.avatar-perfil[data-u="1"]{background:var(--u1)}
+.avatar-perfil[data-u="2"]{background:var(--u2)}
+.avatar-perfil[data-u="3"]{background:var(--u3)}
+.avatar-perfil[data-u="4"]{background:var(--u4)}
+.nombre-perfil{font-family:var(--display); font-weight:700; font-size:.92rem}
+.usuario-perfil{font-family:var(--mono); font-size:.68rem; color:var(--tinta-3)}
+.contador-perfil{font-family:var(--mono); font-size:.62rem; color:var(--tinta-2)}
+.badge-proximamente{font-family:var(--mono); font-size:.6rem; letter-spacing:.06em; color:var(--tinta-3); border:1px solid var(--linea); border-radius:2px; padding:.2rem .5rem}
+
+.perfil-header{display:flex; flex-direction:column; align-items:center; gap:.5rem; padding:1.8rem 1.2rem; border-bottom:1px solid var(--linea); text-align:center}
+.perfil-avatar{width:5rem; height:5rem; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:var(--display); font-weight:700; font-size:2rem; color:var(--papel-2)}
+.perfil-avatar[data-u="1"]{background:var(--u1)}
+.perfil-avatar[data-u="2"]{background:var(--u2)}
+.perfil-avatar[data-u="3"]{background:var(--u3)}
+.perfil-avatar[data-u="4"]{background:var(--u4)}
+#perfil-nombre{font-family:var(--display); font-weight:700; font-size:1.2rem; margin:0}
+#perfil-usuario{font-family:var(--mono); font-size:.72rem; color:var(--tinta-3); margin:0}
+#perfil-bio{font-size:.88rem; color:var(--tinta-2); max-width:32ch; margin:0 auto}
+#perfil-stats{font-family:var(--mono); font-size:.68rem; color:var(--tinta-2); margin:0}
+.feed{display:flex; flex-direction:column}
+
+.post{border-bottom:1px solid var(--linea); padding-bottom:1rem}
+.post-header{display:flex; align-items:center; gap:.5rem; padding:.7rem 1rem}
+.post-avatar{width:1.8rem; height:1.8rem; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:var(--display); font-weight:700; font-size:.8rem; color:var(--papel-2)}
+.post-avatar[data-u="1"]{background:var(--u1)}
+.post-avatar[data-u="2"]{background:var(--u2)}
+.post-avatar[data-u="3"]{background:var(--u3)}
+.post-avatar[data-u="4"]{background:var(--u4)}
+.post-usuario{font-family:var(--display); font-weight:700; font-size:.82rem}
+.post-clase{margin-left:auto; font-family:var(--mono); font-size:.64rem; color:var(--tinta-3)}
+.post-tarjeta{position:relative; margin:0 1rem; aspect-ratio:1/1; border-radius:4px; display:flex; align-items:center; padding:1.6rem; background:var(--papel-3)}
+.post-tarjeta[data-u="1"]{background:var(--u1-suave)}
+.post-tarjeta[data-u="2"]{background:var(--u2-suave)}
+.post-tarjeta[data-u="3"]{background:var(--u3-suave)}
+.post-tarjeta[data-u="4"]{background:var(--u4-suave)}
+.post-tarjeta-titulo{font-family:var(--display); font-weight:700; font-size:clamp(1.3rem,5vw,1.7rem); line-height:1.15; margin:0}
+.post-badge{position:absolute; top:.8rem; left:.8rem; font-family:var(--mono); font-size:.62rem; letter-spacing:.04em; background:var(--tinta); color:var(--papel-2); padding:.25rem .55rem; border-radius:2px}
+.post-trampa .post-badge{background:var(--u2)}
+.post-parcial .post-badge{background:var(--u3)}
+.post-caption{padding:.8rem 1rem 0}
+.post-caption p{margin:0 0 .5rem; font-size:.88rem; color:var(--tinta)}
+.post-hashtags{font-family:var(--mono); font-size:.7rem; color:var(--u1)}
+.post-link{display:inline-block; margin-top:.2rem; font-family:var(--mono); font-size:.68rem; color:var(--tinta-2); border-bottom:1px solid var(--linea)}
+.post-link:hover{color:var(--tinta); border-color:var(--tinta-3)}
+</style>
+</head>
+<body>
+<div class="telefono">
+  <header class="barra-superior">
+    <a href="#" class="logo" id="link-inicio-superior">IAgram</a>
+    <div class="acciones">
+      <button class="btn-tema" id="btn-tema" type="button">MODO OSCURO</button>
+      <a href="index.html">estudIAndo →</a>
+    </div>
+  </header>
+
+  <main class="contenido">
+    <section id="vista-explorar" class="vista">
+      <div class="grilla-perfiles" id="grilla-perfiles"></div>
+    </section>
+
+    <section id="vista-perfil" class="vista" hidden>
+      <div class="perfil-header">
+        <span class="perfil-avatar"></span>
+        <h2 id="perfil-nombre"></h2>
+        <p id="perfil-usuario"></p>
+        <p id="perfil-bio"></p>
+        <p id="perfil-stats"></p>
+      </div>
+      <div class="feed" id="feed"></div>
+    </section>
+  </main>
+
+  <nav class="barra-inferior">
+    <a href="#" id="link-inicio-inferior">Inicio</a>
+    <a href="index.html">Salir</a>
+  </nav>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  // ===== TEMA (mismo patrón y misma clave de localStorage que el resto del sitio) =====
+  var raiz = document.documentElement, btnTema = document.getElementById("btn-tema");
+  function aplicarTema(t){
+    raiz.setAttribute("data-tema", t);
+    btnTema.textContent = t === "oscuro" ? "MODO CLARO" : "MODO OSCURO";
+    try{ localStorage.setItem("ia-tema", t); }catch(e){}
+  }
+  var temaGuardado = null;
+  try{ temaGuardado = localStorage.getItem("ia-tema"); }catch(e){}
+  if(!temaGuardado) temaGuardado = (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) ? "oscuro" : "claro";
+  aplicarTema(temaGuardado);
+  btnTema.addEventListener("click", function(){
+    aplicarTema(raiz.getAttribute("data-tema") === "oscuro" ? "claro" : "oscuro");
+  });
+
+  // ===== DATOS: PERFILES Y POSTS =====
+  var PERFILES = {
+    etica: {
+      nombre: "Ética en la IA",
+      usuario: "@etica.ia",
+      bio: "Lo que el parcial de Ética puede preguntar, clase por clase.",
+      unidad: 4,
+      apunte: "etica.html",
+      estado: "activo",
+      clases: 7
+    },
+    "ia-conceptual": {
+      nombre: "Introducción a la IA",
+      usuario: "@ia.conceptual",
+      bio: "Próximamente: los conceptos clave de cada clase.",
+      unidad: 1,
+      apunte: "ia-conceptual.html",
+      estado: "proximamente",
+      clases: 0
+    },
+    python: {
+      nombre: "Python para Ciencia de Datos",
+      usuario: "@python.ds",
+      bio: "Próximamente: los conceptos clave de cada clase.",
+      unidad: 3,
+      apunte: "python.html",
+      estado: "proximamente",
+      clases: 0
+    },
+    estadistica: {
+      nombre: "Probabilidad y Estadística",
+      usuario: "@estadistica",
+      bio: "Próximamente: los conceptos clave de cada clase.",
+      unidad: 2,
+      apunte: "estadistica.html",
+      estado: "proximamente",
+      clases: 0
+    }
+  };
+
+  function badgeDePost(tipo){
+    if(tipo === "trampa") return "⚠ Error típico";
+    if(tipo === "caso") return "📌 Caso real";
+    if(tipo === "parcial") return "★ Para el parcial";
+    return "";
+  }
+
+  function crearPost(perfilId, post){
+    var perfil = PERFILES[perfilId];
+    var badge = badgeDePost(post.tipo);
+    var art = document.createElement("article");
+    art.className = "post post-" + post.tipo;
+    art.innerHTML =
+      '<header class="post-header">' +
+        '<span class="post-avatar" data-u="' + perfil.unidad + '">' + perfil.nombre.charAt(0) + '</span>' +
+        '<span class="post-usuario">' + perfil.usuario + '</span>' +
+        '<span class="post-clase">Clase ' + post.clase + '</span>' +
+      '</header>' +
+      '<div class="post-tarjeta" data-u="' + perfil.unidad + '">' +
+        (badge ? '<span class="post-badge">' + badge + '</span>' : '') +
+        '<p class="post-tarjeta-titulo">' + post.titulo + '</p>' +
+      '</div>' +
+      '<div class="post-caption">' +
+        '<p>' + post.caption + '</p>' +
+        '<p class="post-hashtags">' + post.hashtags.map(function(h){ return '#' + h; }).join(' ') + '</p>' +
+        '<a class="post-link" href="' + post.href + '">Ver en el apunte →</a>' +
+      '</div>';
+    return art;
+  }
+
+  var POSTS = {};
+
+  var POSTS_ETICA_C1 = [
+    {
+      tipo: "concepto",
+      clase: 1,
+      titulo: "¿Qué persona querés ser?",
+      caption: "La ética de la virtud no pregunta qué regla seguir, sino qué haría alguien íntegro. Aristóteles la resume en el justo medio: ni por exceso ni por defecto. Si tu modelo tiene sesgos, la pregunta no es \"hay una norma que lo prohíba\", es \"qué haría un/a científico/a de datos honesto/a\": notificarlo, documentarlo, corregirlo.",
+      hashtags: ["EticaDeLaVirtud", "Aristoteles", "Bloque1", "ParaElParcial"],
+      href: "etica.html#c1"
+    },
+    {
+      tipo: "trampa",
+      clase: 1,
+      titulo: "No es lo mismo",
+      caption: "No es lo mismo actuar bien porque una norma te obliga que actuar bien porque así es como sos. Eso separa deontología de la ética de la virtud: la primera arranca de la regla, la segunda del carácter de quien decide — y el parcial suele pedirte que distingas cuál está en juego en cada dilema.",
+      hashtags: ["Trampa", "Deontologia", "EticaDeLaVirtud"],
+      href: "etica.html#c1"
+    },
+    {
+      tipo: "caso",
+      clase: 1,
+      titulo: "La alucinación que se volvió demanda",
+      caption: "ChatGPT inventó que un locutor había cometido fraude, citando una demanda real que nunca decía eso. El afectado demandó a OpenAI por difamación. El fallo dejó una idea incómoda: si hay advertencias claras, el deber de verificar puede recaer en quien usa la herramienta, no en quien la crea. La cátedra es tajante: no existe una responsabilidad \"compartida\" real.",
+      hashtags: ["Alucinaciones", "OpenAI", "CasoReal", "Bloque1"],
+      href: "etica.html#c1"
+    }
+  ];
+
+  var POSTS_ETICA_C2 = [
+    {
+      tipo: "concepto",
+      clase: 2,
+      titulo: "Elegir un número es elegir un error",
+      caption: "Cada sistema de scoring necesita una línea de corte, y esa línea la pone una persona, no el algoritmo. Subir el umbral deja pasar más casos riesgosos; bajarlo atrapa más pero también castiga a más gente que no había hecho nada. No hay un número neutral: cualquiera que elijas reparte el error de un lado o del otro.",
+      hashtags: ["Threshold", "FalsosPositivos", "Bloque2", "ParaElParcial"],
+      href: "etica.html#c2"
+    },
+    {
+      tipo: "trampa",
+      clase: 2,
+      titulo: "No es un ajuste técnico",
+      caption: "Tratar el threshold como si fuera un simple parámetro de sistema es el error típico. En realidad es una decisión ética: define qué errores tolerás y sobre quién caen. Quien elige el número, elige a quién perjudica.",
+      hashtags: ["Trampa", "Threshold", "DecisionesEticas"],
+      href: "etica.html#c2"
+    },
+    {
+      tipo: "caso",
+      clase: 2,
+      titulo: "Pedir el código, no solo el resultado",
+      caption: "BOSCO decidía automáticamente quién accedía al Bono Social Eléctrico en España. Durante años, la Justicia negó el acceso al código por \"propiedad intelectual\". En 2025 el Tribunal Supremo dio vuelta el criterio: si un algoritmo decide sobre derechos sociales, la transparencia no termina en el resultado, también alcanza a la lógica de la herramienta.",
+      hashtags: ["Transparencia", "BOSCO", "CasoReal", "Bloque2"],
+      href: "etica.html#c2"
+    }
+  ];
+
+  var POSTS_ETICA_C3 = [
+    {
+      tipo: "concepto",
+      clase: 3,
+      titulo: "Dos roles, dos responsabilidades",
+      caption: "El AI Act reparte la responsabilidad en toda la cadena, no solo en quien programó. Provider: desarrolla el sistema y lo pone en el mercado bajo su nombre. Deployer: lo usa bajo su propia autoridad para un fin concreto. Una empresa de software de selección es provider; el banco que lo compra y lo usa es deployer.",
+      hashtags: ["ProviderDeployer", "AIAct", "Bloque2", "ParaElParcial"],
+      href: "etica.html#c3"
+    },
+    {
+      tipo: "trampa",
+      clase: 3,
+      titulo: "Ojo con esta lectura",
+      caption: "Que el AI Act no te exija nada específico no te deja fuera de la ley. Un sistema de riesgo mínimo esquiva las obligaciones puntuales de esa norma, pero sigue bajo el resto del ordenamiento — protección de datos, defensa del consumidor y demás siguen aplicando igual.",
+      hashtags: ["Trampa", "AIAct", "NivelesDeRiesgo"],
+      href: "etica.html#c3"
+    },
+    {
+      tipo: "caso",
+      clase: 3,
+      titulo: "El Uber que no frenó",
+      caption: "El sistema detectó el obstáculo 6 segundos antes del choque y lo clasificó mal; reconoció que había que frenar 1,3 segundos antes, pero Uber había desactivado el frenado automático para evitar falsas alarmas. La conductora de seguridad miraba el celular. La única condenada fue ella: el eslabón más débil de la cadena cargó con la responsabilidad.",
+      hashtags: ["ResponsabilidadDesplazada", "Uber", "CasoReal", "Bloque2"],
+      href: "etica.html#c3"
+    }
+  ];
+
+  var POSTS_ETICA_C4 = [
+    {
+      tipo: "concepto",
+      clase: 4,
+      titulo: "La pregunta que sí sirve: ¿qué lo habría cambiado?",
+      caption: "Una buena explicación contesta 4 preguntas: qué datos usó, qué factores pesaron, qué lo habría cambiado, y cómo lo cuestiono. \"Con el resto igual, un ingreso mensual mayor a X habría cambiado la clasificación\" es mucho más accionable que un simple \"score insuficiente: 618\".",
+      hashtags: ["Explicabilidad", "Contrafactual", "Bloque3", "ParaElParcial"],
+      href: "etica.html#c4"
+    },
+    {
+      tipo: "trampa",
+      clase: 4,
+      titulo: "Esto no es una explicación",
+      caption: "\"Score insuficiente: 618\" no permite entender ni actuar. Sin el contrafactual (qué tendría que cambiar para que el resultado sea distinto), la persona afectada no puede ni cuestionar ni corregir la decisión.",
+      hashtags: ["Trampa", "Explicabilidad", "Contrafactual"],
+      href: "etica.html#c4"
+    },
+    {
+      tipo: "caso",
+      clase: 4,
+      titulo: "Opaco, estadístico, y aun así válido",
+      caption: "COMPAS clasificó a Loomis como alto riesgo en las tres escalas y eso pesó en su condena. Wisconsin resolvió que un algoritmo opaco (trade secret) y basado en estadística grupal puede usarse sin violar el debido proceso, pero con límites: no puede decidir si hay cárcel ni ser determinante por sí solo. Opacidad más generalización, y aun así se admite su uso: la paradoja que la cátedra marca como pregunta de parcial.",
+      hashtags: ["COMPAS", "Loomis", "CasoReal", "Bloque3"],
+      href: "etica.html#c4"
+    }
+  ];
+
+  var POSTS_ETICA_C5 = [
+    {
+      tipo: "concepto",
+      clase: 5,
+      titulo: "Tener acceso no es tener oportunidad",
+      caption: "Dos personas pueden estar técnicamente \"conectadas\" y vivir realidades completamente distintas frente a la IA: una tiene la compu, el idioma, la conexión y la formación para sacarle provecho; la otra entra desde un celular viejo, sin capacitación, sin tiempo. Llamarlo a ambos casos \"acceso a la IA\" esconde una brecha que, sin políticas que la corrijan a propósito, tiende a hacerse más ancha, no más chica.",
+      hashtags: ["AIDivide", "Desigualdad", "Bloque3", "ParaElParcial"],
+      href: "etica.html#c5"
+    },
+    {
+      tipo: "trampa",
+      clase: 5,
+      titulo: "Delegar no es lo mismo que mejorar",
+      caption: "Deskilling: delegás siempre en la IA y perdés la capacidad de detectar cuándo se equivoca. Upskilling: la IA libera tiempo, pero solo mejora el trabajo si hay formación y rediseño de puestos. La herramienta sola no genera upskilling: sin inversión deliberada, el resultado por defecto es deskilling.",
+      hashtags: ["Trampa", "Deskilling", "Upskilling"],
+      href: "etica.html#c5"
+    },
+    {
+      tipo: "caso",
+      clase: 5,
+      titulo: "Gestión algorítmica como subordinación",
+      caption: "La Corte Suprema del Reino Unido falló que los conductores de Uber eran \"workers\" con derecho a salario mínimo y vacaciones pagas, aunque el contrato dijera \"independientes\". Uber fijaba tarifas, monitoreaba cada aceptación y desconectaba automáticamente por ratings bajos, sin ningún gerente humano de por medio. Prevaleció la realidad de la relación sobre la etiqueta del contrato.",
+      hashtags: ["GestionAlgoritmica", "Uber", "CasoReal", "Bloque3"],
+      href: "etica.html#c5"
+    }
+  ];
+
+  var POSTS_ETICA_C6 = [
+    {
+      tipo: "concepto",
+      clase: 6,
+      titulo: "Una ley de 2000 que ya hablaba de scoring",
+      caption: "El art. 20 de la Ley 25.326 dice que ninguna decisión judicial o acto administrativo que valore la conducta de una persona puede basarse únicamente en un tratamiento informatizado que perfile su personalidad. Si eso pasa, la nulidad es insanable. Una ley argentina del año 2000 ya anticipaba los mismos problemas que hoy discutimos con IA.",
+      hashtags: ["Ley25326", "ProteccionDeDatos", "Bloque4", "ParaElParcial"],
+      href: "etica.html#c6"
+    },
+    {
+      tipo: "trampa",
+      clase: 6,
+      titulo: "No aplica a cualquier decisión automatizada",
+      caption: "Ese artículo protege frente al Estado, no frente a cualquier empresa. Si quien decide con un algoritmo es un banco privado, la base jurídica cambia: hay que ir al art. 22 del GDPR (si corresponde) o a principios generales de protección de datos — el art. 20 no te sirve ahí.",
+      hashtags: ["Trampa", "Ley25326", "GDPR"],
+      href: "etica.html#c6"
+    },
+    {
+      tipo: "caso",
+      clase: 6,
+      titulo: "Cuando lo verdadero deja de ser relevante",
+      caption: "En 1998 un diario publicó el embargo de una deuda ya resuelta. Años después, buscar el nombre de esa persona en Google seguía mostrando la noticia. El Tribunal de Justicia de la UE marcó un límite temporal: procesar un dato puede haber sido válido al principio y dejar de estarlo más adelante, si ya no aporta nada relevante mantenerlo visible. La salida que impuso no fue borrar la noticia, sino sacarla de los resultados de búsqueda — el diario la sigue publicando, solo que ya no aparece al buscar el nombre.",
+      hashtags: ["DerechoAlOlvido", "Costeja", "CasoReal", "Bloque4"],
+      href: "etica.html#c6"
+    }
+  ];
+
+  var POSTS_ETICA_C7 = [
+    {
+      tipo: "concepto",
+      clase: 7,
+      titulo: "No hace falta probar que \"lo habría conseguido\"",
+      caption: "El daño no siempre es algo que ya tenías y perdiste: también cuenta la oportunidad concreta que te quitaron, si era seria y probable, no una fantasía. Para reclamar no hace falta jurar que el puesto era tuyo: basta con mostrar que un algoritmo te sacó de la carrera antes de que pudieras competir en las mismas condiciones que el resto.",
+      hashtags: ["PerdidaDeChance", "Responsabilidad", "Bloque5", "ParaElParcial"],
+      href: "etica.html#c7"
+    },
+    {
+      tipo: "trampa",
+      clase: 7,
+      titulo: "Cuidado con la certeza que no existe",
+      caption: "Afirmar que sin el algoritmo esa persona se hubiera quedado con el puesto es pedirle a la causalidad algo que no puede dar: nadie puede jurar qué hubiera pasado. El argumento que sí se sostiene es más modesto y más fuerte a la vez: la sacaron de una selección real antes de que pudiera competir por ella.",
+      hashtags: ["Trampa", "PerdidaDeChance", "ResponsabilidadCivil"],
+      href: "etica.html#c7"
+    },
+    {
+      tipo: "caso",
+      clase: 7,
+      titulo: "El sesgo que aprendió del propio historial",
+      caption: "Amazon quiso automatizar la primera criba de currículums usando una década de contrataciones pasadas como ejemplo de qué buscar. El problema: ese historial venía de una industria con mayoría de varones, así que el sistema copió ese patrón y le bajaba puntaje a currículums con palabras asociadas a mujeres. Ni siquiera borrar el término explícito lo arregló, porque el sesgo se había filtrado en otras señales indirectas — universidad, actividades, vocabulario. Amazon terminó descartando el proyecto en 2017 antes de que llegara a usarse en serio.",
+      hashtags: ["SesgoAlgoritmico", "Amazon", "CasoReal", "Bloque5"],
+      href: "etica.html#c7"
+    }
+  ];
+
+  POSTS.etica = [].concat(POSTS_ETICA_C1, POSTS_ETICA_C2, POSTS_ETICA_C3, POSTS_ETICA_C4, POSTS_ETICA_C5, POSTS_ETICA_C6, POSTS_ETICA_C7);
+
+  // ===== VISTAS =====
+  function mostrarVista(nombre){
+    document.querySelectorAll(".vista").forEach(function(v){
+      v.hidden = (v.id !== "vista-" + nombre);
+    });
+  }
+
+  function renderExplorar(){
+    var grilla = document.getElementById("grilla-perfiles");
+    grilla.innerHTML = "";
+    Object.keys(PERFILES).forEach(function(id){
+      var perfil = PERFILES[id];
+      var activo = perfil.estado === "activo";
+      var nodo = document.createElement(activo ? "a" : "div");
+      nodo.className = "tarjeta-perfil" + (activo ? "" : " proximamente");
+      if(activo) nodo.href = "#perfil=" + id;
+      var totalPosts = (POSTS[id] || []).length;
+      nodo.innerHTML =
+        '<span class="avatar-perfil" data-u="' + perfil.unidad + '">' + perfil.nombre.charAt(0) + '</span>' +
+        '<span class="nombre-perfil">' + perfil.nombre + '</span>' +
+        '<span class="usuario-perfil">' + perfil.usuario + '</span>' +
+        (activo
+          ? '<span class="contador-perfil">' + totalPosts + ' posts</span>'
+          : '<span class="badge-proximamente">Próximamente</span>');
+      grilla.appendChild(nodo);
+    });
+  }
+
+  function renderPerfil(id){
+    var perfil = PERFILES[id];
+    var avatar = document.querySelector(".perfil-avatar");
+    avatar.setAttribute("data-u", perfil.unidad);
+    avatar.textContent = perfil.nombre.charAt(0);
+    document.getElementById("perfil-nombre").textContent = perfil.nombre;
+    document.getElementById("perfil-usuario").textContent = perfil.usuario;
+    document.getElementById("perfil-bio").textContent = perfil.bio;
+    var posts = POSTS[id] || [];
+    document.getElementById("perfil-stats").textContent = perfil.clases + " clases · " + posts.length + " posts";
+    var feed = document.getElementById("feed");
+    feed.innerHTML = "";
+    posts.forEach(function(post){ feed.appendChild(crearPost(id, post)); });
+    mostrarVista("perfil");
+  }
+
+  // ===== ROUTER =====
+  function manejarHash(){
+    var hash = location.hash.replace("#", "");
+    if(hash.indexOf("perfil=") === 0){
+      var id = hash.slice("perfil=".length);
+      if(PERFILES[id] && PERFILES[id].estado === "activo"){ renderPerfil(id); return; }
+    }
+    mostrarVista("explorar");
+  }
+  window.addEventListener("hashchange", manejarHash);
+
+  // ===== INICIO =====
+  renderExplorar();
+  manejarHash();
+})();
+</script>
+</body>
+</html>
