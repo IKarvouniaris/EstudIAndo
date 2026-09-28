@@ -2,44 +2,33 @@
 
 **Post de referencia:** Ética · Clase 3 · caso · `etica.html#c3`
 **Tema:** Accidente fatal de un vehículo autónomo de Uber
-**Duración estimada:** ~42s
+**Duración estimada:** ~28s (68 palabras habladas)
 **Personaje y escenario:** ver [00-personaje-capu.md](00-personaje-capu.md)
 
 ## Guion (Capu habla a cámara)
 
-**[ESCENA 1 — Investigando, 0-10s]**
+**[ESCENA 1 — Investigando, 0-6s]**
 *(Capu tiene una foto en blanco y negro de un auto pegada en el
 tablero, con anotaciones y un cronómetro dibujado al lado marcando
 "6 SEGUNDOS" y "1,3 SEGUNDOS".)*
 
-CAPU: "Seis segundos. El sistema vio el obstáculo seis segundos antes
-del choque. Y lo clasificó mal."
+CAPU: "Seis segundos antes del choque, el sistema vio el obstáculo. Y
+lo clasificó mal."
 
-**[ESCENA 2 — Gira a cámara, 10-16s]**
-*(Se acerca a cámara, más serio de lo normal.)*
-
-CAPU: "Este caso no tiene vuelta atrás. Prestá atención."
-
-**[ESCENA 3 — Explicación, 16-34s]**
+**[ESCENA 2 — Explicación, 6-23s]**
 *(Señala el cronómetro, después una figura de la "conductora" dibujada
 mirando un celular.)*
 
-CAPU: "1,3 segundos antes, el sistema reconoció que había que frenar.
-¿Y sabés qué pasó? Uber había desactivado el frenado automático. Para
-evitar falsas alarmas."
+CAPU: "1,3 segundos antes reconoció que había que frenar, pero Uber
+había desactivado el frenado automático para evitar falsas alarmas. La
+conductora de seguridad miraba el celular. La única condenada fue ella: el
+eslabón más débil de la cadena cargó con la responsabilidad."
 
-CAPU: *(señala la figura del celular)* "Y la conductora de seguridad...
-miraba el celular."
-
-CAPU: *(se da vuelta hacia cámara, bajando la voz)* "La única condenada
-fue ella. El eslabón más débil de toda la cadena cargó con la
-responsabilidad."
-
-**[ESCENA 4 — Cierre, 34-42s]**
+**[ESCENA 3 — Cierre, 23-28s]**
 *(Se sienta, apoya la cara en las manos, mirando a cámara fijo.)*
 
-CAPU: "Cuando algo falla en una cadena larga, fijate bien quién termina
-pagando. No siempre es quien más decidió."
+CAPU: "Cuando algo falla en una cadena larga, fijate quién termina
+pagando."
 
 ## Prompts de imagen (referencia para IA + Seedance)
 
