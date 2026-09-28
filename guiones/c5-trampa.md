@@ -2,42 +2,32 @@
 
 **Post de referencia:** Ética · Clase 5 · trampa · `etica.html#c5`
 **Tema:** Deskilling vs. Upskilling
-**Duración estimada:** ~30s
+**Duración estimada:** ~25s (62 palabras habladas)
 **Personaje y escenario:** ver [00-personaje-capu.md](00-personaje-capu.md)
 
 ## Guion (Capu habla a cámara)
 
-**[ESCENA 1 — Investigando, 0-6s]**
+**[ESCENA 1 — Investigando, 0-3s]**
 *(Capu tiene dos carteles chicos en el escritorio: "DESKILLING" y
 "UPSKILLING". Los mira, entrecerrando los ojos, buscando la trampa.)*
 
-CAPU: "Suenan casi igual. Significan cosas MUY distintas."
+CAPU: "Suenan casi igual. Significan cosas muy distintas."
 
-**[ESCENA 2 — Gira a cámara, 6-10s]**
-*(Levanta los dos carteles, uno en cada mano.)*
+**[ESCENA 2 — Explicación, 3-22s]**
+*(Agita primero el cartel de "DESKILLING" con cara de preocupación, y
+después el de "UPSKILLING", más animado.)*
 
-CAPU: "Y en el parcial te los mezclan a propósito. Vamos a
-desarmarlos."
+CAPU: "Deskilling: delegás siempre en la IA y perdés la capacidad de
+notar cuándo se equivoca. Upskilling: la IA libera tiempo, pero solo
+mejora el trabajo si hay formación y rediseño de puestos. La herramienta
+sola no genera upskilling. Sin inversión a propósito, el resultado por
+defecto es deskilling."
 
-**[ESCENA 3 — Explicación, 10-24s]**
-*(Agita el cartel de "DESKILLING" con cara de preocupación.)*
-
-CAPU: "Deskilling: delegás siempre en la IA, y perdés la capacidad de
-notar cuándo se equivoca."
-
-CAPU: *(agita el cartel de "UPSKILLING", más animado)* "Upskilling: la
-IA te libera tiempo, pero solo mejora el trabajo SI hay formación y
-rediseño de puestos."
-
-CAPU: *(junta los dos carteles, serio)* "La herramienta sola no genera
-upskilling. Sin inversión a propósito, el resultado por defecto es
-deskilling."
-
-**[ESCENA 4 — Cierre, 24-30s]**
+**[ESCENA 3 — Cierre, 22-25s]**
 *(Guarda el cartel de "UPSKILLING" en un marco, y arruga el de
 "DESKILLING".)*
 
-CAPU: "Uno lo enmarcás. El otro, lo evitás. Fin de la trampa."
+CAPU: "Uno lo enmarcás. El otro, lo evitás."
 
 ## Prompts de imagen (referencia para IA + Seedance)
 
