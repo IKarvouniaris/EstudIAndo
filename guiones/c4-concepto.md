@@ -8,13 +8,13 @@
 ## Guion (Capu habla a cámara)
 
 **[ESCENA 1 — Investigando, 0-8s]**
-*(Capu tiene un papelito que dice "SCORE INSUFICIENTE: 618" pegado en
-la lupa, y lo mira dando vueltas, como si no dijera nada.)*
+*(Capu tiene un papelito que dice "SCORE INSUFICIENTE: 618" en la mano,
+y lo da vuelta una y otra vez, como si no dijera nada.)*
 
 CAPU: "618. Insuficiente. ...¿Y? ¿Qué hago con esta información?"
 
 **[ESCENA 2 — Gira a cámara, 8-13s]**
-*(Baja la lupa, mirando a cámara con cara de "esto no sirve".)*
+*(Baja el papelito, mirando a cámara con cara de "esto no sirve".)*
 
 CAPU: "Nada. No me dice nada. Y ese es justo el problema que vamos a
 resolver hoy."
@@ -38,9 +38,9 @@ Grabátelo."
 ## Prompts de imagen (referencia para IA + Seedance)
 
 ### Imagen 1 — Investigando (papelito con score)
-[Bloque de personaje] + Capu sostiene la lupa con un papelito pequeño
-pegado que dice "SCORE INSUFICIENTE: 618", mirándolo con expresión de
-confusión y frustración leve. [Escenario base].
+[Bloque de personaje] + Capu sostiene entre dos dedos un papelito pequeño
+que dice "SCORE INSUFICIENTE: 618", mirándolo con expresión de confusión
+y frustración leve. [Escenario base].
 
 ### Imagen 2 — Explicación (pizarra con 4 preguntas)
 [Bloque de personaje] + Capu de pie frente a una pizarra de tiza donde

@@ -15,7 +15,7 @@ CAPU: "Un sistema que nadie puede revisar del todo... decidiendo cuántos
 años de cárcel."
 
 **[ESCENA 2 — Gira a cámara, 10-15s]**
-*(Se acerca a cámara, con la lupa en la mano, expresión intrigada.)*
+*(Se acerca a cámara, expresión intrigada.)*
 
 CAPU: "Esta es la paradoja más citada de la clase. Agarrate."
 
@@ -43,7 +43,7 @@ es la paradoja que te van a preguntar. Pensala bien."
 ### Imagen 1 — Investigando (expediente COMPAS)
 [Bloque de personaje] + Capu de pie frente al tablero de corcho, con un
 expediente que dice "COMPAS" y tres barras dibujadas marcadas "RIESGO:
-ALTO", sosteniendo la lupa cerca, expresión intrigada y seria.
+ALTO", mirándolas fijo, expresión intrigada y seria.
 [Escenario base].
 
 ### Imagen 2 — Explicación (caminando, gesticulando)

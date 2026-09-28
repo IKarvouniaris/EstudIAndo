@@ -9,7 +9,7 @@
 
 **[ESCENA 1 — Investigando, 0-8s]**
 *(Capu está frente a una pizarra chica con un dial dibujado y un
-número gigante en el medio: "70%". Lo mira fijo, con la lupa.)*
+número gigante en el medio: "70%". Lo mira fijo, muy concentrado.)*
 
 CAPU: "Un número. Eso es todo lo que separa 'sospechoso' de
 'inocente' en un sistema anti-fraude."
@@ -43,8 +43,7 @@ parámetro técnico'... corregilo. Es una decisión. Con nombre y apellido."
 ### Imagen 1 — Investigando (pizarra con dial)
 [Bloque de personaje] + Capu de pie frente a una pizarra pequeña de tiza
 donde hay dibujado un dial/velocímetro simple con un número grande en el
-centro que dice "70%", sosteniendo la lupa cerca de la pizarra, expresión
-de concentración. [Escenario base].
+centro que dice "70%", mirándola fijo, expresión de concentración. [Escenario base].
 
 ### Imagen 2 — Explicación (moviendo el dial)
 [Bloque de personaje] + Capu con el dedo índice tocando la pizarra sobre

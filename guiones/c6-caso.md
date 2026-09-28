@@ -9,8 +9,8 @@
 
 **[ESCENA 1 — Investigando, 0-10s]**
 *(Capu tiene un recorte de diario amarillento de 1998 pegado en el
-tablero, con un hilo rojo que conecta a un ícono de lupa de búsqueda de
-Google dibujado al lado.)*
+tablero, con un hilo rojo que conecta a un cartel que dice "GOOGLE"
+dibujado al lado.)*
 
 CAPU: "1998. Un embargo por una deuda. Una deuda que hace RATO está
 resuelta."
@@ -45,8 +45,8 @@ preguntar. Anotala bien."
 ### Imagen 1 — Investigando (recorte de diario amarillento)
 [Bloque de personaje] + Capu de pie frente al tablero de corcho, con un
 recorte de diario amarillento y desgastado de aspecto antiguo, conectado
-con hilo rojo a un ícono simple de lupa de búsqueda dibujado al lado,
-expresión pensativa. [Escenario base].
+con hilo rojo a un cartel que dice "GOOGLE" dibujado al lado, expresión
+pensativa. [Escenario base].
 
 ### Imagen 2 — Explicación (tocando ambos elementos)
 [Bloque de personaje] + Capu con una mano tocando el recorte de diario y
@@ -61,6 +61,6 @@ expresión de haber resuelto algo con precisión. [Escenario base].
 
 ## Notas para Seedance
 La metáfora visual central es el hilo rojo que se "corta" sin que el
-diario desaparezca — mantener ambos elementos (recorte y lupa) visibles
-en las 3 imágenes para que la idea de "desindexar, no borrar" se
-entienda sin necesidad de texto adicional.
+diario desaparezca — mantener ambos elementos (recorte y cartel de
+Google) visibles en las 3 imágenes para que la idea de "desindexar, no
+borrar" se entienda sin necesidad de texto adicional.

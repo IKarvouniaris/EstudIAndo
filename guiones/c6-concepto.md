@@ -44,8 +44,8 @@ de polvo desde la tapa, expresión de asombro. [Escenario base].
 
 ### Imagen 2 — Explicación (leyendo con el dedo)
 [Bloque de personaje] + Capu con el libro abierto en las manos, dedo
-índice señalando una línea del texto mientras mira a cámara por encima
-de los anteojos, expresión seria y didáctica.
+índice señalando una línea del texto mientras mira directo a cámara,
+expresión seria y didáctica.
 
 ### Imagen 3 — Cierre (guardando el libro)
 [Bloque de personaje] + Capu acomodando cuidadosamente el libro de vuelta

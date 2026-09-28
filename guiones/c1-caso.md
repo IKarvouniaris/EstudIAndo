@@ -9,8 +9,8 @@
 
 **[ESCENA 1 — Investigando, 0-10s]**
 *(Capu clava en el tablero una hoja impresa que dice "OPENAI — DEMANDA
-POR DIFAMACIÓN" con lupa en mano, recorriendo el papel de arriba a
-abajo.)*
+POR DIFAMACIÓN" y la recorre con la vista de arriba a abajo, muy
+concentrado.)*
 
 CAPU: "Expediente de hoy: un chatbot... que inventó un delito. Que
 nadie cometió."
@@ -45,8 +45,8 @@ Siempre. Próximo caso."
 ### Imagen 1 — Investigando (tablero)
 [Bloque de personaje] + Capu de pie frente al tablero de corcho, clavando
 una hoja impresa que dice "OPENAI — DEMANDA POR DIFAMACIÓN" en letras de
-máquina de escribir, con una lupa recorriendo el texto, expresión de
-concentración intensa. [Escenario base].
+máquina de escribir, mirándola fijo con expresión de concentración
+intensa. [Escenario base].
 
 ### Imagen 2 — Explicación sentado (pensativo)
 [Bloque de personaje] + Capu sentado en el escritorio de madera, manos
