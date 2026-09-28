@@ -2,42 +2,32 @@
 
 **Post de referencia:** Ética · Clase 7 · caso · `etica.html#c7`
 **Tema:** Algoritmo de reclutamiento de Amazon
-**Duración estimada:** ~42s
+**Duración estimada:** ~30s (75 palabras habladas)
 **Personaje y escenario:** ver [00-personaje-capu.md](00-personaje-capu.md)
 
 ## Guion (Capu habla a cámara)
 
-**[ESCENA 1 — Investigando, 0-10s]**
+**[ESCENA 1 — Investigando, 0-6s]**
 *(Capu tiene una pila enorme de currículums sobre el escritorio, con
 una etiqueta que dice "10 AÑOS DE CONTRATACIONES" pegada arriba.)*
 
-CAPU: "Diez años de contrataciones. Usados como ejemplo de 'qué
-buscar'. ¿Qué podría salir mal?"
+CAPU: "Diez años de contrataciones, usados como ejemplo de qué buscar.
+¿Qué podría salir mal?"
 
-**[ESCENA 2 — Gira a cámara, 10-15s]**
-*(Levanta un CV con una palabra resaltada en rojo: "women's".)*
+**[ESCENA 2 — Explicación, 6-27s]**
+*(Levanta un CV con una palabra resaltada en rojo: "women's", después
+otro con "woman" tachada.)*
 
-CAPU: "Esto. Esto es lo que salió mal."
+CAPU: "Esto: la industria venía de una mayoría de varones, así que el
+sistema copió el patrón y le bajaba puntaje a currículums con palabras
+asociadas a mujeres. Ni sacar la palabra explícita lo arregló, porque el
+sesgo ya se había filtrado en otras señales: universidad, actividades,
+vocabulario. Amazon descartó el proyecto en 2017."
 
-**[ESCENA 3 — Explicación, 15-34s]**
-*(Ordena los CVs en dos pilas mientras explica.)*
-
-CAPU: "Ese historial venía de una industria con mayoría de varones. Así
-que el sistema copió el patrón, y le bajaba puntaje a currículums con
-palabras asociadas a mujeres."
-
-CAPU: *(levanta un CV con la palabra "woman" tachada)* "Y ni sacar la
-palabra explícita lo arregló. El sesgo ya se había filtrado en otras
-señales: universidad, actividades, vocabulario."
-
-CAPU: *(mirando a cámara, serio)* "Amazon terminó descartando el
-proyecto en 2017. Antes de que llegara a usarse en serio."
-
-**[ESCENA 4 — Cierre, 34-42s]**
+**[ESCENA 3 — Cierre, 27-30s]**
 *(Guarda toda la pila de CVs en una caja marcada "ARCHIVADO".)*
 
-CAPU: "Un algoritmo no inventa el sesgo. Lo hereda de la historia que
-le dieron para aprender. Ese es el caso de hoy."
+CAPU: "Un algoritmo no inventa el sesgo. Lo hereda."
 
 ## Prompts de imagen (referencia para IA + Seedance)
 
