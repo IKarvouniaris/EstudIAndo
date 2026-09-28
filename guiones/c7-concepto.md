@@ -2,7 +2,7 @@
 
 **Post de referencia:** Ética · Clase 7 · concepto · `etica.html#c7`
 **Tema:** Pérdida de chance (art. 1737 CCyC)
-**Duración estimada:** ~28s (70 palabras habladas)
+**Duración estimada:** ~27s (68 palabras habladas)
 **Personaje y escenario:** ver [00-personaje-capu.md](00-personaje-capu.md)
 
 ## Guion (Capu habla a cámara)
@@ -19,11 +19,10 @@ es así."
 *(Toma una ficha nueva que dice "CHANCE REAL" y la pone en el
 platillo vacío, que se equilibra.)*
 
-CAPU: "El daño no siempre es algo que ya tenías y perdiste. También
-cuenta la oportunidad concreta que te quitaron, si era seria y probable,
-no una fantasía. Para reclamar no hace falta jurar que el puesto era
-tuyo: alcanza con mostrar que un algoritmo te sacó de la carrera antes de
-competir en igualdad de condiciones."
+CAPU: "El daño no siempre es algo que ya perdiste. También cuenta la
+oportunidad real que te quitaron. Para reclamar no hace falta jurar que
+el puesto era tuyo: alcanza con mostrar que un algoritmo te sacó de la
+carrera antes de competir en igualdad."
 
 **[ESCENA 3 — Cierre, 25-28s]**
 *(Levanta la balanza, ya equilibrada, mostrándola a cámara.)*
