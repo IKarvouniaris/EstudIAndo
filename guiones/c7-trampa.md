@@ -2,7 +2,7 @@
 
 **Post de referencia:** Ética · Clase 7 · trampa · `etica.html#c7`
 **Tema:** No se puede afirmar "habría obtenido el empleo"
-**Duración estimada:** ~28s
+**Duración estimada:** ~28s (70 palabras habladas)
 **Personaje y escenario:** ver [00-personaje-capu.md](00-personaje-capu.md)
 
 ## Guion (Capu habla a cámara)
@@ -11,30 +11,22 @@
 *(Capu tiene una bola de cristal de utilería sobre el escritorio,
 mirándola con cara de estar "prediciendo el futuro".)*
 
-CAPU: "A ver... la bola de cristal me dice que ella se hubiera
-quedado con el puesto."
+CAPU: "A ver... la bola de cristal me dice que ella se hubiera quedado
+con el puesto."
 
-**[ESCENA 2 — Gira a cámara, 6-10s]**
-*(Guarda la bola de cristal de golpe, avergonzado.)*
+**[ESCENA 2 — Explicación, 6-25s]**
+*(Guarda la bola de cristal de golpe, avergonzado, y se sienta, más
+serio.)*
 
-CAPU: "Mentira. Nadie tiene esa bola. Y esa es justo la trampa."
+CAPU: "Mentira. Nadie tiene esa bola. Afirmar que sin el algoritmo esa
+persona se hubiera quedado con el puesto le pide a la causalidad algo que
+no puede dar. El argumento que sí se sostiene: la sacaron de una
+selección real, antes de que pudiera competir por ella."
 
-**[ESCENA 3 — Explicación, 10-22s]**
-*(Se sienta, más serio.)*
-
-CAPU: "Afirmar que sin el algoritmo esa persona se hubiera quedado con
-el puesto, es pedirle a la causalidad algo que no puede dar. Nadie
-puede jurar qué hubiera pasado."
-
-CAPU: *(levanta un dedo, firme)* "El argumento que sí se sostiene es más
-modesto... y más fuerte a la vez: la sacaron de una selección real,
-antes de que pudiera competir por ella."
-
-**[ESCENA 4 — Cierre, 22-28s]**
+**[ESCENA 3 — Cierre, 25-28s]**
 *(Tira la bola de cristal al cesto, sin culpa.)*
 
-CAPU: "Menos bola de cristal. Más pérdida de chance. Fin de la
-trampa."
+CAPU: "Menos bola de cristal. Más pérdida de chance."
 
 ## Prompts de imagen (referencia para IA + Seedance)
 
