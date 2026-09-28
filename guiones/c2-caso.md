@@ -2,42 +2,32 @@
 
 **Post de referencia:** Ética · Clase 2 · caso · `etica.html#c2`
 **Tema:** BOSCO y el Tribunal Supremo español (transparencia algorítmica)
-**Duración estimada:** ~40s
+**Duración estimada:** ~30s (73 palabras habladas)
 **Personaje y escenario:** ver [00-personaje-capu.md](00-personaje-capu.md)
 
 ## Guion (Capu habla a cámara)
 
-**[ESCENA 1 — Investigando, 0-10s]**
+**[ESCENA 1 — Investigando, 0-6s]**
 *(Capu despliega un mapa de España sobre el escritorio, con un
 alfiler puesto y un hilo rojo conectándolo al tablero.)*
 
-CAPU: "España. Un algoritmo llamado BOSCO. Y una pelea de AÑOS por
-una sola pregunta."
+CAPU: "España. Un algoritmo llamado BOSCO. Y una pelea de años por una
+sola pregunta."
 
-**[ESCENA 2 — Gira a cámara, 10-16s]**
-*(Golpea el mapa con el dedo.)*
-
-CAPU: "¿Puedo pedir que me muestren el código? No el resultado. El
-código."
-
-**[ESCENA 3 — Explicación, 16-32s]**
+**[ESCENA 2 — Explicación, 6-26s]**
 *(Camina hacia el tablero, señalando distintos recortes mientras
 habla, como reconstruyendo una cronología.)*
 
-CAPU: "BOSCO decidía automáticamente quién accedía al Bono Social
-Eléctrico. Durante años, la Justicia dijo que no, que el código era
-'propiedad intelectual'."
+CAPU: "BOSCO decidía quién accedía al Bono Social Eléctrico. Durante
+años, la Justicia negó el acceso al código por 'propiedad intelectual'.
+En 2025 el Tribunal Supremo dio vuelta el criterio: si un algoritmo
+decide sobre derechos sociales, la transparencia no termina en el
+resultado. Llega hasta la lógica de la herramienta."
 
-CAPU: *(se da vuelta, más enfático)* "Pero en 2025 el Tribunal Supremo dio
-vuelta el criterio COMPLETO. Si un algoritmo decide sobre derechos
-sociales, la transparencia no se queda en el resultado. Llega hasta la
-lógica de la herramienta."
-
-**[ESCENA 4 — Cierre, 32-40s]**
+**[ESCENA 3 — Cierre, 26-30s]**
 *(Enrolla el mapa con gesto satisfecho.)*
 
-CAPU: "Cinco años de pelea legal para una idea simple: si te afecta,
-tenés derecho a entender cómo funciona. Anotado."
+CAPU: "Si te afecta, tenés derecho a entender cómo funciona."
 
 ## Prompts de imagen (referencia para IA + Seedance)
 
