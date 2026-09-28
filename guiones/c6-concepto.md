@@ -2,38 +2,30 @@
 
 **Post de referencia:** Ética · Clase 6 · concepto · `etica.html#c6`
 **Tema:** Art. 20, Ley 25.326
-**Duración estimada:** ~35s
+**Duración estimada:** ~22s (56 palabras habladas)
 **Personaje y escenario:** ver [00-personaje-capu.md](00-personaje-capu.md)
 
 ## Guion (Capu habla a cámara)
 
-**[ESCENA 1 — Investigando, 0-8s]**
+**[ESCENA 1 — Investigando, 0-6s]**
 *(Capu sopla el polvo de un libro de tapa muy vieja que dice "LEY
 25.326 — AÑO 2000" en el lomo.)*
 
 CAPU: "Este libro tiene más de veinte años. Y ya sabía lo que hoy
 discutimos con IA."
 
-**[ESCENA 2 — Gira a cámara, 8-13s]**
-*(Abre el libro en una página marcada con un separador rojo.)*
-
-CAPU: "Artículo 20. Uno de los más importantes de toda la materia."
-
-**[ESCENA 3 — Explicación, 13-28s]**
+**[ESCENA 2 — Explicación, 6-19s]**
 *(Lee del libro, señalando con el dedo cada parte.)*
 
-CAPU: "Ninguna decisión judicial, ni ningún acto administrativo que
-valore tu conducta, puede basarse ÚNICAMENTE en un tratamiento
-informatizado que perfile tu personalidad."
+CAPU: "Artículo 20 de la Ley 25.326: ninguna decisión judicial, ni acto
+administrativo que valore tu conducta, puede basarse únicamente en un
+tratamiento informatizado que perfile tu personalidad. Si eso pasa:
+nulidad insanable."
 
-CAPU: *(cierra el libro con fuerza)* "¿Y si eso pasa? Nulidad
-insanable. Así, directo."
-
-**[ESCENA 4 — Cierre, 28-35s]**
+**[ESCENA 3 — Cierre, 19-22s]**
 *(Acomoda el libro de nuevo en el estante, con cuidado.)*
 
-CAPU: "Una ley del año 2000... prediciendo el scoring del 2026. Nada
-nuevo bajo el sol, che."
+CAPU: "Una ley del año 2000, prediciendo el scoring de hoy."
 
 ## Prompts de imagen (referencia para IA + Seedance)
 
