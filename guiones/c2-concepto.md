@@ -2,41 +2,32 @@
 
 **Post de referencia:** Ética · Clase 2 · concepto · `etica.html#c2`
 **Tema:** Threshold (umbral de decisión)
-**Duración estimada:** ~35s
+**Duración estimada:** ~29s (71 palabras habladas)
 **Personaje y escenario:** ver [00-personaje-capu.md](00-personaje-capu.md)
 
 ## Guion (Capu habla a cámara)
 
-**[ESCENA 1 — Investigando, 0-8s]**
+**[ESCENA 1 — Investigando, 0-5s]**
 *(Capu está frente a una pizarra chica con un dial dibujado y un
 número gigante en el medio: "70%". Lo mira fijo, muy concentrado.)*
 
-CAPU: "Un número. Eso es todo lo que separa 'sospechoso' de
-'inocente' en un sistema anti-fraude."
+CAPU: "Un número. Eso separa 'sospechoso' de 'inocente' en un sistema
+anti-fraude."
 
-**[ESCENA 2 — Gira a cámara, 8-14s]**
-*(Se da vuelta, señalando la pizarra sin mirarla.)*
-
-CAPU: "Y ese número no lo pone el algoritmo. Lo pone una persona.
-Contame si sabías esto."
-
-**[ESCENA 3 — Explicación, 14-28s]**
+**[ESCENA 2 — Explicación, 5-24s]**
 *(Mueve el dial de la pizarra de un lado a otro con el dedo mientras
 habla.)*
 
-CAPU: "Cada sistema de scoring necesita una línea de corte. Subís el
-umbral —" *(mueve el dial hacia la derecha)* "— dejás pasar más casos
-riesgosos. Lo bajás —" *(mueve el dial a la izquierda)* "— atrapás más,
-pero también castigás a gente que no hizo nada."
+CAPU: "Y ese número no lo pone el algoritmo. Lo pone una persona. Subir
+el umbral deja pasar más fraude. Bajarlo atrapa más, pero castiga a gente
+que no hizo nada. No hay un número neutral: cualquiera que elijas,
+reparte el error de un lado o del otro."
 
-CAPU: *(mirando a cámara, quieto)* "No hay un número neutral. Cualquiera
-que elijas, reparte el error de un lado o del otro."
-
-**[ESCENA 4 — Cierre, 28-35s]**
+**[ESCENA 3 — Cierre, 24-29s]**
 *(Se apoya sobre la pizarra, brazos cruzados.)*
 
-CAPU: "Así que la próxima vez que alguien te diga 'es solo un
-parámetro técnico'... corregilo. Es una decisión. Con nombre y apellido."
+CAPU: "No es un parámetro técnico. Es una decisión, con nombre y
+apellido."
 
 ## Prompts de imagen (referencia para IA + Seedance)
 
