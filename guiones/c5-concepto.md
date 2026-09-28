@@ -2,40 +2,31 @@
 
 **Post de referencia:** Ética · Clase 5 · concepto · `etica.html#c5`
 **Tema:** AI divide (brecha de IA)
-**Duración estimada:** ~35s
+**Duración estimada:** ~30s (73 palabras habladas)
 **Personaje y escenario:** ver [00-personaje-capu.md](00-personaje-capu.md)
 
 ## Guion (Capu habla a cámara)
 
-**[ESCENA 1 — Investigando, 0-8s]**
+**[ESCENA 1 — Investigando, 0-5s]**
 *(Capu tiene dos fotos pegadas en el tablero, lado a lado: una laptop
 moderna y un celular viejo con la pantalla rota, conectadas con hilo a un
 cartel que dice "¿MISMO ACCESO?".)*
 
 CAPU: "Dos personas. Las dos 'tienen acceso a la IA'. Según el papel."
 
-**[ESCENA 2 — Gira a cámara, 8-13s]**
-*(Se acerca a cámara, señalando con el pulgar hacia atrás, al
-tablero.)*
-
-CAPU: "Según la realidad... no tanto. Te explico."
-
-**[ESCENA 3 — Explicación, 13-28s]**
+**[ESCENA 2 — Explicación, 5-26s]**
 *(Señala primero una foto, luego la otra.)*
 
-CAPU: "Una tiene la compu, el idioma, la conexión, la formación para
-sacarle todo el jugo. La otra entra desde un celular viejo, sin
-capacitación, sin tiempo."
+CAPU: "Según la realidad, no tanto. Una tiene la compu, el idioma, la
+conexión y la formación para sacarle provecho. La otra entra desde un
+celular viejo, sin capacitación, sin tiempo. Llamarle a las dos cosas
+'acceso a la IA' esconde una brecha real, que sin políticas a propósito
+se hace más ancha."
 
-CAPU: *(mirando a cámara, serio)* "Llamarle a las dos cosas 'acceso a la
-IA' esconde una brecha real. Y sin políticas que la corrijan A
-PROPÓSITO... esa brecha se hace más ancha. No más chica."
-
-**[ESCENA 4 — Cierre, 28-35s]**
+**[ESCENA 3 — Cierre, 26-30s]**
 *(Cierra el tablero con una cortinita, gesto simbólico.)*
 
-CAPU: "El acceso no alcanza. Hace falta oportunidad de verdad. Fin de
-la investigación de hoy."
+CAPU: "El acceso no alcanza. Hace falta oportunidad de verdad."
 
 ## Prompts de imagen (referencia para IA + Seedance)
 
