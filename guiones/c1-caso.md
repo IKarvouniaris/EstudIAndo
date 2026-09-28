@@ -2,43 +2,32 @@
 
 **Post de referencia:** Ética · Clase 1 · caso · `etica.html#c1`
 **Tema:** Mark Walters c/ OpenAI (alucinaciones de ChatGPT)
-**Duración estimada:** ~40s
+**Duración estimada:** ~26s (64 palabras habladas)
 **Personaje y escenario:** ver [00-personaje-capu.md](00-personaje-capu.md)
 
 ## Guion (Capu habla a cámara)
 
-**[ESCENA 1 — Investigando, 0-10s]**
+**[ESCENA 1 — Investigando, 0-3s]**
 *(Capu clava en el tablero una hoja impresa que dice "OPENAI — DEMANDA
 POR DIFAMACIÓN" y la recorre con la vista de arriba a abajo, muy
 concentrado.)*
 
-CAPU: "Expediente de hoy: un chatbot... que inventó un delito. Que
-nadie cometió."
+CAPU: "Un chatbot inventó un delito... que nadie cometió."
 
-**[ESCENA 2 — Gira a cámara, 10-16s]**
-*(Se da vuelta, sorprendido, hacia cámara.)*
-
-CAPU: "Posta. Le pidieron un resumen de una demanda, y el chatbot se
-inventó que un locutor había cometido fraude. Ahí nomás. De la nada."
-
-**[ESCENA 3 — Explicación, 16-32s]**
+**[ESCENA 2 — Explicación, 3-23s]**
 *(Camina hacia el escritorio, se sienta, junta las manos como
 pensando en voz alta.)*
 
-CAPU: "El locutor se entera, y demanda a OpenAI por difamación. Y el
-fallo dice algo que te va a incomodar: si la plataforma avisa clarito que
-puede alucinar, el deber de chequear puede recaer en QUIEN LA USA. No en
-quien la creó."
+CAPU: "ChatGPT dijo que un locutor había cometido fraude, citando una
+demanda real que nunca decía eso. El afectado demandó a OpenAI por
+difamación. Y el fallo dice algo incómodo: si hay advertencias claras, el
+deber de verificar puede recaer en quien usa la herramienta, no en quien
+la crea."
 
-CAPU: *(mirando a cámara, más serio)* "Y la cátedra es tajante con esto:
-no existe una responsabilidad 'compartida' de verdad. O es de uno, o es
-de otro."
-
-**[ESCENA 4 — Cierre, 32-40s]**
+**[ESCENA 3 — Cierre, 23-26s]**
 *(Se pone de pie, cierra el expediente con un golpe seco.)*
 
-CAPU: "Moraleja de bibliotecario: la IA no verifica. Verificás vos.
-Siempre. Próximo caso."
+CAPU: "La IA no verifica. Verificás vos. Siempre."
 
 ## Prompts de imagen (referencia para IA + Seedance)
 
