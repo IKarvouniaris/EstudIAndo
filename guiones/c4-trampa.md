@@ -2,34 +2,29 @@
 
 **Post de referencia:** Ética · Clase 4 · trampa · `etica.html#c4`
 **Tema:** Un score sin contrafactual no explica nada
-**Duración estimada:** ~26s
+**Duración estimada:** ~19s (48 palabras habladas)
 **Personaje y escenario:** ver [00-personaje-capu.md](00-personaje-capu.md)
 
 ## Guion (Capu habla a cámara)
 
-**[ESCENA 1 — Investigando, 0-6s]**
+**[ESCENA 1 — Investigando, 0-4s]**
 *(Capu tiene un cartel grande que dice "SCORE INSUFICIENTE: 618" y lo
 sostiene como si fuera prueba de un crimen.)*
 
 CAPU: "Alguien me quiere hacer pasar esto por una explicación."
 
-**[ESCENA 2 — Gira a cámara, 6-10s]**
-*(Baja el cartel, mirando a cámara incrédulo.)*
-
-CAPU: "No. No, no, no."
-
-**[ESCENA 3 — Explicación, 10-20s]**
+**[ESCENA 2 — Explicación, 4-15s]**
 *(Tacha el cartel con una cruz roja grande.)*
 
-CAPU: "Esto no permite entender NADA. Ni actuar. Sin el contrafactual —
-sin saber qué tendría que cambiar para que el resultado sea distinto — la
-persona afectada no puede ni cuestionar, ni corregir la decisión."
+CAPU: "'Score insuficiente: 618' no permite entender ni actuar. Sin el
+contrafactual, sin saber qué tendría que cambiar, la persona afectada no
+puede cuestionar ni corregir la decisión."
 
-**[ESCENA 4 — Cierre, 20-26s]**
+**[ESCENA 3 — Cierre, 15-19s]**
 *(Tira el cartel tachado detrás de él, sin mirar.)*
 
-CAPU: "Un número solo no es una explicación. Es una excusa con
-formato de número."
+CAPU: "Un número no es una explicación. Es una excusa con formato de
+número."
 
 ## Prompts de imagen (referencia para IA + Seedance)
 
