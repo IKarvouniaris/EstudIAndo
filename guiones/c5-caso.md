@@ -2,44 +2,32 @@
 
 **Post de referencia:** Ética · Clase 5 · caso · `etica.html#c5`
 **Tema:** Uber BV v. Aslam (UK Supreme Court)
-**Duración estimada:** ~40s
+**Duración estimada:** ~30s (76 palabras habladas)
 **Personaje y escenario:** ver [00-personaje-capu.md](00-personaje-capu.md)
 
 ## Guion (Capu habla a cámara)
 
-**[ESCENA 1 — Investigando, 0-9s]**
+**[ESCENA 1 — Investigando, 0-4s]**
 *(Capu tiene un contrato pegado en el tablero con la palabra
 "INDEPENDIENTE" resaltada, y al lado un celular dibujado con
 notificaciones de desconexión automática.)*
 
-CAPU: "El contrato dice 'independiente'. La realidad... dice otra
-cosa."
+CAPU: "El contrato dice 'independiente'. La realidad dice otra cosa."
 
-**[ESCENA 2 — Gira a cámara, 9-14s]**
-*(Cruza los brazos, mirando fijo a cámara.)*
-
-CAPU: "Reino Unido. Corte Suprema. Un fallo unánime que le cambió el
-nombre a todo esto."
-
-**[ESCENA 3 — Explicación, 14-32s]**
+**[ESCENA 2 — Explicación, 4-25s]**
 *(Cuenta con los dedos mientras enumera.)*
 
-CAPU: "Uber fijaba la tarifa. Monitoreaba cada aceptación. Y
-desconectaba automáticamente por ratings bajos. Sin ningún gerente
-humano de por medio."
+CAPU: "La Corte Suprema del Reino Unido falló, por unanimidad, que los
+conductores de Uber eran 'workers', con derecho a salario mínimo y
+vacaciones pagas. Uber fijaba la tarifa, monitoreaba cada aceptación y
+desconectaba automáticamente por ratings bajos, sin ningún gerente humano
+de por medio. Prevaleció la realidad de la relación sobre la etiqueta del
+contrato."
 
-CAPU: *(baja la voz, más serio)* "La Corte dijo: eran 'workers'. Con
-derecho a salario mínimo, a vacaciones pagas. Aunque el papel dijera lo
-contrario."
-
-CAPU: *(mirando a cámara)* "Prevaleció la realidad de la relación...
-sobre la etiqueta del contrato."
-
-**[ESCENA 4 — Cierre, 32-40s]**
+**[ESCENA 3 — Cierre, 25-30s]**
 *(Tacha la palabra "INDEPENDIENTE" del contrato pegado en el tablero.)*
 
-CAPU: "Que algo esté escrito en un contrato, no lo hace verdad. Guardá
-esa frase para el parcial."
+CAPU: "Que algo esté escrito en un contrato, no lo hace verdad."
 
 ## Prompts de imagen (referencia para IA + Seedance)
 
