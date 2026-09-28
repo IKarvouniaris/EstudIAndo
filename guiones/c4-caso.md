@@ -2,7 +2,7 @@
 
 **Post de referencia:** Ética · Clase 4 · caso · `etica.html#c4`
 **Tema:** State v. Loomis (COMPAS)
-**Duración estimada:** ~30s (76 palabras habladas)
+**Duración estimada:** ~28s (69 palabras habladas)
 **Personaje y escenario:** ver [00-personaje-capu.md](00-personaje-capu.md)
 
 ## Guion (Capu habla a cámara)
@@ -19,9 +19,8 @@ de cárcel."
 
 CAPU: "COMPAS clasificó a Loomis como alto riesgo en las tres escalas, y
 eso pesó en su condena. Wisconsin dijo: un algoritmo opaco, basado en
-estadística de grupo, se puede usar sin violar el debido proceso. Pero con
-límites: no puede decidir si hay cárcel, ni ser lo único que determine
-nada."
+estadística de grupo, se puede usar sin violar el debido proceso, pero con
+límites: no puede decidir si hay cárcel."
 
 **[ESCENA 3 — Cierre, 24-30s]**
 *(Se sienta, apoya el mentón en la mano, mirando fijo a cámara.)*
