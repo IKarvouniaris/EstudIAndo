@@ -2,12 +2,12 @@
 
 **Post de referencia:** Ética · Clase 7 · concepto · `etica.html#c7`
 **Tema:** Pérdida de chance (art. 1737 CCyC)
-**Duración estimada:** ~35s
+**Duración estimada:** ~28s (70 palabras habladas)
 **Personaje y escenario:** ver [00-personaje-capu.md](00-personaje-capu.md)
 
 ## Guion (Capu habla a cámara)
 
-**[ESCENA 1 — Investigando, 0-8s]**
+**[ESCENA 1 — Investigando, 0-6s]**
 *(Capu tiene una balanza pequeña sobre el escritorio, con una ficha
 que dice "CERTEZA" en un platillo, muy pesada, y el otro platillo
 vacío.)*
@@ -15,28 +15,20 @@ vacío.)*
 CAPU: "Todo el mundo piensa que hay que probar la certeza total. Y no
 es así."
 
-**[ESCENA 2 — Gira a cámara, 8-13s]**
+**[ESCENA 2 — Explicación, 6-25s]**
 *(Toma una ficha nueva que dice "CHANCE REAL" y la pone en el
-platillo vacío.)*
-
-CAPU: "Existe otro camino. Y es el que casi nadie usa bien."
-
-**[ESCENA 3 — Explicación, 13-28s]**
-*(La balanza se equilibra un poco con la nueva ficha.)*
+platillo vacío, que se equilibra.)*
 
 CAPU: "El daño no siempre es algo que ya tenías y perdiste. También
-cuenta la OPORTUNIDAD concreta que te quitaron. Si era seria, y
-probable. No una fantasía."
+cuenta la oportunidad concreta que te quitaron, si era seria y probable,
+no una fantasía. Para reclamar no hace falta jurar que el puesto era
+tuyo: alcanza con mostrar que un algoritmo te sacó de la carrera antes de
+competir en igualdad de condiciones."
 
-CAPU: *(mirando a cámara)* "Para reclamar, no hace falta jurar que el
-puesto era tuyo. Alcanza con mostrar que un algoritmo te sacó de la
-carrera antes de que pudieras competir en igualdad de condiciones."
+**[ESCENA 3 — Cierre, 25-28s]**
+*(Levanta la balanza, ya equilibrada, mostrándola a cámara.)*
 
-**[ESCENA 4 — Cierre, 28-35s]**
-*(Levanta la balanza, ya más equilibrada, mostrándola a cámara.)*
-
-CAPU: "Pérdida de chance. Guardátelo, porque el próximo caso lo usa
-directo."
+CAPU: "Pérdida de chance. El próximo caso lo usa directo."
 
 ## Prompts de imagen (referencia para IA + Seedance)
 
