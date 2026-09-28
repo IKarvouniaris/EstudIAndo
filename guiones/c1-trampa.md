@@ -2,40 +2,29 @@
 
 **Post de referencia:** Ética · Clase 1 · trampa · `etica.html#c1`
 **Tema:** Confundir ética de la virtud con deontología
-**Duración estimada:** ~30s
+**Duración estimada:** ~26s (65 palabras habladas)
 **Personaje y escenario:** ver [00-personaje-capu.md](00-personaje-capu.md)
 
 ## Guion (Capu habla a cámara)
 
-**[ESCENA 1 — Investigando, 0-6s]**
+**[ESCENA 1 — Investigando, 0-5s]**
 *(Capu está tachando algo en un examen con una lapicera roja enorme,
 haciendo una mueca de dolor.)*
 
-CAPU: "Ay... no. De nuevo esta confusión. Otra vez."
+CAPU: "Ojo, esta es la trampa que se comen todos en el parcial."
 
-**[ESCENA 2 — Gira a cámara, 6-10s]**
-*(Levanta el examen tachado hacia cámara.)*
-
-CAPU: "Escuchame bien esto, porque en el parcial cae SIEMPRE."
-
-**[ESCENA 3 — Explicación con contraste, 10-24s]**
+**[ESCENA 2 — Explicación con contraste, 5-23s]**
 *(Sostiene dos carpetas, una en cada mano, como comparando.)*
 
-CAPU: *(levantando la carpeta izquierda, tapa roja)* "Deontología: actuás
-bien porque hay una REGLA que te obliga. Es un deber."
+CAPU: "Confundir virtud con deontología. Deontología: actuás bien
+porque una regla te obliga, es un deber. Ética de la virtud: actuás bien
+porque así sos, aunque no exista ninguna norma que te obligue. A veces
+llevan a la misma acción, pero la pregunta de fondo es distinta."
 
-CAPU: *(levantando la carpeta derecha, tapa verde)* "Ética de la virtud:
-actuás bien porque así sos vos. Aunque no exista ninguna norma que te
-obligue."
-
-CAPU: *(juntando las dos carpetas, mirando a cámara)* "A veces las dos
-te llevan a la misma acción. Pero la PREGUNTA de fondo es distinta. Y el
-parcial te va a pedir que la distingas."
-
-**[ESCENA 4 — Cierre, 24-30s]**
+**[ESCENA 3 — Cierre, 23-26s]**
 *(Guarda las dos carpetas en el archivero con un gesto satisfecho.)*
 
-CAPU: "Regla versus carácter. Anotalo. En serio."
+CAPU: "Regla versus carácter. Anotalo, porque cae siempre."
 
 ## Prompts de imagen (referencia para IA + Seedance)
 
