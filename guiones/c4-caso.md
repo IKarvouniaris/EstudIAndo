@@ -2,41 +2,32 @@
 
 **Post de referencia:** Ética · Clase 4 · caso · `etica.html#c4`
 **Tema:** State v. Loomis (COMPAS)
-**Duración estimada:** ~42s
+**Duración estimada:** ~30s (76 palabras habladas)
 **Personaje y escenario:** ver [00-personaje-capu.md](00-personaje-capu.md)
 
 ## Guion (Capu habla a cámara)
 
-**[ESCENA 1 — Investigando, 0-10s]**
+**[ESCENA 1 — Investigando, 0-4s]**
 *(Capu tiene un expediente que dice "COMPAS" pegado en el tablero, con
 tres barras de "riesgo: ALTO" dibujadas al lado.)*
 
-CAPU: "Un sistema que nadie puede revisar del todo... decidiendo cuántos
-años de cárcel."
+CAPU: "Un sistema que nadie puede revisar del todo... decidiendo años
+de cárcel."
 
-**[ESCENA 2 — Gira a cámara, 10-15s]**
-*(Se acerca a cámara, expresión intrigada.)*
-
-CAPU: "Esta es la paradoja más citada de la clase. Agarrate."
-
-**[ESCENA 3 — Explicación, 15-34s]**
+**[ESCENA 2 — Explicación, 4-24s]**
 *(Camina de un lado a otro, gesticulando.)*
 
-CAPU: "COMPAS clasificó a Loomis como alto riesgo en las tres escalas. Y
-eso pesó en su condena."
+CAPU: "COMPAS clasificó a Loomis como alto riesgo en las tres escalas, y
+eso pesó en su condena. Wisconsin dijo: un algoritmo opaco, basado en
+estadística de grupo, se puede usar sin violar el debido proceso. Pero con
+límites: no puede decidir si hay cárcel, ni ser lo único que determine
+nada."
 
-CAPU: *(se detiene, mirando a cámara)* "Wisconsin dijo: un algoritmo
-opaco, que ni siquiera muestra cómo calcula, basado en estadística de
-GRUPO... se puede usar. Sin violar el debido proceso."
-
-CAPU: *(levanta un dedo)* "Pero con límites. No puede decidir si hay
-cárcel. No puede ser lo único que determine nada."
-
-**[ESCENA 4 — Cierre, 34-42s]**
+**[ESCENA 3 — Cierre, 24-30s]**
 *(Se sienta, apoya el mentón en la mano, mirando fijo a cámara.)*
 
-CAPU: "Opacidad, más generalización... y aun así se admite su uso. Esa
-es la paradoja que te van a preguntar. Pensala bien."
+CAPU: "Opacidad más generalización, y aun así se admite su uso. Esa es
+la paradoja."
 
 ## Prompts de imagen (referencia para IA + Seedance)
 
