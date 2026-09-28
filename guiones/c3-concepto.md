@@ -2,41 +2,30 @@
 
 **Post de referencia:** Ética · Clase 3 · concepto · `etica.html#c3`
 **Tema:** Provider y Deployer (AI Act)
-**Duración estimada:** ~35s
+**Duración estimada:** ~27s (67 palabras habladas)
 **Personaje y escenario:** ver [00-personaje-capu.md](00-personaje-capu.md)
 
 ## Guion (Capu habla a cámara)
 
-**[ESCENA 1 — Investigando, 0-8s]**
+**[ESCENA 1 — Investigando, 0-4s]**
 *(Capu tiene dos sellos de goma sobre el escritorio: uno dice
 "PROVIDER" y otro "DEPLOYER". Los mira, dudando cuál usar.)*
 
 CAPU: "Dos sellos. Dos responsabilidades. Y mucha gente los confunde."
 
-**[ESCENA 2 — Gira a cámara, 8-12s]**
-*(Levanta los dos sellos, uno en cada mano.)*
-
-CAPU: "El AI Act no le echa la culpa a uno solo. La reparte en toda la
-cadena."
-
-**[ESCENA 3 — Explicación, 12-28s]**
+**[ESCENA 2 — Explicación, 4-25s]**
 *(Sella dos hojas distintas mientras explica cada rol.)*
 
-CAPU: *(sella la primera hoja: "PROVIDER")* "Provider: desarrolla el
-sistema, o lo hace desarrollar, y lo pone en el mercado bajo su nombre."
+CAPU: "El AI Act reparte la responsabilidad en toda la cadena. Provider:
+desarrolla el sistema y lo pone en el mercado bajo su nombre. Deployer: lo
+usa, bajo su propia autoridad, para un fin concreto. Una empresa de
+software de selección es provider. El banco que lo compra y lo usa es
+deployer."
 
-CAPU: *(sella la segunda hoja: "DEPLOYER")* "Deployer: lo usa, bajo su
-propia autoridad, para un fin concreto."
-
-CAPU: *(sostiene las dos hojas, una en cada mano)* "Ejemplo rápido: una
-empresa hace un software de selección de personal — es provider. Un
-banco lo compra y lo usa para elegir candidatos — es deployer. Cada uno,
-con sus propias obligaciones."
-
-**[ESCENA 4 — Cierre, 28-35s]**
+**[ESCENA 3 — Cierre, 25-27s]**
 *(Guarda las dos hojas en carpetas separadas, ordenado.)*
 
-CAPU: "Dos roles. Dos sellos. Nunca los mezcles en el parcial."
+CAPU: "Dos roles, dos sellos. Nunca los mezcles."
 
 ## Prompts de imagen (referencia para IA + Seedance)
 
