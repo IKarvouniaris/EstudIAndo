@@ -2,43 +2,34 @@
 
 **Post de referencia:** Ética · Clase 6 · caso · `etica.html#c6`
 **Tema:** Google Spain c. Costeja (derecho al olvido)
-**Duración estimada:** ~42s
+**Duración estimada:** ~30s (74 palabras habladas)
 **Personaje y escenario:** ver [00-personaje-capu.md](00-personaje-capu.md)
 
 ## Guion (Capu habla a cámara)
 
-**[ESCENA 1 — Investigando, 0-10s]**
+**[ESCENA 1 — Investigando, 0-6s]**
 *(Capu tiene un recorte de diario amarillento de 1998 pegado en el
 tablero, con un hilo rojo que conecta a un cartel que dice "GOOGLE"
 dibujado al lado.)*
 
-CAPU: "1998. Un embargo por una deuda. Una deuda que hace RATO está
-resuelta."
+CAPU: "1998: un embargo por una deuda ya resuelta. Y sin embargo,
+seguía apareciendo en Google."
 
-**[ESCENA 2 — Gira a cámara, 10-15s]**
-*(Se acerca a cámara, señalando hacia atrás con el pulgar.)*
-
-CAPU: "Y sin embargo, seguía apareciendo. Cada vez que alguien buscaba
-ese nombre."
-
-**[ESCENA 3 — Explicación, 15-34s]**
+**[ESCENA 2 — Explicación, 6-23s]**
 *(Camina hacia el tablero, tocando el recorte de diario y después el
-ícono de búsqueda.)*
+cartel de "GOOGLE".)*
 
 CAPU: "El Tribunal de Justicia de la Unión Europea marcó algo clave: un
-tratamiento puede haber sido válido al principio... y dejar de estarlo
-más adelante. Si ya no aporta nada relevante mantenerlo visible."
+tratamiento puede ser válido al principio y dejar de estarlo si ya no
+aporta nada relevante. La solución no fue borrar la noticia — fue
+sacarla de los resultados de búsqueda."
 
-CAPU: *(se da vuelta hacia cámara)* "¿Y la solución? No fue borrar la
-noticia. Fue sacarla de los resultados de búsqueda. El diario la sigue
-publicando... solo que ya no aparece al buscar el nombre."
-
-**[ESCENA 4 — Cierre, 34-42s]**
-*(Separa el recorte de diario del ícono de búsqueda, dejando el hilo
+**[ESCENA 3 — Cierre, 23-30s]**
+*(Separa el recorte de diario del cartel de "GOOGLE", dejando el hilo
 cortado.)*
 
-CAPU: "Desindexar, no borrar. Esa es la diferencia que te van a
-preguntar. Anotala bien."
+CAPU: "Desindexar, no borrar. El diario sigue publicando la nota, solo
+dejó de aparecer al buscar el nombre."
 
 ## Prompts de imagen (referencia para IA + Seedance)
 
