@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Ética en la Inteligencia Artificial — Apunte práctico (Clases 1–7)</title>
+<title>Ética en la Inteligencia Artificial — Apunte práctico (Clases 1–8)</title>
 <style>
 /* ============================================================
    TOKENS
@@ -183,6 +183,7 @@ body{
 .regla .premisas span{display:block}
 .regla .barra{height:2px; background:var(--tinta); width:100%; position:relative}
 .regla .conclusion{padding:.35rem 1.4rem 0; text-align:center; font-weight:700; color:var(--tinta)}
+.regla[data-valida="no"]{max-width:calc(100% - 1.5rem)} /* deja lugar al ⊬, que cuelga fuera de la caja */
 .regla[data-valida="no"] .barra{background:var(--alerta)}
 .regla[data-valida="no"] .barra::after{
   content:"⊬"; position:absolute; right:-1.35rem; top:50%; transform:translateY(-50%);
@@ -587,16 +588,20 @@ marker path[fill="#8C5A04"]{fill:var(--u2)}
    Cuarto hue (bloque 4, datos personales) + la firma visual de
    esta materia: la PONDERACIÓN (dos principios en una balanza).
    ============================================================ */
-:root{ --u4:#6D3470; --u4-suave:#F0E3F0; --u5:#5B6B1E; --u5-suave:#EAEBD6; }
-:root[data-tema="oscuro"]{ --u4:#D39AD6; --u4-suave:#2E1830; --u5:#B9C766; --u5-suave:#282C10; }
+:root{ --u4:#6D3470; --u4-suave:#F0E3F0; --u5:#5B6B1E; --u5-suave:#EAEBD6; --u6:#0B5F80; --u6-suave:#DCEBF2; }
+:root[data-tema="oscuro"]{ --u4:#D39AD6; --u4-suave:#2E1830; --u5:#B9C766; --u5-suave:#282C10; --u6:#6CC3E4; --u6-suave:#0D2A36; }
 .u4{--acento:var(--u4); --acento-suave:var(--u4-suave)}
 .u5{--acento:var(--u5); --acento-suave:var(--u5-suave)}
+.u6{--acento:var(--u6); --acento-suave:var(--u6-suave)}
 .riel a[data-u="4"]{--acento:var(--u4)} .riel a[data-u="4"] em{color:var(--u4)}
 .riel a[data-u="5"]{--acento:var(--u5)} .riel a[data-u="5"] em{color:var(--u5)}
+.riel a[data-u="6"]{--acento:var(--u6)} .riel a[data-u="6"] em{color:var(--u6)}
 .linea-tiempo li[data-u="4"]{--acento:var(--u4)}
 .linea-tiempo li[data-u="5"]{--acento:var(--u5)}
+.linea-tiempo li[data-u="6"]{--acento:var(--u6)}
 .tarjeta[data-u="4"]{--acento:var(--u4)}
 .tarjeta[data-u="5"]{--acento:var(--u5)}
+.tarjeta[data-u="6"]{--acento:var(--u6)}
 svg [stroke="#6D3470"]{stroke:var(--u4)} svg [fill="#6D3470"]{fill:var(--u4)}
 svg [stroke="#1B6A5B"]{stroke:var(--u3)}
 
@@ -731,7 +736,7 @@ td.caso-nombre small{display:block; font-family:var(--mono); font-weight:400; fo
   <div class="riel-marca">
     <div>
       <b>Ética en la<br>Inteligencia Artificial</b>
-      <span>UADE · Lic. en IA · Clases 1–7 · Prof. Lascano</span>
+      <span>UADE · Lic. en IA · Clases 1–8 · Prof. Lascano</span>
     </div>
     <button class="btn-riel" id="btn-cerrar" type="button" title="Ocultar barra lateral" aria-label="Ocultar barra lateral">✕</button>
   </div>
@@ -739,7 +744,7 @@ td.caso-nombre small{display:block; font-family:var(--mono); font-weight:400; fo
   <div class="buscador">
     <label class="oculto" for="q">Buscar concepto</label>
     <input id="q" type="search" placeholder="buscar concepto o caso…" autocomplete="off">
-    <p id="q-estado">7 clases · casos · glosario</p>
+    <p id="q-estado">8 clases · casos · glosario</p>
   </div>
 
   <nav id="nav">
@@ -764,6 +769,9 @@ td.caso-nombre small{display:block; font-family:var(--mono); font-weight:400; fo
 
     <div class="riel-grupo">Bloque 5 — Responsabilidad</div>
     <a href="#c7" data-u="5"><em>07</em> Responsabilidad civil y penal: caso Amazon</a>
+
+    <div class="riel-grupo">Bloque 6 — Propiedad intelectual</div>
+    <a href="#c8" data-u="6"><em>08</em> IA y propiedad intelectual</a>
 
     <div class="riel-grupo">Casos</div>
     <a href="#impulso"><em>◆</em> Caso IMPULSO resuelto</a>
@@ -791,7 +799,7 @@ td.caso-nombre small{display:block; font-family:var(--mono); font-weight:400; fo
 <main class="lienzo">
 
 <header class="portada">
-  <p class="cintillo">Apunte práctico · Clases 1 a 7</p>
+  <p class="cintillo">Apunte práctico · Clases 1 a 8</p>
   <h1>Que algo se pueda hacer<br>no dice si<br><i>se debe hacer</i></h1>
   <p class="bajada">
     Toda la materia es un entrenamiento para una sola habilidad: mirar un sistema de IA
@@ -2905,6 +2913,526 @@ td.caso-nombre small{display:block; font-family:var(--mono); font-weight:400; fo
   <p><strong>Remedios y negociación:</strong> la cátedra insistió en gradar la responsabilidad según la legitimidad y proporcionalidad de la medida (un bloqueo puede ser legítimo en su origen y desproporcionado en su duración), y en priorizar acuerdos conciliatorios frente al litigio cuando sea razonable — menor costo y menor riesgo reputacional para ambas partes.</p>
 </section>
 
+<!-- ============================ CLASE 08 — PROPIEDAD INTELECTUAL ============================ -->
+<section id="c8" class="u6" data-busca="clase 8 propiedad intelectual derecho de autor derechos de autor copyright ley 11723 articulo 1 2 71 72 idea expresion estilo reproduccion literal parafrasis derechos patrimoniales morales dominio publico entrenamiento memorizacion fragmentos memorizados licencias autorizacion compensacion resultados originales semejantes infractores plagio inspiracion autoria prompt generacion automatica direccion y seleccion creacion asistida aportaciones expresivas originales copyright office estados unidos enero 2025 derecho comparado legalidad penal deepfakes ley de marcas defraudacion estafa responsabilidad empresa desarrolladora usuario editorial distribuidor dolo suscripcion new york times openai sesgos copia de la copia opinion publica innovacion cambio de paradigma jurisprudencia colavini bazterrica montalvo arriola tenencia estupefacientes utilitarismo deontologia contractualismo consentimiento compensacion transparencia caso el autor invisible nova ai crea valentina rios tomas medina la memoria de los ausentes guardianes del silencio concurso 180 palabras juez fiscal defensa victima">
+  <p class="eyebrow">Clase 08 · Bloque 6 · 17 de octubre</p>
+  <h2>Inteligencia artificial y propiedad intelectual</h2>
+  <p class="intro">
+    Dos preguntas cruzan la clase: <strong>¿con qué obras se entrena la IA y estaba permitido
+    usarlas?</strong>, y <strong>¿de quién es lo que la IA produce?</strong> Detrás de las dos hay un
+    equilibrio de derechos: el de los creadores a controlar y explotar su obra, y el de todas las
+    personas a acceder a la cultura, al conocimiento y a la información. Ningún derecho es absoluto:
+    siempre hay que mirar cuál está del otro lado y armonizarlos.
+  </p>
+
+  <div class="regla" data-valida="no">
+    <div class="premisas">
+      <span>una obra está publicada en internet</span>
+    </div>
+    <div class="barra"></div>
+    <div class="conclusion">no por eso es de dominio público ni puede usarse para cualquier fin (ni para entrenar)</div>
+  </div>
+
+  <div class="dos-col">
+    <div class="panel">
+      <h4>Cómo arrancó la clase</h4>
+      <p style="margin:0;font-size:.93rem">Con los casos que el curso ya conocía: una imagen generada con IA que ganó un concurso de arte; imágenes generadas que salían con la firma de un artista real, señal de que se habían entrenado con su obra; y las demandas de medios contra empresas de IA por usar sus notas sin autorización, como la del <em>New York Times</em> contra OpenAI. En clase se mencionó además un reclamo de un diario argentino que incluía notas de su versión paga.</p>
+    </div>
+    <div class="panel acento">
+      <h4>Pregunta guía de la cátedra</h4>
+      <p style="margin:0;font-size:.93rem">¿Cómo proteger la creatividad humana en un mundo donde las máquinas también pueden producir contenido? La propiedad intelectual ampara a <strong>seres humanos</strong>, no al producto de la IA en sí.</p>
+    </div>
+  </div>
+
+  <h3>8.1 · Los tres grandes dilemas</h3>
+  <div class="cadena">
+    <div><b>1 · El entrenamiento</b>¿Es legítimo usar millones de obras protegidas para desarrollar modelos de IA, sin autorización de sus creadores?</div>
+    <div><b>2 · Los resultados</b>¿Qué pasa cuando la IA produce un contenido parecido o idéntico a una obra protegida?</div>
+    <div><b>3 · La autoría</b>¿Puede considerarse autor quien usa una IA para generar una novela, una canción o una imagen?</div>
+  </div>
+  <div class="clave">
+    <b>Se analizan por separado</b>
+    <p>Un entrenamiento podría ser legítimo y, aun así, producir un resultado infractor. Y una persona
+    podría hacer aportes creativos protegibles sin ser autora de todo el contenido generado. Mezclar los
+    tres dilemas es el error más común al razonar estos casos.</p>
+  </div>
+
+  <h3>8.2 · Qué protege el derecho de autor</h3>
+  <p>
+    En Argentina, la <strong>Ley 11.723</strong> protege las creaciones intelectuales originales
+    expresadas de alguna forma: obras literarias (novelas, cuentos, artículos, ensayos), artísticas
+    (ilustraciones, fotografías, pinturas), musicales y audiovisuales, y también el software. Su
+    finalidad es <strong>incentivar la creación y la innovación</strong>: si cualquiera pudiera apropiarse
+    de una obra y explotarla —sobre todo quien ya tiene una posición dominante—, nadie tendría motivos
+    para crear.
+  </p>
+  <div class="regla" data-valida="no">
+    <div class="premisas"><span>el derecho de autor protege la expresión original de una idea</span></div>
+    <div class="barra"></div>
+    <div class="conclusion">no protege la idea en sí misma</div>
+  </div>
+  <div class="tabla-caja">
+    <table>
+      <caption>Qué está protegido y qué no (ejemplo de la cátedra)</caption>
+      <thead><tr><th>Nivel</th><th>Ejemplo</th><th>¿Protegido?</th></tr></thead>
+      <tbody>
+        <tr><th>Idea general</th><td>Escribir una historia sobre una sociedad donde los recuerdos humanos se compran y se venden.</td><td>No</td></tr>
+        <tr><th>Estilo literario</th><td>Atmósfera oscura, diálogos breves, elementos característicos de la ciencia ficción.</td><td>No</td></tr>
+        <tr><th>Expresión concreta</th><td>Los párrafos originales que describen esa sociedad con las palabras propias del autor.</td><td>Sí</td></tr>
+        <tr><th>Reproducción literal</th><td>Copiar diálogos, descripciones o pasajes de una obra preexistente.</td><td>Es una <strong>infracción</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="fichas">
+    <article class="ficha">
+      <h4>Copiar una parte también cuenta</h4>
+      <p class="def">La semejanza de estilo o de temática no es automáticamente una infracción. La reproducción de expresiones originales sí puede serlo, <strong>aunque se copie sólo una parte</strong> de la obra.</p>
+      <div class="trampa"><b>Error típico</b>Creer que parafrasear siempre salva. Una paráfrasis muy cercana al original y sin referencia a la fuente también puede ser infracción, según se remarcó en clase.</div>
+    </article>
+  </div>
+
+  <h3>8.3 · Qué derechos tiene un autor</h3>
+  <div class="fichas">
+    <article class="ficha">
+      <h4>Derechos patrimoniales</h4>
+      <p class="def">Permiten controlar la <strong>explotación económica</strong> de la obra: reproducción, distribución, publicación, adaptación y otros usos previstos por la ley.</p>
+      <dl><dt>Característica</dt><dd>Son transmisibles: pueden cederse por contrato.</dd></dl>
+    </article>
+    <article class="ficha">
+      <h4>Derechos morales</h4>
+      <p class="def">Protegen la <strong>relación personal</strong> del creador con su obra: el reconocimiento de su autoría y la integridad de la creación.</p>
+      <dl><dt>Característica</dt><dd>Son inalienables e irrenunciables.</dd></dl>
+    </article>
+    <article class="ficha">
+      <h4>Dónde aparece el conflicto con la IA</h4>
+      <p class="def">Cuando una empresa usa obras ajenas para obtener beneficios propios sin que sus autores lo sepan, lo autoricen o reciban una contraprestación. Y sin reconocimiento: en general no sabemos de qué fuentes se nutrió el modelo.</p>
+    </article>
+  </div>
+
+  <h3>8.4 · Cómo se entrena una IA generativa (y por qué importa)</h3>
+  <div class="cadena">
+    <div><b>Datos de entrenamiento</b>Libros, fotos, artículos y otras obras.</div>
+    <div><b>Entrenamiento del modelo</b>Procesar los datos y ajustar parámetros.</div>
+    <div><b>Generación de contenido</b>Producir respuestas según instrucciones.</div>
+  </div>
+  <p>
+    El modelo no funciona necesariamente como una biblioteca que guarda copias completas de cada obra.
+    Pero el entrenamiento puede involucrar reproducciones de material protegido y, en ciertas
+    circunstancias, el sistema puede <strong>reproducir fragmentos memorizados</strong>.
+  </p>
+  <div class="panel peligro">
+    <h4>Podemos infringir sin saberlo</h4>
+    <p style="margin:0;font-size:.93rem">Si la IA nos devuelve un fragmento literal de una obra protegida —sin citarla, así que no nos enteramos— y lo reproducimos tal cual, somos nosotros quienes estamos vulnerando el derecho de autor.</p>
+  </div>
+
+  <h3>8.5 · Primer dilema: entrenar con obras protegidas</h3>
+  <div class="dos-col">
+    <div class="panel">
+      <h4>Argumentos a favor</h4>
+      <ul class="limpia favor" style="font-size:.9rem;margin:0">
+        <li>Las personas también aprenden leyendo, observando y estudiando obras ajenas, y vuelcan ese conocimiento en lo que crean: sería «formación», no copia.</li>
+        <li>La IA democratiza herramientas creativas y acelera el desarrollo tecnológico. Ejemplo de clase: quien quiere dedicarse al arte pero necesita otro trabajo para vivir puede avanzar con menos tiempo disponible.</li>
+        <li>Pedir licencia individual para millones de obras haría inviable el desarrollo, o lo dejaría sólo en manos de las grandes empresas. Un modelo entrenado sólo con datos autorizados rendiría mucho menos.</li>
+      </ul>
+    </div>
+    <div class="panel">
+      <h4>Argumentos en contra</h4>
+      <ul class="limpia contra" style="font-size:.9rem;margin:0">
+        <li>Los autores tienen derecho a controlar ciertos usos de sus creaciones, no sólo la copia literal: también a saber qué se hace con ellas.</li>
+        <li>Las empresas obtienen beneficios económicos con trabajo intelectual ajeno.</li>
+        <li>Los sistemas entrenados con esas obras pueden competir con sus propios creadores.</li>
+        <li>Sin consentimiento ni transparencia, la distribución de beneficios es injusta: todo va a la empresa.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="fichas">
+    <article class="ficha">
+      <h4>Dónde falla la analogía con el estudiante</h4>
+      <p class="def">Una persona no puede leer a la velocidad, con la profundidad ni con la capacidad de reproducción de una IA. La comparación «aprende como nosotros» ignora esa diferencia de escala.</p>
+    </article>
+  </div>
+
+  <h3>8.6 · Segundo dilema: los resultados</h3>
+  <p class="intro">Aunque el entrenamiento fuera legítimo, el resultado igual puede vulnerar derechos de terceros. Un modelo puede producir tres tipos de contenido:</p>
+  <div class="fichas">
+    <article class="ficha">
+      <h4>Resultados originales</h4>
+      <p class="def">No reproducen expresiones protegidas de obras preexistentes. No generan infracción por sí mismos.</p>
+      <div class="trampa"><b>Debate en clase</b>¿Original en qué sentido? Para hablar de una obra original habría que suponer que la IA tiene intelecto, y la propiedad intelectual protege creaciones <em>del intelecto</em>. Pero tampoco los humanos crean de la nada: el rock barrial se inspiró en los Rolling Stones, que a su vez venían de otros. Todo depende del alcance que se le dé a «original».</div>
+    </article>
+    <article class="ficha">
+      <h4>Resultados semejantes</h4>
+      <p class="def">Obras con ideas, estructuras o estilos parecidos a los de otros autores. La semejanza de estilo o de temática <strong>no es automáticamente</strong> una infracción.</p>
+      <dl><dt>Ejemplo de clase</dt><dd>Las primeras versiones de ChatGPT se negaban a hacer una imagen «de estilo cubista» invocando derechos de autor; si se le pedía una imagen con las características del cubismo, la hacía. El estilo, en sí, no está protegido.</dd></dl>
+    </article>
+    <article class="ficha">
+      <h4>Resultados potencialmente infractores</h4>
+      <p class="def">Textos, imágenes o composiciones que reproducen partes protegidas de obras ajenas sin autorización del autor.</p>
+      <dl><dt>La cuestión fundamental</dt><dd><strong>Qué</strong> se reprodujo, <strong>cuánto</strong> se reprodujo y <strong>si el material está protegido</strong>.</dd></dl>
+    </article>
+  </div>
+  <div class="regla">
+    <div class="premisas"><span>quien reproduce la obra es un sistema automatizado</span></div>
+    <div class="barra"></div>
+    <div class="conclusion">la obra no deja de estar protegida por eso</div>
+  </div>
+
+  <h3>8.7 · ¿Quién responde por una reproducción hecha con IA?</h3>
+  <p>Las responsabilidades no son idénticas ni automáticas: hay que analizar la conducta de cada interviniente, sus obligaciones, lo que sabía y la relación entre su actuación y el perjuicio.</p>
+  <div class="tabla-caja">
+    <table>
+      <caption>Tres actores, tres fundamentos distintos</caption>
+      <thead><tr><th>Actor</th><th>Por qué podría responder</th></tr></thead>
+      <tbody>
+        <tr><th>Empresa desarrolladora</th><td>Diseñó y entrenó el sistema, decidió qué materiales usar y qué mecanismos preventivos implementar.</td></tr>
+        <tr><th>Usuario</th><td>Introdujo las instrucciones, eligió los resultados y decidió cómo usarlos. Su responsabilidad depende del conocimiento y la intención: en clase se señaló que habría que demostrar dolo, es decir, intención de reproducir una obra ajena.</td></tr>
+        <tr><th>Editorial o distribuidor</th><td>Publicó, comercializó o difundió el contenido: se analiza si conocía el origen del material y qué controles hizo antes de publicar.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="fichas">
+    <article class="ficha">
+      <h4>Intención y consecuencias</h4>
+      <p class="def">La falta de intención no siempre borra las consecuencias jurídicas —en música hubo juicios por temas parecidos «sin querer»—, pero el conocimiento, el dolo y el aprovechamiento pesan en la responsabilidad.</p>
+      <dl><dt>Conecta con</dt><dd>La cadena de actores y el control efectivo de la <a href="#c7">clase 7</a>.</dd></dl>
+    </article>
+  </div>
+
+  <h3>8.8 · Tercer dilema: ¿la IA puede ser autora?</h3>
+  <p>
+    El concepto tradicional de autoría está ligado a la <strong>creatividad humana</strong>. Que una IA
+    genere novelas, imágenes o canciones no significa que tenga personalidad jurídica ni que adquiera
+    derechos de autor. Quedan tres preguntas abiertas:
+  </p>
+  <ol class="pasos">
+    <li><b>¿Puede protegerse una obra generada íntegramente por IA?</b><span>Sin un autor humano identificable, hay serias dudas de que acceda a la tutela del derecho de autor.</span></li>
+    <li><b>¿Quién tendría derechos sobre ella?</b><span>¿El usuario que escribió las instrucciones, el desarrollador del sistema, o nadie respecto de las partes puramente automáticas?</span></li>
+    <li><b>¿Usar IA impide reconocer la creatividad humana?</b><span>No necesariamente: hay que separar la generación automática de las contribuciones expresivas originales de una persona.</span></li>
+  </ol>
+
+  <figure>
+    <svg viewBox="0 0 760 250" role="img" aria-label="Tres escenarios de uso de IA ordenados según el grado de control creativo humano">
+      <defs>
+        <marker id="pe8" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" class="svg-punta"/>
+        </marker>
+      </defs>
+      <line x1="40" y1="70" x2="720" y2="70" class="svg-linea" stroke-width="1.5" marker-end="url(#pe8)"/>
+      <text x="40" y="48" class="svg-m" font-size="10">menos control creativo humano</text>
+      <text x="720" y="48" text-anchor="end" class="svg-m" font-size="10">más control creativo humano</text>
+
+      <circle cx="140" cy="70" r="9" fill="var(--papel-2)" stroke="var(--u6)" stroke-width="2"/>
+      <circle cx="380" cy="70" r="9" fill="var(--u6)" fill-opacity="0.45" stroke="var(--u6)" stroke-width="2"/>
+      <circle cx="620" cy="70" r="9" fill="var(--u6)" stroke="var(--u6)" stroke-width="2"/>
+
+      <text x="140" y="108" text-anchor="middle" class="svg-t" font-size="13" font-weight="700">A · Generación automática</text>
+      <text x="140" y="128" text-anchor="middle" class="svg-m" font-size="10">«Creá una novela de ciencia ficción»</text>
+      <text x="140" y="143" text-anchor="middle" class="svg-m" font-size="10">y se publica tal cual</text>
+      <text x="140" y="172" text-anchor="middle" class="svg-t" font-size="11.5" font-style="italic">el prompt solo no alcanza</text>
+
+      <text x="380" y="108" text-anchor="middle" class="svg-t" font-size="13" font-weight="700">B · Dirección y selección</text>
+      <text x="380" y="128" text-anchor="middle" class="svg-m" font-size="10">muchas instrucciones, elegir versiones,</text>
+      <text x="380" y="143" text-anchor="middle" class="svg-m" font-size="10">reorganizar capítulos</text>
+      <text x="380" y="172" text-anchor="middle" class="svg-t" font-size="11.5" font-style="italic">zona gris: depende del aporte</text>
+
+      <text x="620" y="108" text-anchor="middle" class="svg-t" font-size="13" font-weight="700">C · Creación asistida</text>
+      <text x="620" y="128" text-anchor="middle" class="svg-m" font-size="10">obra propia; la IA sólo sugiere</text>
+      <text x="620" y="143" text-anchor="middle" class="svg-m" font-size="10">y corrige puntualmente</text>
+      <text x="620" y="172" text-anchor="middle" class="svg-t" font-size="11.5" font-style="italic">autoría humana</text>
+
+      <text x="380" y="222" text-anchor="middle" class="svg-t" font-size="12" font-weight="700">El criterio es cualitativo: qué aportó la persona, no cuántas horas ni cuántos prompts</text>
+    </svg>
+    <figcaption>Los tres escenarios de la cátedra. En clase se coincidió en que el C es hoy «el escenario de mínima»: casi cualquier texto pasa al menos por una corrección con IA.</figcaption>
+  </figure>
+
+  <div class="fichas">
+    <article class="ficha">
+      <h4>Aportaciones expresivas originales</h4>
+      <p class="def">Lo que define la autoría no es la cantidad de instrucciones, el tiempo invertido ni el porcentaje de texto generado, sino las <strong>aportaciones expresivas originales</strong> de la persona.</p>
+      <div class="trampa"><b>Error típico</b>«Estuve ocho horas iterando con la IA, entonces es mío.» El tiempo no resuelve la autoría: ¿y si hubieran sido diez minutos? ¿Y si la herramienta mejora y alcanzan dos horas? Por eso el criterio no puede ser cuantitativo.</div>
+    </article>
+    <article class="ficha">
+      <h4>No toda obra deja el mismo margen</h4>
+      <p class="def">En una novela hay mucho espacio para aportes propios; en un artículo técnico de tres carillas, mucho menos. Cuanto más acotada es la tarea, más difícil es distinguir qué aportó la persona.</p>
+    </article>
+    <article class="ficha">
+      <h4>Pagar no es ser autor</h4>
+      <p class="def">En clase se discutió si pagar una suscripción hace propio lo que se genera. La conclusión: contratar un servicio no transfiere automáticamente la titularidad ni elimina las obligaciones legales.</p>
+      <dl><dt>Analogía de los estudiantes</dt><dd>Comprar un juego en una plataforma digital da una licencia de uso, no la propiedad del juego.</dd></dl>
+    </article>
+  </div>
+
+  <h3>8.9 · Un criterio internacional: la Oficina de Derechos de Autor de EE. UU. (enero de 2025)</h3>
+  <ol class="pasos">
+    <li><b>Sin autoría humana, sin protección</b><span>Las creaciones generadas puramente por IA, sin suficiente autoría humana, no se protegen.</span></li>
+    <li><b>La IA como herramienta no excluye protección</b><span>Usar IA no impide proteger los aportes genuinamente humanos presentes en la obra final.</span></li>
+    <li><b>Selección y organización creativa son protegibles</b><span>Seleccionar, ordenar y modificar creativamente resultados de IA puede ser una contribución original (por ejemplo, reorganizar los capítulos de una novela).</span></li>
+    <li><b>El prompt solo no alcanza</b><span>Introducir instrucciones, por sí solo, no acredita autoría suficiente sobre la obra generada.</span></li>
+  </ol>
+  <div class="panel aviso">
+    <h4>Por qué sirve aunque no sea ley argentina</h4>
+    <p style="margin:0;font-size:.93rem">Es un criterio comparado, no una regla vinculante en Argentina. Pero el <strong>derecho comparado</strong> es una fuente a la que se recurre cuando no hay ley ni jurisprudencia local para un caso, y cada rama tiene sus referentes (en derecho penal, Alemania y España). Su uso tiene un límite: en materia penal rige el <strong>principio de legalidad</strong>.</p>
+  </div>
+
+  <h3>8.10 · El marco argentino: Ley 11.723</h3>
+  <div class="tabla-caja">
+    <table>
+      <caption>Artículos clave en el contexto de la IA</caption>
+      <thead><tr><th>Artículo</th><th>Contenido relevante</th></tr></thead>
+      <tbody>
+        <tr><th>Art. 1</th><td>Protege la expresión de las ideas, no las ideas en sí mismas.</td></tr>
+        <tr><th>Art. 2</th><td>Reconoce al autor la facultad de publicar, adaptar y reproducir su obra, o de autorizar esos actos a terceros.</td></tr>
+        <tr><th>Art. 71</th><td>Figura general de defraudación de los derechos de propiedad intelectual: la ley la castiga con la pena de la estafa (art. 172 del Código Penal).</td></tr>
+        <tr><th>Art. 72 a)</th><td>Edición, venta o reproducción de obras sin autorización del autor o sus derechohabientes.</td></tr>
+        <tr><th>Art. 72 c)</th><td>Edición, venta o reproducción que suprime o cambia el nombre del autor o el título, o altera dolosamente el texto.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="regla" data-valida="no">
+    <div class="premisas"><span>se usó inteligencia artificial</span></div>
+    <div class="barra"></div>
+    <div class="conclusion">no configura automáticamente un delito</div>
+  </div>
+  <p>Hay que identificar una conducta prevista en la ley y acreditar todos los elementos para atribuir responsabilidad penal. Los problemas abiertos que se marcaron en clase:</p>
+  <div class="fichas">
+    <article class="ficha">
+      <h4>«Por cualquier medio»</h4>
+      <p class="def">La ley habla de reproducir o difundir por cualquier medio, lo que parecería incluir a la IA. Pero el legislador no pudo pensar en una tecnología que no existía, y en materia penal la ley no se extiende por analogía.</p>
+    </article>
+    <article class="ficha">
+      <h4>Deepfakes</h4>
+      <p class="def">No hay una norma argentina específica: persisten dudas sobre cómo aplicarles las figuras tradicionales.</p>
+    </article>
+    <article class="ficha">
+      <h4>Coherencia entre leyes</h4>
+      <p class="def">La propiedad intelectual, la ley de marcas y el Código Penal se remiten entre sí. Cuando un código se reforma y cambia la numeración, esas remisiones pueden quedar apuntando a artículos que ya no corresponden.</p>
+    </article>
+  </div>
+
+  <h3>8.11 · Innovación, sesgos y la «copia de la copia»</h3>
+  <p>
+    La IA se nutre de datos preexistentes y devuelve el resultado más coherente con ellos. Pero los
+    cambios de paradigma ocurren justamente cuando alguien hace algo <strong>contra</strong> esos datos.
+    Si cada vez más contenido sale de la IA y la IA se entrena con ese contenido, se cierra un círculo: la
+    copia de la copia, menos diversidad creativa y estilos que se vuelven todos iguales.
+  </p>
+  <div class="fichas">
+    <article class="ficha">
+      <h4>La IA como formadora de opinión</h4>
+      <p class="def">Si un modelo se entrenó con literatura de una sola postura —en economía, en derecho—, sus respuestas reflejan esa postura sin que el usuario sepa que hay otras. Puede terminar orientando la opinión pública desde un origen invisible.</p>
+    </article>
+    <article class="ficha">
+      <h4>Quién rompe el círculo</h4>
+      <p class="def">La innovación necesita intervención humana capaz de cuestionar los datos y los criterios existentes. En clase se recordó a un profesor de derecho y tecnología que asociaba las soluciones creativas con subir la «temperatura» de un modelo: más margen para salirse de lo esperable.</p>
+    </article>
+  </div>
+
+  <h4>La analogía con la jurisprudencia: tenencia de estupefacientes para consumo personal</h4>
+  <p>La pregunta de fondo en todos estos fallos: ¿se puede castigar a alguien por tener una cantidad mínima de droga para consumo propio, sin afectar a terceros?</p>
+  <ul class="linea-tiempo">
+    <li data-u="6"><span class="anio">1978</span><b>Colavini</b><span class="txt">Antes del regreso de la democracia: la Corte convalida el castigo y describe la droga como un flagelo que destruye la familia y las bases morales de la sociedad. <strong>En clase este fallo se nombró como «Montalvo»</strong>: es el mismo razonamiento, pero Montalvo es el de 1990.</span></li>
+    <li data-u="6"><span class="anio">1986</span><b>Bazterrica</b><span class="txt">El caso de un músico. La Corte declara inconstitucional castigar la tenencia para consumo personal: protege la autonomía de la persona mientras no afecte a terceros.</span></li>
+    <li data-u="6"><span class="anio">1990</span><b>Montalvo</b><span class="txt">Con otra integración, la Corte vuelve a la postura anterior y convalida el castigo. Es la «vuelta a Montalvo» que se mencionó en clase.</span></li>
+    <li data-u="6"><span class="anio">2009</span><b>Arriola</b><span class="txt">Retoma la doctrina de Bazterrica: castigar la tenencia para consumo personal que no afecta a terceros es inconstitucional.</span></li>
+  </ul>
+  <div class="clave">
+    <b>Qué tiene que ver con la IA</b>
+    <p>Una IA entrenada con la jurisprudencia de 1978 nunca habría propuesto Bazterrica: sólo tenía los
+    datos de la postura anterior. Peor aún, cada nuevo fallo resuelto «como siempre» habría reforzado esa
+    postura —«hay treinta años de jurisprudencia que dicen esto»— y hecho cada vez más difícil el cambio.
+    Lo mismo vale para otros cambios de paradigma que se mencionaron en clase, como dejar de considerar
+    que dentro del matrimonio no podía haber abuso sexual.</p>
+  </div>
+
+  <h3>8.12 · Tres teorías éticas para analizar el conflicto</h3>
+  <p>Una misma conducta puede valorarse distinto según la teoría que se aplique (ver la <a href="#c1">clase 1</a>).</p>
+  <div class="tabla-caja">
+    <table>
+      <caption>La pregunta que haría cada teoría</caption>
+      <thead><tr><th>Teoría</th><th>Criterio</th><th>Pregunta aplicada a la IA</th></tr></thead>
+      <tbody>
+        <tr><th>Utilitarismo</th><td>Evaluar consecuencias y buscar el mayor bienestar general.</td><td>¿Los beneficios sociales del entrenamiento justifican los perjuicios a los autores?</td></tr>
+        <tr><th>Deontología</th><td>Respetar deberes, principios y derechos, más allá de las consecuencias.</td><td>¿Es correcto usar una creación ajena sin autorización, aunque produzca beneficios colectivos?</td></tr>
+        <tr><th>Contractualismo</th><td>Buscar reglas que puedan justificarse ante los afectados mediante acuerdos razonables.</td><td>¿Qué sistema de consentimiento, compensación y transparencia aceptarían desarrolladores y creadores?</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>El análisis riguroso exige decir qué teoría se está aplicando, reconocer sus límites y considerar todos los intereses afectados antes de tomar posición. Una salida práctica que se propuso: <strong>priorizar datos cuyo uso esté autorizado</strong> siempre que sea posible.</p>
+
+  <h3>8.13 · Caso de aplicación: «El autor invisible»</h3>
+  <p class="intro">
+    El caso práctico asignado para resolver en grupos, con cuatro roles: juez, fiscal, defensa y víctima.
+    Primero los hechos y las herramientas de la clase que sirven para cada dilema; al final, una solución
+    modelo en desplegables. <strong>Intentá resolverlo antes de abrirlos.</strong>
+  </p>
+  <div class="clave">
+    <b>Los hechos</b>
+    <p>
+      En 2026, la empresa argentina <strong>NOVA AI</strong> lanza <strong>CREA</strong>, una plataforma que
+      genera novelas, cuentos e ilustraciones. La entrenó con millones de obras disponibles en internet,
+      muchas protegidas y sin autorización de sus autores; entre ellas, seis novelas de la escritora de
+      ciencia ficción <strong>Valentina Ríos</strong>, autora de la saga <em>Los guardianes del silencio</em>.
+      <strong>Tomás Medina</strong>, estudiante de 23 años, usa CREA durante <strong>tres meses</strong>:
+      escribe instrucciones, modifica personajes, selecciona capítulos y corrige partes del texto. Una de sus
+      instrucciones pide «una atmósfera narrativa semejante a las novelas de Valentina Ríos, especialmente
+      <em>Los guardianes del silencio</em>». El resultado: una novela de 320 páginas, <em>La memoria de los
+      ausentes</em>, con cerca del <strong>70 %</strong> del texto proveniente de borradores de la IA. Gana un
+      concurso con premio de veinte millones de pesos (las bases exigían obras originales pero no prohibían
+      la IA), la publica una editorial y es un éxito comercial. Tomás figura como único autor y nunca
+      informó que usó IA.
+    </p>
+  </div>
+  <div class="fichas">
+    <article class="ficha">
+      <h4>Lo que encontró Valentina</h4>
+      <p class="def">Semejanzas generales —sociedades donde los recuerdos se compran y venden, organizaciones clandestinas que conservan memorias, personajes que descubren recuerdos manipulados—, con personajes y desenlace distintos. Y un peritaje que detecta un fragmento de <strong>unas 180 palabras</strong> casi idéntico a una de sus novelas.</p>
+      <dl><dt>Qué reclama</dt><dd>Demanda civil contra NOVA AI, Tomás y la editorial (indemnización, eliminación de los fragmentos, que CREA deje de usar sus obras) y denuncia penal por delitos contra la propiedad intelectual.</dd></dl>
+    </article>
+    <article class="ficha">
+      <h4>Lo que responden</h4>
+      <dl>
+        <dt>NOVA AI</dt><dd>La IA aprende como un escritor que lee mucho; las coincidencias son excepcionales; pedir autorización individual haría imposible la innovación.</dd>
+        <dt>Tomás</dt><dd>Diseñó la historia, orientó a la IA, seleccionó el contenido y decidió la versión final: CREA fue una herramienta.</dd>
+        <dt>Editorial</dt><dd>Actuó de buena fe y las bases no prohibían usar IA.</dd>
+      </dl>
+    </article>
+    <article class="ficha">
+      <h4>Las normas que trae el caso</h4>
+      <p class="def">Ley 11.723, art. 72 a) (editar, vender o reproducir «por cualquier medio o instrumento» una obra sin autorización) y art. 72 c) (hacerlo suprimiendo o cambiando el nombre del autor o el título, o alterando dolosamente el texto).</p>
+      <div class="trampa"><b>Ojo con el 72 c)</b>Habla de suprimir el nombre del autor <em>de la obra reproducida</em>. Si la atribución de autoría de Tomás encaja ahí, o si es una controversia de otra naturaleza, es justamente lo que el caso le pide analizar a la fiscalía.</div>
+    </article>
+  </div>
+
+  <div class="tabla-caja">
+    <table>
+      <caption>Qué debe argumentar cada rol, dilema por dilema</caption>
+      <thead><tr><th>Rol</th><th>Entrenamiento</th><th>Resultados</th><th>Autoría</th></tr></thead>
+      <tbody>
+        <tr><th>Juez</th><td>Si usar obras protegidas sin autorización es jurídicamente admisible y éticamente justificable.</td><td>Si las semejanzas y la reproducción detectada vulneran los derechos de Valentina.</td><td>Si Tomás puede ser reconocido como autor y qué peso tienen sus aportes. Además: proponer una resolución que pondere derechos individuales, innovación e interés social.</td></tr>
+        <tr><th>Fiscal</th><td>Si el uso de obras protegidas puede ser una conducta relevante para la ley de propiedad intelectual.</td><td>La reproducción de las 180 palabras y quién podría ser responsable de esa conducta concreta.</td><td>Si la atribución de autoría tiene relevancia penal o es otra clase de controversia. Además: si corresponde impulsar la investigación, con conductas y elementos del delito identificados.</td></tr>
+        <tr><th>Defensa (NOVA AI y Tomás)</th><td>El entrenamiento como parte del desarrollo tecnológico y del aprendizaje automatizado.</td><td>Que las semejanzas generales no son infracción, y analizar la reproducción puntual.</td><td>Que las decisiones, instrucciones y modificaciones de Tomás muestran intervención creativa. Con principios de innovación y acceso a la cultura.</td></tr>
+        <tr><th>Víctima (Valentina)</th><td>Por qué el uso comercial sin consentimiento afecta sus derechos e intereses como creadora.</td><td>Por qué las coincidencias son una apropiación ilegítima de su trabajo.</td><td>Por qué Tomás no puede atribuirse una novela hecha mayoritariamente con IA. Además: qué reparación pide y cómo proteger a los creadores.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tabla-caja">
+    <table>
+      <caption>Dónde está cada herramienta en esta clase</caption>
+      <thead><tr><th>Hecho del caso</th><th>Concepto que activa</th><th>Ver</th></tr></thead>
+      <tbody>
+        <tr><th>Entrenamiento sin autorización</th><td>Argumentos a favor y en contra; la analogía del escritor que lee y dónde falla; internet ≠ dominio público.</td><td>8.4 y 8.5</td></tr>
+        <tr><th>Mismo tipo de sociedad y de trama</th><td>La idea general y el estilo no están protegidos (el ejemplo de la cátedra es casi el mismo que el del caso).</td><td>8.2 y 8.6</td></tr>
+        <tr><th>Las 180 palabras casi literales</th><td>Reproducción de expresión protegida, aunque sea una parte; qué, cuánto y si está protegido; fragmentos memorizados.</td><td>8.2, 8.4 y 8.6</td></tr>
+        <tr><th>El prompt «como Valentina Ríos»</th><td>Conocimiento e intención del usuario; el estilo como tal no es infracción.</td><td>8.6 y 8.7</td></tr>
+        <tr><th>Tres meses, 70 % generado</th><td>Escenario B (dirección y selección); el criterio es cualitativo, no las horas ni el porcentaje; el informe de EE. UU. de 2025.</td><td>8.8 y 8.9</td></tr>
+        <tr><th>Demanda civil y denuncia penal a la vez</th><td>Usar IA no es delito automáticamente; legalidad penal; responsabilidad de desarrolladora, usuario y editorial.</td><td>8.7 y 8.10</td></tr>
+        <tr><th>Interés social vs. derechos del autor</th><td>Utilitarismo, deontología y contractualismo.</td><td>8.12</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h4>Una solución posible</h4>
+  <div class="panel aviso">
+    <h4>Antes de leerla</h4>
+    <p style="margin:0;font-size:.93rem">Es una solución modelo armada para el apunte con los conceptos de la clase, <strong>no la respuesta oficial de la cátedra</strong>. Hay otras soluciones defendibles: lo que se evalúa es que cada afirmación esté fundada en un concepto, una norma o un criterio.</p>
+  </div>
+
+  <details>
+    <summary>Dilema 1 · Entrenamiento: ¿podía NOVA AI usar las novelas de Valentina?</summary>
+    <div class="detalle-cuerpo">
+      <p><strong>Jurídicamente.</strong> No hay en Argentina una norma específica sobre entrenamiento de IA. La Ley 11.723 (art. 2) le reserva al autor la facultad de reproducir su obra o autorizar a otros a hacerlo, y el entrenamiento puede involucrar reproducciones (8.4). Tampoco tiene una excepción general como el <em>fair use</em> estadounidense o las excepciones de minería de textos y datos de la Unión Europea (ver <a href="#c3">clase 3</a>). Conclusión razonable: el uso comercial sin autorización es, al menos, cuestionable en el plano civil. Que las novelas estuvieran en internet no cambia nada: publicado no es dominio público.</p>
+      <p><strong>El argumento de NOVA AI («aprende como un escritor»)</strong> tiene un punto: la idea y el estilo no están protegidos. Pero falla por la escala (8.5) y porque el propio caso muestra que el modelo memorizó y reprodujo expresión literal: si sólo aprendiera patrones, no habrían aparecido las 180 palabras.</p>
+      <p><strong>Éticamente.</strong> El utilitarismo podría justificar el entrenamiento por sus beneficios sociales, pero el costo lo pagan autores concretos que no eligieron financiarlo. La deontología lo rechaza: se usa la obra ajena como medio, sin consentimiento. El contractualismo da la salida más útil: un sistema que desarrolladores y creadores podrían aceptar, con licencias o compensación, transparencia sobre los datos de entrenamiento y la posibilidad de excluir obras.</p>
+      <p style="margin-bottom:0"><strong>Penalmente.</strong> Es la parte más débil del caso. El art. 72 a) dice «por cualquier medio», pero en materia penal no se extiende la ley por analogía a una tecnología que el legislador no previó (8.10). Además, la responsabilidad penal de las empresas en Argentina se limita a ciertos delitos (Ley 27.401, <a href="#c7">clase 7</a>): no alcanza a la propiedad intelectual. La vía adecuada para el entrenamiento es la civil.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Dilema 2 · Resultados: ¿la novela de Tomás vulnera los derechos de Valentina?</summary>
+    <div class="detalle-cuerpo">
+      <p><strong>Las semejanzas generales no son infracción.</strong> Una sociedad donde los recuerdos se compran y venden, organizaciones que conservan memorias, personajes que descubren recuerdos manipulados: son ideas y temas, y con personajes y desenlace distintos. Es literalmente el ejemplo de la cátedra de «idea general, no protegida» (8.2). Pedir una «atmósfera semejante» a la de una autora es pedir un estilo, y el estilo tampoco está protegido.</p>
+      <p><strong>Las 180 palabras casi literales sí lo son.</strong> Es reproducción de expresión original protegida, y no importa que sea sólo una parte de la obra ni que la haya producido un sistema automatizado (8.6). Aplicando el criterio de la clase: <em>qué</em> se reprodujo (texto de la novela), <em>cuánto</em> (un fragmento acotado y casi idéntico) y <em>si está protegido</em> (sí).</p>
+      <p><strong>Quién responde por ese fragmento (8.7):</strong></p>
+      <ul class="limpia" style="font-size:.92rem">
+        <li><strong>NOVA AI</strong>, en primer lugar: decidió entrenar con la obra sin autorización y no implementó filtros que impidieran reproducir texto memorizado. Es la que tenía el control técnico.</li>
+        <li><strong>Tomás</strong>: reprodujo y publicó el fragmento, pero no hay prueba de que supiera que era copia. Su instrucción pedía un estilo, no un texto. Su responsabilidad depende de lo que sabía; sin conocimiento, es limitada.</li>
+        <li><strong>La editorial</strong>: actuó de buena fe antes del peritaje. Desde que conoce la coincidencia, tiene el deber de corregir las ediciones siguientes.</li>
+      </ul>
+      <p style="margin-bottom:0"><strong>Penalmente.</strong> El tipo objetivo del art. 72 a) podría darse (se reprodujo y se vendió texto ajeno sin autorización), pero falta el dolo: ninguno de los intervinientes humanos sabía del fragmento. Salvo que aparezca prueba de que Tomás reconoció el pasaje y lo dejó igual, no corresponde avanzar penalmente; el reclamo va por la vía civil.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Dilema 3 · Autoría: ¿Tomás es el autor de la novela?</summary>
+    <div class="detalle-cuerpo">
+      <p><strong>No es el escenario A ni el C: es el B, dirección y selección (8.8).</strong> Tomás no se limitó a un prompt: durante tres meses diseñó la historia, modificó personajes, seleccionó capítulos y corrigió partes. Pero cerca del 70 % del texto viene de borradores de la IA.</p>
+      <p><strong>Ni el tiempo ni el porcentaje resuelven la pregunta.</strong> El criterio es cualitativo: cuáles son sus aportaciones expresivas originales. Siguiendo el criterio estadounidense de 2025 (8.9), que sirve de referencia comparada: la selección, el orden y las modificaciones creativas de Tomás pueden protegerse; el texto generado tal cual por la IA, no.</p>
+      <p><strong>Respuesta:</strong> Tomás es autor <strong>de sus aportes</strong> —la estructura, la selección, la edición, lo que escribió o reescribió—, pero no de toda la novela como si la hubiera escrito él solo.</p>
+      <p><strong>La atribución «íntegra» y el ocultamiento.</strong> Presentarse como único autor sin informar el uso de IA no encaja claramente en el art. 72 c), que apunta a suprimir o cambiar el nombre del autor <em>de la obra que se reproduce</em>. Es una controversia de otra naturaleza: ética (transparencia) y contractual frente al concurso, cuyas bases exigían obras originales. Qué pasa con el premio lo deciden los organizadores según esas bases, no un juez penal.</p>
+      <p style="margin-bottom:0"><strong>Éticamente</strong>, aunque las bases no prohibieran la IA, ocultarla le impidió al jurado evaluar qué estaba premiando: el problema no es haber usado la herramienta, sino no haberlo dicho.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Resolución integradora (rol de juez) y posición de la fiscalía</summary>
+    <div class="detalle-cuerpo">
+      <div class="ponderacion" data-prevalece="b">
+        <div class="viga" aria-hidden="true"></div>
+        <div class="plato a u2"><small>Principio A</small><b>Innovación y acceso a la cultura</b><span>desarrollo tecnológico, democratizar la creación, interés social en herramientas como CREA</span></div>
+        <div class="eje" aria-hidden="true">⇄</div>
+        <div class="plato b u6"><small>Principio B</small><b>Derechos de la autora</b><span>control de su obra, reconocimiento y compensación por la explotación económica</span></div>
+        <p class="fallo"><b>Prevalece</b>la protección de Valentina donde hay expresión copiada (las 180 palabras) y uso comercial sin consentimiento. En todo lo demás —ideas, temas, atmósfera, estilo— prevalecen la libertad de crear y el acceso a la cultura. Para el entrenamiento, la salida no es prohibir la tecnología sino licenciar y compensar.</p>
+      </div>
+      <p><strong>Lo que resolvería el juez:</strong></p>
+      <ol class="pasos">
+        <li><b>El fragmento</b><span>Suprimir o reescribir las 180 palabras en las ediciones siguientes, e indemnizar a Valentina en proporción a ese uso (no por toda la novela, que en lo demás no la infringe).</span></li>
+        <li><b>NOVA AI</b><span>Responsabilidad principal: cesar el uso de las obras de Valentina o acordar una licencia con compensación, e implementar filtros contra la reproducción de texto memorizado y transparencia sobre sus datos de entrenamiento.</span></li>
+        <li><b>La editorial</b><span>Sin responsabilidad por lo vendido de buena fe; obligación de corregir desde que conoce el peritaje.</span></li>
+        <li><b>Tomás</b><span>Reconocido como autor de sus aportes creativos, no de la totalidad. En adelante, la obra debe informar que fue hecha con asistencia de IA.</span></li>
+        <li><b>El premio</b><span>Se remite a los organizadores del concurso, según sus propias bases.</span></li>
+      </ol>
+      <p style="margin-bottom:0"><strong>La fiscalía</strong> concluiría que no corresponde impulsar la acción penal. Para el entrenamiento, porque estirar el art. 72 a) a la IA choca con la legalidad penal y la empresa no puede ser penalmente responsable de este delito. Para el fragmento, porque falta el dolo. Para la autoría, porque no es una conducta del art. 72 c). Todas son controversias civiles, contractuales o éticas. Distinguir lo ilícito civil de lo delictivo es exactamente lo que el caso le pide a este rol.</p>
+    </div>
+  </details>
+
+  <div class="par-trampa">
+    <div>
+      <h5>Lo que baja la nota</h5>
+      <p>«Es plagio porque la historia se parece.»</p>
+      <p>«Tomás trabajó tres meses, entonces es el autor.»</p>
+      <p>«Usó IA, así que cometió un delito.»</p>
+      <p class="veredicto">Confunde idea con expresión, cantidad con calidad y lo ilícito con lo delictivo.</p>
+    </div>
+    <div class="bien">
+      <h5>Lo que la sube</h5>
+      <p>«La trama compartida es una idea no protegida (art. 1); las 180 palabras son expresión reproducida sin autorización.»</p>
+      <p>«Es el escenario B: su selección y edición son protegibles; el texto generado tal cual, no.»</p>
+      <p>«El tipo del art. 72 a) exige dolo y no hay prueba de que conociera el fragmento.»</p>
+    </div>
+  </div>
+
+  <div class="panel aviso">
+    <h4>Para la próxima clase</h4>
+    <ul class="limpia" style="font-size:.9rem;margin:0">
+      <li>Se trabaja en grupos sobre el caso «El autor invisible» (8.13), con la misma dinámica de roles que el caso FinPay/ARGOS de la <a href="#c7">clase 7</a>.</li>
+      <li>Leer el caso y llevar las dudas preparadas.</li>
+      <li>Quienes ya fueron tribunal no repiten ese rol.</li>
+    </ul>
+  </div>
+
+  <div class="panel aviso">
+    <h4>Notas sobre las fuentes de esta clase</h4>
+    <ul class="limpia" style="font-size:.88rem;margin:0">
+      <li>En la grabación, el orden y los nombres de los fallos sobre tenencia quedaron mezclados; en 8.11 están en su orden cronológico real, con una aclaración sobre cómo se los nombró en clase.</li>
+      <li>La solución modelo del caso «El autor invisible» (8.13) es una propuesta armada para el apunte, no la respuesta oficial de la cátedra.</li>
+      <li>El reclamo del diario argentino y otros casos mencionados al pasar (una demanda por libros usados en el entrenamiento) se citaron de memoria en clase y no se pudieron identificar con precisión.</li>
+      <li>Un tramo largo de la grabación corresponde al recreo y no tiene contenido de la materia: no se usó.</li>
+      <li>La fecha (17 de octubre) sale de los datos de la grabación.</li>
+    </ul>
+  </div>
+</section>
+
 <!-- ============================ IMPULSO ============================ -->
 <section id="impulso" class="neutra" data-busca="caso impulso nexus laura mendoza indice de vulnerabilidad comite de evaluacion etica resuelto 91 threshold 70 78 equal opportunity revisores 96 drift plataformas datos comerciales reliable">
   <p class="eyebrow">Caso integrador de la cátedra · trabajado el 28 de agosto</p>
@@ -3590,7 +4118,7 @@ Array.prototype.forEach.call(document.querySelectorAll("[data-filtro]"), functio
 pintar();
 
 /* ---------- CONTEO ---------- */
-estado.textContent = "7 clases · " + document.querySelectorAll(".ficha").length + " fichas · " + document.querySelectorAll("#casoteca tbody tr").length + " casos · " + MAZO.length + " tarjetas";
+estado.textContent = "8 clases · " + document.querySelectorAll(".ficha").length + " fichas · " + document.querySelectorAll("#casoteca tbody tr").length + " casos · " + MAZO.length + " tarjetas";
 textoInicial = estado.textContent;
 })();
 </script>
