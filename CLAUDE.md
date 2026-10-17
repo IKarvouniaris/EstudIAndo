@@ -6,6 +6,13 @@ materia es una página HTML autocontenida (`etica.html`, `ia-conceptual.html`,
 una sección `<section id="cN">` por clase, buscador, glosario, flashcards y un
 simulacro aparte. `index.html` linkea a cada apunte desde la portada.
 
+**Excepción: `calculo.html` (Cálculo I).** No usa esta plantilla: es una app con
+menú lateral propio, contenido en el array `MODULES` dentro del HTML y lógica en
+`calculo/` (ejercicios guiados, práctica con lápiz corregida por IA, entrenador de
+decisiones). Guarda en `calculo_docs` vía `calculo/supabase-claude.js`. El flujo
+"clase + resumen de transcripción" de abajo no aplica tal cual a esta página:
+si llega material de Cálculo, preguntá cómo integrarlo antes de tocar `MODULES`.
+
 ## Regla: "clase + resumen de transcripción"
 
 Cuando el usuario menciona una **clase nueva** junto con material de una

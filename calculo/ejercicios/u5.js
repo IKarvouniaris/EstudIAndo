@@ -1,0 +1,91 @@
+(function (root) {
+  const T = {
+    inm: "Integrales inmediatas",
+    sus: "Método de sustitución",
+    par: "Integración por partes (ILATE)",
+    fra: "Descomposición en fracciones simples"
+  };
+  const list = [
+    // Inmediatas
+    { id: "u5-in-1", topic: T.inm, nivel: "directo",
+      enunciado: "Calcular: $\\displaystyle\\int(6x^2-4x+3)\\,dx$",
+      respuesta: { final: "2x^3-2x^2+3x+C", equivalentes: [], formato: "función + C" },
+      resolucion: ["\\int6x^2dx=2x^3", "\\int4x\\,dx=2x^2", "\\int3\\,dx=3x", "2x^3-2x^2+3x+C"],
+      vigilar: ["dividir por el NUEVO exponente", "no olvidar +C", "verificar derivando"],
+      checks: [{ kind: "antideriv", integrand: "6*x**2-4*x+3", var: "x", answer: "2*x**3-2*x**2+3*x" }], verificado: "sympy" },
+    { id: "u5-in-2", topic: T.inm, nivel: "guia",
+      enunciado: "Calcular: $\\displaystyle\\int\\left(\\sqrt{x}+\\dfrac{3}{x^2}-\\dfrac{1}{x}\\right)dx$",
+      respuesta: { final: "\\tfrac23x^{3/2}-\\dfrac3x-\\ln|x|+C", equivalentes: ["\\tfrac23x\\sqrt x-\\dfrac3x-\\ln|x|+C"], formato: "función + C" },
+      resolucion: ["\\sqrt x=x^{1/2},\\ \\dfrac{3}{x^2}=3x^{-2}", "\\int x^{1/2}dx=\\dfrac{x^{3/2}}{3/2}=\\tfrac23x^{3/2}", "\\int3x^{-2}dx=\\dfrac{3x^{-1}}{-1}=-\\dfrac3x", "\\int\\dfrac1x\\,dx=\\ln|x|", "\\tfrac23x^{3/2}-\\dfrac3x-\\ln|x|+C"],
+      vigilar: ["1/x es el caso especial: da ln|x|, no x^0/0", "dividir por 3/2 es multiplicar por 2/3", "exponente negativo: -2+1=-1"],
+      checks: [{ kind: "antideriv", integrand: "sqrt(x)+3/x**2-1/x", var: "x", answer: "Rational(2,3)*x**Rational(3,2)-3/x-log(x)", assume: "positive" }], verificado: "sympy" },
+    { id: "u5-in-3", topic: T.inm, nivel: "parcial",
+      enunciado: "Calcular: $\\displaystyle\\int\\dfrac{(x+1)^2}{\\sqrt{x}}\\,dx$",
+      respuesta: { final: "\\tfrac25x^{5/2}+\\tfrac43x^{3/2}+2x^{1/2}+C", equivalentes: ["\\tfrac25x^2\\sqrt x+\\tfrac43x\\sqrt x+2\\sqrt x+C"], formato: "función + C" },
+      resolucion: ["(x+1)^2=x^2+2x+1", "\\dfrac{x^2+2x+1}{x^{1/2}}=x^{3/2}+2x^{1/2}+x^{-1/2}", "\\int=\\tfrac25x^{5/2}+2\\cdot\\tfrac23x^{3/2}+2x^{1/2}", "\\tfrac25x^{5/2}+\\tfrac43x^{3/2}+2x^{1/2}+C"],
+      vigilar: ["la integral de un cociente NO es el cociente de integrales: primero desarrollar y dividir término a término", "no olvidar el término del medio 2x", "restar exponentes al dividir"],
+      checks: [{ kind: "antideriv", integrand: "(x+1)**2/sqrt(x)", var: "x", answer: "Rational(2,5)*x**Rational(5,2)+Rational(4,3)*x**Rational(3,2)+2*sqrt(x)", assume: "positive" }], verificado: "sympy" },
+
+    // Sustitución
+    { id: "u5-su-1", topic: T.sus, nivel: "directo",
+      enunciado: "Calcular: $\\displaystyle\\int3x^2(x^3+1)^5\\,dx$",
+      respuesta: { final: "\\dfrac{(x^3+1)^6}{6}+C", equivalentes: [], formato: "función de x + C" },
+      resolucion: ["u=x^3+1,\\ du=3x^2dx", "\\int u^5\\,du=\\dfrac{u^6}{6}", "\\dfrac{(x^3+1)^6}{6}+C"],
+      vigilar: ["3x^2dx es exactamente du", "volver a x al final"],
+      checks: [{ kind: "antideriv", integrand: "3*x**2*(x**3+1)**5", var: "x", answer: "(x**3+1)**6/6" }], verificado: "sympy" },
+    { id: "u5-su-2", topic: T.sus, nivel: "guia",
+      enunciado: "Calcular: $\\displaystyle\\int x\\,e^{x^2}\\,dx$",
+      respuesta: { final: "\\tfrac12e^{x^2}+C", equivalentes: [], formato: "función de x + C" },
+      resolucion: ["u=x^2,\\ du=2x\\,dx \\Rightarrow x\\,dx=\\dfrac{du}{2}", "\\tfrac12\\int e^u\\,du=\\tfrac12e^u", "\\tfrac12e^{x^2}+C"],
+      vigilar: ["falta el 2: despejar x dx = du/2", "volver a x al final"],
+      checks: [{ kind: "antideriv", integrand: "x*exp(x**2)", var: "x", answer: "exp(x**2)/2" }], verificado: "sympy" },
+    { id: "u5-su-3", topic: T.sus, nivel: "parcial",
+      enunciado: "Calcular: $\\displaystyle\\int x\\sqrt{x-1}\\,dx$",
+      respuesta: { final: "\\tfrac25(x-1)^{5/2}+\\tfrac23(x-1)^{3/2}+C", equivalentes: [], formato: "función de x + C" },
+      resolucion: ["u=x-1 \\Rightarrow x=u+1,\\ dx=du", "\\int(u+1)u^{1/2}\\,du=\\int\\left(u^{3/2}+u^{1/2}\\right)du", "\\tfrac25u^{5/2}+\\tfrac23u^{3/2}", "\\tfrac25(x-1)^{5/2}+\\tfrac23(x-1)^{3/2}+C"],
+      vigilar: ["la x que sobra se escribe como u+1", "no puede quedar x mezclada con u", "volver a x al final"],
+      checks: [{ kind: "antideriv", integrand: "x*sqrt(x-1)", var: "x", answer: "Rational(2,5)*(x-1)**Rational(5,2)+Rational(2,3)*(x-1)**Rational(3,2)" }], verificado: "sympy" },
+
+    // Partes
+    { id: "u5-pa-1", topic: T.par, nivel: "directo",
+      enunciado: "Calcular: $\\displaystyle\\int x\\cos x\\,dx$",
+      respuesta: { final: "x\\sin x+\\cos x+C", equivalentes: [], formato: "función + C" },
+      resolucion: ["u=x,\\ dv=\\cos x\\,dx", "du=dx,\\ v=\\sin x", "x\\sin x-\\int\\sin x\\,dx", "x\\sin x+\\cos x+C"],
+      vigilar: ["ILATE: la algebraica es u", "\\int\\sin x\\,dx=-\\cos x: el menos de la fórmula lo vuelve +"],
+      checks: [{ kind: "antideriv", integrand: "x*cos(x)", var: "x", answer: "x*sin(x)+cos(x)" }], verificado: "sympy" },
+    { id: "u5-pa-2", topic: T.par, nivel: "guia",
+      enunciado: "Calcular: $\\displaystyle\\int\\ln x\\,dx$",
+      respuesta: { final: "x\\ln x-x+C", equivalentes: ["x(\\ln x-1)+C"], formato: "función + C" },
+      resolucion: ["u=\\ln x,\\ dv=dx", "du=\\dfrac1x\\,dx,\\ v=x", "x\\ln x-\\int x\\cdot\\dfrac1x\\,dx", "x\\ln x-x+C"],
+      vigilar: ["dv=dx aunque no haya otro factor visible", "x·(1/x)=1"],
+      checks: [{ kind: "antideriv", integrand: "log(x)", var: "x", answer: "x*log(x)-x" }], verificado: "sympy" },
+    { id: "u5-pa-3", topic: T.par, nivel: "parcial",
+      enunciado: "Calcular: $\\displaystyle\\int x^2e^x\\,dx$",
+      respuesta: { final: "e^x(x^2-2x+2)+C", equivalentes: ["x^2e^x-2xe^x+2e^x+C"], formato: "función + C" },
+      resolucion: ["u=x^2,\\ dv=e^xdx \\Rightarrow x^2e^x-\\int2xe^x\\,dx", "\\text{partes otra vez: } \\int2xe^x\\,dx=2xe^x-2e^x", "x^2e^x-(2xe^x-2e^x)", "e^x(x^2-2x+2)+C"],
+      vigilar: ["hay que aplicar partes dos veces", "el menos afecta a todo el segundo resultado", "verificar derivando"],
+      checks: [{ kind: "antideriv", integrand: "x**2*exp(x)", var: "x", answer: "exp(x)*(x**2-2*x+2)" }], verificado: "sympy" },
+
+    // Fracciones simples
+    { id: "u5-fr-1", topic: T.fra, nivel: "directo",
+      enunciado: "Calcular: $\\displaystyle\\int\\dfrac{1}{(x-1)(x+1)}\\,dx$",
+      respuesta: { final: "\\tfrac12\\ln|x-1|-\\tfrac12\\ln|x+1|+C", equivalentes: ["\\tfrac12\\ln\\left|\\dfrac{x-1}{x+1}\\right|+C"], formato: "función + C" },
+      resolucion: ["\\dfrac{1}{(x-1)(x+1)}=\\dfrac{A}{x-1}+\\dfrac{B}{x+1}", "1=A(x+1)+B(x-1)", "x=1:\\ A=\\tfrac12;\\ x=-1:\\ B=-\\tfrac12", "\\tfrac12\\ln|x-1|-\\tfrac12\\ln|x+1|+C"],
+      vigilar: ["un término por cada factor lineal", "cada fracción da un logaritmo con valor absoluto"],
+      checks: [{ kind: "antideriv", integrand: "1/((x-1)*(x+1))", var: "x", answer: "log(x-1)/2-log(x+1)/2" }], verificado: "sympy" },
+    { id: "u5-fr-2", topic: T.fra, nivel: "guia",
+      enunciado: "Calcular: $\\displaystyle\\int\\dfrac{3x+3}{x^2+x-2}\\,dx$",
+      respuesta: { final: "2\\ln|x-1|+\\ln|x+2|+C", equivalentes: [], formato: "función + C" },
+      resolucion: ["x^2+x-2=(x-1)(x+2)", "3x+3=A(x+2)+B(x-1)", "x=1:\\ 6=3A \\Rightarrow A=2;\\ x=-2:\\ -3=-3B \\Rightarrow B=1", "2\\ln|x-1|+\\ln|x+2|+C"],
+      vigilar: ["factorizar el denominador primero", "reemplazar los valores que anulan cada factor"],
+      checks: [{ kind: "antideriv", integrand: "(3*x+3)/(x**2+x-2)", var: "x", answer: "2*log(x-1)+log(x+2)" }], verificado: "sympy" },
+    { id: "u5-fr-3", topic: T.fra, nivel: "parcial",
+      enunciado: "Calcular: $\\displaystyle\\int\\dfrac{x^2+1}{x^2-x}\\,dx$",
+      respuesta: { final: "x-\\ln|x|+2\\ln|x-1|+C", equivalentes: [], formato: "función + C" },
+      resolucion: ["\\text{grados iguales: dividir primero}", "\\dfrac{x^2+1}{x^2-x}=1+\\dfrac{x+1}{x(x-1)}", "\\dfrac{x+1}{x(x-1)}=\\dfrac{A}{x}+\\dfrac{B}{x-1};\\ A=-1,\\ B=2", "x-\\ln|x|+2\\ln|x-1|+C"],
+      vigilar: ["si el grado del numerador no es menor, primero se divide", "el cociente 1 se integra como x"],
+      checks: [{ kind: "antideriv", integrand: "(x**2+1)/(x**2-x)", var: "x", answer: "x-log(x)+2*log(x-1)" }], verificado: "sympy" }
+  ];
+  const bank = root.EXERCISES || (root.EXERCISES = []);
+  bank.push.apply(bank, list);
+})(typeof window !== "undefined" ? window : globalThis);

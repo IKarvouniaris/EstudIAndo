@@ -11,7 +11,7 @@
   --papel:#EDEEE9; --papel-2:#F8F9F6; --papel-3:#E3E5DE;
   --tinta:#15181A; --tinta-2:#545B60; --tinta-3:#7B8288;
   --linea:#C7CAC2; --linea-2:#D9DBD4;
-  --u1:#2E3A94; --u2:#9A5A12; --u3:#1B6A5B; --u4:#6D3470; --u1-suave:#E2E5F6; --u2-suave:#F4E7D2; --u3-suave:#DCEDE8; --u4-suave:#F0E3F0;
+  --u1:#2E3A94; --u2:#9A5A12; --u3:#1B6A5B; --u4:#6D3470; --u1-suave:#E2E5F6; --u2-suave:#F4E7D2; --u3-suave:#DCEDE8; --u4-suave:#F0E3F0; --u5:#5B3FC4; --u5-suave:#E8E3F8;
   --display:"Bahnschrift","Franklin Gothic Medium","Arial Narrow","Helvetica Neue",sans-serif;
   --body:"Sitka Text","Constantia",Georgia,"Times New Roman",serif;
   --mono:"Cascadia Mono",Consolas,"SFMono-Regular",ui-monospace,monospace;
@@ -22,7 +22,7 @@
   --papel:#101315; --papel-2:#181C20; --papel-3:#1F2429;
   --tinta:#E9EBE6; --tinta-2:#A2AAB0; --tinta-3:#7C858B;
   --linea:#2B3238; --linea-2:#232930;
-  --u1:#909EF0; --u2:#E2A95B; --u3:#4FC7AC; --u4:#D39AD6; --u1-suave:#1B2040; --u2-suave:#35270F; --u3-suave:#10302B; --u4-suave:#2E1830;
+  --u1:#909EF0; --u2:#E2A95B; --u3:#4FC7AC; --u4:#D39AD6; --u1-suave:#1B2040; --u2-suave:#35270F; --u3-suave:#10302B; --u4-suave:#2E1830; --u5:#A98BFF; --u5-suave:#26203F;
 }
 *{box-sizing:border-box}
 @media (prefers-reduced-motion:reduce){ *{animation:none !important; transition:none !important} }
@@ -70,6 +70,7 @@ a{color:inherit}
 .materia[data-u="2"]{--acento:var(--u2); --acento-suave:var(--u2-suave)}
 .materia[data-u="3"]{--acento:var(--u3); --acento-suave:var(--u3-suave)}
 .materia[data-u="4"]{--acento:var(--u4); --acento-suave:var(--u4-suave)}
+.materia[data-u="5"]{--acento:var(--u5); --acento-suave:var(--u5-suave)}
 .materia.vacia h2{color:var(--tinta-3); font-weight:600}
 .materia.vacia .estado{font-family:var(--mono); font-size:.68rem; color:var(--tinta-3); white-space:nowrap}
 .materia.es-hoy::before{content:""; position:absolute; left:-1rem; top:1.1rem; bottom:1.1rem; width:3px; background:var(--acento)}
@@ -106,10 +107,16 @@ a{color:inherit}
   </section>
 
   <ol class="semana">
-    <li class="materia vacia" data-dia="1">
+    <li class="materia con-apunte" data-dia="1" data-u="5">
       <div class="dia"><b>L</b>lunes</div>
-      <div><h2>Cálculo I<span class="etq-hoy">hoy</span></h2><p>Todavía sin apunte cargado.</p></div>
-      <span class="estado">próximamente</span>
+      <div>
+        <h2><a href="calculo.html">Cálculo I</a><span class="etq-hoy">hoy</span></h2>
+        <p>Álgebra base y Unidades I a VII: funciones, límites, derivadas, integrales y ecuaciones diferenciales. Ejercicios guiados, práctica con lápiz corregida por IA y entrenador de decisiones.</p>
+      </div>
+      <div class="accesos">
+        <a class="principal" href="calculo.html">Apunte</a>
+        <a href="calculo.html#entrenador">Entrenador</a>
+      </div>
     </li>
     <li class="materia con-apunte" data-dia="2" data-u="2">
       <div class="dia"><b>M</b>martes</div>
