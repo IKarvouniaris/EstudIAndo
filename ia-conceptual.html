@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Introducción a la Inteligencia Artificial — Mapa conceptual (Unidades 1–4)</title>
+<title>Introducción a la Inteligencia Artificial — Mapa conceptual (Unidades 1–6)</title>
 <style>
 /* ============================================================
    TOKENS
@@ -25,10 +25,14 @@
   --u2:         #8C5A04;
   --u3:         #1B6A5B;
   --u4:         #6D3470;
+  --u5:         #4D6A12;
+  --u6:         #0B5F80;
   --u1-suave:   #E2E5F6;
   --u2-suave:   #F5EAD6;
   --u3-suave:   #DCEDE8;
   --u4-suave:   #F0E3F0;
+  --u5-suave:   #E6EDD5;
+  --u6-suave:   #DCEBF2;
 
   --alerta:     #9E3122;
   --alerta-suave:#F7E4E0;
@@ -57,10 +61,14 @@
   --u2:         #E2AC55;
   --u3:         #4FC7AC;
   --u4:         #D39AD6;
+  --u5:         #AECB62;
+  --u6:         #6CC3E4;
   --u1-suave:   #1B2040;
   --u2-suave:   #33260F;
   --u3-suave:   #10302B;
   --u4-suave:   #2E1830;
+  --u5-suave:   #232C10;
+  --u6-suave:   #0D2A36;
 
   --alerta:     #EC8878;
   --alerta-suave:#331915;
@@ -133,6 +141,8 @@ body{
 .riel a[data-u="2"]{--acento:var(--u2)} .riel a[data-u="2"] em{color:var(--u2)}
 .riel a[data-u="3"]{--acento:var(--u3)} .riel a[data-u="3"] em{color:var(--u3)}
 .riel a[data-u="4"]{--acento:var(--u4)} .riel a[data-u="4"] em{color:var(--u4)}
+.riel a[data-u="5"]{--acento:var(--u5)} .riel a[data-u="5"] em{color:var(--u5)}
+.riel a[data-u="6"]{--acento:var(--u6)} .riel a[data-u="6"] em{color:var(--u6)}
 .riel a.externo{color:var(--tinta); font-weight:600} .riel a.externo em{color:var(--u3)}
 
 .riel-pie{padding:1.2rem 1.1rem 0; margin-top:1rem; border-top:1px solid var(--linea)}
@@ -214,6 +224,8 @@ section:last-of-type{border-bottom:0}
 .u2{--acento:var(--u2); --acento-suave:var(--u2-suave)}
 .u3{--acento:var(--u3); --acento-suave:var(--u3-suave)}
 .u4{--acento:var(--u4); --acento-suave:var(--u4-suave)}
+.u5{--acento:var(--u5); --acento-suave:var(--u5-suave)}
+.u6{--acento:var(--u6); --acento-suave:var(--u6-suave)}
 .neutra{--acento:var(--tinta); --acento-suave:var(--papel-3)}
 
 .eyebrow{
@@ -403,6 +415,8 @@ marker path[fill="#8C5A04"]{fill:var(--u2)}
 .linea-tiempo li[data-u="2"]{--acento:var(--u2)}
 .linea-tiempo li[data-u="3"]{--acento:var(--u3)}
 .linea-tiempo li[data-u="4"]{--acento:var(--u4)}
+.linea-tiempo li[data-u="5"]{--acento:var(--u5)}
+.linea-tiempo li[data-u="6"]{--acento:var(--u6)}
 
 .glosario{display:grid; gap:0; margin:1.4rem 0; border-top:1px solid var(--linea)}
 .glosario > div{
@@ -444,6 +458,8 @@ marker path[fill="#8C5A04"]{fill:var(--u2)}
 .tarjeta[data-u="2"]{--acento:var(--u2)}
 .tarjeta[data-u="3"]{--acento:var(--u3)}
 .tarjeta[data-u="4"]{--acento:var(--u4)}
+.tarjeta[data-u="5"]{--acento:var(--u5)}
+.tarjeta[data-u="6"]{--acento:var(--u6)}
 .mazo-nav{display:flex; gap:.4rem; align-items:center; max-width:720px}
 .mazo-nav button{
   font-family:var(--mono); font-size:.72rem; padding:.45rem .9rem; cursor:pointer;
@@ -594,7 +610,7 @@ marker path[fill="#8C5A04"]{fill:var(--u2)}
   <div class="riel-marca">
     <div>
       <b>Introducción a la<br>Inteligencia Artificial</b>
-      <span>UADE · Lic. en IA · Unidades 1–4</span>
+      <span>UADE · Lic. en IA · Unidades 1–6</span>
     </div>
     <button class="btn-riel" id="btn-cerrar" type="button" title="Ocultar barra lateral" aria-label="Ocultar barra lateral">✕</button>
   </div>
@@ -602,7 +618,7 @@ marker path[fill="#8C5A04"]{fill:var(--u2)}
   <div class="buscador">
     <label class="oculto" for="q">Buscar concepto</label>
     <input id="q" type="search" placeholder="buscar concepto…" autocomplete="off">
-    <p id="q-estado">7 clases · 1 mapa · 62 conceptos</p>
+    <p id="q-estado">9 clases · 1 mapa · 62 conceptos</p>
   </div>
 
   <nav id="nav">
@@ -624,6 +640,12 @@ marker path[fill="#8C5A04"]{fill:var(--u2)}
 
     <div class="riel-grupo">Unidad 4 — Automatización responsable</div>
     <a href="#c7" data-u="4"><em>07</em> De la inteligencia biológica a la automatización</a>
+
+    <div class="riel-grupo">Unidad 5 — Cognición y neurociencia</div>
+    <a href="#c8" data-u="5"><em>08</em> Cognición distribuida y neurociencia</a>
+
+    <div class="riel-grupo">Unidad 6 — Planificación y decisiones</div>
+    <a href="#c9" data-u="6"><em>09</em> Planificación, riesgos y automatización</a>
 
     <div class="riel-grupo">Herramientas</div>
     <a href="#confusiones"><em>⚠</em> Confusiones típicas</a>
@@ -650,7 +672,7 @@ marker path[fill="#8C5A04"]{fill:var(--u2)}
 <main class="lienzo">
 
 <header class="portada">
-  <p class="cintillo">Apunte conceptual · Clases 1 a 7</p>
+  <p class="cintillo">Apunte conceptual · Clases 1 a 9</p>
   <h1>De máquinas que calculan<br>a sistemas que<br><i>aprenden, razonan y colaboran</i></h1>
   <p class="bajada">
     Toda la materia hasta el primer parcial cuelga de una sola tensión: la ambición de
@@ -3833,6 +3855,983 @@ marker path[fill="#8C5A04"]{fill:var(--u2)}
   </div>
 </section>
 
+<!-- ============================ CLASE 08 — COGNICIÓN DISTRIBUIDA Y NEUROCIENCIA ============================ -->
+<section id="c8" class="u5" data-busca="clase 8 cognicion cognitio cognoscere consciente subconsciente iceberg reflejo piloto automatico cognicion distribuida distribucion social material temporal conocimiento colectivo data lake memoria volatil ram almacenamiento frio glacier cintas sistema sociotecnico metafora cerebro computadora sistema hibrido neurociencia ramon y cajal sherrington kandel moser okeefe celulas de red celulas de lugar hipocrates galeno vesalio broca wernicke neuroimagen plasticidad resiliencia acv aprendizaje continuo ajuste fino atencion selectiva memoria control ejecutivo mantenimiento predictivo priorizacion de mantenimiento gestion de tramites kpi riesgo comercial proxies antropomorfismo reduccionismo determinismo organismo publico empresa privada productividad">
+  <p class="eyebrow">Clase 08 · Unidad 5 · 2 de octubre</p>
+  <h2>Cognición distribuida y metáforas cerebro-máquina</h2>
+  <p class="intro">
+    La clase gira sobre dos palabras clave: <strong>cognición</strong> y <strong>neurociencia</strong>.
+    La primera mitad cambia la unidad de análisis: la inteligencia no vive sólo dentro de una cabeza,
+    se reparte entre <strong>personas, artefactos, datos y tiempo</strong>. La segunda mitad pregunta qué
+    tomó la IA del estudio del cerebro —y qué <em>no</em> debería tomar literalmente—, y lo baja a casos
+    públicos y privados. La idea de cierre: diseñar IA es diseñar una relación entre capacidades
+    humanas, procesos institucionales, datos y modelos.
+  </p>
+
+  <div class="regla">
+    <div class="premisas">
+      <span>personas + artefactos + datos + entorno</span>
+      <span>+ registros acumulados en el tiempo</span>
+    </div>
+    <div class="barra"></div>
+    <div class="conclusion">la inteligencia aplicada surge de relaciones, no de un componente aislado</div>
+  </div>
+
+  <div class="panel aviso">
+    <h4>Objetivos de la clase, según la cátedra</h4>
+    <ul class="limpia" style="font-size:.9rem;margin:0">
+      <li>Explicar por qué la cognición puede distribuirse entre personas, artefactos, datos y entorno.</li>
+      <li>Analizar alcances y límites de las metáforas que comparan cerebro y computadora.</li>
+      <li>Relacionar hallazgos de la neurociencia con arquitecturas y prácticas de diseño de IA.</li>
+      <li>Diseñar casos de uso públicos y privados con supervisión humana.</li>
+      <li>Identificar riesgos de reduccionismo, opacidad, sesgo y automatización indebida.</li>
+    </ul>
+  </div>
+
+  <h3>8.1 · Qué es la cognición</h3>
+  <p>
+    El profesor la presentó como un concepto «bien abstracto»: en el habla cotidiana, «cognitivo» suena a
+    algo difícil de definir. La definición de trabajo de la clase:
+  </p>
+  <div class="clave">
+    <b>Definición</b>
+    <p>La <strong>cognición</strong> es el conjunto de procesos mentales que permiten <strong>adquirir,
+    procesar, almacenar, recuperar y utilizar información</strong> para interactuar con el mundo.
+    Dicho de otro modo: la capacidad de conocer, comprender y dar sentido a lo que nos rodea.</p>
+  </div>
+
+  <div class="fichas">
+    <article class="ficha">
+      <h4>Origen de la palabra</h4>
+      <p class="def">Del latín <em>cognitio</em> («acto de conocer»), del verbo <em>cognoscere</em> («conocer, reconocer»). Se arma con <em>com-</em> (junto, con) + <em>gnoscere</em> (conocer), de la raíz indoeuropea <em>*gno-</em> (saber).</p>
+      <dl>
+        <dt>Evolución del sentido</dt><dd>Edad Media: capacidad de comprender. Siglo XVII: se amplía a la percepción y la sensación. Hoy: proceso mental de adquisición, procesamiento, almacenamiento y uso de información.</dd>
+        <dt>Detalle para retener</dt><dd>Etimológicamente es «conocer en conjunto»: la idea de cognición <em>distribuida</em> (8.4) ya está en la palabra.</dd>
+      </dl>
+    </article>
+    <article class="ficha">
+      <h4>Procesos cognitivos principales</h4>
+      <ul class="limpia" style="font-size:.9rem;margin:0">
+        <li><strong>Percepción</strong>: interpretar estímulos del entorno.</li>
+        <li><strong>Atención</strong>: seleccionar la información relevante.</li>
+        <li><strong>Memoria</strong>: recordar experiencias.</li>
+        <li><strong>Pensamiento</strong>: analizar, razonar, crear ideas.</li>
+        <li><strong>Lenguaje</strong>: comunicar y representar ideas.</li>
+        <li><strong>Toma de decisiones</strong> y <strong>resolución de problemas</strong>.</li>
+      </ul>
+    </article>
+    <article class="ficha">
+      <h4>Cognición y cultura</h4>
+      <p class="def">No hay una única forma de cognición: la cultura moldea cómo percibimos, pensamos y decidimos.</p>
+      <dl>
+        <dt>Ejemplos de la lámina</dt><dd>Tradiciones occidentales: pensamiento más analítico, lineal e individual. Orientales: más holístico, contextual y relacional. Pueblos indígenas: integran naturaleza, experiencia y espiritualidad. Culturas colectivistas: priorizan el bienestar del grupo al decidir.</dd>
+      </dl>
+      <p class="trampa"><b>Ojo</b>Son tendencias generales que propone la lámina, no reglas sobre personas concretas. Leerlas como destino sería caer en el «determinismo» de 8.13.</p>
+    </article>
+  </div>
+
+  <h3>8.2 · Consciente y subconsciente</h3>
+  <p>
+    Para el profesor, lo más importante de la cognición es la diferencia entre lo consciente y lo
+    subconsciente: <strong>la mayor parte de la actividad cognitiva ocurre de forma subconsciente</strong>
+    e influye en lo que pensamos, sentimos y hacemos sin que lo notemos.
+  </p>
+
+  <figure>
+    <svg viewBox="0 0 760 330" role="img" aria-label="Iceberg de la cognición: arriba del agua lo consciente, debajo lo subconsciente, que es la mayor parte">
+      <rect x="0" y="96" width="760" height="234" fill="var(--u5-suave)"/>
+      <line x1="0" y1="96" x2="760" y2="96" stroke="var(--u5)" stroke-width="1.5" stroke-dasharray="6 5"/>
+      <polygon points="230,26 278,96 182,96" fill="var(--papel-2)" stroke="var(--u5)" stroke-width="2"/>
+      <polygon points="182,96 278,96 338,170 304,262 216,300 140,250 118,160" fill="var(--u5)" fill-opacity="0.22" stroke="var(--u5)" stroke-width="2"/>
+      <text x="230" y="84" text-anchor="middle" class="svg-m" font-size="9.5">≈ la punta</text>
+      <text x="228" y="200" text-anchor="middle" class="svg-m" font-size="10">la mayor parte</text>
+
+      <text x="380" y="34" class="svg-t" font-size="13" font-weight="700">CONSCIENTE</text>
+      <text x="380" y="54" class="svg-m" font-size="10.5">pensamiento deliberado · atención focalizada</text>
+      <text x="380" y="70" class="svg-m" font-size="10.5">razonamiento lógico · control voluntario</text>
+
+      <text x="380" y="138" class="svg-t" font-size="13" font-weight="700">SUBCONSCIENTE</text>
+      <text x="380" y="158" class="svg-m" font-size="10.5">procesamiento automático · hábitos y patrones</text>
+      <text x="380" y="174" class="svg-m" font-size="10.5">memorias implícitas · emociones · sesgos cognitivos</text>
+      <text x="380" y="210" class="svg-t" font-size="11.5" font-style="italic">Ejemplos de clase:</text>
+      <text x="380" y="228" class="svg-m" font-size="10.5">saltar ante un auto que se acerca (reflejo)</text>
+      <text x="380" y="244" class="svg-m" font-size="10.5">el pianista que «toca sin pensar» (habilidad automatizada)</text>
+      <text x="380" y="260" class="svg-m" font-size="10.5">respirar (función automática) · «andar en piloto automático»</text>
+    </svg>
+    <figcaption>Basado en la infografía de la cátedra (diapositiva 2) y en los ejemplos de la clase grabada. Los dos niveles interactúan todo el tiempo.</figcaption>
+  </figure>
+
+  <div class="clave">
+    <b>La analogía del profesor con los chatbots</b>
+    <p>En ChatGPT o Copilot, el modo normal devuelve rápido lo primero que encuentra («el menor esfuerzo
+    necesario»); el modo de <em>razonamiento profundo</em> consulta muchas más fuentes y puede tardar
+    bastante más. El profesor lo comparó con dos preguntas: «contame ya mismo qué te pareció la
+    secundaria» (respuesta inmediata, lo primero que sale) contra «traeme un ensayo la semana que viene»
+    (respuesta pensada y repensada). Su conclusión: en la IA <strong>no hay</strong> una parte consciente y
+    otra subconsciente, aunque se intentó imitar algo parecido.</p>
+  </div>
+  <div class="fichas">
+    <article class="ficha">
+      <h4>Cómo leer bien la analogía</h4>
+      <p class="def">Según la infografía, lo <strong>deliberado y lento</strong> corresponde a lo consciente, y lo <strong>automático y rápido</strong> a lo subconsciente. En la grabación la correspondencia aparece al revés en un momento —la transcripción es confusa—: quedate con la de la lámina.</p>
+      <p class="trampa"><b>Error típico</b>Decir que el «modo razonamiento» de un chatbot es su conciencia. Es una diferencia de cómputo y de búsqueda, no de experiencia: atribuirle conciencia es justamente el <em>antropomorfismo</em> de 8.13.</p>
+    </article>
+  </div>
+
+  <h3>8.3 · La IA, inspirada en la cognición</h3>
+  <p>
+    La IA se inspira en los procesos cognitivos humanos para diseñar sistemas que perciben, aprenden,
+    razonan y deciden. <strong>No posee conciencia: simula algunas funciones de la cognición.</strong>
+  </p>
+  <div class="tabla-caja">
+    <table>
+      <caption>Áreas de inspiración</caption>
+      <thead><tr><th>Área de IA</th><th>Proceso cognitivo que la inspira</th></tr></thead>
+      <tbody>
+        <tr><th>Redes neuronales</th><td>La estructura del cerebro humano</td></tr>
+        <tr><th>Aprendizaje automático</th><td>Aprender a partir de la experiencia (datos)</td></tr>
+        <tr><th>Visión por computadora</th><td>La percepción</td></tr>
+        <tr><th>Procesamiento de lenguaje natural</th><td>El lenguaje humano</td></tr>
+        <tr><th>Robots inteligentes</th><td>Percepción, planificación y acción integradas</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="fichas">
+    <article class="ficha">
+      <h4>Imitar el comportamiento humano</h4>
+      <p class="def">Ejemplos de la clase: asistentes virtuales con voces y acentos cada vez más parametrizables; llamadas automáticas en las que parece que habla una persona; taxis autónomos diseñados para manejar «como una persona».</p>
+      <dl><dt>Conecta con</dt><dd>La prueba a ciegas que propuso el profesor —subir con los ojos vendados a un taxi autónomo y después a uno manejado por una persona, sin poder distinguirlos— es un juego de imitación aplicado al manejo. Ver <a href="#c3">clase 3</a>.</dd></dl>
+    </article>
+    <article class="ficha">
+      <h4>Lo que sigue siendo humano</h4>
+      <p class="def">La IA amplifica capacidades cognitivas, pero la creatividad, la empatía y el juicio ético siguen siendo esencialmente humanos. La tecnología no reemplaza la cognición humana: la potencia cuando se usa de forma ética, crítica y responsable.</p>
+    </article>
+  </div>
+
+  <h3>8.4 · Cognición distribuida</h3>
+  <p class="intro">
+    La unidad de análisis deja de ser la mente individual y pasa a ser el <strong>sistema
+    sociotécnico</strong>: el razonamiento también ocurre en los documentos, las bases de datos, los
+    roles y la memoria de una organización.
+  </p>
+  <div class="fichas">
+    <article class="ficha">
+      <h4>Distribución social</h4>
+      <p class="def">El razonamiento se reparte entre personas con conocimientos, roles y responsabilidades diferentes.</p>
+      <dl>
+        <dt>Ejemplo de la lámina</dt><dd>Un comité que combina especialistas técnicos, jurídicos y operativos.</dd>
+        <dt>Aporte de la clase</dt><dd>Se vincula con el <strong>conocimiento colectivo</strong>: lo que una comunidad da por establecido y casi nadie discute (por ejemplo, que robar está mal), más allá de las ideas de cada uno.</dd>
+      </dl>
+    </article>
+    <article class="ficha">
+      <h4>Distribución material</h4>
+      <p class="def">Documentos, tableros, sensores, modelos y bases de datos conservan y transforman información. <strong>Los artefactos participan en la tarea cognitiva.</strong></p>
+      <dl><dt>Aporte de la clase</dt><dd>Los repositorios que conservan datos e información de la organización: <em>data lakes</em>, bases, archivos.</dd></dl>
+    </article>
+    <article class="ficha">
+      <h4>Distribución temporal</h4>
+      <p class="def">Las decisiones actuales dependen de registros, aprendizajes y retroalimentación acumulados en el tiempo. <strong>La memoria organizacional es parte del sistema.</strong></p>
+      <dl><dt>Aporte de la clase</dt><dd>El profesor la ilustró con la jerarquía de memorias de una computadora (abajo): no todo lo que «se sabe» está disponible de inmediato.</dd></dl>
+    </article>
+  </div>
+
+  <div class="tabla-caja">
+    <table>
+      <caption>La analogía de la memoria: de lo inmediato a lo archivado</caption>
+      <thead><tr><th>Nivel</th><th>Cómo es</th><th>Ejemplo citado en clase</th></tr></thead>
+      <tbody>
+        <tr><th>Memoria del CPU</th><td>La más volátil y rápida: lo que el procesador usa en el momento</td><td>El «ahora mismo» del cálculo</td></tr>
+        <tr><th>RAM</th><td>Volátil, fuera del CPU: lo que necesita el programa en ejecución</td><td>—</td></tr>
+        <tr><th>Almacenamiento persistente</th><td>No volátil: queda escrito y se mantiene</td><td>Disco de la computadora</td></tr>
+        <tr><th>Almacenamiento frío</th><td>Muy barato de guardar, lento y caro de recuperar</td><td>AWS Glacier: recuperar algo puede tardar horas</td></tr>
+        <tr><th>Cintas</th><td>Archivo físico de muy largo plazo</td><td>Bancos y aseguradoras que deben conservar transacciones por ley</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="clave">
+    <b>Por qué un banco guarda en «frío»</b>
+    <p>La ley obliga a conservar las transacciones por años, pero casi nunca se consultan. Si un juzgado
+    pide una operación puntual, alcanza con entregarla al día siguiente: conviene pagar poco por guardar
+    y caro por recuperar unas pocas veces al año. Es la misma decisión de costo que apareció en la
+    <a href="#c7">clase 7</a> para los datos históricos de baja consulta.</p>
+  </div>
+
+  <h3>8.5 · De la mente aislada al sistema sociotécnico</h3>
+  <p>Una decisión <strong>emerge de interacciones</strong> entre actores, representaciones y tecnología.</p>
+  <figure>
+    <svg viewBox="0 0 760 300" role="img" aria-label="Red sociotécnica: personas, artefactos, datos y entorno conectados entre sí alrededor de la decisión">
+      <g stroke="var(--u5)" stroke-width="1.5" fill="none">
+        <line x1="210" y1="70" x2="550" y2="70"/>
+        <line x1="550" y1="70" x2="550" y2="230"/>
+        <line x1="550" y1="230" x2="210" y2="230"/>
+        <line x1="210" y1="230" x2="210" y2="70"/>
+      </g>
+      <g stroke="var(--linea)" stroke-width="1.3">
+        <line x1="210" y1="70" x2="330" y2="132"/>
+        <line x1="550" y1="70" x2="430" y2="132"/>
+        <line x1="550" y1="230" x2="430" y2="168"/>
+        <line x1="210" y1="230" x2="330" y2="168"/>
+      </g>
+      <rect x="130" y="48" width="160" height="44" rx="2" fill="var(--papel-2)" stroke="var(--u5)" stroke-width="1.5"/>
+      <text x="210" y="75" text-anchor="middle" class="svg-t" font-size="13" font-weight="700">PERSONAS</text>
+      <rect x="470" y="48" width="160" height="44" rx="2" fill="var(--papel-2)" stroke="var(--u5)" stroke-width="1.5"/>
+      <text x="550" y="75" text-anchor="middle" class="svg-t" font-size="13" font-weight="700">ARTEFACTOS</text>
+      <rect x="470" y="208" width="160" height="44" rx="2" fill="var(--papel-2)" stroke="var(--u5)" stroke-width="1.5"/>
+      <text x="550" y="235" text-anchor="middle" class="svg-t" font-size="13" font-weight="700">DATOS</text>
+      <rect x="130" y="208" width="160" height="44" rx="2" fill="var(--papel-2)" stroke="var(--u5)" stroke-width="1.5"/>
+      <text x="210" y="235" text-anchor="middle" class="svg-t" font-size="13" font-weight="700">ENTORNO</text>
+      <rect x="320" y="126" width="120" height="48" rx="2" fill="var(--u5)" fill-opacity="0.16" stroke="var(--u5)" stroke-width="2"/>
+      <text x="380" y="148" text-anchor="middle" class="svg-t" font-size="12.5" font-weight="700">Decisión</text>
+      <text x="380" y="164" text-anchor="middle" class="svg-m" font-size="9.5">emerge de la red</text>
+      <text x="380" y="286" text-anchor="middle" class="svg-m" font-size="10">cada vínculo es bidireccional (↔): el modelo es un nodo más, no el centro</text>
+    </svg>
+    <figcaption>Modelo de la diapositiva 5. El algoritmo vive dentro de «artefactos»: es una pieza de la red, no la red.</figcaption>
+  </figure>
+  <p>La calidad de la decisión <strong>no depende únicamente del algoritmo</strong>. También depende de:</p>
+  <ol class="pasos">
+    <li><b>Cómo circula la información</b><span>Por dónde entra, quién la ve y en qué momento.</span></li>
+    <li><b>Quién interpreta la recomendación</b><span>En clase: lo que la IA «entiende» depende también de las instrucciones (el <em>prompt</em>) que se le dan.</span></li>
+    <li><b>Qué evidencia queda registrada</b><span>Si el sistema guarda o no el historial de lo que pasó.</span></li>
+    <li><b>Quién puede corregir el proceso</b><span>La persona o el área que tiene ese rol asignado.</span></li>
+  </ol>
+  <p>Es el mismo «sistema sociotécnico» de la <a href="#c4">clase 4</a> (modelo + datos + proceso + personas + gobierno), ahora como herramienta de análisis cognitivo.</p>
+
+  <h3>8.6 · Metáforas cerebro-máquina</h3>
+  <p class="intro">Una metáfora es una comparación: «esto se parece a aquello». Las metáforas cerebro-máquina son <strong>modelos útiles para pensar, no equivalencias literales</strong>.</p>
+  <div class="fichas">
+    <article class="ficha">
+      <h4>Cerebro como computadora</h4>
+      <p class="def">Describe entradas, procesamiento, memoria y salidas.</p>
+      <dl>
+        <dt>Aporta</dt><dd>Vocabulario funcional para describir la mente.</dd>
+        <dt>Oculta</dt><dd>El cuerpo, el contexto y la plasticidad.</dd>
+      </dl>
+    </article>
+    <article class="ficha">
+      <h4>Computadora como cerebro</h4>
+      <p class="def">La metáfora inversa: inspira redes neuronales y aprendizaje adaptativo.</p>
+      <dl>
+        <dt>Aporta</dt><dd>Arquitecturas que aprenden de los datos.</dd>
+        <dt>Oculta</dt><dd>Puede generar expectativas exageradas de comprensión o conciencia.</dd>
+      </dl>
+    </article>
+    <article class="ficha">
+      <h4>Sistema híbrido</h4>
+      <p class="def">Considera la inteligencia humana, la organización y el modelo como <strong>partes complementarias</strong>.</p>
+      <dl><dt>Por qué es la preferida</dt><dd>Es la más útil para la gobernanza y el diseño responsable: obliga a preguntar quién hace qué.</dd></dl>
+    </article>
+  </div>
+
+  <div class="dos-col">
+    <div class="panel">
+      <h4>«El cerebro es la mejor computadora que existe»</h4>
+      <p style="margin:0;font-size:.93rem">
+        Así lo planteó el profesor, por su <strong>resiliencia</strong>: si a una computadora le cae agua en
+        el teclado, hay que cambiar el teclado; si una persona sufre un ACV, otra zona del cerebro puede
+        asumir parte de la función dañada. El cerebro funciona como una unidad integrada, no como un
+        conjunto de piezas intercambiables.
+      </p>
+    </div>
+    <div class="panel">
+      <h4>Hacia dónde va el hardware</h4>
+      <p style="margin:0;font-size:.93rem">
+        Comentó un anuncio reciente de NVIDIA: un chip que integra CPU, GPU y suficiente memoria para correr
+        un modelo de IA de forma local, sin depender de la infraestructura de la nube, y con mucho menor
+        consumo y calor. Lo presentó como un paso hacia sistemas <strong>integrados</strong>, «como el
+        cerebro».
+      </p>
+    </div>
+  </div>
+  <div class="panel peligro">
+    <h4>Leer estas frases con la lámina al lado</h4>
+    <p style="margin:0;font-size:.93rem">
+      «El cerebro es una computadora perfecta» es en sí una metáfora del primer tipo, y la lámina
+      advierte qué deja afuera. Usala como imagen didáctica, no como afirmación técnica: el cerebro no
+      tiene una RAM ni un disco, y un chip integrado no es «un cerebro».
+    </p>
+  </div>
+
+  <h3>8.7 · Neurociencia: qué es y de dónde viene</h3>
+  <div class="fichas">
+    <article class="ficha">
+      <h4>Origen y definición</h4>
+      <p class="def"><em>Neuro-</em> (del griego <em>neuron</em>, nervio) + <em>-ciencia</em> (del latín <em>scientia</em>, conocimiento): literalmente, la <strong>ciencia del sistema nervioso</strong>.</p>
+      <dl><dt>En clase</dt><dd>La ciencia que estudia el cerebro desde el punto de vista funcional, para trasladar ese conocimiento a algo que el ser humano pueda construir y manipular.</dd></dl>
+    </article>
+    <article class="ficha">
+      <h4>¿Quién la inventó?</h4>
+      <p class="def">Nadie en particular: es el resultado del trabajo de muchos científicos de la medicina, la biología, la psicología y la tecnología. Se considera <strong>disciplina formal desde el siglo XX</strong>, cuando se unificaron las distintas áreas que estudiaban el cerebro y el sistema nervioso.</p>
+    </article>
+  </div>
+
+  <div class="tabla-caja">
+    <table>
+      <caption>Máximos exponentes (casi todos médicos, como remarcó el profesor)</caption>
+      <thead><tr><th>Científico</th><th>Aporte</th><th>Nobel</th></tr></thead>
+      <tbody>
+        <tr><th>Santiago Ramón y Cajal</th><td>Padre de la neurociencia moderna: describió la estructura de las neuronas.</td><td>1906</td></tr>
+        <tr><th>Charles Sherrington</th><td>Introdujo el concepto de sinapsis y de integración neuronal.</td><td>1932</td></tr>
+        <tr><th>Eric Kandel</th><td>Estudió la base molecular de la memoria.</td><td>2000</td></tr>
+        <tr><th>May-Britt Moser</th><td>Descubrió, junto con Edvard Moser, las <strong>células de red</strong> del «sistema de posicionamiento» del cerebro.</td><td>2014</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="fichas">
+    <article class="ficha">
+      <h4>Corrección sobre la lámina</h4>
+      <p class="trampa" style="margin-top:0"><b>Dato a corregir</b>La infografía atribuye a May-Britt Moser las «células de lugar». Las células de lugar las descubrió <strong>John O'Keefe</strong>; los Moser descubrieron las <strong>células de red</strong> (<em>grid cells</em>). Los tres compartieron el Nobel de 2014. Si te lo preguntan en el formato de la lámina, conviene conocer las dos versiones.</p>
+    </article>
+  </div>
+
+  <ul class="linea-tiempo">
+    <li data-u="5"><span class="anio">Antigüedad</span><b>Hipócrates y Galeno</b><span class="txt">Primeras ideas sobre el cerebro y la mente.</span></li>
+    <li data-u="5"><span class="anio">Edad Media</span><b>Creencias filosóficas y religiosas</b><span class="txt">Persisten como marco para explicar la mente.</span></li>
+    <li data-u="5"><span class="anio">Renacimiento (siglo XVI)</span><b>Andrés Vesalio</b><span class="txt">Estudios anatómicos.</span></li>
+    <li data-u="5"><span class="anio">Siglo XIX</span><b>Localización de funciones</b><span class="txt">Broca y Wernicke identifican áreas del lenguaje.</span></li>
+    <li data-u="5"><span class="anio">Siglo XX</span><b>Consolidación como disciplina</b><span class="txt">Métodos experimentales y neuroimagen.</span></li>
+    <li data-u="5"><span class="anio">Siglo XXI</span><b>Conectómica y neurotecnología</b><span class="txt">Neurociencia cognitiva, neurotecnología e inteligencia artificial.</span></li>
+  </ul>
+
+  <details>
+    <summary>Descubrimientos clave y relación de ida y vuelta con la IA</summary>
+    <div class="detalle-cuerpo">
+      <p><strong>Descubrimientos clave</strong>: la neurona y la sinapsis; la plasticidad cerebral; la localización de funciones (lenguaje, memoria, visión); las técnicas de neuroimagen (fMRI, PET, EEG), que permiten ver el cerebro en acción; las bases neuronales de la memoria y el aprendizaje; la relación cerebro-comportamiento (emociones, decisiones, conducta); y las interfaces cerebro-máquina.</p>
+      <div class="dos-col">
+        <div class="panel">
+          <h4>La neurociencia inspira a la IA</h4>
+          <ul class="limpia" style="font-size:.9rem;margin:0">
+            <li>Las redes neuronales artificiales se inspiran en el cerebro.</li>
+            <li>Estudiar aprendizaje, percepción y decisión ayuda a crear algoritmos más eficientes.</li>
+            <li>Aporta ideas sobre cómo procesar información, reconocer patrones y adaptarse.</li>
+          </ul>
+        </div>
+        <div class="panel">
+          <h4>La IA impulsa a la neurociencia</h4>
+          <ul class="limpia" style="font-size:.9rem;margin:0">
+            <li>Analiza grandes volúmenes de datos de neuroimagen.</li>
+            <li>Detecta patrones imposibles de ver manualmente.</li>
+            <li>Facilita nuevas neurotecnologías y tratamientos.</li>
+          </ul>
+        </div>
+      </div>
+      <p style="margin-bottom:0"><strong>Ejemplos de uso</strong>: diagnóstico temprano de Alzheimer con IA y neuroimagen; neuroprótesis (brazos robóticos controlados con la mente); plataformas educativas adaptativas; apps de salud mental; interfaces cerebro-computadora para personas con discapacidad; asistentes que reconocen emociones y contexto.</p>
+    </div>
+  </details>
+
+  <h3>8.8 · Qué toma la IA de la neurociencia</h3>
+  <p class="intro"><strong>Inspiración funcional, no copia completa del cerebro.</strong> En clase: la IA intenta imitar al ser humano en estructura, pero sobre todo en comportamiento y funcionalidad.</p>
+  <div class="tabla-caja">
+    <table>
+      <caption>Cinco aportes</caption>
+      <thead><tr><th>Principio del cerebro</th><th>Cómo aparece en la IA</th></tr></thead>
+      <tbody>
+        <tr><th>Ajuste de conexiones</th><td>Aprender modificando conexiones: la inspiración de las redes neuronales.</td></tr>
+        <tr><th>Procesamiento jerárquico</th><td>Extracción progresiva de rasgos en la percepción (de bordes a formas a objetos).</td></tr>
+        <tr><th>Atención selectiva</th><td>Priorizar de forma dinámica la información relevante.</td></tr>
+        <tr><th>Memorias diferenciadas</th><td>Separar estados transitorios de conocimiento persistente.</td></tr>
+        <tr><th>Predicción y retroalimentación</th><td>Reducir el error mediante ciclos de ajuste: el cerebro aprende de la experiencia, y el modelo también.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>8.9 · Plasticidad, aprendizaje y adaptación</h3>
+  <p class="intro">Los sistemas útiles deben aprender <strong>sin perder control ni estabilidad</strong>.</p>
+  <div class="fichas">
+    <article class="ficha">
+      <h4>Principio neurocientífico</h4>
+      <p class="def">La <strong>plasticidad</strong> permite modificar las conexiones con la experiencia. El aprendizaje depende de la exposición, la práctica y la retroalimentación.</p>
+      <dl><dt>Ejemplo de clase</dt><dd>Alguien que llega a un país sin hablar el idioma (o un chico que entra a una escuela sin saber español) aprende a comunicarse en semanas o meses por pura inmersión, sin un curso especial: el mismo mecanismo adaptativo. Por eso la mejor forma de aprender inglés es vivirlo.</dd></dl>
+    </article>
+    <article class="ficha">
+      <h4>Traducción a IA</h4>
+      <p class="def">Entrenamiento, ajuste fino (<em>fine-tuning</em>), aprendizaje continuo, actualización de representaciones y evaluación frente a datos nuevos.</p>
+      <dl><dt>En clase</dt><dd>«Entrenar es tener experiencias»: aprender por ensayo y error, como una persona. Los proveedores suelen expresar el entrenamiento en tiempo o en interacciones (por ejemplo, «hacen falta 10.000 interacciones» antes de que el comportamiento se parezca a lo que se busca); la cantidad depende del objetivo.</dd></dl>
+    </article>
+    <article class="ficha">
+      <h4>Cautela de diseño</h4>
+      <p class="def">Un modelo que se adapta <strong>sin límites</strong> puede degradarse, olvidar capacidades o incorporar sesgos.</p>
+      <p class="trampa"><b>Error típico</b>Suponer que «más aprendizaje continuo» siempre mejora el sistema. Sin versiones, pruebas y supervisión, la adaptación puede empeorarlo.</p>
+    </article>
+  </div>
+
+  <h3>8.10 · Atención, memoria y control ejecutivo</h3>
+  <p>Tres funciones cognitivas que inspiran componentes concretos de un sistema inteligente:</p>
+  <div class="cadena">
+    <div><b>Atención</b>Seleccionar señales relevantes entre muchas entradas. Ej.: priorizar expedientes urgentes <em>sin ocultar</em> los demás.</div>
+    <div><b>Memoria</b>Conservar contexto operativo, reglas y antecedentes, distinguiendo información autorizada, temporal y sensible.</div>
+    <div><b>Control ejecutivo</b>Planificar, inhibir respuestas inadecuadas, comparar alternativas y <strong>escalar excepciones</strong> a una persona responsable.</div>
+  </div>
+
+  <h3>8.11 · Casos de uso: sector público y privado</h3>
+  <p>Como en cada clase, la cátedra baja los conceptos a ejemplos de organismos públicos y de empresas: «se van a graduar y van a trabajar en uno de los dos».</p>
+  <div class="fichas">
+    <article class="ficha">
+      <h4>Público — priorización de mantenimiento</h4>
+      <p class="def">La IA apoya la asignación de recursos; <strong>no reemplaza la responsabilidad administrativa</strong>. El objetivo es la mayor disponibilidad posible de los activos (en clase: una línea de colectivos).</p>
+      <dl>
+        <dt>Sistema distribuido</dt><dd>Reportes ciudadanos + sensores + historial de obras + cuadrillas + criterios presupuestarios + modelo predictivo.</dd>
+        <dt>Aporte neuroinspirado</dt><dd>Atención para detectar señales críticas; memoria de fallas recurrentes; predicción del riesgo de deterioro.</dd>
+        <dt>Salvaguardas</dt><dd>Criterios públicos, auditoría de datos, revisión técnica, canal de reclamo.</dd>
+      </dl>
+      <p class="trampa"><b>Riesgo específico</b>Discriminar zonas que reportan menos (por menor acceso o capacidad de reporte): menos reportes no significa menos necesidad. La lámina lo prohíbe explícitamente.</p>
+    </article>
+    <article class="ficha">
+      <h4>Público — gestión de trámites</h4>
+      <p class="def">Asistencia cognitiva para reducir tiempos <strong>sin automatizar derechos</strong>.</p>
+      <dl>
+        <dt>Reparto de tareas</dt><dd>El sistema clasifica documentos, detecta faltantes y propone una ruta. El personal interpreta excepciones, verifica evidencia y toma la decisión formal. El expediente conserva la trazabilidad de datos, reglas, recomendaciones y modificaciones.</dd>
+        <dt>Indicadores</dt><dd>Tiempo de resolución, tasa de corrección, diferencias entre grupos y cantidad de revisiones humanas.</dd>
+        <dt>Matiz de la clase</dt><dd>El profesor lo describió como una «industria» de entrada y salida, lo más automatizada posible, medida con KPIs y con pocas excepciones. Las dos ideas conviven: se reduce la intervención manual en el flujo rutinario, pero la decisión que afecta derechos sigue siendo humana.</dd>
+      </dl>
+      <p class="trampa"><b>Límite</b>No delegar decisiones que afecten derechos en una salida automática que no se pueda explicar.</p>
+    </article>
+    <article class="ficha">
+      <h4>Privado — mantenimiento predictivo</h4>
+      <p class="def">La cognición se distribuye entre <strong>sensores, modelo y conocimiento operativo</strong>.</p>
+      <dl>
+        <dt>Datos y percepción</dt><dd>Sensores registran vibración, temperatura y consumo; el modelo detecta patrones anómalos antes de una avería.</dd>
+        <dt>Experiencia humana</dt><dd>El personal técnico combina la alerta con el ruido, el contexto de producción, el historial del equipo y las condiciones ambientales.</dd>
+        <dt>Decisión empresarial</dt><dd>Se prioriza la intervención según seguridad, costo, repuestos disponibles y riesgo de parada.</dd>
+        <dt>Ejemplo de clase: el auto</dt><dd>Hay <strong>reglas</strong> fijas del fabricante (cambiar el aceite a los 15.000 km, revisar la distribución a los 80.000) y <strong>señales</strong> que anticipan una falla (temperatura, consumo eléctrico, un volante que empieza a vibrar). El mantenimiento cubre los dos frentes.</dd>
+      </dl>
+    </article>
+    <article class="ficha">
+      <h4>Privado — atención y riesgo comercial</h4>
+      <p class="def">Personalización con memoria contextual y <strong>límites éticos</strong>.</p>
+      <dl>
+        <dt>Cómo funciona</dt><dd>Un asistente recupera antecedentes autorizados y resume interacciones para el equipo. Un modelo de riesgo propone señales; la aprobación considera la calidad de los datos y la posibilidad de revisión. La interfaz muestra factores relevantes, incertidumbre y alternativas.</dd>
+        <dt>Qué se mide</dt><dd>Satisfacción, precisión, falsos rechazos, tiempos y concentración de errores.</dd>
+        <dt>Condición previa (clase)</dt><dd>Los antecedentes tienen que estar digitalizados y disponibles en una base en línea.</dd>
+      </dl>
+      <p class="trampa"><b>Error típico</b>Pensar que alcanza con no usar variables sensibles. También hay que evitar <strong>proxies</strong>: variables que las reemplazan indirectamente (por ejemplo, el código postal en lugar del origen) y producen discriminación injustificada.</p>
+    </article>
+  </div>
+
+  <h3>8.12 · El mismo principio, distintas obligaciones</h3>
+  <div class="tabla-caja">
+    <table>
+      <caption>Organismo público vs. empresa privada</caption>
+      <thead><tr><th></th><th>Organismo público</th><th>Empresa privada</th></tr></thead>
+      <tbody>
+        <tr><th>Prioridad</th><td>Legalidad, igualdad, debido proceso, transparencia, accesibilidad y rendición de cuentas</td><td>Valor, eficiencia, experiencia, seguridad, cumplimiento y reputación</td></tr>
+        <tr><th>Finalidad (clase)</th><td>Sin fines de lucro: dar el mejor servicio posible a la gente</td><td>Con fines de lucro: bajar costos y aumentar la productividad</td></tr>
+        <tr><th>Relación</th><td>El ciudadano no siempre puede elegir otro proveedor</td><td>Debe gestionar consentimiento, competencia y relación contractual</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>Productividad</strong>, según la definición dada en clase: la medida en que se aprovechan los recursos disponibles. Bajar costos y aumentar ingresos es aumentar la productividad.</p>
+  <div class="cadena">
+    <div><b>Finalidad explícita</b>Para qué se usa.</div>
+    <div><b>Datos pertinentes</b>Sólo los necesarios.</div>
+    <div><b>Supervisión humana</b>Quién decide.</div>
+    <div><b>Trazabilidad</b>Qué queda registrado.</div>
+    <div><b>Evaluación continua</b>Cómo se corrige.</div>
+  </div>
+  <p style="font-size:.93rem;color:var(--tinta-2)">Esos cinco elementos se exigen <strong>en ambos casos</strong>, sea público o privado.</p>
+
+  <h3>8.13 · Riesgos de la metáfora cerebral</h3>
+  <p class="intro">Riesgos que aparecen cuando la IA toma características del cerebro humano: <strong>confundir inspiración con equivalencia</strong> lleva a errores técnicos y sociales.</p>
+  <div class="fichas">
+    <article class="ficha">
+      <h4>Antropomorfismo</h4>
+      <p class="def">Atribuir intención, comprensión o conciencia a un sistema que produce correlaciones y respuestas.</p>
+      <p class="trampa"><b>Ejemplo</b>«El chatbot pensó más en el modo profundo, entonces entendió». Conecta con el Cuarto Chino de la <a href="#c4">clase 4</a>: producir la salida correcta no prueba comprensión.</p>
+    </article>
+    <article class="ficha">
+      <h4>Reduccionismo</h4>
+      <p class="def">Tratar la inteligencia como cálculo aislado e ignorar cuerpo, cultura, cooperación, normas y contexto.</p>
+      <p class="trampa"><b>Ejemplo</b>Pensar que alcanza con un algoritmo mejor e ignorar la red sociotécnica de 8.5. Es lo contrario de la cognición situada de la <a href="#c4">clase 4</a>.</p>
+    </article>
+    <article class="ficha">
+      <h4>Determinismo</h4>
+      <p class="def">Suponer que una predicción define a una persona, o que el resultado algorítmico es inevitable y neutral.</p>
+      <p class="trampa"><b>Ejemplo</b>«El modelo dice riesgo alto, entonces se rechaza». La predicción es una señal para revisar, no un veredicto.</p>
+    </article>
+  </div>
+
+  <h3>8.14 · Principios de diseño responsable</h3>
+  <p>Pasar del modelo aislado a una <strong>arquitectura de decisión</strong>:</p>
+  <ol class="pasos">
+    <li><b>Finalidad</b><span>Definirla y justificar por qué se necesita IA.</span></li>
+    <li><b>Mapa de la red</b><span>Actores, artefactos, datos, decisiones y mecanismos de corrección.</span></li>
+    <li><b>Interfaces honestas</b><span>Que comuniquen evidencia, límites e incertidumbre.</span></li>
+    <li><b>Decisiones reservadas</b><span>Las decisiones críticas y las excepciones quedan en manos de responsables identificables.</span></li>
+    <li><b>Pruebas amplias</b><span>Desempeño técnico, impacto distributivo, seguridad y accesibilidad.</span></li>
+    <li><b>Registro y revisión</b><span>Monitoreo, revisión periódica y posibilidad real de impugnación.</span></li>
+  </ol>
+
+  <h3>8.15 · Actividad de aula y síntesis</h3>
+  <div class="panel">
+    <h4>Diseñar un sistema híbrido</h4>
+    <ol class="pasos" style="margin:.4rem 0 0">
+      <li><b>Elegir un proceso</b><span>Turnos hospitalarios, inspección urbana, logística, fraude o atención al cliente.</span></li>
+      <li><b>Dibujar la red cognitiva</b><span>Personas, datos, documentos, sensores, modelo y canales de retroalimentación.</span></li>
+      <li><b>Identificar la inspiración</b><span>Qué función se inspira en percepción, atención, memoria, predicción o control ejecutivo.</span></li>
+      <li><b>Repartir decisiones</b><span>Qué decide la IA, qué recomienda y qué debe decidir una persona.</span></li>
+      <li><b>Cuatro indicadores</b><span>Rendimiento, equidad, explicabilidad y capacidad de corrección.</span></li>
+      <li><b>Un riesgo y una salvaguarda</b><span>Un riesgo de metáfora (8.13) y una salvaguarda concreta para él.</span></li>
+    </ol>
+  </div>
+  <div class="regla">
+    <div class="premisas">
+      <span>cognición distribuida</span>
+      <span>+ neurociencia</span>
+      <span>+ gobernanza</span>
+    </div>
+    <div class="barra"></div>
+    <div class="conclusion">diseñar IA es diseñar una relación entre personas, procesos, datos y modelos</div>
+  </div>
+  <div class="clave">
+    <b>Cuatro ideas para llevar</b>
+    <p>1) Diseñar IA es diseñar una relación entre capacidades humanas, procesos institucionales, datos y modelos. 2) Las metáforas orientan, pero también pueden ocultar diferencias. 3) La neurociencia aporta principios de aprendizaje, atención, memoria y adaptación. 4) El valor aparece cuando la tecnología fortalece decisiones responsables y corregibles.</p>
+  </div>
+
+  <div class="panel aviso">
+    <h4>Notas sobre las fuentes de esta clase</h4>
+    <ul class="limpia" style="font-size:.88rem;margin:0">
+      <li>La grabación empieza con la clase ya comenzada: lo dicho antes del primer minuto no quedó registrado.</li>
+      <li>El nombre del chip de NVIDIA que comentó el profesor (8.6) no se entiende en la grabación; el contenido de ese panel es su relato, no un dato técnico verificado.</li>
+      <li>La comparación de costos del almacenamiento frío se dejó sin cifras: el precio por gigabyte que se escucha en la grabación parece mal transcripto.</li>
+      <li>La fecha (2 de octubre) sale de los datos de la grabación.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================ CLASE 09 — PLANIFICACIÓN Y TOMA DE DECISIONES ============================ -->
+<section id="c9" class="u6" data-busca="clase 9 planificacion toma de decisiones proyecto objetivo equipo recursos estado acciones transicion objetivo coste costo restricciones programacion de aulas planificacion estrategica proyectos de it hitos gantt dependencias cronograma ruta critica holgura historias puntos subdividir discovery roi retorno de inversion costo beneficio factibilidad tecnica stakeholders determinista incertidumbre falso positivo falso negativo riesgos matriz probabilidad impacto falta de habilidades rotacion sobrecarga scope creep dependencias externas financieros seguridad terceros regulatorios recomendadores burbuja de filtros asistentes virtuales entrada proceso salida diagnostico medico automatizacion responsable documentar digitalizar estandarizar supervisar prototipos reposicion de inventario pronostico de demanda hospital turnos triaje telecomunicaciones tickets lecciones aprendidas">
+  <p class="eyebrow">Clase 09 · Unidad 6 · 16 de octubre</p>
+  <h2>Planificación y toma de decisiones: de la estrategia a la automatización</h2>
+  <p class="intro">
+    La clase cruza dos mundos. El de la IA, donde <strong>planificar</strong> es buscar una secuencia
+    de acciones que lleve de un estado inicial a una meta y <strong>decidir</strong> es comparar
+    consecuencias. Y el de la gestión de proyectos de software, donde esos mismos conceptos se
+    vuelven cronogramas, riesgos y presupuestos. La grabación aporta la mirada de quien gestiona
+    proyectos de IT en la práctica; el cierre vuelve sobre la automatización responsable.
+  </p>
+
+  <div class="regla">
+    <div class="premisas">
+      <span>estado actual + acciones posibles + restricciones</span>
+      <span>+ una meta con un criterio para compararla</span>
+    </div>
+    <div class="barra"></div>
+    <div class="conclusion">un plan: la secuencia de acciones que conviene ejecutar</div>
+  </div>
+
+  <div class="panel aviso">
+    <h4>Pregunta guía de la cátedra</h4>
+    <p style="margin:0;font-size:.93rem">¿Cómo puede un sistema elegir una secuencia de acciones útil <strong>sin sustituir la responsabilidad humana</strong>? La IA aporta velocidad, consistencia y detección de patrones; las personas aportan objetivos, contexto, valores y responsabilidad.</p>
+  </div>
+
+  <h3>9.1 · Qué es un proyecto y qué significa planificar</h3>
+  <p>
+    Un proyecto necesita tres cosas: un <strong>objetivo</strong>, un <strong>equipo</strong> de
+    personas y <strong>recursos</strong>. Si falta alguna de las tres, el proyecto no es viable.
+    Planificar es construir las acciones y su secuencia a partir de la situación actual, las metas,
+    los criterios y las restricciones.
+  </p>
+  <div class="fichas">
+    <article class="ficha">
+      <h4>Estado inicial</h4>
+      <p class="def">La descripción relevante del mundo antes de actuar.</p>
+      <dl><dt>Ejemplo</dt><dd>Pedidos pendientes, vehículos disponibles y rutas abiertas. En un proyecto: desde dónde se parte y con qué recursos se cuenta.</dd></dl>
+    </article>
+    <article class="ficha">
+      <h4>Acciones y restricciones</h4>
+      <p class="def">Cada acción cambia el estado. Las restricciones limitan lo posible: tiempo, costo, capacidad, seguridad o reglas.</p>
+    </article>
+    <article class="ficha">
+      <h4>Meta y criterio</h4>
+      <p class="def">No basta con llegar: se puede buscar el plan más corto, más barato, más seguro o más equilibrado.</p>
+      <dl><dt>Ejemplo</dt><dd>Una empresa de reparto decide qué pedido atender primero y qué ruta seguir para reducir retrasos.</dd></dl>
+      <p class="trampa"><b>Error típico</b>Confundir la meta con el criterio. «Ubicar todas las clases» es la meta; «con la menor cantidad de cambios de aula» es el criterio que permite elegir entre planes que la cumplen.</p>
+    </article>
+  </div>
+
+  <h3>9.2 · El modelo básico de un problema de planificación</h3>
+  <p class="intro">Formular el problema con claridad evita automatizar reglas ambiguas.</p>
+  <div class="cadena">
+    <div><b>Estado</b>Qué sabemos.</div>
+    <div><b>Acciones</b>Qué puede hacerse.</div>
+    <div><b>Transición</b>Qué cambia con cada acción.</div>
+    <div><b>Objetivo</b>Qué queremos lograr.</div>
+    <div><b>Costo</b>Qué optimizamos.</div>
+  </div>
+  <div class="clave">
+    <b>Mini caso de la cátedra: programación de aulas</b>
+    <p><strong>Estado</strong>: aulas y horarios disponibles. <strong>Acciones</strong>: asignar una clase a un aula y un horario. <strong>Restricciones</strong>: capacidad, equipamiento y superposiciones. <strong>Objetivo</strong>: ubicar todas las clases. <strong>Costo</strong>: minimizar los cambios de aula y los espacios vacíos. En clase se lo planteó como si la propia UADE tuviera que organizar sus aulas.</p>
+  </div>
+  <p>
+    En un proyecto de software los mismos cinco elementos se traducen así: el estado es de dónde se
+    parte; las acciones, las tareas del equipo; el objetivo, por ejemplo, <strong>la aplicación
+    entregada en producción</strong>; y el costo, lo que la empresa paga para llegar ahí. Al final,
+    todo proyecto se evalúa por la relación costo-beneficio que genera.
+  </p>
+
+  <h3>9.3 · Planificación estratégica en proyectos de IT</h3>
+  <p>
+    Según la infografía de la cátedra, la planificación estratégica es el proceso de definir la
+    <strong>visión, los objetivos, los recursos y la hoja de ruta</strong> de un proyecto de
+    tecnología, alineado con la estrategia del negocio, para generar valor, reducir riesgos y
+    asegurar su éxito a largo plazo.
+  </p>
+  <ol class="pasos">
+    <li><b>Inicio</b><span>Definición del problema, visión y caso de negocio.</span></li>
+    <li><b>Planificación</b><span>Alcance, cronograma, recursos y riesgos.</span></li>
+    <li><b>Diseño</b><span>Arquitectura y especificaciones.</span></li>
+    <li><b>Desarrollo</b><span>Construcción y pruebas.</span></li>
+    <li><b>Implementación</b><span>Despliegue en producción.</span></li>
+    <li><b>Cierre</b><span>Evaluación de resultados y lecciones aprendidas.</span></li>
+  </ol>
+  <div class="fichas">
+    <article class="ficha">
+      <h4>Recursos, costo y tiempo</h4>
+      <p class="def">Los recursos se identifican y se traducen a costo: si se contratan cinco programadores, sus sueldos son parte del costo del proyecto. El tiempo se fija con una fecha de inicio y una de fin.</p>
+      <p class="trampa"><b>Por qué importa</b>Si el proyecto se pasa de lo planificado, la relación costo-beneficio para el cliente deja de ser buena. En clase se reconoció que pasarse de la fecha es habitual: por eso se planifica.</p>
+    </article>
+    <article class="ficha">
+      <h4>¿Llegamos a la fecha?</h4>
+      <p class="def">El ejemplo de la clase: una empresa tercerizada que desarrolla la app móvil de un supermercado. Estamos a mediados de octubre y el cliente la quiere para el 30 de diciembre.</p>
+      <dl><dt>Cómo se responde</dt><dd>Descomponiendo el trabajo en actividades y tareas, y verificando si los recursos disponibles alcanzan para esa fecha. Recién con eso se arma el cronograma. El plan se trabaja siempre con los usuarios.</dd></dl>
+    </article>
+    <article class="ficha">
+      <h4>Factores clave a considerar</h4>
+      <ul class="limpia" style="font-size:.9rem;margin:0">
+        <li>Alineación con los objetivos del negocio: el proyecto debe generar valor real.</li>
+        <li>Recursos adecuados: equipo, presupuesto y herramientas.</li>
+        <li>Gestión de riesgos: anticipar y mitigar.</li>
+        <li>Alcance bien definido: evitar la «deriva» del alcance (<em>scope creep</em>).</li>
+        <li>Comunicación efectiva con todos los interesados (<em>stakeholders</em>).</li>
+        <li>Seguimiento, control y capacidad de adaptación.</li>
+      </ul>
+    </article>
+  </div>
+
+  <h3>9.4 · El diagrama de Gantt y la ruta crítica</h3>
+  <p>
+    El <strong>diagrama de Gantt</strong> es la herramienta visual del cronograma: muestra cada tarea con
+    su duración, fecha de inicio y de fin, y las <strong>dependencias</strong> entre tareas. La unidad
+    puede ser días u horas, según el proyecto. Se comparte con el cliente para que sepa cuándo llega
+    cada entrega, y permite informar el avance de cada actividad.
+  </p>
+  <figure>
+    <svg viewBox="0 0 760 300" role="img" aria-label="Diagrama de Gantt de ejemplo para una app móvil, con la ruta crítica resaltada y una tarea con holgura">
+      <defs>
+        <marker id="pg9" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" class="svg-punta"/>
+        </marker>
+      </defs>
+      <g class="svg-m" font-size="9.5" text-anchor="middle">
+        <text x="265" y="32">S1</text><text x="315" y="32">S2</text><text x="365" y="32">S3</text><text x="415" y="32">S4</text><text x="465" y="32">S5</text>
+        <text x="515" y="32">S6</text><text x="565" y="32">S7</text><text x="615" y="32">S8</text><text x="665" y="32">S9</text><text x="715" y="32">S10</text>
+      </g>
+      <g stroke="var(--linea-2)" stroke-width="1">
+        <line x1="240" y1="40" x2="240" y2="252"/><line x1="340" y1="40" x2="340" y2="252"/><line x1="440" y1="40" x2="440" y2="252"/>
+        <line x1="540" y1="40" x2="540" y2="252"/><line x1="640" y1="40" x2="640" y2="252"/><line x1="740" y1="40" x2="740" y2="252"/>
+      </g>
+      <g class="svg-t" font-size="11.5">
+        <text x="20" y="63">1 · Relevamiento</text>
+        <text x="20" y="99">2 · Diseño de pantallas</text>
+        <text x="20" y="135">3 · Desarrollo de la app</text>
+        <text x="20" y="171">4 · Integración con proveedor</text>
+        <text x="20" y="207">5 · Pruebas integrales</text>
+        <text x="20" y="243">6 · Publicación en tiendas</text>
+      </g>
+      <rect x="240" y="50" width="100" height="18" rx="2" fill="var(--u6)"/>
+      <rect x="340" y="86" width="100" height="18" rx="2" fill="var(--u6)"/>
+      <rect x="440" y="122" width="200" height="18" rx="2" fill="var(--u6)"/>
+      <rect x="440" y="158" width="100" height="18" rx="2" fill="var(--u6)" fill-opacity="0.3" stroke="var(--u6)"/>
+      <line x1="540" y1="167" x2="636" y2="167" stroke="var(--tinta-3)" stroke-width="1.3" stroke-dasharray="4 4"/>
+      <text x="588" y="160" text-anchor="middle" class="svg-m" font-size="9">holgura</text>
+      <rect x="640" y="194" width="50" height="18" rx="2" fill="var(--u6)"/>
+      <rect x="690" y="230" width="50" height="18" rx="2" fill="var(--u6)"/>
+      <g class="svg-linea" stroke-width="1.3">
+        <path d="M340,68 L340,84" marker-end="url(#pg9)"/>
+        <path d="M440,104 L440,120" marker-end="url(#pg9)"/>
+        <path d="M640,140 L640,192" marker-end="url(#pg9)"/>
+        <path d="M690,212 L690,228" marker-end="url(#pg9)"/>
+      </g>
+      <rect x="20" y="272" width="14" height="10" rx="1" fill="var(--u6)"/>
+      <text x="40" y="281" class="svg-m" font-size="10">ruta crítica: si se atrasa, se atrasa todo</text>
+      <rect x="330" y="272" width="14" height="10" rx="1" fill="var(--u6)" fill-opacity="0.3" stroke="var(--u6)"/>
+      <text x="350" y="281" class="svg-m" font-size="10">tarea con holgura</text>
+      <line x1="490" y1="277" x2="516" y2="277" class="svg-linea" stroke-width="1.3" marker-end="url(#pg9)"/>
+      <text x="524" y="281" class="svg-m" font-size="10">dependencia: espera a la anterior</text>
+    </svg>
+    <figcaption>Ejemplo ilustrativo armado sobre el caso de la app de supermercado de la clase; las duraciones no son de la cátedra. La infografía oficial muestra un Gantt de once tareas con la misma lógica.</figcaption>
+  </figure>
+  <div class="fichas">
+    <article class="ficha">
+      <h4>Dependencias</h4>
+      <p class="def">Una actividad dependiente no puede empezar (o terminar) hasta que se complete la actividad de la que depende. El Gantt las hace visibles.</p>
+    </article>
+    <article class="ficha">
+      <h4>Ruta crítica</h4>
+      <p class="def">La cadena de actividades que define la duración total del proyecto. Un riesgo alto en una actividad crítica puede retrasar <strong>todo</strong> el proyecto; por eso esas actividades reciben atención especial.</p>
+    </article>
+    <article class="ficha">
+      <h4>Subdividir lo que es muy grande</h4>
+      <p class="def">En la estimación por historias, en clase se mencionó <strong>5</strong> como el puntaje máximo habitual de una historia: si se estima por encima de 5, se subdivide para poder entregarla.</p>
+      <p class="trampa"><b>Ojo</b>Ese tope depende de la escala que use cada equipo; no es una regla universal. La idea que se evalúa es la otra: las tareas grandes se descomponen.</p>
+    </article>
+  </div>
+
+  <h3>9.5 · Tomar decisiones: elegir entre alternativas</h3>
+  <p class="intro">La decisión conecta percepción, predicción, objetivos y acción.</p>
+  <ol class="pasos">
+    <li><b>Observar</b><span>Datos actuales: demanda, síntomas, inventario, tráfico o historial.</span></li>
+    <li><b>Estimar</b><span>Predecir consecuencias y manejar la incertidumbre.</span></li>
+    <li><b>Valorar</b><span>Comparar utilidad, riesgo, costo, equidad y restricciones.</span></li>
+    <li><b>Actuar y aprender</b><span>Ejecutar, medir el resultado y ajustar el modelo o las reglas.</span></li>
+  </ol>
+  <div class="regla">
+    <div class="premisas"><span>una predicción («este pedido llegará tarde»)</span></div>
+    <div class="barra"></div>
+    <div class="conclusion">todavía no es una decisión: falta un objetivo y una política de actuación</div>
+  </div>
+
+  <div class="tabla-caja">
+    <table>
+      <caption>Qué se evalúa en un proyecto de IT (infografía de la cátedra)</caption>
+      <thead><tr><th>Criterio</th><th>Pregunta</th></tr></thead>
+      <tbody>
+        <tr><th>Alineación</th><td>¿Contribuye a la estrategia y a los objetivos del negocio?</td></tr>
+        <tr><th>Costos y beneficios</th><td>¿Cuál es el retorno de la inversión (ROI)?</td></tr>
+        <tr><th>Factibilidad técnica</th><td>¿Es viable con la tecnología y el equipo disponibles?</td></tr>
+        <tr><th>Tiempo de implementación</th><td>¿Se puede cumplir en el plazo requerido?</td></tr>
+        <tr><th>Impacto en los stakeholders</th><td>¿Cómo afecta a usuarios, clientes y áreas del negocio?</td></tr>
+        <tr><th>Riesgos asociados</th><td>¿Qué podría salir mal?</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="fichas">
+    <article class="ficha">
+      <h4>ROI y solicitud de negocio</h4>
+      <p class="def">El retorno de inversión no lo calcula el equipo técnico por su cuenta: sale de la solicitud de negocio, que trae el análisis detallado del beneficio esperado y de <strong>cuándo se recupera la inversión</strong>.</p>
+    </article>
+    <article class="ficha">
+      <h4>Discovery</h4>
+      <p class="def">Etapa previa a vender o arrancar un proyecto, en la que se estudia el producto antes de construirlo: sus pantallas (prototipos), el mercado, la facturación esperada, las oportunidades y el beneficio para la empresa.</p>
+      <dl><dt>En clase</dt><dd>También se evalúa, con matrices y con los usuarios, cuál es la fecha máxima tolerable y qué efecto tendría un retraso: puede haber impactos positivos o negativos según cómo se entregue.</dd></dl>
+    </article>
+    <article class="ficha">
+      <h4>Aprender de cada proyecto</h4>
+      <p class="def">Todo proyecto deja conocimiento: conviene registrarlo para estimar mejor las fechas y anticipar los riesgos del siguiente.</p>
+      <dl>
+        <dt>Ejemplo de clase</dt><dd>En un primer proyecto de app móvil, nadie había previsto que la revisión de las tiendas (Apple, Google) tarda unos días antes de publicar. Ese atraso se vuelve una lección que el siguiente plan ya incluye.</dd>
+        <dt>Otro ejemplo</dt><dd>Para una cadena de supermercados con distintos nombres según el país, el historial de un proyecto anterior —fechas reales, riesgos que aparecieron, preferencias de los usuarios— sirvió de precedente para planificar el nuevo.</dd>
+      </dl>
+    </article>
+  </div>
+
+  <h3>9.6 · Decisiones deterministas y bajo incertidumbre</h3>
+  <div class="fichas">
+    <article class="ficha">
+      <h4>Entorno determinista</h4>
+      <p class="def">Una acción produce un resultado conocido.</p>
+      <dl><dt>Ejemplo</dt><dd>Si una factura supera el límite autorizado, se deriva a aprobación. Una regla alcanza.</dd></dl>
+    </article>
+    <article class="ficha">
+      <h4>Entorno incierto</h4>
+      <p class="def">Una acción puede tener varios resultados: se usan probabilidades, utilidad o aprendizaje.</p>
+      <dl><dt>Ejemplo</dt><dd>Priorizar una llamada según el riesgo estimado de que el cliente abandone.</dd></dl>
+      <dl><dt>Conecta con</dt><dd>La dimensión determinista / estocástico del entorno de la <a href="#c2">clase 2</a>.</dd></dl>
+    </article>
+  </div>
+  <div class="clave">
+    <b>El ejemplo del proveedor que falla</b>
+    <p>Un proveedor externo avisa que mañana no puede prestar el servicio. A primera vista parece un atraso
+    acotado: «tres días». Pero si esa actividad tiene otras que dependen de ella, el efecto ya no es
+    determinista: el proyecto puede correrse <strong>dos o tres semanas</strong>. Por eso se registran los
+    riesgos con anticipación y se simula cuánto atrasaría cada uno si ocurriera.</p>
+  </div>
+  <div class="dos-col">
+    <div class="panel">
+      <h4>Lo que debe preguntarse quien diseña</h4>
+      <ul class="limpia" style="font-size:.9rem;margin:0">
+        <li>¿Qué pasa si el modelo se equivoca?</li>
+        <li>¿Cuál es el costo de un falso positivo y de un falso negativo?</li>
+        <li>¿Cuándo debe intervenir una persona?</li>
+        <li>¿Cómo se registra y se explica la decisión?</li>
+      </ul>
+    </div>
+    <div class="panel acento">
+      <h4>Principio práctico</h4>
+      <p style="margin:0;font-size:.93rem">A mayor impacto sobre la <strong>salud, los derechos o el dinero</strong>, mayores deben ser la supervisión, la trazabilidad y la posibilidad de revisión.</p>
+    </div>
+  </div>
+
+  <h3>9.7 · Gestión de riesgos en proyectos de IT</h3>
+  <p>
+    El análisis de riesgos es el proceso de <strong>identificar, evaluar y priorizar</strong> lo que podría
+    afectar los objetivos del proyecto, para definir respuestas que reduzcan su probabilidad o su impacto.
+    Después se planifica la respuesta y se monitorea. En clase se insistió en que es un paso que
+    muchos proyectos se saltean, y que conviene tratarlo como requisito previo.
+  </p>
+  <div class="tabla-caja">
+    <table>
+      <caption>Tipos de riesgo y cómo se mitigan</caption>
+      <thead><tr><th>Riesgo</th><th>Qué es</th><th>Mitigación comentada en clase</th></tr></thead>
+      <tbody>
+        <tr><th>Falta de habilidades</th><td>El equipo no tiene todo el conocimiento que exige el proyecto.</td><td>Mapear bien las tareas, capacitar, sumar perfiles <em>junior</em> con formación y un seguimiento cercano (sin agobiarlos).</td></tr>
+        <tr><th>Rotación del personal</th><td>Las personas cambian de proyecto o se van.</td><td>Es grave porque impide la transferencia de conocimiento: conocer el negocio y documentar lo aprendido.</td></tr>
+        <tr><th>Sobrecarga de trabajo</th><td>Se asignan más horas de las que el equipo puede rendir.</td><td>Planificar sobre la capacidad efectiva y no sobre la jornada nominal: en clase se habló de calcular unas 6 horas productivas por persona y por día (el pasaje de la grabación es poco claro).</td></tr>
+        <tr><th>Cambios de alcance</th><td>Requisitos poco claros o cambios frecuentes (<em>scope creep</em>).</td><td>Observar la situación, evaluar el impacto, actualizar la estimación y replanificar.</td></tr>
+        <tr><th>Dependencias externas</th><td>Retrasos de entregas que dependen de otros.</td><td>Comunicar con anticipación, por reuniones y por correo, cuándo se va a necesitar el servicio y cuándo se espera la entrega.</td></tr>
+        <tr><th>Financieros</th><td>Sobrecostos, recorte del presupuesto, variación de precios.</td><td>Poco margen de control: replanificar con entregas más chicas, más tiempo o menos personal.</td></tr>
+        <tr><th>Seguridad</th><td>Ciberamenazas, pérdida de datos, accesos no autorizados.</td><td>Revisión del equipo de seguridad antes de producción. Esas evaluaciones pueden tardar y hay que preverlas en el plan.</td></tr>
+        <tr><th>Terceros</th><td>Proveedores, contratistas o servicios externos.</td><td>Medir cuánto se necesita el servicio y qué les pasa a los clientes si no se presta.</td></tr>
+        <tr><th>Técnicos y regulatorios</th><td>Fallas o incompatibilidades tecnológicas; incumplimiento de leyes o normas.</td><td>Figuran en la infografía; no se desarrollaron en la grabación.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <figure>
+    <svg viewBox="0 0 560 290" role="img" aria-label="Matriz de riesgos de tres por tres: probabilidad contra impacto, de bajo a crítico">
+      <text x="30" y="135" class="svg-t" font-size="12" font-weight="700" transform="rotate(-90 30 135)" text-anchor="middle">Probabilidad</text>
+      <g class="svg-m" font-size="10.5" text-anchor="end">
+        <text x="112" y="64">Alta</text><text x="112" y="134">Media</text><text x="112" y="204">Baja</text>
+      </g>
+      <g class="svg-t" font-size="12" font-weight="700" text-anchor="middle">
+        <rect x="120" y="30" width="130" height="66" fill="var(--u2)" fill-opacity="0.22" stroke="var(--papel-2)" stroke-width="3"/><text x="185" y="68">Medio</text>
+        <rect x="250" y="30" width="130" height="66" fill="var(--u2)" fill-opacity="0.5" stroke="var(--papel-2)" stroke-width="3"/><text x="315" y="68">Alto</text>
+        <rect x="380" y="30" width="130" height="66" fill="var(--u2)" fill-opacity="0.85" stroke="var(--papel-2)" stroke-width="3"/><text x="445" y="68" fill="var(--papel-2)">Crítico</text>
+        <rect x="120" y="96" width="130" height="66" fill="var(--u3)" fill-opacity="0.2" stroke="var(--papel-2)" stroke-width="3"/><text x="185" y="134">Bajo</text>
+        <rect x="250" y="96" width="130" height="66" fill="var(--u2)" fill-opacity="0.22" stroke="var(--papel-2)" stroke-width="3"/><text x="315" y="134">Medio</text>
+        <rect x="380" y="96" width="130" height="66" fill="var(--u2)" fill-opacity="0.5" stroke="var(--papel-2)" stroke-width="3"/><text x="445" y="134">Alto</text>
+        <rect x="120" y="162" width="130" height="66" fill="var(--u3)" fill-opacity="0.2" stroke="var(--papel-2)" stroke-width="3"/><text x="185" y="200">Bajo</text>
+        <rect x="250" y="162" width="130" height="66" fill="var(--u3)" fill-opacity="0.2" stroke="var(--papel-2)" stroke-width="3"/><text x="315" y="200">Bajo</text>
+        <rect x="380" y="162" width="130" height="66" fill="var(--u2)" fill-opacity="0.22" stroke="var(--papel-2)" stroke-width="3"/><text x="445" y="200">Medio</text>
+      </g>
+      <g class="svg-m" font-size="10.5" text-anchor="middle">
+        <text x="185" y="248">Bajo</text><text x="315" y="248">Medio</text><text x="445" y="248">Alto</text>
+      </g>
+      <text x="315" y="274" class="svg-t" font-size="12" font-weight="700" text-anchor="middle">Impacto</text>
+    </svg>
+    <figcaption>Matriz de la infografía de la cátedra. Se prioriza de «crítico» hacia «bajo»; un riesgo alto sobre una actividad de la ruta crítica se trata primero.</figcaption>
+  </figure>
+  <div class="panel">
+    <h4>Buenas prácticas</h4>
+    <ul class="limpia" style="font-size:.9rem;margin:0">
+      <li>Revisar y actualizar los riesgos con regularidad, y asignar responsables.</li>
+      <li>Definir planes de contingencia y monitorear indicadores de riesgo.</li>
+      <li>Fomentar una cultura proactiva: «la clave está en anticiparse».</li>
+    </ul>
+  </div>
+
+  <h3>9.8 · Tres aplicaciones cotidianas de la decisión</h3>
+  <p>Recomendadores, asistentes y apoyo al diagnóstico son, los tres, <strong>sistemas de decisión aplicada</strong>.</p>
+  <div class="fichas">
+    <article class="ficha">
+      <h4>Sistemas recomendadores</h4>
+      <p class="def">Ordenan opciones para reducir la sobrecarga de información.</p>
+      <dl>
+        <dt>Entradas</dt><dd>Historial, preferencias declaradas, contexto y características de los elementos.</dd>
+        <dt>Decisión</dt><dd>Estimar la relevancia y elegir qué mostrar, en qué orden y en qué momento.</dd>
+        <dt>Ejemplo</dt><dd>Una plataforma educativa recomienda el siguiente ejercicio según los errores previos, pero deja que el estudiante elija otro tema.</dd>
+      </dl>
+      <p class="trampa"><b>Riesgos</b>Burbuja de filtros, sesgos, uso excesivo de datos y optimizar sólo por clics.</p>
+    </article>
+    <article class="ficha">
+      <h4>Asistentes virtuales</h4>
+      <p class="def">Combinan lenguaje natural, acceso a servicios y ejecución de tareas.</p>
+      <dl>
+        <dt>Comprender</dt><dd>Detectar la intención y extraer los datos: fecha, lugar, producto o acción.</dd>
+        <dt>Planificar</dt><dd>Dividir la solicitud en pasos y comprobar requisitos.</dd>
+        <dt>Ejecutar</dt><dd>Consultar, responder o llamar a otro sistema, con permisos y confirmaciones.</dd>
+        <dt>Ejemplo</dt><dd>«Recordame pagar el servicio el viernes»: interpreta la fecha, crea la tarea y confirma.</dd>
+        <dt>En clase</dt><dd>Todo asistente sigue el esquema <strong>entrada → proceso → salida</strong>. Conviene cuando el volumen lo justifica: no es lo mismo un comercio con 10 clientes por día que una plataforma con un millón.</dd>
+      </dl>
+    </article>
+    <article class="ficha">
+      <h4>Apoyo al diagnóstico médico</h4>
+      <p class="def">Prioriza hallazgos y apoya decisiones; <strong>no sustituye el juicio clínico</strong>.</p>
+      <dl>
+        <dt>Percepción</dt><dd>Imágenes, señales, resultados de laboratorio o texto clínico.</dd>
+        <dt>Estimación</dt><dd>Probabilidades o patrones que merecen revisión (en clase: valores de laboratorio fuera de rango).</dd>
+        <dt>Decisión asistida</dt><dd>El profesional integra contexto, antecedentes, guías y preferencias del paciente.</dd>
+        <dt>Ejemplo</dt><dd>El sistema marca una región sospechosa en una imagen; el equipo médico revisa, pide estudios y decide.</dd>
+      </dl>
+    </article>
+  </div>
+
+  <h3>9.9 · Del proceso manual a la automatización responsable</h3>
+  <p class="intro">Automatizar no significa eliminar personas: significa <strong>rediseñar tareas y controles</strong>.</p>
+  <ol class="pasos">
+    <li><b>Documentar</b><span>Entender y relevar el proceso tal como funciona hoy.</span></li>
+    <li><b>Digitalizar</b><span>Pasar papel y datos dispersos a formato digital.</span></li>
+    <li><b>Estandarizar</b><span>Mejorar el proceso y fijar una forma única de hacerlo.</span></li>
+    <li><b>Asistir con IA</b><span>Sumar sugerencias, clasificación o predicción.</span></li>
+    <li><b>Automatizar</b><span>Las tareas rutinarias, para reducir errores humanos y acelerar entregas.</span></li>
+    <li><b>Supervisar</b><span>Una persona verifica los resultados y los entregables, e itera.</span></li>
+  </ol>
+  <div class="panel peligro">
+    <h4>Regla de oro</h4>
+    <p style="margin:0;font-size:.93rem">Primero mejorar el proceso, después automatizarlo. Y no automatizar todo: una acción automatizada puede volverse incorrecta cuando cambian las condiciones, por eso siempre tiene que haber alguien que verifique el resultado.</p>
+  </div>
+  <div class="dos-col">
+    <div class="panel">
+      <h4>Comparación con la clase 7</h4>
+      <p style="margin:0;font-size:.93rem">La <a href="#c7">clase 7</a> proponía cinco pasos: observar, digitalizar, automatizar, aumentar con IA y supervisar. Esta versión agrega <strong>estandarizar</strong> antes de sumar tecnología, y pone la <strong>asistencia con IA antes</strong> de la automatización plena: primero la IA sugiere, después ejecuta.</p>
+    </div>
+    <div class="panel">
+      <h4>Prototipos con IA</h4>
+      <p style="margin:0;font-size:.93rem">Antes, un prototipo para mostrarle al cliente se armaba a mano, pantalla por pantalla. Hoy la IA permite entregar un prototipo navegable mucho más rápido. Lo que no cambia: la responsabilidad por el resultado y su validación siguen siendo humanas.</p>
+    </div>
+  </div>
+  <p style="font-size:.93rem;color:var(--tinta-2)">En clase también se citó a Toyota como ejemplo histórico: antes que automatizar, <strong>parametrizar</strong> todas sus actividades para reducir los errores humanos.</p>
+
+  <h3>9.10 · Casos prácticos</h3>
+  <div class="fichas">
+    <article class="ficha">
+      <h4>A · Comercio minorista</h4>
+      <p class="def">De inventario manual a <strong>reposición asistida por IA</strong>.</p>
+      <dl>
+        <dt>Situación manual</dt><dd>Conteo semanal, pedidos por intuición y poca visibilidad de los faltantes.</dd>
+        <dt>Automatización</dt><dd>Registro digital de ventas, pronóstico de demanda y sugerencia de pedido. En clase: el sistema sabe que un proveedor tarda, por ejemplo, 5 días, y le envía el pedido por correo a tiempo; ante exceso de stock o productos próximos a vencer, propone acciones como un descuento.</dd>
+        <dt>Decisión humana</dt><dd>La persona responsable aprueba excepciones por promociones, clima o eventos locales: no se vende la misma cantidad de chocolate en invierno que en verano.</dd>
+        <dt>Indicadores</dt><dd>Productos agotados, exceso de stock, precisión del pronóstico y pedidos corregidos por el responsable.</dd>
+      </dl>
+    </article>
+    <article class="ficha">
+      <h4>B · Hospital público</h4>
+      <p class="def">De turnos en papel a <strong>triaje y programación asistidos</strong>.</p>
+      <dl>
+        <dt>Situación manual</dt><dd>Solicitudes presenciales, duplicados, priorización informal y reprogramaciones por teléfono.</dd>
+        <dt>Automatización</dt><dd>Formulario digital, validación de datos, clasificación inicial y agenda sugerida. En clase: cuando un paciente cancela, el sistema libera el turno y se lo ofrece a otro.</dd>
+        <dt>Control imprescindible</dt><dd>Reglas clínicas aprobadas, revisión profesional, canal alternativo y auditoría de prioridades.</dd>
+      </dl>
+      <p class="trampa"><b>Límite</b>Menos tareas repetitivas y mejor trazabilidad, sin delegar al sistema las decisiones clínicas críticas.</p>
+    </article>
+    <article class="ficha">
+      <h4>C · Telecomunicaciones</h4>
+      <p class="def">De tickets manuales a <strong>clasificación y respuesta asistidas</strong>.</p>
+      <dl>
+        <dt>Situación manual</dt><dd>Agentes que leen cada contacto, copian datos, asignan categoría y buscan procedimientos.</dd>
+        <dt>Automatización</dt><dd>La IA resume, clasifica, prioriza y propone una respuesta o el siguiente paso.</dd>
+        <dt>Escalamiento</dt><dd>Casos ambiguos, clientes vulnerables, incidencias masivas o acciones irreversibles pasan a revisión humana.</dd>
+      </dl>
+      <p class="trampa"><b>Error típico</b>Reentrenar directamente con las correcciones de los agentes. Alimentan la mejora, pero se revisan antes de reentrenar: también pueden traer errores.</p>
+    </article>
+  </div>
+
+  <h3>9.11 · Cierre</h3>
+  <div class="clave">
+    <b>Cinco ideas para recordar</b>
+    <p>1) Planificar es buscar una secuencia de acciones hacia una meta. 2) Decidir es comparar consecuencias según objetivos y restricciones. 3) Recomendadores, asistentes y diagnóstico son sistemas de decisión aplicada. 4) La automatización eficaz empieza con procesos claros y datos confiables. 5) La supervisión humana aumenta cuando crecen el impacto y el riesgo. <em>Pregunta final de la cátedra: ¿qué decisión automatizarías, cuál mantendrías humana y por qué?</em></p>
+  </div>
+
+  <div class="panel aviso">
+    <h4>Notas sobre las fuentes de esta clase</h4>
+    <ul class="limpia" style="font-size:.88rem;margin:0">
+      <li>La transcripción tiene muchos cortes y frases ininteligibles; donde no se entiende, se siguió el resumen en prosa y el PPT.</li>
+      <li>El diagrama de Gantt de 9.4 es un ejemplo armado para el apunte: las tareas y duraciones no son de la cátedra.</li>
+      <li>El nombre de la cadena de supermercados que se usó como ejemplo en clase no se entiende en la grabación.</li>
+      <li>La fecha (16 de octubre) sale de los datos de la grabación.</li>
+    </ul>
+  </div>
+</section>
+
 <!-- ============================ CONFUSIONES ============================ -->
 <section id="confusiones" class="neutra" data-busca="confusiones tipicas errores diferencias distinciones captcha turing automatizacion generativa invierno racional hype fluidez">
   <p class="eyebrow">Herramienta transversal</p>
@@ -5944,7 +6943,7 @@ mazoActivo = MAZO.slice(); indice = 0; pintar();
 /* ---------- CONTEO REAL DE CONCEPTOS ---------- */
 var nFichas = document.querySelectorAll(".ficha").length;
 var nTablas = document.querySelectorAll("table").length;
-estado.textContent = "7 clases · " + nFichas + " fichas · " + nTablas + " tablas · " + MAZO.length + " tarjetas";
+estado.textContent = "9 clases · " + nFichas + " fichas · " + nTablas + " tablas · " + MAZO.length + " tarjetas";
 textoInicial = estado.textContent;
 
 })();
