@@ -39,6 +39,17 @@ Objetivo: que un grupo de amigos pueda loguearse, rendir los simulacros con punt
 - [x] **¿El desarrollo corregido por Gemini suma puntos al ranking?** Sí. *Decisión del 2026-09-17: en vez de un "parcial" separado, se integró un desarrollo escrito directo dentro de "Rendir examen" (Fase 3). El puntaje final es 50% opción múltiple + 50% criterios de la grilla cumplidos según Gemini, y ESE combinado es el que usa el leaderboard.*
 - [ ] **¿Se agrega también el simulacro de Intro a la IA** al sistema o sólo Ética al principio? *Propuesta: Ética primero, IA después con el mismo esquema.* *(2026-09-17: en cambio se sumó **Python para Ciencia de Datos** como segunda materia completa — ver nota abajo. Intro a la IA sigue sin el esquema competitivo.)*
 
+### Cálculo I — apunte, práctica con lápiz y entrenador de decisiones (2026-10-17)
+
+Cuarta materia en la portada (fila del lunes). `calculo.html` no sigue la plantilla de los otros apuntes: es la app que se armó primero como página de claude.ai, traída tal cual (contenido en `MODULES` dentro de `calculo.html`, lógica en `calculo/`).
+
+- **Qué tiene:** criterio por tema (qué es, a dónde llegar, señales de alarma), ejemplo resuelto y ejercicio guiado de opción múltiple en los 59 temas; plan de estudio con casillas; 165 ejercicios de **práctica con lápiz** en una pizarra que corrige la IA renglón por renglón; y el **entrenador de decisiones** estilo Duolingo (275 problemas, 3 vidas, racha, XP y repaso de errores; `calculo.html#entrenador` abre directo el camino).
+- **Guardado:** `supabase/fase7_calculo.sql` crea `calculo_docs` (un JSON por usuario y clave, RLS: cada uno lee y escribe sólo lo suyo) y `calculo_merge()`, que fusiona en el servidor sólo lo que cambió, así dos dispositivos no se pisan. Realtime activado en la tabla para sincronizar en vivo. Sin sesión, todo queda en el localStorage del navegador.
+- **Corrección con lápiz:** Edge Function `corregir-lapiz` (Gemini con la foto de la hoja). Sólo acepta pedidos con el encabezado que arma la página, una imagen PNG de hasta ~2 MB y 40 correcciones por usuario por día (`calculo_correcciones`, sin policy de insert).
+- **Puente:** `calculo/supabase-claude.js` responde a las llamadas `window.claude.use("db" | "user" | "sample")` que la app hacía en claude.ai, usando el cliente de `js/auth.js`. El resto de la lógica quedó igual.
+- **Para activarlo en producción:** correr `supabase/fase7_calculo.sql` en el SQL Editor y `supabase functions deploy corregir-lapiz` (usa el secret `GEMINI_API_KEY` que ya existe).
+- Verificado en local: el SQL en Postgres (idempotente, fusión, RLS entre dos usuarios, límite de tamaño, Realtime) y la página en Chromium con un Supabase simulado (ingreso, guardado, corrección, recuperación en otro dispositivo, celular).
+
 ### Materia nueva: Python para Ciencia de Datos (2026-09-17)
 
 Segunda materia con el esquema completo (apunte + simulacro + leaderboard), pero con un **modelo de examen distinto** al de Ética: acá no hay opción múltiple, son **ejercicios de código real** (NumPy/Pandas/Matplotlib), corregidos por Gemini leyendo el código contra una lista de tareas + una solución de referencia (no lo ejecuta). Mismo patrón de seguridad que el resto: la solución vive en `ejercicios_codigo_clave`, sin policies de lectura.
