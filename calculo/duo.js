@@ -226,6 +226,9 @@
     paintTop();
     v.sel = null; v.checked = false;
     const body = v.el.querySelector('.duo-body');
+    // El botón (y el feedback) van dentro del cuerpo, justo debajo de las opciones:
+    // se guarda la referencia antes de reescribir el cuerpo y se vuelve a enganchar abajo.
+    const foot = v.el.querySelector('.duo-foot');
     const nProblems = v.queue.length;
     body.innerHTML = '<div class="duo-tag">' + esc(v.title) + ' · problema ' + (v.qi + 1) + ' de ' + nProblems
       + (q.again ? ' · <strong>otra vez</strong>' : '') + '</div>'
@@ -239,8 +242,8 @@
       v.sel = +b.dataset.oi;
       v.el.querySelector('.duo-btn').disabled = false;
     }));
-    const foot = v.el.querySelector('.duo-foot');
-    foot.className = 'duo-foot';
+    body.appendChild(foot);
+    foot.className = 'duo-foot inline';
     foot.querySelector('.duo-fb').innerHTML = '';
     const btn = foot.querySelector('.duo-btn');
     btn.textContent = 'Comprobar'; btn.disabled = true;
@@ -287,6 +290,7 @@
     btn.disabled = false;
     renderMath(foot);
     btn.focus();
+    foot.querySelector('.duo-fb').scrollIntoView({ block: 'nearest', behavior: 'smooth' });
   }
 
   function advance() {
@@ -348,6 +352,7 @@
       body.innerHTML = '<div class="duo-end"><div class="duo-big">💔</div><h2>Te quedaste sin vidas</h2>'
         + '<p class="duo-end-p">Lo que fallaste quedó guardado en el repaso de errores. Repasá la teoría del tema y volvé a intentarlo: las opciones cambian de lugar cada vez.</p></div>';
     }
+    v.el.appendChild(foot); // la pantalla final vuelve a usar la barra inferior
     foot.className = 'duo-foot end';
     foot.querySelector('.duo-fb').innerHTML = '<div class="duo-end-btns">'
       + (!ok ? '<button class="btn" data-a="retry">Reintentar</button>' : '')

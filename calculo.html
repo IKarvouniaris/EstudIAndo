@@ -332,6 +332,13 @@
   .duo-foot.ok .duo-btn{background:var(--good); color:var(--panel);}
   .duo-foot.bad .duo-btn{background:var(--bad); color:var(--panel);}
   .duo-foot.end{justify-content:center;}
+  .duo-foot.inline{border-top:none; background:none; padding:10px 0 0; flex-direction:column; align-items:stretch; gap:12px;}
+  .duo-foot.inline.ok, .duo-foot.inline.bad{background:none;}
+  .duo-foot.inline .duo-btn{width:100%; min-width:0;}
+  .duo-foot.inline .duo-fb{min-width:0; max-height:none; overflow:visible; border-radius:14px; padding:12px 14px;}
+  .duo-foot.inline .duo-fb:empty{display:none;}
+  .duo-foot.inline.ok .duo-fb{background:var(--good-bg);}
+  .duo-foot.inline.bad .duo-fb{background:var(--bad-bg);}
   .duo-end{text-align:center; padding:30px 0;}
   .duo-big{font-size:56px;}
   .duo-end h2{margin:8px 0 18px;}
