@@ -151,6 +151,59 @@
   .nav-between button{background:none;border:1.5px solid var(--border); color:var(--ink-soft); border-radius:9px; padding:9px 16px; font-family:inherit; font-size:13.5px; cursor:pointer;}
   .nav-between button:hover{border-color:var(--accent); color:var(--accent);}
 
+  /* roadmap */
+  .topic-btn.roadmap .dot{background:var(--accent); border-radius:2px;}
+  .rm-top{display:flex; flex-wrap:wrap; gap:14px; align-items:center;}
+  .rm-top label{font-weight:700; font-size:14px;}
+  .rm-top input[type=date]{font-family:inherit; font-size:14px; padding:7px 10px; border:1.5px solid var(--border); border-radius:8px; background:var(--bg); color:var(--ink);}
+  .rm-status{font-size:14px; color:var(--ink-soft);}
+  .rm-status strong{color:var(--accent);}
+  .rm-tiles{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; margin-bottom:20px;}
+  .rm-tile{background:var(--panel); border:1px solid var(--border); border-radius:12px; padding:14px 16px;}
+  .rm-tile .v{font-size:24px; font-weight:700; font-variant-numeric:tabular-nums;}
+  .rm-tile .l{font-size:12.5px; color:var(--ink-soft); margin-top:2px;}
+  .rm-routine{display:grid; gap:10px;}
+  .rm-routine .row{display:grid; grid-template-columns:190px 1fr; gap:12px; align-items:start; font-size:14.5px; line-height:1.55;}
+  .rm-chip{display:inline-block; font-size:11.5px; font-weight:700; padding:3px 9px; border-radius:999px; white-space:nowrap; font-family:var(--mono);}
+  .rm-chip.c-azul{background:#e3f0f8; color:#1f6f99;}
+  .rm-chip.c-ambar{background:#fbf0d9; color:#94661a;}
+  .rm-chip.c-acento{background:var(--accent-soft); color:var(--accent);}
+  .rm-chip.c-gris{background:var(--border); color:var(--ink-soft);}
+  .rm-chip.c-rojo{background:var(--bad-bg); color:var(--bad);}
+  .rm-phase{margin:34px 0 14px; padding-left:14px; border-left:4px solid var(--accent);}
+  .rm-phase-k{font-size:12px; text-transform:uppercase; letter-spacing:.08em; color:var(--accent); font-weight:700;}
+  .rm-phase h3{margin:2px 0 6px; font-size:20px;}
+  .rm-phase p{margin:0; font-size:14.5px; line-height:1.6; color:var(--ink-soft);}
+  @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .rm-chip.c-azul{background:#16313f; color:#7cc3e8;} :root:not([data-theme="light"]) .rm-chip.c-ambar{background:#3a2f17; color:#e7bd6c;} }
+  :root[data-theme="dark"] .rm-chip.c-azul{background:#16313f; color:#7cc3e8;}
+  :root[data-theme="dark"] .rm-chip.c-ambar{background:#3a2f17; color:#e7bd6c;}
+  .rm-week.current{border:2px solid var(--accent);}
+  .rm-week-head{display:flex; justify-content:space-between; align-items:baseline; gap:10px; flex-wrap:wrap;}
+  .rm-week-head h3{margin:0; font-size:17px;}
+  .rm-dates{font-size:13px; color:var(--ink-soft);}
+  .rm-now{font-size:11.5px; font-weight:700; background:var(--accent); color:var(--accent-ink); padding:2px 9px; border-radius:999px; margin-left:6px;}
+  .rm-goal{font-size:14.5px; color:var(--ink-soft); margin:8px 0 12px; line-height:1.55;}
+  .rm-bar{height:6px; background:var(--border); border-radius:4px; overflow:hidden; margin-bottom:4px;}
+  .rm-bar > div{height:100%; background:var(--good);}
+  .rm-barlabel{font-size:12.5px; color:var(--ink-soft); margin-bottom:12px; font-variant-numeric:tabular-nums;}
+  .rm-block{display:grid; grid-template-columns:24px 92px 1fr auto; gap:10px; align-items:start; padding:9px 0; border-top:1px solid var(--border); font-size:14.5px; line-height:1.5;}
+  .rm-block input{width:18px; height:18px; margin-top:2px; accent-color:var(--good); cursor:pointer;}
+  .rm-block.done .rm-task{color:var(--ink-soft); text-decoration:line-through;}
+  .rm-day{font-size:13px; font-weight:700;}
+  .rm-mins{font-size:12.5px; color:var(--ink-soft); font-variant-numeric:tabular-nums; white-space:nowrap;}
+  .rm-links{margin-top:3px;}
+  .rm-link{color:var(--accent); font-size:13.5px; cursor:pointer; text-decoration:underline; text-underline-offset:2px; margin-right:10px;}
+  .rm-units{display:grid; gap:6px; font-size:14.5px;}
+  .rm-units .u{display:flex; justify-content:space-between; gap:10px; border-bottom:1px dashed var(--border); padding:4px 0;}
+  .rm-units .u span:last-child{font-variant-numeric:tabular-nums; color:var(--ink-soft);}
+  @media (max-width:760px){
+    .rm-routine .row{grid-template-columns:1fr; gap:4px;}
+    .rm-block{grid-template-columns:24px 1fr auto;}
+    .rm-block .rm-when{grid-column:2; grid-row:1; display:flex; gap:8px; align-items:center;}
+    .rm-block .rm-mins{grid-column:3; grid-row:1;}
+    .rm-block .rm-body{grid-column:2 / 4; grid-row:2;}
+  }
+
   /* práctica con lápiz */
   .lz-card .lz-hint{color:var(--ink-soft); font-size:14px; margin:0 0 10px;}
   .lz-list{list-style:none; margin:0; padding:0;}
@@ -3568,7 +3621,7 @@ function renderSidebar(){
     mod.topics.forEach((t, ti)=>{
       const p = progress[topicKey(mi,ti)];
       const active = currentTopic && currentTopic.mi===mi && currentTopic.ti===ti;
-      const state = p ? (p.clean ? 'done' : 'partial') : '';
+      const state = t.roadmap ? 'roadmap' : (p ? (p.clean ? 'done' : 'partial') : '');
       html += `<li><button class="topic-btn ${active?'active':''} ${state}" onclick="loadTopic(${mi},${ti})"><span class="dot"></span>${t.title}</button></li>`;
     });
     html += `</ul></div>`;
@@ -3623,6 +3676,13 @@ function loadTopic(mi, ti){
     <h2>${topic.title}</h2>
   </div>`;
 
+  if(topic.roadmap){
+    main.innerHTML = html + `<div id="roadmap-mount"></div>` + navBetweenHTML(mi, ti);
+    renderRoadmap(topic.roadmap);
+    window.scrollTo(0,0);
+    return;
+  }
+
   html += `<div class="card"><h3><span class="ic">💡</span> ¿Qué es / para qué sirve?</h3>${topic.what}</div>`;
   html += `<div class="card goal"><h3><span class="ic">🎯</span> ¿A dónde tengo que llegar?</h3><ul>${topic.goal.map(g=>`<li>${g}</li>`).join('')}</ul></div>`;
   html += `<div class="card checklist"><h3><span class="ic">✅</span> ¿Tiene sentido mi resultado?</h3><ul>${topic.checklist.map(c=>`<li>${c}</li>`).join('')}</ul></div>`;
@@ -3658,6 +3718,32 @@ function navBetweenHTML(mi, ti){
   </div>`;
 }
 
+/* ---------- plan de estudio privado ----------
+   El plan es personal: no está en este archivo, sino en la cuenta de quien lo tiene (calculo_docs, documento
+   "plan-datos", que solo puede leer su dueño por RLS). Se lee directo de la cuenta y sin copia local, así no
+   queda en un navegador compartido después de cerrar sesión. Quien no tiene ese documento no ve el tema. */
+const PLAN_DOC = 'plan-datos';
+async function cargarPlanPrivado(){
+  try {
+    if(!window.claude) return;
+    const [db, user] = await Promise.all([window.claude.use('db'), window.claude.use('user')]);
+    if(!db || !user) return;
+    const snap = await db.doc('data/users/' + await user.id() + '/' + PLAN_DOC).get();
+    const rm = snap.exists ? (snap.data() || {}).v : null;
+    if(!rm || !Array.isArray(rm.weeks) || !rm.weeks.length || !rm.exams || !rm.exams.p2 || !rm.exams.rec || !rm.phases) return;
+    const topics = MODULES[0].topics;
+    const topic = {title: rm.title || 'Plan de estudio', roadmap: rm};
+    if(topics[0] && topics[0].roadmap) topics[0] = topic;
+    else {
+      topics.unshift(topic);
+      if(currentTopic && currentTopic.mi === 0 && currentTopic.ti >= 0) currentTopic.ti++;
+    }
+    renderSidebar();
+    if(currentTopic && currentTopic.mi === 0 && currentTopic.ti === 0 && document.getElementById('roadmap-mount')) renderRoadmap(rm);
+  } catch(e) { /* sin plan: la página sigue igual */ }
+}
+function loadRM(){ const s = Store.get('plan'); return (s && typeof s === 'object') ? s : {}; }
+function saveRM(s){ Store.set('plan', s); }
 function findTopicByTitle(title){
   for(let mi=0; mi<MODULES.length; mi++){
     const ti = MODULES[mi].topics.findIndex(t=>t.title===title);
@@ -3665,6 +3751,145 @@ function findTopicByTitle(title){
   }
   return null;
 }
+function parseLocalDate(s){ const [y,m,d] = s.split('-').map(Number); return new Date(y, m-1, d); }
+function isoDate(d){ return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
+function addDays(d, n){ const r = new Date(d); r.setDate(r.getDate()+n); return r; }
+function fmtDay(d){ return d.toLocaleDateString('es-AR', {weekday:'short', day:'numeric', month:'short'}); }
+function fmtMins(m){ m = Math.round(m); const h = Math.floor(m/60), r = m%60; return h ? (r ? `${h} h ${r} min` : `${h} h`) : `${r} min`; }
+function daysUntil(d, today){ return Math.round((d - today) / 86400000); }
+const DAY_IDX = {'Lun':0,'Mar':1,'Mié':2,'Jue':3,'Vie':4,'Sáb':5,'Dom':6};
+
+function renderRoadmap(rm){
+  const mount = document.getElementById('roadmap-mount');
+  const P2 = rm.exams.p2.label, REC = rm.exams.rec.label;
+  const slot = k => (rm.slots || {})[k] || {label:k, color:'gris'};
+  const st = loadRM();
+  const today = new Date(); today.setHours(0,0,0,0);
+  // La fecha de inicio se fija recién cuando se sabe qué hay en la cuenta (si no, un dispositivo nuevo la pisaría con hoy).
+  if(!st.startedOn && Store.ready){ st.startedOn = isoDate(today); saveRM(st); }
+  const startedOn = st.startedOn ? parseLocalDate(st.startedOn) : today;
+  const done = st.done || {};
+  const p2Str = st.p2 || rm.exams.p2.date;
+  const recStr = st.rec || rm.exams.rec.date;
+  const p2 = parseLocalDate(p2Str), rec = parseLocalDate(recStr);
+  const dP2 = daysUntil(p2, today), dRec = daysUntil(rec, today);
+
+  // weeks run Monday–Sunday; week index rm.preExamWeek is the full week right before the first exam (p2)
+  const back = p2.getDay() === 0 ? 7 : p2.getDay();
+  const preStart = addDays(p2, -back - 6);
+  const weeks = rm.weeks.map((w,i)=>{ const start = addDays(preStart, 7*(i - rm.preExamWeek)); return Object.assign({}, w, {start, end:addDays(start,6), idx:i}); });
+  const current = weeks.find(w=> today >= w.start && today <= w.end);
+
+  const allBlocks = rm.weeks.flatMap(w=>w.blocks);
+  const totalMins = allBlocks.reduce((a,b)=>a+b.mins, 0);
+  const doneMins = allBlocks.filter(b=>done[b.id]).reduce((a,b)=>a+b.mins, 0);
+  const perUnit = {};
+  allBlocks.forEach(b=>{
+    let unit = 'Simulacros, chequeos y repaso espaciado';
+    const f = (b.refs||[]).length ? findTopicByTitle(b.refs[0]) : null;
+    if(f) unit = MODULES[f.mi].title;
+    perUnit[unit] = (perUnit[unit]||0) + b.mins;
+  });
+  const unitOrder = MODULES.map(m=>m.title);
+  const unitRows = Object.entries(perUnit).sort((a,b)=>{
+    const ia = unitOrder.indexOf(a[0]), ib = unitOrder.indexOf(b[0]);
+    return (ia<0?99:ia) - (ib<0?99:ib);
+  });
+
+  const countdown = (d, label) => d > 0 ? `<strong>${d} días</strong> al ${label}` : d === 0 ? `<strong>hoy es el ${label}</strong>` : `${label}: ya pasó`;
+  let status = `${countdown(dP2,P2)} · ${countdown(dRec,REC)}`;
+  if(current) status += ` · estás en la <strong>Semana ${current.idx+1} de ${weeks.length}</strong>`;
+  else if(today < weeks[0].start) status += ` · el plan arranca el ${fmtDay(weeks[0].start)}`;
+
+  const warnings = [];
+  if(p2.getDay() !== 1) warnings.push(`El plan está pensado para un ${P2} en lunes. Con otro día, la última semana queda corrida: pedime que lo reacomode.`);
+  if(daysUntil(rec, p2) !== 7) warnings.push(`La última fase supone que el ${REC} es una semana después del ${P2}. Si no es así, pedime que la reacomode.`);
+
+  let h = '';
+  h += `<div class="card"><div class="rm-top">
+      <label for="rm-p2">${P2}</label><input type="date" id="rm-p2" value="${p2Str}">
+      <label for="rm-rec">${REC}</label><input type="date" id="rm-rec" value="${recStr}">
+    </div>
+    <p class="rm-status" style="margin:12px 0 0;">${status}</p>
+    ${warnings.map(w=>`<p style="margin:8px 0 0; font-size:13.5px; color:#b9821f;">${w}</p>`).join('')}</div>`;
+
+  h += `<div class="rm-tiles">
+    <div class="rm-tile"><div class="v">${fmtMins(totalMins)}</div><div class="l">en total, en ${weeks.length} semanas</div></div>
+    ${rm.weeklyLabel ? `<div class="rm-tile"><div class="v">${rm.weeklyLabel}</div><div class="l">por semana completa</div></div>` : ''}
+    <div class="rm-tile"><div class="v">${fmtMins(doneMins)}</div><div class="l">hechas (${Math.round(doneMins/totalMins*100)}%)</div></div>
+  </div>`;
+
+  h += `<div class="card"><h3><span class="ic">📌</span> Supuestos del plan</h3><ul>${(rm.assumptions||[]).map(a=>`<li>${a}</li>`).join('')}</ul></div>`;
+
+  h += `<div class="card"><h3><span class="ic">🗺️</span> Las ${Object.keys(rm.phases).length} fases</h3><div class="rm-units">${Object.entries(rm.phases).map(([n,p])=>{
+      const ws = weeks.filter(w=>w.phase===+n);
+      return `<div class="u"><span><strong>Fase ${n}</strong> · ${p.title}</span><span>${fmtDay(ws[0].start)} – ${fmtDay(ws[ws.length-1].end)}</span></div>`;
+    }).join('')}</div></div>`;
+
+  h += `<div class="card"><h3><span class="ic">⏰</span> Tu día tipo</h3><div class="rm-routine">${(rm.routine||[]).map(r=>`<div class="row"><div><span class="rm-chip c-${slot(r.slot).color}">${r.when}</span></div><div>${r.what}</div></div>`).join('')}</div></div>`;
+
+  h += `<div class="card checklist"><h3><span class="ic">🔁</span> Cómo se estudia cada tema</h3><ul>${(rm.method||[]).map(m=>`<li>${m}</li>`).join('')}</ul></div>`;
+
+  h += `<div class="card"><h3><span class="ic">⚖️</span> Tiempo por módulo</h3><div class="rm-units">${unitRows.map(([u,m])=>`<div class="u"><span>${u}</span><span>${fmtMins(m)}</span></div>`).join('')}</div>
+    ${rm.unitsNote ? `<p style="font-size:13.5px; color:var(--ink-soft); margin:10px 0 0;">${rm.unitsNote}</p>` : ''}</div>`;
+
+  let lastPhase = null;
+  weeks.forEach(w=>{
+    if(w.phase !== lastPhase){
+      const p = rm.phases[w.phase];
+      h += `<div class="rm-phase"><div class="rm-phase-k">Fase ${w.phase}</div><h3>${p.title}</h3><p>${p.text}</p></div>`;
+      lastPhase = w.phase;
+    }
+    const wm = w.blocks.reduce((a,b)=>a+b.mins, 0);
+    const wd = w.blocks.filter(b=>done[b.id]).reduce((a,b)=>a+b.mins, 0);
+    const isCur = current && current.idx === w.idx;
+    h += `<div class="card rm-week ${isCur?'current':''}" id="rm-week-${w.idx}">
+      <div class="rm-week-head"><h3>Semana ${w.idx+1} · ${w.title}${isCur?'<span class="rm-now">ESTÁS ACÁ</span>':''}</h3><span class="rm-dates">${fmtDay(w.start)} – ${fmtDay(w.end)}</span></div>
+      <p class="rm-goal">${w.goal}</p>
+      ${(startedOn > w.start && startedOn <= w.end && w.blocks.some(b=>addDays(w.start, DAY_IDX[b.day]) < startedOn)) ? `<p class="rm-goal" style="color:#b9821f;">${rm.midWeekNote || 'Empezaste el plan a mitad de esta semana: repartí lo de los días que ya pasaron en los bloques que quedan.'}</p>` : ''}
+      <div class="rm-bar"><div style="width:${wm ? wd/wm*100 : 0}%"></div></div>
+      <div class="rm-barlabel">${fmtMins(wd)} de ${fmtMins(wm)} hechas</div>`;
+    w.blocks.forEach(b=>{
+      const date = addDays(w.start, DAY_IDX[b.day]);
+      const pending = !done[b.id] && date < today && date >= startedOn;
+      const links = (b.refs||[]).map(r=>{ const f = findTopicByTitle(r); return f ? `<span class="rm-link" data-mi="${f.mi}" data-ti="${f.ti}">${r}</span>` : ''; }).join('');
+      h += `<div class="rm-block ${done[b.id]?'done':''}">
+        <input type="checkbox" data-id="${b.id}" ${done[b.id]?'checked':''} aria-label="Marcar como hecho">
+        <div class="rm-when"><div class="rm-day">${b.day} ${date.getDate()}</div><span class="rm-chip c-${slot(b.slot).color}">${slot(b.slot).label}</span></div>
+        <div class="rm-body"><div class="rm-task">${b.task}${pending?' <span style="color:#b9821f; font-size:12.5px; font-weight:700;">· pendiente</span>':''}</div>${links?`<div class="rm-links">${links}</div>`:''}</div>
+        <div class="rm-mins">${b.mins} min</div>
+      </div>`;
+    });
+    h += `</div>`;
+  });
+
+  h += `<div class="card"><h3><span class="ic">📝</span> Cómo armar los simulacros del ${P2}</h3><ul>${(rm.simulacroP2||[]).map(s=>`<li>${s}</li>`).join('')}</ul></div>`;
+  h += `<div class="card"><h3><span class="ic">📝</span> Cómo armar los simulacros del ${REC}</h3><ul>${(rm.simulacroRec||[]).map(s=>`<li>${s}</li>`).join('')}</ul></div>`;
+  h += `<div class="card signals"><h3><span class="ic">🎯</span> El día de cada examen</h3><ul>
+    <li>La noche anterior: nada nuevo y a dormir. Una noche de sueño rinde más que una hora extra de estudio cansado.</li>
+    <li>Leé TODO el examen primero y empezá por el ejercicio que mejor te sale: asegurás puntos y ganás confianza.</li>
+    <li>En cada inciso, antes de calcular, anotá al margen qué tipo de respuesta piden (número, función, conjunto, recta).</li>
+    <li>Si un ejercicio te traba más de 15 minutos, pasá al siguiente y volvé al final.</li>
+    <li>Guardá los últimos 10 minutos para revisar con las Señales de alarma y recuadrar cada respuesta final.</li></ul></div>`;
+  h += `<div class="card goal"><h3><span class="ic">🚦</span> Si te atrasás: orden de prioridad</h3>
+    <p style="font-weight:700; margin:4px 0;">Para el ${P2}</p><ol style="margin:4px 0 12px; padding-left:22px;">${(rm.prioritiesP2||[]).map(p=>`<li style="font-size:15px; line-height:1.65;">${p}</li>`).join('')}</ol>
+    <p style="font-weight:700; margin:4px 0;">Para el ${REC}</p><ol style="margin:4px 0; padding-left:22px;">${(rm.prioritiesRec||[]).map(p=>`<li style="font-size:15px; line-height:1.65;">${p}</li>`).join('')}</ol></div>`;
+  h += `<div class="card"><h3><span class="ic">🔀</span> Imprevistos</h3><ul>${(rm.contingencies||[]).map(c=>`<li>${c}</li>`).join('')}</ul></div>`;
+
+  mount.innerHTML = h;
+
+  const rerender = ()=>{ const y = window.scrollY; renderRoadmap(rm); window.scrollTo(0, y); };
+  mount.querySelector('#rm-p2').addEventListener('change', e=>{ if(!e.target.value) return; const s = loadRM(); s.p2 = e.target.value; saveRM(s); rerender(); });
+  mount.querySelector('#rm-rec').addEventListener('change', e=>{ if(!e.target.value) return; const s = loadRM(); s.rec = e.target.value; saveRM(s); rerender(); });
+  mount.querySelectorAll('input[type=checkbox][data-id]').forEach(cb=> cb.addEventListener('change', e=>{
+    const s = loadRM(); s.done = s.done || {};
+    if(e.target.checked) s.done[e.target.dataset.id] = true; else delete s.done[e.target.dataset.id];
+    saveRM(s); rerender();
+  }));
+  mount.querySelectorAll('.rm-link').forEach(l=> l.addEventListener('click', ()=> loadTopic(+l.dataset.mi, +l.dataset.ti)));
+  renderMathSafe();
+}
+
 /* ---------- exercise engine ---------- */
 let exState = {}; // {stepIndex, answeredCorrectly: []}
 
@@ -3823,10 +4048,10 @@ function toast(msg){
   toast._t = setTimeout(() => el.classList.remove('show'), 6000);
 }
 Store.onError = (key, code) => {
-  if(key === 'progreso'){ renderSync(); if(toast._sync) return; toast._sync = true; }
+  if(key === 'progreso' || key === 'plan'){ renderSync(); if(toast._sync) return; toast._sync = true; }
   toast(code === 'too_large' ? 'Esta hoja es muy grande para guardarla en tu cuenta: quedó guardada solo en este dispositivo.'
     : code === 'quota_exceeded' ? 'Se llenó el espacio de guardado de la página en tu cuenta. Lo nuevo queda solo en este dispositivo.'
-    : key === 'progreso' ? 'Por ahora no se pudo subir a tu cuenta: quedó guardado en este dispositivo y se vuelve a intentar solo.'
+    : (key === 'progreso' || key === 'plan') ? 'Por ahora no se pudo subir a tu cuenta: quedó guardado en este dispositivo y se vuelve a intentar solo.'
     : 'No se pudo guardar en tu cuenta. Quedó guardado en este dispositivo.');
 };
 Store.onStatus = () => renderSync();
@@ -3854,7 +4079,7 @@ Practice.init({
   renderSidebar,
   loadTopic,
   findTopicByTitle,
-  topicTitles: () => MODULES.flatMap(m => m.topics.map(t => t.title))
+  topicTitles: () => MODULES.flatMap(m => m.topics.filter(t => !t.roadmap).map(t => t.title))
 });
 renderSidebar();
 function showAccountData(){
@@ -3862,17 +4087,19 @@ function showAccountData(){
   renderSidebar();
   Practice.refresh();
   if (duoOpen && document.getElementById('duo-path') && !document.querySelector('.duo')) { const y = window.scrollY; Duo.renderPath(); window.scrollTo(0, y); }
+  const t = currentTopic && currentTopic.ti >= 0 ? MODULES[currentTopic.mi].topics[currentTopic.ti] : null;
+  if (t && t.roadmap && document.getElementById('roadmap-mount')) { const y = window.scrollY; renderRoadmap(t.roadmap); window.scrollTo(0, y); }
 }
 // Cambios que llegan de la cuenta (otro dispositivo u otra pestaña): se muestran sin recargar.
 Store.onRemote = () => showAccountData();
 Sesion.montar('chip-sesion');
 if (location.hash === '#entrenador') openDuo();
-Store.init(window.claude).then(() => showAccountData());
+Store.init(window.claude).then(() => { showAccountData(); cargarPlanPrivado(); });
 // Al volver a esta pestaña (por ejemplo después de practicar en la tablet), traer lo último de la cuenta
 // antes de que un cambio acá suba una copia vieja.
 document.addEventListener('visibilitychange', async () => {
   if (document.visibilityState !== 'visible' || Store.mode !== 'db') return;
-  await Store.refresh('progreso');
+  await Promise.all([Store.refresh('progreso'), Store.refresh('plan')]);
   showAccountData();
 });
 </script>

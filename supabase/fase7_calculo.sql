@@ -3,7 +3,8 @@
 -- hojas de práctica con lápiz) por usuario, y limita las correcciones con IA de la práctica con lápiz.
 -- Correr en el SQL Editor de Supabase. Es idempotente: se puede volver a correr sin romper nada.
 
--- 1) Un documento JSON por usuario y por clave ("progreso", "plan", "duo", "pz-<ejercicio>").
+-- 1) Un documento JSON por usuario y por clave ("progreso", "plan", "duo", "pz-<ejercicio>" y, si la cuenta
+--    tiene plan de estudio propio, "plan-datos": el contenido del plan, que solo ve su dueño).
 create table if not exists calculo_docs (
   usuario uuid not null references auth.users on delete cascade,
   doc text not null check (char_length(doc) between 1 and 120),
