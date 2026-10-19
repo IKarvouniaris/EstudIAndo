@@ -7,26 +7,26 @@
 
   // Tipos de respuesta: qué se entrega y cuándo. "confunde" = con qué se suele confundir (distractores).
   const TIPOS = {
-    num: { label: 'Un número (o ±∞, o «no existe»)', cuando: 'calcular un límite, una derivada en un punto o una integral definida', confunde: ['funcion', 'valores', 'conjunto', 'simplificada'] },
-    funcion: { label: 'Una función de x', cuando: 'derivar o hallar una función (f\'(x), una inversa)', confunde: ['num', 'primitiva', 'valores', 'recta'] },
-    primitiva: { label: 'Una función + C', cuando: 'resolver una integral indefinida', confunde: ['funcion', 'num', 'area'] },
-    conjunto: { label: 'Un conjunto de números (intervalos)', cuando: 'dominio, imagen, positividad, una inecuación o intervalos de crecimiento o concavidad', confunde: ['valores', 'num', 'puntos'] },
-    valores: { label: 'Valores de x (una lista, o «ninguno»)', cuando: 'resolver una ecuación o hallar ceros, raíces o puntos críticos', confunde: ['conjunto', 'factorizada', 'num', 'puntos'] },
-    factorizada: { label: 'La expresión escrita como producto (o «no se factoriza», justificado)', cuando: 'factorizar', confunde: ['valores', 'polinomio', 'simplificada'] },
-    simplificada: { label: 'Una expresión equivalente más simple (con sus restricciones)', cuando: 'simplificar, racionalizar o reescribir una expresión', confunde: ['num', 'factorizada', 'valores'] },
-    polinomio: { label: 'Un polinomio (suma de términos)', cuando: 'desarrollar, dividir polinomios o armar un polinomio de Taylor', confunde: ['factorizada', 'valores', 'num'] },
+    num: { label: 'Un solo número (también vale ±∞ o «no existe»)', cuando: 'calcular un límite, una derivada en un punto o una integral definida', confunde: ['funcion', 'valores', 'conjunto', 'simplificada'] },
+    funcion: { label: 'Una función de x, sin ninguna constante arbitraria', cuando: 'derivar o hallar una función (f\'(x), una inversa)', confunde: ['num', 'primitiva', 'valores', 'recta'] },
+    primitiva: { label: 'Una función de x más la constante de integración', cuando: 'resolver una integral indefinida', confunde: ['funcion', 'num', 'area'] },
+    conjunto: { label: 'Un conjunto de números, escrito con intervalos', cuando: 'dominio, imagen, positividad, una inecuación o intervalos de crecimiento o concavidad', confunde: ['valores', 'num', 'puntos'] },
+    valores: { label: 'Valores de x: una lista, o «ninguno» si no hay', cuando: 'resolver una ecuación o hallar ceros, raíces o puntos críticos', confunde: ['conjunto', 'factorizada', 'num', 'puntos'] },
+    factorizada: { label: 'La expresión escrita como producto de factores', cuando: 'factorizar', confunde: ['valores', 'polinomio', 'simplificada'] },
+    simplificada: { label: 'Una expresión equivalente más simple, con dominio', cuando: 'simplificar, racionalizar o reescribir una expresión', confunde: ['num', 'factorizada', 'valores'] },
+    polinomio: { label: 'Un polinomio, escrito como suma de términos', cuando: 'desarrollar, dividir polinomios o armar un polinomio de Taylor', confunde: ['factorizada', 'valores', 'num'] },
     recta: { label: 'Ecuaciones de rectas (y = mx + b, x = a, y = b)', cuando: 'rectas tangentes o normales, asíntotas o el eje de simetría', confunde: ['num', 'puntos', 'funcion'] },
     puntos: { label: 'Puntos (x, y), con su clasificación si la piden', cuando: 'extremos, vértices, puntos de inflexión o intersecciones', confunde: ['valores', 'conjunto', 'num'] },
     formula: { label: 'Una fórmula con todos los parámetros calculados', cuando: 'hallar la fórmula de una función a partir de datos o de un gráfico', confunde: ['valores', 'grafico', 'num'] },
-    parametros: { label: 'Los valores de los parámetros (a, b, k…)', cuando: 'hallar parámetros para que se cumpla una condición', confunde: ['conclusion', 'num', 'valores'] },
-    conclusion: { label: 'Una conclusión justificada (sí/no, qué tipo, por qué)', cuando: 'decidir si algo pasa (continuidad, derivabilidad, paridad, tipo de discontinuidad, qué método usar) y justificarlo', confunde: ['num', 'valores', 'conjunto'] },
-    area: { label: 'Un número positivo (un área)', cuando: 'calcular un área', confunde: ['num', 'primitiva', 'funcion'] },
-    convergencia: { label: '«Converge a …» o «diverge»', cuando: 'resolver una integral impropia', confunde: ['num', 'primitiva', 'conjunto'] },
-    contexto: { label: 'Un valor con unidades, respondido en el contexto', cuando: 'un problema con contexto (optimización, aproximación, crecimiento)', confunde: ['num', 'funcion', 'valores'] },
+    parametros: { label: 'Los valores de los parámetros (a, b, k…) pedidos', cuando: 'hallar parámetros para que se cumpla una condición', confunde: ['conclusion', 'num', 'valores'] },
+    conclusion: { label: 'Una conclusión justificada (sí/no y por qué)', cuando: 'decidir si algo pasa (continuidad, derivabilidad, paridad, tipo de discontinuidad, qué método usar) y justificarlo', confunde: ['num', 'valores', 'conjunto'] },
+    area: { label: 'Un número positivo con el valor de un área', cuando: 'calcular un área', confunde: ['num', 'primitiva', 'funcion'] },
+    convergencia: { label: 'Una conclusión: «converge a un valor» o «diverge»', cuando: 'resolver una integral impropia', confunde: ['num', 'primitiva', 'conjunto'] },
+    contexto: { label: 'Un valor con unidades, dicho en el contexto', cuando: 'un problema con contexto (optimización, aproximación, crecimiento)', confunde: ['num', 'funcion', 'valores'] },
     solgen: { label: 'Una familia de funciones y(x), con constantes', cuando: 'resolver una ecuación diferencial sin condición inicial', confunde: ['solpart', 'primitiva', 'num'] },
-    solpart: { label: 'Una función y(x) sin constantes libres', cuando: 'resolver una ecuación diferencial con condición inicial', confunde: ['solgen', 'primitiva', 'num'] },
-    grafico: { label: 'Un gráfico: función base, transformaciones, asíntotas y puntos', cuando: 'graficar usando transformaciones', confunde: ['conjunto', 'formula', 'valores'] },
-    caracteristicas: { label: 'Las características pedidas (amplitud, período, asíntota, imagen…)', cuando: 'leer los parámetros de una función', confunde: ['num', 'conjunto', 'grafico'] }
+    solpart: { label: 'Una función y(x) concreta, sin constantes libres', cuando: 'resolver una ecuación diferencial con condición inicial', confunde: ['solgen', 'primitiva', 'num'] },
+    grafico: { label: 'Un gráfico con función base, asíntotas y puntos', cuando: 'graficar usando transformaciones', confunde: ['conjunto', 'formula', 'valores'] },
+    caracteristicas: { label: 'Las características pedidas (amplitud, período…)', cuando: 'leer los parámetros de una función', confunde: ['num', 'conjunto', 'grafico'] }
   };
 
   root.DuoP = function (id, topic, enunciado, tipo, pasos) {

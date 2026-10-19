@@ -15,12 +15,12 @@
   P("m0-fc-1", T.fc, "Factorizar: $12x^4-18x^2$", "factorizada", [
     ["¿Qué mirás primero?",
       ["Si todos los términos comparten un factor (número y potencia de $x$)", "Factor común siempre va primero: acá $6$ y $x^2$ están en los dos términos."],
-      ["Buscar las raíces con la resolvente", "No es un trinomio cuadrático: primero se saca lo que es común."],
-      ["Desarrollar como cuadrado de binomio", "No hay ningún binomio al cuadrado: te piden lo contrario, un producto."]],
+      ["Si el polinomio tiene raíces enteras, para buscarlas con Ruffini", "Ruffini sirve para dividir, pero antes se saca lo que es común: ahorra cuentas y deja un polinomio más chico."],
+      ["Si los exponentes pares permiten verlo como cuadrado de binomio", "Un cuadrado de binomio es el resultado de desarrollar; acá te piden lo contrario, un producto, y primero se saca lo común."]],
     ["Sacaste $6x^2(2x^2-3)$. ¿Terminaste?",
-      ["Sí: $2x^2-3$ no tiene factor común ni es diferencia de cuadrados con enteros", "$3$ no es un cuadrado perfecto: con coeficientes enteros no se factoriza más."],
-      ["No: falta sacar $x^2$ otra vez", "Ya sacaste la menor potencia; adentro no queda $x^2$ en todos los términos."],
-      ["No: hay que distribuir y dejarlo como suma", "Distribuir sirve para verificar, pero la respuesta es el producto."]]
+      ["Sí: $2x^2-3$ ya no tiene factor común ni se factoriza con enteros", "$3$ no es un cuadrado perfecto: con coeficientes enteros no se factoriza más."],
+      ["No: queda un factor $x^2$ para sacar de nuevo adentro del paréntesis", "Ya sacaste la menor potencia; adentro no queda $x^2$ en todos los términos."],
+      ["No: hay que distribuir el $6x^2$ y dejarlo escrito como una suma", "Distribuir sirve para verificar, pero la respuesta es el producto."]]
   ]);
   P("m0-fc-2", T.fc, "Factorizar: $x(x-3)+5(x-3)$", "factorizada", [
     ["¿Qué tienen en común los dos términos?",
@@ -35,8 +35,8 @@
   P("m0-fc-3", T.fc, "Factorizar: $ax+2a+3x+6$", "factorizada", [
     ["Son 4 términos sin un factor común a todos. ¿Qué probás?",
       ["Agrupar de a dos y sacar factor común en cada grupo", "4 términos sin factor común total: es la señal del factoreo por agrupación."],
-      ["La resolvente", "No es un trinomio cuadrático en una sola variable."],
-      ["Diferencia de cuadrados", "No es una resta de dos cuadrados."]],
+      ["La resolvente, igualando el polinomio a cero y buscando raíces", "La resolvente es para un trinomio cuadrático en una sola variable; acá hay 4 términos con dos variables."],
+      ["Ver si es una diferencia de cuadrados escondida entre los términos", "No es una resta de dos cuadrados: hay cuatro términos y todos suman."]],
     ["Agrupaste: $a(x+2)+3(x+2)$. ¿Y ahora?",
       ["Sacar $(x+2)$: queda $(x+2)(a+3)$", "El paréntesis repetido es el nuevo factor común."],
       ["Ya está factorizado", "Todavía es una suma de dos términos: falta el último paso."],
@@ -48,15 +48,15 @@
       ["Diferencia de cuadrados directo", "$5x^3$ y $20x$ no son cuadrados perfectos."],
       ["Ruffini", "Funcionaría, pero es mucho más largo: hay un factor común a la vista."]],
     ["Quedó $5x(x^2-4)$. ¿Terminaste?",
-      ["No: $x^2-4$ es diferencia de cuadrados", "$x^2-4=(x-2)(x+2)$. Completo: $5x(x-2)(x+2)$."],
-      ["Sí", "Adentro quedó una diferencia de cuadrados sin factorizar: \"completamente\" pide seguir."],
-      ["No: $x^2-4=(x-2)^2$", "$(x-2)^2=x^2-4x+4$, no da $x^2-4$."]]
+      ["No: $x^2-4$ todavía es una diferencia de cuadrados", "$x^2-4=(x-2)(x+2)$. Completo: $5x(x-2)(x+2)$."],
+      ["Sí: ya está escrito como producto, con eso alcanza", "Adentro quedó una diferencia de cuadrados sin factorizar: \"completamente\" pide seguir."],
+      ["No: $x^2-4$ se factoriza como $(x-2)^2$ y falta ese paso", "$(x-2)^2=x^2-4x+4$, no da $x^2-4$."]]
   ]);
   P("m0-fc-5", T.fc, "Factorizar: $-6x^2+9x$", "factorizada", [
     ["¿Qué factor común sacás?",
-      ["$-3x$ (o $3x$: los dos sirven)", "$3$ divide a $6$ y a $9$, y la $x$ está en los dos. Sacar el signo menos deja el primer término positivo."],
-      ["Solo $x$", "Válido pero incompleto: el $3$ también es común."],
-      ["$-6x$", "$6$ no divide a $9$: no es factor común."]],
+      ["$-3x$ (o $3x$, los dos factores comunes sirven)", "$3$ divide a $6$ y a $9$, y la $x$ está en los dos. Sacar el signo menos deja el primer término positivo."],
+      ["Solo $3$, porque la $x$ no aparece en los dos términos", "La $x$ también es común: está en $-6x^2$ y en $9x$. Hay que sacar la mayor potencia común."],
+      ["$-6x$, el coeficiente del primer término", "$6$ no divide a $9$: no es factor común."]],
     ["Sacaste $-3x$. ¿Qué queda adentro?",
       ["$(2x-3)$", "$-6x^2\\div(-3x)=2x$ y $9x\\div(-3x)=-3$."],
       ["$(2x+3)$", "Al dividir $9x$ por un negativo da $-3$, no $+3$."],
@@ -65,9 +65,9 @@
 
   P("m0-dc-1", T.dc, "Factorizar: $x^2-49$", "factorizada", [
     ["¿Qué caso de factoreo es?",
-      ["Diferencia de cuadrados: $x^2$ menos $7^2$", "Una resta de dos cuadrados perfectos: $a^2-b^2=(a-b)(a+b)$."],
-      ["Trinomio cuadrático", "Tiene dos términos, no tres."],
-      ["Factor común", "$x^2$ y $49$ no comparten ningún factor."]],
+      ["Diferencia de cuadrados: $x^2$ menos $7^2$, o sea $(x-7)(x+7)$", "Una resta de dos cuadrados perfectos: $a^2-b^2=(a-b)(a+b)$."],
+      ["Trinomio cuadrático: se resuelve con la fórmula resolvente", "Tiene dos términos, no tres: la resolvente es para $ax^2+bx+c$ completo."],
+      ["Factor común: sacar $x$ de los dos términos y dejar lo que sobra", "El $49$ no tiene $x$: $x$ no es factor común de los dos términos."]],
     ["¿Cómo queda?",
       ["$(x-7)(x+7)$", "Con $a=x$ y $b=7$."],
       ["$(x-7)^2$", "$(x-7)^2=x^2-14x+49$: aparece un término del medio."],
@@ -75,23 +75,23 @@
   ]);
   P("m0-dc-2", T.dc, "Factorizar en los reales: $x^2+25$", "factorizada", [
     ["¿Sirve diferencia de cuadrados?",
-      ["No: es una SUMA de cuadrados", "La identidad necesita una resta. $a^2+b^2$ no se factoriza en los reales."],
-      ["Sí: $(x-5)(x+5)$", "Eso da $x^2-25$, no $x^2+25$."],
-      ["Sí: $(x+5)^2$", "$(x+5)^2=x^2+10x+25$."]],
+      ["No: es una SUMA de cuadrados, no una resta", "La identidad necesita una resta. $a^2+b^2$ no se factoriza en los reales."],
+      ["Sí: $x^2+25=(x-5)(x+5)$, porque $25=5^2$", "Eso da $x^2-25$, no $x^2+25$."],
+      ["Sí: $x^2+25=(x+5)^2$, el cuadrado de un binomio", "$(x+5)^2=x^2+10x+25$."]],
     ["¿Cuál es la respuesta?",
-      ["No se factoriza en los reales (no tiene raíces reales)", "\"No se puede\" es una respuesta válida si la justificás: $x^2+25=0$ no tiene solución real."],
-      ["$(x+5i)(x-5i)$, y listo", "Eso es en los complejos; la consigna pide los reales."],
-      ["$x^2+25$ = $x(x+25)$", "Al distribuir da $x^2+25x$."]]
+      ["No se factoriza en los reales: no tiene raíces reales", "\"No se puede\" es una respuesta válida si la justificás: $x^2+25=0$ no tiene solución real."],
+      ["$(x+5i)(x-5i)$, que es la factorización completa", "Eso es en los complejos; la consigna pide los reales."],
+      ["$x(x+25)$, sacando $x$ como factor común de los dos", "Al distribuir da $x^2+25x$."]]
   ]);
   P("m0-dc-3", T.dc, "Factorizar completamente: $16x^4-1$", "factorizada", [
     ["Primer movimiento",
-      ["Diferencia de cuadrados con $a=4x^2$, $b=1$", "$16x^4=(4x^2)^2$: queda $(4x^2-1)(4x^2+1)$."],
-      ["Factor común", "No hay ningún factor común a los dos términos."],
-      ["Ruffini con $x=1$", "$16-1\\ne0$: $1$ no es raíz."]],
+      ["Diferencia de cuadrados, con $a=4x^2$ y $b=1$", "$16x^4=(4x^2)^2$: queda $(4x^2-1)(4x^2+1)$."],
+      ["Sacar factor común $x^2$ de los dos términos", "No hay factor común: el $1$ no tiene $x$."],
+      ["Ruffini probando con $x=1$ como raíz", "$16-1\\ne0$: $1$ no es raíz."]],
     ["Tenés $(4x^2-1)(4x^2+1)$. ¿Y ahora?",
       ["Aplicar de nuevo: $4x^2-1=(2x-1)(2x+1)$; $4x^2+1$ queda", "Revisá paréntesis por paréntesis: el de la resta se vuelve a factorizar, la suma no."],
-      ["Factorizar $4x^2+1$ como $(2x+1)^2$", "$(2x+1)^2=4x^2+4x+1$."],
-      ["Ya terminó", "$4x^2-1$ sigue siendo una diferencia de cuadrados."]]
+      ["Factorizar $4x^2+1$ como $(2x+1)^2$ y dejar el otro paréntesis", "$(2x+1)^2=4x^2+4x+1$."],
+      ["Ya terminó: los dos paréntesis son irreducibles en los reales", "$4x^2-1$ sigue siendo una diferencia de cuadrados: se factoriza como $(2x-1)(2x+1)$."]]
   ]);
   P("m0-dc-4", T.dc, "Factorizar: $3x^2-75$", "factorizada", [
     ["¿Qué hacés primero?",
@@ -105,30 +105,30 @@
   ]);
   P("m0-dc-5", T.dc, "Simplificar: $\\dfrac{x^2-9}{x+3}$", "simplificada", [
     ["¿Qué hacés con el numerador?",
-      ["Factorizarlo: $(x-3)(x+3)$", "Para cancelar, primero hay que tener productos."],
-      ["Cancelar $x^2$ con $x$", "Son términos de una suma: solo se cancelan factores."],
-      ["Dividir $9$ por $3$", "El $9$ no multiplica a todo el numerador."]],
+      ["Factorizarlo como $(x-3)(x+3)$ para poder cancelar", "Para cancelar, primero hay que tener productos."],
+      ["Cancelar $x^2$ con $x$, que están arriba y abajo", "Son términos de una suma: solo se cancelan factores."],
+      ["Dividir el $9$ por el $3$ y simplificar los números", "El $9$ no multiplica a todo el numerador."]],
     ["¿Cómo queda?",
       ["$x-3$, con $x\\ne-3$", "Se cancela $(x+3)$, pero $x=-3$ sigue fuera del dominio."],
       ["$x-3$ para todo $x$", "La expresión original no existe en $x=-3$: esa restricción no desaparece."],
-      ["$x+3$", "El factor que se cancela es $(x+3)$; queda $(x-3)$."]]
+      ["$x+3$, con $x\\ne-3$", "El factor que se cancela es $(x+3)$; el que queda es $(x-3)$."]]
   ]);
 
   P("m0-cb-1", T.cb, "Desarrollar: $(x-6)^2$", "polinomio", [
     ["¿Qué fórmula usás?",
-      ["$(a-b)^2=a^2-2ab+b^2$", "El cuadrado de un binomio tiene 3 términos."],
-      ["$a^2-b^2$", "Eso es $(a-b)(a+b)$, otra identidad."],
-      ["$a^2+b^2$", "Falta el término del medio: el error más común."]],
+      ["$(a-b)^2=a^2-2ab+b^2$, con 3 términos", "El cuadrado de un binomio tiene 3 términos."],
+      ["$(a-b)^2=a^2-b^2$, restando los cuadrados", "Eso es $(a-b)(a+b)$, otra identidad. El cuadrado de un binomio tiene 3 términos."],
+      ["$(a-b)^2=a^2+b^2$, sin el término del medio", "Falta el término del medio: el error más común."]],
     ["¿Resultado?",
       ["$x^2-12x+36$", "$2ab=2\\cdot x\\cdot6=12x$, con signo menos."],
-      ["$x^2+36$", "Falta $-12x$."],
+      ["$x^2-12x-36$", "El término independiente es $b^2=+36$: un cuadrado nunca es negativo."],
       ["$x^2-6x+36$", "El término del medio es $2ab$: falta el $2$."]]
   ]);
   P("m0-cb-2", T.cb, "Factorizar: $x^2+8x+16$", "factorizada", [
     ["¿Qué chequeás?",
       ["Si los extremos son cuadrados ($x^2$ y $4^2$) y el medio es $2\\cdot x\\cdot4$", "Así se reconoce un trinomio cuadrado perfecto."],
-      ["Si hay factor común", "$x^2$, $8x$ y $16$ no tienen factor común."],
-      ["Si es diferencia de cuadrados", "Tiene tres términos y son sumas."]],
+      ["Si los tres términos tienen un factor común para sacar primero", "$x^2$, $8x$ y $16$ no tienen factor común: el $16$ no tiene $x$."],
+      ["Si es una diferencia de cuadrados, restando los extremos", "Hay tres términos y todos suman: no es una resta de dos cuadrados."]],
     ["¿Resultado?",
       ["$(x+4)^2$", "El medio es positivo: binomio con suma."],
       ["$(x-4)^2$", "Daría $-8x$ en el medio."],
@@ -138,11 +138,11 @@
     ["¿Conviene desarrollar el cuadrado?",
       ["No: sacar raíz a ambos lados, con $\\pm$", "$x+1=\\pm3$ es más corto y no perdés ninguna solución."],
       ["Sí, siempre hay que desarrollar", "Funciona, pero es más largo y da más lugar a errores de signo."],
-      ["Sacar raíz sin el $\\pm$", "Perdés la solución negativa."]],
+      ["Sacar raíz de los dos lados, pero sin poner el $\\pm$", "Perdés la solución negativa."]],
     ["¿Soluciones?",
       ["$x=2$ y $x=-4$", "$x+1=3$ o $x+1=-3$."],
-      ["Solo $x=2$", "Falta la que sale de $x+1=-3$."],
-      ["$x=\\pm3$", "Falta restar $1$."]]
+      ["$x=2$ y $x=4$", "$x+1=-3$ da $x=-4$: ojo con el signo al despejar."],
+      ["$x=3$ y $x=-3$", "Falta restar $1$ a cada una."]]
   ]);
   P("m0-cb-4", T.cb, "Resolver: $-2(x-3)^2+8=0$", "valores", [
     ["¿Primer paso?",
@@ -151,12 +151,12 @@
       ["Sacar raíz de toda la expresión", "$\\sqrt{a+b}\\ne\\sqrt a+\\sqrt b$."]],
     ["¿Soluciones?",
       ["$x-3=\\pm2 \\Rightarrow x=1,\\ x=5$", "Dos soluciones, por el $\\pm$."],
-      ["Solo $x=5$", "Falta $x-3=-2$."],
+      ["Solo $x=5$, de $x-3=2$", "Falta $x-3=-2$."],
       ["No tiene: $(x-3)^2=-4$", "Error de signo: $-8\\div(-2)=+4$."]]
   ]);
   P("m0-cb-5", T.cb, "Si $9x^2-12x+4$ es un trinomio cuadrado perfecto, factorizarlo", "factorizada", [
     ["¿Lo es?",
-      ["Sí: $(3x)^2$, $2^2$ y $2\\cdot3x\\cdot2=12x$", "Extremos cuadrados y medio igual a $2ab$."],
+      ["Sí: extremos $(3x)^2$ y $2^2$; medio $2\\cdot3x\\cdot2=12x$", "Extremos cuadrados y medio igual a $2ab$."],
       ["No, porque el coeficiente principal no es $1$", "No hace falta que sea $1$: hace falta que sea un cuadrado."],
       ["No, porque el término del medio es negativo", "El signo solo decide si es $(a-b)^2$ o $(a+b)^2$."]],
     ["¿Resultado?",
@@ -168,8 +168,8 @@
   P("m0-tc-1", T.tc, "Factorizar: $x^2+x-12$", "factorizada", [
     ["¿Qué método usás?",
       ["Dos números con producto $-12$ y suma $1$", "Con $a=1$ alcanza con el tanteo."],
-      ["Trinomio cuadrado perfecto", "$-12$ no es un cuadrado."],
-      ["Factor común", "No hay factor común a los tres términos."]],
+      ["Trinomio cuadrado perfecto, buscando los cuadrados", "$-12$ no es un cuadrado perfecto: no hay trinomio cuadrado perfecto."],
+      ["Factor común, sacando $x$ de los tres términos", "No hay factor común: el $-12$ no tiene $x$."]],
     ["¿Resultado?",
       ["$(x+4)(x-3)$", "$4\\cdot(-3)=-12$ y $4-3=1$."],
       ["$(x-4)(x+3)$", "La suma daría $-1$."],
@@ -178,18 +178,18 @@
   P("m0-tc-2", T.tc, "Factorizar: $2x^2-7x+3$", "factorizada", [
     ["¿Qué método usás?",
       ["Resolvente (porque $a\\ne1$) y escribir $a(x-x_1)(x-x_2)$", "Con $a\\ne1$ el tanteo simple no alcanza."],
-      ["Dos números con producto $3$ y suma $-7$", "Ese atajo es solo para $a=1$."],
-      ["Factor común $2$", "$7$ y $3$ no son múltiplos de $2$."]],
+      ["Dos números con producto $3$ y suma $-7$, como si $a=1$", "Ese atajo es solo para $a=1$."],
+      ["Factor común $2$ de los tres términos del polinomio", "$7$ y $3$ no son múltiplos de $2$: no hay factor común."]],
     ["$\\Delta=25$: raíces $3$ y $\\tfrac12$. ¿Factorización?",
       ["$2(x-3)\\left(x-\\tfrac12\\right)=(x-3)(2x-1)$", "El coeficiente principal queda adelante."],
-      ["$(x-3)\\left(x-\\tfrac12\\right)$", "Falta $a=2$: al distribuir da $x^2-\\tfrac72x+\\tfrac32$."],
-      ["$2(x+3)\\left(x+\\tfrac12\\right)$", "Los factores son $(x-\\text{raíz})$."]]
+      ["$(x-3)\\left(x-\\tfrac12\\right)$, sin el $2$ adelante", "Falta $a=2$: al distribuir da $x^2-\\tfrac72x+\\tfrac32$."],
+      ["$2(x+3)\\left(x+\\tfrac12\\right)$, con los signos cambiados", "Los factores son $(x-\\text{raíz})$."]]
   ]);
   P("m0-tc-3", T.tc, "Resolver: $x^2-6x+5=0$", "valores", [
     ["¿Cómo encarás?",
-      ["Factorizar (o resolvente) y usar que un producto es $0$ si algún factor es $0$", "$(x-1)(x-5)=0$."],
-      ["Despejar $x^2$ y sacar raíz", "Hay término en $x$: no se puede aislar $x^2$ solo."],
-      ["Dividir todo por $x$", "Podés perder soluciones y queda $x$ en el denominador."]],
+      ["Factorizar o usar la resolvente, e igualar cada factor a $0$", "$(x-1)(x-5)=0$."],
+      ["Despejar $x^2$ y sacar raíz a los dos lados de la igualdad", "Hay término en $x$: no se puede aislar $x^2$ solo."],
+      ["Dividir todo por $x$ para bajar el grado de la ecuación", "Podés perder soluciones y queda $x$ en el denominador."]],
     ["¿Respuesta?",
       ["$x=1$ y $x=5$", "Te piden los valores, no la factorización."],
       ["$x=-1$ y $x=-5$", "De $(x-1)=0$ sale $x=1$: el signo se invierte."],
@@ -201,9 +201,9 @@
       ["Probar enteros hasta que salga", "Si no hay raíces reales, nunca va a salir."],
       ["Tratarlo como cuadrado perfecto", "$7$ no es un cuadrado."]],
     ["$\\Delta=4-28=-24$. ¿Conclusión?",
-      ["No se factoriza en $\\mathbb{R}$: no tiene raíces reales", "Es una respuesta válida y completa si mostrás el discriminante."],
-      ["Sacar la $i$ y seguir", "Borrar la $i$ no es una operación matemática."],
-      ["$(x+1)^2+6$ es la factorización", "Esa es la forma canónica: es una suma, no un producto."]]
+      ["No se factoriza en $\\mathbb{R}$: no hay raíces reales", "Es una respuesta válida y completa si mostrás el discriminante."],
+      ["Factorizar con $\\sqrt{-24}$ como si fuera un número real", "La raíz de un número negativo no es real: en $\\mathbb{R}$ no hay factorización."],
+      ["$(x+1)^2+6$, que es la factorización completa", "Esa es la forma canónica: es una suma, no un producto."]]
   ]);
   P("m0-tc-5", T.tc, "Hallar las raíces de $3x^2+x-2$", "valores", [
     ["Planteo de la resolvente",
@@ -218,39 +218,39 @@
 
   P("m0-ra-1", T.ra, "Racionalizar: $\\dfrac{10}{\\sqrt5}$", "simplificada", [
     ["¿Por qué multiplicás arriba y abajo?",
-      ["Por $\\sqrt5$", "Una raíz sola se elimina multiplicándola por sí misma."],
-      ["Por el conjugado", "No hay binomio: el conjugado no hace falta."],
+      ["Por $\\sqrt5$, así el denominador queda sin raíz alguna", "Una raíz sola se elimina multiplicándola por sí misma."],
+      ["Por el conjugado, para armar diferencia de cuadrados", "No hay binomio: el conjugado no hace falta."],
       ["Elevar al cuadrado numerador y denominador", "Cambia el valor de la fracción."]],
     ["¿Resultado?",
-      ["$\\dfrac{10\\sqrt5}{5}=2\\sqrt5$", "Y se simplifica al final."],
-      ["$\\dfrac{10\\sqrt5}{25}$", "$\\sqrt5\\cdot\\sqrt5=5$, no $25$."],
-      ["$10\\sqrt5$", "Falta el denominador $5$."]]
+      ["$\\dfrac{10\\sqrt5}{5}=2\\sqrt5$, ya simplificado", "Y se simplifica al final."],
+      ["$\\dfrac{10\\sqrt5}{25}=\\dfrac{2\\sqrt5}{5}$", "$\\sqrt5\\cdot\\sqrt5=5$, no $25$."],
+      ["$10\\sqrt5$, sin dividir por el denominador", "Falta el denominador $5$."]]
   ]);
   P("m0-ra-2", T.ra, "Racionalizar: $\\dfrac{2}{\\sqrt3+1}$", "simplificada", [
     ["¿Por qué multiplicás?",
-      ["Por el conjugado $\\sqrt3-1$", "Genera diferencia de cuadrados y la raíz desaparece."],
-      ["Por $\\sqrt3$", "Abajo quedaría $3+\\sqrt3$: la raíz sigue."],
-      ["Por $\\sqrt3+1$", "Abajo quedaría $4+2\\sqrt3$: empeora."]],
+      ["Por el conjugado $\\sqrt3-1$, que arma diferencia de cuadrados", "Genera diferencia de cuadrados y la raíz desaparece."],
+      ["Por $\\sqrt3$, para eliminar la raíz del denominador", "Abajo quedaría $3+\\sqrt3$: la raíz sigue."],
+      ["Por $\\sqrt3+1$, el mismo binomio que está abajo", "Abajo quedaría $4+2\\sqrt3$: empeora."]],
     ["¿Resultado?",
-      ["$\\dfrac{2(\\sqrt3-1)}{3-1}=\\sqrt3-1$", "$(\\sqrt3)^2-1^2=2$."],
-      ["$\\dfrac{2(\\sqrt3-1)}{4}$", "El denominador es $3-1=2$."],
-      ["$2(\\sqrt3+1)$", "Se multiplica por el conjugado, que tiene el signo cambiado."]]
+      ["$\\dfrac{2(\\sqrt3-1)}{3-1}=\\sqrt3-1$, ya simplificado", "$(\\sqrt3)^2-1^2=2$."],
+      ["$\\dfrac{2(\\sqrt3-1)}{3+1}=\\dfrac{\\sqrt3-1}{2}$", "El denominador es $3-1=2$, no $3+1$."],
+      ["$2(\\sqrt3+1)$, repitiendo el signo del denominador", "Se multiplica por el conjugado, que tiene el signo cambiado."]]
   ]);
   P("m0-ra-3", T.ra, "Calcular $\\displaystyle\\lim_{x\\to1}\\dfrac{\\sqrt{x}-1}{x-1}$", "num", [
     ["Al sustituir da $\\tfrac00$. ¿Qué hacés?",
-      ["Multiplicar arriba y abajo por el conjugado $\\sqrt x+1$", "Así aparece el factor $(x-1)$ para cancelar."],
-      ["Decir que $\\tfrac00=1$", "$\\tfrac00$ es una indeterminación, no un valor."],
-      ["Decir que no existe", "La indeterminación pide seguir trabajando, no rendirse."]],
+      ["Multiplicar por el conjugado $\\sqrt x+1$, arriba y abajo", "Así aparece el factor $(x-1)$ para cancelar."],
+      ["Decir que $\\tfrac00=1$, porque algo dividido por sí mismo da $1$", "$\\tfrac00$ es una indeterminación, no un valor: hay que seguir trabajando."],
+      ["Decir que no existe, porque el denominador se anula", "El denominador se anula, pero la indeterminación pide seguir trabajando, no rendirse."]],
     ["¿Qué queda y cuánto da?",
-      ["$\\dfrac{1}{\\sqrt x+1}\\to\\dfrac12$", "$(\\sqrt x)^2-1=x-1$ se cancela con el denominador."],
-      ["$\\sqrt x+1\\to2$", "El conjugado queda en el denominador, no arriba."],
-      ["$\\dfrac{1}{\\sqrt x-1}$", "Ese factor es el que se usó para la diferencia de cuadrados."]]
+      ["$\\dfrac{1}{\\sqrt x+1}\\to\\dfrac12$, al cancelar $x-1$", "$(\\sqrt x)^2-1=x-1$ se cancela con el denominador."],
+      ["$\\sqrt x+1\\to2$, con el conjugado arriba", "El conjugado queda en el denominador, no arriba."],
+      ["$\\dfrac{1}{\\sqrt x-1}$, que sigue sin resolverse", "Ese factor es el que se usó para la diferencia de cuadrados."]]
   ]);
   P("m0-ra-4", T.ra, "Simplificar para $x\\ge0,\\ x\\ne4$: $\\dfrac{x-4}{\\sqrt x-2}$", "simplificada", [
     ["¿Qué ves?",
       ["$x-4=(\\sqrt x-2)(\\sqrt x+2)$: es diferencia de cuadrados", "También sale multiplicando por el conjugado."],
-      ["Que se cancelan las $x$", "La $x$ de abajo está dentro de una raíz y en una resta."],
-      ["Que hay que elevar al cuadrado", "Eso cambia la expresión."]],
+      ["Que se cancelan las $x$, arriba con la de abajo del todo", "La $x$ de abajo está dentro de una raíz y en una resta: no se puede cancelar así."],
+      ["Que hay que elevar al cuadrado numerador y denominador", "Elevar al cuadrado cambia la expresión: ya no es la misma fracción."]],
     ["¿Resultado?",
       ["$\\sqrt x+2$", "Se cancela $(\\sqrt x-2)$."],
       ["$\\sqrt x-2$", "Ese es el factor que se cancela."],
@@ -258,54 +258,54 @@
   ]);
   P("m0-ra-5", T.ra, "Racionalizar: $\\dfrac{6}{\\sqrt[3]{2}}$", "simplificada", [
     ["¿Por qué multiplicás?",
-      ["Por $\\sqrt[3]{2^2}=\\sqrt[3]4$, para completar un cubo", "$\\sqrt[3]2\\cdot\\sqrt[3]4=\\sqrt[3]8=2$."],
-      ["Por $\\sqrt[3]2$", "$\\sqrt[3]2\\cdot\\sqrt[3]2=\\sqrt[3]4$: la raíz sigue."],
-      ["Por $\\sqrt2$", "Raíz cuadrada y cúbica no se cancelan entre sí."]],
+      ["Por $\\sqrt[3]4$, para completar un cubo en el denominador", "$\\sqrt[3]2\\cdot\\sqrt[3]4=\\sqrt[3]8=2$."],
+      ["Por $\\sqrt[3]2$, la misma raíz que está en el denominador", "$\\sqrt[3]2\\cdot\\sqrt[3]2=\\sqrt[3]4$: la raíz sigue."],
+      ["Por $\\sqrt2$, para que la raíz cúbica se pase a cuadrada", "Raíz cuadrada y cúbica no se cancelan entre sí: el denominador sigue con raíz."]],
     ["¿Resultado?",
-      ["$\\dfrac{6\\sqrt[3]4}{2}=3\\sqrt[3]4$", "Y se simplifica el $6$ con el $2$."],
-      ["$6\\sqrt[3]4$", "Falta dividir por $2$."],
-      ["$\\dfrac{6\\sqrt[3]4}{4}$", "El denominador es $\\sqrt[3]8=2$."]]
+      ["$\\dfrac{6\\sqrt[3]4}{2}=3\\sqrt[3]4$, simplificando el $6$ con el $2$", "Y se simplifica el $6$ con el $2$."],
+      ["$6\\sqrt[3]4$, sin dividir por el denominador", "Falta dividir por $2$: el denominador es $\\sqrt[3]2\\cdot\\sqrt[3]4=2$."],
+      ["$\\dfrac{6\\sqrt[3]4}{4}$, con el denominador $\\sqrt[3]4$ al cuadrado", "El denominador es $\\sqrt[3]8=2$."]]
   ]);
 
   P("m0-sf-1", T.sf, "Simplificar: $\\dfrac{x^2-3x}{x^2-9}$", "simplificada", [
     ["¿Primer paso?",
-      ["Factorizar numerador y denominador", "Solo se cancelan factores."],
-      ["Cancelar los $x^2$", "Son términos de restas, no factores."],
-      ["Cancelar el $3$ con el $9$", "Tampoco son factores de todo."]],
+      ["Factorizar numerador y denominador, para ver los factores", "Solo se cancelan factores."],
+      ["Cancelar los $x^2$ de arriba con los de abajo del todo", "Son términos de restas, no factores."],
+      ["Cancelar el $3$ del numerador con el $9$ del denominador", "Tampoco son factores de todo."]],
     ["$\\dfrac{x(x-3)}{(x-3)(x+3)}$. ¿Resultado?",
-      ["$\\dfrac{x}{x+3}$, con $x\\ne\\pm3$", "Se cancela $(x-3)$ pero las restricciones del original quedan."],
-      ["$\\dfrac{x}{x+3}$, con $x\\ne-3$", "$x=3$ también estaba excluido."],
-      ["$\\dfrac13$", "Eso sería cancelar términos sueltos."]]
+      ["$\\dfrac{x}{x+3}$, con $x\\ne\\pm3$, ya simplificado", "Se cancela $(x-3)$ pero las restricciones del original quedan."],
+      ["$\\dfrac{x}{x+3}$, con solo $x\\ne-3$ como restricción", "$x=3$ también estaba excluido."],
+      ["$\\dfrac13$, cancelando los $x$ y los $3$ sueltos", "Eso es cancelar términos sueltos: solo se cancelan factores que multiplican todo."]]
   ]);
   P("m0-sf-2", T.sf, "Simplificar: $\\dfrac{2x+4}{x^2+4x+4}$", "simplificada", [
     ["¿Cómo factorizás?",
       ["Factor común arriba y cuadrado perfecto abajo", "$2(x+2)$ sobre $(x+2)^2$."],
-      ["Cancelar el $4$ con el $4$", "No son factores de todo."],
-      ["Resolvente arriba", "Arriba es lineal: alcanza con factor común."]],
+      ["Cancelar el $4$ con el $4$ de los dos lados", "No son factores de todo el numerador y todo el denominador."],
+      ["Resolvente arriba, aunque ahí no hay trinomio", "Arriba es lineal: alcanza con sacar factor común."]],
     ["¿Resultado?",
       ["$\\dfrac{2}{x+2}$, con $x\\ne-2$", "Se cancela un $(x+2)$."],
-      ["$\\dfrac{2}{x+4}$", "Abajo queda $(x+2)$."],
-      ["$2(x+2)$", "El cuadrado está en el denominador."]]
+      ["$\\dfrac{2}{x+4}$, con $x\\ne-4$", "Abajo queda $(x+2)^2$: al cancelar un $(x+2)$ sobra $(x+2)$, no $(x+4)$."],
+      ["$\\dfrac{2}{x+2}$, para todo $x$", "La expresión original no existe en $x=-2$: esa restricción se conserva aunque se cancele."]]
   ]);
   P("m0-sf-3", T.sf, "¿Es correcto escribir $\\dfrac{x+5}{x}=5$?", "conclusion", [
     ["¿Qué decís?",
       ["No: la $x$ no es factor de todo el numerador", "Solo se cancela lo que multiplica a toda la expresión."],
-      ["Sí, se cancelan las $x$", "La $x$ de arriba está sumando con el $5$."],
-      ["Sí, siempre que $x\\ne0$", "La restricción no arregla la cancelación inválida. Probá $x=1$: da $6$, no $5$."]],
+      ["Sí: la $x$ de arriba se cancela con la de abajo", "La $x$ de arriba está sumando con el $5$."],
+      ["Sí, siempre que $x\\ne0$, porque entonces $\\tfrac xx=1$", "La restricción no arregla la cancelación inválida. Probá $x=1$: da $6$, no $5$."]],
     ["¿Cómo se puede reescribir de forma válida?",
-      ["$1+\\dfrac5x$", "Separando la fracción término a término."],
-      ["$x+5$", "No se puede eliminar el denominador."],
-      ["$\\dfrac5x$", "Falta el $1$ que sale de $\\tfrac xx$."]]
+      ["$1+\\dfrac5x$, separando en dos fracciones", "Separando la fracción término a término."],
+      ["$x+5$, eliminando el denominador", "No se puede eliminar el denominador."],
+      ["$\\dfrac5x$, sin el $1$ de $\\tfrac xx$", "Falta el $1$ que sale de $\\tfrac xx$."]]
   ]);
   P("m0-sf-4", T.sf, "Simplificar: $\\dfrac{x^3-x}{x^2+x}$", "simplificada", [
     ["¿Primer paso?",
       ["Factorizar: $x(x-1)(x+1)$ arriba y $x(x+1)$ abajo", "Factor común y diferencia de cuadrados."],
-      ["Dividir término a término", "Con un denominador de dos términos no se puede separar así."],
-      ["Cancelar una $x$ sin factorizar", "Hay que factorizar primero para saber qué se cancela."]],
+      ["Dividir cada término de arriba por el denominador entero", "Con un denominador de dos términos no se puede separar así."],
+      ["Cancelar una $x$ de arriba con una de abajo sin factorizar", "Hay que factorizar primero para saber qué se cancela."]],
     ["¿Resultado?",
       ["$x-1$, con $x\\ne0$ y $x\\ne-1$", "Se cancelan $x$ y $(x+1)$."],
       ["$x-1$ sin restricciones", "El original no existe en $0$ ni en $-1$."],
-      ["$x^2-1$", "También se cancela el $(x+1)$."]]
+      ["$x^2-1$, cancelando solo una $x$", "También se cancela el $(x+1)$: queda $x-1$."]]
   ]);
   P("m0-sf-5", T.sf, "Restar y simplificar: $\\dfrac{3}{x-1}-\\dfrac{3}{x+1}$", "simplificada", [
     ["¿Cómo restás?",
@@ -314,49 +314,49 @@
       ["Con denominador común $x$", "$x$ no es múltiplo de los dos denominadores."]],
     ["¿Resultado?",
       ["$\\dfrac{6}{(x-1)(x+1)}$", "$3(x+1)-3(x-1)=6$."],
-      ["$\\dfrac{0}{2}$", "No se restan denominadores."],
-      ["$\\dfrac{6x}{x^2-1}$", "Las $x$ del numerador se cancelan: queda $6$."]]
+      ["$\\dfrac{0}{(x-1)(x+1)}$", "No se restan los numeradores sin llevar a común denominador: $3(x+1)-3(x-1)=6$."],
+      ["$\\dfrac{6x}{(x-1)(x+1)}$", "Las $x$ del numerador se cancelan: queda $6$."]]
   ]);
 
   P("m0-po-1", T.po, "Escribir como $c\\,x^n$: $\\dfrac{4}{x^3}$", "simplificada", [
     ["¿Cómo pasás $x^3$ al numerador?",
       ["Cambiando el signo del exponente: $4x^{-3}$", "$\\tfrac{1}{x^n}=x^{-n}$."],
-      ["$4x^3$", "Al subir, el exponente cambia de signo."],
-      ["$-4x^3$", "Cambia el signo del exponente, no del coeficiente."]],
+      ["Pasándolo arriba con el mismo exponente: $4x^3$", "Al subir, el exponente cambia de signo."],
+      ["Cambiando el signo del coeficiente: $-4x^3$", "Cambia el signo del exponente, no del coeficiente."]],
     ["¿Para qué sirve escribirlo así?",
       ["Para derivar o integrar con la regla de potencias", "Una sola regla en vez de casos especiales."],
-      ["Para que dé un número", "Sigue siendo una función de $x$."],
-      ["Para evitar el dominio", "El dominio no cambia: $x\\ne0$."]]
+      ["Para que la función dé un número en lugar de una expresión", "Sigue siendo una función de $x$."],
+      ["Para evitar el dominio, así ya no hay que restringirlo", "El dominio no cambia: $x\\ne0$."]]
   ]);
   P("m0-po-2", T.po, "Simplificar a una sola potencia: $\\dfrac{x^5\\cdot x^{-2}}{x^{1/2}}$", "simplificada", [
     ["Arriba, $x^5\\cdot x^{-2}$",
       ["Se suman los exponentes: $x^3$", "Producto de igual base."],
-      ["Se multiplican: $x^{-10}$", "Se multiplican en una potencia de potencia, no en un producto."],
-      ["Se restan: $x^7$", "Se restan en un cociente."]],
+      ["Se multiplican los exponentes: $x^{-10}$", "Se multiplican en una potencia de potencia, no en un producto."],
+      ["Se restan los exponentes: $x^7$", "Se restan en un cociente."]],
     ["¿Y al dividir por $x^{1/2}$?",
       ["$x^{3-\\frac12}=x^{5/2}$", "Cociente: se restan."],
-      ["$x^{3/2}$", "$3-\\tfrac12=\\tfrac52$."],
-      ["$x^{6}$", "Se resta, no se divide."]]
+      ["$x^{3+\\frac12}=x^{7/2}$", "Dividir es restar exponentes: $3-\\tfrac12=\\tfrac52$, no $3+\\tfrac12$."],
+      ["$x^{3\\div\\frac12}=x^6$", "En un cociente de potencias se restan los exponentes; no se dividen."]]
   ]);
   P("m0-po-3", T.po, "Calcular sin calculadora: $8^{2/3}$", "num", [
     ["¿Cómo se lee $8^{2/3}$?",
       ["Raíz cúbica de $8$, y después al cuadrado", "$a^{m/n}=(\\sqrt[n]a)^m$."],
-      ["$8\\cdot\\tfrac23$", "Un exponente no multiplica a la base."],
-      ["$\\dfrac{8^2}{3}$", "El $3$ es el índice de la raíz."]],
+      ["Multiplicar la base $8$ por el exponente $\\tfrac23$", "Un exponente no multiplica a la base."],
+      ["Elevar $8$ al cuadrado y dividir por el $3$", "El $3$ es el índice de la raíz, no un divisor."]],
     ["¿Resultado?",
       ["$4$", "$\\sqrt[3]8=2$ y $2^2=4$."],
-      ["$\\tfrac{16}{3}$", "Es $8\\cdot\\tfrac23$: no corresponde."],
-      ["$\\tfrac{64}{3}$", "Es $8^2/3$: no corresponde."]]
+      ["$2$", "Es solo la raíz cúbica de $8$: falta elevar al cuadrado."],
+      ["$8$", "$8$ es la base: el exponente $\\tfrac23$ sí la cambia."]]
   ]);
   P("m0-po-4", T.po, "Calcular: $-3^2+(-3)^2$", "num", [
     ["¿Cuánto vale $-3^2$?",
-      ["$-9$: el cuadrado afecta solo al $3$", "Sin paréntesis, el signo queda afuera."],
+      ["$-9$", "Sin paréntesis, el signo queda afuera."],
       ["$9$", "Eso es $(-3)^2$."],
       ["$-6$", "$3^2=9$, no $6$."]],
     ["¿Resultado total?",
-      ["$0$", "$-9+9$."],
-      ["$18$", "$-3^2$ es negativo."],
-      ["$-18$", "$(-3)^2$ es positivo."]]
+      ["$0$, porque $-9+9=0$", "$-9+9$."],
+      ["$18$, sumando $9+9$", "$-3^2$ es negativo."],
+      ["$-18$, sumando $-9-9$", "$(-3)^2$ es positivo."]]
   ]);
   P("m0-po-5", T.po, "Escribir $\\sqrt{x}\\cdot\\sqrt[3]{x}$ como una sola potencia de $x$", "simplificada", [
     ["¿Primer paso?",
@@ -372,12 +372,12 @@
   P("m0-in-1", T.in, "Resolver: $x^2-5x+4<0$", "conjunto", [
     ["¿Cómo encarás?",
       ["Raíces del polinomio ($1$ y $4$) y tabla de signos", "Las raíces son los bordes donde puede cambiar el signo."],
-      ["Despejar $x^2$", "Hay término en $x$: no se aísla."],
+      ["Despejar $x^2$ y sacar raíz de los dos lados", "Hay término en $x$: no se aísla."],
       ["Resolver $x^2-5x+4=0$ y dar esas raíces", "Las raíces son los bordes, no la respuesta: te piden un conjunto."]],
     ["La parábola abre hacia arriba. ¿Dónde es negativa?",
-      ["Entre las raíces: $(1,4)$", "Bordes abiertos porque es $<$ estricto."],
-      ["$(-\\infty,1)\\cup(4,+\\infty)$", "Ahí es positiva."],
-      ["$[1,4]$", "En $1$ y $4$ vale $0$, que no es $<0$."]]
+      ["$(1,4)$, entre las raíces", "Bordes abiertos porque es $<$ estricto."],
+      ["$(-\\infty,1)\\cup(4,+\\infty)$, afuera", "Ahí es positiva."],
+      ["$[1,4]$, entre las raíces", "En $1$ y $4$ vale $0$, que no es $<0$."]]
   ]);
   P("m0-in-2", T.in, "Resolver: $\\dfrac{x-3}{x+2}\\ge0$", "conjunto", [
     ["¿Cómo encarás?",
@@ -387,13 +387,13 @@
     ["¿Solución?",
       ["$(-\\infty,-2)\\cup[3,+\\infty)$", "$3$ incluido (da $0$); $-2$ nunca (anula el denominador)."],
       ["$(-\\infty,-2]\\cup[3,+\\infty)$", "En $-2$ la expresión no existe."],
-      ["$[3,+\\infty)$", "Para $x<-2$ también es positiva."]]
+      ["$(-\\infty,-2)\\cup(3,+\\infty)$", "En $x=3$ la expresión vale $0$ y $0\\ge0$ sí cumple: el $3$ se incluye."]]
   ]);
   P("m0-in-3", T.in, "Resolver: $-3x+6>0$", "conjunto", [
     ["¿Qué cuidado tenés al despejar?",
       ["Al dividir por $-3$ se invierte la desigualdad", "$-3x>-6 \\Rightarrow x<2$."],
       ["Ninguno, se despeja como una ecuación", "Dividir por un negativo da vuelta el sentido."],
-      ["Hacer tabla de signos", "Funciona, pero para una lineal es un rodeo."]],
+      ["Hacer una tabla de signos, aunque sea más largo", "Funciona, pero para una lineal es un rodeo."]],
     ["¿Solución?",
       ["$(-\\infty,2)$", "$x<2$."],
       ["$(2,+\\infty)$", "Olvidaste invertir."],
@@ -402,12 +402,12 @@
   P("m0-in-4", T.in, "Resolver: $(x-1)^2(x+3)>0$", "conjunto", [
     ["¿Qué pasa con $(x-1)^2$?",
       ["Nunca es negativo; vale $0$ en $x=1$", "No cambia el signo, pero anula todo en $x=1$."],
-      ["Cambia de signo en $x=1$", "Un factor al cuadrado no cambia de signo."],
-      ["Se puede tachar y listo", "Si lo tachás perdés que en $x=1$ el producto vale $0$."]],
+      ["Cambia de signo al pasar por $x=1$", "Un factor al cuadrado no cambia de signo."],
+      ["Se puede tachar, porque es un cuadrado", "Si lo tachás perdés que en $x=1$ el producto vale $0$."]],
     ["¿Solución?",
-      ["$(-3,1)\\cup(1,+\\infty)$", "Positivo cuando $x+3>0$, sacando $x=1$."],
-      ["$(-3,+\\infty)$", "En $x=1$ vale $0$, que no es $>0$."],
-      ["$(-\\infty,-3)$", "Ahí es negativo."]]
+      ["$(-3,1)\\cup(1,+\\infty)$, sin $x=1$", "Positivo cuando $x+3>0$, sacando $x=1$."],
+      ["$(-3,+\\infty)$, incluyendo a $x=1$", "En $x=1$ vale $0$, que no es $>0$."],
+      ["$(-\\infty,-3)$, donde $x+3<0$", "Ahí es negativo."]]
   ]);
   P("m0-in-5", T.in, "Hallar el dominio de $f(x)=\\sqrt{x^2-16}$", "conjunto", [
     ["¿Qué planteás?",
@@ -416,25 +416,25 @@
       ["$x-4\\ge0$", "Perdés los $x\\le-4$."]],
     ["¿Dominio?",
       ["$(-\\infty,-4]\\cup[4,+\\infty)$", "Fuera de las raíces (la parábola abre hacia arriba)."],
-      ["$[4,+\\infty)$", "Para $x\\le-4$ también vale."],
-      ["$[-4,4]$", "Ahí $x^2-16$ es negativo."]]
+      ["$(-\\infty,-4)\\cup(4,+\\infty)$", "En $x=\\pm4$ la raíz vale $0$, que sí existe: los bordes se incluyen."],
+      ["$(-4,4)$, entre las raíces", "Ahí $x^2-16$ es negativo."]]
   ]);
 
   P("m0-ru-1", T.ru, "Factorizar: $x^3-6x^2+11x-6$", "factorizada", [
     ["¿Cómo arrancás?",
-      ["Probar divisores de $6$: $P(1)=0$", "Una raíz da un factor $(x-r)$ para bajar el grado."],
-      ["Resolvente", "Es para grado 2."],
-      ["Factor común $x$", "El $-6$ no tiene $x$."]],
+      ["Probar divisores de $6$ hasta que $P(r)=0$", "Una raíz da un factor $(x-r)$ para bajar el grado."],
+      ["Usar la resolvente del polinomio", "La resolvente es para grado 2: acá es grado 3."],
+      ["Sacar factor común $x$ de los términos", "El $-6$ no tiene $x$."]],
     ["Ruffini con $1$ da $x^2-5x+6$. ¿Y ahora?",
       ["Factorizarlo: $(x-1)(x-2)(x-3)$", "$x^2-5x+6=(x-2)(x-3)$."],
       ["Ya terminó: $(x-1)(x^2-5x+6)$", "Lo de grado 2 todavía se factoriza."],
-      ["$(x-1)(x+2)(x+3)$", "Producto $6$ y suma $-5$: $-2$ y $-3$."]]
+      ["Factorizarlo: $(x-1)(x+2)(x+3)$", "Producto $6$ y suma $-5$: $-2$ y $-3$."]]
   ]);
   P("m0-ru-2", T.ru, "Factorizar: $x^3+2x^2-x-2$", "factorizada", [
     ["¿Hay un atajo?",
       ["Agrupar de a pares: $x^2(x+2)-(x+2)$", "Cuatro términos que se agrupan evitan Ruffini."],
-      ["Resolvente", "Es de grado 3."],
-      ["Diferencia de cuadrados", "No es una resta de dos cuadrados."]],
+      ["Resolvente, igualando a cero y despejando", "La resolvente es de grado 2, y acá el grado es 3."],
+      ["Diferencia de cuadrados entre $x^3$ y $1$", "No es una resta de dos cuadrados: hay cuatro términos."]],
     ["¿Resultado completo?",
       ["$(x+2)(x-1)(x+1)$", "$x^2-1$ también se factoriza."],
       ["$(x+2)(x^2-1)$", "Falta factorizar $x^2-1$."],
@@ -442,13 +442,13 @@
   ]);
   P("m0-ru-3", T.ru, "Factorizar con coeficientes enteros: $x^3-4x+3$", "factorizada", [
     ["Antes de Ruffini, ¿qué cuidás?",
-      ["Completar con $0$ el coeficiente de $x^2$: $1,\\ 0,\\ -4,\\ 3$", "Si falta una potencia, va un $0$."],
-      ["Usar $1,\\ -4,\\ 3$", "Te corrés de lugar y da mal."],
-      ["Probar $x=0$", "$P(0)=3\\ne0$."]],
+      ["Poner un $0$ en el lugar de $x^2$: $1,\\ 0,\\ -4,\\ 3$", "Si falta una potencia, va un $0$."],
+      ["Usar los coeficientes que hay: $1,\\ -4,\\ 3$", "Te corrés de lugar y da mal."],
+      ["Probar $x=0$ como raíz antes de empezar", "$P(0)=3\\ne0$."]],
     ["Ruffini con $1$ da $x^2+x-3$. ¿Se sigue factorizando con enteros?",
-      ["No: $\\Delta=13$, raíces irracionales. Queda $(x-1)(x^2+x-3)$", "Con enteros no hay más."],
-      ["Sí: $(x+3)(x-1)$", "Eso da $x^2+2x-3$."],
-      ["Sí: $(x-3)(x+1)$", "Eso da $x^2-2x-3$."]]
+      ["No: $\\Delta=13$ no es cuadrado, queda $(x-1)(x^2+x-3)$", "Con enteros no hay más."],
+      ["Sí: $x^2+x-3=(x+3)(x-1)$ con números enteros", "Eso da $x^2+2x-3$."],
+      ["Sí: $x^2+x-3=(x-3)(x+1)$ con números enteros", "Eso da $x^2-2x-3$."]]
   ]);
   P("m0-ru-4", T.ru, "Hallar todas las raíces de $x^3-7x-6$", "valores", [
     ["¿Qué raíz probás?",
@@ -464,10 +464,10 @@
     ["¿Cómo planteás Ruffini?",
       ["Con $2$ y coeficientes $1,\\ 0,\\ 0,\\ -8$", "Dos potencias faltantes, dos ceros."],
       ["Con $2$ y coeficientes $1,\\ -8$", "Faltan los ceros de $x^2$ y $x$."],
-      ["Con $-2$", "Para dividir por $(x-2)$ se usa $2$."]],
+      ["Con $-2$ y coeficientes $1,\\ 0,\\ 0,\\ -8$", "Para dividir por $(x-2)$ se usa $2$."]],
     ["¿Resultado?",
       ["Cociente $x^2+2x+4$, resto $0$", "$x^3-8=(x-2)(x^2+2x+4)$."],
-      ["Cociente $x^2+4$", "Falta el $2x$."],
-      ["Cociente $x^2-2x+4$", "En Ruffini se multiplica por $2$ y se suma: da $+2$."]]
+      ["Cociente $x^2+4$, resto $0$", "Falta el $2x$."],
+      ["Cociente $x^2-2x+4$, resto $0$", "En Ruffini se multiplica por $2$ y se suma: da $+2$."]]
   ]);
 })(typeof window !== "undefined" ? window : globalThis);

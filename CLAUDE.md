@@ -12,6 +12,12 @@ menú lateral propio, contenido en el array `MODULES` dentro del HTML y lógica 
 decisiones). Guarda en `calculo_docs` vía `calculo/supabase-claude.js`. El flujo
 "clase + resumen de transcripción" de abajo no aplica tal cual a esta página:
 si llega material de Cálculo, preguntá cómo integrarlo antes de tocar `MODULES`.
+Lo que sí comparte con el resto del sitio es la **estética**: `calculo.html` usa los mismos
+tokens (`--papel`, `--tinta`, `--acento` violeta = `--u5`, `--display`/`--body`/`--mono`), el
+riel lateral y el tema `data-tema` + `ia-tema`. Los nombres viejos de su CSS (`--bg`, `--panel`,
+`--accent`, `--good`…) son alias de esos tokens: no volver a un tema propio. En el entrenador
+(`calculo/entrenador/*.js`) las tres opciones de cada paso deben tener largo parejo: que la
+correcta no sea sistemáticamente la más larga (ni la más corta).
 
 ## Regla: "clase + resumen de transcripción"
 
