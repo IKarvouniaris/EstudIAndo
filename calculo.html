@@ -151,59 +151,6 @@
   .nav-between button{background:none;border:1.5px solid var(--border); color:var(--ink-soft); border-radius:9px; padding:9px 16px; font-family:inherit; font-size:13.5px; cursor:pointer;}
   .nav-between button:hover{border-color:var(--accent); color:var(--accent);}
 
-  /* roadmap */
-  .topic-btn.roadmap .dot{background:var(--accent); border-radius:2px;}
-  .rm-top{display:flex; flex-wrap:wrap; gap:14px; align-items:center;}
-  .rm-top label{font-weight:700; font-size:14px;}
-  .rm-top input[type=date]{font-family:inherit; font-size:14px; padding:7px 10px; border:1.5px solid var(--border); border-radius:8px; background:var(--bg); color:var(--ink);}
-  .rm-status{font-size:14px; color:var(--ink-soft);}
-  .rm-status strong{color:var(--accent);}
-  .rm-tiles{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; margin-bottom:20px;}
-  .rm-tile{background:var(--panel); border:1px solid var(--border); border-radius:12px; padding:14px 16px;}
-  .rm-tile .v{font-size:24px; font-weight:700; font-variant-numeric:tabular-nums;}
-  .rm-tile .l{font-size:12.5px; color:var(--ink-soft); margin-top:2px;}
-  .rm-routine{display:grid; gap:10px;}
-  .rm-routine .row{display:grid; grid-template-columns:190px 1fr; gap:12px; align-items:start; font-size:14.5px; line-height:1.55;}
-  .rm-chip{display:inline-block; font-size:11.5px; font-weight:700; padding:3px 9px; border-radius:999px; white-space:nowrap; font-family:var(--mono);}
-  .rm-chip.viaje{background:#e3f0f8; color:#1f6f99;}
-  .rm-chip.almuerzo{background:#fbf0d9; color:#94661a;}
-  .rm-chip.finde{background:var(--accent-soft); color:var(--accent);}
-  .rm-chip.noche{background:var(--border); color:var(--ink-soft);}
-  .rm-chip.parcial{background:var(--bad-bg); color:var(--bad);}
-  .rm-phase{margin:34px 0 14px; padding-left:14px; border-left:4px solid var(--accent);}
-  .rm-phase-k{font-size:12px; text-transform:uppercase; letter-spacing:.08em; color:var(--accent); font-weight:700;}
-  .rm-phase h3{margin:2px 0 6px; font-size:20px;}
-  .rm-phase p{margin:0; font-size:14.5px; line-height:1.6; color:var(--ink-soft);}
-  @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .rm-chip.viaje{background:#16313f; color:#7cc3e8;} :root:not([data-theme="light"]) .rm-chip.almuerzo{background:#3a2f17; color:#e7bd6c;} }
-  :root[data-theme="dark"] .rm-chip.viaje{background:#16313f; color:#7cc3e8;}
-  :root[data-theme="dark"] .rm-chip.almuerzo{background:#3a2f17; color:#e7bd6c;}
-  .rm-week.current{border:2px solid var(--accent);}
-  .rm-week-head{display:flex; justify-content:space-between; align-items:baseline; gap:10px; flex-wrap:wrap;}
-  .rm-week-head h3{margin:0; font-size:17px;}
-  .rm-dates{font-size:13px; color:var(--ink-soft);}
-  .rm-now{font-size:11.5px; font-weight:700; background:var(--accent); color:var(--accent-ink); padding:2px 9px; border-radius:999px; margin-left:6px;}
-  .rm-goal{font-size:14.5px; color:var(--ink-soft); margin:8px 0 12px; line-height:1.55;}
-  .rm-bar{height:6px; background:var(--border); border-radius:4px; overflow:hidden; margin-bottom:4px;}
-  .rm-bar > div{height:100%; background:var(--good);}
-  .rm-barlabel{font-size:12.5px; color:var(--ink-soft); margin-bottom:12px; font-variant-numeric:tabular-nums;}
-  .rm-block{display:grid; grid-template-columns:24px 92px 1fr auto; gap:10px; align-items:start; padding:9px 0; border-top:1px solid var(--border); font-size:14.5px; line-height:1.5;}
-  .rm-block input{width:18px; height:18px; margin-top:2px; accent-color:var(--good); cursor:pointer;}
-  .rm-block.done .rm-task{color:var(--ink-soft); text-decoration:line-through;}
-  .rm-day{font-size:13px; font-weight:700;}
-  .rm-mins{font-size:12.5px; color:var(--ink-soft); font-variant-numeric:tabular-nums; white-space:nowrap;}
-  .rm-links{margin-top:3px;}
-  .rm-link{color:var(--accent); font-size:13.5px; cursor:pointer; text-decoration:underline; text-underline-offset:2px; margin-right:10px;}
-  .rm-units{display:grid; gap:6px; font-size:14.5px;}
-  .rm-units .u{display:flex; justify-content:space-between; gap:10px; border-bottom:1px dashed var(--border); padding:4px 0;}
-  .rm-units .u span:last-child{font-variant-numeric:tabular-nums; color:var(--ink-soft);}
-  @media (max-width:760px){
-    .rm-routine .row{grid-template-columns:1fr; gap:4px;}
-    .rm-block{grid-template-columns:24px 1fr auto;}
-    .rm-block .rm-when{grid-column:2; grid-row:1; display:flex; gap:8px; align-items:center;}
-    .rm-block .rm-mins{grid-column:3; grid-row:1;}
-    .rm-block .rm-body{grid-column:2 / 4; grid-row:2;}
-  }
-
   /* práctica con lápiz */
   .lz-card .lz-hint{color:var(--ink-soft); font-size:14px; margin:0 0 10px;}
   .lz-list{list-style:none; margin:0; padding:0;}
@@ -381,8 +328,8 @@
   <div id="welcome">
     <h2>Cálculo I — de dónde vengo, a dónde voy</h2>
     <p>Esta página no reemplaza los apuntes de la cátedra: te da el <strong>criterio</strong> que falta entre leer la teoría y resolver el ejercicio. Para cada tema vas a encontrar: qué es, a dónde tenés que llegar, cómo saber si tu resultado tiene sentido, cuándo simplificar, y un ejercicio guiado paso a paso con opciones para mecanizar el razonamiento.</p>
-    <p><strong>Empezá por el módulo "Empezá acá — Mapa general"</strong>. Su primer tema es tu <strong>plan de estudio día por día hasta el 2º parcial (30/11) y el recuperatorio (7/12)</strong>, con casillas para ir tildando. El resto del módulo no es de un tema puntual, es el criterio que se usa en todos (qué tipo de respuesta pide cada consigna, qué resultados son imposibles, cómo se conectan las unidades y cómo te pueden cambiar el ejercicio en el recuperatorio).</p>
-    <p>En los ejercicios guiados las opciones se mezclan cada vez, así que no te podés guiar por la posición. El punto de cada tema en el menú queda <span style="color:var(--good); font-weight:700;">verde</span> cuando lo resolviste sin errores y <span style="color:#b9821f; font-weight:700;">amarillo</span> si lo completaste con errores. Ingresando con tu cuenta (arriba del menú), tu progreso (ejercicios, casillas, plan y entrenador) se guarda en tu cuenta y se sincroniza entre dispositivos; abajo del menú dice si está todo guardado.</p>
+    <p><strong>Empezá por el módulo "Empezá acá — Mapa general"</strong>. No es de un tema puntual: es el criterio que se usa en todos (qué tipo de respuesta pide cada consigna, qué resultados son imposibles, cómo se conectan las unidades y cómo te pueden cambiar un ejercicio de un parcial a otro).</p>
+    <p>En los ejercicios guiados las opciones se mezclan cada vez, así que no te podés guiar por la posición. El punto de cada tema en el menú queda <span style="color:var(--good); font-weight:700;">verde</span> cuando lo resolviste sin errores y <span style="color:#b9821f; font-weight:700;">amarillo</span> si lo completaste con errores. Ingresando con tu cuenta (arriba del menú), tu progreso (ejercicios, casillas y entrenador) se guarda en tu cuenta y se sincroniza entre dispositivos; abajo del menú dice si está todo guardado.</p>
     <p><strong>Practicar con lápiz:</strong> todos los temas, del Módulo 0 a la Unidad VII, tienen 3 ejercicios para resolver a mano en una pizarra (directo, tipo guía y tipo parcial). Ingresando con tu cuenta, la IA lee lo que escribís y te corrige renglón por renglón. Cada ejercicio tiene una casilla: se tilda sola cuando la corrección lo da por resuelto, y si lo hiciste en papel la tildás vos.</p>
     <p><strong>🦉 Entrenador de decisiones:</strong> arriba del menú. Lecciones cortas estilo Duolingo, una por tema: primero decidís a qué tipo de resultado tenés que llegar y después qué hacer en cada paso. 3 vidas por lección, racha diaria y repaso de errores.</p>
     <div class="pillbox" id="welcome-pills"></div>
@@ -421,311 +368,6 @@ const MODULES = [
   title: "Empezá acá — Mapa general",
   topics: [
   {
-    title: "Plan de estudio: 2º parcial y recuperatorio",
-    roadmap: {
-      exams: {
-        p2: {label:"2º parcial", date:"2026-11-30"},
-        rec: {label:"Recuperatorio del 1º parcial", date:"2026-12-07"}
-      },
-      preExamWeek: 8,
-      assumptions: [
-        "<strong>Fechas</strong>: 2º parcial el lunes 30/11 y recuperatorio del 1º parcial el lunes 7/12. Desde hoy son unas 9 semanas: las semanas del plan van de lunes a domingo, y la 10 es la semana que empieza el día del 2º parcial.",
-        "<strong>Qué entra</strong>: mencionaste \"unidades 4 a 8\". El programa oficial numera las unidades de I a VII y las diapositivas usan otra numeración (las Clases 9 y 10 dicen \"Unidad IV\"). Tomé como contenido nuevo del 2º parcial todo desde derivadas en adelante (III a VI; la VII queda como contingencia). Además, como pediste, el plan cubre completas las Unidades I y II: son la base de lo nuevo y son lo que entra en el recuperatorio.",
-        "<strong>Tu semana</strong>: trabajo de 9 a 18, viaje de 18:00 a 18:45 y facultad de 18:45 a 23. Quedan dos ratos cortos por día de semana (viaje y almuerzo) y el fin de semana, donde cuento <strong>unas 3 horas por día</strong>. Eso da unas 9 h 45 min por semana completa. Si el finde tenés más o menos tiempo, escalá esos bloques, no los de la semana."
-      ],
-      phases: {
-        1: {title:"Base y Unidades I–II (lo del 1º parcial)", text:"Van primero por dos razones: las derivadas se apoyan en álgebra, funciones y límites (un error de signo de la Unidad I rompe un ejercicio de la Unidad V), y son exactamente lo que entra en el recuperatorio. Al final de esta fase rehacés tu 1º parcial completo para medir el avance."},
-        2: {title:"Contenidos nuevos del 2º parcial (Unidades III–VI)", text:"Una unidad por semana. Todos los viernes en el almuerzo y los domingos al final hay un <strong>repaso espaciado</strong> de Unidades I–II: es lo que evita que en diciembre tengas que volver a aprender lo de octubre. El temario queda terminado el 22/11, una semana antes del parcial, que era tu objetivo."},
-        3: {title:"Consolidar para el 2º parcial", text:"Nada nuevo: pasar a verde los temas amarillos y hacer dos simulacros cronometrados."},
-        4: {title:"2º parcial y recuperatorio", text:"El lunes rendís el 2º parcial. De martes a domingo todo vuelve a las Unidades I y II. No es aprender de nuevo: es reactivar lo de octubre, que viene mantenido con los repasos espaciados."}
-      },
-      routine: [
-        {slot:"viaje", when:"Viaje (18:00–18:45) · 30 min", what:"Lectura en el celular, sin lápiz: \"¿Qué es?\", \"¿A dónde tengo que llegar?\" y las señales del tema del día. Es preparar la cabeza para el finde, no resolver. Si viajás parado, alcanza con la tabla o la checklist del tema."},
-        {slot:"almuerzo", when:"Almuerzo · 15 min", what:"Un ejercicio guiado de la página, del mismo tema que leíste. Si te sale con errores, queda en amarillo y lo repetís otro día."},
-        {slot:"noche", when:"Después de las 23 · nada", what:"No estudies. Dormir es cuando el cerebro fija lo que practicaste; a esa hora rendís poco y te quitás descanso para el día siguiente. Como mucho, 5 minutos para tildar lo que hiciste."},
-        {slot:"finde", when:"Sábado y domingo · ~3 h cada día", what:"Papel y lápiz. Es donde se aprende de verdad: rehacer el ejemplo resuelto SIN mirar y después ejercicios de la guía de trabajos prácticos de la cátedra. Bloques de 60–90 min con 10 min de pausa."}
-      ],
-      method: [
-        "<strong>1. Leer</strong> (viaje): qué es, a dónde llegar, señales.",
-        "<strong>2. Guiado</strong> (almuerzo): el ejercicio de la página hasta que quede verde.",
-        "<strong>3. Reproducir</strong> (finde): tapá el ejemplo resuelto y hacelo vos en papel. Si te trabás, mirá SOLO el paso donde te trabaste.",
-        "<strong>4. Volumen</strong> (finde): 3 a 10 ejercicios de la guía de la cátedra, chequeando cada resultado con la lista de \"Señales de alarma\".",
-        "<strong>Un tema está entendido</strong> cuando el punto está verde, podés decir en una frase qué tipo de respuesta pide y resolviste 3 ejercicios de la guía sin mirar nada.",
-        "<strong>Repaso espaciado</strong>: elegí primero los temas de Unidades I–II que están en amarillo o que fallaste en el chequeo de la semana 4. Si todo está verde, uno al azar."
-      ],
-      weeks: [
-        {
-          phase: 1,
-          title: "Arranque: criterio y álgebra base",
-          goal: "Instalar el criterio (qué te piden, qué resultados son imposibles) y arreglar el álgebra que te costó el 1º parcial: signos, factoreo, potencias y tabla de signos.",
-          blocks: [
-            {id:"s1-1", day:"Jue", slot:"viaje", mins:30, task:"Leer los dos temas de criterio general", refs:["¿Qué tipo de respuesta me piden?","Señales de alarma: resultados imposibles"]},
-            {id:"s1-2", day:"Jue", slot:"almuerzo", mins:15, task:"Guiado", refs:["¿Qué tipo de respuesta me piden?"]},
-            {id:"s1-3", day:"Vie", slot:"viaje", mins:30, task:"Leer cómo no perder puntos y cómo se conecta todo", refs:["Leer la consigna y no perder puntos gratis","La foto global: cómo se conecta todo"]},
-            {id:"s1-4", day:"Vie", slot:"almuerzo", mins:15, task:"Guiado", refs:["Señales de alarma: resultados imposibles"]},
-            {id:"s1-5", day:"Sáb", slot:"finde", mins:45, task:"Factor común y diferencia de cuadrados: guiados + 6 factoreos de la guía", refs:["Factor común","Diferencia de cuadrados"]},
-            {id:"s1-6", day:"Sáb", slot:"finde", mins:45, task:"Cuadrado de binomio y la trampa −1(x+1)² (el error del Ej. 1): ejemplo a mano + 5 desarrollos", refs:["Cuadrado de binomio y trinomio cuadrado perfecto"]},
-            {id:"s1-7", day:"Sáb", slot:"finde", mins:45, task:"Trinomio cuadrático y resolvente: 5 de la guía", refs:["Trinomio cuadrático (con a=1 y con a≠1)"]},
-            {id:"s1-8", day:"Sáb", slot:"finde", mins:45, task:"Potencias y raíces: guiado + 6 simplificaciones", refs:["Potencias y raíces (exponentes negativos y fraccionarios)"]},
-            {id:"s1-9", day:"Dom", slot:"finde", mins:45, task:"Racionalización: guiado + 4 de la guía", refs:["Racionalización"]},
-            {id:"s1-10", day:"Dom", slot:"finde", mins:45, task:"Simplificación de fracciones algebraicas: guiado + 4", refs:["Simplificación de fracciones algebraicas"]},
-            {id:"s1-11", day:"Dom", slot:"finde", mins:60, task:"Inecuaciones y tabla de signos: 5 de la guía", refs:["Inecuaciones y tabla de signos"]},
-            {id:"s1-12", day:"Dom", slot:"finde", mins:30, task:"Ruffini: factorizar 3 cúbicas", refs:["División de polinomios y Ruffini (cúbicas)"]}
-          ]
-        },
-        {
-          phase: 1,
-          title: "Funciones I: dominio, ceros y polinomios",
-          goal: "Dominio con contexto, ceros y positividad, y las 3 formas de la cuadrática. Cubre los Ej. 1 y 2 de tu 1º parcial.",
-          blocks: [
-            {id:"s2-1", day:"Lun", slot:"viaje", mins:30, task:"Leer dominio e imagen", refs:["Dominio e imagen: las 3 restricciones"]},
-            {id:"s2-2", day:"Lun", slot:"almuerzo", mins:15, task:"Guiado", refs:["Dominio e imagen: las 3 restricciones"]},
-            {id:"s2-3", day:"Mar", slot:"viaje", mins:30, task:"Leer ceros, positividad y multiplicidad", refs:["Ceros, positividad y negatividad (y multiplicidad)"]},
-            {id:"s2-4", day:"Mar", slot:"almuerzo", mins:15, task:"Guiado", refs:["Ceros, positividad y negatividad (y multiplicidad)"]},
-            {id:"s2-5", day:"Mié", slot:"viaje", mins:30, task:"Leer lineal y cuadrática (las 3 formas)", refs:["Función lineal","Función cuadrática (3 formas)"]},
-            {id:"s2-6", day:"Mié", slot:"almuerzo", mins:15, task:"Guiado", refs:["Función cuadrática (3 formas)"]},
-            {id:"s2-7", day:"Jue", slot:"viaje", mins:30, task:"Leer racional y homográfica", refs:["Función racional y homográfica"]},
-            {id:"s2-8", day:"Jue", slot:"almuerzo", mins:15, task:"Guiado", refs:["Función racional y homográfica"]},
-            {id:"s2-9", day:"Vie", slot:"viaje", mins:30, task:"Leer funciones por tramos", refs:["Funciones por tramos (valor absoluto, escalón)"]},
-            {id:"s2-10", day:"Vie", slot:"almuerzo", mins:15, task:"Guiado", refs:["Funciones por tramos (valor absoluto, escalón)"]},
-            {id:"s2-11", day:"Sáb", slot:"finde", mins:60, task:"Dominio: 6 de la guía, incluidos log + cociente + contexto (tipo Ej. 2 del parcial)", refs:["Dominio e imagen: las 3 restricciones"]},
-            {id:"s2-12", day:"Sáb", slot:"finde", mins:45, task:"Ceros, positividad y negatividad: 4 de la guía, analíticos y desde gráfico", refs:["Ceros, positividad y negatividad (y multiplicidad)"]},
-            {id:"s2-13", day:"Sáb", slot:"finde", mins:75, task:"Rehacer el Ej. 1 de tu parcial (parábola) sin mirar, con las 4 respuestas recuadradas; después 2 parábolas de la guía", refs:["Función cuadrática (3 formas)","Leer la consigna y no perder puntos gratis"]},
-            {id:"s2-14", day:"Dom", slot:"finde", mins:60, task:"Racional y homográfica: dominio, asíntotas y forma canónica de 3 funciones", refs:["Función racional y homográfica"]},
-            {id:"s2-15", day:"Dom", slot:"finde", mins:30, task:"Por tramos: evaluar y graficar 2", refs:["Funciones por tramos (valor absoluto, escalón)"]},
-            {id:"s2-16", day:"Dom", slot:"finde", mins:60, task:"Hallar la fórmula a partir del gráfico: parábola y homográfica", refs:["Hallar la fórmula a partir del gráfico"]},
-            {id:"s2-17", day:"Dom", slot:"finde", mins:30, task:"Lineal: 3 de rectas paralelas y perpendiculares", refs:["Función lineal"]}
-          ]
-        },
-        {
-          phase: 1,
-          title: "Funciones II: exponencial, logaritmo y trigonometría",
-          goal: "Graficar con transformaciones y resolver ecuaciones trigonométricas: los Ej. 3 y 4 de tu 1º parcial, que es donde más puntos perdiste.",
-          blocks: [
-            {id:"s3-1", day:"Lun", slot:"viaje", mins:30, task:"Leer exponencial", refs:["Función exponencial"]},
-            {id:"s3-2", day:"Lun", slot:"almuerzo", mins:15, task:"Guiado", refs:["Función exponencial"]},
-            {id:"s3-3", day:"Mar", slot:"viaje", mins:30, task:"Leer logarítmica", refs:["Función logarítmica"]},
-            {id:"s3-4", day:"Mar", slot:"almuerzo", mins:15, task:"Guiado", refs:["Función logarítmica"]},
-            {id:"s3-5", day:"Mié", slot:"viaje", mins:30, task:"Leer el método general de transformaciones", refs:["Graficar usando transformaciones (método general)"]},
-            {id:"s3-6", day:"Mié", slot:"almuerzo", mins:15, task:"Guiado", refs:["Graficar usando transformaciones (método general)"]},
-            {id:"s3-7", day:"Jue", slot:"viaje", mins:30, task:"Leer trigonométricas y memorizar los ángulos notables", refs:["Funciones trigonométricas","Resolver ecuaciones trigonométricas básicas"]},
-            {id:"s3-8", day:"Jue", slot:"almuerzo", mins:15, task:"Guiado", refs:["Funciones trigonométricas"]},
-            {id:"s3-9", day:"Vie", slot:"viaje", mins:30, task:"Leer simetría, inversa e intersección", refs:["Clasificación, transformaciones, inversa e intersección"]},
-            {id:"s3-10", day:"Vie", slot:"almuerzo", mins:15, task:"Guiado", refs:["Resolver ecuaciones trigonométricas básicas"]},
-            {id:"s3-11", day:"Sáb", slot:"finde", mins:60, task:"Exponencial y logaritmo: 6 ecuaciones y dominios de la guía", refs:["Función exponencial","Función logarítmica"]},
-            {id:"s3-12", day:"Sáb", slot:"finde", mins:90, task:"Rehacer el Ej. 3 de tu parcial mostrando función base y cada transformación; después una exponencial y una raíz", refs:["Graficar usando transformaciones (método general)"]},
-            {id:"s3-13", day:"Sáb", slot:"finde", mins:30, task:"Inversa e intersección de curvas: 2 de la guía", refs:["Clasificación, transformaciones, inversa e intersección"]},
-            {id:"s3-14", day:"Dom", slot:"finde", mins:60, task:"Amplitud, período, h y k: 5 de la guía, sacando factor común adentro (Ej. 4b)", refs:["Funciones trigonométricas"]},
-            {id:"s3-15", day:"Dom", slot:"finde", mins:75, task:"Ecuaciones trig en [0,2π): rehacer el Ej. 4a + 5 de la guía (seno, coseno y ángulo doble)", refs:["Resolver ecuaciones trigonométricas básicas"]},
-            {id:"s3-16", day:"Dom", slot:"finde", mins:45, task:"Hallar la fórmula desde el gráfico: exponencial, logarítmica y trigonométrica", refs:["Hallar la fórmula a partir del gráfico"]}
-          ]
-        },
-        {
-          phase: 1,
-          title: "Límites, continuidad y chequeo del 1º parcial",
-          goal: "Calcular límites sabiendo a qué tipo de respuesta llegar, y continuidad con parámetros (Ej. 5). El domingo rehacés tu 1º parcial completo para medir dónde estás.",
-          blocks: [
-            {id:"s4-1", day:"Lun", slot:"viaje", mins:30, task:"Leer concepto de límite y sustitución", refs:["Concepto de límite y límites laterales","Cálculo de límites: sustitución y leyes de límites"]},
-            {id:"s4-2", day:"Lun", slot:"almuerzo", mins:15, task:"Guiado", refs:["Concepto de límite y límites laterales"]},
-            {id:"s4-3", day:"Mar", slot:"viaje", mins:30, task:"Leer 0/0 (factoreo y raíces)", refs:["Indeterminación 0/0","0/0 con raíces y límites notables"]},
-            {id:"s4-4", day:"Mar", slot:"almuerzo", mins:15, task:"Guiado", refs:["Indeterminación 0/0"]},
-            {id:"s4-5", day:"Mié", slot:"viaje", mins:30, task:"Leer ∞/∞ y asíntotas", refs:["Indeterminación ∞/∞ y límites al infinito","Asíntotas con límites (vertical, horizontal, oblicua)"]},
-            {id:"s4-6", day:"Mié", slot:"almuerzo", mins:15, task:"Guiado", refs:["Indeterminación ∞/∞ y límites al infinito"]},
-            {id:"s4-7", day:"Jue", slot:"viaje", mins:30, task:"Leer continuidad y discontinuidades", refs:["Continuidad y tipos de discontinuidad"]},
-            {id:"s4-8", day:"Jue", slot:"almuerzo", mins:15, task:"Guiado", refs:["Continuidad y tipos de discontinuidad"]},
-            {id:"s4-9", day:"Vie", slot:"viaje", mins:30, task:"Leer continuidad con parámetros", refs:["Continuidad con parámetros (hallar a, b, k)"]},
-            {id:"s4-10", day:"Vie", slot:"almuerzo", mins:15, task:"Guiado", refs:["Continuidad con parámetros (hallar a, b, k)"]},
-            {id:"s4-11", day:"Sáb", slot:"finde", mins:60, task:"0/0 por factoreo: rehacer el Ej. 5a + 7 de la guía (al terminar cada uno: ¿me quedó un número?)", refs:["Indeterminación 0/0"]},
-            {id:"s4-12", day:"Sáb", slot:"finde", mins:45, task:"0/0 con raíces y límites notables: 4 de la guía", refs:["0/0 con raíces y límites notables"]},
-            {id:"s4-13", day:"Sáb", slot:"finde", mins:75, task:"∞/∞ y asíntotas: 3 límites al infinito + asíntotas de 2 funciones", refs:["Indeterminación ∞/∞ y límites al infinito","Asíntotas con límites (vertical, horizontal, oblicua)"]},
-            {id:"s4-14", day:"Dom", slot:"finde", mins:60, task:"Continuidad: clasificar 3 discontinuidades + hallar parámetros en 2 (rehacer el Ej. 5b escribiendo el límite)", refs:["Continuidad y tipos de discontinuidad","Continuidad con parámetros (hallar a, b, k)"]},
-            {id:"s4-15", day:"Dom", slot:"finde", mins:120, task:"Chequeo: rehacé tu 1º parcial COMPLETO, 2 h cronometradas, sin mirar las correcciones. Anotá qué temas fallaron: van primero en los repasos espaciados", refs:[]}
-          ]
-        },
-        {
-          phase: 2,
-          title: "Unidad III: Derivación",
-          goal: "Llegar al domingo derivando cualquier cosa con producto, cociente y cadena, y armando recta tangente y normal. Es la herramienta que usa todo el resto del parcial.",
-          blocks: [
-            {id:"s5-1", day:"Lun", slot:"viaje", mins:30, task:"Leer qué es la derivada y su significado geométrico", refs:["Definición de derivada (por límite)","Interpretación geométrica: recta tangente y normal"]},
-            {id:"s5-2", day:"Lun", slot:"almuerzo", mins:15, task:"Guiado", refs:["Definición de derivada (por límite)"]},
-            {id:"s5-3", day:"Mar", slot:"viaje", mins:30, task:"Leer reglas y memorizar la tabla de derivadas", refs:["Reglas de derivación (tabla y álgebra de derivadas)"]},
-            {id:"s5-4", day:"Mar", slot:"almuerzo", mins:15, task:"Guiado", refs:["Reglas de derivación (tabla y álgebra de derivadas)"]},
-            {id:"s5-5", day:"Mié", slot:"viaje", mins:30, task:"Leer regla de la cadena", refs:["Regla de la cadena"]},
-            {id:"s5-6", day:"Mié", slot:"almuerzo", mins:15, task:"Guiado", refs:["Regla de la cadena"]},
-            {id:"s5-7", day:"Jue", slot:"viaje", mins:30, task:"Leer continuidad vs derivabilidad", refs:["Continuidad vs derivabilidad"]},
-            {id:"s5-8", day:"Jue", slot:"almuerzo", mins:15, task:"Guiado", refs:["Continuidad vs derivabilidad"]},
-            {id:"s5-9", day:"Vie", slot:"viaje", mins:30, task:"Leer derivadas sucesivas y logarítmica", refs:["Derivadas sucesivas","Derivada logarítmica (para potencias con variable en base y exponente)"]},
-            {id:"s5-10", day:"Vie", slot:"almuerzo", mins:15, task:"Repaso espaciado: un guiado de Unidad I o II (primero los amarillos)", refs:[]},
-            {id:"s5-11", day:"Sáb", slot:"finde", mins:45, task:"Derivada por definición: ejemplo sin mirar + 2 de la guía", refs:["Definición de derivada (por límite)"]},
-            {id:"s5-12", day:"Sáb", slot:"finde", mins:60, task:"Recta tangente y normal: 3 de la guía (verificá que pasen por el punto)", refs:["Interpretación geométrica: recta tangente y normal"]},
-            {id:"s5-13", day:"Sáb", slot:"finde", mins:75, task:"Producto y cociente: 8 derivadas de la guía", refs:["Reglas de derivación (tabla y álgebra de derivadas)"]},
-            {id:"s5-14", day:"Dom", slot:"finde", mins:90, task:"Regla de la cadena: 10 de la guía, de más fácil a más difícil. Es el tema que más aparece", refs:["Regla de la cadena"]},
-            {id:"s5-15", day:"Dom", slot:"finde", mins:30, task:"Continuidad vs derivabilidad: 2 funciones por tramos", refs:["Continuidad vs derivabilidad"]},
-            {id:"s5-16", day:"Dom", slot:"finde", mins:30, task:"Sucesivas y logarítmica: 2 de cada una", refs:["Derivadas sucesivas","Derivada logarítmica (para potencias con variable en base y exponente)"]},
-            {id:"s5-17", day:"Dom", slot:"finde", mins:30, task:"Repaso espaciado: 3 ejercicios de Unidades I–II que fallaron en el chequeo", refs:[]}
-          ]
-        },
-        {
-          phase: 2,
-          title: "Unidad IV: Aplicaciones de la derivada",
-          goal: "Llegar al domingo haciendo el estudio completo de una función y un problema de optimización.",
-          blocks: [
-            {id:"s6-1", day:"Lun", slot:"viaje", mins:30, task:"Leer L'Hôpital (se apoya en los límites de la semana 4)", refs:["L'Hôpital (indeterminaciones 0/0 y ∞/∞, aplicación completa)"]},
-            {id:"s6-2", day:"Lun", slot:"almuerzo", mins:15, task:"Guiado", refs:["L'Hôpital (indeterminaciones 0/0 y ∞/∞, aplicación completa)"]},
-            {id:"s6-3", day:"Mar", slot:"viaje", mins:30, task:"Leer extremos y puntos críticos", refs:["Extremos absolutos y relativos, puntos críticos"]},
-            {id:"s6-4", day:"Mar", slot:"almuerzo", mins:15, task:"Guiado", refs:["Extremos absolutos y relativos, puntos críticos"]},
-            {id:"s6-5", day:"Mié", slot:"viaje", mins:30, task:"Leer crecimiento y decrecimiento", refs:["Crecimiento y decrecimiento (signo de f')"]},
-            {id:"s6-6", day:"Mié", slot:"almuerzo", mins:15, task:"Guiado", refs:["Crecimiento y decrecimiento (signo de f')"]},
-            {id:"s6-7", day:"Jue", slot:"viaje", mins:30, task:"Leer concavidad e inflexión", refs:["Concavidad y puntos de inflexión (signo de f'')"]},
-            {id:"s6-8", day:"Jue", slot:"almuerzo", mins:15, task:"Guiado", refs:["Concavidad y puntos de inflexión (signo de f'')"]},
-            {id:"s6-9", day:"Vie", slot:"viaje", mins:30, task:"Leer estudio completo y optimización", refs:["Estudio completo de una función","Problemas de optimización"]},
-            {id:"s6-10", day:"Vie", slot:"almuerzo", mins:15, task:"Repaso espaciado: un guiado de Unidad I o II", refs:[]},
-            {id:"s6-11", day:"Sáb", slot:"finde", mins:45, task:"L'Hôpital: 6 límites de la guía (antes de derivar, confirmá que sea 0/0 o ∞/∞)", refs:["L'Hôpital (indeterminaciones 0/0 y ∞/∞, aplicación completa)"]},
-            {id:"s6-12", day:"Sáb", slot:"finde", mins:135, task:"Crecimiento, extremos y concavidad: 3 funciones completas con tabla de signos de f' y de f''", refs:["Crecimiento y decrecimiento (signo de f')","Concavidad y puntos de inflexión (signo de f'')"]},
-            {id:"s6-13", day:"Dom", slot:"finde", mins:60, task:"Estudio completo: ejemplo sin mirar + 1 de la guía", refs:["Estudio completo de una función"]},
-            {id:"s6-14", day:"Dom", slot:"finde", mins:60, task:"Optimización: 3 problemas (dibujo, restricción, una sola variable, respuesta en contexto)", refs:["Problemas de optimización"]},
-            {id:"s6-15", day:"Dom", slot:"finde", mins:30, task:"Aproximación lineal, diferenciales y Taylor: guiado + 2", refs:["Aproximación lineal, diferenciales y polinomio de Taylor"]},
-            {id:"s6-16", day:"Dom", slot:"finde", mins:30, task:"Repaso espaciado: 3 ejercicios de Unidades I–II", refs:[]}
-          ]
-        },
-        {
-          phase: 2,
-          title: "Unidad V: Primitivas",
-          goal: "Llegar al domingo eligiendo el método de integración correcto al primer vistazo.",
-          blocks: [
-            {id:"s7-1", day:"Lun", slot:"viaje", mins:30, task:"Leer inmediatas y memorizar la tabla (es la de derivadas al revés)", refs:["Integrales inmediatas"]},
-            {id:"s7-2", day:"Lun", slot:"almuerzo", mins:15, task:"Guiado", refs:["Integrales inmediatas"]},
-            {id:"s7-3", day:"Mar", slot:"viaje", mins:30, task:"Leer sustitución", refs:["Método de sustitución"]},
-            {id:"s7-4", day:"Mar", slot:"almuerzo", mins:15, task:"Guiado", refs:["Método de sustitución"]},
-            {id:"s7-5", day:"Mié", slot:"viaje", mins:30, task:"Leer partes (ILATE)", refs:["Integración por partes (ILATE)"]},
-            {id:"s7-6", day:"Mié", slot:"almuerzo", mins:15, task:"Guiado", refs:["Integración por partes (ILATE)"]},
-            {id:"s7-7", day:"Jue", slot:"viaje", mins:30, task:"Leer fracciones simples y repasar la división de polinomios", refs:["Descomposición en fracciones simples","División de polinomios y Ruffini (cúbicas)"]},
-            {id:"s7-8", day:"Jue", slot:"almuerzo", mins:15, task:"Guiado", refs:["Descomposición en fracciones simples"]},
-            {id:"s7-9", day:"Vie", slot:"viaje", mins:30, task:"Repasar en paralelo la tabla de derivadas y la de integrales", refs:["Reglas de derivación (tabla y álgebra de derivadas)","Integrales inmediatas"]},
-            {id:"s7-10", day:"Vie", slot:"almuerzo", mins:15, task:"Repaso espaciado: un guiado de Unidad I o II", refs:[]},
-            {id:"s7-11", day:"Sáb", slot:"finde", mins:30, task:"10 inmediatas rápidas de la guía (verificá derivando)", refs:["Integrales inmediatas"]},
-            {id:"s7-12", day:"Sáb", slot:"finde", mins:75, task:"Sustitución: 7 de la guía", refs:["Método de sustitución"]},
-            {id:"s7-13", day:"Sáb", slot:"finde", mins:75, task:"Partes: 6 de la guía", refs:["Integración por partes (ILATE)"]},
-            {id:"s7-14", day:"Dom", slot:"finde", mins:60, task:"Fracciones simples: 4 de la guía", refs:["Descomposición en fracciones simples"]},
-            {id:"s7-15", day:"Dom", slot:"finde", mins:60, task:"¿Qué método? 10 integrales mezcladas: decidí el método de todas y resolvé 4", refs:["Método de sustitución","Integración por partes (ILATE)"]},
-            {id:"s7-16", day:"Dom", slot:"finde", mins:30, task:"Mantenimiento: 5 derivadas con regla de la cadena", refs:["Regla de la cadena"]},
-            {id:"s7-17", day:"Dom", slot:"finde", mins:30, task:"Repaso espaciado: 3 ejercicios de Unidades I–II", refs:[]}
-          ]
-        },
-        {
-          phase: 2,
-          title: "Unidad VI: Integrales definidas y cierre del temario",
-          goal: "Terminar el temario del 2º parcial una semana antes. El domingo hacés un ejercicio de cada unidad para ver qué está flojo.",
-          blocks: [
-            {id:"s8-1", day:"Lun", slot:"viaje", mins:30, task:"Leer Barrow y propiedades", refs:["Regla de Barrow y propiedades"]},
-            {id:"s8-2", day:"Lun", slot:"almuerzo", mins:15, task:"Guiado", refs:["Regla de Barrow y propiedades"]},
-            {id:"s8-3", day:"Mar", slot:"viaje", mins:30, task:"Leer áreas entre curvas", refs:["Áreas entre curvas"]},
-            {id:"s8-4", day:"Mar", slot:"almuerzo", mins:15, task:"Guiado", refs:["Áreas entre curvas"]},
-            {id:"s8-5", day:"Mié", slot:"viaje", mins:30, task:"Leer integrales impropias", refs:["Integrales impropias"]},
-            {id:"s8-6", day:"Mié", slot:"almuerzo", mins:15, task:"Guiado", refs:["Integrales impropias"]},
-            {id:"s8-7", day:"Jue", slot:"viaje", mins:30, task:"Si entra la Unidad VII: leer variables separables. Si no: releer La foto global", refs:["Variables separables","La foto global: cómo se conecta todo"]},
-            {id:"s8-8", day:"Jue", slot:"almuerzo", mins:15, task:"Guiado de variables separables (o uno amarillo de Unidades III–V si no entra la VII)", refs:["Variables separables"]},
-            {id:"s8-9", day:"Vie", slot:"viaje", mins:30, task:"Si entra la VII: lineales de primer orden. Si no: releer Señales de alarma", refs:["Ecuaciones lineales de primer orden (factor integrante)","Señales de alarma: resultados imposibles"]},
-            {id:"s8-10", day:"Vie", slot:"almuerzo", mins:15, task:"Repaso espaciado: un guiado de Unidad I o II", refs:[]},
-            {id:"s8-11", day:"Sáb", slot:"finde", mins:45, task:"Barrow y propiedades: 5 de la guía", refs:["Regla de Barrow y propiedades"]},
-            {id:"s8-12", day:"Sáb", slot:"finde", mins:90, task:"Áreas: 4 de la guía, dibujando siempre (incluí una curva que cruce el eje x)", refs:["Áreas entre curvas"]},
-            {id:"s8-13", day:"Sáb", slot:"finde", mins:45, task:"Impropias: 3 de la guía", refs:["Integrales impropias"]},
-            {id:"s8-14", day:"Dom", slot:"finde", mins:90, task:"Estado de situación: 1 ejercicio de cada unidad (III, IV, V y VI) sin mirar. Los que fallen van primero la semana próxima", refs:[]},
-            {id:"s8-15", day:"Dom", slot:"finde", mins:60, task:"Ecuaciones diferenciales si entran (separables y lineales); si no, reforzar lo que falló recién", refs:["Variables separables"]},
-            {id:"s8-16", day:"Dom", slot:"finde", mins:30, task:"Repaso espaciado: 3 ejercicios de Unidades I–II", refs:[]}
-          ]
-        },
-        {
-          phase: 3,
-          title: "Semana previa al 2º parcial",
-          goal: "No se aprende nada nuevo: lo amarillo pasa a verde y se practica en condiciones de examen.",
-          blocks: [
-            {id:"s9-1", day:"Lun", slot:"viaje", mins:30, task:"Releer criterio de examen", refs:["Señales de alarma: resultados imposibles","Leer la consigna y no perder puntos gratis"]},
-            {id:"s9-2", day:"Lun", slot:"almuerzo", mins:15, task:"Guiados en amarillo de Unidad III", refs:[]},
-            {id:"s9-3", day:"Mar", slot:"viaje", mins:30, task:"Releer checklists de Unidad III (tabla de derivadas incluida)", refs:["Reglas de derivación (tabla y álgebra de derivadas)","Regla de la cadena"]},
-            {id:"s9-4", day:"Mar", slot:"almuerzo", mins:15, task:"Guiados en amarillo de Unidad IV", refs:[]},
-            {id:"s9-5", day:"Mié", slot:"viaje", mins:30, task:"Releer checklists de Unidad IV", refs:["Estudio completo de una función","Problemas de optimización"]},
-            {id:"s9-6", day:"Mié", slot:"almuerzo", mins:15, task:"Guiados en amarillo de Unidad V", refs:[]},
-            {id:"s9-7", day:"Jue", slot:"viaje", mins:30, task:"Releer la tabla de integrales y las checklists de Unidades V y VI", refs:["Integrales inmediatas","Áreas entre curvas"]},
-            {id:"s9-8", day:"Jue", slot:"almuerzo", mins:15, task:"Guiados en amarillo de Unidad VI", refs:[]},
-            {id:"s9-9", day:"Vie", slot:"viaje", mins:30, task:"Repasar qué herramienta pide cada tipo de ejercicio", refs:["La foto global: cómo se conecta todo"]},
-            {id:"s9-10", day:"Vie", slot:"almuerzo", mins:15, task:"Un guiado al azar de cada unidad (III a VI)", refs:[]},
-            {id:"s9-11", day:"Sáb", slot:"finde", mins:120, task:"Simulacro del 2º parcial #1: 2 h cronometradas, papel, sin apuntes (ver cómo armarlo abajo)", refs:[]},
-            {id:"s9-12", day:"Sáb", slot:"finde", mins:60, task:"Corregir: cada error → anotá el tema y volvé a su ejemplo resuelto", refs:[]},
-            {id:"s9-13", day:"Dom", slot:"finde", mins:120, task:"Simulacro del 2º parcial #2, con ejercicios distintos", refs:[]},
-            {id:"s9-14", day:"Dom", slot:"finde", mins:60, task:"Corregir y escribir tu lista \"mis 5 errores típicos del 2º parcial\"", refs:[]}
-          ]
-        },
-        {
-          phase: 4,
-          title: "2º parcial el lunes → recuperatorio",
-          goal: "El lunes rendís. De martes a domingo, Unidades I y II: reactivar, no aprender de nuevo.",
-          blocks: [
-            {id:"s10-1", day:"Lun", slot:"parcial", mins:30, task:"Día del 2º parcial: en el viaje, releer tu lista de errores típicos. Nada nuevo", refs:[]},
-            {id:"s10-2", day:"Mar", slot:"viaje", mins:30, task:"Releer criterio de examen pensando en lo que te marcaron en el 1º parcial", refs:["Señales de alarma: resultados imposibles","Leer la consigna y no perder puntos gratis"]},
-            {id:"s10-3", day:"Mar", slot:"almuerzo", mins:15, task:"Guiados en amarillo de Módulo 0 y Unidad I (álgebra y funciones)", refs:[]},
-            {id:"s10-4", day:"Mié", slot:"viaje", mins:30, task:"Releer checklists de dominio, cuadrática, exponencial y logaritmo", refs:["Dominio e imagen: las 3 restricciones","Función cuadrática (3 formas)","Función logarítmica"]},
-            {id:"s10-5", day:"Mié", slot:"almuerzo", mins:15, task:"Guiado de ecuaciones trigonométricas", refs:["Resolver ecuaciones trigonométricas básicas"]},
-            {id:"s10-6", day:"Jue", slot:"viaje", mins:30, task:"Releer trigonometría y graficar con transformaciones", refs:["Funciones trigonométricas","Graficar usando transformaciones (método general)"]},
-            {id:"s10-7", day:"Jue", slot:"almuerzo", mins:15, task:"Guiados en amarillo de Unidad II", refs:[]},
-            {id:"s10-8", day:"Vie", slot:"viaje", mins:30, task:"Releer límites y continuidad", refs:["Indeterminación 0/0","Continuidad con parámetros (hallar a, b, k)"]},
-            {id:"s10-9", day:"Vie", slot:"almuerzo", mins:15, task:"Un guiado al azar de Unidad I y uno de Unidad II", refs:[]},
-            {id:"s10-10", day:"Sáb", slot:"finde", mins:120, task:"Simulacro del recuperatorio #1: variantes del 1º parcial (ver cómo armarlo abajo), 2 h cronometradas", refs:[]},
-            {id:"s10-11", day:"Sáb", slot:"finde", mins:60, task:"Corregir y volver a los ejemplos resueltos de lo que falló", refs:[]},
-            {id:"s10-12", day:"Dom", slot:"finde", mins:120, task:"Simulacro #2: tu 1º parcial original otra vez, sin mirar. Compará con el chequeo de la semana 4", refs:[]},
-            {id:"s10-13", day:"Dom", slot:"finde", mins:60, task:"Corregir y escribir \"mis 5 errores típicos del 1º parcial\" para leer el lunes 7/12", refs:[]}
-          ]
-        }
-      ],
-      simulacroP2: [
-        "Mismo formato que el 1º parcial: 5 ejercicios, 100 puntos, 120 minutos, solo calculadora.",
-        "Un ejercicio de derivación con regla de la cadena y producto o cociente.",
-        "Recta tangente y normal en un punto, o continuidad y derivabilidad de una función por tramos.",
-        "Un estudio de función (crecimiento, extremos, concavidad) o un problema de optimización.",
-        "Un límite con L'Hôpital.",
-        "Dos integrales indefinidas que pidan métodos distintos (sustitución, partes o fracciones simples).",
-        "Un área entre curvas con integral definida.",
-        "Sacá los ejercicios de la guía de la cátedra o de parciales viejos que no hayas resuelto antes. Corregí con la escala del parcial: 60 puntos es el 4 y 80 es el 8."
-      ],
-      simulacroRec: [
-        "Mismo formato que tu 1º parcial, pero con las variantes de \"La foto global\" para no repetir lo mismo:",
-        "Ej. 1: una función dada por gráfico (parábola, exponencial u homográfica): fórmula, ceros, positividad, imagen y eje de simetría o asíntotas.",
-        "Ej. 2: dominio con logaritmo, cociente y contexto, y ceros calculados analíticamente.",
-        "Ej. 3: graficar con transformaciones una familia distinta a la del parcial (exponencial, raíz u homográfica).",
-        "Ej. 4: una ecuación trigonométrica en [0,2π) (con coseno o ángulo doble) y amplitud, período, h y k de una sinusoide.",
-        "Ej. 5: un límite 0/0 (por factoreo o con raíces) y una continuidad con parámetro."
-      ],
-      prioritiesP2: [
-        "Reglas de derivación y regla de la cadena (aparecen en casi todos los ejercicios).",
-        "Recta tangente y normal.",
-        "Crecimiento, extremos y concavidad (estudio de función).",
-        "Sustitución y partes.",
-        "Barrow y áreas entre curvas.",
-        "L'Hôpital.",
-        "Optimización.",
-        "Fracciones simples.",
-        "Taylor y diferenciales, impropias, derivada logarítmica, continuidad vs derivabilidad."
-      ],
-      prioritiesRec: [
-        "Álgebra con signos y factoreo (el error que arrastró el Ej. 1).",
-        "Ecuaciones trigonométricas: aislar, chequear el rango y encontrar todas las soluciones (Ej. 4a).",
-        "Límites 0/0: factorizar, cancelar y sustituir (Ej. 5a).",
-        "Graficar con transformaciones mostrando el método (Ej. 3).",
-        "Dominio con contexto y ceros de un cociente (Ej. 2, que te salió bien: mantenelo).",
-        "Parábola desde el gráfico con todas las respuestas escritas (Ej. 1).",
-        "Continuidad con parámetros escribiendo el límite (Ej. 5b)."
-      ],
-      contingencies: [
-        "<strong>Las dos fechas importan igual.</strong> La cátedra da una sola oportunidad para recuperar un solo parcial, y la vas a usar para el 1º. Por eso el 2º hay que aprobarlo de entrada, y el plan no le quita tiempo a las Unidades III–VI para dárselo a I–II: las I–II van primero y después se mantienen con repasos cortos.",
-        "<strong>Si te atrasás una semana</strong>: no saltees, comprimí. Seguí el orden de prioridades y dejá para el final lo de los últimos puestos. Si el atraso es en la Fase 1, robale tiempo al repaso espaciado de la Fase 2, nunca a las unidades nuevas.",
-        "<strong>Si entra la Unidad VII</strong>: ya está prevista en la semana 8 (jueves, viernes y un bloque del domingo). Segundo orden solo si lo dieron en clase.",
-        "<strong>Si en clase van más adelantados o atrasados</strong> que el plan: en las Fases 2 y 3 alineá las lecturas del viaje con lo que dieron esa semana, y usá el finde para practicar eso.",
-        "<strong>Si alguna fecha cambia</strong>: el plan se acomoda solo a la fecha del 2º parcial (cambiala arriba), pero está pensado para parcial en lunes y recuperatorio una semana después. Si es distinto, pedime que lo reacomode."
-      ]
-    }
-  },
-  {
     title: "¿Qué tipo de respuesta me piden?",
     what: `<p>La mayoría de los "no sé a dónde tengo que llegar" se resuelven ANTES de hacer una sola cuenta: cada tipo de pregunta tiene un tipo de respuesta fijo. Si sabés qué forma tiene la respuesta, sabés cuándo terminaste y te das cuenta solo si te estás yendo por otro lado (como calcular raíces del denominador cuando te pedían un límite).</p>`,
     goal: [
@@ -748,7 +390,7 @@ const MODULES = [
       "\"Analíticamente\" = con cuentas algebraicas. \"A partir del gráfico\" = leer el dibujo, sin cuentas. \"Utilizando transformaciones/simetrías\" = el razonamiento de transformación ES parte de la nota, aunque el dibujo final sea correcto."
     ],
     worked: {
-      intro: `Apliquemos esto a una consigna real del parcial: "Dada $f(t)=\\dfrac{(t+1)\\ln(t+1)}{t(1-t)}$, determinar analíticamente en qué momentos la temperatura es nula".`,
+      intro: `Apliquemos esto a una consigna real de un parcial de la cátedra: "Dada $f(t)=\\dfrac{(t+1)\\ln(t+1)}{t(1-t)}$, determinar analíticamente en qué momentos la temperatura es nula".`,
       steps: [
         {label:"Objeto que piden", body:`\"En qué momentos\" = valores de $t$. La respuesta va a ser una lista de valores (o \"ninguno\").`},
         {label:"Método exigido", body:`\"Analíticamente\" → hay que plantear la ecuación $f(t)=0$ y resolverla con cuentas, no mirar un gráfico.`},
@@ -763,7 +405,7 @@ const MODULES = [
           prompt: "\"Calcular $\\displaystyle\\lim_{x\\to0}\\dfrac{x}{x^3-3x^2+x}$\". La respuesta es…",
           options: [
             {text:"Un número (o $\\pm\\infty$, o \"no existe\")", correct:true, explain:"Un límite siempre termina en un valor. Si al final tenés las raíces del denominador, contestaste otra pregunta (el dominio)."},
-            {text:"Los valores de $x$ que anulan el denominador", correct:false, explain:"Eso es parte de calcular el dominio, no el límite. Fue exactamente el desvío del parcial."},
+            {text:"Los valores de $x$ que anulan el denominador", correct:false, explain:"Eso es parte de calcular el dominio, no el límite. Es un desvío muy común en esta consigna."},
             {text:"Una función simplificada", correct:false, explain:"Simplificar es un paso intermedio; después hay que sustituir y obtener un valor."}
           ]
         },
@@ -794,7 +436,7 @@ const MODULES = [
   },
   {
     title: "Leer la consigna y no perder puntos gratis",
-    what: `<p>En el parcial perdiste puntos sin cometer ningún error matemático: encontraste el vértice pero nunca escribiste el eje de simetría, y graficaste bien pero sin el método pedido. Estos puntos son los más fáciles de recuperar porque no requieren saber más matemática, sino un hábito de cierre.</p>`,
+    what: `<p>En los parciales se pierden muchos puntos sin cometer ningún error matemático: encontrar el vértice pero nunca escribir el eje de simetría, o graficar bien pero sin el método pedido. Estos puntos son los más fáciles de recuperar porque no requieren saber más matemática, sino un hábito de cierre.</p>`,
     goal: [
       "Cada inciso (a, b, c, d…) termina con una línea de respuesta explícita y visible, escrita en palabras o en el formato que se pidió: \"Eje de simetría: $x=-1$\".",
       "Usaste el método que exige la consigna, y se ve en la hoja."
@@ -810,7 +452,7 @@ const MODULES = [
       "Si un inciso dice \"a partir del gráfico\", no hace falta hacer cuentas: leé los valores del dibujo y justificá con lo que se ve."
     ],
     worked: {
-      intro: `El Ejercicio 1 del parcial resuelto "para la nota": una parábola con vértice $(-1,2)$ que pasa por $(0,1)$.`,
+      intro: `Un ejercicio típico de parcial resuelto "para la nota": una parábola con vértice $(-1,2)$ que pasa por $(0,1)$.`,
       steps: [
         {label:"Reconstruir la función (trabajo previo)", body:`Forma canónica: $y=a(x+1)^2+2$. Con $(0,1)$: $1=a(1)^2+2 \\Rightarrow a=-1$. Entonces $f(x)=-(x+1)^2+2$.`},
         {label:"1a) Eje de simetría — escribirlo explícito", body:`<strong>Eje de simetría: $x=-1$.</strong> (Una línea. Son 5 puntos que se pierden si no se escribe.)`},
@@ -834,7 +476,7 @@ const MODULES = [
           prompt: "La consigna dice \"graficar utilizando transformaciones\". Hiciste una tabla de valores y el dibujo quedó perfecto. ¿Está completo?",
           options: [
             {text:"No: hay que mostrar la función base y cada transformación aplicada", correct:true, explain:"El método es parte de lo que se evalúa. Ver el tema \"Graficar usando transformaciones\" en la Unidad I."},
-            {text:"Sí, el dibujo es lo que importa", correct:false, explain:"Así fue como perdiste el Ejercicio 3: el gráfico estaba bien, pero el método no era el pedido."}
+            {text:"Sí, el dibujo es lo que importa", correct:false, explain:"Así se pierde el ejercicio entero: el gráfico puede estar bien, pero si el método no es el pedido, no suma."}
           ]
         },
         {
@@ -854,8 +496,8 @@ const MODULES = [
       "Reconocer al instante un resultado imposible y ubicar en qué paso anterior está el error."
     ],
     checklist: [
-      "$\\sin\\theta$ o $\\cos\\theta$ fuera de $[-1,1]$ → error de despeje (pasó en tu parcial: $\\sin\\theta=-4$).",
-      "Raíz cuadrada de un número negativo, o raíces con $i$, en un problema donde el gráfico muestra que la curva corta el eje → error de signo (pasó en tu parcial: $x^2+2x+3$ en vez de $x^2+2x-1$).",
+      "$\\sin\\theta$ o $\\cos\\theta$ fuera de $[-1,1]$ → error de despeje (por ejemplo, llegar a $\\sin\\theta=-4$).",
+      "Raíz cuadrada de un número negativo, o raíces con $i$, en un problema donde el gráfico muestra que la curva corta el eje → error de signo (por ejemplo, $x^2+2x+3$ en vez de $x^2+2x-1$).",
       "Logaritmo de un número $\\leq0$ → la solución no está en el dominio, se descarta.",
       "Un área que da negativa → restaste al revés (abajo menos arriba) o la curva cruza el eje y no partiste la integral.",
       "Un tiempo, longitud o cantidad física negativa → descartá esa solución (o revisá el planteo).",
@@ -868,7 +510,7 @@ const MODULES = [
       "Si tenés calculadora, usala para chequear: evaluá $f$ cerca del punto del límite ($x=0{,}001$) y fijate si da cerca de tu resultado."
     ],
     worked: {
-      intro: `Rastreemos tu error del Ejercicio 4a para ver cómo se usa la alarma: $8\\sin\\theta+4\\sqrt3=0$.`,
+      intro: `Rastreemos un error típico para ver cómo se usa la alarma: $8\\sin\\theta+4\\sqrt3=0$.`,
       steps: [
         {label:"Llegaste a $\\sin\\theta=-4$", body:`Alarma: el seno nunca vale $-4$. En vez de seguir (y usar $\\cos^{-1}$), hay que volver atrás renglón por renglón.`},
         {label:"Encontrar el renglón roto", body:`De $8\\sin\\theta+4\\sqrt3=0$ pasaste a $8\\sin\\theta+4=0\\cdot\\sqrt3$. Ese paso no corresponde a ninguna operación válida: el $\\sqrt3$ multiplica solo al $4$, no a toda la ecuación.`},
@@ -903,7 +545,7 @@ const MODULES = [
         {
           prompt: "Buscás los ceros de una parábola que en el gráfico corta el eje x en dos puntos, y te dan $x=-1\\pm\\sqrt2\\,i$.",
           options: [
-            {text:"Hay un error de signo antes: el gráfico garantiza raíces reales", correct:true, explain:"Exactamente lo que pasó en tu parcial. La corrección es buscar el error, no borrar la $i$."},
+            {text:"Hay un error de signo antes: el gráfico garantiza raíces reales", correct:true, explain:"Exacto. La corrección es buscar el error, no borrar la $i$."},
             {text:"Saco la $i$ y uso $-1\\pm\\sqrt2$", correct:false, explain:"Borrar la $i$ no es una operación matemática. Aunque el número coincida por casualidad, el procedimiento está mal y se corrige como mal."}
           ]
         }
@@ -922,7 +564,7 @@ const MODULES = [
       "El dominio (U.I) es siempre el filtro final: ceros, soluciones de ecuaciones, puntos críticos y extremos tienen que pertenecer al dominio."
     ],
     signals: [
-      "<strong>Cómo te pueden cambiar el ejercicio en el recuperatorio</strong> (mismo tema, otra cara):",
+      "<strong>Cómo te pueden cambiar el ejercicio en otro parcial</strong> (mismo tema, otra cara):",
       "Parábola desde el gráfico → puede ser una exponencial, un logaritmo o una homográfica desde el gráfico. Mismo método: leer puntos y asíntotas, plantear la forma general, despejar parámetros.",
       "Dominio con log y cociente → puede venir con raíz par de un cociente (necesita tabla de signos), o con contexto distinto (longitud, cantidad).",
       "Graficar un log con transformaciones → puede ser exponencial, raíz, valor absoluto o homográfica. El método es el mismo: función base + transformaciones en orden.",
@@ -1908,7 +1550,7 @@ const MODULES = [
       "La amplitud es siempre un valor positivo: $A=|A|$, mide la distancia entre el máximo/mínimo y la línea media (no la distancia total entre máximo y mínimo).",
       "Imagen de $A\\sin(\\cdot)+k$ o $A\\cos(\\cdot)+k$: el intervalo $[k-A, k+A]$.",
       "Identidad pitagórica fundamental: $\\sin^2(x)+\\cos^2(x)=1$ — de ahí salen todas las demás identidades.",
-      "Si el argumento viene como $\\cos(\\pi x-\\tfrac{\\pi}{2})$, primero sacá factor común el coeficiente de $x$: $\\pi\\left(x-\\tfrac12\\right)$. Entonces $B=\\pi$ (período $\\tfrac{2\\pi}{\\pi}=2$) y $h=\\tfrac12$ — NO $h=\\tfrac{\\pi}{2}$. Es el error más común en este tipo de consigna (Ej. 4b del parcial).",
+      "Si el argumento viene como $\\cos(\\pi x-\\tfrac{\\pi}{2})$, primero sacá factor común el coeficiente de $x$: $\\pi\\left(x-\\tfrac12\\right)$. Entonces $B=\\pi$ (período $\\tfrac{2\\pi}{\\pi}=2$) y $h=\\tfrac12$ — NO $h=\\tfrac{\\pi}{2}$. Es el error más común en este tipo de consigna.",
       "Si $A$ es negativo (como en $-\\cos(\\cdot)+3$), la amplitud es $|A|$ y la gráfica está reflejada respecto a la línea media: donde el coseno tendría un máximo, esta tiene un mínimo."
     ],
     signals: [
@@ -2130,7 +1772,7 @@ const MODULES = [
   },
   {
     title: "Hallar la fórmula a partir del gráfico",
-    what: `<p>En el parcial te dieron una parábola dibujada y había que trabajar con su fórmula. En el recuperatorio el mismo tipo de ejercicio puede venir con una exponencial, un logaritmo, una homográfica o una trigonométrica. El método no cambia: <strong>forma general de la familia + datos que se leen del gráfico = parámetros</strong>.</p>`,
+    what: `<p>Un ejercicio clásico de parcial da una parábola dibujada y pide trabajar con su fórmula. En otro parcial el mismo tipo de ejercicio puede venir con una exponencial, un logaritmo, una homográfica o una trigonométrica. El método no cambia: <strong>forma general de la familia + datos que se leen del gráfico = parámetros</strong>.</p>`,
     goal: [
       "Una fórmula explícita con todos los parámetros calculados, verificada con un punto del gráfico que NO usaste para calcularla."
     ],
@@ -2615,12 +2257,12 @@ const MODULES = [
       "\"Tiene discontinuidad evitable en $x=a$\" → $a$ anula el denominador Y el numerador (por eso se puede cancelar)."
     ],
     worked: {
-      intro: `El Ejercicio 5b del parcial: $f(x)=\\dfrac{9x-54}{x-6}$ tiene discontinuidad evitable en $x=a$; $g(x)=f(x)$ si $x\\neq a$, $g(a)=b$. Hallar $a$ y $b$ para que $g$ sea continua.`,
+      intro: `Un ejercicio de parcial de la cátedra: $f(x)=\\dfrac{9x-54}{x-6}$ tiene discontinuidad evitable en $x=a$; $g(x)=f(x)$ si $x\\neq a$, $g(a)=b$. Hallar $a$ y $b$ para que $g$ sea continua.`,
       steps: [
         {label:"Hallar a", body:`El denominador se anula en $x=6$, y el numerador también: $9\\cdot6-54=0$. Por eso la discontinuidad es evitable. $a=6$.`},
         {label:"Calcular el límite en a, escribiéndolo", body:`$\\displaystyle\\lim_{x\\to6}\\dfrac{9x-54}{x-6}=\\lim_{x\\to6}\\dfrac{9(x-6)}{x-6}=\\lim_{x\\to6}9=9$.`},
         {label:"Hallar b", body:`Para que $g$ sea continua en $6$, $g(6)$ tiene que ser igual al límite: $b=9$.`},
-        {label:"Por qué el atajo de coeficientes era peligroso", body:`En el parcial usaste \"coeficiente principal sobre coeficiente principal\" ($9/1$). Dio bien porque el numerador es exactamente $9$ veces el denominador. Pero esa regla es para $x\\to\\infty$. Probá con $\\dfrac{x^2-36}{x-6}$ en $x\\to6$: el atajo no aplica (grados distintos) y factorizando da $\\displaystyle\\lim_{x\\to6}(x+6)=12$. Factorizar siempre funciona; el atajo no.`}
+        {label:"Por qué el atajo de coeficientes era peligroso", body:`Un atajo tentador es usar \"coeficiente principal sobre coeficiente principal\" ($9/1$). Acá da bien porque el numerador es exactamente $9$ veces el denominador. Pero esa regla es para $x\\to\\infty$. Probá con $\\dfrac{x^2-36}{x-6}$ en $x\\to6$: el atajo no aplica (grados distintos) y factorizando da $\\displaystyle\\lim_{x\\to6}(x+6)=12$. Factorizar siempre funciona; el atajo no.`}
       ]
     },
     exercise: {
@@ -3926,7 +3568,7 @@ function renderSidebar(){
     mod.topics.forEach((t, ti)=>{
       const p = progress[topicKey(mi,ti)];
       const active = currentTopic && currentTopic.mi===mi && currentTopic.ti===ti;
-      const state = t.roadmap ? 'roadmap' : (p ? (p.clean ? 'done' : 'partial') : '');
+      const state = p ? (p.clean ? 'done' : 'partial') : '';
       html += `<li><button class="topic-btn ${active?'active':''} ${state}" onclick="loadTopic(${mi},${ti})"><span class="dot"></span>${t.title}</button></li>`;
     });
     html += `</ul></div>`;
@@ -3981,13 +3623,6 @@ function loadTopic(mi, ti){
     <h2>${topic.title}</h2>
   </div>`;
 
-  if(topic.roadmap){
-    main.innerHTML = html + `<div id="roadmap-mount"></div>` + navBetweenHTML(mi, ti);
-    renderRoadmap(topic.roadmap);
-    window.scrollTo(0,0);
-    return;
-  }
-
   html += `<div class="card"><h3><span class="ic">💡</span> ¿Qué es / para qué sirve?</h3>${topic.what}</div>`;
   html += `<div class="card goal"><h3><span class="ic">🎯</span> ¿A dónde tengo que llegar?</h3><ul>${topic.goal.map(g=>`<li>${g}</li>`).join('')}</ul></div>`;
   html += `<div class="card checklist"><h3><span class="ic">✅</span> ¿Tiene sentido mi resultado?</h3><ul>${topic.checklist.map(c=>`<li>${c}</li>`).join('')}</ul></div>`;
@@ -4023,9 +3658,6 @@ function navBetweenHTML(mi, ti){
   </div>`;
 }
 
-/* ---------- roadmap ---------- */
-function loadRM(){ const s = Store.get('plan'); return (s && typeof s === 'object') ? s : {}; }
-function saveRM(s){ Store.set('plan', s); }
 function findTopicByTitle(title){
   for(let mi=0; mi<MODULES.length; mi++){
     const ti = MODULES[mi].topics.findIndex(t=>t.title===title);
@@ -4033,144 +3665,6 @@ function findTopicByTitle(title){
   }
   return null;
 }
-function parseLocalDate(s){ const [y,m,d] = s.split('-').map(Number); return new Date(y, m-1, d); }
-function isoDate(d){ return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
-function addDays(d, n){ const r = new Date(d); r.setDate(r.getDate()+n); return r; }
-function fmtDay(d){ return d.toLocaleDateString('es-AR', {weekday:'short', day:'numeric', month:'short'}); }
-function fmtMins(m){ m = Math.round(m); const h = Math.floor(m/60), r = m%60; return h ? (r ? `${h} h ${r} min` : `${h} h`) : `${r} min`; }
-function daysUntil(d, today){ return Math.round((d - today) / 86400000); }
-const DAY_IDX = {'Lun':0,'Mar':1,'Mié':2,'Jue':3,'Vie':4,'Sáb':5,'Dom':6};
-const SLOT_LABEL = {viaje:'viaje', almuerzo:'almuerzo', finde:'finde', parcial:'parcial'};
-
-function renderRoadmap(rm){
-  const mount = document.getElementById('roadmap-mount');
-  const st = loadRM();
-  const today = new Date(); today.setHours(0,0,0,0);
-  // La fecha de inicio se fija recién cuando se sabe qué hay en la cuenta (si no, un dispositivo nuevo la pisaría con hoy).
-  if(!st.startedOn && Store.ready){ st.startedOn = isoDate(today); saveRM(st); }
-  const startedOn = st.startedOn ? parseLocalDate(st.startedOn) : today;
-  const done = st.done || {};
-  const p2Str = st.p2 || rm.exams.p2.date;
-  const recStr = st.rec || rm.exams.rec.date;
-  const p2 = parseLocalDate(p2Str), rec = parseLocalDate(recStr);
-  const dP2 = daysUntil(p2, today), dRec = daysUntil(rec, today);
-
-  // weeks run Monday–Sunday; week index rm.preExamWeek is the full week right before the 2º parcial
-  const back = p2.getDay() === 0 ? 7 : p2.getDay();
-  const preStart = addDays(p2, -back - 6);
-  const weeks = rm.weeks.map((w,i)=>{ const start = addDays(preStart, 7*(i - rm.preExamWeek)); return Object.assign({}, w, {start, end:addDays(start,6), idx:i}); });
-  const current = weeks.find(w=> today >= w.start && today <= w.end);
-
-  const allBlocks = rm.weeks.flatMap(w=>w.blocks);
-  const totalMins = allBlocks.reduce((a,b)=>a+b.mins, 0);
-  const doneMins = allBlocks.filter(b=>done[b.id]).reduce((a,b)=>a+b.mins, 0);
-  const perUnit = {};
-  allBlocks.forEach(b=>{
-    let unit = 'Simulacros, chequeos y repaso espaciado';
-    const f = b.refs.length ? findTopicByTitle(b.refs[0]) : null;
-    if(f) unit = MODULES[f.mi].title;
-    perUnit[unit] = (perUnit[unit]||0) + b.mins;
-  });
-  const unitOrder = MODULES.map(m=>m.title);
-  const unitRows = Object.entries(perUnit).sort((a,b)=>{
-    const ia = unitOrder.indexOf(a[0]), ib = unitOrder.indexOf(b[0]);
-    return (ia<0?99:ia) - (ib<0?99:ib);
-  });
-
-  const countdown = (d, label) => d > 0 ? `<strong>${d} días</strong> al ${label}` : d === 0 ? `<strong>hoy es el ${label}</strong>` : `${label}: ya pasó`;
-  let status = `${countdown(dP2,'2º parcial')} · ${countdown(dRec,'recuperatorio')}`;
-  if(current) status += ` · estás en la <strong>Semana ${current.idx+1} de ${weeks.length}</strong>`;
-  else if(today < weeks[0].start) status += ` · el plan arranca el ${fmtDay(weeks[0].start)}`;
-
-  const warnings = [];
-  if(p2.getDay() !== 1) warnings.push('El plan está pensado para un 2º parcial en lunes. Con otro día, la última semana queda corrida: pedime que lo reacomode.');
-  if(daysUntil(rec, p2) !== 7) warnings.push('La última fase supone que el recuperatorio es una semana después del 2º parcial. Si no es así, pedime que la reacomode.');
-
-  let h = '';
-  h += `<div class="card"><div class="rm-top">
-      <label for="rm-p2">2º parcial</label><input type="date" id="rm-p2" value="${p2Str}">
-      <label for="rm-rec">Recuperatorio</label><input type="date" id="rm-rec" value="${recStr}">
-    </div>
-    <p class="rm-status" style="margin:12px 0 0;">${status}</p>
-    ${warnings.map(w=>`<p style="margin:8px 0 0; font-size:13.5px; color:#b9821f;">${w}</p>`).join('')}</div>`;
-
-  h += `<div class="rm-tiles">
-    <div class="rm-tile"><div class="v">${fmtMins(totalMins)}</div><div class="l">en total, en ${weeks.length} semanas</div></div>
-    <div class="rm-tile"><div class="v">9 h 45 min</div><div class="l">por semana completa</div></div>
-    <div class="rm-tile"><div class="v">${fmtMins(doneMins)}</div><div class="l">hechas (${Math.round(doneMins/totalMins*100)}%)</div></div>
-  </div>`;
-
-  h += `<div class="card"><h3><span class="ic">📌</span> Supuestos del plan</h3><ul>${rm.assumptions.map(a=>`<li>${a}</li>`).join('')}</ul></div>`;
-
-  h += `<div class="card"><h3><span class="ic">🗺️</span> Las 4 fases</h3><div class="rm-units">${Object.entries(rm.phases).map(([n,p])=>{
-      const ws = weeks.filter(w=>w.phase===+n);
-      return `<div class="u"><span><strong>Fase ${n}</strong> · ${p.title}</span><span>${fmtDay(ws[0].start)} – ${fmtDay(ws[ws.length-1].end)}</span></div>`;
-    }).join('')}</div></div>`;
-
-  h += `<div class="card"><h3><span class="ic">⏰</span> Tu día tipo</h3><div class="rm-routine">${rm.routine.map(r=>`<div class="row"><div><span class="rm-chip ${r.slot}">${r.when}</span></div><div>${r.what}</div></div>`).join('')}</div></div>`;
-
-  h += `<div class="card checklist"><h3><span class="ic">🔁</span> Cómo se estudia cada tema</h3><ul>${rm.method.map(m=>`<li>${m}</li>`).join('')}</ul></div>`;
-
-  h += `<div class="card"><h3><span class="ic">⚖️</span> Tiempo por módulo</h3><div class="rm-units">${unitRows.map(([u,m])=>`<div class="u"><span>${u}</span><span>${fmtMins(m)}</span></div>`).join('')}</div>
-    <p style="font-size:13.5px; color:var(--ink-soft); margin:10px 0 0;">Las Unidades I y II se llevan casi tanto tiempo como las nuevas porque son las que te costaron, son la base de todo lo demás y son el recuperatorio. Además, el repaso espaciado y los simulacros las vuelven a tocar varias veces.</p></div>`;
-
-  let lastPhase = null;
-  weeks.forEach(w=>{
-    if(w.phase !== lastPhase){
-      const p = rm.phases[w.phase];
-      h += `<div class="rm-phase"><div class="rm-phase-k">Fase ${w.phase}</div><h3>${p.title}</h3><p>${p.text}</p></div>`;
-      lastPhase = w.phase;
-    }
-    const wm = w.blocks.reduce((a,b)=>a+b.mins, 0);
-    const wd = w.blocks.filter(b=>done[b.id]).reduce((a,b)=>a+b.mins, 0);
-    const isCur = current && current.idx === w.idx;
-    h += `<div class="card rm-week ${isCur?'current':''}" id="rm-week-${w.idx}">
-      <div class="rm-week-head"><h3>Semana ${w.idx+1} · ${w.title}${isCur?'<span class="rm-now">ESTÁS ACÁ</span>':''}</h3><span class="rm-dates">${fmtDay(w.start)} – ${fmtDay(w.end)}</span></div>
-      <p class="rm-goal">${w.goal}</p>
-      ${(startedOn > w.start && startedOn <= w.end && w.blocks.some(b=>addDays(w.start, DAY_IDX[b.day]) < startedOn)) ? `<p class="rm-goal" style="color:#b9821f;">Empezaste el plan a mitad de esta semana. Lo de los días que ya pasaron hacelo en los viajes y almuerzos que quedan. No te saltees los bloques del finde: son los importantes.</p>` : ''}
-      <div class="rm-bar"><div style="width:${wm ? wd/wm*100 : 0}%"></div></div>
-      <div class="rm-barlabel">${fmtMins(wd)} de ${fmtMins(wm)} hechas</div>`;
-    w.blocks.forEach(b=>{
-      const date = addDays(w.start, DAY_IDX[b.day]);
-      const pending = !done[b.id] && date < today && date >= startedOn;
-      const links = b.refs.map(r=>{ const f = findTopicByTitle(r); return f ? `<span class="rm-link" data-mi="${f.mi}" data-ti="${f.ti}">${r}</span>` : ''; }).join('');
-      h += `<div class="rm-block ${done[b.id]?'done':''}">
-        <input type="checkbox" data-id="${b.id}" ${done[b.id]?'checked':''} aria-label="Marcar como hecho">
-        <div class="rm-when"><div class="rm-day">${b.day} ${date.getDate()}</div><span class="rm-chip ${b.slot}">${SLOT_LABEL[b.slot]}</span></div>
-        <div class="rm-body"><div class="rm-task">${b.task}${pending?' <span style="color:#b9821f; font-size:12.5px; font-weight:700;">· pendiente</span>':''}</div>${links?`<div class="rm-links">${links}</div>`:''}</div>
-        <div class="rm-mins">${b.mins} min</div>
-      </div>`;
-    });
-    h += `</div>`;
-  });
-
-  h += `<div class="card"><h3><span class="ic">📝</span> Cómo armar los simulacros del 2º parcial</h3><ul>${rm.simulacroP2.map(s=>`<li>${s}</li>`).join('')}</ul></div>`;
-  h += `<div class="card"><h3><span class="ic">📝</span> Cómo armar los simulacros del recuperatorio</h3><ul>${rm.simulacroRec.map(s=>`<li>${s}</li>`).join('')}</ul></div>`;
-  h += `<div class="card signals"><h3><span class="ic">🎯</span> El día de cada examen</h3><ul>
-    <li>La noche anterior: nada nuevo y a dormir. Una noche de sueño rinde más que una hora extra de estudio cansado.</li>
-    <li>Leé TODO el examen primero y empezá por el ejercicio que mejor te sale: asegurás puntos y ganás confianza.</li>
-    <li>En cada inciso, antes de calcular, anotá al margen qué tipo de respuesta piden (número, función, conjunto, recta).</li>
-    <li>Si un ejercicio te traba más de 15 minutos, pasá al siguiente y volvé al final.</li>
-    <li>Guardá los últimos 10 minutos para revisar con las Señales de alarma y recuadrar cada respuesta final.</li></ul></div>`;
-  h += `<div class="card goal"><h3><span class="ic">🚦</span> Si te atrasás: orden de prioridad</h3>
-    <p style="font-weight:700; margin:4px 0;">Para el 2º parcial</p><ol style="margin:4px 0 12px; padding-left:22px;">${rm.prioritiesP2.map(p=>`<li style="font-size:15px; line-height:1.65;">${p}</li>`).join('')}</ol>
-    <p style="font-weight:700; margin:4px 0;">Para el recuperatorio</p><ol style="margin:4px 0; padding-left:22px;">${rm.prioritiesRec.map(p=>`<li style="font-size:15px; line-height:1.65;">${p}</li>`).join('')}</ol></div>`;
-  h += `<div class="card"><h3><span class="ic">🔀</span> Imprevistos</h3><ul>${rm.contingencies.map(c=>`<li>${c}</li>`).join('')}</ul></div>`;
-
-  mount.innerHTML = h;
-
-  const rerender = ()=>{ const y = window.scrollY; renderRoadmap(rm); window.scrollTo(0, y); };
-  mount.querySelector('#rm-p2').addEventListener('change', e=>{ if(!e.target.value) return; const s = loadRM(); s.p2 = e.target.value; saveRM(s); rerender(); });
-  mount.querySelector('#rm-rec').addEventListener('change', e=>{ if(!e.target.value) return; const s = loadRM(); s.rec = e.target.value; saveRM(s); rerender(); });
-  mount.querySelectorAll('input[type=checkbox][data-id]').forEach(cb=> cb.addEventListener('change', e=>{
-    const s = loadRM(); s.done = s.done || {};
-    if(e.target.checked) s.done[e.target.dataset.id] = true; else delete s.done[e.target.dataset.id];
-    saveRM(s); rerender();
-  }));
-  mount.querySelectorAll('.rm-link').forEach(l=> l.addEventListener('click', ()=> loadTopic(+l.dataset.mi, +l.dataset.ti)));
-  renderMathSafe();
-}
-
 /* ---------- exercise engine ---------- */
 let exState = {}; // {stepIndex, answeredCorrectly: []}
 
@@ -4329,10 +3823,10 @@ function toast(msg){
   toast._t = setTimeout(() => el.classList.remove('show'), 6000);
 }
 Store.onError = (key, code) => {
-  if(key === 'progreso' || key === 'plan'){ renderSync(); if(toast._sync) return; toast._sync = true; }
+  if(key === 'progreso'){ renderSync(); if(toast._sync) return; toast._sync = true; }
   toast(code === 'too_large' ? 'Esta hoja es muy grande para guardarla en tu cuenta: quedó guardada solo en este dispositivo.'
     : code === 'quota_exceeded' ? 'Se llenó el espacio de guardado de la página en tu cuenta. Lo nuevo queda solo en este dispositivo.'
-    : (key === 'progreso' || key === 'plan') ? 'Por ahora no se pudo subir a tu cuenta: quedó guardado en este dispositivo y se vuelve a intentar solo.'
+    : key === 'progreso' ? 'Por ahora no se pudo subir a tu cuenta: quedó guardado en este dispositivo y se vuelve a intentar solo.'
     : 'No se pudo guardar en tu cuenta. Quedó guardado en este dispositivo.');
 };
 Store.onStatus = () => renderSync();
@@ -4360,7 +3854,7 @@ Practice.init({
   renderSidebar,
   loadTopic,
   findTopicByTitle,
-  topicTitles: () => MODULES.flatMap(m => m.topics.filter(t => !t.roadmap).map(t => t.title))
+  topicTitles: () => MODULES.flatMap(m => m.topics.map(t => t.title))
 });
 renderSidebar();
 function showAccountData(){
@@ -4368,8 +3862,6 @@ function showAccountData(){
   renderSidebar();
   Practice.refresh();
   if (duoOpen && document.getElementById('duo-path') && !document.querySelector('.duo')) { const y = window.scrollY; Duo.renderPath(); window.scrollTo(0, y); }
-  const t = currentTopic && currentTopic.ti >= 0 ? MODULES[currentTopic.mi].topics[currentTopic.ti] : null;
-  if (t && t.roadmap && document.getElementById('roadmap-mount')) { const y = window.scrollY; renderRoadmap(t.roadmap); window.scrollTo(0, y); }
 }
 // Cambios que llegan de la cuenta (otro dispositivo u otra pestaña): se muestran sin recargar.
 Store.onRemote = () => showAccountData();
@@ -4380,7 +3872,7 @@ Store.init(window.claude).then(() => showAccountData());
 // antes de que un cambio acá suba una copia vieja.
 document.addEventListener('visibilitychange', async () => {
   if (document.visibilityState !== 'visible' || Store.mode !== 'db') return;
-  await Promise.all([Store.refresh('progreso'), Store.refresh('plan')]);
+  await Store.refresh('progreso');
   showAccountData();
 });
 </script>
