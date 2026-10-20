@@ -1394,7 +1394,7 @@ table.frases td:first-child{font-family:var(--display); font-weight:600}
     </ul>
   </section>
 
-  <section class="herramienta" id="glosario" data-busca="glosario definiciones terminos vocabulario">
+  <section class="herramienta" id="glosario" data-busca="glosario definiciones terminos vocabulario densidad exponencial weibull gumbel normal lognormal poisson gamma molina">
     <p class="eyebrow">Vocabulario</p>
     <h2>Glosario</h2>
     <dl class="glosario">
@@ -1425,6 +1425,28 @@ table.frases td:first-child{font-family:var(--display); font-weight:600}
       <div><dt>Pascal</dt><dd>Número de ensayos hasta obtener el r-ésimo éxito. E = r/p.</dd></div>
       <div><dt>Hipergeométrico</dt><dd>Número de éxitos en una muestra sin reposición de una población finita (N, R).</dd></div>
       <div><dt>HiperPascal</dt><dd>Número de extracciones sin reposición hasta obtener el r-ésimo éxito.</dd></div>
+      <div><dt>Variable aleatoria continua</dt><dd>Su rango es un conjunto infinito no numerable (un intervalo de valores: tiempos, pesos, longitudes). Se describe con una función de densidad y las probabilidades son áreas.</dd></div>
+      <div><dt>Función de densidad<small>f(x)</small></dt><dd>Cumple f(x) ≥ 0 y ∫f(x)dx = 1 sobre todo el dominio. No es una probabilidad: P(a &lt; X &lt; b) es el área bajo f entre a y b. Como P(X = a) = 0, en las continuas &lt; y ≤ dan lo mismo.</dd></div>
+      <div><dt>Acumuladas F y G<small>F(x), G(x)</small></dt><dd>F(x) = P(X ≤ x) es el área a la izquierda; G(x) = P(X ≥ x) = 1 − F(x) es el área a la derecha. La densidad es la derivada de F.</dd></div>
+      <div><dt>Esperanza y varianza continuas</dt><dd>E(X) = ∫ x·f(x)dx; V(X) = ∫ x²·f(x)dx − μ². La mediana es el x que cumple F(x) = 0,5 y la moda, el x donde f es máxima.</dd></div>
+      <div><dt>Fenómenos de vida</dt><dd>Estudian la duración hasta la falla de un elemento (X). Se modelan con exponencial, Weibull o Gumbel del mínimo, según la causa de la falla.</dd></div>
+      <div><dt>Fiabilidad (confiabilidad)</dt><dd>Probabilidad de que un elemento dure más que un valor x: es la acumulada derecha G(x).</dd></div>
+      <div><dt>Curva de la bañera</dt><dd>Tasa de fallas λ a lo largo del tiempo: fallas iniciales (baja), fallas normales (constante: la vida útil) y fallas de desgaste (sube).</dd></div>
+      <div><dt>MTTF / MTBF</dt><dd>Tiempo medio hasta la falla, E(X), y tiempo medio entre fallas. En el modelo exponencial los dos valen 1/λ.</dd></div>
+      <div><dt>Tasa de ocurrencia<small>λ</small></dt><dd>Cantidad promedio de acontecimientos (o fallas) por unidad de continuo. Si el enunciado da la media μ, λ = 1/μ. Con el tramo t, m = λ·t.</dd></div>
+      <div><dt>Exponencial</dt><dd>Continuo entre dos fallas consecutivas de un proceso de Poisson (fallas al azar). f = λe<sup>−λx</sup>; G = e<sup>−λx</sup>; E = 1/λ; V = 1/λ²; moda 0; mediana ln2/λ.</dd></div>
+      <div><dt>Weibull<small>(β; ω)</small></dt><dd>Expectativa de vida de un elemento de fabricación. β es el parámetro de escala y ω el de forma. G = e<sup>−(x/β)<sup>ω</sup></sup>. Con ω = 1 es la exponencial; con ω &gt; 3,602 es más probable fallar por desgaste que por azar.</dd></div>
+      <div><dt>Función Gamma<small>Γ</small></dt><dd>Generaliza el factorial: Γ(n) = (n − 1)! para n entero. Aparece en la esperanza y la varianza del Weibull.</dd></div>
+      <div><dt>Gumbel del mínimo<small>(θ; β)</small></dt><dd>Vida cuando la única causa de falla es el desgaste (seres vivientes). Asimétrica a la izquierda; θ es la moda. G = e<sup>−e<sup>(x−θ)/β</sup></sup>; E = θ − 0,5772·β.</dd></div>
+      <div><dt>Normal<small>N(μ, σ²)</small></dt><dd>Campana de Gauss: modelo de magnitudes que se miden. Simétrica, con media = moda = mediana = μ. Dentro de μ ± σ cae el 68,26 % de los valores; en μ ± 2σ, el 95,44 %; en μ ± 3σ, el 99,7 %.</dd></div>
+      <div><dt>Normal estándar<small>Z</small></dt><dd>Normal con μ = 0 y σ = 1. Se llega a ella con Z = (x − μ)/σ, que indica a cuántos desvíos de la media está x. Su área está tabulada.</dd></div>
+      <div><dt>Fractil</dt><dd>Valor de x que deja un área (porcentaje) dada a su izquierda. En la normal: x = μ + z·σ, con z buscado en la tabla.</dd></div>
+      <div><dt>Log-normal<small>(m; D)</small></dt><dd>X es log-normal si ln X es normal. Para variables muy asimétricas (sueldos, saldos; CV &gt; 60 %). m es la esperanza del logaritmo, no de la variable. Mediana = e<sup>m</sup>.</dd></div>
+      <div><dt>Proceso de Poisson</dt><dd>Acontecimientos puntuales que aparecen «al azar» en un continuo (tiempo, longitud, superficie). Si fijo el continuo y cuento acontecimientos: Poisson; si fijo la cantidad y mido el continuo: Gamma.</dd></div>
+      <div><dt>Poisson<small>P(r)</small></dt><dd>Cantidad r de acontecimientos en un tramo, con m = λ·t. P(r) = e<sup>−m</sup>·m<sup>r</sup>/r!; E = V = m. Es discreta.</dd></div>
+      <div><dt>Gamma<small>(λ; r)</small></dt><dd>Continuo necesario para encontrar r acontecimientos de un proceso de Poisson. E = r/λ; V = r/λ²; moda (r − 1)/λ. Con r = 1 es la exponencial.</dd></div>
+      <div><dt>Relación de Molina</dt><dd>Con r entero: F<sub>gamma</sub>(x) = G<sub>poisson</sub>(r / m = λx) y G<sub>gamma</sub>(x) = F<sub>poisson</sub>(r − 1 / m = λx). Permite resolver un Gamma con la tabla de Poisson.</dd></div>
+      <div><dt>Aproximación de Wilson–Hilferty</dt><dd>Aproxima el Gamma con la normal cuando r no es entero (no sirve Molina): F ≈ Φ{3√r·[(λx/r)<sup>1/3</sup> + 1/(9r) − 1]}.</dd></div>
     </dl>
   </section>
 
