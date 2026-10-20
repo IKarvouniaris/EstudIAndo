@@ -17,7 +17,7 @@ estudIAndo es el sitio de estudio de un grupo de amigos de la Lic. en IA y Cienc
 ### De un vistazo
 
 - ✅ **Funciona de punta a punta:** las 5 materias tienen apunte; Ética, Python y Estadística tienen examen puntuado con leaderboard; Python y Cálculo tienen entrenador; la corrección con IA anda en 5 Edge Functions; hay login, perfiles, dominio por tema y sincronización de progreso en Cálculo.
-- 🟡 **Parcial:** IAgram (solo el piloto de Ética), simulacro de Intro a la IA (estático, sin cuenta ni ranking), Fase 4 (la IA está integrada al examen, pero no hay "parcial" programado) y Fase 7 (algunos extras sueltos).
+- 🟡 **Parcial:** simulacro de Intro a la IA (estático, sin cuenta ni ranking), Fase 4 (la IA está integrada al examen, pero no hay "parcial" programado) y Fase 7 (algunos extras sueltos).
 - ⬜ **No existe todavía:** duelos, modo en vivo tipo Kahoot, logros, rachas a nivel sitio, tutor IA en Python / Intro a la IA / Cálculo, leaderboard de Cálculo y de Intro a la IA.
 - 🛠 **Depende de pasos manuales:** correr el SQL en el SQL Editor, desplegar las Edge Functions y reactivar Supabase si se pausa por inactividad (ver "Operación").
 - 👀 **Para revisar:** el PR #11 (3 commits sobre Cálculo, abierto). Toca `calculo.html`, así que probablemente choque con el rediseño del 2026-10-18.
@@ -51,8 +51,8 @@ Una materia por día de cursada (la fila del día aparece resaltada en `index.ht
 
 Además, transversal a las materias:
 
-- **IAgram** (`iagram.html`): feed de estudio estilo Instagram. Hoy solo el perfil de **Ética** tiene contenido (21 posts: concepto, trampa y caso, de las clases 1 a 7); los perfiles de Intro a la IA, Python y Estadística figuran como "próximamente", y Cálculo no tiene perfil. Es solo visual: sin likes ni backend.
-- **Guiones de TikTok con Capu** (`guiones/`): 21 guiones (uno por post de IAgram) con el personaje Capu, el mono bibliotecario-detective, y los prompts de imagen. Son material para producir videos; no se publican en el sitio.
+- **Poris** (`poris.html`, desde el 2026-10-20; reemplazó a IAgram): feed de repaso con las flashcards de las cuatro materias con apunte (179 tarjetas: 61 de Intro a la IA, 29 de Estadística, 30 de Python y 59 de Ética). Se scrollea una tarjeta por pantalla (con *snap*); tocás para ver la respuesta y tocás de nuevo para pasar a la siguiente. Arriba se filtra por materia y por tema (la clase), en el orden del apunte; en «Todo» salen mezcladas, y ↻ las vuelve a mezclar. Cada tarjeta enlaza al apunte (`etica.html#c3`). El filtro queda en el hash (`#materia=etica&tema=3`) y en el navegador. No mide tiempos, no guarda progreso y no usa la cuenta. Las tarjetas viven en `js/mazos/*.js`, un archivo por materia, que cargan tanto los apuntes como Poris.
+- **Guiones de TikTok con Capu** (`guiones/`): 21 guiones (uno por cada post del piloto de IAgram, que Poris reemplazó) con el personaje Capu, el mono bibliotecario-detective, y los prompts de imagen. Son material para producir videos; no se publican en el sitio.
 - **Leaderboards** (`leaderboards.html`): hub que elige entre los tres rankings (Ética, Python y Estadística).
 
 ---
@@ -61,7 +61,7 @@ Además, transversal a las materias:
 
 ### Para quien estudia
 
-1. **Portada (`index.html`):** se elige la materia. Arriba están los accesos a Leaderboards, IAgram y el chip de sesión. Cada materia ofrece su apunte y, según el caso, entrenador o simulacro.
+1. **Portada (`index.html`):** se elige la materia. Arriba están los accesos a Leaderboards, Poris y el chip de sesión. Cada materia ofrece su apunte y, según el caso, entrenador o simulacro.
 2. **Sin cuenta** se puede leer todo el apunte, usar flashcards y glosarios, hacer el simulacro de Intro a la IA, el entrenador de Python (progreso en el navegador) y Cálculo en modo local.
 3. **Con cuenta** (Google o magic link; la primera vez se elige un nombre único y un emoji) se suman: exámenes puntuados, leaderboards, dominio por tema, tutor, correcciones con IA y la sincronización del progreso de Cálculo entre dispositivos.
 4. **Dos modos de práctica en las materias competitivas:**
@@ -122,16 +122,16 @@ Todas verifican la sesión del usuario y reintentan ante los errores intermitent
 
 1. **Resolver el PR #11 y confirmar el SQL de Cálculo.** Es lo único abierto. Revisar el PR (probablemente haya que rehacerlo sobre el rediseño) y confirmar que `fase7_calculo_endurecer.sql` se corrió.
 2. **Evitar que Supabase se vuelva a pausar** con un ping semanal automático (GitHub Action). Es barato y protege todo lo demás.
-3. **Modo repaso con las flashcards** (ver abajo): reutiliza el trabajo de Poris y aprovecha ~180 tarjetas que hoy solo se leen.
+3. **Seguir con Poris** (ver abajo): la versión básica ya está (feed de las 179 flashcards por materia y tema); faltan marcar «la sabía / repasar» y completar los mazos de las clases nuevas.
 4. **Subir los verificadores al repo** (sympy de Cálculo, integridad de los bancos, smoke test de Pyodide, RLS con un Postgres local) y correrlos en CI.
 5. **Sincronizar el entrenador de Python en la cuenta**, igual que Cálculo, para que el progreso no dependa del navegador.
 6. **Completar lo que quedó a medias:** simulacro competitivo de Intro a la IA, modelo C en el simulacro de Python, tutor en las materias que faltan.
 
 ### Estudio y contenido
 
-- 🟡 **Modo repaso tipo Poris** (idea del 2026-10-18): un modo de tarjeta por tarjeta, con swipe, que muestra el frente, se da vuelta al tocar y se marca "la sabía / repasar". Se reutilizan de Poris los gestos (`gestures.js`) y el muestreo ponderado con piso de probabilidad (`preferencias.js`), cambiando la señal "tiempo de lectura" por el auto-puntaje explícito. Las tarjetas fallidas vuelven más seguido (repetición espaciada tipo Leitner). Se puede ofrecer dentro de IAgram o como página propia, con el mazo mezclado de todas las materias.
-- 🟢 **Flashcards en un archivo de datos compartido:** hoy cada apunte tiene su `var MAZO` pegado en el HTML. Un archivo común (o un script de `tools/` que lo extraiga) permite usarlas en el modo repaso, en IAgram y exportarlas a Anki sin duplicar contenido.
-- 🟡 **IAgram completo:** perfiles de Intro a la IA, Python, Estadística y Cálculo, posts del tipo "para el parcial" (la plantilla ya existe), guardados y likes persistentes en Supabase y los videos de los guiones de Capu.
+- 🟡 **Poris, siguientes pasos:** marcar «la sabía / repasar» (guardado en el navegador o en la cuenta) y volver a mostrar más seguido las que fallaste (repetición espaciada tipo Leitner); gestos de swipe (`gestures.js` de Poris) si el scroll nativo no alcanza; que el mazo mezclado priorice los temas más flojos usando «Tu dominio por tema».
+- 🟡 **Más tarjetas en Poris:** el mazo de Ética solo cubre las clases 1 a 6 y los mini casos (el apunte tiene 8 clases), el de Intro a la IA cubre las clases 1 a 6 (el apunte tiene 9), y Cálculo no tiene mazo. Las 40 preguntas del Kahoot de Intro a la IA se arman a partir del HTML del apunte y por eso no están en Poris. Las tarjetas de las clases nuevas se agregan en `js/mazos/<materia>.js`.
+- 🟢 **Qué quedó de IAgram:** los 21 posts de Ética (concepto, trampa y caso real) se borraron junto con `iagram.html`; siguen en el historial de git. Se podrían volver a sumar a Poris como tarjetas de otro tipo. Los guiones de Capu (`guiones/`) no cambian, pero se escribieron para esos posts.
 - 🟡 **Estadística, segundo parcial:** continuas, normal, Poisson y TCL, cuando haya clases. Hoy cubre el primer parcial (Temas 1 a 3).
 - 🟡 **Python:** ampliar el banco del simulacro más allá de los 6 ejercicios, sumar el modelo C, y agregar tutor.
 - 🟡 **Cálculo:** dominio por unidad en el apunte, tutor, simulacro con corrección de lápiz y puntaje (hay que mover las respuestas al servidor), y mejorar las 23 explicaciones repetidas del entrenador.
@@ -325,7 +325,7 @@ Agregados por `ivanox97` a partir de las grabaciones y el material de la cátedr
 - **Ética:** clase 07 (responsabilidad civil y penal) y clase 08 (IA y propiedad intelectual, con el caso «El autor invisible»). El apunte llega a 8 clases.
 - **Intro a la IA:** clase 07 (automatización responsable), 08 (cognición distribuida y neurociencia) y 09 (planificación, riesgos y automatización). El apunte llega a 9 clases.
 
-### IAgram: feed de estudio estilo Instagram (2026-09-27)
+### IAgram: feed de estudio estilo Instagram (2026-09-27; reemplazado por Poris el 2026-10-20)
 
 Agregado por `ivanox97` (PR #6; spec y plan en `docs/superpowers/`). Es una superficie complementaria al apunte para repasar rápido lo que "nos podrían tomar en un parcial": cada materia es un "perfil" y cada concepto clave, un "post".
 
@@ -333,6 +333,16 @@ Agregado por `ivanox97` (PR #6; spec y plan en `docs/superpowers/`). Es una supe
 - **Piloto de Ética:** 21 posts (concepto, trampa y caso de cada una de las clases 1 a 7). Los captions se redactaron de nuevo, sin citar el apunte textual. Los perfiles de Intro a la IA, Python y Estadística aparecen como "próximamente"; Cálculo no tiene perfil.
 - **Entradas:** link "IAgram" en `index.html` y un acceso desde cada apunte.
 - **Fuera de alcance (a propósito):** likes o guardados persistentes, contenido de otras materias y filtro por hashtag.
+- **Reemplazo (2026-10-20):** a pedido del dueño del repo, `iagram.html` se borró y `poris.html` ocupa su lugar (ver abajo). Los posts de Ética quedan en el historial de git.
+
+### Poris: feed de flashcards (2026-10-20)
+
+Idea del proyecto Poris (un WikiTok en español con scroll de artículos de Wikipedia), adaptada para estudiar: en lugar de Wikipedia, las tarjetas son las flashcards de los apuntes. Primera versión a propósito básica: sin tiempos de lectura, sin afinidad aprendida y sin cuenta.
+
+- **`poris.html`:** página autocontenida, con la estética del sitio y modo oscuro (`ia-tema`). Una tarjeta por pantalla con scroll *snap*; tocar o Enter/Espacio revela la respuesta y vuelve a tocar pasa a la siguiente; flechas ↑↓ (o J/K) y botones ▲▼ para moverse en escritorio. Chips por materia y, al elegir una, por tema; ↻ mezcla. El estado queda en el hash y en `localStorage` (`poris-filtro`).
+- **Mazos compartidos:** `js/mazos/{etica,ia-conceptual,python,estadistica}.js` definen `window.MAZOS[id]`. Los cuatro apuntes dejaron de tener el array pegado y ahora hacen `var MAZO = window.MAZOS["…"].slice()` (el `.slice()` evita que las tarjetas del Kahoot de Intro a la IA se sumen al mazo compartido). Se movió el texto tal cual, comprobando que quedara idéntico.
+- **Entradas:** link «Poris» en `index.html` y «Π Repasar en Poris» en el riel de cada apunte, que abre la materia (`poris.html#materia=etica`).
+- **Verificación:** en el navegador, las 179 tarjetas, la suma por materia y tema, los anclajes al apunte, las flashcards de los cuatro apuntes y que ninguna respuesta quede cortada en un celular de 375 px; en uno de 360×560, 7 respuestas largas se desplazan dentro de la tarjeta.
 
 ### Guiones de TikTok con Capu (2026-09-27)
 
@@ -687,7 +697,8 @@ create table respuestas_vivo (
 - [ ] **Estadísticas por bloque** en el perfil (dónde flojea cada uno). *(Parcial: «Tu dominio por tema» en Ética, Python y Estadística.)*
 - [ ] **Corrección entre pares** del desarrollo como complemento a Gemini.
 - [ ] Sumar el **simulacro de Intro a la IA** al mismo sistema.
-- [x] Modo oscuro y estilo consistente en todas las páginas nuevas. *(Todas las páginas, Cálculo incluida desde el 2026-10-18.)*- [x] **Extras que no estaban en el plan y ya existen:** tutor IA del apunte, corrección con IA en la práctica, Python, Estadística y Cálculo como materias completas, entrenadores de Python y de Cálculo, IAgram y los guiones de Capu (ver la bitácora).
+- [x] Modo oscuro y estilo consistente en todas las páginas nuevas. *(Todas las páginas, Cálculo incluida desde el 2026-10-18.)*
+- [x] **Extras que no estaban en el plan y ya existen:** tutor IA del apunte, corrección con IA en la práctica, Python, Estadística y Cálculo como materias completas, entrenadores de Python y de Cálculo, Poris (antes IAgram) y los guiones de Capu (ver la bitácora).
 
 ---
 
@@ -695,7 +706,7 @@ create table respuestas_vivo (
 
 ```
 estudIAndo/
-├─ index.html                       portada: elige la materia (la del día resaltada) · links a Leaderboards e IAgram
+├─ index.html                       portada: elige la materia (la del día resaltada) · links a Leaderboards y Poris
 ├─ calculo.html                     Cálculo I (aplicación propia) → lógica en calculo/
 ├─ estadistica.html                 apunte de Probabilidad y Estadística
 ├─ ia-conceptual.html               apunte de Introducción a la IA
@@ -706,7 +717,7 @@ estudIAndo/
 ├─ simulacro-etica.html             práctica + examen puntuado (opción múltiple + desarrollo)
 ├─ simulacro.html                   simulacro estático de Intro a la IA
 ├─ entrenador-python.html           entrenador de Python: opción múltiple + laboratorio (Pyodide)
-├─ iagram.html                      feed de estudio estilo Instagram (piloto de Ética)
+├─ poris.html                       Poris: feed de repaso con las flashcards de las cuatro materias (reemplazó a IAgram)
 ├─ leaderboards.html                hub de rankings
 ├─ leaderboard.html                 ranking de Ética (con historial personal)
 ├─ leaderboard-python.html          ranking de Python
@@ -719,6 +730,7 @@ estudIAndo/
 │  ├─ codigo-api.js                 cliente de Python (examen de código)
 │  ├─ num-api.js                    cliente de Estadística (examen numérico)
 │  ├─ tutor-api.js · dominio-widget.js   tutor IA y barra «Tu dominio por tema»
+│  ├─ mazos/ etica · ia-conceptual · python · estadistica   flashcards compartidas (apuntes y Poris)
 │  └─ entrenador-python.js · entrenador-python-datos.js   entrenador de Python (lógica y banco)
 ├─ calculo/
 │  ├─ store.js · supabase-claude.js      guardado en la cuenta (fusión parcial, Realtime) y puente con Supabase
@@ -733,7 +745,7 @@ estudIAndo/
 │  ├─ fase7_calculo.sql · fase7_calculo_endurecer.sql
 │  └─ functions/  corregir-desarrollo · corregir-practica · corregir-codigo · corregir-lapiz · preguntar-apunte
 ├─ tools/                           seed.py · seed_python.py · seed_estadistica.py · generar_estadistica.py y los JSON de origen
-├─ docs/superpowers/                spec y plan de IAgram
+├─ docs/superpowers/                spec y plan de IAgram (reemplazado por Poris)
 └─ guiones/                         21 guiones de TikTok con Capu
 ```
 

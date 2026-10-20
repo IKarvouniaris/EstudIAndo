@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Poris — estudIAndo</title>
+<style>
+:root{
+  color-scheme: light;
+  --papel:#EDEEE9; --papel-2:#F8F9F6; --papel-3:#E3E5DE;
+  --tinta:#15181A; --tinta-2:#545B60; --tinta-3:#7B8288;
+  --linea:#C7CAC2; --linea-2:#D9DBD4;
+  --u1:#2E3A94; --u2:#9A5A12; --u3:#1B6A5B; --u4:#6D3470;
+  --u1-suave:#E2E5F6; --u2-suave:#F4E7D2; --u3-suave:#DCEDE8; --u4-suave:#F0E3F0;
+  --display:"Bahnschrift","Franklin Gothic Medium","Arial Narrow","Helvetica Neue",sans-serif;
+  --body:"Sitka Text","Constantia",Georgia,"Times New Roman",serif;
+  --mono:"Cascadia Mono",Consolas,"SFMono-Regular",ui-monospace,monospace;
+}
+:root[data-tema="oscuro"]{
+  color-scheme: dark;
+  --papel:#101315; --papel-2:#181C20; --papel-3:#1F2429;
+  --tinta:#E9EBE6; --tinta-2:#A2AAB0; --tinta-3:#7C858B;
+  --linea:#2B3238; --linea-2:#232930;
+  --u1:#909EF0; --u2:#E2A95B; --u3:#4FC7AC; --u4:#D39AD6;
+  --u1-suave:#1B2040; --u2-suave:#35270F; --u3-suave:#10302B; --u4-suave:#2E1830;
+}
+*{box-sizing:border-box}
+@media (prefers-reduced-motion:reduce){ *{animation:none !important; transition:none !important; scroll-behavior:auto !important} }
+html,body{height:100%}
+body{margin:0; background:var(--papel-3); color:var(--tinta); font-family:var(--body); font-size:16px; line-height:1.5; -webkit-font-smoothing:antialiased}
+:focus-visible{outline:2px solid var(--u1); outline-offset:2px}
+a{color:inherit; text-decoration:none}
+button{font:inherit; color:inherit}
+
+.telefono{max-width:520px; margin:0 auto; height:100vh; height:100dvh; background:var(--papel); border-left:1px solid var(--linea); border-right:1px solid var(--linea); display:flex; flex-direction:column; position:relative}
+
+/* ---- barra superior ---- */
+.barra{display:flex; align-items:center; justify-content:space-between; gap:.6rem; padding:.65rem 1rem; background:var(--papel-2); border-bottom:1px solid var(--linea)}
+.logo{font-family:var(--display); font-weight:700; font-size:1.15rem; letter-spacing:.01em; display:flex; align-items:baseline; gap:.4rem}
+.logo b{font-size:1.35rem; color:var(--u1)}
+.logo small{font-family:var(--mono); font-weight:400; font-size:.62rem; color:var(--tinta-3); letter-spacing:.04em}
+.acciones{display:flex; align-items:center; gap:.45rem}
+.boton{font-family:var(--mono); font-size:.62rem; letter-spacing:.06em; padding:.4rem .6rem; background:var(--papel-3); color:var(--tinta-2); border:1px solid var(--linea); border-radius:2px; cursor:pointer}
+.boton:hover{color:var(--tinta); border-color:var(--tinta-3)}
+
+/* ---- filtros ---- */
+.filtros{background:var(--papel-2); border-bottom:1px solid var(--linea); padding:.55rem 0 .6rem}
+.fila{display:flex; gap:.4rem; overflow-x:auto; padding:0 1rem; scrollbar-width:none}
+.fila::-webkit-scrollbar{display:none}
+.fila + .fila{margin-top:.45rem}
+.fila[hidden]{display:none}
+.chip{flex:0 0 auto; font-family:var(--display); font-size:.8rem; font-weight:600; padding:.32rem .75rem; border:1px solid var(--linea); border-radius:2px; background:var(--papel); color:var(--tinta-2); cursor:pointer; white-space:nowrap}
+.chip:hover{border-color:var(--tinta-3); color:var(--tinta)}
+.chip[aria-pressed="true"]{background:var(--tinta); border-color:var(--tinta); color:var(--papel-2)}
+.chip[data-u="1"][aria-pressed="true"]{background:var(--u1); border-color:var(--u1)}
+.chip[data-u="2"][aria-pressed="true"]{background:var(--u2); border-color:var(--u2)}
+.chip[data-u="3"][aria-pressed="true"]{background:var(--u3); border-color:var(--u3)}
+.chip[data-u="4"][aria-pressed="true"]{background:var(--u4); border-color:var(--u4)}
+:root[data-tema="oscuro"] .chip[aria-pressed="true"]{color:#101315}
+.chip.tema{font-family:var(--mono); font-size:.68rem; font-weight:400; letter-spacing:.02em; padding:.28rem .6rem}
+
+/* ---- feed ---- */
+.feed{flex:1; min-height:0; overflow-y:auto; scroll-snap-type:y mandatory; overscroll-behavior:contain; display:flex; flex-direction:column; scroll-behavior:smooth}
+.carta{flex:0 0 100%; min-height:100%; scroll-snap-align:start; scroll-snap-stop:always; display:flex; flex-direction:column; padding:1.2rem 1.3rem 1rem; background:var(--papel-3); cursor:pointer; border-bottom:1px solid var(--linea)}
+.carta[data-u="1"]{background:var(--u1-suave); --ac:var(--u1)}
+.carta[data-u="2"]{background:var(--u2-suave); --ac:var(--u2)}
+.carta[data-u="3"]{background:var(--u3-suave); --ac:var(--u3)}
+.carta[data-u="4"]{background:var(--u4-suave); --ac:var(--u4)}
+.carta-cab{display:flex; flex-wrap:wrap; align-items:center; gap:.45rem .6rem}
+.etq{font-family:var(--mono); font-size:.62rem; letter-spacing:.05em; background:var(--ac); color:var(--papel-2); padding:.22rem .5rem; border-radius:2px}
+:root[data-tema="oscuro"] .etq{color:#101315}
+.tema-nombre{font-family:var(--mono); font-size:.66rem; color:var(--tinta-2)}
+.carta-cuerpo{flex:1; min-height:0; overflow-y:auto; display:flex; flex-direction:column; padding:.8rem 0}
+.carta-cuerpo > div{margin-block:auto}
+.frente{font-family:var(--display); font-weight:700; font-size:clamp(1.45rem,5.4vw,2rem); line-height:1.18; margin:0}
+.dorso{margin:1.2rem 0 0; padding-top:1rem; border-top:1px dashed var(--ac); font-size:1.02rem; white-space:pre-wrap; animation:entra .25s ease-out}
+.dorso[hidden]{display:none}
+@keyframes entra{from{opacity:0; transform:translateY(8px)} to{opacity:1; transform:none}}
+.carta-pie{display:flex; align-items:center; justify-content:space-between; gap:.6rem; font-family:var(--mono); font-size:.66rem; color:var(--tinta-2)}
+.pista{flex:1}
+.ver{padding:.3rem .5rem; margin:-.3rem -.5rem; border-bottom:0; color:var(--tinta)}
+.ver:hover{text-decoration:underline}
+.num{color:var(--tinta-3)}
+
+/* ---- navegación flotante (útil con mouse) ---- */
+.flechas{position:absolute; right:.7rem; bottom:3.6rem; display:flex; flex-direction:column; gap:.35rem; z-index:3}
+.flechas .boton{width:2.1rem; height:2.1rem; padding:0; font-size:.8rem; background:var(--papel-2)}
+@media (max-width:540px){ .flechas{display:none} .telefono{border:0} }
+</style>
+</head>
+<body>
+<div class="telefono">
+  <header class="barra">
+    <span class="logo"><b>Π</b> Poris <small id="resumen"></small></span>
+    <div class="acciones">
+      <button class="boton" id="btn-tema" type="button">MODO OSCURO</button>
+      <a class="boton" href="index.html">estudIAndo →</a>
+    </div>
+  </header>
+
+  <div class="filtros">
+    <div class="fila" id="fila-materias" role="group" aria-label="Materia"></div>
+    <div class="fila" id="fila-temas" role="group" aria-label="Tema" hidden></div>
+  </div>
+
+  <main class="feed" id="feed" tabindex="-1" aria-live="polite"></main>
+
+  <div class="flechas">
+    <button class="boton" id="btn-sube" type="button" aria-label="Tarjeta anterior">▲</button>
+    <button class="boton" id="btn-baja" type="button" aria-label="Tarjeta siguiente">▼</button>
+    <button class="boton" id="btn-mezcla" type="button" aria-label="Mezclar" title="Mezclar">↻</button>
+  </div>
+</div>
+
+<script src="js/mazos/ia-conceptual.js"></script>
+<script src="js/mazos/estadistica.js"></script>
+<script src="js/mazos/python.js"></script>
+<script src="js/mazos/etica.js"></script>
+<script>
+(function(){
+  "use strict";
+
+  // ===== TEMA (misma clave que el resto del sitio) =====
+  var raiz = document.documentElement, btnTema = document.getElementById("btn-tema");
+  function aplicarTema(t){
+    raiz.setAttribute("data-tema", t);
+    btnTema.textContent = t === "oscuro" ? "MODO CLARO" : "MODO OSCURO";
+    try{ localStorage.setItem("ia-tema", t); }catch(e){}
+  }
+  var temaGuardado = null;
+  try{ temaGuardado = localStorage.getItem("ia-tema"); }catch(e){}
+  if(!temaGuardado) temaGuardado = (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) ? "oscuro" : "claro";
+  aplicarTema(temaGuardado);
+  btnTema.addEventListener("click", function(){
+    aplicarTema(raiz.getAttribute("data-tema") === "oscuro" ? "claro" : "oscuro");
+  });
+
+  // ===== MATERIAS Y TEMAS =====
+  // Cada tema: [valor de "c" en el mazo, etiqueta corta del chip, nombre completo, ancla en el apunte]
+  var MATERIAS = [
+    { id:"ia-conceptual", corto:"Intro a la IA", nombre:"Introducción a la IA", u:1, apunte:"ia-conceptual.html", temas:[
+      ["1","Clase 1","Definiciones y antecedentes","#c1"],
+      ["2","Clase 2","Agente, entorno, racionalidad","#c2"],
+      ["3","Clase 3","De Turing a los detectores","#c3"],
+      ["4","Clase 4","¿Puede pensar una máquina?","#c4"],
+      ["5","Clase 5","Cultura, cine y música","#c5"],
+      ["6","Clase 6","Inviernos, hype y automatización","#c6"]
+    ]},
+    { id:"estadistica", corto:"Estadística", nombre:"Probabilidad y Estadística", u:2, apunte:"estadistica.html", temas:[
+      ["1","Descriptiva","Estadística descriptiva","#t1"],
+      ["2","Probabilidad","Teoría de la probabilidad","#t2"],
+      ["3","Discretas","Variables aleatorias discretas","#t3"]
+    ]},
+    { id:"python", corto:"Python", nombre:"Python para Ciencia de Datos", u:3, apunte:"python.html", temas:[
+      ["2","Clase 2","Buenas prácticas y manejo de errores","#c2"],
+      ["2.1","Clase 2.1","Excepciones con JSON, TXT y CSV","#c21"],
+      ["2.2","Clase 2.2","Bibliotecas de ciencia de datos","#c22"],
+      ["3","Clase 3","NumPy y Pandas","#c3"],
+      ["4","Clase 4","Índices, limpieza y formatos","#c4"],
+      ["5","Clase 5","Visualización con Matplotlib","#c5"],
+      ["6","Clase 6","Visualización con Seaborn","#c6"]
+    ]},
+    { id:"etica", corto:"Ética", nombre:"Ética en la IA", u:4, apunte:"etica.html", temas:[
+      ["1","Clase 1","Ética, teorías y límites de la IA","#c1"],
+      ["2","Clase 2","Principios y conceptos técnicos","#c2"],
+      ["3","Clase 3","Regulación: de soft law al AI Act","#c3"],
+      ["4","Clase 4","Transparencia, fairness y sesgos","#c4"],
+      ["5","Clase 5","Impacto social de la IA","#c5"],
+      ["6","Clase 6","GDPR, Ley 25.326 y olvido","#c6"],
+      ["C","Mini casos","Mini casos para aplicar conceptos","#casoteca"]
+    ]}
+  ];
+
+  // ===== TARJETAS (una sola lista, en el orden de cada apunte) =====
+  var TARJETAS = [];
+  MATERIAS.forEach(function(m){
+    var mazo = (window.MAZOS && window.MAZOS[m.id]) || [];
+    var orden = {}; m.temas.forEach(function(t, i){ orden[t[0]] = i; });
+    mazo.map(function(t, i){ return { m:m, c:String(t.c), p:t.p, r:t.r, i:i }; })
+      .filter(function(t){ return orden.hasOwnProperty(t.c); })
+      .sort(function(a, b){ return orden[a.c] - orden[b.c] || a.i - b.i; })
+      .forEach(function(t){ TARJETAS.push(t); });
+  });
+
+  function temaDe(t){
+    for(var i = 0; i < t.m.temas.length; i++) if(t.m.temas[i][0] === t.c) return t.m.temas[i];
+    return null;
+  }
+  function mezclar(a){
+    for(var i = a.length - 1; i > 0; i--){ var j = Math.floor(Math.random() * (i + 1)); var x = a[i]; a[i] = a[j]; a[j] = x; }
+    return a;
+  }
+
+  // ===== ESTADO Y FILTROS =====
+  var estado = { materia:"todo", tema:"todas" };
+  var feed = document.getElementById("feed");
+  var filaMaterias = document.getElementById("fila-materias");
+  var filaTemas = document.getElementById("fila-temas");
+  var resumen = document.getElementById("resumen");
+  var actuales = [];
+
+  function materiaPorId(id){ for(var i = 0; i < MATERIAS.length; i++) if(MATERIAS[i].id === id) return MATERIAS[i]; return null; }
+
+  function leerEstadoInicial(){
+    var h = (location.hash || "").replace(/^#/, ""), mat = null, tema = null;
+    h.split("&").forEach(function(par){
+      var kv = par.split("=");
+      if(kv[0] === "materia") mat = decodeURIComponent(kv[1] || "");
+      if(kv[0] === "tema") tema = decodeURIComponent(kv[1] || "");
+    });
+    if(!mat){ try{ var g = JSON.parse(localStorage.getItem("poris-filtro") || "null"); if(g){ mat = g.materia; tema = g.tema; } }catch(e){} }
+    var m = mat && materiaPorId(mat);
+    if(!m){ estado.materia = "todo"; estado.tema = "todas"; return; }
+    estado.materia = m.id;
+    estado.tema = (tema && m.temas.some(function(t){ return t[0] === tema; })) ? tema : "todas";
+  }
+
+  function guardarEstado(){
+    var h = estado.materia === "todo" ? "" : "#materia=" + encodeURIComponent(estado.materia) + (estado.tema === "todas" ? "" : "&tema=" + encodeURIComponent(estado.tema));
+    try{ history.replaceState(null, "", location.pathname + location.search + h); }catch(e){}
+    try{ localStorage.setItem("poris-filtro", JSON.stringify(estado)); }catch(e){}
+  }
+
+  function chip(texto, pulsado, u, extraClase, alClick, titulo){
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "chip" + (extraClase ? " " + extraClase : "");
+    b.textContent = texto; b.setAttribute("aria-pressed", pulsado ? "true" : "false");
+    if(u) b.setAttribute("data-u", u);
+    if(titulo) b.title = titulo;
+    b.addEventListener("click", alClick);
+    return b;
+  }
+
+  function pintarFiltros(){
+    filaMaterias.innerHTML = "";
+    filaMaterias.appendChild(chip("Todo", estado.materia === "todo", 0, "", function(){ estado.materia = "todo"; estado.tema = "todas"; aplicar(); }));
+    MATERIAS.forEach(function(m){
+      filaMaterias.appendChild(chip(m.corto, estado.materia === m.id, m.u, "", function(){
+        if(estado.materia !== m.id){ estado.materia = m.id; estado.tema = "todas"; aplicar(); }
+      }, m.nombre));
+    });
+    var m = materiaPorId(estado.materia);
+    filaTemas.innerHTML = "";
+    filaTemas.hidden = !m;
+    if(m){
+      filaTemas.appendChild(chip("Todas", estado.tema === "todas", m.u, "tema", function(){ estado.tema = "todas"; aplicar(); }));
+      m.temas.forEach(function(t){
+        filaTemas.appendChild(chip(t[1], estado.tema === t[0], m.u, "tema", function(){ estado.tema = t[0]; aplicar(); }, t[2]));
+      });
+    }
+  }
+
+  // ===== FEED =====
+  function crearCarta(t, n, total){
+    var tema = temaDe(t);
+    var a = document.createElement("article");
+    a.className = "carta"; a.setAttribute("data-u", t.m.u); a.tabIndex = 0;
+    a.setAttribute("aria-expanded", "false");
+
+    var cab = document.createElement("div"); cab.className = "carta-cab";
+    var etq = document.createElement("span"); etq.className = "etq"; etq.textContent = t.m.corto.toUpperCase();
+    var nom = document.createElement("span"); nom.className = "tema-nombre"; nom.textContent = tema ? tema[1] + " · " + tema[2] : "";
+    cab.appendChild(etq); cab.appendChild(nom);
+
+    var cuerpo = document.createElement("div"); cuerpo.className = "carta-cuerpo";
+    var caja = document.createElement("div");
+    var fr = document.createElement("p"); fr.className = "frente"; fr.textContent = t.p;
+    var dr = document.createElement("div"); dr.className = "dorso"; dr.hidden = true; dr.textContent = t.r;
+    caja.appendChild(fr); caja.appendChild(dr); cuerpo.appendChild(caja);
+
+    var pie = document.createElement("div"); pie.className = "carta-pie";
+    var pista = document.createElement("span"); pista.className = "pista"; pista.textContent = "Tocá para ver la respuesta";
+    var ver = document.createElement("a"); ver.className = "ver"; ver.textContent = "Ver en el apunte →";
+    ver.href = t.m.apunte + (tema ? tema[3] : "");
+    var num = document.createElement("span"); num.className = "num"; num.textContent = n + " / " + total;
+    pie.appendChild(pista); pie.appendChild(ver); pie.appendChild(num);
+
+    a.appendChild(cab); a.appendChild(cuerpo); a.appendChild(pie);
+
+    function accion(){
+      if(dr.hidden){
+        dr.hidden = false; a.setAttribute("aria-expanded", "true"); pista.textContent = "Tocá de nuevo para la siguiente ↓";
+      }else{
+        ir(1);
+      }
+    }
+    a.addEventListener("click", function(e){ if(e.target.closest("a")) return; accion(); });
+    a.addEventListener("keydown", function(e){
+      if(e.key === "Enter" || e.key === " "){ e.preventDefault(); accion(); }
+    });
+    return a;
+  }
+
+  function aplicar(){
+    var m = materiaPorId(estado.materia);
+    actuales = TARJETAS.filter(function(t){
+      return (!m || t.m === m) && (estado.tema === "todas" || t.c === estado.tema);
+    });
+    if(estado.materia === "todo") mezclar(actuales);
+    pintarFiltros();
+    guardarEstado();
+    pintarFeed();
+  }
+
+  function pintarFeed(){
+    var frag = document.createDocumentFragment();
+    actuales.forEach(function(t, i){ frag.appendChild(crearCarta(t, i + 1, actuales.length)); });
+    feed.style.scrollBehavior = "auto";
+    feed.innerHTML = "";
+    feed.appendChild(frag);
+    feed.scrollTop = 0;
+    feed.style.scrollBehavior = "";
+    actualizarResumen();
+  }
+
+  function indiceActual(){
+    var h = feed.clientHeight || 1;
+    return Math.max(0, Math.min(actuales.length - 1, Math.round(feed.scrollTop / h)));
+  }
+  function actualizarResumen(){
+    resumen.textContent = actuales.length ? (indiceActual() + 1) + " / " + actuales.length : "";
+  }
+  function ir(d){
+    var cartas = feed.children;
+    var destino = Math.max(0, Math.min(cartas.length - 1, indiceActual() + d));
+    if(cartas[destino]){ cartas[destino].scrollIntoView({ block:"start" }); }
+  }
+
+  var pendiente = false;
+  feed.addEventListener("scroll", function(){
+    if(pendiente) return; pendiente = true;
+    requestAnimationFrame(function(){ pendiente = false; actualizarResumen(); });
+  });
+
+  document.getElementById("btn-sube").addEventListener("click", function(){ ir(-1); });
+  document.getElementById("btn-baja").addEventListener("click", function(){ ir(1); });
+  document.getElementById("btn-mezcla").addEventListener("click", function(){ mezclar(actuales); pintarFeed(); });
+
+  document.addEventListener("keydown", function(e){
+    if(e.target.closest && e.target.closest("button")) return;
+    if(e.key === "ArrowDown" || e.key === "PageDown" || e.key === "j"){ e.preventDefault(); ir(1); }
+    else if(e.key === "ArrowUp" || e.key === "PageUp" || e.key === "k"){ e.preventDefault(); ir(-1); }
+  });
+
+  window.addEventListener("hashchange", function(){ leerEstadoInicial(); aplicar(); });
+
+  leerEstadoInicial();
+  aplicar();
+})();
+</script>
+</body>
+</html>

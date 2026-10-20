@@ -606,7 +606,7 @@ marker path[fill="#8C5A04"]{fill:var(--u2)}
 <!-- ============================ RIEL ============================ -->
 <aside class="riel">
   <a class="riel-volver" href="index.html">← Materias</a>
-  <a class="riel-volver" href="iagram.html#perfil=ia-conceptual">📷 Ver en IAgram</a>
+  <a class="riel-volver" href="poris.html#materia=ia-conceptual">Π Repasar en Poris</a>
   <div class="riel-marca">
     <div>
       <b>Introducción a la<br>Inteligencia Artificial</b>
@@ -6631,6 +6631,7 @@ marker path[fill="#8C5A04"]{fill:var(--u2)}
 
 </main>
 </div>
+<script src="js/mazos/ia-conceptual.js"></script>
 <script>
 (function(){
 "use strict";
@@ -6758,74 +6759,7 @@ if("IntersectionObserver" in window){
 }
 
 /* ---------- FLASHCARDS ---------- */
-var MAZO = [
-  {c:1, p:"¿Por qué no se puede dar «la» definición de Inteligencia Artificial?", r:"Porque no existe una única definición operativa. La cátedra lo marca explícitamente: hay que dar una definición y aclarar desde qué enfoque se la formula. La definición pragmática es «conjunto de técnicas, algoritmos y herramientas para resolver problemas que exigen cierto grado de inteligencia»."},
-  {c:1, p:"Nombrá las cinco capacidades cognitivas que la IA intenta emular, con su transformación.", r:"Aprendizaje (datos → patrones), Razonamiento (premisas → conclusiones), Percepción (señales → significado), Lenguaje (texto o voz → intención) y Creatividad (ideas → soluciones)."},
-  {c:1, p:"¿Cuál es la secuencia histórica completa de «lógica formal a sistemas expertos»?", r:"Lógica formal (IV a.C.–1879) → álgebra lógica (1847–1854) → computación moderna (1935–1945) → Prueba de Turing (1950) → Dartmouth (1956) → sistemas expertos (1964–1970, auge en 1980)."},
-  {c:1, p:"¿Qué cambió Turing exactamente en 1950?", r:"La pregunta. Pasó de «¿piensa?» a «¿se comporta inteligentemente?». Convirtió una pregunta filosófica no comprobable en un criterio observable."},
-  {c:1, p:"¿Quiénes impulsaron la agenda inicial en Dartmouth (1956)?", r:"John McCarthy, Marvin Minsky, Nathaniel Rochester y Claude Shannon. Es el nacimiento oficial de la IA como campo de estudio autónomo."},
-  {c:1, p:"¿Cuáles son los cuatro elementos del paradigma simbólico?", r:"Representación (hechos, símbolos, ontologías), Búsqueda (explorar soluciones), Reglas (SI condición → ENTONCES acción) e Inferencia (deducir conclusiones)."},
-  {c:1, p:"Fortaleza y límite de la IA simbólica.", r:"Fortaleza: explicabilidad y control lógico. Límite: fragilidad ante la ambigüedad del mundo real; todo caso no previsto por una regla queda fuera."},
-  {c:1, p:"¿De qué partes se compone un sistema experto?", r:"Base de conocimiento (reglas) + motor de inferencia (las aplica), que reciben un caso del usuario y devuelven una recomendación explicada. Dominios: diagnóstico, soporte técnico, finanzas y control."},
-  {c:1, p:"Deep Blue, DARPA Grand Challenge, Watson y Google Brain: ¿qué mostró cada uno?", r:"Deep Blue: estrategia mediante búsqueda. DARPA: percepción y acción en un entorno físico real. Watson: lenguaje natural. Google Brain: aprendizaje profundo a escala."},
-
-  {c:2, p:"Definí agente, entorno y racionalidad.", r:"Agente: sistema que recibe percepciones y ejecuta acciones. Entorno: mundo físico o digital donde las acciones producen efectos. Racionalidad: elegir la acción más conveniente según información, objetivos, incertidumbre y tiempo disponible."},
-  {c:2, p:"¿Racional es lo mismo que óptimo?", r:"No. Un agente racional hace lo mejor con la información que tiene y en el tiempo que dispone. Puede equivocarse y seguir siendo racional. Los cuatro condicionantes son: información (completa o incompleta), objetivos, incertidumbre y tiempo."},
-  {c:2, p:"¿Cuáles son las cuatro dimensiones del entorno?", r:"Observable / parcialmente observable · determinista / estocástico · estático / dinámico · individual / multiagente."},
-  {c:2, p:"¿Por qué el vehículo autónomo es el ejemplo canónico de entorno difícil?", r:"Porque combina las cuatro dimensiones en su versión difícil: es parcialmente observable, estocástico, dinámico y multiagente. No hay dimensión fácil."},
-  {c:2, p:"Compará IA simbólica y conexionista en cuatro criterios.", r:"Base: reglas y lógica vs. redes neuronales y datos. Conocimiento: codificado por humanos vs. aprendido de ejemplos. Transparencia: explicaciones transparentes vs. menos interpretable por diseño. Fuerte en: razonamiento formal vs. percepción y predicción."},
-  {c:2, p:"¿Cuál es la postura de la cátedra sobre simbólica vs. conexionista?", r:"Que no compiten solamente: se combinan en sistemas híbridos. Si te piden compararlas, cerrá siempre con esta idea. En la clase 4 reaparece como «IA neuro-simbólica»."},
-  {c:2, p:"¿Cuál es el ciclo del agente y qué lo cierra?", r:"Percibir → decidir → actuar → aprender. Lo que cierra el ciclo es el aprender: sin retroalimentación hay un sistema reactivo, no un agente que mejora."},
-  {c:2, p:"Los cinco hitos del impacto social inicial, con fecha.", r:"1943 primera red neuronal (McCulloch y Pitts), 1950 Test de Turing, 1956 Dartmouth, 1980s sistemas expertos y redes, 1990s IA en la vida cotidiana."},
-
-  {c:3, p:"¿Cuáles son los tres roles del juego de imitación y por qué están aislados?", r:"Interrogador (juez), humano y máquina. Están aislados para que la decisión dependa únicamente del intercambio lingüístico, eliminando toda pista que no sea intelectual."},
-  {c:3, p:"¿Por qué Turing eligió el canal textual?", r:"Para evitar pistas físicas o de voz. Lo que se evalúa es la conducta comunicativa, no la apariencia. La apariencia está excluida por diseño."},
-  {c:3, p:"¿Cuál es el criterio exacto para «pasar» el Test de Turing?", r:"Que el juez no pueda distinguir de modo CONSISTENTE quién es la máquina. La palabra «consistentemente» es clave: un acierto aislado del juez no invalida nada."},
-  {c:3, p:"¿Qué significa la sigla CAPTCHA?", r:"Completely Automated Public Turing test to tell Computers and Humans Apart. von Ahn, Blum y Langford, 2004, Communications of the ACM."},
-  {c:3, p:"¿En qué se diferencia el CAPTCHA del Test de Turing?", r:"Se invierte quién juzga. En Turing una persona juzga si conversa con una máquina; en CAPTCHA una máquina juzga si interactúa con una persona. Y es público: generado y calificado por computadora."},
-  {c:3, p:"Describí la evolución conceptual Turing → CAPTCHA → chatbots.", r:"Turing clásico: una persona juzga a la máquina. CAPTCHA: una máquina juzga a la persona. Chatbots actuales: la prueba se transforma en experiencia cotidiana y riesgo operativo."},
-  {c:3, p:"¿Cuál es el pipeline de detección de voz sintética?", r:"Captura → Features → Modelo → Score → Política. El último paso es clave: no basta un score, hay que definir umbral, acción, auditoría y escalamiento humano."},
-  {c:3, p:"¿Cuáles son los dos riesgos simétricos en detección de fraude de voz?", r:"Falsos positivos, que bloquean clientes legítimos y afectan inclusión y confianza; y falsos negativos, que dejan pasar fraude real."},
-  {c:3, p:"Las cuatro familias de señales para detectar deepfakes en video.", r:"Visual (parpadeo, gradientes de piel, bordes faciales, iluminación, landmarks, compresión), temporal (consistencia entre frames, micro-movimientos, sincronía labial, latencia), audio-video (coherencia entre voz, labios, emoción, ruido, red) y contexto (identidad, dispositivo, sesión, ubicación, autenticación previa)."},
-  {c:3, p:"¿Qué principio hay que citar sobre los detectores?", r:"Ningún detector ve «la verdad»: estima una probabilidad de manipulación con datos incompletos. Y el adversario también aprende, así que las defensas deben actualizarse y complementarse con controles organizacionales."},
-  {c:3, p:"¿Por qué «detector de llamada hecha por IA» no es una funcionalidad única?", r:"Porque en producción se combinan biometría, detección de spoofing y síntesis, señales de red, metadata, comportamiento, políticas y revisión humana. El contact center resuelve el canal y el flujo; la verificación de humanidad exige una arquitectura de confianza por encima."},
-
-  {c:4, p:"¿Cuáles son los tres enfoques sobre «¿piensa la máquina?»", r:"Conductual (si el desempeño es indistinguible, atribuimos inteligencia operacional — Turing), interno (pregunta por comprensión, significado, intención y conciencia) e ingenieril (define capacidades medibles: precisión, generalización, robustez, planificación, seguridad)."},
-  {c:4, p:"Explicá el Cuarto Chino en tres pasos.", r:"1) Entrada: llegan símbolos chinos que la persona no comprende. 2) Reglas: un manual indica cómo transformar formas en otras formas. 3) Salida: las respuestas parecen correctas para un observador externo. Conclusión de Searle: ejecutar el programa no es suficiente para comprender."},
-  {c:4, p:"¿Cuáles son las cuatro respuestas al Cuarto Chino?", r:"Del sistema (comprendería el conjunto persona + reglas + memoria + interacción). Del robot (sensores y acción anclarían los símbolos en el mundo). Simulación cerebral (si se reprodujera la organización causal del cerebro, negar comprensión sería arbitrario). Funcionalista (los estados mentales se definen por su función, no por el material biológico)."},
-  {c:4, p:"¿Qué límite persiste después de las cuatro respuestas a Searle?", r:"Que conducta competente y explicación mecanística todavía no demuestran experiencia consciente."},
-  {c:4, p:"¿Cuál es el argumento de Penrose, en cuatro pasos?", r:"1) Gödel muestra que en sistemas formales potentes hay verdades no demostrables dentro del sistema. 2) Penrose sostiene que el matemático puede «ver» verdades que un algoritmo fijo no captura. 3) Sugiere procesos físicos no computables en la mente. 4) Objeción: se cuestiona que los humanos sean infalibles y que Gödel demuestre no-computabilidad mental."},
-  {c:4, p:"Diferenciá a Searle de Penrose por blanco y herramienta.", r:"Searle apunta a la «IA fuerte» (programa = mente) con el experimento mental del Cuarto Chino, y separa sintaxis, semántica e intencionalidad. Penrose apunta al computacionalismo de la cognición con Gödel y física de la mente, y subraya límites de formalización y creatividad."},
-  {c:4, p:"¿Qué debilidad se le señala a cada crítica?", r:"A Searle: puede estar atribuyendo comprensión al nivel equivocado. A Penrose: el salto de Gödel a la mente es discutido."},
-  {c:4, p:"Distinguí procesar información, razonar y pensar.", r:"Procesar: transformar entradas en salidas, puede ser automático y sin metas explícitas (filtrar spam, comprimir una imagen). Razonar: relacionar premisas, conocimiento y objetivos para concluir o elegir acciones (deductivo, inductivo, abductivo, probabilístico). Pensar: concepto más amplio — razonamiento, memoria, imaginación, atención, comprensión, metacognición y experiencia situada; en humanos incluye dimensión subjetiva."},
-  {c:4, p:"¿Pensar equivale a procesar información? Dá la posición pragmática.", r:"Tratar la IA como sistema capaz de ciertas funciones cognitivas, evaluar evidencia por tarea (generalización, coherencia, causalidad, control) y evitar los dos extremos: antropomorfizar y negar capacidades observables. Procesar información es necesario para muchos tipos de pensamiento; que sea suficiente sigue abierto."},
-  {c:4, p:"Nombrá las cinco aproximaciones contemporáneas.", r:"Conexionismo, IA neuro-simbólica, cognición situada, agentes y herramientas, y human-in-the-loop."},
-  {c:4, p:"¿Cuáles son las cinco etapas de la prueba de concepto al valor sostenible?", r:"Problema (definir decisión, usuario y costo del error) → Base (calidad de datos, privacidad, seguridad) → Evaluación (baseline, métricas técnicas y de negocio) → Integración (flujo, roles, excepciones, escalamiento) → Operación (monitoreo, auditoría, feedback, mejora)."},
-  {c:4, p:"¿Cuál es el ciclo de la IA en procesos industriales?", r:"Sensar (IoT, visión, audio, telemetría) → Predecir (fallas, calidad, demanda, tiempos) → Decidir (parámetros, secuencias, mantenimiento) → Actuar (robot, operador, control) → Aprender (retroalimentación y nuevos datos)."},
-
-  {c:5, p:"¿Cuáles son los arquetipos de la IA en la ficción?", r:"Sirviente eficiente, mente superior, rebelión, compañero afectivo y espejo de lo humano. Su función narrativa es concentrar preguntas sobre control, identidad, responsabilidad y poder."},
-  {c:5, p:"¿Qué obra da origen al término «robot» y en qué año?", r:"R.U.R., de 1920. Pone en juego automatización y trabajo."},
-  {c:5, p:"Dá los cinco pares expectativa / realidad.", r:"Comprende el mundo → predice patrones. Es objetiva → hereda sesgos. Recuerda todo → tiene contexto limitado. Crea desde cero → recombina aprendizajes. Actúa de forma autónoma → requiere controles."},
-  {c:5, p:"¿Cómo genera contenido un modelo, en tres pasos?", r:"1) Datos: ejemplos y metadatos que representan una distribución. 2) Entrenamiento: ajuste de parámetros para reducir error de predicción. 3) Prompt: condición textual, visual o sonora que guía la salida. Generar no es «buscar y pegar»: el modelo muestrea una salida."},
-  {c:5, p:"¿Dónde impacta la IA en la cadena de valor del cine?", r:"Desarrollo (ideación, análisis de guion, breakdown, storyboard), preproducción (concept art, previs, casting), rodaje (producción virtual, seguimiento, captura), postproducción (rotoscopia, VFX, doblaje, montaje) y distribución (tráilers, versiones, recomendación, archivo)."},
-  {c:5, p:"¿Por qué «Now and Then» de The Beatles no es un caso de IA generativa?", r:"Porque usó separación de fuentes para recuperar una voz de una grabación histórica existente, no para generar contenido nuevo. La cátedra pide distinguir generación, restauración, separación, clasificación y efectos visuales: no todo uso de IA es IA generativa."},
-  {c:5, p:"¿Cuál es el consenso emergente en el debate laboral creativo?", r:"Consentimiento informado, compensación, transparencia y negociación colectiva. El conflicto no es sobre la tecnología en sí, sino sobre gobernanza y distribución de valor."},
-  {c:5, p:"¿Qué proyecta UNESCO para 2028?", r:"Una caída potencial de ingresos del 24 % para creadores musicales y del 21 % para el sector audiovisual, si no mejoran las políticas y las condiciones de mercado."},
-  {c:5, p:"¿Cuál es el caso emblemático del conflicto en música?", r:"Las demandas coordinadas por la RIAA contra Suno y Udio, presentadas en junio de 2024. La pregunta de fondo: ¿entrenar con grabaciones protegidas es uso legítimo o explotación no autorizada?"},
-  {c:5, p:"Nombrá las seis dimensiones para evaluar un proyecto creativo con IA.", r:"Propósito, Datos, Personas, Salida, Derechos y Trazabilidad."},
-
-  {c:6, p:"Definí «invierno de la IA».", r:"Período en el que disminuyen el interés, la inversión o el financiamiento porque los resultados no alcanzan las expectativas públicas y comerciales. No significa que la investigación desaparezca: describe una pérdida fuerte de confianza y apoyo."},
-  {c:6, p:"¿Cuál es la secuencia típica de un invierno?", r:"1) Promesas amplias. 2) Prototipos limitados. 3) Fracasos al escalar. 4) Recorte de presupuesto. 5) Trabajo técnico menos visible."},
-  {c:6, p:"Los dos grandes inviernos, con década y lección.", r:"Primero, década de 1970: límites en traducción automática, percepción y razonamiento; los sistemas no generalizaban. Lección: una tarea resuelta no equivale a inteligencia general. Segundo, finales de los 1980: sistemas expertos y hardware especializado con costos altos, mantenimiento difícil y fragilidad. Lección: una solución útil debe poder mantenerse, integrarse y demostrar valor."},
-  {c:6, p:"¿Cuál es la «anatomía del desencanto»?", r:"Promesa («la IA resolverá todo») → Piloto (funciona con datos limpios y pocos casos) → Escala (surgen excepciones, costos, integración) → Desilusión (se corta presupuesto o se abandona) → Reaprendizaje (se diseña un alcance realista)."},
-  {c:6, p:"¿El hype es lo mismo que engaño?", r:"No. Es una amplificación social de posibilidades todavía inciertas: eleva visibilidad, inversión y expectativas antes de que haya resultados consistentes a escala. Indica atención y oportunidad, pero no demuestra madurez."},
-  {c:6, p:"Señales de alerta de hype.", r:"Casos aislados presentados como universales, métricas vagas, demos sin datos reales, y promesas sin costo total ni plan de supervisión."},
-  {c:6, p:"Las cinco fases del Hype Cycle de Gartner, en orden.", r:"1) Lanzamiento (prueba de concepto e interés inicial). 2) Pico de expectativas (éxitos tempranos y promesas sobredimensionadas). 3) Abismo de desilusión (los pilotos fallan). 4) Rampa de consolidación (se comprende dónde sí funciona). 5) Meseta productiva (adopción con criterios y beneficios claros)."},
-  {c:6, p:"¿Qué evidencia mínima pide cada estrategia de adopción?", r:"Temprana: problema definido, datos disponibles y criterio de salida. Moderada: piloto comparable, línea base y responsables del proceso. Esperar madurez: mientras tanto, preparar datos, mapear procesos y observar casos verificables."},
-  {c:6, p:"¿Cuál es la ruta de madurez de automatización?", r:"Mapear (entradas, responsables, reglas, excepciones) → Digitalizar (datos estructurados y trazabilidad) → Automatizar (reglas repetibles y controles) → Incorporar IA (predicción o lenguaje donde aporte) → Medir y gobernar (calidad, costo, riesgo, revisión humana)."},
-  {c:6, p:"En el caso de las becas universitarias, ¿cuál es el cuello de botella real?", r:"No es «falta de IA», sino un proceso no estandarizado. El primer avance es automatización basada en reglas: digitalizar el formulario, definir campos obligatorios, reglas de elegibilidad y rutas de excepción. Recién después la IA clasifica documentos, extrae datos y señala casos atípicos, con la decisión final bajo revisión humana."},
-  {c:6, p:"¿Cuál es la «regla docente» de la clase 6?", r:"Cuanto más amplia sea la promesa, más estricta debe ser la evidencia exigida."}
-];
+var MAZO = window.MAZOS["ia-conceptual"].slice();
 
 var elTarjeta = document.getElementById("tarjeta");
 var elMarca   = document.getElementById("t-marca");
