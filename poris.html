@@ -4,14 +4,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Poris — estudIAndo</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 <style>
 :root{
   color-scheme: light;
   --papel:#EDEEE9; --papel-2:#F8F9F6; --papel-3:#E3E5DE;
   --tinta:#15181A; --tinta-2:#545B60; --tinta-3:#7B8288;
   --linea:#C7CAC2; --linea-2:#D9DBD4;
-  --u1:#2E3A94; --u2:#9A5A12; --u3:#1B6A5B; --u4:#6D3470;
-  --u1-suave:#E2E5F6; --u2-suave:#F4E7D2; --u3-suave:#DCEDE8; --u4-suave:#F0E3F0;
+  --u1:#2E3A94; --u2:#9A5A12; --u3:#1B6A5B; --u4:#6D3470; --u5:#5B3FC4;
+  --u1-suave:#E2E5F6; --u2-suave:#F4E7D2; --u3-suave:#DCEDE8; --u4-suave:#F0E3F0; --u5-suave:#E8E3F8;
   --display:"Bahnschrift","Franklin Gothic Medium","Arial Narrow","Helvetica Neue",sans-serif;
   --body:"Sitka Text","Constantia",Georgia,"Times New Roman",serif;
   --mono:"Cascadia Mono",Consolas,"SFMono-Regular",ui-monospace,monospace;
@@ -21,8 +24,8 @@
   --papel:#101315; --papel-2:#181C20; --papel-3:#1F2429;
   --tinta:#E9EBE6; --tinta-2:#A2AAB0; --tinta-3:#7C858B;
   --linea:#2B3238; --linea-2:#232930;
-  --u1:#909EF0; --u2:#E2A95B; --u3:#4FC7AC; --u4:#D39AD6;
-  --u1-suave:#1B2040; --u2-suave:#35270F; --u3-suave:#10302B; --u4-suave:#2E1830;
+  --u1:#909EF0; --u2:#E2A95B; --u3:#4FC7AC; --u4:#D39AD6; --u5:#A98BFF;
+  --u1-suave:#1B2040; --u2-suave:#35270F; --u3-suave:#10302B; --u4-suave:#2E1830; --u5-suave:#26203F;
 }
 *{box-sizing:border-box}
 @media (prefers-reduced-motion:reduce){ *{animation:none !important; transition:none !important; scroll-behavior:auto !important} }
@@ -56,16 +59,18 @@ button{font:inherit; color:inherit}
 .chip[data-u="2"][aria-pressed="true"]{background:var(--u2); border-color:var(--u2)}
 .chip[data-u="3"][aria-pressed="true"]{background:var(--u3); border-color:var(--u3)}
 .chip[data-u="4"][aria-pressed="true"]{background:var(--u4); border-color:var(--u4)}
+.chip[data-u="5"][aria-pressed="true"]{background:var(--u5); border-color:var(--u5)}
 :root[data-tema="oscuro"] .chip[aria-pressed="true"]{color:#101315}
 .chip.tema{font-family:var(--mono); font-size:.68rem; font-weight:400; letter-spacing:.02em; padding:.28rem .6rem}
 
 /* ---- feed ---- */
-.feed{flex:1; min-height:0; overflow-y:auto; scroll-snap-type:y mandatory; overscroll-behavior:contain; display:flex; flex-direction:column; scroll-behavior:smooth}
+.feed{position:relative; flex:1; min-height:0; overflow-y:auto; scroll-snap-type:y mandatory; overscroll-behavior:contain; display:flex; flex-direction:column; scroll-behavior:smooth}
 .carta{flex:0 0 100%; min-height:100%; scroll-snap-align:start; scroll-snap-stop:always; display:flex; flex-direction:column; padding:1.2rem 1.3rem 1rem; background:var(--papel-3); cursor:pointer; border-bottom:1px solid var(--linea)}
 .carta[data-u="1"]{background:var(--u1-suave); --ac:var(--u1)}
 .carta[data-u="2"]{background:var(--u2-suave); --ac:var(--u2)}
 .carta[data-u="3"]{background:var(--u3-suave); --ac:var(--u3)}
 .carta[data-u="4"]{background:var(--u4-suave); --ac:var(--u4)}
+.carta[data-u="5"]{background:var(--u5-suave); --ac:var(--u5)}
 .carta-cab{display:flex; flex-wrap:wrap; align-items:center; gap:.45rem .6rem}
 .etq{font-family:var(--mono); font-size:.62rem; letter-spacing:.05em; background:var(--ac); color:var(--papel-2); padding:.22rem .5rem; border-radius:2px}
 :root[data-tema="oscuro"] .etq{color:#101315}
@@ -81,6 +86,16 @@ button{font:inherit; color:inherit}
 .ver{padding:.3rem .5rem; margin:-.3rem -.5rem; border-bottom:0; color:var(--tinta)}
 .ver:hover{text-decoration:underline}
 .num{color:var(--tinta-3)}
+
+/* ---- tarjetas con formato (Cálculo: HTML y fórmulas) ---- */
+.sub{font-family:var(--mono); font-size:.66rem; letter-spacing:.03em; color:var(--tinta-2); margin:0 0 .5rem}
+.etq.tipo{background:transparent; color:var(--ac); border:1px solid var(--ac)}
+:root[data-tema="oscuro"] .etq.tipo{color:var(--ac)}
+.carta.formato .dorso{white-space:normal}
+.carta.formato .dorso p{margin:0 0 .6rem}
+.carta.formato .dorso p:last-child{margin-bottom:0}
+.carta.formato .frente .katex{font-weight:400}
+.katex-display{overflow-x:auto; overflow-y:hidden; padding:.2rem 0}
 
 /* ---- marcar «la sabía» / «repasar» ---- */
 .valorar{display:flex; gap:.5rem; margin-top:1.1rem}
@@ -131,6 +146,7 @@ button{font:inherit; color:inherit}
 <script src="js/mazos/estadistica.js"></script>
 <script src="js/mazos/python.js"></script>
 <script src="js/mazos/etica.js"></script>
+<script src="js/mazos/calculo.js"></script>
 <script>
 (function(){
   "use strict";
@@ -183,6 +199,17 @@ button{font:inherit; color:inherit}
       ["5","Clase 5","Impacto social de la IA","#c5"],
       ["6","Clase 6","GDPR, Ley 25.326 y olvido","#c6"],
       ["C","Mini casos","Mini casos para aplicar conceptos","#casoteca"]
+    ]},
+    // Las tarjetas de Cálculo traen HTML y fórmulas (formato:true) y se generan con tools/generar_mazo_calculo.js.
+    { id:"calculo", corto:"Cálculo", nombre:"Cálculo I", u:5, apunte:"calculo.html", formato:true, temas:[
+      ["0","Módulo 0","Álgebra base",""],
+      ["1","Unidad I","Funciones",""],
+      ["2","Unidad II","Límite y continuidad",""],
+      ["3","Unidad III","Derivación",""],
+      ["4","Unidad IV","Aplicaciones de la derivada",""],
+      ["5","Unidad V","Primitivas",""],
+      ["6","Unidad VI","Integrales definidas",""],
+      ["7","Unidad VII","Ecuaciones diferenciales",""]
     ]}
   ];
 
@@ -204,7 +231,8 @@ button{font:inherit; color:inherit}
   MATERIAS.forEach(function(m){
     var mazo = (window.MAZOS && window.MAZOS[m.id]) || [];
     var orden = {}; m.temas.forEach(function(t, i){ orden[t[0]] = i; });
-    mazo.map(function(t, i){ return { m:m, c:String(t.c), p:t.p, r:t.r, i:i, k:clave(m.id, t.p) }; })
+    // La clave de las tarjetas con tipo suma el tipo: una definición y su «a dónde llegar» comparten frente.
+    mazo.map(function(t, i){ return { m:m, c:String(t.c), p:t.p, r:t.r, tipo:t.tipo || "", sub:t.sub || "", s:t.s || "", i:i, k:clave(m.id, t.tipo ? t.tipo + "|" + (t.s || "") + "|" + t.p : t.p) }; })
       .filter(function(t){ return orden.hasOwnProperty(t.c); })
       .sort(function(a, b){ return orden[a.c] - orden[b.c] || a.i - b.i; })
       .forEach(function(t){ TARJETAS.push(t); });
@@ -309,28 +337,56 @@ button{font:inherit; color:inherit}
     }));
   }
 
+  // ===== FÓRMULAS (KaTeX): se dibujan cuando la tarjeta está cerca de la pantalla =====
+  var DELIMITADORES = [{ left:"$$", right:"$$", display:true }, { left:"$", right:"$", display:false }];
+  var pendientesMate = [], observador = null;
+  function dibujarMate(el){
+    if(el.getAttribute("data-mate")) return;
+    if(window.renderMathInElement){
+      el.setAttribute("data-mate", "1");
+      window.renderMathInElement(el, { delimiters:DELIMITADORES, throwOnError:false });
+    }else{
+      pendientesMate.push(el); // KaTeX todavía no cargó: se dibuja en "load"
+    }
+  }
+  window.addEventListener("load", function(){ pendientesMate.splice(0).forEach(dibujarMate); });
+  function observarMate(el){
+    if(!("IntersectionObserver" in window)){ dibujarMate(el); return; }
+    if(!observador){
+      observador = new IntersectionObserver(function(entradas){
+        entradas.forEach(function(e){ if(e.isIntersecting){ observador.unobserve(e.target); dibujarMate(e.target); } });
+      }, { root:feed, rootMargin:"100% 0px" });
+    }
+    observador.observe(el);
+  }
+
   // ===== FEED =====
   function crearCarta(t, n, total){
     var tema = temaDe(t);
     var a = document.createElement("article");
-    a.className = "carta"; a.setAttribute("data-u", t.m.u); a.tabIndex = 0;
+    a.className = "carta" + (t.m.formato ? " formato" : ""); a.setAttribute("data-u", t.m.u); a.tabIndex = 0;
     a.setAttribute("aria-expanded", "false");
 
     var cab = document.createElement("div"); cab.className = "carta-cab";
     var etq = document.createElement("span"); etq.className = "etq"; etq.textContent = t.m.corto.toUpperCase();
-    var nom = document.createElement("span"); nom.className = "tema-nombre"; nom.textContent = tema ? tema[1] + " · " + tema[2] : "";
+    var nom = document.createElement("span"); nom.className = "tema-nombre"; nom.textContent = (tema ? tema[1] + " · " + tema[2] : "") + (t.s ? " · " + t.s : "");
     var est = document.createElement("span"); est.className = "estado-tarjeta";
-    cab.appendChild(etq); cab.appendChild(nom); cab.appendChild(est);
+    cab.appendChild(etq);
+    if(t.tipo){ var tp = document.createElement("span"); tp.className = "etq tipo"; tp.textContent = t.tipo.toUpperCase(); cab.appendChild(tp); }
+    cab.appendChild(nom); cab.appendChild(est);
 
     var cuerpo = document.createElement("div"); cuerpo.className = "carta-cuerpo";
     var caja = document.createElement("div");
-    var fr = document.createElement("p"); fr.className = "frente"; fr.textContent = t.p;
-    var dr = document.createElement("div"); dr.className = "dorso"; dr.hidden = true; dr.textContent = t.r;
+    var fr = document.createElement("p"); fr.className = "frente";
+    var dr = document.createElement("div"); dr.className = "dorso"; dr.hidden = true;
+    if(t.m.formato){ fr.innerHTML = t.p; dr.innerHTML = t.r; }else{ fr.textContent = t.p; dr.textContent = t.r; }
     var val = document.createElement("div"); val.className = "valorar"; val.hidden = true;
     var bSabia = document.createElement("button"); bSabia.type = "button"; bSabia.textContent = "✓ La sabía";
     var bRepasar = document.createElement("button"); bRepasar.type = "button"; bRepasar.textContent = "↻ Repasar";
     val.appendChild(bSabia); val.appendChild(bRepasar);
+    if(t.sub){ var sb = document.createElement("p"); sb.className = "sub"; sb.textContent = t.sub; caja.appendChild(sb); }
     caja.appendChild(fr); caja.appendChild(dr); caja.appendChild(val); cuerpo.appendChild(caja);
+    if(t.m.formato) observarMate(a);
 
     var pie = document.createElement("div"); pie.className = "carta-pie";
     var pista = document.createElement("span"); pista.className = "pista"; pista.textContent = "Tocá para ver la respuesta";
@@ -382,6 +438,8 @@ button{font:inherit; color:inherit}
   }
 
   function pintarFeed(){
+    if(observador){ observador.disconnect(); observador = null; }
+    pendientesMate = [];
     var frag = document.createDocumentFragment();
     actuales.forEach(function(t, i){ frag.appendChild(crearCarta(t, i + 1, actuales.length)); });
     if(!actuales.length){

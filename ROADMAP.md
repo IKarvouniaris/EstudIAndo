@@ -51,7 +51,7 @@ Una materia por día de cursada (la fila del día aparece resaltada en `index.ht
 
 Además, transversal a las materias:
 
-- **Poris** (`poris.html`, desde el 2026-10-20; reemplazó a IAgram): feed de repaso con las flashcards de las cuatro materias con apunte (179 tarjetas: 61 de Intro a la IA, 29 de Estadística, 30 de Python y 59 de Ética). Se scrollea una tarjeta por pantalla (con *snap*); tocás para ver la respuesta y marcás «✓ La sabía» o «↻ Repasar» (o tocás de nuevo para pasar sin marcar). Arriba se filtra por materia y por tema (la clase), en el orden del apunte; en «Todo» salen mezcladas, y ↻ las vuelve a mezclar. Cada tarjeta enlaza al apunte (`etica.html#c3`). El filtro queda en el hash (`#materia=etica&tema=3`) y en el navegador. Las marcas se guardan en el navegador (`localStorage`, clave `poris-progreso`); no mide tiempos ni usa la cuenta. Las tarjetas viven en `js/mazos/*.js`, un archivo por materia, que cargan tanto los apuntes como Poris.
+- **Poris** (`poris.html`, desde el 2026-10-20; reemplazó a IAgram): feed de repaso con las flashcards de las cinco materias (328 tarjetas: 61 de Intro a la IA, 29 de Estadística, 30 de Python, 59 de Ética y 149 de Cálculo). Se scrollea una tarjeta por pantalla (con *snap*); tocás para ver la respuesta y marcás «✓ La sabía» o «↻ Repasar» (o tocás de nuevo para pasar sin marcar). Arriba se filtra por materia y por tema (la clase), en el orden del apunte; en «Todo» salen mezcladas, y ↻ las vuelve a mezclar. Cada tarjeta enlaza al apunte (`etica.html#c3`). El filtro queda en el hash (`#materia=etica&tema=3`) y en el navegador. Las marcas se guardan en el navegador (`localStorage`, clave `poris-progreso`); no mide tiempos ni usa la cuenta. Las tarjetas viven en `js/mazos/*.js`, un archivo por materia, que cargan tanto los apuntes como Poris.
 - **Guiones de TikTok con Capu** (`guiones/`): 21 guiones (uno por cada post del piloto de IAgram, que Poris reemplazó) con el personaje Capu, el mono bibliotecario-detective, y los prompts de imagen. Son material para producir videos; no se publican en el sitio.
 - **Leaderboards** (`leaderboards.html`): hub que elige entre los tres rankings (Ética, Python y Estadística).
 
@@ -122,7 +122,7 @@ Todas verifican la sesión del usuario y reintentan ante los errores intermitent
 
 1. **Resolver el PR #11 y confirmar el SQL de Cálculo.** Es lo único abierto. Revisar el PR (probablemente haya que rehacerlo sobre el rediseño) y confirmar que `fase7_calculo_endurecer.sql` se corrió.
 2. **Evitar que Supabase se vuelva a pausar** con un ping semanal automático (GitHub Action). Es barato y protege todo lo demás.
-3. **Seguir con Poris** (ver abajo): ya hay feed de las 179 flashcards por materia y tema, con marcas «la sabía / repasar»; faltan completar los mazos de las clases nuevas y guardar las marcas en la cuenta.
+3. **Seguir con Poris** (ver abajo): ya hay feed de las 328 flashcards por materia y tema, con marcas «la sabía / repasar»; faltan completar los mazos de las clases nuevas y guardar las marcas en la cuenta.
 4. **Subir los verificadores al repo** (sympy de Cálculo, integridad de los bancos, smoke test de Pyodide, RLS con un Postgres local) y correrlos en CI.
 5. **Sincronizar el entrenador de Python en la cuenta**, igual que Cálculo, para que el progreso no dependa del navegador.
 6. **Completar lo que quedó a medias:** simulacro competitivo de Intro a la IA, modelo C en el simulacro de Python, tutor en las materias que faltan.
@@ -130,7 +130,7 @@ Todas verifican la sesión del usuario y reintentan ante los errores intermitent
 ### Estudio y contenido
 
 - 🟡 **Poris, siguientes pasos:** guardar las marcas en la cuenta (hoy están solo en el navegador, igual que el entrenador de Python) para que sigan en el celular; repetición espaciada de verdad tipo Leitner (hoy «Para repasar» es un filtro, no vuelven solas con el tiempo); gestos de swipe (`gestures.js` de Poris) si el scroll nativo no alcanza; que el mazo mezclado priorice los temas más flojos usando «Tu dominio por tema».
-- 🟡 **Más tarjetas en Poris:** el mazo de Ética solo cubre las clases 1 a 6 y los mini casos (el apunte tiene 8 clases), el de Intro a la IA cubre las clases 1 a 6 (el apunte tiene 9), y Cálculo no tiene mazo. Las 40 preguntas del Kahoot de Intro a la IA se arman a partir del HTML del apunte y por eso no están en Poris. Las tarjetas de las clases nuevas se agregan en `js/mazos/<materia>.js`.
+- 🟡 **Más tarjetas en Poris:** el mazo de Ética solo cubre las clases 1 a 6 y los mini casos (el apunte tiene 8 clases), el de Intro a la IA cubre las clases 1 a 6 (el apunte tiene 9), y las de Cálculo se arman solas desde el apunte (ver la bitácora), por lo que solo hay las de definición, meta y señales. Las 40 preguntas del Kahoot de Intro a la IA se arman a partir del HTML del apunte y por eso no están en Poris. Las tarjetas de las clases nuevas se agregan en `js/mazos/<materia>.js`.
 - 🟢 **Qué quedó de IAgram:** los 21 posts de Ética (concepto, trampa y caso real) se borraron junto con `iagram.html`; siguen en el historial de git. Se podrían volver a sumar a Poris como tarjetas de otro tipo. Los guiones de Capu (`guiones/`) no cambian, pero se escribieron para esos posts.
 - 🟡 **Estadística, segundo parcial:** continuas, normal, Poisson y TCL, cuando haya clases. Hoy cubre el primer parcial (Temas 1 a 3).
 - 🟡 **Python:** ampliar el banco del simulacro más allá de los 6 ejercicios, sumar el modelo C, y agregar tutor.
@@ -342,6 +342,7 @@ Idea del proyecto Poris (un WikiTok en español con scroll de artículos de Wiki
 - **`poris.html`:** página autocontenida, con la estética del sitio y modo oscuro (`ia-tema`). Una tarjeta por pantalla con scroll *snap*; tocar o Enter/Espacio revela la respuesta y vuelve a tocar pasa a la siguiente; flechas ↑↓ (o J/K) y botones ▲▼ para moverse en escritorio. Chips por materia y, al elegir una, por tema; ↻ mezcla. El estado queda en el hash y en `localStorage` (`poris-filtro`).
 - **Mazos compartidos:** `js/mazos/{etica,ia-conceptual,python,estadistica}.js` definen `window.MAZOS[id]`. Los cuatro apuntes dejaron de tener el array pegado y ahora hacen `var MAZO = window.MAZOS["…"].slice()` (el `.slice()` evita que las tarjetas del Kahoot de Intro a la IA se sumen al mazo compartido). Se movió el texto tal cual, comprobando que quedara idéntico.
 - **Marcas «la sabía / repasar» (2026-10-20):** al revelar una tarjeta aparecen dos botones (o las teclas 1/S y 2/R); marcar guarda y pasa a la siguiente. La clave de cada tarjeta sale de un hash del texto de la pregunta, para que no se corra si se agregan o reordenan tarjetas. Una tercera fila de chips filtra por «Todas / Sin marcar / Para repasar / Ya sabidas», con el conteo de la selección actual (`#materia=etica&modo=repasar`), y «Borrar marcas» las reinicia con confirmación.
+- **Cálculo en Poris (2026-10-20):** 149 tarjetas generadas por `tools/generar_mazo_calculo.js` (`node tools/generar_mazo_calculo.js`), que lee `MODULES` de `calculo.html` y escribe `js/mazos/calculo.js`; si se corrige un texto en `calculo.html`, se vuelve a correr y se commitea. Tres tipos por tema: **Definición** (el «¿Qué es?», 55), **A dónde llegar** (el «¿A dónde tengo que llegar?», 55) y **Señal** (cada «Si ves X → hacé Y» que tiene flecha, 39; las señales sin flecha no se usan). Se salteó el módulo «Empezá acá» (son consejos de estudio, no teoría). Los chips de tema son los módulos (Módulo 0 y Unidades I a VII) y el color es el violeta de Cálculo (`--u5`). Estas tarjetas traen HTML y fórmulas: Poris carga KaTeX (0.16.11, el mismo que `calculo.html`) y las dibuja cuando la tarjeta se acerca a la pantalla (`IntersectionObserver`). El `.feed` es `position:relative` porque, si no, los elementos absolutos de KaTeX estiran la página entera. Como `calculo.html` no tiene enlaces por tema, «Ver en el apunte» abre la página de Cálculo sin ancla. Verificado: las 149 tarjetas dibujan sin errores de KaTeX, las claves de las marcas son únicas (328) y el documento no se desplaza.
 - **Entradas:** link «Poris» en `index.html` y «Π Repasar en Poris» en el riel de cada apunte, que abre la materia (`poris.html#materia=etica`).
 - **Verificación:** en el navegador, las 179 tarjetas, la suma por materia y tema, los anclajes al apunte, las flashcards de los cuatro apuntes y que ninguna respuesta quede cortada en un celular de 375 px; en uno de 360×560, 7 respuestas largas se desplazan dentro de la tarjeta.
 
@@ -731,7 +732,7 @@ estudIAndo/
 │  ├─ codigo-api.js                 cliente de Python (examen de código)
 │  ├─ num-api.js                    cliente de Estadística (examen numérico)
 │  ├─ tutor-api.js · dominio-widget.js   tutor IA y barra «Tu dominio por tema»
-│  ├─ mazos/ etica · ia-conceptual · python · estadistica   flashcards compartidas (apuntes y Poris)
+│  ├─ mazos/ etica · ia-conceptual · python · estadistica · calculo   flashcards (las de Cálculo son generadas)
 │  └─ entrenador-python.js · entrenador-python-datos.js   entrenador de Python (lógica y banco)
 ├─ calculo/
 │  ├─ store.js · supabase-claude.js      guardado en la cuenta (fusión parcial, Realtime) y puente con Supabase
@@ -745,7 +746,7 @@ estudIAndo/
 │  ├─ fase6_correccion_practica.sql · fase6_dominio.sql · fase6_opciones_etica.sql · fase6_estadistica.sql
 │  ├─ fase7_calculo.sql · fase7_calculo_endurecer.sql
 │  └─ functions/  corregir-desarrollo · corregir-practica · corregir-codigo · corregir-lapiz · preguntar-apunte
-├─ tools/                           seed.py · seed_python.py · seed_estadistica.py · generar_estadistica.py y los JSON de origen
+├─ tools/                           seed.py · seed_python.py · seed_estadistica.py · generar_estadistica.py · generar_mazo_calculo.js y los JSON de origen
 ├─ docs/superpowers/                spec y plan de IAgram (reemplazado por Poris)
 └─ guiones/                         21 guiones de TikTok con Capu
 ```

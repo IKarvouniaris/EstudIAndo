@@ -18,6 +18,8 @@ riel lateral y el tema `data-tema` + `ia-tema`. Los nombres viejos de su CSS (`-
 `--accent`, `--good`…) son alias de esos tokens: no volver a un tema propio. En el entrenador
 (`calculo/entrenador/*.js`) las tres opciones de cada paso deben tener largo parejo: que la
 correcta no sea sistemáticamente la más larga (ni la más corta).
+Las flashcards de Cálculo para Poris (`js/mazos/calculo.js`) están **generadas** desde `MODULES`:
+si cambiás un texto de `calculo.html`, corré `node tools/generar_mazo_calculo.js` y commiteá el resultado.
 
 ## Regla: "clase + resumen de transcripción"
 
