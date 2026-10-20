@@ -1340,5 +1340,638 @@
     ],
     "resolucion": "'Extraer hasta obtener r éxitos, sin reposición' → HiperPascal (N = 12, R = 5, r = 2). Dominio: 2 ≤ n ≤ N − R + r = 9.\na) P(n = 4): en las primeras 3 hay exactamente 1 roja y la 4.ª es roja:\n   [C(5,1)·C(7,2)/C(12,3)] · (5−1)/(12−3) = (105/220)·(4/9) = 0,2121.\nb) P(n ≤ 5) = P(2)+P(3)+P(4)+P(5) = 0,7525  (equivale a P(hipergeométrica con 5 extracciones ≥ 2 rojas)).\nc) Como mínimo se necesitan r = 2 extracciones.",
     "fuente": "Adaptado de Clase 7 (modelo hiperPascal)"
+  },
+  {
+    "id": "estadistica-K1",
+    "tema": "continua",
+    "titulo": "Densidad cuadrática",
+    "enunciado": "Una variable aleatoria continua tiene función de densidad f(x) = a·x² + 0,5 para 0 ≤ x ≤ 1 (y 0 en el resto).",
+    "datos": "",
+    "partes": [
+      {
+        "id": "a",
+        "etiqueta": "Constante a",
+        "valor": 1.5,
+        "ayuda": "",
+        "tol_abs": 0.005,
+        "tol_rel": 0.01,
+        "alt_pct": false
+      },
+      {
+        "id": "b",
+        "etiqueta": "P(X < 0,5)",
+        "valor": 0.3125,
+        "ayuda": "",
+        "tol_abs": 0.0006,
+        "tol_rel": 0.01,
+        "alt_pct": true
+      },
+      {
+        "id": "c",
+        "etiqueta": "Si un valor elegido al azar fue mayor que 0,5, probabilidad de que sea mayor que 0,75",
+        "valor": 0.602273,
+        "ayuda": "",
+        "tol_abs": 0.0006,
+        "tol_rel": 0.01,
+        "alt_pct": true
+      }
+    ],
+    "resolucion": "a) El área total tiene que valer 1: ∫₀¹ (a·x² + 0,5) dx = a/3 + 0,5 = 1 → a = 1,5.\n   (No se iguala f(x) a 1: se iguala la INTEGRAL, el área.)\nb) F(x) = ∫₀ˣ (1,5·t² + 0,5) dt = x³/2 + x/2.  P(X < 0,5) = F(0,5) = 0,0625 + 0,25 = 0,3125.\nc) Condicional con áreas: P(X > 0,75 | X > 0,5) = G(0,75) / G(0,5) = (1 − 0,5859) / (1 − 0,3125) = 0,6023.",
+    "fuente": "Guía Tema IV, ej. 1 (Clase 10)"
+  },
+  {
+    "id": "estadistica-K2",
+    "tema": "continua",
+    "titulo": "Densidad por tramos y luego una binomial",
+    "enunciado": "Una variable aleatoria continua tiene densidad f(x) = 1,2·x para 0 ≤ x ≤ 1 y f(x) = 3m − m·x para 1 ≤ x ≤ 3 (y 0 en el resto).",
+    "datos": "",
+    "partes": [
+      {
+        "id": "a",
+        "etiqueta": "Constante m",
+        "valor": 0.2,
+        "ayuda": "",
+        "tol_abs": 0.005,
+        "tol_rel": 0.01,
+        "alt_pct": false
+      },
+      {
+        "id": "b",
+        "etiqueta": "Media de x",
+        "valor": 1.0667,
+        "ayuda": "",
+        "tol_abs": 0.005,
+        "tol_rel": 0.01,
+        "alt_pct": false
+      },
+      {
+        "id": "c",
+        "etiqueta": "Varianza de x",
+        "valor": 0.3622,
+        "ayuda": "",
+        "tol_abs": 0.005,
+        "tol_rel": 0.01,
+        "alt_pct": false
+      },
+      {
+        "id": "d",
+        "etiqueta": "P(X < 2,5 | X > 2)",
+        "valor": 0.75,
+        "ayuda": "",
+        "tol_abs": 0.0006,
+        "tol_rel": 0.01,
+        "alt_pct": true
+      },
+      {
+        "id": "e",
+        "etiqueta": "Si se eligen 15 valores al azar, probabilidad de que 4 o más sean mayores que 2",
+        "valor": 0.055556,
+        "ayuda": "",
+        "tol_abs": 0.0006,
+        "tol_rel": 0.01,
+        "alt_pct": true
+      }
+    ],
+    "resolucion": "a) Área total = ∫₀¹ 1,2x dx + ∫₁³ (3m − mx) dx = 0,6 + 2m = 1 → m = 0,2. El 2.º tramo queda f(x) = 0,6 − 0,2x.\nb) E(X) = ∫₀¹ 1,2x² dx + ∫₁³ x(0,6 − 0,2x) dx = 0,4 + 0,6667 = 1,0667 (= 16/15).\nc) E(X²) = ∫₀¹ 1,2x³ dx + ∫₁³ x²(0,6 − 0,2x) dx = 0,3 + 1,2 = 1,5 → V(X) = 1,5 − 1,0667² = 0,3622 (= 163/450).\nd) P(2 < X < 2,5) = ∫ (0,6 − 0,2x) dx entre 2 y 2,5 = 0,075;  P(X > 2) = 0,1 → 0,075 / 0,1 = 0,75.\ne) Cada valor es '> 2' con p = P(X > 2) = 0,1, independientes → Y ~ B(15; 0,1): P(Y ≥ 4) = G_b(4/15; 0,1) = 0,0556.",
+    "fuente": "Guía Tema IV, ej. 2 (Clase 10)"
+  },
+  {
+    "id": "estadistica-K3",
+    "tema": "continua",
+    "titulo": "Proporción diaria de unidades defectuosas",
+    "enunciado": "La proporción diaria de unidades defectuosas de una fábrica es una variable aleatoria con función de distribución F(x) = 1 − (1 − x)^20, con dominio 0 ≤ x ≤ 1.",
+    "datos": "",
+    "partes": [
+      {
+        "id": "a",
+        "etiqueta": "Densidad en x = 0,05: f(0,05)",
+        "valor": 7.547072,
+        "ayuda": "Primero derivá F para obtener f",
+        "tol_abs": 0.02,
+        "tol_rel": 0.01,
+        "alt_pct": false
+      },
+      {
+        "id": "b",
+        "etiqueta": "Media",
+        "valor": 0.047619,
+        "ayuda": "",
+        "tol_abs": 0.0003,
+        "tol_rel": 0.01,
+        "alt_pct": false
+      },
+      {
+        "id": "c",
+        "etiqueta": "Mediana",
+        "valor": 0.034064,
+        "ayuda": "",
+        "tol_abs": 0.0003,
+        "tol_rel": 0.01,
+        "alt_pct": false
+      },
+      {
+        "id": "d",
+        "etiqueta": "P(X > 0,1)",
+        "valor": 0.121577,
+        "ayuda": "",
+        "tol_abs": 0.0006,
+        "tol_rel": 0.01,
+        "alt_pct": true
+      }
+    ],
+    "resolucion": "a) f(x) = F'(x) = 20(1 − x)^19.  f(0,05) = 20·0,95^19 = 7,547.\nb) E(X) = ∫₀¹ x·20(1 − x)^19 dx. Con u = 1 − x: 20·∫₀¹ (1 − u)·u^19 du = 20·(1/20 − 1/21) = 1/21 = 0,0476.\nc) F(x_e) = 0,5 → (1 − x_e)^20 = 0,5 → x_e = 1 − 0,5^(1/20) = 0,0341.\nd) P(X > 0,1) = G(0,1) = 1 − F(0,1) = 0,9^20 = 0,1216.",
+    "fuente": "Guía Tema IV, ej. 3 (Clase 10)"
+  },
+  {
+    "id": "estadistica-W1",
+    "tema": "vida",
+    "titulo": "Cable plástico: dos proveedores exponenciales",
+    "enunciado": "La longitud entre fallas consecutivas de un cable plástico tiene distribución exponencial. El proveedor A entrega el 70 % y su longitud media entre fallas es de 170 m; el proveedor B entrega el resto y su longitud media entre fallas es de 200 m. Se eligió un rollo al azar de 250 m de longitud.",
+    "datos": "",
+    "partes": [
+      {
+        "id": "a",
+        "etiqueta": "Probabilidad de que un rollo de 250 m elegido al azar no tenga fallas",
+        "valor": 0.246805,
+        "ayuda": "",
+        "tol_abs": 0.0006,
+        "tol_rel": 0.01,
+        "alt_pct": true
+      },
+      {
+        "id": "b",
+        "etiqueta": "Sabiendo que no se encontraron fallas en el rollo, probabilidad de que sea del proveedor A",
+        "valor": 0.651743,
+        "ayuda": "",
+        "tol_abs": 0.0006,
+        "tol_rel": 0.01,
+        "alt_pct": true
+      }
+    ],
+    "resolucion": "'Sin fallas en 250 m' = la longitud hasta la primera falla supera 250 m = G(250) = e^(−250/μ).\nCon A: e^(−250/170) = 0,2298;  con B: e^(−250/200) = 0,2865.\na) Probabilidad total: 0,7·0,2298 + 0,3·0,2865 = 0,2468.\nb) Bayes: P(A | sin fallas) = 0,7·0,2298 / 0,2468 = 0,6517.",
+    "fuente": "Clase 11, ej. 12"
+  },
+  {
+    "id": "estadistica-W2",
+    "tema": "vida",
+    "titulo": "Baterías con vida Weibull",
+    "enunciado": "La vida útil de unas baterías es aleatoria, con distribución Weibull de parámetro de escala β = 60 horas y parámetro de forma ω = 3 (x en horas).",
+    "datos": "",
+    "partes": [
+      {
+        "id": "a",
+        "etiqueta": "Duración que debe especificarse para tener la seguridad de que será superada por el 95 % de las baterías (horas)",
+        "valor": 22.293151,
+        "ayuda": "",
+        "tol_abs": 0.005,
+        "tol_rel": 0.01,
+        "alt_pct": false
+      },
+      {
+        "id": "b",
+        "etiqueta": "De las que duran más de 50 horas, porcentaje que dura menos de 60 horas",
+        "valor": 34.380436,
+        "ayuda": "",
+        "tol_abs": 0.06,
+        "tol_rel": 0.01,
+        "alt_pct": true
+      }
+    ],
+    "resolucion": "G(x) = e^(−(x/β)^ω) es la probabilidad de durar más que x.\na) 'Superada por el 95 %' → G(x) = 0,95 → (x/60)³ = −ln 0,95 = 0,0513 → x = 60·0,0513^(1/3) = 22,29 horas.\nb) Condicional: P(X < 60 | X > 50) = [G(50) − G(60)] / G(50).\n   G(50) = e^(−(50/60)³) = 0,5606;  G(60) = e^(−1) = 0,3679.\n   (0,5606 − 0,3679) / 0,5606 = 34,38 %.",
+    "fuente": "Clase 11, ej. 7"
+  },
+  {
+    "id": "estadistica-W3",
+    "tema": "vida",
+    "titulo": "Lámparas de dos proveedores (Weibull)",
+    "enunciado": "Dos proveedores, A y B, suministran lámparas cuya duración es Weibull con ω = 3; β se expresa en horas y vale 80 para el proveedor A y 95 para el B. A suministra el 70 % y B el resto, y están mezcladas en el depósito en esas proporciones.",
+    "datos": "",
+    "partes": [
+      {
+        "id": "a",
+        "etiqueta": "Si se elige una al azar, probabilidad de que dure más de 90 horas",
+        "valor": 0.296743,
+        "ayuda": "",
+        "tol_abs": 0.0006,
+        "tol_rel": 0.01,
+        "alt_pct": true
+      },
+      {
+        "id": "b",
+        "etiqueta": "Se eligió una al azar y hace 88 horas que funciona: probabilidad de que sea del proveedor A",
+        "valor": 0.577162,
+        "ayuda": "",
+        "tol_abs": 0.0006,
+        "tol_rel": 0.01,
+        "alt_pct": true
+      },
+      {
+        "id": "c",
+        "etiqueta": "La lámpara elegida duró exactamente 89,4 horas: probabilidad de que sea del proveedor A",
+        "valor": 0.690121,
+        "ayuda": "Es la parte difícil: acá no alcanza con G",
+        "tol_abs": 0.0006,
+        "tol_rel": 0.01,
+        "alt_pct": true
+      }
+    ],
+    "resolucion": "a) Probabilidad total con G(x) = e^(−(x/β)³): 0,7·e^(−(90/80)³) + 0,3·e^(−(90/95)³) = 0,7·0,2408 + 0,3·0,4273 = 0,2967.\nb) 'Hace 88 horas que funciona' = duración MAYOR que 88 → se pondera con G(88):\n   0,7·0,2642 / (0,7·0,2642 + 0,3·0,4517) = 0,5772.\nc) 'Duró exactamente 89,4 h' es un valor puntual → se pondera con la DENSIDAD f(x) = ω·(1/β)^ω·x^(ω−1)·e^(−(x/β)^ω):\n   f_A(89,4) = 0,01160;  f_B(89,4) = 0,01215.\n   0,7·f_A / (0,7·f_A + 0,3·f_B) = 0,6901.",
+    "fuente": "Clase 11, ej. 9"
+  },
+  {
+    "id": "estadistica-W4",
+    "tema": "vida",
+    "titulo": "Vida de los varones (Gumbel del mínimo)",
+    "enunciado": "La vida de los varones de un país sigue una distribución Gumbel del mínimo (θ = moda, β = escala). La media es de 70,1 años y se sabe que el 8 % supera los 80 años. Usá C = 0,5772 para la esperanza.",
+    "datos": "",
+    "partes": [
+      {
+        "id": "a",
+        "etiqueta": "Parámetro θ (años)",
+        "valor": 73.900072,
+        "ayuda": "",
+        "tol_abs": 0.005,
+        "tol_rel": 0.01,
+        "alt_pct": false
+      },
+      {
+        "id": "b",
+        "etiqueta": "Parámetro β (años)",
+        "valor": 6.58363,
+        "ayuda": "",
+        "tol_abs": 0.005,
+        "tol_rel": 0.01,
+        "alt_pct": false
+      },
+      {
+        "id": "c",
+        "etiqueta": "Porcentaje de los varones que supera los 65 años",
+        "valor": 77.200714,
+        "ayuda": "",
+        "tol_abs": 0.06,
+        "tol_rel": 0.01,
+        "alt_pct": true
+      }
+    ],
+    "resolucion": "Datos: μ = θ − 0,5772·β = 70,1  y  G(80) = e^(−e^((80−θ)/β)) = 0,08.\nDe G(80): e^((80−θ)/β) = −ln 0,08 = 2,5257 → (80 − θ)/β = ln(2,5257) = 0,9265.\nDe la media: θ = 70,1 + 0,5772·β. Reemplazando: 80 − 70,1 − 0,5772·β = 0,9265·β → β = 9,9 / (0,9265 + 0,5772) = 6,5836 años; θ = 73,90 años.\nc) G(65) = e^(−e^((65−θ)/β)) = e^(−e^(-1,3518)) = 0,7720 → 77,2 %.",
+    "fuente": "Clase 11, ej. 19"
+  },
+  {
+    "id": "estadistica-N1",
+    "tema": "normal",
+    "titulo": "Consumo mensual de combustible",
+    "enunciado": "En una planta industrial el consumo mensual de combustible es una variable aleatoria con distribución normal de media 20.000 litros y desvío estándar 2.500 litros.",
+    "datos": "",
+    "partes": [
+      {
+        "id": "a",
+        "etiqueta": "Porcentaje de los meses en que se consume menos de 24.000 litros",
+        "valor": 94.520071,
+        "ayuda": "",
+        "tol_abs": 0.06,
+        "tol_rel": 0.01,
+        "alt_pct": true
+      },
+      {
+        "id": "b",
+        "etiqueta": "Porcentaje de los meses en que se consume más de 18.000 litros",
+        "valor": 78.81446,
+        "ayuda": "",
+        "tol_abs": 0.06,
+        "tol_rel": 0.01,
+        "alt_pct": true
+      },
+      {
+        "id": "c",
+        "etiqueta": "Porcentaje de los meses en que se consume entre 18.000 y 24.000 litros",
+        "valor": 73.334531,
+        "ayuda": "",
+        "tol_abs": 0.06,
+        "tol_rel": 0.01,
+        "alt_pct": true
+      },
+      {
+        "id": "d",
+        "etiqueta": "Capacidad del tanque para satisfacer el consumo mensual con 95 % de confiabilidad (litros)",
+        "valor": 24112.134067,
+        "ayuda": "",
+        "tol_abs": 0.005,
+        "tol_rel": 0.002,
+        "alt_pct": false
+      },
+      {
+        "id": "e",
+        "etiqueta": "Consumo superado en el 90 % de los meses (litros)",
+        "valor": 16796.121086,
+        "ayuda": "",
+        "tol_abs": 0.005,
+        "tol_rel": 0.002,
+        "alt_pct": false
+      },
+      {
+        "id": "f",
+        "etiqueta": "De los meses en que se consume menos de 24.000 litros, porcentaje en que se consume menos que la media",
+        "valor": 52.898818,
+        "ayuda": "",
+        "tol_abs": 0.06,
+        "tol_rel": 0.01,
+        "alt_pct": true
+      },
+      {
+        "id": "g",
+        "etiqueta": "De los meses en que se consume menos de 24.000 litros, porcentaje en que se consume más de 18.000",
+        "valor": 77.5862,
+        "ayuda": "",
+        "tol_abs": 0.06,
+        "tol_rel": 0.01,
+        "alt_pct": true
+      },
+      {
+        "id": "h",
+        "etiqueta": "De los meses en que se consume más de 18.000 litros, porcentaje en que se consume menos de 24.000",
+        "valor": 93.047051,
+        "ayuda": "",
+        "tol_abs": 0.06,
+        "tol_rel": 0.01,
+        "alt_pct": true
+      },
+      {
+        "id": "i",
+        "etiqueta": "Con el tanque de d) lleno todos los meses, probabilidad de que en un año haya algún mes en que no alcance",
+        "valor": 0.45964,
+        "ayuda": "",
+        "tol_abs": 0.0006,
+        "tol_rel": 0.01,
+        "alt_pct": true
+      }
+    ],
+    "resolucion": "z(24.000) = (24.000 − 20.000)/2.500 = 1,6;  z(18.000) = −0,8.\na) F(1,6) = 0,9452 → 94,52 %.   b) 1 − F(−0,8) = F(0,8) = 0,7881 → 78,81 %.\nc) F(1,6) − F(−0,8) = 0,7333 → 73,33 %.\nd) Fractil de área 0,95: z = 1,645 → x = 20.000 + 1,645·2.500 = 24112,13 l.\ne) El 90 % lo supera → área a la izquierda 0,10: z = −1,2816 → x = 20.000 − 1,2816·2.500 = 16796,12 l.\nf) P(X<20.000)/P(X<24.000) = 0,5/0,9452 = 52,9 %.\ng) 0,7333/0,9452 = 77,59 %.   h) 0,7333/0,7881 = 93,05 %.\ni) Con ese tanque, en un mes no alcanza con p = 0,05 (12 ensayos independientes): P(al menos uno) = 1 − 0,95^12 = 0,4596.",
+    "fuente": "Clase 12, ej. 1"
+  },
+  {
+    "id": "estadistica-N2",
+    "tema": "normal",
+    "titulo": "Peso de los novillos (hallar μ y σ)",
+    "enunciado": "En un establecimiento agropecuario, el 10 % de los novillos que salen a la venta pesan más de 500 kg y el 7 % pesan menos de 410 kg. El peso es una variable normal.",
+    "datos": "",
+    "partes": [
+      {
+        "id": "a",
+        "etiqueta": "Peso superado por el 15 % de los novillos (kg)",
+        "valor": 491.999313,
+        "ayuda": "",
+        "tol_abs": 0.005,
+        "tol_rel": 0.01,
+        "alt_pct": false
+      },
+      {
+        "id": "b",
+        "etiqueta": "Probabilidad de que en una jaula de 25 novillos haya alguno con peso inferior a 400 kg",
+        "valor": 0.614005,
+        "ayuda": "",
+        "tol_abs": 0.0006,
+        "tol_rel": 0.01,
+        "alt_pct": true
+      }
+    ],
+    "resolucion": "Hay que hallar μ y σ con los dos datos: 'más de 500' deja 0,90 por debajo (z = 1,2816); 'menos de 410' → z = -1,4758.\n500 = μ + 1,2816·σ ;  410 = μ − 1,4758·σ  → σ = 90/2,7573 = 32,64 kg ;  μ = 458,17 kg.\na) Deja 0,85 por debajo: z = 1,0364 → x = 458,17 + 1,0364·32,64 = 492,0 kg.\nb) Un novillo pesa menos de 400: z = (400 − 458,17)/32,64 = -1,78 → p = 0,0374.\n   'Alguno entre 25' = al menos uno: 1 − (1 − 0,0374)^25 = 0,6140.",
+    "fuente": "Clase 12, ej. 3"
+  },
+  {
+    "id": "estadistica-N3",
+    "tema": "normal",
+    "titulo": "Saldos de cuentas de ahorro (log-normal)",
+    "enunciado": "Los saldos de las cuentas de ahorro de un banco tienen una media de U$s 120 y un desvío estándar de U$s 85 (distribución log-normal).",
+    "datos": "",
+    "partes": [
+      {
+        "id": "a",
+        "etiqueta": "Porcentaje de los saldos que es superior a U$s 140",
+        "valor": 28.754351,
+        "ayuda": "",
+        "tol_abs": 0.06,
+        "tol_rel": 0.01,
+        "alt_pct": true
+      },
+      {
+        "id": "b",
+        "etiqueta": "De los saldos superiores a la media, porcentaje que supera los U$s 140",
+        "valor": 76.693404,
+        "ayuda": "",
+        "tol_abs": 0.06,
+        "tol_rel": 0.01,
+        "alt_pct": true
+      },
+      {
+        "id": "c",
+        "etiqueta": "Saldo superado por el 90 % de las cuentas (U$s)",
+        "valor": 43.249039,
+        "ayuda": "",
+        "tol_abs": 0.005,
+        "tol_rel": 0.01,
+        "alt_pct": false
+      },
+      {
+        "id": "d",
+        "etiqueta": "Mediana de los saldos (U$s)",
+        "valor": 97.922938,
+        "ayuda": "",
+        "tol_abs": 0.005,
+        "tol_rel": 0.01,
+        "alt_pct": false
+      }
+    ],
+    "resolucion": "CV = 85/120 = 70,8 % (> 60 %): log-normal. Parámetros: D² = ln(1 + 0,7083²) = 0,4066 → D = 0,6377;  m = ln(120/√1,5017) = 4,5842.\na) z = (ln 140 − m)/D = (4,9416 − 4,5842)/0,6377 = 0,56 → 1 − F(z) = 28,75 %.\nb) Condición X > 120: z = 0,319 → área derecha 0,3749.  0,2875/0,3749 = 76,69 %.\nc) El 90 % lo supera → área izquierda 0,10 (z = -1,2816): ln x = m + z·D = 3,7670 → x = 43,25.\nd) Mediana = e^m = 97,92 (la media, 120, queda por encima: cola larga a la derecha).",
+    "fuente": "Clase 12, ej. 7"
+  },
+  {
+    "id": "estadistica-N4",
+    "tema": "normal",
+    "titulo": "Ventas mensuales",
+    "enunciado": "Las ventas mensuales de un producto son una variable normal de media U$s 60.000 y desvío estándar U$s 5.000.",
+    "datos": "",
+    "partes": [
+      {
+        "id": "a",
+        "etiqueta": "Porcentaje de los meses en que las ventas exceden U$s 70.000",
+        "valor": 2.275013,
+        "ayuda": "",
+        "tol_abs": 0.06,
+        "tol_rel": 0.01,
+        "alt_pct": true
+      },
+      {
+        "id": "b",
+        "etiqueta": "Si la empresa necesita vender por lo menos U$s 49.000 por mes para cubrir sus gastos fijos, porcentaje de los meses en que no los cubre",
+        "valor": 1.390345,
+        "ayuda": "",
+        "tol_abs": 0.06,
+        "tol_rel": 0.01,
+        "alt_pct": true
+      },
+      {
+        "id": "c",
+        "etiqueta": "Venta superada con probabilidad 0,20 (U$s)",
+        "valor": 64208.106168,
+        "ayuda": "",
+        "tol_abs": 0.005,
+        "tol_rel": 0.002,
+        "alt_pct": false
+      }
+    ],
+    "resolucion": "a) z = (70.000 − 60.000)/5.000 = 2 → 1 − F(2) = 2,28 %.\nb) z = (49.000 − 60.000)/5.000 = −2,2 → F(−2,2) = 1,39 %.\nc) 'Superada con prob. 0,20' → área izquierda 0,80 (z = 0,8416) → x = 60.000 + 0,8416·5.000 = 64208,11.",
+    "fuente": "Clase 12, ej. 10"
+  },
+  {
+    "id": "estadistica-S1",
+    "tema": "poisson",
+    "titulo": "Conmutador telefónico",
+    "enunciado": "Un conmutador telefónico recibe en promedio 600 llamadas por hora y puede hacer como máximo 20 conexiones en un minuto dado.",
+    "datos": "",
+    "partes": [
+      {
+        "id": "a",
+        "etiqueta": "Cantidad esperada de llamadas en un minuto (m = λ·t)",
+        "valor": 10.0,
+        "ayuda": "Pasá λ a llamadas por minuto",
+        "tol_abs": 0.01,
+        "tol_rel": 0.0,
+        "alt_pct": false
+      },
+      {
+        "id": "b",
+        "etiqueta": "Probabilidad de que su capacidad sea superada en un minuto dado",
+        "valor": 0.001588,
+        "ayuda": "",
+        "tol_abs": 0.0006,
+        "tol_rel": 0.01,
+        "alt_pct": true
+      },
+      {
+        "id": "c",
+        "etiqueta": "Probabilidad de que en un minuto lleguen exactamente 10 llamadas",
+        "valor": 0.12511,
+        "ayuda": "",
+        "tol_abs": 0.0006,
+        "tol_rel": 0.01,
+        "alt_pct": true
+      }
+    ],
+    "resolucion": "Poisson: cuento llamadas en un tramo fijo. λ = 600/60 = 10 por minuto y t = 1 min → m = 10.\na) m = 10.\nb) La capacidad se supera si llegan 21 o más: P(X ≥ 21) = 1 − F(20; m = 10) = 0,0016.\nc) P(X = 10) = e^(−10)·10^10/10! = 0,1251.",
+    "fuente": "Clase 13, ej. 2"
+  },
+  {
+    "id": "estadistica-S2",
+    "tema": "poisson",
+    "titulo": "Rollos de tela que terminan en la 2.ª falla (Gamma)",
+    "enunciado": "El proceso de fabricación de una tela genera en promedio 1 falla cada 100 metros. La longitud de cada rollo queda determinada por la aparición de la segunda falla, de modo que todos los rollos tienen una falla.",
+    "datos": "",
+    "partes": [
+      {
+        "id": "a",
+        "etiqueta": "Porcentaje de los rollos con longitudes inferiores a 150 metros",
+        "valor": 44.21746,
+        "ayuda": "",
+        "tol_abs": 0.06,
+        "tol_rel": 0.01,
+        "alt_pct": true
+      },
+      {
+        "id": "b",
+        "etiqueta": "Longitud superada por el 90 % de los rollos (m)",
+        "valor": 53.181161,
+        "ayuda": "",
+        "tol_abs": 0.005,
+        "tol_rel": 0.01,
+        "alt_pct": false
+      },
+      {
+        "id": "c",
+        "etiqueta": "Longitud superada por el 10 % de los rollos (m)",
+        "valor": 388.972017,
+        "ayuda": "",
+        "tol_abs": 0.005,
+        "tol_rel": 0.01,
+        "alt_pct": false
+      },
+      {
+        "id": "d",
+        "etiqueta": "Longitud mediana (m)",
+        "valor": 167.834699,
+        "ayuda": "",
+        "tol_abs": 0.005,
+        "tol_rel": 0.01,
+        "alt_pct": false
+      },
+      {
+        "id": "e",
+        "etiqueta": "Longitud modal (m)",
+        "valor": 100.0,
+        "ayuda": "",
+        "tol_abs": 0.005,
+        "tol_rel": 0.01,
+        "alt_pct": false
+      }
+    ],
+    "resolucion": "Se fija la cantidad de fallas (r = 2) y la variable es la longitud hasta la 2.ª: Gamma con r = 2 y λ = 1/100 = 0,01 fallas/m.\na) Molina: 'rollo menor a 150 m' = en 150 m hay al menos 2 fallas (m = 0,01·150 = 1,5): F_γ = G_po(2 / 1,5) = 1 − F_po(1 / 1,5) = 0,4422 → 44,22 %.\nb) 'Superada por el 90 %' → F_γ(x) = 0,10 → x = 53,18 m.\nc) 'Superada por el 10 %' → F_γ(x) = 0,90 → x = 388,97 m.\nd) Mediana: F_γ(x) = 0,50 → x = 167,83 m.\ne) Moda = (r − 1)/λ = 1/0,01 = 100 m.  (Moda 100 < mediana 167,8 < media r/λ = 200: asimetría positiva.)",
+    "fuente": "Clase 13, ej. 13"
+  },
+  {
+    "id": "estadistica-S3",
+    "tema": "poisson",
+    "titulo": "Pedidos a un comercio mayorista",
+    "enunciado": "A un comercio mayorista llegan en promedio 7 pedidos por día.",
+    "datos": "",
+    "partes": [
+      {
+        "id": "a",
+        "etiqueta": "Probabilidad de que transcurran más de 2 días para los próximos 10 pedidos",
+        "valor": 0.109399,
+        "ayuda": "",
+        "tol_abs": 0.0006,
+        "tol_rel": 0.01,
+        "alt_pct": true
+      },
+      {
+        "id": "b",
+        "etiqueta": "Tiempo medio hasta el décimo pedido (días)",
+        "valor": 1.428571,
+        "ayuda": "",
+        "tol_abs": 0.005,
+        "tol_rel": 0.01,
+        "alt_pct": false
+      }
+    ],
+    "resolucion": "Se fija la cantidad de pedidos (r = 10) y la variable es el tiempo hasta el 10.º: Gamma con λ = 7 por día.\na) P(X > 2) = G_γ(2/10; 7) = F_po(r − 1 / m = λ·x) = F_po(9 / m = 14) = 0,1094.\n   (Tardar más de 2 días equivale a que en esos 2 días lleguen 9 pedidos o menos.)\nb) E(X) = r/λ = 10/7 = 1,4286 días.",
+    "fuente": "Clase 13, ej. 16"
+  },
+  {
+    "id": "estadistica-S4",
+    "tema": "poisson",
+    "titulo": "Fallas del cable: ¿equipo nuevo o viejo? (Poisson + Bayes)",
+    "enunciado": "Un fabricante de cable plástico bajó el promedio de fallas de 2 cada 1.000 m (equipo viejo) a 1 cada 1.000 m (equipo nuevo). Su competidor tenía el equipo viejo y, con probabilidad 0,6, ya instaló uno nuevo igual al del fabricante. Para cerciorarse, el fabricante compra 2.000 m de la competencia y encuentra 5 fallas.",
+    "datos": "",
+    "partes": [
+      {
+        "id": "a",
+        "etiqueta": "Probabilidad de encontrar exactamente 5 fallas en 2.000 m si el competidor tiene el equipo nuevo",
+        "valor": 0.036089,
+        "ayuda": "",
+        "tol_abs": 0.0006,
+        "tol_rel": 0.01,
+        "alt_pct": true
+      },
+      {
+        "id": "b",
+        "etiqueta": "Con esa información, probabilidad de que el competidor haya instalado el equipo nuevo",
+        "valor": 0.257258,
+        "ayuda": "",
+        "tol_abs": 0.0006,
+        "tol_rel": 0.01,
+        "alt_pct": true
+      }
+    ],
+    "resolucion": "En 2.000 m, el equipo nuevo da m = 1·2 = 2 fallas esperadas y el viejo m = 2·2 = 4.\na) P(5 | nuevo) = e^(−2)·2^5/5! = 0,0361.   P(5 | viejo) = e^(−4)·4^5/5! = 0,1563.\nb) Bayes: 0,6·0,0361 / (0,6·0,0361 + 0,4·0,1563) = 0,2573.",
+    "fuente": "Clase 13, ej. 3"
   }
 ]

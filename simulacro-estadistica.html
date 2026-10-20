@@ -114,12 +114,12 @@ a{color:var(--acento)}
 
 <main class="lienzo">
   <div class="portada">
-    <p class="cintillo">32 ejercicios de práctica · descriptiva, probabilidad, variables discretas, binomial/Pascal, hipergeométrico</p>
-    <h1>Simulacro del primer parcial</h1>
+    <p class="cintillo">47 ejercicios de práctica · 1.er parcial (descriptiva a hipergeométrico) y 2.º parcial (continuas, fenómenos de vida, normal, Poisson)</p>
+    <h1>Simulacro de Estadística</h1>
     <p>
       En el parcial lo que cuenta es el <strong>resultado</strong>: acá también. Cada ejercicio tiene varias partes y en cada una
       escribís sólo el número. Podés practicar sin límite (con verificación por parte y la resolución paso a paso) o rendir el
-      <strong>examen puntuado</strong>: 5 ejercicios al azar (uno de cada tema), 60 minutos, corrección automática — cuenta para el leaderboard.
+      <strong>examen puntuado</strong> de uno de los dos parciales: ejercicios al azar (uno de cada tema), 60 minutos, corrección automática — cuenta para el leaderboard.
     </p>
     <p class="formato">Formato: podés usar coma o punto decimal. Las probabilidades, en decimal (0,4967) o en % (49,67). Los porcentajes, con o sin el símbolo %. Se acepta un pequeño margen por redondeo (aprox. 1 %).</p>
   </div>
@@ -131,6 +131,10 @@ a{color:var(--acento)}
     <button class="chip" data-tema="discreta" type="button">Variables discretas</button>
     <button class="chip" data-tema="binomial" type="button">Binomial y Pascal</button>
     <button class="chip" data-tema="hiper" type="button">Hipergeométrico y combinados</button>
+    <button class="chip" data-tema="continua" type="button">2.º parcial · Variables continuas</button>
+    <button class="chip" data-tema="vida" type="button">2.º parcial · Fenómenos de vida</button>
+    <button class="chip" data-tema="normal" type="button">2.º parcial · Normal y log-normal</button>
+    <button class="chip" data-tema="poisson" type="button">2.º parcial · Poisson y Gamma</button>
   </div>
 
   <div id="ejercicios"><p class="sin-datos">Cargando…</p></div>
@@ -157,7 +161,7 @@ btnTema.addEventListener("click", function(){ aplicarTema(raiz.getAttribute("dat
 function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
 function fmtNum(x){ if(x==null) return "—"; var r = Math.round(x*10000)/10000; return String(r).replace(".", ","); }
 
-var TEMA_NOMBRE = { descriptiva:"Estadística descriptiva", probabilidad:"Probabilidad y Bayes", discreta:"Variables discretas", binomial:"Binomial y Pascal", hiper:"Hipergeométrico y combinados" };
+var TEMA_NOMBRE = { descriptiva:"Estadística descriptiva", probabilidad:"Probabilidad y Bayes", discreta:"Variables discretas", binomial:"Binomial y Pascal", hiper:"Hipergeométrico y combinados", continua:"Variables continuas", vida:"Fenómenos de vida", normal:"Normal y log-normal", poisson:"Proceso de Poisson" };
 
 /* ---------- ESTADO LOCAL DE PRÁCTICA (sólo en este navegador) ---------- */
 var CLAVE = "estadistica-practica-v1";
@@ -269,7 +273,12 @@ Auth.obtenerSesion().then(function(s){ if(s) cargarEjercicios(); else contEj.inn
 (function(){
   var overlay = document.getElementById("ex-overlay"), panel = document.getElementById("ex-panel");
   var btnRendir = document.getElementById("btn-rendir");
-  var MATERIA = "estadistica", DURACION_SEG = 60*60, CANTIDAD = 5;
+  var MATERIA = "estadistica", DURACION_SEG = 60*60;
+  // Cada parcial se rinde por separado: se sortea un ejercicio de cada uno de sus temas.
+  var PARCIALES = {
+    p1: { nombre:"1.er parcial", temas:["descriptiva","probabilidad","discreta","binomial","hiper"], cantidad:5, detalle:"descriptiva, probabilidad, variables discretas, binomial/Pascal, hipergeométrico" },
+    p2: { nombre:"2.º parcial", temas:["continua","vida","normal","poisson"], cantidad:4, detalle:"variables continuas, fenómenos de vida, normal y log-normal, Poisson y Gamma" }
+  };
   var ex = null; // {intentoId, inicioAt, ejercicios, resp:{ej:{parte:texto}}, timer}
 
   function abrir(html){ panel.innerHTML = html; overlay.classList.remove("oculto"); }
@@ -278,7 +287,8 @@ Auth.obtenerSesion().then(function(s){ if(s) cargarEjercicios(); else contEj.inn
 
   panel.addEventListener("click", function(e){
     if(e.target.closest("[data-ex-cerrar]")){ cerrar(); return; }
-    if(e.target.closest("[data-ex-empezar]")){ empezar(); return; }
+    var bEmp = e.target.closest("[data-ex-empezar]");
+    if(bEmp){ empezar(bEmp.getAttribute("data-ex-empezar")); return; }
     if(e.target.closest("[data-ex-finalizar]")){
       if(!confirm("¿Finalizar el examen? No vas a poder cambiar tus respuestas.")) return;
       terminar();
@@ -326,15 +336,17 @@ Auth.obtenerSesion().then(function(s){ if(s) cargarEjercicios(); else contEj.inn
   function mostrarIntro(){
     abrir(
       '<button class="ex-cerrar" data-ex-cerrar>✕ cerrar</button><h2>Examen puntuado</h2>' +
-      '<p>'+CANTIDAD+' ejercicios al azar (uno de cada tema), <strong>60 minutos</strong>. En cada parte escribís sólo el resultado. Se corrige automáticamente al terminar (cada parte cuenta igual, las que dejes en blanco suman 0) y cuenta para el leaderboard. Podés volver a intentarlo recién dentro de 5 minutos.</p>' +
+      '<p>Elegí qué parcial rendir. Se sortea <strong>un ejercicio de cada tema</strong>, con <strong>60 minutos</strong>. En cada parte escribís sólo el resultado. Se corrige automáticamente al terminar (cada parte cuenta igual, las que dejes en blanco suman 0) y cuenta para el leaderboard. Podés volver a intentarlo recién dentro de 5 minutos.</p>' +
       '<p style="font-size:.85rem">Tené a mano tu calculadora o GeoGebra y la hoja de fórmulas. Si cerrás esta ventana con el examen en curso, el intento queda abierto y el cooldown corre igual.</p>' +
-      '<button type="button" class="btn on" data-ex-empezar>Empezar</button>'
+      '<p><button type="button" class="btn on" data-ex-empezar="p1">Rendir el 1.er parcial</button> <button type="button" class="btn on" data-ex-empezar="p2">Rendir el 2.º parcial</button></p>' +
+      '<p style="font-size:.8rem"><strong>1.er parcial:</strong> '+PARCIALES.p1.cantidad+' ejercicios ('+PARCIALES.p1.detalle+'). <strong>2.º parcial:</strong> '+PARCIALES.p2.cantidad+' ejercicios ('+PARCIALES.p2.detalle+').</p>'
     );
   }
 
-  function empezar(){
+  function empezar(clave){
+    var parcial = PARCIALES[clave] || PARCIALES.p1;
     abrir('<h2>Preparando…</h2>');
-    NumApi.iniciarIntento(MATERIA, CANTIDAD).then(function(r){
+    NumApi.iniciarIntento(MATERIA, parcial.cantidad, parcial.temas).then(function(r){
       ex = { intentoId: r.intento_id, inicioAt: new Date(r.inicio_at).getTime(), ejercicios: r.ejercicios, resp: {} };
       pintarExamen();
       ex.timer = setInterval(tick, 1000);

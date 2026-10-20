@@ -215,7 +215,7 @@ table.frases td:first-child{font-family:var(--display); font-weight:600}
   <div class="riel-marca">
     <div>
       <b>Estadística<br>General</b>
-      <span>UADE · 2.º cuatrimestre 2026 · 1.er parcial</span>
+      <span>UADE · 2.º cuatrimestre 2026 · 1.er y 2.º parcial</span>
     </div>
     <button class="btn-riel" id="btn-cerrar" type="button" title="Ocultar barra lateral" aria-label="Ocultar barra lateral">✕</button>
   </div>
@@ -223,7 +223,7 @@ table.frases td:first-child{font-family:var(--display); font-weight:600}
   <div class="buscador">
     <label class="oculto" for="q">Buscar concepto</label>
     <input id="q" type="search" placeholder="buscar fórmula o concepto…" autocomplete="off">
-    <p id="q-estado">hoja de fórmulas · 3 temas · glosario · flashcards</p>
+    <p id="q-estado">hoja de fórmulas · 7 temas · glosario · flashcards</p>
   </div>
 
   <nav id="nav">
@@ -236,13 +236,17 @@ table.frases td:first-child{font-family:var(--display); font-weight:600}
     <a class="item" href="#t2">2 · Probabilidad</a>
     <a class="item" href="#t3">3 · Variables discretas</a>
     <a class="item" href="#t3b">3b · Binomial, Pascal, Hipergeométrico</a>
+    <a class="item" href="#t4">4 · Variables continuas</a>
+    <a class="item" href="#t5">5 · Fenómenos de vida</a>
+    <a class="item" href="#t6">6 · Normal y log-normal</a>
+    <a class="item" href="#t7">7 · Proceso de Poisson</a>
     <div class="riel-grupo">Herramientas</div>
     <a class="item" href="#errores-tipicos">⚠ Errores típicos</a>
     <a class="item" href="#calculadora">▦ Calculadora y GeoGebra</a>
     <a class="item" href="#glosario">A–Z Glosario</a>
     <a class="item" href="#flashcards">▤ Flashcards</a>
     <div class="riel-grupo">Práctica</div>
-    <a class="item externo" href="simulacro-estadistica.html">▶ Simulacro del parcial ↗</a>
+    <a class="item externo" href="simulacro-estadistica.html">▶ Simulacro (1.er y 2.º parcial) ↗</a>
     <a class="item externo" href="leaderboard-estadistica.html">★ Leaderboard ↗</a>
   </nav>
   <div class="riel-pie">
@@ -253,13 +257,13 @@ table.frases td:first-child{font-family:var(--display); font-weight:600}
 
 <main class="lienzo">
   <header class="portada">
-    <p class="cintillo">Apunte práctico · Temas 1 a 3 · Primer parcial</p>
+    <p class="cintillo">Apunte práctico · Temas 1 a 7 · Primer y segundo parcial</p>
     <h1>Todo lo que hace falta<br>para resolver<br><i>y saber cuándo usar qué</i></h1>
     <p>
       La cátedra evalúa si <strong>reconocés el modelo</strong> y lo aplicás con las fórmulas correctas. Por eso este apunte arranca con la
       <a href="#hoja">hoja de fórmulas</a> (para tener al lado mientras practicás), sigue con una <a href="#decidir">guía para decidir qué herramienta usar</a>
       según cómo esté escrito el enunciado, y después cada tema con ejemplos resueltos paso a paso. Cubre lo que entra en el primer parcial:
-      temas 1 y 2 completos y del tema 3 la parte de variables discretas (sin expectativas parciales).
+      temas 1 y 2 completos y del tema 3 la parte de variables discretas (sin expectativas parciales). Los temas 4 a 7 (clases 10 a 13) siguen con lo que se vio después del primer parcial: variables continuas, fenómenos de vida, normal y log-normal, y el proceso de Poisson.
     </p>
   </header>
 
@@ -274,7 +278,7 @@ table.frases td:first-child{font-family:var(--display); font-weight:600}
   <section class="herramienta" id="hoja" data-busca="hoja de formulas formulario resumen chuleta cheat sheet">
     <p class="eyebrow">Para tener a mano</p>
     <h2>Hoja de fórmulas</h2>
-    <p class="intro">Todo lo que se usa en los ejercicios del primer parcial, ordenado por tema y con una nota de <em>cuándo</em> se usa. Notación de la cátedra: <strong>F</strong> = probabilidad acumulada hasta el valor (≤), <strong>G</strong> = desde el valor (≥).</p>
+    <p class="intro">Todo lo que se usa en los ejercicios del primer parcial (temas 1 a 3) y de las clases 10 a 13 (temas 4 a 7), ordenado por tema y con una nota de <em>cuándo</em> se usa. Notación de la cátedra: <strong>F</strong> = probabilidad acumulada hasta el valor (≤), <strong>G</strong> = desde el valor (≥).</p>
     <div class="hoja-barra"><button type="button" id="btn-imprimir">⎙ Imprimir / guardar PDF</button></div>
 
     <div class="formula-grupo">
@@ -390,6 +394,73 @@ table.frases td:first-child{font-family:var(--display); font-weight:600}
           <tr><td>"menos de 12 buenas" (con X = defectuosas de 15)</td><td>≤ 11 buenas ⇔ ≥ 4 defectuosas → \(G(4)\)</td></tr>
         </table></div></div>
     </div>
+    <div class="formula-grupo">
+      <h3>4 · Variables aleatorias continuas</h3>
+
+      <div class="formula-item"><div class="nombre">Función de densidad<small>condiciones</small></div><div>
+        <div class="expr">\( f(x)\ge0\qquad \int_{-\infty}^{\infty}f(x)\,dx=1\qquad P(a\lt X\lt b)=\int_a^b f(x)\,dx \)</div>
+        <p class="nota">Para una constante desconocida: igualar la <strong>integral</strong> (área total) a 1. \(P(X=a)=0\): en las continuas \(P(X\lt a)=P(X\le a)\), no hay «menos uno».</p></div></div>
+
+      <div class="formula-item"><div class="nombre">Acumuladas F y G</div><div>
+        <div class="expr">\( F(x)=\int_{-\infty}^{x}f(t)\,dt\qquad G(x)=1-F(x)\qquad P(a\lt X\lt b)=F(b)-F(a)\qquad f(x)=F'(x) \)</div></div></div>
+
+      <div class="formula-item"><div class="nombre">Moda, mediana, esperanza y varianza</div><div>
+        <div class="expr">\( Mo=\text{argmáx}\,f\qquad F(x_e)=0{,}5\qquad E(X)=\int x\,f(x)\,dx\qquad V(X)=\int x^2f(x)\,dx-\mu^2 \)</div>
+        <p class="nota">En funciones por tramos se integra tramo por tramo. Condicional: \(P(A\mid B)=\dfrac{P(A\cap B)}{P(B)}\) con áreas (ej.: \(\dfrac{G(0{,}75)}{G(0{,}5)}\)).</p></div></div>
+    </div>
+
+    <div class="formula-grupo">
+      <h3>5 · Fenómenos de vida (X = duración hasta la falla)</h3>
+
+      <div class="formula-item"><div class="nombre">Exponencial<small>fallas al azar, \(\lambda\) constante</small></div><div>
+        <div class="expr">\( f(x)=\lambda e^{-\lambda x}\quad x\ge0\qquad G(x)=e^{-\lambda x}\qquad E=\dfrac{1}{\lambda}\qquad V=\dfrac{1}{\lambda^2}\qquad Mo=0\qquad x_e=\dfrac{\ln2}{\lambda} \)</div>
+        <p class="nota">\(\lambda\) = fallas por unidad de continuo; si dan la duración media \(\mu\): \(\lambda=1/\mu\). MTTF = MTBF = \(1/\lambda\).</p></div></div>
+
+      <div class="formula-item"><div class="nombre">Weibull \((\beta;\omega)\)<small>\(\beta\) escala, \(\omega\) forma</small></div><div>
+        <div class="expr">\( f(x)=\omega\left(\dfrac{1}{\beta}\right)^{\omega}x^{\omega-1}e^{-(x/\beta)^{\omega}}\qquad G(x)=e^{-(x/\beta)^{\omega}}\qquad F(x)=1-e^{-(x/\beta)^{\omega}} \)</div>
+        <div class="expr">\( E=\beta\,\Gamma\!\left(1+\tfrac{1}{\omega}\right)\qquad x_e=\beta(\ln2)^{1/\omega}\qquad Mo=\beta\left(1-\tfrac{1}{\omega}\right)^{1/\omega}\ (\omega\gt1) \)</div>
+        <p class="nota">\(\omega=1\) → exponencial; \(\omega\lt1\) → fallas iniciales; \(\omega\gt3{,}602\) → más probable desgaste que azar. Para despejar \(x\) de \(G(x)=p\): \(x=\beta\,(-\ln p)^{1/\omega}\).</p></div></div>
+
+      <div class="formula-item"><div class="nombre">Gumbel del mínimo \((\theta;\beta)\)<small>solo desgaste, seres vivientes</small></div><div>
+        <div class="expr">\( G(x)=e^{-e^{(x-\theta)/\beta}}\qquad Mo=\theta\qquad x_e=\theta+\beta\ln(\ln2)\qquad E=\theta-0{,}5772\,\beta\qquad V=\dfrac{\pi^2}{6}\beta^2 \)</div>
+        <p class="nota">Asimétrica a la izquierda: \(\bar x\lt Me\lt Mo\). Con dos datos (media y un porcentaje) se arma un sistema para hallar \(\theta\) y \(\beta\).</p></div></div>
+
+      <div class="formula-item"><div class="nombre">«Más de» vs. «exactamente»<small>para Bayes con vida</small></div><div>
+        <p class="nota">«Dura / funciona más de \(x\)» → se pondera con \(G(x)\) de cada origen. «Duró exactamente \(x\)» → se pondera con la densidad \(f(x)\) de cada origen. \(F\) es «falla antes de \(x\)»; \(G\) es «dura más».</p></div></div>
+    </div>
+
+    <div class="formula-grupo">
+      <h3>6 · Normal y log-normal</h3>
+
+      <div class="formula-item"><div class="nombre">Normal \(N(\mu,\sigma^2)\)<small>magnitudes que se miden</small></div><div>
+        <div class="expr">\( f(x)=\dfrac{1}{\sigma\sqrt{2\pi}}e^{-\frac12\left(\frac{x-\mu}{\sigma}\right)^2}\qquad E=\mu\qquad V=\sigma^2\qquad Mo=Me=\mu \)</div>
+        <p class="nota">Simétrica; \(\mu\pm\sigma\): 68,26 %; \(\mu\pm2\sigma\): 95,44 %; \(\mu\pm3\sigma\): 99,7 %. \(CV\le20\,\%\) (casi siempre \(\lt10\,\%\)): homogénea.</p></div></div>
+
+      <div class="formula-item"><div class="nombre">Estandarización y fractiles<small>\(Z\sim N(0,1)\)</small></div><div>
+        <div class="expr">\( Z=\dfrac{x-\mu}{\sigma}\qquad F(-z)=1-F(z)\qquad x=\mu+z\,\sigma \)</div>
+        <p class="nota">Probabilidad o % → \(x\) a \(z\) y área en la tabla. Valor de \(x\) → \(z\) del área y \(x=\mu+z\sigma\). Condicional → \(P(A\cap B)/P(B)\). La tabla da el área a la <em>izquierda</em> (fila: entero y 1.er decimal; columna: 2.º decimal).</p></div></div>
+
+      <div class="formula-item"><div class="nombre">Log-normal \((m;D)\)<small>sueldos, saldos; CV \(\gt60\,\%\)</small></div><div>
+        <div class="expr">\( f(x)=\dfrac{1}{x\,D\sqrt{2\pi}}e^{-\frac12\left(\frac{\ln x-m}{D}\right)^2}\qquad F(x)=\Phi\!\left(\dfrac{\ln x-m}{D}\right) \)</div>
+        <div class="expr">\( D^2=\ln\!\left[1+\left(\tfrac{\sigma}{\mu}\right)^2\right]\quad m=\ln\!\left[\dfrac{\mu}{\sqrt{1+(\sigma/\mu)^2}}\right]\quad x_e=e^{m}\quad Mo=e^{m-D^2}\quad \mu=e^{m+D^2/2} \)</div>
+        <p class="nota">\(m\) es la esperanza del <em>logaritmo</em> de la variable, no de la variable. Fractil: \(x=e^{\,m+z\,D}\). Varianza: \(\sigma^2=e^{2m+D^2}(e^{D^2}-1)\).</p></div></div>
+    </div>
+
+    <div class="formula-grupo">
+      <h3>7 · Proceso de Poisson</h3>
+
+      <div class="formula-item"><div class="nombre">Poisson<small>cuento acontecimientos en un tramo</small></div><div>
+        <div class="expr">\( m=\lambda\,t\qquad P(r)=\dfrac{e^{-m}m^r}{r!}\qquad F(r)=\sum_{x=0}^{r}P(x)\qquad E=V=m \)</div>
+        <p class="nota">\(\lambda\) y \(t\) en la <strong>misma unidad</strong> (por hora ↔ horas). «Más de 20» = \(\ge21\); en Poisson sí hay «menos uno»: \(G(r)=1-F(r-1)\).</p></div></div>
+
+      <div class="formula-item"><div class="nombre">Gamma \((\lambda;r)\)<small>continuo hasta el r-ésimo acontecimiento</small></div><div>
+        <div class="expr">\( f(x)=\dfrac{\lambda}{(r-1)!}(\lambda x)^{r-1}e^{-\lambda x}\quad x\ge0\qquad E=\dfrac{r}{\lambda}\qquad V=\dfrac{r}{\lambda^2}\qquad Mo=\dfrac{r-1}{\lambda}\ (r\ge1) \)</div>
+        <p class="nota">\(r=1\) → exponencial (caso particular del Gamma en Poisson y del Weibull en vida con \(\omega=1\)).</p></div></div>
+
+      <div class="formula-item"><div class="nombre">Relación de Molina<small>Gamma con \(r\) entero ↔ Poisson</small></div><div>
+        <div class="expr">\( F_\gamma(x/r;\lambda)=G_{po}(r\,/\,m=\lambda x)\qquad G_\gamma(x/r;\lambda)=F_{po}(r-1\,/\,m=\lambda x) \)</div>
+        <p class="nota">«El \(r\)-ésimo aparece antes de \(x\)» ⇔ «en \((0,x)\) hay al menos \(r\)». Con \(r\) no entero: Wilson–Hilferty, \(F_\gamma\approx\Phi\{3\sqrt r[(\lambda x/r)^{1/3}+1/(9r)-1]\}\).</p></div></div>
+    </div>
   </section>
 
   <!-- ===================================================================== -->
@@ -439,6 +510,29 @@ table.frases td:first-child{font-family:var(--display); font-weight:600}
       <li><b>Verosimilitud → Bayes.</b> Cada origen tiene una probabilidad de lo observado calculada con un modelo (binomial, hipergeométrico…), y después aplicás Bayes con esas verosimilitudes. <em>(Dos cajas sin identificar.)</em></li>
       <li><b>Diseño ("¿cuántas pruebas?").</b> Se plantea la probabilidad en función de \(n\) y se despeja: \(1-q^n\ge\text{objetivo}\).</li>
     </ul>
+    <h3>Paso 4 · Si la variable es continua (tiempos, longitudes, pesos…)</h3>
+    <p>Cuando lo que se mide no se cuenta de a uno, mirá <b>qué situación describe el enunciado</b>:</p>
+    <div class="scroll-x"><table class="frases">
+      <tr><th>Si el enunciado habla de…</th><th>Modelo</th><th>Tema</th></tr>
+      <tr><td>Te dan \(f(x)\) o \(F(x)\) (o una constante a hallar), «densidad», «función de distribución»</td><td>Continua genérica: integrales</td><td><a href="#t4">4</a></td></tr>
+      <tr><td>Duración hasta una falla que ocurre <b>al azar</b>; te dan la vida media o la tasa de falla</td><td>Exponencial</td><td><a href="#t5">5</a></td></tr>
+      <tr><td>Vida útil o resistencia de un elemento de fabricación; te dan \(\beta\) y \(\omega\)</td><td>Weibull</td><td><a href="#t5">5</a></td></tr>
+      <tr><td>Vida de seres vivientes, el desgaste como única causa; te dan \(\theta\) y \(\beta\) (o media y un porcentaje)</td><td>Gumbel del mínimo</td><td><a href="#t5">5</a></td></tr>
+      <tr><td>Una magnitud que se mide (peso, altura, consumo), «distribuida normalmente»</td><td>Normal</td><td><a href="#t6">6</a></td></tr>
+      <tr><td>Sueldos, saldos de cuentas, ingresos: muy asimétricos, \(CV\gt60\,\%\)</td><td>Log-normal</td><td><a href="#t6">6</a></td></tr>
+      <tr><td>Acontecimientos «al azar» en un continuo (llamadas, fallas, pedidos): cuántos hay en un tramo</td><td>Poisson</td><td><a href="#t7">7</a></td></tr>
+      <tr><td>Lo mismo, pero preguntan <b>cuánto continuo</b> pasa hasta el \(r\)-ésimo (con \(r=1\): exponencial)</td><td>Gamma</td><td><a href="#t7">7</a></td></tr>
+    </table></div>
+    <div class="cuando"><b>Frases gatillo</b>
+      <ul>
+        <li>«La longitud entre fallas consecutivas del cable…» → <b>Exponencial</b> (o Gamma si pide hasta la <em>segunda</em> falla).</li>
+        <li>«La vida útil de las baterías sigue una Weibull con \(\beta=60\) y \(\omega=3\)» → <b>Weibull</b>.</li>
+        <li>«El consumo mensual se distribuye normalmente con media… y desvío…» → <b>Normal</b>: estandarizo.</li>
+        <li>«Los saldos tienen media 120 y desvío 85» → <b>Log-normal</b> (CV mayor al 60 %).</li>
+        <li>«Recibe en promedio 600 llamadas por hora… ¿cuál es la probabilidad en un minuto?» → <b>Poisson</b> (\(m=\lambda t\) con unidades coherentes).</li>
+        <li>«Llegan 7 pedidos al día… ¿cuánto pasa hasta los próximos 10?» → <b>Gamma</b> con Molina.</li>
+      </ul>
+    </div>
   </section>
 
   <!-- ===================================================================== -->
@@ -832,6 +926,448 @@ table.frases td:first-child{font-family:var(--display); font-weight:600}
     </div>
   </section>
 
+  <!-- ===================================================================== -->
+  <section class="clase" id="t4" data-busca="variables aleatorias continuas funcion de densidad de probabilidad area integral acumulada F G mediana moda esperanza varianza constante dominio clase 10">
+    <p class="eyebrow">Tema 4 · Clase 10</p>
+    <h2>Variables aleatorias continuas</h2>
+    <p class="objetivo">Una variable es <b>continua</b> cuando puede tomar cualquier valor de un intervalo (tiempos, longitudes, pesos). Acá la probabilidad ya no se suma: es un <b>área bajo una curva</b>. La clase 10 arranca repasando las discretas (Bernoulli, binomial, Pascal, hipergeométrico e hiperPascal, que están en el <a href="#t3b">tema 3</a>) y después pasa a las continuas.</p>
+
+    <h3>Discretas vs. continuas</h3>
+    <ul class="conceptos">
+      <li>Si el rango de la variable es un conjunto finito o infinito <b>numerable</b> (0, 1, 2…) → <b>discreta</b>. Se describe con \(p(x)=P(X=x)\).</li>
+      <li>Si el rango es un conjunto infinito <b>no numerable</b> (todos los valores de un intervalo) → <b>continua</b>. Se describe con una <b>función de densidad</b> \(f(x)\).</li>
+      <li>En los dos casos hay que fijar el <b>dominio</b> de la variable: \(\text{mín}\le X\le\text{máx}\).</li>
+      <li>La función de probabilidad se puede asignar de forma <b>arbitraria o subjetiva</b> (un supuesto que después la estadística ratifica o rectifica) o con una <b>ecuación matemática</b> (un modelo de comportamiento, como los de los temas 5 a 7).</li>
+    </ul>
+
+    <h3>Función de densidad de probabilidad</h3>
+    <p>Para que \(f(x)\) sea una densidad válida tiene que cumplir tres condiciones:</p>
+    <ol class="conceptos">
+      <li>\(f(x)\ge0\) para todo \(x\).</li>
+      <li>\(\displaystyle\int_{-\infty}^{\infty}f(x)\,dx=1\): el área total bajo la curva vale 1.</li>
+      <li>\(\displaystyle P(a\lt X\lt b)=\int_a^b f(x)\,dx\): la probabilidad de un intervalo es el área que hay sobre él.</li>
+    </ol>
+    <div class="cuando"><b>Dos diferencias clave con las discretas</b>
+      <p>1) \(f(x)\) <em>no</em> es una probabilidad (puede ser mayor que 1): lo que vale es el área. 2) La probabilidad de un valor exacto es cero, \(P(X=a)=0\), así que los extremos no importan: \(P(X\lt a)=P(X\le a)\). Por eso en las continuas <b>no existe el «menos uno»</b> de las discretas: «menos de 5» y «5 o menos» dan lo mismo.</p></div>
+
+    <h3>Funciones acumuladas F y G</h3>
+    <div class="expr">\( F(x)=P(X\le x)=\int_{-\infty}^{x}f(t)\,dt\qquad G(x)=P(X\ge x)=1-F(x)\qquad P(a\lt X\lt b)=F(b)-F(a) \)</div>
+    <p>\(F\) es el área a la izquierda de \(x\) (acumulada izquierda) y \(G\) el área a la derecha (acumulada derecha). Si conocés \(F\), la densidad sale derivando: \(f(x)=F'(x)\).</p>
+
+    <h3>Medidas de posición y de variabilidad</h3>
+    <div class="scroll-x"><table class="frases">
+      <tr><th>Medida</th><th>Cómo se calcula</th></tr>
+      <tr><td>Moda</td><td>El valor donde \(f(x)\) es máxima: \(Mo=x_0=\text{argmáx}\,f(x)\)</td></tr>
+      <tr><td>Mediana</td><td>El valor que deja 0,5 de área a cada lado: \(F(x_e)=G(x_e)=0{,}5\)</td></tr>
+      <tr><td>Esperanza</td><td>\(\displaystyle E(X)=\mu=\int_{-\infty}^{\infty}x\,f(x)\,dx\)</td></tr>
+      <tr><td>Varianza</td><td>\(\displaystyle V(X)=\sigma^2=\left[\int_{-\infty}^{\infty}x^2f(x)\,dx\right]-\mu^2\)</td></tr>
+      <tr><td>Desvío</td><td>\(\sigma=\sqrt{\sigma^2}\)</td></tr>
+    </table></div>
+    <p>Es la misma lógica que en las discretas (\(E(X)=\sum x\,p(x)\)), cambiando la suma por la integral. Se integra solamente donde la densidad está definida (en funciones por tramos, tramo por tramo).</p>
+
+    <div class="ejemplo"><p class="titulo">Ejemplo resuelto · constante, acumulada y condicional</p>
+      <div class="consigna"><b>Consigna</b>Una variable aleatoria tiene función de densidad \(f(x)=a\,x^2+0{,}5\) para \(0\le x\le1\). Calcular: a) la constante \(a\); b) la función de distribución \(F(x)\); c) la probabilidad de que un valor de \(x\) elegido al azar sea menor que 0,5; d) si se sabe que un valor elegido al azar fue mayor que 0,5, la probabilidad de que sea mayor que 0,75.</div>
+      <ol>
+        <li><p><span class="paso-titulo">a) Constante.</span> No se iguala \(f\) a 1: se iguala el <b>área total</b> a 1 (condición 2 de la densidad), integrando en el dominio:</p>
+          <div class="expr">\( \int_0^1\left(a\,x^2+0{,}5\right)dx=\dfrac{a}{3}+0{,}5=1\ \Rightarrow\ a=\mathbf{1{,}5} \)</div></li>
+        <li><p><span class="paso-titulo">b) Función de distribución.</span> Se integra la densidad desde el principio del dominio hasta \(x\) (con otra variable adentro, \(t\), para no mezclarla con el límite):</p>
+          <div class="expr">\( F(x)=\int_0^x\left(1{,}5\,t^2+0{,}5\right)dt=\dfrac{x^3}{2}+\dfrac{x}{2}\qquad 0\le x\le1 \)</div>
+          <p class="porque">Chequeo: \(F(0)=0\) y \(F(1)=\tfrac12+\tfrac12=1\). Una acumulada siempre arranca en 0 y termina en 1.</p></li>
+        <li><p><span class="paso-titulo">c) \(P(X\lt0{,}5)\).</span> Es directamente \(F(0{,}5)\):</p>
+          <div class="expr">\( F(0{,}5)=\dfrac{0{,}5^3}{2}+\dfrac{0{,}5}{2}=0{,}0625+0{,}25=\mathbf{0{,}3125} \)</div></li>
+        <li><p><span class="paso-titulo">d) Condicional.</span> «Si se sabe que fue mayor que 0,5» reduce el espacio muestral a esa zona: se divide el área de \(X\gt0{,}75\) por el área de \(X\gt0{,}5\):</p>
+          <div class="expr">\( P(X\gt0{,}75\mid X\gt0{,}5)=\dfrac{G(0{,}75)}{G(0{,}5)}=\dfrac{1-0{,}5859}{1-0{,}3125}=\dfrac{0{,}4141}{0{,}6875}=\mathbf{0{,}6023} \)</div></li>
+        </ol>
+    </div>
+
+    <div class="ejemplo"><p class="titulo">Ejemplo resuelto · densidad por tramos y luego una binomial</p>
+      <div class="consigna"><b>Consigna</b>Una variable aleatoria tiene densidad \(f(x)=1{,}2\,x\) para \(0\le x\le1\) y \(f(x)=3m-m\,x\) para \(1\le x\le3\). Calcular: a) la constante \(m\); b) la media y la varianza; c) \(P(X\lt2{,}5\mid X\gt2)\); d) si se eligen 15 valores al azar, la probabilidad de que 4 o más sean mayores que 2.</div>
+      <ol>
+        <li><p><span class="paso-titulo">a) Constante.</span> El área total es la suma de las áreas de los dos tramos:</p>
+          <div class="expr">\( \int_0^1 1{,}2\,x\,dx+\int_1^3(3m-m\,x)\,dx=0{,}6+2m=1\ \Rightarrow\ m=\mathbf{0{,}2} \)</div>
+          <p class="porque">Ahora el segundo tramo queda \(f(x)=0{,}6-0{,}2\,x\).</p></li>
+        <li><p><span class="paso-titulo">b) Media y varianza.</span> Se integra \(x\,f(x)\) y \(x^2f(x)\) tramo por tramo:</p>
+          <div class="expr">\( E(X)=\int_0^1 1{,}2\,x^2dx+\int_1^3 x\,(0{,}6-0{,}2x)\,dx=0{,}4+0{,}6667=\mathbf{1{,}0667}\ \left(=\tfrac{16}{15}\right) \)</div>
+          <div class="expr">\( E(X^2)=\int_0^1 1{,}2\,x^3dx+\int_1^3 x^2(0{,}6-0{,}2x)\,dx=0{,}3+1{,}2=1{,}5 \)</div>
+          <div class="expr">\( V(X)=E(X^2)-\mu^2=1{,}5-1{,}0667^2=\mathbf{0{,}3622}\ \left(=\tfrac{163}{450}\right) \)</div></li>
+        <li><p><span class="paso-titulo">c) Condicional.</span> Las dos áreas están en el segundo tramo:</p>
+          <div class="expr">\( P(2\lt X\lt2{,}5)=\int_2^{2{,}5}(0{,}6-0{,}2x)\,dx=0{,}075\qquad P(X\gt2)=\int_2^3(0{,}6-0{,}2x)\,dx=0{,}1 \)</div>
+          <div class="expr">\( P(X\lt2{,}5\mid X\gt2)=\dfrac{0{,}075}{0{,}1}=\mathbf{0{,}75} \)</div></li>
+        <li><p><span class="paso-titulo">d) Del área a una binomial.</span> Cada valor elegido es «mayor que 2» con probabilidad \(p=0{,}1\) (el área del paso anterior), independientemente de los demás. Ese \(p\) pasa a ser el parámetro de una binomial con \(n=15\):</p>
+          <div class="expr">\( Y\sim B(15;\,0{,}1)\qquad P(Y\ge4)=G_b(4/15;\,0{,}1)=\mathbf{0{,}0556} \)</div>
+          <p class="porque">Es el mismo patrón «dos pasos» del tema 3: primero se calcula una probabilidad (acá, con una integral) y después se la usa como \(p\) de la binomial.</p></li>
+      </ol>
+    </div>
+
+    <div class="ejemplo"><p class="titulo">Ejemplo resuelto · partir de la función de distribución</p>
+      <div class="consigna"><b>Consigna</b>La proporción diaria de unidades defectuosas de una fábrica es una variable aleatoria con función de distribución \(F(x)=1-(1-x)^{20}\), con dominio \(0\le x\le1\). Hallar: a) la función de densidad; b) la media; c) la mediana.</div>
+      <ol>
+        <li><p><span class="paso-titulo">a) Densidad.</span> Se deriva la acumulada:</p>
+          <div class="expr">\( f(x)=F'(x)=\mathbf{20\,(1-x)^{19}} \)</div></li>
+        <li><p><span class="paso-titulo">b) Media.</span> \(E(X)=\int_0^1 x\cdot20(1-x)^{19}dx\). Con el cambio \(u=1-x\) queda una integral de potencias:</p>
+          <div class="expr">\( E(X)=20\int_0^1(1-u)\,u^{19}du=20\left(\dfrac{1}{20}-\dfrac{1}{21}\right)=\dfrac{1}{21}=\mathbf{0{,}0476} \)</div></li>
+        <li><p><span class="paso-titulo">c) Mediana.</span> Es el \(x_e\) donde \(F(x_e)=0{,}5\):</p>
+          <div class="expr">\( 1-(1-x_e)^{20}=0{,}5\ \Rightarrow\ (1-x_e)^{20}=0{,}5\ \Rightarrow\ x_e=1-0{,}5^{1/20}=\mathbf{0{,}0341} \)</div>
+          <p class="porque">La mediana (0,0341) queda por debajo de la media (0,0476): la curva está muy cargada a la izquierda y con una cola larga a la derecha.</p></li>
+      </ol>
+    </div>
+
+    <div class="errores"><p><b>Errores típicos</b></p>
+      <ul>
+        <li>Igualar \(f(x)=1\) para hallar una constante: lo que tiene que valer 1 es la <b>integral</b> (el área total).</li>
+        <li>Pasar el «menos uno» de las discretas a las continuas: acá \(P(X\lt k)=P(X\le k)\).</li>
+        <li>Confundir \(f\) con \(F\): la probabilidad de un intervalo se calcula con áreas (\(F(b)-F(a)\)), no evaluando \(f\).</li>
+        <li>En funciones por tramos, integrar un tramo sobre un intervalo que le corresponde a otro.</li>
+        <li>En la condicional, olvidarse de dividir por el área de la condición.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <section class="clase" id="t5" data-busca="fenomenos de vida duracion hasta la falla fiabilidad confiabilidad curva de la banera mttf mtbf exponencial weibull gumbel del minimo tasa de falla clase 11">
+    <p class="eyebrow">Tema 5 · Clase 11</p>
+    <h2>Fenómenos de vida: exponencial, Weibull y Gumbel del mínimo</h2>
+    <p class="objetivo">Los <b>fenómenos de vida</b> estudian la variable \(X\)= <b>duración hasta la falla</b> de un elemento. De ahí salen la <b>fiabilidad</b> (o confiabilidad: la probabilidad de que dure más que un valor, o sea \(G(x)\)) y tres modelos continuos que se eligen según <em>por qué</em> falla el elemento.</p>
+
+    <h3>Curva de la bañera y medidas de vida</h3>
+    <ul class="conceptos">
+      <li>La <b>curva de la bañera</b> grafica la tasa de fallas \(\lambda\) a lo largo del tiempo en tres etapas: <b>fallas iniciales</b> (la tasa baja), <b>fallas normales</b> (tasa constante: es la <b>vida útil</b>) y <b>fallas de desgaste</b> (la tasa sube).</li>
+      <li><b>MTTF</b>: tiempo medio hasta la falla, es la esperanza \(E(X)\) de la duración.</li>
+      <li><b>MTBF</b>: tiempo medio entre fallas. En el modelo exponencial los dos valen \(1/\lambda\).</li>
+    </ul>
+
+    <h3>Qué modelo uso</h3>
+    <div class="scroll-x"><table class="frases">
+      <tr><th>Modelo</th><th>Cuándo</th><th>Parámetros</th></tr>
+      <tr><td><b>Exponencial</b></td><td>El elemento falla <b>al azar</b> (a la Poisson), con tasa de falla constante. Tiempo de espera o entre fallas.</td><td>\(\lambda\): tasa de falla (o \(\mu=1/\lambda\): duración media)</td></tr>
+      <tr><td><b>Weibull</b></td><td>Expectativa de vida de cualquier elemento de fabricación, duración o resistencia a la rotura. Permite fallas por azar o por desgaste según la forma.</td><td>\(\beta\): escala · \(\omega\): forma</td></tr>
+      <tr><td><b>Gumbel del mínimo</b></td><td>La <b>única causa de falla es el desgaste</b> (seres vivientes). Distribución asimétrica a la izquierda.</td><td>\(\theta\): moda · \(\beta\): escala</td></tr>
+    </table></div>
+
+    <h3>Modelo exponencial</h3>
+    <div class="cuando"><b>Cuándo</b>
+      <p>Modela el lapso entre dos eventos consecutivos de un proceso de Poisson, es decir la duración de elementos que fallan <em>al azar</em>. Ejemplos: cuánto tarda en fallar un componente electrónico, el tiempo entre llegadas de clientes, el tiempo que esperan en una fila, el tiempo hasta el incumplimiento de un pago, la longitud de cable entre dos fallas de aislación. La variable es la <b>extensión del continuo entre fallas consecutivas</b>.</p></div>
+    <div class="expr">\( X\sim\text{Exp}(\lambda)\qquad x\ge0\qquad f(x)=\lambda\,e^{-\lambda x}\qquad G(x)=P(X\ge x)=e^{-\lambda x}\qquad F(x)=1-e^{-\lambda x} \)</div>
+    <div class="scroll-x"><table class="frases">
+      <tr><th>Medida</th><th>Valor</th></tr>
+      <tr><td>Moda</td><td>\(M_0=0\)</td></tr>
+      <tr><td>Mediana</td><td>\(e^{-\lambda x_e}=0{,}5\ \Rightarrow\ x_e=\dfrac{\ln2}{\lambda}\)</td></tr>
+      <tr><td>Esperanza</td><td>\(E(X)=\mu=\dfrac{1}{\lambda}\)</td></tr>
+      <tr><td>Varianza y desvío</td><td>\(V(X)=\dfrac{1}{\lambda^2}\qquad\sigma=\dfrac{1}{\lambda}\)</td></tr>
+    </table></div>
+    <p>\(\lambda\) es la tasa de falla: número medio de fallas <b>por unidad de continuo</b> (por metro, por hora…). Si el enunciado da la duración o longitud <em>media</em> \(\mu\), usá \(\lambda=1/\mu\). Con \(\lambda=0{,}01\) fallas/m la longitud media entre fallas es \(1/0{,}01=100\) m.</p>
+
+    <div class="ejemplo"><p class="titulo">Ejemplo resuelto · dos proveedores de cable (exponencial + Bayes)</p>
+      <div class="consigna"><b>Consigna</b>Un cable plástico lo entregan dos proveedores. El proveedor A entrega el 70 % y la longitud media entre fallas es de 170 m; el B entrega el resto y su longitud media entre fallas es de 200 m. La longitud entre fallas es exponencial. Se eligió un rollo al azar de 250 m y no se encontraron fallas. ¿Cuál es la probabilidad de que pertenezca al proveedor A?</div>
+      <ol>
+        <li><p><span class="paso-titulo">«Sin fallas en 250 m» es una acumulada derecha.</span> Que el rollo no tenga fallas significa que la longitud hasta la primera falla supera los 250 m: \(G(250)=e^{-250/\mu}\). Con cada proveedor:</p>
+          <div class="expr">\( P(\text{sin fallas}\mid A)=e^{-250/170}=0{,}2298\qquad P(\text{sin fallas}\mid B)=e^{-250/200}=0{,}2865 \)</div></li>
+        <li><p><span class="paso-titulo">Bayes.</span> Esas dos verosimilitudes se combinan con la proporción de cada proveedor (0,7 y 0,3):</p>
+          <div class="expr">\( P(A\mid\text{sin fallas})=\dfrac{0{,}7\cdot0{,}2298}{0{,}7\cdot0{,}2298+0{,}3\cdot0{,}2865}=\dfrac{0{,}1609}{0{,}2468}=\mathbf{0{,}6517} \)</div>
+          <p class="porque">Es más probable que venga de A: sus rollos fallan más seguido (170 m contra 200 m), pero como A entrega muchos más rollos, el hecho de no haber encontrado fallas no alcanza para descartarlo.</p></li>
+      </ol>
+    </div>
+
+    <h3>Modelo Weibull</h3>
+    <div class="cuando"><b>Cuándo</b>
+      <p>Expectativa de vida de cualquier elemento de fabricación: la variable es la duración hasta la falla (o la resistencia a la rotura). Tiene dos parámetros: \(\beta\) de <b>escala</b> (afecta la dispersión) y \(\omega\) de <b>forma</b> (la inclinación de la curva).</p></div>
+    <div class="expr">\( X\sim\text{Weibull}(\beta;\omega)\qquad x\ge0\qquad f(x)=\omega\left(\dfrac{1}{\beta}\right)^{\omega}x^{\omega-1}e^{-\left(\frac{x}{\beta}\right)^{\omega}} \)</div>
+    <div class="expr">\( G(x)=P(X\ge x)=e^{-\left(\frac{x}{\beta}\right)^{\omega}}\qquad F(x)=1-e^{-\left(\frac{x}{\beta}\right)^{\omega}} \)</div>
+    <div class="cuando"><b>Qué dice la forma \(\omega\)</b>
+      <ul>
+        <li>\(\omega=1\) → se obtiene el modelo <b>exponencial</b> (con \(\lambda=1/\beta\)): fallas al azar.</li>
+        <li>\(0\lt\omega\lt1\) → se analiza la <b>etapa del nacimiento</b> (fallas iniciales: la tasa de falla baja con el tiempo).</li>
+        <li>\(\omega\gt3{,}602\) → es más probable que falle por <b>desgaste</b> que por azar; \(\omega\lt3{,}602\) → es más probable que falle por <b>azar</b> que por desgaste; \(\omega=3{,}602\) → igual de probable. Con ese valor la curva es casi simétrica, en forma de campana.</li>
+      </ul></div>
+    <div class="scroll-x"><table class="frases">
+      <tr><th>Medida</th><th>Valor</th></tr>
+      <tr><td>Moda</td><td>\(M_0=0\) si \(\omega\le1\); \(M_0=\beta\left(1-\dfrac{1}{\omega}\right)^{1/\omega}\) si \(\omega\gt1\)</td></tr>
+      <tr><td>Mediana</td><td>\(x_e=\beta\,(\ln2)^{1/\omega}\)</td></tr>
+      <tr><td>Esperanza</td><td>\(E(X)=\beta\,\Gamma\!\left(1+\dfrac{1}{\omega}\right)\)</td></tr>
+      <tr><td>Varianza y desvío</td><td>\(V(X)=\beta^2\left[\Gamma\!\left(1+\dfrac{2}{\omega}\right)-\Gamma^2\!\left(1+\dfrac{1}{\omega}\right)\right]\qquad\sigma=\sqrt{\sigma^2}\)</td></tr>
+    </table></div>
+
+    <div class="ejemplo"><p class="titulo">Ejemplo resuelto · baterías con vida Weibull</p>
+      <div class="consigna"><b>Consigna</b>La vida útil de unas baterías es aleatoria con distribución Weibull de \(\beta=60\) horas y \(\omega=3\). a) ¿Qué duración debe especificarse para tener la seguridad de que será superada por el 95 % de las baterías? b) De las que duran más de 50 horas, ¿qué porcentaje dura menos de 60 horas?</div>
+      <ol>
+        <li><p><span class="paso-titulo">a) Un valor de \(x\), no una probabilidad.</span> «Superada por el 95 %» es una acumulada derecha: se busca el \(x\) tal que \(G(x)=0{,}95\) y se despeja:</p>
+          <div class="expr">\( e^{-(x/60)^3}=0{,}95\ \Rightarrow\ \left(\dfrac{x}{60}\right)^3=-\ln0{,}95=0{,}0513\ \Rightarrow\ x=60\cdot0{,}0513^{1/3}=\mathbf{22{,}29\ h} \)</div></li>
+        <li><p><span class="paso-titulo">b) Condicional.</span> «De las que duran más de 50» es la condición; el evento es «menos de 60». En términos de \(G\), \(P(50\lt X\lt60)=G(50)-G(60)\):</p>
+          <div class="expr">\( G(50)=e^{-(50/60)^3}=0{,}5606\qquad G(60)=e^{-1}=0{,}3679 \)</div>
+          <div class="expr">\( P(X\lt60\mid X\gt50)=\dfrac{G(50)-G(60)}{G(50)}=\dfrac{0{,}5606-0{,}3679}{0{,}5606}=\mathbf{34{,}38\,\%} \)</div></li>
+        </ol>
+    </div>
+
+    <div class="ejemplo"><p class="titulo">Ejemplo resuelto · lámparas de dos proveedores (Weibull + Bayes)</p>
+      <div class="consigna"><b>Consigna</b>Dos proveedores, A y B, suministran lámparas con duración Weibull de \(\omega=3\), con \(\beta=80\) h para A y \(\beta=95\) h para B. A suministra el 70 % y B el resto, mezcladas en el depósito. a) Si se elige una al azar, ¿qué probabilidad hay de que dure más de 90 horas? b) Se eligió una al azar y hace 88 horas que funciona: ¿probabilidad de que sea de A? c) La lámpara elegida duró <em>exactamente</em> 89,4 horas: ¿probabilidad de que sea de A?</div>
+      <ol>
+        <li><p><span class="paso-titulo">a) Probabilidad total.</span> Se pondera la acumulada derecha de cada proveedor:</p>
+          <div class="expr">\( P(X\gt90)=0{,}7\,e^{-(90/80)^3}+0{,}3\,e^{-(90/95)^3}=0{,}7\cdot0{,}2408+0{,}3\cdot0{,}4273=\mathbf{0{,}2967} \)</div></li>
+        <li><p><span class="paso-titulo">b) Bayes con \(G\).</span> «Hace 88 horas que funciona» significa que la duración es <b>mayor que 88</b>: la verosimilitud de cada proveedor es su \(G(88)\):</p>
+          <div class="expr">\( P(A\mid X\gt88)=\dfrac{0{,}7\cdot0{,}2642}{0{,}7\cdot0{,}2642+0{,}3\cdot0{,}4517}=\dfrac{0{,}1849}{0{,}3204}=\mathbf{0{,}5772} \)</div></li>
+        <li><p><span class="paso-titulo">c) Bayes con \(f\) (la parte difícil).</span> «Duró exactamente 89,4 h» es un valor puntual: ya no se usa \(G\) sino la <b>densidad</b> de cada proveedor evaluada en 89,4:</p>
+          <div class="expr">\( f_A(89{,}4)=0{,}01160\qquad f_B(89{,}4)=0{,}01215 \)</div>
+          <div class="expr">\( P(A\mid x=89{,}4)=\dfrac{0{,}7\cdot0{,}01160}{0{,}7\cdot0{,}01160+0{,}3\cdot0{,}01215}=\mathbf{0{,}6901} \)</div>
+          <p class="porque">Regla: <b>«duró más de…»</b> → se pondera con \(G\). <b>«Duró exactamente…»</b> → se pondera con \(f\). Con el mismo dato (88 h y 89,4 h) las respuestas cambian porque la información es distinta.</p></li>
+      </ol>
+    </div>
+
+    <h3>Modelo Gumbel del mínimo</h3>
+    <div class="cuando"><b>Cuándo</b>
+      <p>Expectativa de vida cuando <b>la única causa de la falla es el desgaste</b>, o sea los seres vivientes. Es una distribución asimétrica a la izquierda: la mayoría muere cerca del valor más probable y hay una cola de muertes tempranas. Parámetros: \(\theta\) = <b>moda</b> y \(\beta\) = parámetro de escala (en las unidades de la variable).</p></div>
+    <div class="expr">\( X\sim\text{Gumbel}(\theta;\beta)\qquad -\infty\le x\le\infty\qquad f(x)=\dfrac{1}{\beta}\,e^{\frac{x-\theta}{\beta}}\,e^{-e^{\frac{x-\theta}{\beta}}}\qquad G(x)=e^{-e^{\frac{x-\theta}{\beta}}} \)</div>
+    <div class="scroll-x"><table class="frases">
+      <tr><th>Medida</th><th>Valor</th></tr>
+      <tr><td>Moda</td><td>\(M_0=\theta\)</td></tr>
+      <tr><td>Mediana</td><td>\(x_e=\theta+\beta\,\ln(\ln2)\)</td></tr>
+      <tr><td>Esperanza</td><td>\(E(X)=\mu=\theta-\beta\,C\qquad C=0{,}5772\)</td></tr>
+      <tr><td>Varianza y desvío</td><td>\(V(X)=\dfrac{\pi^2}{6}\,\beta^2\qquad\sigma=\sqrt{\sigma^2}\)</td></tr>
+    </table></div>
+    <p class="porque">Se nota la asimetría negativa: \(\ln(\ln2)\) es negativo y \(-\beta C\) también, así que la mediana y la media quedan por <em>debajo</em> de la moda (\(\bar x\lt Me\lt Mo\)).</p>
+
+    <div class="ejemplo"><p class="titulo">Ejemplo resuelto · vida de los varones (Gumbel del mínimo)</p>
+      <div class="consigna"><b>Consigna</b>La vida de los varones de un país sigue una distribución Gumbel del mínimo. Se sabe que la media es de 70,1 años y que el 8 % supera los 80 años. ¿Qué porcentaje de los varones supera los 65 años?</div>
+      <ol>
+        <li><p><span class="paso-titulo">Hay que hallar \(\theta\) y \(\beta\) primero.</span> Se tienen dos datos, o sea dos ecuaciones. La media: \(\mu=\theta-0{,}5772\,\beta=70{,}1\). Y «el 8 % supera los 80» es \(G(80)=0{,}08\):</p>
+          <div class="expr">\( e^{-e^{(80-\theta)/\beta}}=0{,}08\ \Rightarrow\ e^{(80-\theta)/\beta}=-\ln0{,}08=2{,}5257\ \Rightarrow\ \dfrac{80-\theta}{\beta}=\ln2{,}5257=0{,}9265 \)</div></li>
+        <li><p><span class="paso-titulo">Resolver el sistema.</span> De la primera, \(\theta=70{,}1+0{,}5772\,\beta\). Se reemplaza en la segunda: \(80-70{,}1-0{,}5772\,\beta=0{,}9265\,\beta\):</p>
+          <div class="expr">\( \beta=\dfrac{9{,}9}{0{,}9265+0{,}5772}=6{,}5836\qquad\theta=70{,}1+0{,}5772\cdot6{,}5836=73{,}90 \)</div></li>
+        <li><p><span class="paso-titulo">Pedir lo que falta.</span> «Supera los 65» es una acumulada derecha:</p>
+          <div class="expr">\( G(65)=e^{-e^{(65-73{,}90)/6{,}5836}}=e^{-e^{-1{,}3518}}=e^{-0{,}2588}=\mathbf{0{,}772} \)</div>
+          <p class="porque">El 77,2 % de los varones supera los 65 años. Fijate que la moda (73,9) es mayor que la media (70,1): coherente con la cola larga hacia la izquierda.</p></li>
+      </ol>
+    </div>
+
+    <div class="errores"><p><b>Errores típicos</b></p>
+      <ul>
+        <li>Confundir \(F\) (falla <em>antes</em> de \(x\)) con \(G\) (<em>dura más</em> que \(x\)). «Supera», «dura más de», «sobrevive» → \(G\).</li>
+        <li>Usar \(\lambda\) cuando el enunciado da la media \(\mu\) (o al revés): \(\lambda=1/\mu\).</li>
+        <li>En Weibull, intercambiar los parámetros: \(\beta\) es la <b>escala</b> y \(\omega\) la <b>forma</b>.</li>
+        <li>Pesar con \(G\) en lugar de \(f\) cuando el enunciado dice «<em>exactamente</em> tal duración» (y viceversa).</li>
+        <li>Olvidar que en una condicional con \(G\) el denominador es la \(G\) de la condición.</li>
+        <li>Elegir Gumbel del mínimo o Weibull por «costumbre»: la señal es la causa de falla (azar → exponencial, mixta → Weibull, solo desgaste en seres vivos → Gumbel).</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <section class="clase" id="t6" data-busca="distribucion normal campana de gauss estandar z tabla fractil estandarizacion log normal lognormal sueldos saldos coeficiente de variacion clase 12">
+    <p class="eyebrow">Tema 6 · Clase 12</p>
+    <h2>Distribución normal y log-normal</h2>
+    <p class="objetivo">La normal es el modelo continuo más importante de la estadística: describe <b>magnitudes que se miden</b> (pesos, alturas, longitudes, consumos). Su integral no se resuelve con métodos comunes, y por eso se <b>estandariza</b> (variable \(Z\)) y se busca el área en una tabla. La log-normal es su prima para variables <b>muy asimétricas</b>, como sueldos o saldos.</p>
+
+    <h3>Modelo normal</h3>
+    <div class="cuando"><b>Cuándo</b>
+      <p>Son mediciones que vienen de un mismo proceso (la misma máquina, la misma población), donde nada sale exactamente igual y hay que decidir con esa variación: el peso de una bolsa de azúcar, la altura de las personas, el largo de un tornillo, el consumo mensual de combustible o de electricidad.</p></div>
+    <div class="expr">\( X\sim N(\mu,\sigma^2)\qquad -\infty\le x\le\infty\qquad f(x)=\dfrac{1}{\sigma\sqrt{2\pi}}\,e^{-\frac12\left(\frac{x-\mu}{\sigma}\right)^2} \)</div>
+    <ul class="conceptos">
+      <li>Los dos parámetros son de escala y son directamente la <b>esperanza</b> \(\mu\) y la <b>varianza</b> \(\sigma^2\): no hay nada que calcular.</li>
+      <li>La curva es <b>simétrica</b>, con <b>media = moda = mediana = \(\mu\)</b>, y el área total vale 1.</li>
+      <li>\(\mu\) mueve la campana a izquierda o derecha; \(\sigma\) controla el ancho (más \(\sigma\), más aplanada). \(\sigma\) es la distancia del centro a los <b>puntos de inflexión</b>, \(\mu-\sigma\) y \(\mu+\sigma\).</li>
+      <li><b>Coeficiente de variación</b>: \(CV=\dfrac{\sigma}{\mu}\cdot100\). En una normal no supera el 20 % (casi siempre queda debajo del 10 %): son variables <b>homogéneas</b>.</li>
+      <li><b>Fractiles</b>: \(x=\mu+z\cdot\sigma\) es la fórmula para despejar un valor de \(x\) cuando te dan un porcentaje.</li>
+    </ul>
+    <div class="scroll-x"><table class="frases">
+      <tr><th>Intervalo</th><th>Área (probabilidad)</th></tr>
+      <tr><td>\(\mu\pm1\sigma\)</td><td>68,26 %</td></tr>
+      <tr><td>\(\mu\pm2\sigma\)</td><td>95,44 %</td></tr>
+      <tr><td>\(\mu\pm3\sigma\)</td><td>99,7 %</td></tr>
+    </table></div>
+    <p class="porque">De acá sale «Seis Sigma», el método de calidad de empresas como Toyota o Motorola: si la tolerancia de una pieza queda a 6 desvíos de la media, casi ninguna pieza sale mal. Y sale también por qué centrar una máquina justo en el valor del envase es un error: la mitad de las bolsas pesaría menos de lo que dice el paquete.</p>
+
+    <h3>Normal estándar y estandarización</h3>
+    <p>La normal estándar es el caso \(\mu=0\) y \(\sigma=1\), con la variable \(Z\) (Laplace). Cualquier normal se transforma en esa misma \(Z\):</p>
+    <div class="expr">\( Z=\dfrac{x-\mu}{\sigma}\qquad X\sim N(\mu,\sigma^2)\ \Rightarrow\ Z\sim N(0,1)\qquad f(z)=\dfrac{1}{\sqrt{2\pi}}\,e^{-z^2/2} \)</div>
+    <p>\(Z\) indica <b>a cuántos desvíos de la media</b> está \(x\): \(Z\lt0\) → a la izquierda (por debajo), \(Z=0\) → en la media, \(Z\gt0\) → a la derecha (por encima).</p>
+
+    <div class="cuando"><b>Cómo usar la tabla</b>
+      <p>La tabla trae el área a la izquierda de \(z\), \(F(z)\), para valores de \(z\) entre 0 y 4. Fila = parte entera y primer decimal; columna = segundo decimal. Por ejemplo, \(z=1{,}23\): fila 1,2, columna 0,03 → \(0{,}8907\). Para un \(z\) <b>negativo</b> se usa la simetría: \(F(-z)=1-F(z)\). Así, \(P(Z\lt-1{,}23)=1-0{,}8907=0{,}1093\).</p></div>
+
+    <h3>Qué me piden → qué hago</h3>
+    <div class="scroll-x"><table class="frases">
+      <tr><th>Si me piden…</th><th>Entonces…</th><th>Por ejemplo</th></tr>
+      <tr><td>Una <b>probabilidad o porcentaje</b></td><td>Paso de \(x\) a \(z=\dfrac{x-\mu}{\sigma}\) y busco el área en la tabla</td><td>¿Qué % de los meses se consume menos de 24.000 l?</td></tr>
+      <tr><td>Un <b>valor de \(x\)</b> («qué valor es superado por…»)</td><td>Busco en la tabla el \(z\) de esa área (el fractil) y despejo \(x=\mu+z\sigma\)</td><td>¿Qué capacidad debe tener el tanque para cubrir el 95 % de los meses?</td></tr>
+      <tr><td>Una <b>probabilidad condicional</b> («de los que…»)</td><td>Divido la intersección por la condición: \(P(A\mid B)=\dfrac{P(A\cap B)}{P(B)}\)</td><td>De los meses con menos de 24.000 l, ¿qué % supera 18.000 l?</td></tr>
+    </table></div>
+
+    <div class="ejemplo"><p class="titulo">Ejemplo resuelto · consumo de combustible (todos los casos juntos)</p>
+      <div class="consigna"><b>Consigna</b>El consumo mensual de combustible de una planta es normal con media 20.000 l y desvío 2.500 l. Calcular: a) el % de los meses con consumo menor a 24.000 l; b) el % con más de 18.000 l; c) el % entre 18.000 y 24.000 l; d) la capacidad del tanque para satisfacer el consumo con 95 % de confiabilidad; e) el consumo superado en el 90 % de los meses; f) de los meses con menos de 24.000 l, el % que consume menos que la media; g) de los meses con menos de 24.000 l, el % que consume más de 18.000; h) de los meses con más de 18.000 l, el % que consume menos de 24.000; i) si el tanque calculado en d) se llena todos los meses, la probabilidad de que en un año haya algún mes en que no alcance.</div>
+      <ol>
+        <li><p><span class="paso-titulo">a), b), c) Probabilidades: se estandariza.</span> Los dos \(z\) que hacen falta son los de 24.000 y 18.000:</p>
+          <div class="expr">\( z_{24.000}=\dfrac{24.000-20.000}{2.500}=1{,}6\qquad z_{18.000}=\dfrac{18.000-20.000}{2.500}=-0{,}8 \)</div>
+          <div class="expr">\( P(X\lt24.000)=F(1{,}6)=\mathbf{0{,}9452}\qquad P(X\gt18.000)=1-F(-0{,}8)=F(0{,}8)=\mathbf{0{,}7881} \)</div>
+          <div class="expr">\( P(18.000\lt X\lt24.000)=F(1{,}6)-F(-0{,}8)=0{,}9452-0{,}2119=\mathbf{0{,}7333} \)</div></li>
+        <li><p><span class="paso-titulo">d), e) Valores de \(x\): se busca el fractil.</span> «Confiabilidad del 95 %» es dejar el 95 % de los meses por debajo: se busca el \(z\) con área 0,95 (\(z=1{,}645\)) y se despeja \(x\). El consumo superado en el 90 % de los meses deja solo 10 % por debajo (\(z=-1{,}2816\)):</p>
+          <div class="expr">\( x=\mu+z\sigma=20.000+1{,}645\cdot2.500\approx\mathbf{24.112\ l}\qquad x=20.000-1{,}2816\cdot2.500=\mathbf{16.796\ l} \)</div>
+          <p class="porque">Con \(z\) redondeado a 2 decimales de la tabla da 24.112,5 y 16.800: es la misma respuesta con la precisión de la tabla.</p></li>
+        <li><p><span class="paso-titulo">f), g), h) Condicionales.</span> Se divide por la probabilidad de la condición:</p>
+          <div class="expr">\( \text{f) }\dfrac{P(X\lt20.000)}{P(X\lt24.000)}=\dfrac{0{,}5}{0{,}9452}=\mathbf{52{,}9\,\%}\qquad\text{g) }\dfrac{P(18.000\lt X\lt24.000)}{P(X\lt24.000)}=\dfrac{0{,}7333}{0{,}9452}=\mathbf{77{,}58\,\%} \)</div>
+          <div class="expr">\( \text{h) }\dfrac{P(18.000\lt X\lt24.000)}{P(X\gt18.000)}=\dfrac{0{,}7333}{0{,}7881}=\mathbf{93{,}04\,\%} \)</div></li>
+        <li><p><span class="paso-titulo">i) De la normal a una binomial.</span> Con el tanque de d), en un mes dado el consumo lo supera con probabilidad \(p=0{,}05\). Los 12 meses son ensayos independientes: «algún mes que no alcance» es «al menos uno» de una binomial \(B(12;\,0{,}05)\):</p>
+          <div class="expr">\( P(Y\ge1)=1-0{,}95^{12}=\mathbf{0{,}4596} \)</div>
+          <p class="porque">Aunque el tanque cubre el 95 % de los meses, en un año hay casi un 46 % de chances de que falle alguna vez.</p></li>
+      </ol>
+    </div>
+
+    <div class="ejemplo"><p class="titulo">Ejemplo resuelto · hallar μ y σ a partir de dos porcentajes</p>
+      <div class="consigna"><b>Consigna</b>En un establecimiento agropecuario, el 10 % de los novillos que salen a la venta pesan más de 500 kg y el 7 % pesan menos de 410 kg (el peso es normal). Calcular: a) el peso superado por el 15 % de los novillos; b) la probabilidad de que en una jaula de 25 novillos haya alguno con peso inferior a 400 kg.</div>
+      <ol>
+        <li><p><span class="paso-titulo">Los parámetros no vienen dados: hay que armar dos ecuaciones.</span> «El 10 % pesa más de 500» deja 0,90 por debajo de 500 (\(z=1{,}2816\)); «el 7 % pesa menos de 410» es \(z=-1{,}4758\). Cada dato es \(x=\mu+z\sigma\):</p>
+          <div class="expr">\( 500=\mu+1{,}2816\,\sigma\qquad 410=\mu-1{,}4758\,\sigma \)</div>
+          <p>Restando las dos ecuaciones se despeja \(\sigma\), y de ahí \(\mu\):</p>
+          <div class="expr">\( \sigma=\dfrac{500-410}{1{,}2816+1{,}4758}=32{,}64\ \text{kg}\qquad\mu=500-1{,}2816\cdot32{,}64=458{,}17\ \text{kg} \)</div></li>
+        <li><p><span class="paso-titulo">a) Peso superado por el 15 %.</span> Deja 0,85 por debajo (\(z=1{,}0364\)):</p>
+          <div class="expr">\( x=458{,}17+1{,}0364\cdot32{,}64=\mathbf{492\ kg} \)</div></li>
+        <li><p><span class="paso-titulo">b) Alguno entre 25.</span> Primero la probabilidad de que <em>un</em> novillo pese menos de 400 kg, después una binomial de «al menos uno»:</p>
+          <div class="expr">\( z=\dfrac{400-458{,}17}{32{,}64}=-1{,}78\ \Rightarrow\ p=F(-1{,}78)=0{,}0374 \)</div>
+          <div class="expr">\( P(\text{alguno})=1-(1-0{,}0374)^{25}=1-0{,}386=\mathbf{0{,}6140} \)</div></li>
+      </ol>
+    </div>
+
+    <h3>Modelo log-normal</h3>
+    <div class="cuando"><b>Cuándo</b>
+      <p>Los sueldos de la gente o los saldos de cuentas bancarias <b>no</b> siguen una normal: son muy heterogéneos, con mucha dispersión y asimetría. Se usa para ingresos, salarios, saldos y en econometría (mercados bursátiles, volátiles y «explosivos»). Señal: el <b>coeficiente de variación supera el 60 %</b> (en la normal, no pasa del 20 %).</p></div>
+    <p><b>Idea:</b> calcular el área de esta curva era complicado. Si se aplica logaritmo a la variable, aparece una normal: \(X\) es log-normal si \(Y=\ln X\) tiene distribución normal. Las áreas son iguales (el área de \(X\lt x\) es la de \(\ln X\lt\ln x\)) y se resuelven con la tabla de \(Z\).</p>
+    <div class="expr">\( x\ge0\qquad f(x)=\dfrac{1}{x\,D\sqrt{2\pi}}\,e^{-\frac12\left(\frac{\ln x-m}{D}\right)^2}\qquad F(x)=\Phi\!\left(\dfrac{\ln x-m}{D}\right) \)</div>
+    <p>Los parámetros son \(m\) (de escala) y \(D\) (de forma). Ojo: \(m\) es la esperanza <b>del logaritmo</b> de la variable, no la esperanza de la variable. Si el enunciado da la media \(\mu\) y el desvío \(\sigma\), se pasan a \(m\) y \(D\):</p>
+    <div class="expr">\( D^2=\ln\!\left[1+\left(\dfrac{\sigma}{\mu}\right)^2\right]\qquad m=\ln\!\left[\dfrac{\mu}{\sqrt{1+\left(\sigma/\mu\right)^2}}\right] \)</div>
+    <div class="scroll-x"><table class="frases">
+      <tr><th>Medida</th><th>Valor</th></tr>
+      <tr><td>Moda</td><td>\(M_0=e^{\,m-D^2}\)</td></tr>
+      <tr><td>Mediana</td><td>\(x_e=e^{m}\)<small> (porque \(F(e^m)=\Phi(0)=0{,}5\))</small></td></tr>
+      <tr><td>Esperanza</td><td>\(\mu=e^{\,m+D^2/2}\)</td></tr>
+      <tr><td>Varianza y desvío</td><td>\(\sigma^2=e^{\,2m+D^2}\left(e^{D^2}-1\right)\qquad\sigma=\sqrt{\sigma^2}\)</td></tr>
+    </table></div>
+
+    <div class="ejemplo"><p class="titulo">Ejemplo resuelto · saldos de cuentas de ahorro</p>
+      <div class="consigna"><b>Consigna</b>Los saldos de las cuentas de ahorro de un banco tienen media U$s 120 y desvío U$s 85. Calcular: a) el % de los saldos superior a U$s 140; b) de los saldos superiores a la media, el % que supera U$s 140; c) el saldo superado por el 90 % de las cuentas; d) la mediana de los saldos.</div>
+      <ol>
+        <li><p><span class="paso-titulo">Identificar el modelo y pasar a \(m\) y \(D\).</span> El \(CV=85/120=70{,}8\,\%\) supera el 60 %: es log-normal, no normal.</p>
+          <div class="expr">\( D^2=\ln\!\left(1+0{,}7083^2\right)=\ln1{,}5017=0{,}4066\ \Rightarrow\ D=0{,}6377\qquad m=\ln\dfrac{120}{\sqrt{1{,}5017}}=4{,}5842 \)</div></li>
+        <li><p><span class="paso-titulo">a) \(P(X\gt140)\).</span> Se aplica logaritmo al valor y se estandariza con \(m\) y \(D\):</p>
+          <div class="expr">\( z=\dfrac{\ln140-m}{D}=\dfrac{4{,}9416-4{,}5842}{0{,}6377}=0{,}56\ \Rightarrow\ P(X\gt140)=1-F(0{,}56)=\mathbf{28{,}75\,\%} \)</div></li>
+        <li><p><span class="paso-titulo">b) Condicional.</span> «De los superiores a la media» es la condición \(X\gt120\) (\(z=0{,}3188\), área derecha 0,3749):</p>
+          <div class="expr">\( P(X\gt140\mid X\gt120)=\dfrac{0{,}2875}{0{,}3749}=\mathbf{76{,}69\,\%} \)</div></li>
+        <li><p><span class="paso-titulo">c) Un valor: el fractil.</span> El 90 % de las cuentas supera el valor que deja 10 % por debajo (\(z=-1{,}2816\)). Se despeja el logaritmo y se deshace con la exponencial:</p>
+          <div class="expr">\( \ln x=m+z\,D=4{,}5842-1{,}2816\cdot0{,}6377=3{,}7669\ \Rightarrow\ x=e^{3{,}7669}=\mathbf{43{,}25\ U\$s} \)</div></li>
+        <li><p><span class="paso-titulo">d) Mediana.</span> \(x_e=e^{m}=e^{4{,}5842}=\mathbf{97{,}92\ U\$s}\).</p>
+          <p class="porque">La mediana (97,92) queda muy por debajo de la media (120): la cola larga de saldos altos tira la media hacia arriba. Por eso con variables así la media representa mal.</p></li>
+      </ol>
+    </div>
+
+    <div class="errores"><p><b>Errores típicos</b></p>
+      <ul>
+        <li>Olvidar estandarizar y buscar \(x\) directamente en la tabla: la tabla es solo de \(Z\).</li>
+        <li>Con \(z\) negativo, leer la tabla como si fuera positivo: \(F(-z)=1-F(z)\).</li>
+        <li>Confundir <b>«menos de» con «más de»</b>: la tabla da el área a la <em>izquierda</em>; «más de» es \(1-F\).</li>
+        <li>Despejar mal un fractil: es \(x=\mu+z\sigma\), con \(z\) negativo si el área a la izquierda es menor que 0,5.</li>
+        <li>En log-normal, usar \(\mu\) y \(\sigma\) del enunciado directo en la \(Z\): primero hay que pasar a \(m\) y \(D\) y aplicar \(\ln x\).</li>
+        <li>Usar normal para una variable con \(CV\) grande (sueldos, saldos). Y creer que \(m\) es la media de la variable.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <section class="clase" id="t7" data-busca="proceso de poisson poisson gamma exponencial tasa de ocurrencia lambda eventos puntuales continuo relacion de molina wilson hilferty llamadas fallas llegadas clase 13">
+    <p class="eyebrow">Tema 7 · Clase 13</p>
+    <h2>Proceso de Poisson: Poisson, Gamma y exponencial</h2>
+    <p class="objetivo">En un <b>medio continuo</b> (tiempo, longitud, superficie) aparecen acontecimientos puntuales <b>«al azar»</b>, cuando uno menos lo espera: fallas o roturas, llegadas de clientes, llamadas a una línea, pedidos, cortes de luz, accidentes de tránsito, fallas de aislación en un cable. Sobre ese proceso hay tres preguntas posibles, y cada una tiene su modelo.</p>
+
+    <h3>Elementos del proceso</h3>
+    <ul class="conceptos">
+      <li>\(\lambda\) (lambda), la <b>tasa de ocurrencia</b>: cantidad promedio de acontecimientos puntuales por unidad de continuo. \(\lambda=\dfrac{\text{n.º promedio de acontecimientos}}{\text{unidad de extensión del continuo}}\).</li>
+      <li>\(t\) o \(x\): el <b>continuo</b> de observación o de estudio (cuánto tiempo, cuántos metros miro).</li>
+      <li>\(r\): la <b>cantidad</b> de acontecimientos encontrados o a encontrar (entero, \(r\ge0\)).</li>
+      <li>La cantidad esperada en un tramo de continuo \(t\) es \(m=\lambda\cdot t\).</li>
+    </ul>
+
+    <div class="cuando"><b>Qué fijo y qué cuento: el modelo sale de ahí</b>
+      <div class="scroll-x"><table class="frases">
+        <tr><th>Modelo</th><th>Variable aleatoria</th><th>Fijo…</th><th>La variable es…</th></tr>
+        <tr><td><b>Poisson</b></td><td>Discreta (\(r\))</td><td>el medio continuo (\(t\))</td><td>cuántos acontecimientos hay en ese tramo</td></tr>
+        <tr><td><b>Gamma</b></td><td>Continua (\(x\ge0\))</td><td>la cantidad \(r\)</td><td>cuánto continuo hay que recorrer para encontrar \(r\) acontecimientos</td></tr>
+      </table></div>
+      <p>Frases gatillo: «¿cuántas llamadas en un minuto?» → Poisson. «¿cuánto tarda en llegar el 10.º pedido?» → Gamma.</p></div>
+
+    <h3>Modelo Poisson</h3>
+    <div class="expr">\( r=0,1,2,\dots\qquad m=\lambda\cdot t\qquad P(r)=\dfrac{e^{-m}\,m^{r}}{r!} \)</div>
+    <div class="expr">\( F(r)=P(X\le r)=\sum_{x=0}^{r}\dfrac{e^{-m}m^x}{x!}\qquad G(r)=P(X\ge r)=\sum_{x=r}^{\infty}\dfrac{e^{-m}m^x}{x!} \)</div>
+    <p>Esperanza y varianza son <b>iguales</b> a \(m\): \(E(X)=V(X)=m\) (valen \(\lambda\) cuando el continuo es de una unidad), y \(\sigma=\sqrt{m}\). Cuidá las unidades: si \(\lambda\) está «por hora» y el tramo se da en minutos, convertí antes de armar \(m\).</p>
+
+    <div class="ejemplo"><p class="titulo">Ejemplo resuelto · conmutador telefónico</p>
+      <div class="consigna"><b>Consigna</b>Un conmutador telefónico recibe en promedio 600 llamadas por hora y puede hacer como máximo 20 conexiones en un minuto dado. ¿Cuál es la probabilidad de que su capacidad sea superada en un minuto dado?</div>
+      <ol>
+        <li><p><span class="paso-titulo">Unidades y modelo.</span> Se cuentan llamadas (acontecimientos) en un tramo fijo de tiempo: es Poisson. El tramo es de 1 minuto y \(\lambda\) está por hora: \(\lambda=600/60=10\) llamadas por minuto, así que \(m=\lambda t=10\cdot1=10\).</p></li>
+        <li><p><span class="paso-titulo">Traducir la pregunta.</span> La capacidad se supera si llegan <b>más de 20</b>, o sea 21 o más: \(X\ge21\).</p>
+          <div class="expr">\( P(X\ge21)=1-F(20;\,m=10)=\mathbf{0{,}0016} \)</div></li>
+      </ol>
+    </div>
+
+    <h3>Modelo Gamma</h3>
+    <div class="expr">\( x\ge0\qquad\text{parámetros }\lambda\text{ y }r\qquad f(x)=\dfrac{\lambda}{(r-1)!}\,(\lambda x)^{r-1}\,e^{-\lambda x} \)</div>
+    <div class="scroll-x"><table class="frases">
+      <tr><th>Medida</th><th>Valor</th></tr>
+      <tr><td>Moda</td><td>\(M_0=\dfrac{r-1}{\lambda}\) si \(r\ge1\); si no, \(M_0=0\)</td></tr>
+      <tr><td>Esperanza</td><td>\(E(X)=\dfrac{r}{\lambda}\)</td></tr>
+      <tr><td>Varianza y desvío</td><td>\(V(X)=\dfrac{r}{\lambda^2}\qquad\sigma=\sqrt{\sigma^2}\)</td></tr>
+    </table></div>
+    <p>La acumulada con \(\Gamma\) generaliza el factorial: \(F(x/r,\lambda)=\displaystyle\int_0^x\dfrac{\lambda}{\Gamma(r)}(\lambda t)^{r-1}e^{-\lambda t}dt\).</p>
+
+    <div class="cuando"><b>Caso particular: la exponencial</b>
+      <p>Con \(r=1\) la densidad queda \(f(x)=\lambda e^{-\lambda x}\): es el modelo <b>exponencial</b>. Entonces la exponencial es, a la vez, un caso particular del <b>Gamma</b> dentro del proceso de Poisson (el continuo hasta el <em>primer</em> acontecimiento) y un caso particular del <b>Weibull</b> en los fenómenos de vida (\(\omega=1\)).</p></div>
+
+    <h3>Relación de Molina: de Gamma a Poisson</h3>
+    <p>Cuando \(r\) es <b>entero</b>, las áreas del Gamma se calculan con tablas o calculadora de Poisson. La lógica: «el \(r\)-ésimo acontecimiento aparece antes de \(x\)» equivale a «en el tramo \((0,x)\) hay <em>al menos</em> \(r\) acontecimientos». Con \(m=\lambda\cdot x\):</p>
+    <div class="expr">\( P(X\le x)=F_\gamma(x/r;\lambda)=G_{po}(r\,/\,m=\lambda x)\qquad P(X\ge x)=G_\gamma(x/r;\lambda)=F_{po}(r-1\,/\,m=\lambda x) \)</div>
+    <p>Si \(r\) <b>no es entero</b> no se puede usar Molina (Poisson es discreta). En ese caso se aproxima con Wilson–Hilferty (1931):</p>
+    <div class="expr">\( F_\gamma(x/r;\lambda)\approx\Phi\!\left\{3\sqrt{r}\left[\left(\dfrac{\lambda x}{r}\right)^{1/3}+\dfrac{1}{9r}-1\right]\right\}\qquad x_\alpha\approx\dfrac{r}{\lambda}\left(\dfrac{z_\alpha}{3\sqrt r}-\dfrac{1}{9r}+1\right)^{3} \)</div>
+
+    <div class="ejemplo"><p class="titulo">Ejemplo resuelto · rollos de tela que terminan en la 2.ª falla (Gamma)</p>
+      <div class="consigna"><b>Consigna</b>Un proceso de fabricación de tela genera en promedio 1 falla cada 100 metros. La longitud de cada rollo queda determinada por la aparición de la segunda falla (todos los rollos tienen una falla). Calcular: a) el % de los rollos con longitud inferior a 150 m; b) la longitud superada por el 90 % de los rollos; c) la longitud superada por el 10 %; d) la longitud mediana; e) la longitud modal.</div>
+      <ol>
+        <li><p><span class="paso-titulo">Identificar el modelo.</span> Se fija la cantidad de fallas (\(r=2\)) y la variable es cuántos metros hay hasta la segunda: es Gamma, con \(\lambda=1/100=0{,}01\) fallas por metro.</p></li>
+        <li><p><span class="paso-titulo">a) Con Molina.</span> «Longitud menor a 150 m» = que la 2.ª falla aparezca antes de 150 m = que en 150 m haya <b>al menos 2</b> fallas. Con \(m=0{,}01\cdot150=1{,}5\):</p>
+          <div class="expr">\( P(X\lt150)=F_\gamma(150/2;\,0{,}01)=G_{po}(2\,/\,m=1{,}5)=1-F_{po}(1\,/\,1{,}5)=\mathbf{0{,}4422} \)</div></li>
+        <li><p><span class="paso-titulo">b), c), d) Valores de \(x\): se busca el \(x\) que deja el área pedida.</span> «Superada por el 90 %» es \(F_\gamma=0{,}10\); «superada por el 10 %», \(F_\gamma=0{,}90\); la mediana, \(F_\gamma=0{,}50\). Se resuelve en la calculadora de distribuciones (GeoGebra):</p>
+          <div class="expr">\( x_{0{,}10}=\mathbf{53{,}18\ m}\qquad x_{0{,}90}=\mathbf{388{,}97\ m}\qquad x_{0{,}50}=\mathbf{167{,}84\ m} \)</div></li>
+        <li><p><span class="paso-titulo">e) Moda.</span> \(M_0=\dfrac{r-1}{\lambda}=\dfrac{1}{0{,}01}=\mathbf{100\ m}\).</p>
+          <p class="porque">Orden de las tres medidas: moda (100) &lt; mediana (167,84) &lt; media (\(r/\lambda=200\)): asimetría positiva, con cola larga de rollos muy largos.</p></li>
+      </ol>
+    </div>
+
+    <div class="ejemplo"><p class="titulo">Ejemplo resuelto · pedidos a un mayorista (Gamma resuelta con Poisson)</p>
+      <div class="consigna"><b>Consigna</b>A un comercio mayorista llegan en promedio 7 pedidos al día. ¿Cuál es la probabilidad de que transcurran más de 2 días para los próximos 10 pedidos?</div>
+      <ol>
+        <li><p><span class="paso-titulo">Modelo.</span> Se fija la cantidad de pedidos (\(r=10\)) y se mide el tiempo hasta el 10.º: Gamma con \(\lambda=7\) pedidos/día. Piden \(P(X\gt2)=G_\gamma(2/10;\,7)\).</p></li>
+        <li><p><span class="paso-titulo">Molina.</span> «El 10.º pedido tarda más de 2 días» equivale a que en esos 2 días hayan llegado <b>9 o menos</b>. Con \(m=7\cdot2=14\):</p>
+          <div class="expr">\( G_\gamma(2/10;\,7)=F_{po}(r-1\,/\,m=14)=F_{po}(9\,/\,14)=\mathbf{0{,}1094} \)</div></li>
+        </ol>
+    </div>
+
+    <div class="ejemplo"><p class="titulo">Ejemplo resuelto · fallas del cable y Bayes (Poisson como verosimilitud)</p>
+      <div class="consigna"><b>Consigna</b>Un fabricante de cable plástico bajó el promedio de fallas de 2 cada 1000 m (equipo viejo) a 1 cada 1000 m (equipo nuevo). Su competidor tenía el equipo viejo y, con probabilidad 0,6, ya instaló uno nuevo igual al suyo. Para cerciorarse compra 2.000 m de la competencia y encuentra 5 fallas. ¿Cuál es la probabilidad de que el competidor haya instalado el equipo nuevo?</div>
+      <ol>
+        <li><p><span class="paso-titulo">Poisson con cada hipótesis.</span> En 2.000 m, el equipo nuevo da \(m=2\) fallas esperadas y el viejo \(m=4\). Se calcula la probabilidad de ver exactamente 5 con cada uno:</p>
+          <div class="expr">\( P(5\mid\text{nuevo})=\dfrac{e^{-2}2^5}{5!}=0{,}0361\qquad P(5\mid\text{viejo})=\dfrac{e^{-4}4^5}{5!}=0{,}1563 \)</div></li>
+        <li><p><span class="paso-titulo">Bayes.</span> Se combinan con las probabilidades previas (0,6 nuevo, 0,4 viejo):</p>
+          <div class="expr">\( P(\text{nuevo}\mid5)=\dfrac{0{,}6\cdot0{,}0361}{0{,}6\cdot0{,}0361+0{,}4\cdot0{,}1563}=\mathbf{0{,}2573} \)</div>
+          <p class="porque">La evidencia (5 fallas en 2.000 m) es mucho más compatible con el equipo viejo: la probabilidad de que sea nuevo baja de 0,6 a 0,26.</p></li>
+      </ol>
+    </div>
+
+    <div class="errores"><p><b>Errores típicos</b></p>
+      <ul>
+        <li>Mezclar unidades: \(\lambda\) «por hora» con un tramo en minutos. Siempre \(m=\lambda t\) con las dos cosas en la misma unidad.</li>
+        <li>Traducir mal «más de 20» (es \(\ge21\)) o «9 o menos» (es \(F(9)\)). En Poisson sí rige el «menos uno»: \(G(r)=1-F(r-1)\).</li>
+        <li>En Molina, olvidarse del \(r-1\): \(G_\gamma\) se calcula con \(F_{po}(\mathbf{r-1}\,/\,m)\), y \(F_\gamma\) con \(G_{po}(r\,/\,m)\).</li>
+        <li>Elegir Poisson cuando se pregunta por el <b>tiempo o la longitud</b> hasta un acontecimiento (eso es Gamma o exponencial) o Gamma cuando se pregunta por una <b>cantidad</b> en un tramo (eso es Poisson).</li>
+        <li>Usar Molina cuando \(r\) no es entero.</li>
+        <li>Para \(r=1\), usar Gamma con la fórmula larga: ya es la exponencial \(G(x)=e^{-\lambda x}\).</li>
+      </ul>
+    </div>
+  </section>
+
   <section class="herramienta" id="errores-tipicos" data-busca="errores tipicos trampas checklist antes de entregar">
     <p class="eyebrow">Antes de entregar</p>
     <h2>Checklist de parcial</h2>
@@ -901,6 +1437,10 @@ table.frases td:first-child{font-family:var(--display); font-weight:600}
       <button type="button" data-filtro="1">Descriptiva</button>
       <button type="button" data-filtro="2">Probabilidad</button>
       <button type="button" data-filtro="3">Discretas</button>
+      <button type="button" data-filtro="4">Continuas</button>
+      <button type="button" data-filtro="5">Vida</button>
+      <button type="button" data-filtro="6">Normal</button>
+      <button type="button" data-filtro="7">Poisson</button>
       <button type="button" id="mezclar">↻ MEZCLAR</button>
       <span class="mazo-contador" id="contador">—</span>
     </div>
@@ -1071,7 +1611,7 @@ table.frases td:first-child{font-family:var(--display); font-weight:600}
   var elDorso   = document.getElementById("t-dorso");
   var elPista   = document.getElementById("t-pista");
   var elContador= document.getElementById("contador");
-  var NOMBRE_TEMA = { "1":"Descriptiva", "2":"Probabilidad", "3":"Variables discretas" };
+  var NOMBRE_TEMA = { "1":"Descriptiva", "2":"Probabilidad", "3":"Variables discretas", "4":"Variables continuas", "5":"Fenómenos de vida", "6":"Normal y log-normal", "7":"Proceso de Poisson" };
   var mazoActivo = MAZO.slice(), indice = 0, revelada = false;
 
   function pintar(){

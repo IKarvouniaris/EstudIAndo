@@ -34,8 +34,16 @@ window.NumApi = (function () {
     return isFinite(n) ? n : null;
   }
 
-  function iniciarIntento(materia, cantidad) {
-    return rpc("iniciar_intento_num", { p_materia: materia, p_cantidad: cantidad || 5 });
+  // `temas` (opcional): sólo sortea ejercicios de esos temas (fase8_estadistica_continuas.sql). Si la base
+  // todavía no tiene esa versión de la función, se reintenta sin la lista (comportamiento anterior).
+  function iniciarIntento(materia, cantidad, temas) {
+    var args = { p_materia: materia, p_cantidad: cantidad || 5 };
+    if (temas && temas.length) args.p_temas = temas;
+    return rpc("iniciar_intento_num", args).catch(function (err) {
+      var sinFuncion = err && (err.code === "PGRST202" || /could not find the function/i.test(err.message || ""));
+      if (args.p_temas && sinFuncion) return rpc("iniciar_intento_num", { p_materia: materia, p_cantidad: cantidad || 5 });
+      throw err;
+    });
   }
   function guardarRespuesta(intentoId, ejercicioId, parte, valor) {
     return rpc("guardar_respuesta_num", { p_intento_id: intentoId, p_ejercicio_id: ejercicioId, p_parte: parte, p_valor: valor });

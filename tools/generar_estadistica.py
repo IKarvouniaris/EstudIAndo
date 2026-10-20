@@ -1,4 +1,4 @@
-"""Genera tools/ejercicios_estadistica.json: banco de ejercicios de Estadística General (1er parcial).
+"""Genera tools/ejercicios_estadistica.json: banco de ejercicios de Estadística General (1.er y 2.º parcial).
 
 Cada respuesta numérica se CALCULA acá (no se copia a mano) y, cuando el ejercicio sale de la
 guía de la cátedra, se verifica contra la respuesta impresa en la guía (assert). Si un número
@@ -7,7 +7,7 @@ no coincide, el script falla en vez de publicar un dato mal.
 Uso: python tools/generar_estadistica.py   (después: python tools/seed_estadistica.py)
 """
 import json
-from math import comb, sqrt
+from math import comb, erf, exp, factorial, log, sqrt
 from pathlib import Path
 
 RAIZ = Path(__file__).resolve().parent.parent
@@ -702,6 +702,339 @@ a) P(n = 4): en las primeras 3 hay exactamente 1 roja y la 4.ª es roja:
 b) P(n ≤ 5) = P(2)+P(3)+P(4)+P(5) = {num(p_le5)}  (equivale a P(hipergeométrica con 5 extracciones ≥ 2 rojas)).
 c) Como mínimo se necesitan r = 2 extracciones.""",
    fuente="Adaptado de Clase 7 (modelo hiperPascal)")
+
+
+# =====================================================================================
+# 2.º PARCIAL (clases 10 a 13): continuas, fenómenos de vida, normal / log-normal, Poisson / Gamma
+# Las respuestas se calculan y se comparan con las que trae la guía / la clase (assert).
+# =====================================================================================
+def Phi(z):
+    return 0.5 * (1 + erf(z / sqrt(2)))
+
+
+def biseccion(f, lo, hi, objetivo):  # f creciente
+    for _ in range(200):
+        mid = (lo + hi) / 2
+        if f(mid) < objetivo:
+            lo = mid
+        else:
+            hi = mid
+    return (lo + hi) / 2
+
+
+def zinv(p):
+    return biseccion(Phi, -10, 10, p)
+
+
+def pois_pmf(r, m):
+    return exp(-m) * m**r / factorial(r)
+
+
+def Fpo(r, m):  # P(X <= r)
+    return sum(pois_pmf(k, m) for k in range(0, r + 1))
+
+
+def integra(f, a, b, n=20000):
+    h = (b - a) / n
+    return sum(f(a + (i + 0.5) * h) for i in range(n)) * h
+
+
+def fino(p, tol_abs=None, tol_rel=None):
+    """Ajusta la tolerancia de una parte (para valores muy chicos o fractiles)."""
+    if tol_abs is not None:
+        p["tol_abs"] = tol_abs
+    if tol_rel is not None:
+        p["tol_rel"] = tol_rel
+    return p
+
+
+# ---------- CONTINUAS (Clase 10) ----------
+a_k = 1.5
+Fk = lambda x: a_k * x**3 / 3 + 0.5 * x
+k_b = Fk(0.5)
+k_c = (1 - Fk(0.75)) / (1 - Fk(0.5))
+cerca(k_b, 0.3125, 1e-4); cerca(k_c, 0.6023, 1e-4)
+ej("K1", "continua", "Densidad cuadrática",
+   "Una variable aleatoria continua tiene función de densidad f(x) = a·x² + 0,5 para 0 ≤ x ≤ 1 (y 0 en el resto).",
+   [parte("a", "Constante a", a_k, "num"),
+    parte("b", "P(X < 0,5)", k_b),
+    parte("c", "Si un valor elegido al azar fue mayor que 0,5, probabilidad de que sea mayor que 0,75", k_c)],
+   f"""a) El área total tiene que valer 1: ∫₀¹ (a·x² + 0,5) dx = a/3 + 0,5 = 1 → a = 1,5.
+   (No se iguala f(x) a 1: se iguala la INTEGRAL, el área.)
+b) F(x) = ∫₀ˣ (1,5·t² + 0,5) dt = x³/2 + x/2.  P(X < 0,5) = F(0,5) = 0,0625 + 0,25 = {num(k_b)}.
+c) Condicional con áreas: P(X > 0,75 | X > 0,5) = G(0,75) / G(0,5) = (1 − {num(Fk(0.75))}) / (1 − {num(Fk(0.5))}) = {num(k_c)}.""",
+   fuente="Guía Tema IV, ej. 1 (Clase 10)")
+
+m_k = 0.2
+f1 = lambda x: 1.2 * x
+f2 = lambda x: 3 * m_k - m_k * x
+cerca(integra(f1, 0, 1) + integra(f2, 1, 3), 1.0, 1e-6)
+mu_k = integra(lambda x: x * f1(x), 0, 1) + integra(lambda x: x * f2(x), 1, 3)
+ex2_k = integra(lambda x: x * x * f1(x), 0, 1) + integra(lambda x: x * x * f2(x), 1, 3)
+var_k = ex2_k - mu_k**2
+p_gt2 = integra(f2, 2, 3)
+cond_k = integra(f2, 2, 2.5) / p_gt2
+bin4 = sum(b_pmf(r, 15, p_gt2) for r in range(4, 16))
+cerca(mu_k, 16 / 15, 1e-6); cerca(var_k, 163 / 450, 1e-6); cerca(cond_k, 0.75, 1e-6); cerca(bin4, 0.0556, 1e-4)
+ej("K2", "continua", "Densidad por tramos y luego una binomial",
+   "Una variable aleatoria continua tiene densidad f(x) = 1,2·x para 0 ≤ x ≤ 1 y f(x) = 3m − m·x para 1 ≤ x ≤ 3 (y 0 en el resto).",
+   [parte("a", "Constante m", m_k, "num"),
+    parte("b", "Media de x", round(mu_k, 4), "num"),
+    parte("c", "Varianza de x", round(var_k, 4), "num"),
+    parte("d", "P(X < 2,5 | X > 2)", cond_k),
+    parte("e", "Si se eligen 15 valores al azar, probabilidad de que 4 o más sean mayores que 2", bin4)],
+   f"""a) Área total = ∫₀¹ 1,2x dx + ∫₁³ (3m − mx) dx = 0,6 + 2m = 1 → m = 0,2. El 2.º tramo queda f(x) = 0,6 − 0,2x.
+b) E(X) = ∫₀¹ 1,2x² dx + ∫₁³ x(0,6 − 0,2x) dx = 0,4 + 0,6667 = {num(mu_k)} (= 16/15).
+c) E(X²) = ∫₀¹ 1,2x³ dx + ∫₁³ x²(0,6 − 0,2x) dx = 0,3 + 1,2 = 1,5 → V(X) = 1,5 − {num(mu_k)}² = {num(var_k)} (= 163/450).
+d) P(2 < X < 2,5) = ∫ (0,6 − 0,2x) dx entre 2 y 2,5 = 0,075;  P(X > 2) = 0,1 → 0,075 / 0,1 = {num(cond_k, 2)}.
+e) Cada valor es '> 2' con p = P(X > 2) = {num(p_gt2, 1)}, independientes → Y ~ B(15; 0,1): P(Y ≥ 4) = G_b(4/15; 0,1) = {num(bin4)}.""",
+   fuente="Guía Tema IV, ej. 2 (Clase 10)")
+
+Fd = lambda x: 1 - (1 - x) ** 20
+mu_d = 1 / 21
+med_d = 1 - 0.5 ** (1 / 20)
+g_d = 0.9**20
+cerca(mu_d, 0.0476, 1e-4); cerca(med_d, 0.0341, 1e-4)
+ej("K3", "continua", "Proporción diaria de unidades defectuosas",
+   "La proporción diaria de unidades defectuosas de una fábrica es una variable aleatoria con función de distribución "
+   "F(x) = 1 − (1 − x)^20, con dominio 0 ≤ x ≤ 1.",
+   [fino(parte("a", "Densidad en x = 0,05: f(0,05)", 20 * 0.95**19, "num", "Primero derivá F para obtener f"), tol_abs=0.02),
+    fino(parte("b", "Media", mu_d, "num"), tol_abs=0.0003),
+    fino(parte("c", "Mediana", med_d, "num"), tol_abs=0.0003),
+    parte("d", "P(X > 0,1)", g_d)],
+   f"""a) f(x) = F'(x) = 20(1 − x)^19.  f(0,05) = 20·0,95^19 = {num(20*0.95**19, 3)}.
+b) E(X) = ∫₀¹ x·20(1 − x)^19 dx. Con u = 1 − x: 20·∫₀¹ (1 − u)·u^19 du = 20·(1/20 − 1/21) = 1/21 = {num(mu_d)}.
+c) F(x_e) = 0,5 → (1 − x_e)^20 = 0,5 → x_e = 1 − 0,5^(1/20) = {num(med_d)}.
+d) P(X > 0,1) = G(0,1) = 1 − F(0,1) = 0,9^20 = {num(g_d)}.""",
+   fuente="Guía Tema IV, ej. 3 (Clase 10)")
+
+# ---------- FENÓMENOS DE VIDA (Clase 11) ----------
+GA, GB = exp(-250 / 170), exp(-250 / 200)
+w_tot = 0.7 * GA + 0.3 * GB
+w_A = 0.7 * GA / w_tot
+cerca(w_A, 0.6517, 1e-4)
+ej("W1", "vida", "Cable plástico: dos proveedores exponenciales",
+   "La longitud entre fallas consecutivas de un cable plástico tiene distribución exponencial. El proveedor A entrega el 70 % y su "
+   "longitud media entre fallas es de 170 m; el proveedor B entrega el resto y su longitud media entre fallas es de 200 m. "
+   "Se eligió un rollo al azar de 250 m de longitud.",
+   [parte("a", "Probabilidad de que un rollo de 250 m elegido al azar no tenga fallas", w_tot),
+    parte("b", "Sabiendo que no se encontraron fallas en el rollo, probabilidad de que sea del proveedor A", w_A)],
+   f"""'Sin fallas en 250 m' = la longitud hasta la primera falla supera 250 m = G(250) = e^(−250/μ).
+Con A: e^(−250/170) = {num(GA)};  con B: e^(−250/200) = {num(GB)}.
+a) Probabilidad total: 0,7·{num(GA)} + 0,3·{num(GB)} = {num(w_tot)}.
+b) Bayes: P(A | sin fallas) = 0,7·{num(GA)} / {num(w_tot)} = {num(w_A)}.""",
+   fuente="Clase 11, ej. 12")
+
+Gw = lambda x, b, w: exp(-((x / b) ** w))
+x95 = 60 * (-log(0.95)) ** (1 / 3)
+w_b = 1 - Gw(60, 60, 3) / Gw(50, 60, 3)
+cerca(x95, 22.29, 0.01); cerca(w_b * 100, 34.38, 0.01)
+ej("W2", "vida", "Baterías con vida Weibull",
+   "La vida útil de unas baterías es aleatoria, con distribución Weibull de parámetro de escala β = 60 horas y parámetro de forma ω = 3 "
+   "(x en horas).",
+   [parte("a", "Duración que debe especificarse para tener la seguridad de que será superada por el 95 % de las baterías (horas)", x95, "num"),
+    parte("b", "De las que duran más de 50 horas, porcentaje que dura menos de 60 horas", w_b * 100, "pct")],
+   f"""G(x) = e^(−(x/β)^ω) es la probabilidad de durar más que x.
+a) 'Superada por el 95 %' → G(x) = 0,95 → (x/60)³ = −ln 0,95 = 0,0513 → x = 60·0,0513^(1/3) = {num(x95, 2)} horas.
+b) Condicional: P(X < 60 | X > 50) = [G(50) − G(60)] / G(50).
+   G(50) = e^(−(50/60)³) = {num(Gw(50,60,3))};  G(60) = e^(−1) = {num(Gw(60,60,3))}.
+   ({num(Gw(50,60,3))} − {num(Gw(60,60,3))}) / {num(Gw(50,60,3))} = {num(w_b*100, 2)} %.""",
+   fuente="Clase 11, ej. 7")
+
+Ga, Gb = (lambda x: Gw(x, 80, 3)), (lambda x: Gw(x, 95, 3))
+fw = lambda x, b, w: w * (1 / b) ** w * x ** (w - 1) * exp(-((x / b) ** w))
+l_a = 0.7 * Ga(90) + 0.3 * Gb(90)
+l_b = 0.7 * Ga(88) / (0.7 * Ga(88) + 0.3 * Gb(88))
+l_c = 0.7 * fw(89.4, 80, 3) / (0.7 * fw(89.4, 80, 3) + 0.3 * fw(89.4, 95, 3))
+cerca(l_a, 0.2967, 1e-4); cerca(l_b, 0.5772, 1e-4); cerca(l_c, 0.6901, 1e-4)
+ej("W3", "vida", "Lámparas de dos proveedores (Weibull)",
+   "Dos proveedores, A y B, suministran lámparas cuya duración es Weibull con ω = 3; β se expresa en horas y vale 80 para el proveedor A "
+   "y 95 para el B. A suministra el 70 % y B el resto, y están mezcladas en el depósito en esas proporciones.",
+   [parte("a", "Si se elige una al azar, probabilidad de que dure más de 90 horas", l_a),
+    parte("b", "Se eligió una al azar y hace 88 horas que funciona: probabilidad de que sea del proveedor A", l_b),
+    parte("c", "La lámpara elegida duró exactamente 89,4 horas: probabilidad de que sea del proveedor A", l_c,
+          "prob", "Es la parte difícil: acá no alcanza con G")],
+   f"""a) Probabilidad total con G(x) = e^(−(x/β)³): 0,7·e^(−(90/80)³) + 0,3·e^(−(90/95)³) = 0,7·{num(Ga(90))} + 0,3·{num(Gb(90))} = {num(l_a)}.
+b) 'Hace 88 horas que funciona' = duración MAYOR que 88 → se pondera con G(88):
+   0,7·{num(Ga(88))} / (0,7·{num(Ga(88))} + 0,3·{num(Gb(88))}) = {num(l_b)}.
+c) 'Duró exactamente 89,4 h' es un valor puntual → se pondera con la DENSIDAD f(x) = ω·(1/β)^ω·x^(ω−1)·e^(−(x/β)^ω):
+   f_A(89,4) = {num(fw(89.4,80,3),5)};  f_B(89,4) = {num(fw(89.4,95,3),5)}.
+   0,7·f_A / (0,7·f_A + 0,3·f_B) = {num(l_c)}.""",
+   fuente="Clase 11, ej. 9")
+
+C_G = 0.5772
+Lg = log(-log(0.08))
+be_g = (80 - 70.1) / (Lg + C_G)
+th_g = 70.1 + be_g * C_G
+G65 = exp(-exp((65 - th_g) / be_g))
+cerca(G65 * 100, 77.2, 0.05)
+ej("W4", "vida", "Vida de los varones (Gumbel del mínimo)",
+   "La vida de los varones de un país sigue una distribución Gumbel del mínimo (θ = moda, β = escala). La media es de 70,1 años y se sabe "
+   "que el 8 % supera los 80 años. Usá C = 0,5772 para la esperanza.",
+   [parte("a", "Parámetro θ (años)", th_g, "num"),
+    parte("b", "Parámetro β (años)", be_g, "num"),
+    parte("c", "Porcentaje de los varones que supera los 65 años", G65 * 100, "pct")],
+   f"""Datos: μ = θ − 0,5772·β = 70,1  y  G(80) = e^(−e^((80−θ)/β)) = 0,08.
+De G(80): e^((80−θ)/β) = −ln 0,08 = {num(-log(0.08))} → (80 − θ)/β = ln({num(-log(0.08))}) = {num(Lg)}.
+De la media: θ = 70,1 + 0,5772·β. Reemplazando: 80 − 70,1 − 0,5772·β = {num(Lg)}·β → β = 9,9 / ({num(Lg)} + 0,5772) = {num(be_g)} años; θ = {num(th_g, 2)} años.
+c) G(65) = e^(−e^((65−θ)/β)) = e^(−e^({num((65-th_g)/be_g)})) = {num(G65, 4)} → {num(G65*100, 1)} %.""",
+   fuente="Clase 11, ej. 19")
+
+# ---------- NORMAL Y LOG-NORMAL (Clase 12) ----------
+mu_c, sg_c = 20000, 2500
+za = (24000 - mu_c) / sg_c
+zb = (18000 - mu_c) / sg_c
+n_a = Phi(za); n_b = 1 - Phi(zb); n_c = Phi(za) - Phi(zb)
+n_d = mu_c + zinv(0.95) * sg_c
+n_e = mu_c + zinv(0.10) * sg_c
+n_f = 0.5 / Phi(za)
+n_g = (Phi(za) - Phi(zb)) / Phi(za)
+n_h = (Phi(za) - Phi(zb)) / (1 - Phi(zb))
+p_no = 1 - 0.95
+n_i = 1 - (1 - p_no) ** 12
+cerca(n_a * 100, 94.52, 0.01); cerca(n_b * 100, 78.81, 0.01); cerca(n_c * 100, 73.33, 0.01)
+cerca(n_d, 24112.14, 0.05); cerca(n_e, 16796.12, 0.05); cerca(n_f * 100, 52.9, 0.05)
+cerca(n_g * 100, 77.58, 0.01); cerca(n_h * 100, 93.04, 0.02); cerca(n_i, 0.4596, 1e-4)
+ej("N1", "normal", "Consumo mensual de combustible",
+   "En una planta industrial el consumo mensual de combustible es una variable aleatoria con distribución normal de media 20.000 litros "
+   "y desvío estándar 2.500 litros.",
+   [parte("a", "Porcentaje de los meses en que se consume menos de 24.000 litros", n_a * 100, "pct"),
+    parte("b", "Porcentaje de los meses en que se consume más de 18.000 litros", n_b * 100, "pct"),
+    parte("c", "Porcentaje de los meses en que se consume entre 18.000 y 24.000 litros", n_c * 100, "pct"),
+    fino(parte("d", "Capacidad del tanque para satisfacer el consumo mensual con 95 % de confiabilidad (litros)", n_d, "num"), tol_rel=0.002),
+    fino(parte("e", "Consumo superado en el 90 % de los meses (litros)", n_e, "num"), tol_rel=0.002),
+    parte("f", "De los meses en que se consume menos de 24.000 litros, porcentaje en que se consume menos que la media", n_f * 100, "pct"),
+    parte("g", "De los meses en que se consume menos de 24.000 litros, porcentaje en que se consume más de 18.000", n_g * 100, "pct"),
+    parte("h", "De los meses en que se consume más de 18.000 litros, porcentaje en que se consume menos de 24.000", n_h * 100, "pct"),
+    parte("i", "Con el tanque de d) lleno todos los meses, probabilidad de que en un año haya algún mes en que no alcance", n_i)],
+   f"""z(24.000) = (24.000 − 20.000)/2.500 = 1,6;  z(18.000) = −0,8.
+a) F(1,6) = {num(n_a)} → {num(n_a*100,2)} %.   b) 1 − F(−0,8) = F(0,8) = {num(n_b)} → {num(n_b*100,2)} %.
+c) F(1,6) − F(−0,8) = {num(n_c)} → {num(n_c*100,2)} %.
+d) Fractil de área 0,95: z = 1,645 → x = 20.000 + 1,645·2.500 = {num(n_d,2)} l.
+e) El 90 % lo supera → área a la izquierda 0,10: z = −1,2816 → x = 20.000 − 1,2816·2.500 = {num(n_e,2)} l.
+f) P(X<20.000)/P(X<24.000) = 0,5/{num(n_a)} = {num(n_f*100,1)} %.
+g) {num(n_c)}/{num(n_a)} = {num(n_g*100,2)} %.   h) {num(n_c)}/{num(n_b)} = {num(n_h*100,2)} %.
+i) Con ese tanque, en un mes no alcanza con p = 0,05 (12 ensayos independientes): P(al menos uno) = 1 − 0,95^12 = {num(n_i)}.""",
+   fuente="Clase 12, ej. 1")
+
+z10, z07 = zinv(0.90), zinv(0.07)
+sg_n = (500 - 410) / (z10 - z07)
+mu_n = 500 - z10 * sg_n
+n2_a = mu_n + zinv(0.85) * sg_n
+p400 = Phi((400 - mu_n) / sg_n)
+n2_b = 1 - (1 - p400) ** 25
+cerca(n2_a, 492, 0.5); cerca(n2_b, 0.6140, 2e-3)
+ej("N2", "normal", "Peso de los novillos (hallar μ y σ)",
+   "En un establecimiento agropecuario, el 10 % de los novillos que salen a la venta pesan más de 500 kg y el 7 % pesan menos de 410 kg. "
+   "El peso es una variable normal.",
+   [parte("a", "Peso superado por el 15 % de los novillos (kg)", n2_a, "num"),
+    parte("b", "Probabilidad de que en una jaula de 25 novillos haya alguno con peso inferior a 400 kg", n2_b)],
+   f"""Hay que hallar μ y σ con los dos datos: 'más de 500' deja 0,90 por debajo (z = {num(z10)}); 'menos de 410' → z = {num(z07)}.
+500 = μ + {num(z10)}·σ ;  410 = μ − {num(-z07)}·σ  → σ = 90/{num(z10 - z07)} = {num(sg_n, 2)} kg ;  μ = {num(mu_n, 2)} kg.
+a) Deja 0,85 por debajo: z = {num(zinv(0.85))} → x = {num(mu_n,2)} + {num(zinv(0.85))}·{num(sg_n,2)} = {num(n2_a, 1)} kg.
+b) Un novillo pesa menos de 400: z = (400 − {num(mu_n,2)})/{num(sg_n,2)} = {num((400-mu_n)/sg_n, 2)} → p = {num(p400)}.
+   'Alguno entre 25' = al menos uno: 1 − (1 − {num(p400)})^25 = {num(n2_b)}.""",
+   fuente="Clase 12, ej. 3")
+
+mu_l, sg_l = 120, 85
+cv2 = (sg_l / mu_l) ** 2
+D = sqrt(log(1 + cv2)); m_l = log(mu_l / sqrt(1 + cv2))
+pg140 = 1 - Phi((log(140) - m_l) / D)
+pg120 = 1 - Phi((log(120) - m_l) / D)
+l_x90 = exp(m_l + zinv(0.10) * D)
+l_med = exp(m_l)
+cerca(pg140 * 100, 28.75, 0.01); cerca(pg140 / pg120 * 100, 76.69, 0.01); cerca(l_x90, 43.25, 0.01); cerca(l_med, 97.92, 0.01)
+ej("N3", "normal", "Saldos de cuentas de ahorro (log-normal)",
+   "Los saldos de las cuentas de ahorro de un banco tienen una media de U$s 120 y un desvío estándar de U$s 85 (distribución log-normal).",
+   [parte("a", "Porcentaje de los saldos que es superior a U$s 140", pg140 * 100, "pct"),
+    parte("b", "De los saldos superiores a la media, porcentaje que supera los U$s 140", pg140 / pg120 * 100, "pct"),
+    parte("c", "Saldo superado por el 90 % de las cuentas (U$s)", l_x90, "num"),
+    parte("d", "Mediana de los saldos (U$s)", l_med, "num")],
+   f"""CV = 85/120 = 70,8 % (> 60 %): log-normal. Parámetros: D² = ln(1 + 0,7083²) = {num(D*D)} → D = {num(D)};  m = ln(120/√1,5017) = {num(m_l)}.
+a) z = (ln 140 − m)/D = ({num(log(140))} − {num(m_l)})/{num(D)} = {num((log(140)-m_l)/D, 2)} → 1 − F(z) = {num(pg140*100, 2)} %.
+b) Condición X > 120: z = {num((log(120)-m_l)/D, 3)} → área derecha {num(pg120)}.  {num(pg140)}/{num(pg120)} = {num(pg140/pg120*100, 2)} %.
+c) El 90 % lo supera → área izquierda 0,10 (z = {num(zinv(0.10))}): ln x = m + z·D = {num(m_l + zinv(0.10)*D)} → x = {num(l_x90, 2)}.
+d) Mediana = e^m = {num(l_med, 2)} (la media, 120, queda por encima: cola larga a la derecha).""",
+   fuente="Clase 12, ej. 7")
+
+v_a = 1 - Phi((70000 - 60000) / 5000)
+v_b = Phi((49000 - 60000) / 5000)
+v_c = 60000 + zinv(0.80) * 5000
+cerca(v_a * 100, 2.28, 0.01); cerca(v_b * 100, 1.39, 0.01); cerca(v_c, 64208.11, 0.5)
+ej("N4", "normal", "Ventas mensuales",
+   "Las ventas mensuales de un producto son una variable normal de media U$s 60.000 y desvío estándar U$s 5.000.",
+   [parte("a", "Porcentaje de los meses en que las ventas exceden U$s 70.000", v_a * 100, "pct"),
+    parte("b", "Si la empresa necesita vender por lo menos U$s 49.000 por mes para cubrir sus gastos fijos, porcentaje de los meses en que no los cubre", v_b * 100, "pct"),
+    fino(parte("c", "Venta superada con probabilidad 0,20 (U$s)", v_c, "num"), tol_rel=0.002)],
+   f"""a) z = (70.000 − 60.000)/5.000 = 2 → 1 − F(2) = {num(v_a*100, 2)} %.
+b) z = (49.000 − 60.000)/5.000 = −2,2 → F(−2,2) = {num(v_b*100, 2)} %.
+c) 'Superada con prob. 0,20' → área izquierda 0,80 (z = {num(zinv(0.80))}) → x = 60.000 + {num(zinv(0.80))}·5.000 = {num(v_c, 2)}.""",
+   fuente="Clase 12, ej. 10")
+
+# ---------- PROCESO DE POISSON, GAMMA Y EXPONENCIAL (Clase 13) ----------
+s_b = 1 - Fpo(20, 10)
+s_c = pois_pmf(10, 10)
+cerca(s_b, 0.0016, 2e-4)
+ej("S1", "poisson", "Conmutador telefónico",
+   "Un conmutador telefónico recibe en promedio 600 llamadas por hora y puede hacer como máximo 20 conexiones en un minuto dado.",
+   [parte("a", "Cantidad esperada de llamadas en un minuto (m = λ·t)", 10, "ent", "Pasá λ a llamadas por minuto"),
+    parte("b", "Probabilidad de que su capacidad sea superada en un minuto dado", s_b),
+    parte("c", "Probabilidad de que en un minuto lleguen exactamente 10 llamadas", s_c)],
+   f"""Poisson: cuento llamadas en un tramo fijo. λ = 600/60 = 10 por minuto y t = 1 min → m = 10.
+a) m = 10.
+b) La capacidad se supera si llegan 21 o más: P(X ≥ 21) = 1 − F(20; m = 10) = {num(s_b)}.
+c) P(X = 10) = e^(−10)·10^10/10! = {num(s_c)}.""",
+   fuente="Clase 13, ej. 2")
+
+lam = 0.01
+Fg = lambda x: 1 - exp(-lam * x) * (1 + lam * x)
+t_a = Fg(150)
+t_b = biseccion(Fg, 0, 5000, 0.10)
+t_c = biseccion(Fg, 0, 5000, 0.90)
+t_d = biseccion(Fg, 0, 5000, 0.50)
+cerca(t_a * 100, 44.22, 0.01); cerca(t_b, 53.18, 0.01); cerca(t_c, 388.97, 0.01); cerca(t_d, 167.84, 0.01)
+ej("S2", "poisson", "Rollos de tela que terminan en la 2.ª falla (Gamma)",
+   "El proceso de fabricación de una tela genera en promedio 1 falla cada 100 metros. La longitud de cada rollo queda determinada por la "
+   "aparición de la segunda falla, de modo que todos los rollos tienen una falla.",
+   [parte("a", "Porcentaje de los rollos con longitudes inferiores a 150 metros", t_a * 100, "pct"),
+    parte("b", "Longitud superada por el 90 % de los rollos (m)", t_b, "num"),
+    parte("c", "Longitud superada por el 10 % de los rollos (m)", t_c, "num"),
+    parte("d", "Longitud mediana (m)", t_d, "num"),
+    parte("e", "Longitud modal (m)", 100, "num")],
+   f"""Se fija la cantidad de fallas (r = 2) y la variable es la longitud hasta la 2.ª: Gamma con r = 2 y λ = 1/100 = 0,01 fallas/m.
+a) Molina: 'rollo menor a 150 m' = en 150 m hay al menos 2 fallas (m = 0,01·150 = 1,5): F_γ = G_po(2 / 1,5) = 1 − F_po(1 / 1,5) = {num(t_a)} → {num(t_a*100, 2)} %.
+b) 'Superada por el 90 %' → F_γ(x) = 0,10 → x = {num(t_b, 2)} m.
+c) 'Superada por el 10 %' → F_γ(x) = 0,90 → x = {num(t_c, 2)} m.
+d) Mediana: F_γ(x) = 0,50 → x = {num(t_d, 2)} m.
+e) Moda = (r − 1)/λ = 1/0,01 = 100 m.  (Moda 100 < mediana {num(t_d,1)} < media r/λ = 200: asimetría positiva.)""",
+   fuente="Clase 13, ej. 13")
+
+s2_a = Fpo(9, 14)
+s2_b = 10 / 7
+cerca(s2_a, 0.1094, 1e-4)
+ej("S3", "poisson", "Pedidos a un comercio mayorista",
+   "A un comercio mayorista llegan en promedio 7 pedidos por día.",
+   [parte("a", "Probabilidad de que transcurran más de 2 días para los próximos 10 pedidos", s2_a),
+    parte("b", "Tiempo medio hasta el décimo pedido (días)", s2_b, "num")],
+   f"""Se fija la cantidad de pedidos (r = 10) y la variable es el tiempo hasta el 10.º: Gamma con λ = 7 por día.
+a) P(X > 2) = G_γ(2/10; 7) = F_po(r − 1 / m = λ·x) = F_po(9 / m = 14) = {num(s2_a)}.
+   (Tardar más de 2 días equivale a que en esos 2 días lleguen 9 pedidos o menos.)
+b) E(X) = r/λ = 10/7 = {num(s2_b)} días.""",
+   fuente="Clase 13, ej. 16")
+
+pn5, pv5 = pois_pmf(5, 2), pois_pmf(5, 4)
+s3_b = 0.6 * pn5 / (0.6 * pn5 + 0.4 * pv5)
+cerca(s3_b, 0.2573, 1e-4)
+ej("S4", "poisson", "Fallas del cable: ¿equipo nuevo o viejo? (Poisson + Bayes)",
+   "Un fabricante de cable plástico bajó el promedio de fallas de 2 cada 1.000 m (equipo viejo) a 1 cada 1.000 m (equipo nuevo). Su "
+   "competidor tenía el equipo viejo y, con probabilidad 0,6, ya instaló uno nuevo igual al del fabricante. Para cerciorarse, el "
+   "fabricante compra 2.000 m de la competencia y encuentra 5 fallas.",
+   [parte("a", "Probabilidad de encontrar exactamente 5 fallas en 2.000 m si el competidor tiene el equipo nuevo", pn5),
+    parte("b", "Con esa información, probabilidad de que el competidor haya instalado el equipo nuevo", s3_b)],
+   f"""En 2.000 m, el equipo nuevo da m = 1·2 = 2 fallas esperadas y el viejo m = 2·2 = 4.
+a) P(5 | nuevo) = e^(−2)·2^5/5! = {num(pn5)}.   P(5 | viejo) = e^(−4)·4^5/5! = {num(pv5)}.
+b) Bayes: 0,6·{num(pn5)} / (0,6·{num(pn5)} + 0,4·{num(pv5)}) = {num(s3_b)}.""",
+   fuente="Clase 13, ej. 3")
 
 
 # ---------- Comprobaciones finales de consistencia ----------
