@@ -82,10 +82,24 @@ button{font:inherit; color:inherit}
 .ver:hover{text-decoration:underline}
 .num{color:var(--tinta-3)}
 
+/* ---- marcar «la sabía» / «repasar» ---- */
+.valorar{display:flex; gap:.5rem; margin-top:1.1rem}
+.valorar[hidden]{display:none}
+.valorar button{flex:1; font-family:var(--display); font-weight:600; font-size:.92rem; padding:.65rem .5rem; border:1px solid var(--linea); background:var(--papel-2); color:var(--tinta); border-radius:2px; cursor:pointer}
+.valorar button:hover{border-color:var(--tinta-3)}
+.valorar button[aria-pressed="true"]{background:var(--ac); border-color:var(--ac); color:var(--papel-2)}
+:root[data-tema="oscuro"] .valorar button[aria-pressed="true"]{color:#101315}
+.estado-tarjeta{font-family:var(--mono); font-size:.62rem; letter-spacing:.04em; color:var(--tinta-2); border:1px solid var(--ac); border-radius:2px; padding:.18rem .45rem; margin-left:auto}
+.estado-tarjeta[hidden]{display:none}
+.vacio{flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:.4rem; padding:2rem; text-align:center; color:var(--tinta-2); font-size:.95rem}
+.vacio b{font-family:var(--display); font-size:1.15rem; color:var(--tinta)}
+.chip.reinicio{margin-left:auto; border-style:dashed; font-family:var(--mono); font-size:.62rem; font-weight:400}
+
 /* ---- navegación flotante (útil con mouse) ---- */
-.flechas{position:absolute; right:.7rem; bottom:3.6rem; display:flex; flex-direction:column; gap:.35rem; z-index:3}
+.flechas{position:absolute; left:calc(100% + .6rem); bottom:1rem; display:flex; flex-direction:column; gap:.35rem; z-index:3}
 .flechas .boton{width:2.1rem; height:2.1rem; padding:0; font-size:.8rem; background:var(--papel-2)}
-@media (max-width:540px){ .flechas{display:none} .telefono{border:0} }
+@media (max-width:640px){ .flechas{display:none} }
+@media (max-width:540px){ .telefono{border:0} }
 </style>
 </head>
 <body>
@@ -101,6 +115,7 @@ button{font:inherit; color:inherit}
   <div class="filtros">
     <div class="fila" id="fila-materias" role="group" aria-label="Materia"></div>
     <div class="fila" id="fila-temas" role="group" aria-label="Tema" hidden></div>
+    <div class="fila" id="fila-modos" role="group" aria-label="Qué mostrar"></div>
   </div>
 
   <main class="feed" id="feed" tabindex="-1" aria-live="polite"></main>
@@ -171,12 +186,25 @@ button{font:inherit; color:inherit}
     ]}
   ];
 
+  // ===== PROGRESO: «la sabía» / «repasar», guardado en este navegador =====
+  // La clave sale del texto de la pregunta, así no se corre si se agregan o reordenan tarjetas.
+  var CLAVE_PROGRESO = "poris-progreso";
+  var progreso = {};
+  try{ progreso = JSON.parse(localStorage.getItem(CLAVE_PROGRESO) || "{}") || {}; }catch(e){ progreso = {}; }
+  function guardarProgreso(){ try{ localStorage.setItem(CLAVE_PROGRESO, JSON.stringify(progreso)); }catch(e){} }
+  function clave(id, texto){
+    var h = 5381;
+    for(var i = 0; i < texto.length; i++) h = ((h * 33) ^ texto.charCodeAt(i)) >>> 0;
+    return id + ":" + h.toString(36);
+  }
+  function marcaDe(t){ var v = progreso[t.k]; return v === "sabia" || v === "repasar" ? v : ""; }
+
   // ===== TARJETAS (una sola lista, en el orden de cada apunte) =====
   var TARJETAS = [];
   MATERIAS.forEach(function(m){
     var mazo = (window.MAZOS && window.MAZOS[m.id]) || [];
     var orden = {}; m.temas.forEach(function(t, i){ orden[t[0]] = i; });
-    mazo.map(function(t, i){ return { m:m, c:String(t.c), p:t.p, r:t.r, i:i }; })
+    mazo.map(function(t, i){ return { m:m, c:String(t.c), p:t.p, r:t.r, i:i, k:clave(m.id, t.p) }; })
       .filter(function(t){ return orden.hasOwnProperty(t.c); })
       .sort(function(a, b){ return orden[a.c] - orden[b.c] || a.i - b.i; })
       .forEach(function(t){ TARJETAS.push(t); });
@@ -192,7 +220,8 @@ button{font:inherit; color:inherit}
   }
 
   // ===== ESTADO Y FILTROS =====
-  var estado = { materia:"todo", tema:"todas" };
+  var MODOS = [["todas","Todas"], ["sin","Sin marcar"], ["repasar","Para repasar"], ["sabia","Ya sabidas"]];
+  var estado = { materia:"todo", tema:"todas", modo:"todas" };
   var feed = document.getElementById("feed");
   var filaMaterias = document.getElementById("fila-materias");
   var filaTemas = document.getElementById("fila-temas");
@@ -202,13 +231,15 @@ button{font:inherit; color:inherit}
   function materiaPorId(id){ for(var i = 0; i < MATERIAS.length; i++) if(MATERIAS[i].id === id) return MATERIAS[i]; return null; }
 
   function leerEstadoInicial(){
-    var h = (location.hash || "").replace(/^#/, ""), mat = null, tema = null;
+    var h = (location.hash || "").replace(/^#/, ""), mat = null, tema = null, modo = null;
     h.split("&").forEach(function(par){
       var kv = par.split("=");
       if(kv[0] === "materia") mat = decodeURIComponent(kv[1] || "");
       if(kv[0] === "tema") tema = decodeURIComponent(kv[1] || "");
+      if(kv[0] === "modo") modo = decodeURIComponent(kv[1] || "");
     });
-    if(!mat){ try{ var g = JSON.parse(localStorage.getItem("poris-filtro") || "null"); if(g){ mat = g.materia; tema = g.tema; } }catch(e){} }
+    if(!mat && !modo){ try{ var g = JSON.parse(localStorage.getItem("poris-filtro") || "null"); if(g){ mat = g.materia; tema = g.tema; modo = g.modo; } }catch(e){} }
+    estado.modo = MODOS.some(function(x){ return x[0] === modo; }) ? modo : "todas";
     var m = mat && materiaPorId(mat);
     if(!m){ estado.materia = "todo"; estado.tema = "todas"; return; }
     estado.materia = m.id;
@@ -216,7 +247,11 @@ button{font:inherit; color:inherit}
   }
 
   function guardarEstado(){
-    var h = estado.materia === "todo" ? "" : "#materia=" + encodeURIComponent(estado.materia) + (estado.tema === "todas" ? "" : "&tema=" + encodeURIComponent(estado.tema));
+    var partes = [];
+    if(estado.materia !== "todo") partes.push("materia=" + encodeURIComponent(estado.materia));
+    if(estado.materia !== "todo" && estado.tema !== "todas") partes.push("tema=" + encodeURIComponent(estado.tema));
+    if(estado.modo !== "todas") partes.push("modo=" + encodeURIComponent(estado.modo));
+    var h = partes.length ? "#" + partes.join("&") : "";
     try{ history.replaceState(null, "", location.pathname + location.search + h); }catch(e){}
     try{ localStorage.setItem("poris-filtro", JSON.stringify(estado)); }catch(e){}
   }
@@ -248,6 +283,30 @@ button{font:inherit; color:inherit}
         filaTemas.appendChild(chip(t[1], estado.tema === t[0], m.u, "tema", function(){ estado.tema = t[0]; aplicar(); }, t[2]));
       });
     }
+    pintarModos();
+  }
+
+  // Tarjetas de la materia y el tema elegidos, sin mirar el modo.
+  function enAlcance(){
+    var m = materiaPorId(estado.materia);
+    return TARJETAS.filter(function(t){ return (!m || t.m === m) && (estado.tema === "todas" || t.c === estado.tema); });
+  }
+  function pasaModo(t){
+    var v = marcaDe(t);
+    return estado.modo === "todas" || (estado.modo === "sin" ? !v : v === estado.modo);
+  }
+  var filaModos = document.getElementById("fila-modos");
+  function pintarModos(){
+    var m = materiaPorId(estado.materia), u = m ? m.u : 0, cuenta = { todas:0, sin:0, repasar:0, sabia:0 };
+    enAlcance().forEach(function(t){ var v = marcaDe(t); cuenta.todas++; cuenta[v || "sin"]++; });
+    filaModos.innerHTML = "";
+    MODOS.forEach(function(x){
+      filaModos.appendChild(chip(x[1] + " (" + cuenta[x[0]] + ")", estado.modo === x[0], u, "tema", function(){ estado.modo = x[0]; aplicar(); }));
+    });
+    filaModos.appendChild(chip("Borrar marcas", false, 0, "reinicio", function(){
+      if(!Object.keys(progreso).length) return;
+      if(window.confirm("¿Borrar todas las marcas de «la sabía» y «repasar» en este navegador?")){ progreso = {}; guardarProgreso(); estado.modo = "todas"; aplicar(); }
+    }));
   }
 
   // ===== FEED =====
@@ -260,13 +319,18 @@ button{font:inherit; color:inherit}
     var cab = document.createElement("div"); cab.className = "carta-cab";
     var etq = document.createElement("span"); etq.className = "etq"; etq.textContent = t.m.corto.toUpperCase();
     var nom = document.createElement("span"); nom.className = "tema-nombre"; nom.textContent = tema ? tema[1] + " · " + tema[2] : "";
-    cab.appendChild(etq); cab.appendChild(nom);
+    var est = document.createElement("span"); est.className = "estado-tarjeta";
+    cab.appendChild(etq); cab.appendChild(nom); cab.appendChild(est);
 
     var cuerpo = document.createElement("div"); cuerpo.className = "carta-cuerpo";
     var caja = document.createElement("div");
     var fr = document.createElement("p"); fr.className = "frente"; fr.textContent = t.p;
     var dr = document.createElement("div"); dr.className = "dorso"; dr.hidden = true; dr.textContent = t.r;
-    caja.appendChild(fr); caja.appendChild(dr); cuerpo.appendChild(caja);
+    var val = document.createElement("div"); val.className = "valorar"; val.hidden = true;
+    var bSabia = document.createElement("button"); bSabia.type = "button"; bSabia.textContent = "✓ La sabía";
+    var bRepasar = document.createElement("button"); bRepasar.type = "button"; bRepasar.textContent = "↻ Repasar";
+    val.appendChild(bSabia); val.appendChild(bRepasar);
+    caja.appendChild(fr); caja.appendChild(dr); caja.appendChild(val); cuerpo.appendChild(caja);
 
     var pie = document.createElement("div"); pie.className = "carta-pie";
     var pista = document.createElement("span"); pista.className = "pista"; pista.textContent = "Tocá para ver la respuesta";
@@ -277,25 +341,40 @@ button{font:inherit; color:inherit}
 
     a.appendChild(cab); a.appendChild(cuerpo); a.appendChild(pie);
 
+    function pintarMarca(){
+      var v = marcaDe(t);
+      bSabia.setAttribute("aria-pressed", v === "sabia" ? "true" : "false");
+      bRepasar.setAttribute("aria-pressed", v === "repasar" ? "true" : "false");
+      est.hidden = !v;
+      est.textContent = v === "sabia" ? "✓ SABIDA" : v === "repasar" ? "↻ A REPASAR" : "";
+    }
+    function marcar(v){
+      progreso[t.k] = v; guardarProgreso(); pintarMarca(); pintarModos();
+      setTimeout(function(){ ir(1); }, 180);
+    }
+    bSabia.addEventListener("click", function(){ marcar("sabia"); });
+    bRepasar.addEventListener("click", function(){ marcar("repasar"); });
+    pintarMarca();
+
     function accion(){
       if(dr.hidden){
-        dr.hidden = false; a.setAttribute("aria-expanded", "true"); pista.textContent = "Tocá de nuevo para la siguiente ↓";
+        dr.hidden = false; val.hidden = false; a.setAttribute("aria-expanded", "true"); pista.textContent = "¿La sabías? Marcá o tocá para seguir ↓";
       }else{
         ir(1);
       }
     }
-    a.addEventListener("click", function(e){ if(e.target.closest("a")) return; accion(); });
+    a.addEventListener("click", function(e){ if(e.target.closest("a, button")) return; accion(); });
     a.addEventListener("keydown", function(e){
+      if(e.target !== a) return;
       if(e.key === "Enter" || e.key === " "){ e.preventDefault(); accion(); }
+      else if(!dr.hidden && (e.key === "1" || e.key === "s")){ marcar("sabia"); }
+      else if(!dr.hidden && (e.key === "2" || e.key === "r")){ marcar("repasar"); }
     });
     return a;
   }
 
   function aplicar(){
-    var m = materiaPorId(estado.materia);
-    actuales = TARJETAS.filter(function(t){
-      return (!m || t.m === m) && (estado.tema === "todas" || t.c === estado.tema);
-    });
+    actuales = enAlcance().filter(pasaModo);
     if(estado.materia === "todo") mezclar(actuales);
     pintarFiltros();
     guardarEstado();
@@ -305,6 +384,16 @@ button{font:inherit; color:inherit}
   function pintarFeed(){
     var frag = document.createDocumentFragment();
     actuales.forEach(function(t, i){ frag.appendChild(crearCarta(t, i + 1, actuales.length)); });
+    if(!actuales.length){
+      var v = document.createElement("div"); v.className = "vacio";
+      var msg = { sin:["Ya marcaste todo por acá", "No quedan tarjetas sin marcar en esta selección."],
+                  repasar:["Nada para repasar", "Las que marques con «Repasar» aparecen en este filtro."],
+                  sabia:["Todavía no marcaste ninguna como sabida", "Las que marques con «La sabía» aparecen en este filtro."],
+                  todas:["No hay tarjetas", "Probá con otra materia o tema."] }[estado.modo];
+      v.innerHTML = "<b></b><span></span>";
+      v.firstChild.textContent = msg[0]; v.lastChild.textContent = msg[1];
+      frag.appendChild(v);
+    }
     feed.style.scrollBehavior = "auto";
     feed.innerHTML = "";
     feed.appendChild(frag);
