@@ -108,7 +108,7 @@ Todas verifican la sesión del usuario y reintentan ante los errores intermitent
 ### Operación (lo que se hace a mano)
 
 - **SQL, en este orden, en el SQL Editor de Supabase** (todos son idempotentes): `schema.sql` → `seed_etica.sql` → `fase3.sql` → `fase4.sql` → `fase4b_tutor.sql` → `fase5_python.sql` + `seed_python.sql` → `fase6_correccion_practica.sql` → `fase6_dominio.sql` → `fase6_opciones_etica.sql` → `fase6_estadistica.sql` → `fase8_estadistica_continuas.sql` → `seed_estadistica.sql` → `fase7_calculo.sql` → `fase7_calculo_endurecer.sql`. *Falta confirmar que el último ya se corrió.*
-- **Edge Functions:** `npx supabase functions deploy <nombre>` para `corregir-desarrollo`, `corregir-practica`, `corregir-codigo`, `corregir-lapiz` y `preguntar-apunte`. El secret `GEMINI_API_KEY` se carga con `supabase secrets set` (nunca en el repo). El CLI no tiene `functions logs`: para ver errores hay que mirar el Dashboard.
+- **Edge Functions:** `npx supabase functions deploy <nombre>` para `corregir-desarrollo`, `corregir-practica`, `corregir-codigo`, `corregir-lapiz` y `preguntar-apunte`. El secret `GEMINI_API_KEY` se carga con `supabase secrets set` (nunca en el repo). El CLI no tiene `functions logs`: para ver errores hay que mirar el Dashboard. **Mergear un PR no despliega las funciones:** si un PR agrega o cambia algo en `supabase/functions/`, hay que desplegarlo a mano. Para ver cuáles están activas: `npx supabase functions list --project-ref fwvubyecchzsjwtvddwv` (tienen que figurar las cinco). Si una función no está desplegada, la página muestra «No pude corregir… (código: unavailable) · Failed to send a request to the Edge Function» y la función responde 404.
 - **Supabase gratis se pausa a los 7 días sin actividad.** Pasó el 2026-10-01: llegó el mail, se reactivó desde el dashboard y no se perdió nada. Se puede reactivar dentro de los 90 días; después, el proyecto no se puede restaurar. Mientras está pausado no andan el login, los exámenes, el tutor ni las correcciones (los apuntes sí).
 - **Deploy:** Vercel despliega solo cada push a `main`. El repo es público (`IKarvouniaris/EstudIAndo`) y hay un colaborador (`ivanox97`) que trabaja por pull requests; `main` no tiene protección de rama.
 - **Contenido nuevo:** la regla "clase + resumen de transcripción" está en `CLAUDE.md`. Los bancos grandes se generan con scripts de `tools/` (`seed.py`, `seed_python.py`, `seed_estadistica.py`, `generar_estadistica.py`), que producen los `seed_*.sql`.
@@ -378,6 +378,10 @@ Quinta materia en la portada (fila del lunes). `calculo.html` no sigue la planti
 - **Quedó sin tocar:** 23 pasos tienen la misma explicación ("No.", "No corresponde.") en las dos opciones incorrectas. Es del original; se puede mejorar aparte.
 - **SQL:** `supabase/fase7_calculo_endurecer.sql` (se corre después de `fase7_calculo.sql`, idempotente): restringe los nombres de documento a `progreso`, `plan`, `duo` y `pz-<id>`, pone un tope de 300 documentos por usuario, exige que el parche de `calculo_merge` sea un objeto y hace `revoke` de las funciones a `public` y `anon` como el resto del proyecto. Probado en un Postgres local junto con el `store.js` real (dos dispositivos, borrados, reintentos, migración).
 - **Abierto — PR #11 (`ivanox97`, 2026-10-18):** tres commits sobre Cálculo: botón «Comprobar» debajo de las opciones del entrenador, sacar el plan de estudio personal junto con las referencias a un parcial, y un ajuste a `fase7_calculo.sql`. Toca `calculo.html` y `calculo/duo.js`, así que probablemente choque con el rediseño del 2026-10-18. Sin revisar ni mergear.
+
+### Corrección con lápiz de Cálculo: función sin desplegar (2026-10-21)
+
+La práctica con lápiz de `calculo.html` mostraba «No pude corregir esta vez… (código: unavailable) · Failed to send a request to the Edge Function». **Causa:** `corregir-lapiz` (agregada en el PR #10) nunca se había desplegado en Supabase; el listado del proyecto traía solo las otras cuatro y pedirle la URL a la función daba 404 (las demás respondían bien). **Solución:** `npx supabase functions deploy corregir-lapiz --project-ref fwvubyecchzsjwtvddwv`, sin cambios en el repo (el código y el secret `GEMINI_API_KEY` estaban bien). Se verificó que responde (CORS 200; sin sesión devuelve 401 `session_expired`) y la corrección anda con una cuenta real. **Lección:** al mergear un PR con funciones nuevas, desplegarlas y comprobar con `functions list`.
 
 ---
 
@@ -771,6 +775,7 @@ Todavía **no existen** (son del plan): `parcial.html`, `admin.html`, `duelos.ht
 - [ ] Anotado qué archivos cambiaron (lo listamos al cerrar cada cambio importante).
 - [ ] SQL guardado en `supabase/`, idempotente y corrido en el proyecto (si se tocó, probarlo antes en un Postgres local).
 - [ ] Pruebas de seguridad pasadas (RLS, cooldown, secretos).
+- [ ] Si se tocó una Edge Function (o entró en un PR): desplegada y visible en `npx supabase functions list`.
 - [ ] Sin claves privadas en el diff (`git diff` antes de commitear).
 - [ ] Si se tocó un banco de preguntas: opciones de largo parejo, sin duplicados y con las fórmulas renderizando.
 - [ ] Estado actualizado en este archivo (secciones 1 y 6).
