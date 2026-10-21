@@ -392,6 +392,9 @@ Pedido del dueño del repo. El sitio no tenía logo ni favicon.
 - **Guiños a Homero, sin usar al personaje** (es de otros y el repo es público; solo se usan muletillas): (1) la dona del logo; (2) frases en los mensajes: «¡D'oh!» al inicio de los errores de los simulacros, de los leaderboards, del tutor y de la corrección con lápiz de Cálculo, «Mmm… aprobado.» al sacar 80 % o más en un examen y «¡D'oh! Todavía falta repasar.» con menos de 40 %, y los estados vacíos de Poris; (3) `404.html`, página de error propia (Vercel la usa sola) con una dona flotando; (4) un huevo de pascua: **tocar tres veces seguidas la marca** hace llover donas (con «reducir movimiento» activado, solo aparece un cartelito).
 - **Verificación:** en el navegador, la marca montada en índice, Cálculo y Poris, el favicon cargando, la lluvia (34 donas que se limpian solas), que dos toques no la disparan y la 404 en oscuro; los scripts de los simulacros pasan el chequeo de sintaxis.
 
+### Entrenador de decisiones de Cálculo: botón «Comprobar» más grande (2026-10-21)
+
+El botón de la barra de abajo (que primero dice «Comprobar» y después «Continuar» / «Ver resultado») pasó a ocupar **todo el ancho** del contenido (hasta 760 px) y a ser más alto (3,6 rem, texto de 1,15 rem), con la explicación de acierto o error **arriba** del botón en lugar de al costado. Así queda siempre en el mismo lugar, abajo y a mano del pulgar en el celular. Solo cambia el CSS de `calculo.html` (`.duo-foot`, `.duo-fb`, `.duo-btn`); la lógica de `calculo/duo.js` no se tocó. Se midió en escritorio y en 375 px (botón de 343 × 58 px, sin scroll horizontal). **Se solapa con el PR #11**, que también movía «Comprobar» (debajo de las opciones): al resolver ese PR hay que decidir cuál de las dos posiciones queda.
 
 ---
 
