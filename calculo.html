@@ -316,7 +316,7 @@
   .duo-node-txt{display:flex; flex-direction:column; min-width:0;}
   .duo-node-t{font-family:var(--display); font-weight:600; font-size:.95rem;}
   .duo-node-s{font-family:var(--mono); font-size:.64rem; color:var(--tinta-3);}
-  .duo{position:fixed; inset:0; z-index:70; background:var(--papel); display:grid; grid-template-rows:auto 1fr auto; outline:none;}
+  .duo{position:fixed; inset:0; z-index:70; background:var(--papel); display:grid; grid-template-columns:minmax(0,1fr); grid-template-rows:auto 1fr; outline:none;}
   .duo-top{display:flex; align-items:center; gap:.9rem; padding:.75rem 1rem; max-width:760px; width:100%; margin:0 auto;}
   .duo-x{background:none; border:none; font-size:1.2rem; color:var(--tinta-2); cursor:pointer; font-family:inherit; min-width:40px; min-height:40px;}
   .duo-x.confirm{font-family:var(--mono); font-size:.72rem; color:var(--alerta); font-weight:700;}
@@ -337,21 +337,21 @@
   .duo-opt.bad{border-color:var(--alerta); background:var(--alerta-suave);}
   .duo-opt:disabled{cursor:default;}
   .duo-k{flex-shrink:0; width:1.35rem; height:1.35rem; border:1px solid var(--linea); border-radius:2px; background:var(--papel-2); font-family:var(--mono); font-size:.68rem; font-weight:700; display:flex; align-items:center; justify-content:center; color:var(--tinta-3);}
-  .duo-foot{border-top:1px solid var(--linea); background:var(--papel-2); padding:.9rem 1rem calc(1rem + env(safe-area-inset-bottom,0px)); display:flex; flex-direction:column; align-items:center; gap:.75rem;}
-  .duo-foot > *{width:100%; max-width:760px;}
-  .duo-foot.ok{background:var(--bien-suave); color:var(--tinta); border-top:3px solid var(--bien);}
-  .duo-foot.bad{background:var(--alerta-suave); color:var(--tinta); border-top:3px solid var(--alerta);}
+  /* Comprobar / Continuar: justo debajo de las opciones; la explicación (acierto o error) aparece arriba del botón */
+  .duo-foot{margin-top:1.1rem; display:flex; flex-direction:column; gap:.75rem;}
+  .duo-foot.ok, .duo-foot.bad{padding:.9rem 1rem; border:1px solid var(--linea); border-left-width:4px; border-radius:2px; color:var(--tinta);}
+  .duo-foot.ok{background:var(--bien-suave); border-color:var(--bien);}
+  .duo-foot.bad{background:var(--alerta-suave); border-color:var(--alerta);}
   .duo-fb{font-size:.93rem; line-height:1.5; max-height:34vh; overflow-y:auto;}
   .duo-fb:empty{display:none;}
   .duo-fb-t{font-family:var(--display); font-weight:700; font-size:1.05rem; margin-bottom:.1rem;}
   .duo-foot.ok .duo-fb-t{color:var(--bien);}
   .duo-foot.bad .duo-fb-t{color:var(--alerta);}
   .duo-fb-r{margin-top:.4rem; color:var(--tinta);}
-  /* Comprobar / Continuar: ancho completo y alto, abajo del todo (a mano del pulgar) */
-  .duo-btn{min-height:3.6rem; padding:1rem 1.5rem; font-size:1.15rem; font-weight:700; letter-spacing:.03em;}
+  .duo-btn{width:100%; min-height:3.6rem; padding:1rem 1.5rem; font-size:1.15rem; font-weight:700; letter-spacing:.03em;}
   .duo-foot.ok .duo-btn{background:var(--bien); border-color:var(--bien); color:var(--papel);}
   .duo-foot.bad .duo-btn{background:var(--alerta); border-color:var(--alerta); color:var(--papel);}
-  .duo-foot.end{justify-content:center;}
+  .duo-foot.end{align-items:center;}
   .duo-end{text-align:center; padding:1.8rem 0;}
   .duo-big{font-size:3.2rem;}
   .duo-end h2{margin:.5rem 0 1.1rem;}

@@ -175,7 +175,7 @@
     el.setAttribute('aria-label', 'Lección del entrenador');
     el.innerHTML = '<header class="duo-top"><button class="duo-x" aria-label="Salir de la lección">✕</button>'
       + '<div class="duo-bar"><div></div></div><div class="duo-hearts" aria-label="Vidas"></div></header>'
-      + '<main class="duo-body"></main><footer class="duo-foot"><div class="duo-fb" role="status"></div><button class="btn duo-btn" disabled>Comprobar</button></footer>';
+      + '<main class="duo-body"></main>';
     document.body.appendChild(el);
     document.body.classList.add('pr-open');
     view.el = el;
@@ -186,7 +186,8 @@
       xb.classList.add('confirm'); xb.textContent = '¿Salir? Se pierde esta lección';
       exitTimer = setTimeout(() => { xb.classList.remove('confirm'); xb.textContent = '✕'; }, 3000);
     });
-    el.querySelector('.duo-btn').addEventListener('click', onButton);
+    // El botón se vuelve a dibujar en cada paso (vive debajo de las opciones): se escucha el clic en el overlay.
+    el.addEventListener('click', e => { if (e.target.closest('.duo-btn')) onButton(); });
     el.addEventListener('keydown', onKey);
     el.tabIndex = -1;
     el.focus();
@@ -232,7 +233,8 @@
       + '<div class="duo-enun">' + q.p.enunciado + '</div>'
       + '<div class="duo-stepn">Paso ' + (v.si + 1) + ' de ' + q.steps.length + (st.isType ? ' · antes de hacer cuentas' : '') + '</div>'
       + '<h3 class="duo-q">' + st.prompt + '</h3>'
-      + '<div class="duo-opts">' + st.order.map((oi, k) => '<button class="duo-opt" data-oi="' + oi + '"><span class="duo-k">' + (k + 1) + '</span><span>' + st.options[oi].text + '</span></button>').join('') + '</div>';
+      + '<div class="duo-opts">' + st.order.map((oi, k) => '<button class="duo-opt" data-oi="' + oi + '"><span class="duo-k">' + (k + 1) + '</span><span>' + st.options[oi].text + '</span></button>').join('') + '</div>'
+      + '<div class="duo-foot"><div class="duo-fb" role="status"></div><button class="btn duo-btn" disabled>Comprobar</button></div>';
     body.querySelectorAll('.duo-opt').forEach(b => b.addEventListener('click', () => {
       if (v.checked) return;
       body.querySelectorAll('.duo-opt').forEach(x => x.classList.toggle('sel', x === b));
@@ -286,7 +288,8 @@
     btn.textContent = v.hearts <= 0 ? 'Ver resultado' : 'Continuar';
     btn.disabled = false;
     renderMath(foot);
-    btn.focus();
+    foot.scrollIntoView({ block: 'nearest' });
+    btn.focus({ preventScroll: true });
   }
 
   function advance() {
@@ -334,7 +337,8 @@
     });
     paintTop();
     const st = stats();
-    const body = v.el.querySelector('.duo-body'), foot = v.el.querySelector('.duo-foot');
+    const body = v.el.querySelector('.duo-body');
+    let foot;
     const nextL = v.kind === 'lec' ? nextLesson(v.lec) : null;
     if (ok) {
       body.innerHTML = '<div class="duo-end"><div class="duo-big">' + (perfect ? '⭐' : '🎉') + '</div>'
@@ -348,6 +352,8 @@
       body.innerHTML = '<div class="duo-end"><div class="duo-big">💔</div><h2>Te quedaste sin vidas</h2>'
         + '<p class="duo-end-p">Lo que fallaste quedó guardado en el repaso de errores. Repasá la teoría del tema y volvé a intentarlo: las opciones cambian de lugar cada vez.</p></div>';
     }
+    body.insertAdjacentHTML('beforeend', '<div class="duo-foot"><div class="duo-fb"></div><button class="btn duo-btn" hidden>Comprobar</button></div>');
+    foot = body.querySelector('.duo-foot');
     foot.className = 'duo-foot end';
     foot.querySelector('.duo-fb').innerHTML = '<div class="duo-end-btns">'
       + (!ok ? '<button class="btn" data-a="retry">Reintentar</button>' : '')
