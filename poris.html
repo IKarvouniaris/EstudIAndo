@@ -39,7 +39,7 @@ button{font:inherit; color:inherit}
 
 /* ---- barra superior ---- */
 .barra{display:flex; align-items:center; justify-content:space-between; gap:.6rem; padding:.65rem 1rem; background:var(--papel-2); border-bottom:1px solid var(--linea)}
-.logo{font-family:var(--display); font-weight:700; font-size:1.15rem; letter-spacing:.01em; display:flex; align-items:baseline; gap:.4rem}
+.logo{font-family:var(--display); font-weight:700; font-size:1.15rem; letter-spacing:.01em; display:flex; align-items:center; gap:.45rem}
 .logo b{font-size:1.35rem; color:var(--u1)}
 .logo small{font-family:var(--mono); font-weight:400; font-size:.62rem; color:var(--tinta-3); letter-spacing:.04em}
 .acciones{display:flex; align-items:center; gap:.45rem}
@@ -116,11 +116,15 @@ button{font:inherit; color:inherit}
 @media (max-width:640px){ .flechas{display:none} }
 @media (max-width:540px){ .telefono{border:0} }
 </style>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="img/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<script defer src="js/marca.js"></script>
 </head>
 <body>
 <div class="telefono">
   <header class="barra">
-    <span class="logo"><b>Π</b> Poris <small id="resumen"></small></span>
+    <span class="logo"><i data-marca style="--marca-tam:1.8rem"></i> Poris <small id="resumen"></small></span>
     <div class="acciones">
       <button class="boton" id="btn-tema" type="button">MODO OSCURO</button>
       <a class="boton" href="index.html">estudIAndo →</a>
@@ -448,9 +452,9 @@ button{font:inherit; color:inherit}
     actuales.forEach(function(t, i){ frag.appendChild(crearCarta(t, i + 1, actuales.length)); });
     if(!actuales.length){
       var v = document.createElement("div"); v.className = "vacio";
-      var msg = { sin:["Ya marcaste todo por acá", "No quedan tarjetas sin marcar en esta selección."],
-                  repasar:["Nada para repasar", "Las que marques con «Repasar» aparecen en este filtro."],
-                  sabia:["Todavía no marcaste ninguna como sabida", "Las que marques con «La sabía» aparecen en este filtro."],
+      var msg = { sin:["Mmm… ya marcaste todo por acá", "No quedan tarjetas sin marcar en esta selección."],
+                  repasar:["Mmm… nada para repasar", "Las que marques con «Repasar» aparecen en este filtro."],
+                  sabia:["¡D’oh! Todavía no marcaste ninguna como sabida", "Las que marques con «La sabía» aparecen en este filtro."],
                   todas:["No hay tarjetas", "Probá con otra materia o tema."] }[estado.modo];
       v.innerHTML = "<b></b><span></span>";
       v.firstChild.textContent = msg[0]; v.lastChild.textContent = msg[1];

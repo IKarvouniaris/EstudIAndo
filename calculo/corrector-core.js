@@ -158,7 +158,7 @@
     image_rejected: { msg: 'La hoja es demasiado grande para mandarla. Revisá antes, con menos renglones escritos.', hideAI: false },
     cancelled: { msg: '', hideAI: false }
   };
-  const GENERIC = { msg: 'No pude corregir esta vez. Probá de nuevo con el botón.', hideAI: false };
+  const GENERIC = { msg: '¡D’oh! No pude corregir esta vez. Probá de nuevo con el botón.', hideAI: false };
   function errorCopy(code) {
     const c = ERROR_COPY[code] || GENERIC;
     if (!c.msg || !code) return c;

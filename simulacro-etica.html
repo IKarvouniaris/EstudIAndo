@@ -217,6 +217,9 @@ details.modelo .cuerpo div b{font-family:var(--mono); color:var(--acento)}
 .ex-resultado .num{font-family:var(--display); font-size:2.6rem; font-weight:700}
 .ex-cooldown{font-family:var(--mono); font-size:1.3rem; margin:1rem 0}
 </style>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="img/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
 </head>
 <body>
 
@@ -675,7 +678,7 @@ aplicarModo(estado.modo);
         if(restantes > 0) return mostrarCooldown(restantes);
         mostrarIntro();
       }).catch(function(err){
-        abrir('<button class="ex-cerrar" data-ex-cerrar>✕ cerrar</button><h2>Error</h2><p>'+esc(err.message)+'</p>');
+        abrir('<button class="ex-cerrar" data-ex-cerrar>✕ cerrar</button><h2>¡D’oh! Error</h2><p>'+esc(err.message)+'</p>');
       });
     });
   });
@@ -709,7 +712,7 @@ aplicarModo(estado.modo);
       pintarExamen();
       ex.timer = setInterval(tick, 1000);
     }).catch(function(err){
-      abrir('<button class="ex-cerrar" data-ex-cerrar>✕ cerrar</button><h2>No se pudo empezar</h2><p>'+esc(err.message)+'</p>');
+      abrir('<button class="ex-cerrar" data-ex-cerrar>✕ cerrar</button><h2>¡D’oh! No se pudo empezar</h2><p>'+esc(err.message)+'</p>');
     });
   }
 
@@ -808,13 +811,14 @@ aplicarModo(estado.modo);
         mostrarResultadoFinal(r.puntaje_final_pct, htmlMc, '<p style="color:var(--mal)">No se pudo corregir el desarrollo con IA: '+esc(err.message)+'. El puntaje de opción múltiple ya quedó guardado.</p>');
       });
     }).catch(function(err){
-      abrir('<button class="ex-cerrar" data-ex-cerrar>✕ cerrar</button><h2>Error al corregir</h2><p>'+esc(err.message)+'</p>');
+      abrir('<button class="ex-cerrar" data-ex-cerrar>✕ cerrar</button><h2>¡D’oh! Error al corregir</h2><p>'+esc(err.message)+'</p>');
     });
   }
 
+  function frasePorcentaje(p){ return p >= 80 ? 'Mmm… aprobado.' : (p != null && p < 40 ? '¡D’oh! Todavía falta repasar.' : ''); }
   function mostrarResultadoFinal(puntajeFinalPct, htmlMc, htmlDesarrollo){
     var num = (puntajeFinalPct==null) ? "—" : puntajeFinalPct + "%";
-    var h = '<button class="ex-cerrar" data-ex-cerrar>✕ cerrar</button><div class="ex-resultado"><div class="num">'+num+'</div><p>puntaje final (opción múltiple + desarrollo)</p></div>';
+    var h = '<button class="ex-cerrar" data-ex-cerrar>✕ cerrar</button><div class="ex-resultado"><div class="num">'+num+'</div><p>puntaje final (opción múltiple + desarrollo)</p><p><em>'+frasePorcentaje(puntajeFinalPct)+'</em></p></div>';
     h += htmlMc + htmlDesarrollo;
     h += '<p style="text-align:center; margin-top:1rem"><a class="btn on" href="leaderboard.html">Ver leaderboard</a></p>';
     panel.innerHTML = h;

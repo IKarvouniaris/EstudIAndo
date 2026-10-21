@@ -56,6 +56,9 @@ tr:first-child td{background:var(--ok-suave)}
 .hist-resumen b{display:block; font-family:var(--display); font-size:1.2rem; color:var(--tinta)}
 .hist-tabla-toggle{cursor:pointer; font-family:var(--mono); font-size:.68rem; color:var(--tinta-3); background:none; border:0; text-decoration:underline; padding:0; margin-top:.6rem}
 </style>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="img/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
 </head>
 <body>
 <div class="marco">
@@ -116,7 +119,7 @@ Sesion.montar("chip-sesion");
       h += '</tbody></table>';
       cont.innerHTML = h;
     }).catch(function(err){
-      cont.innerHTML = '<p class="error">Error cargando el leaderboard: '+esc(err.message)+'</p>';
+      cont.innerHTML = '<p class="error">¡D’oh! Error cargando el leaderboard: '+esc(err.message)+'</p>';
     });
   }
   Auth.onCambioSesion(function(s){ if(s) cargar(); else cont.innerHTML = '<p class="vacio">Iniciá sesión arriba para ver el leaderboard.</p>'; });
@@ -198,7 +201,7 @@ Sesion.montar("chip-sesion");
   function cargarHistorial(){
     cont.innerHTML = '<p class="cargando">Cargando…</p>';
     CodigoApi.historialPropio("python").then(pintarHistorial).catch(function(err){
-      cont.innerHTML = '<p class="error">Error cargando tu historial: '+esc(err.message)+'</p>';
+      cont.innerHTML = '<p class="error">¡D’oh! Error cargando tu historial: '+esc(err.message)+'</p>';
     });
   }
   Auth.onCambioSesion(function(s){ if(s) cargarHistorial(); else cont.innerHTML = '<p class="vacio">Iniciá sesión arriba para ver tu historial.</p>'; });

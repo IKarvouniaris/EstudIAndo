@@ -205,6 +205,10 @@ table.frases td:first-child{font-family:var(--display); font-weight:600}
 .tutor-form button:disabled{opacity:.5; cursor:default}
 @media (max-width:640px){ #tutor-btn{right:.8rem; bottom:.8rem} #tutor-panel{right:.8rem; bottom:4.6rem} }
 </style>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="img/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<script defer src="js/marca.js"></script>
 </head>
 <body>
 <div class="envoltorio" id="envoltorio">
@@ -214,6 +218,7 @@ table.frases td:first-child{font-family:var(--display); font-weight:600}
   <a class="riel-volver" href="poris.html#materia=estadistica">Π Repasar en Poris</a>
   <div class="riel-marca">
     <div>
+      <i data-marca style="--marca-tam:2.1rem; display:block; margin-bottom:.5rem"></i>
       <b>Estadística<br>General</b>
       <span>UADE · 2.º cuatrimestre 2026 · 1.er y 2.º parcial</span>
     </div>
@@ -1743,7 +1748,7 @@ DominioWidget.montar("dominio", NumApi.dominioPropio);
         historial.push({ rol: "model", texto: respuesta });
       }).catch(function(err){
         cargando.remove();
-        agregarMensaje("model", "No pude responder: " + err.message);
+        agregarMensaje("model", "¡D’oh! No pude responder: " + err.message);
       }).finally(function(){
         enviar.disabled = false;
       });

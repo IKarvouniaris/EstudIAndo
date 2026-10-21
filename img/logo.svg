@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="estudIAndo">
+  <title>estudIAndo</title>
+  <rect width="64" height="64" rx="10" fill="#15181A"/>
+  <g transform="translate(-2.8 0)">
+    <rect x="12" y="19" width="8" height="30" fill="#EDEEE9"/>
+    <polygon points="12,49 20,49 16,57" fill="#EDEEE9"/>
+    <path d="M8.7,13.5 a7.3,7.3 0 1,0 14.6,0 a7.3,7.3 0 1,0 -14.6,0 Z M13.5,13.5 a2.5,2.5 0 1,1 5,0 a2.5,2.5 0 1,1 -5,0 Z" fill="#D9A05B" fill-rule="evenodd"/>
+    <path d="M9.6,13.5 a6.4,6.4 0 1,0 12.8,0 a6.4,6.4 0 1,0 -12.8,0 Z M13.5,13.5 a2.5,2.5 0 1,1 5,0 a2.5,2.5 0 1,1 -5,0 Z" fill="#EE8FB5" fill-rule="evenodd"/>
+    <rect x="16.39" y="8.82" width="2.3" height="0.9" rx="0.45" fill="#909EF0" transform="rotate(-35 17.54 9.27)"/>
+    <rect x="19.31" y="12.42" width="2.3" height="0.9" rx="0.45" fill="#E2A95B" transform="rotate(27 20.46 12.87)"/>
+    <rect x="17.62" y="16.60" width="2.3" height="0.9" rx="0.45" fill="#4FC7AC" transform="rotate(87 18.77 17.05)"/>
+    <rect x="12.60" y="16.95" width="2.3" height="0.9" rx="0.45" fill="#D39AD6" transform="rotate(155 13.75 17.40)"/>
+    <rect x="10.52" y="11.81" width="2.3" height="0.9" rx="0.45" fill="#A98BFF" transform="rotate(231 11.67 12.26)"/>
+    <polygon points="38,12 46,12 60,58 52.5,58 42,23.5 31.5,58 24,58" fill="#EDEEE9"/>
+    <circle cx="35.8" cy="50" r="1.5" fill="#909EF0"/>
+    <circle cx="38.9" cy="50" r="1.5" fill="#E2A95B"/>
+    <circle cx="42" cy="50" r="1.5" fill="#4FC7AC"/>
+    <circle cx="45.1" cy="50" r="1.5" fill="#D39AD6"/>
+    <circle cx="48.2" cy="50" r="1.5" fill="#A98BFF"/>
+  </g>
+</svg>

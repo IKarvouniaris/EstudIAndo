@@ -383,6 +383,16 @@ Quinta materia en la portada (fila del lunes). `calculo.html` no sigue la planti
 
 La práctica con lápiz de `calculo.html` mostraba «No pude corregir esta vez… (código: unavailable) · Failed to send a request to the Edge Function». **Causa:** `corregir-lapiz` (agregada en el PR #10) nunca se había desplegado en Supabase; el listado del proyecto traía solo las otras cuatro y pedirle la URL a la función daba 404 (las demás respondían bien). **Solución:** `npx supabase functions deploy corregir-lapiz --project-ref fwvubyecchzsjwtvddwv`, sin cambios en el repo (el código y el secret `GEMINI_API_KEY` estaban bien). Se verificó que responde (CORS 200; sin sesión devuelve 401 `session_expired`) y la corrección anda con una cuenta real. **Lección:** al mergear un PR con funciones nuevas, desplegarlas y comprobar con `functions list`.
 
+### Logo, favicon, página 404 y guiños a Homero (2026-10-21)
+
+Pedido del dueño del repo. El sitio no tenía logo ni favicon.
+
+- **Logo** (`img/logo.svg`, `img/logo-claro.svg`, `favicon.svg`): las letras «IA» de estudIAndo. La «I» es un **lápiz coronado por una dona** con granas; la «A» no tiene travesaño: lo reemplazan **cinco puntos, uno por materia**, con los colores de los tokens (`--u1` a `--u5`). Versión con cuadrado oscuro, versión sin cuadrado para fondo claro y un favicon simplificado (la barra de cinco colores). Íconos: `img/favicon-32.png`, `img/icon-192.png` y `img/apple-touch-icon.png`, generados desde los SVG.
+- **Marca en las páginas:** `js/marca.js` dibuja la marca con `<i data-marca></i>` (tamaño con `--marca-tam`), con los colores de los tokens, así que sigue al modo claro y oscuro. Está en la cabecera del índice, en el riel de los cinco apuntes y en Poris (que reemplazó el «Π»). Todas las páginas tienen el favicon. Una página nueva tiene que incluir los tres `<link rel="icon">` y, si lleva la marca, `<script defer src="js/marca.js">`.
+- **Guiños a Homero, sin usar al personaje** (es de otros y el repo es público; solo se usan muletillas): (1) la dona del logo; (2) frases en los mensajes: «¡D'oh!» al inicio de los errores de los simulacros, de los leaderboards, del tutor y de la corrección con lápiz de Cálculo, «Mmm… aprobado.» al sacar 80 % o más en un examen y «¡D'oh! Todavía falta repasar.» con menos de 40 %, y los estados vacíos de Poris; (3) `404.html`, página de error propia (Vercel la usa sola) con una dona flotando; (4) un huevo de pascua: **tocar tres veces seguidas la marca** hace llover donas (con «reducir movimiento» activado, solo aparece un cartelito).
+- **Verificación:** en el navegador, la marca montada en índice, Cálculo y Poris, el favicon cargando, la lluvia (34 donas que se limpian solas), que dos toques no la disparan y la 404 en oscuro; los scripts de los simulacros pasan el chequeo de sintaxis.
+
+
 ---
 
 ## 7. Plan original por fases (referencia)
@@ -738,10 +748,13 @@ estudIAndo/
 ├─ leaderboard.html                 ranking de Ética (con historial personal)
 ├─ leaderboard-python.html          ranking de Python
 ├─ leaderboard-estadistica.html     ranking de Estadística
+├─ 404.html                         página de error propia (¡D'oh!)
+├─ favicon.svg · img/               logo, favicon e íconos (SVG y PNG)
 ├─ config.js                        URL de Supabase + anon key (públicas)
 ├─ vercel.json · .gitignore · CLAUDE.md · ROADMAP.md
 ├─ js/
 │  ├─ auth.js · sesion.js           login (Google / magic link) y chip de sesión con perfil
+│  ├─ marca.js                      dibuja la marca (<i data-marca>) y el huevo de pascua de las donas
 │  ├─ simulacro-api.js · examen-api.js   cliente de Ética (práctica y examen)
 │  ├─ codigo-api.js                 cliente de Python (examen de código)
 │  ├─ num-api.js                    cliente de Estadística (examen numérico)

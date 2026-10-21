@@ -80,6 +80,9 @@ a{color:var(--acento)}
 .ex-resultado .num{font-family:var(--display); font-size:2.6rem; font-weight:700}
 .criterio{font-size:.88rem; margin:.35rem 0}
 </style>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="img/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
 </head>
 <body>
 
@@ -206,7 +209,7 @@ function cargarEjercicios(){
   CodigoApi.cargarEjercicios("python").then(function(datos){
     EJERCICIOS = datos; pintar();
   }).catch(function(err){
-    contEj.innerHTML = '<p class="sin-datos error">Error cargando los ejercicios: '+esc(err.message)+'</p>';
+    contEj.innerHTML = '<p class="sin-datos error">¡D’oh! Error cargando los ejercicios: '+esc(err.message)+'</p>';
   });
 }
 Auth.onCambioSesion(function(s){ if(s) cargarEjercicios(); else contEj.innerHTML = '<p class="sin-datos">Iniciá sesión arriba para ver los ejercicios.</p>'; });
@@ -254,7 +257,7 @@ Auth.obtenerSesion().then(function(s){ if(s) cargarEjercicios(); else contEj.inn
         if(restantes > 0) return mostrarCooldown(restantes);
         mostrarIntro();
       }).catch(function(err){
-        abrir('<button class="ex-cerrar" data-ex-cerrar>✕ cerrar</button><h2>Error</h2><p>'+esc(err.message)+'</p>');
+        abrir('<button class="ex-cerrar" data-ex-cerrar>✕ cerrar</button><h2>¡D’oh! Error</h2><p>'+esc(err.message)+'</p>');
       });
     });
   });
@@ -285,7 +288,7 @@ Auth.obtenerSesion().then(function(s){ if(s) cargarEjercicios(); else contEj.inn
       pintarExamen();
       ex.timer = setInterval(tick, 1000);
     }).catch(function(err){
-      abrir('<button class="ex-cerrar" data-ex-cerrar>✕ cerrar</button><h2>No se pudo empezar</h2><p>'+esc(err.message)+'</p>');
+      abrir('<button class="ex-cerrar" data-ex-cerrar>✕ cerrar</button><h2>¡D’oh! No se pudo empezar</h2><p>'+esc(err.message)+'</p>');
     });
   }
 
@@ -326,7 +329,7 @@ Auth.obtenerSesion().then(function(s){ if(s) cargarEjercicios(); else contEj.inn
       abrir('<h2>Corrigiendo con IA…</h2><p style="font-size:.85rem; color:var(--tinta-3)">Son 3 ejercicios, puede tardar medio minuto.</p>');
       return CodigoApi.corregirCodigo(intentoId);
     }).then(function(r){
-      var h = '<button class="ex-cerrar" data-ex-cerrar>✕ cerrar</button><div class="ex-resultado"><div class="num">'+r.puntaje_final_pct+'%</div><p>puntaje final (promedio de los 3 ejercicios)</p></div>';
+      var h = '<button class="ex-cerrar" data-ex-cerrar>✕ cerrar</button><div class="ex-resultado"><div class="num">'+r.puntaje_final_pct+'%</div><p>puntaje final (promedio de los 3 ejercicios)</p><p><em>'+frasePorcentaje(r.puntaje_final_pct)+'</em></p></div>';
       r.resultados.forEach(function(res){
         h += '<article class="ej"><h3>'+esc(res.titulo)+' — '+res.puntaje_pct+'%</h3>';
         (res.criterios||[]).forEach(function(c){
@@ -338,7 +341,7 @@ Auth.obtenerSesion().then(function(s){ if(s) cargarEjercicios(); else contEj.inn
       panel.innerHTML = h;
       ex = null;
     }).catch(function(err){
-      abrir('<button class="ex-cerrar" data-ex-cerrar>✕ cerrar</button><h2>Error al corregir</h2><p>'+esc(err.message)+'</p>');
+      abrir('<button class="ex-cerrar" data-ex-cerrar>✕ cerrar</button><h2>¡D’oh! Error al corregir</h2><p>'+esc(err.message)+'</p>');
     });
   }
 })();

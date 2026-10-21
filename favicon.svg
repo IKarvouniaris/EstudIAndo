@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <title>estudIAndo</title>
+  <rect width="64" height="64" rx="12" fill="#15181A"/>
+  <g transform="translate(-2.8 0)">
+    <rect x="12" y="19" width="8" height="30" fill="#EDEEE9"/>
+    <polygon points="12,49 20,49 16,57" fill="#EDEEE9"/>
+    <path d="M8.7,13.5 a7.3,7.3 0 1,0 14.6,0 a7.3,7.3 0 1,0 -14.6,0 Z M13.5,13.5 a2.5,2.5 0 1,1 5,0 a2.5,2.5 0 1,1 -5,0 Z" fill="#D9A05B" fill-rule="evenodd"/>
+    <path d="M9.6,13.5 a6.4,6.4 0 1,0 12.8,0 a6.4,6.4 0 1,0 -12.8,0 Z M13.5,13.5 a2.5,2.5 0 1,1 5,0 a2.5,2.5 0 1,1 -5,0 Z" fill="#EE8FB5" fill-rule="evenodd"/>
+    <polygon points="38,12 46,12 60,58 52.5,58 42,23.5 31.5,58 24,58" fill="#EDEEE9"/>
+    <rect x="34.4" y="46" width="3.4" height="4" fill="#909EF0"/>
+    <rect x="37.8" y="46" width="3.4" height="4" fill="#E2A95B"/>
+    <rect x="41.2" y="46" width="3.4" height="4" fill="#4FC7AC"/>
+    <rect x="44.6" y="46" width="3.4" height="4" fill="#D39AD6"/>
+    <rect x="48" y="46" width="3.4" height="4" fill="#A98BFF"/>
+  </g>
+</svg>

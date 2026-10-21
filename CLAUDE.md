@@ -21,6 +21,10 @@ correcta no sea sistemáticamente la más larga (ni la más corta).
 Las flashcards de Cálculo para Poris (`js/mazos/calculo.js`) están **generadas** desde `MODULES`:
 si cambiás un texto de `calculo.html`, corré `node tools/generar_mazo_calculo.js` y commiteá el resultado.
 
+**Marca.** El logo vive en `img/` y `favicon.svg`; se dibuja en las páginas con `<i data-marca></i>` y `js/marca.js`.
+Toda página nueva lleva los tres `<link rel="icon">` (copiarlos de `index.html`). Los guiños a Homero son solo muletillas
+(«¡D'oh!», «Mmm… dona») y una dona propia: no dibujar ni subir imágenes del personaje (es de terceros y el repo es público).
+
 ## Regla: "clase + resumen de transcripción"
 
 Cuando el usuario menciona una **clase nueva** junto con material de una

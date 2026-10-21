@@ -724,7 +724,11 @@ td.caso-nombre small{display:block; font-family:var(--mono); font-weight:400; fo
 .tutor-form button{cursor:pointer; padding:0 .9rem; font-family:var(--display); font-weight:600; background:var(--tinta); color:var(--papel); border:0; border-radius:4px}
 .tutor-form button:disabled{opacity:.5; cursor:default}
 @media (max-width:640px){ #tutor-btn{right:.8rem; bottom:.8rem} #tutor-panel{right:.8rem; bottom:4.6rem} }
-</style></head>
+</style><link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="img/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<script defer src="js/marca.js"></script>
+</head>
 <body>
 <div class="envoltorio" id="envoltorio">
 <button class="btn-riel" id="btn-abrir" type="button" title="Mostrar barra lateral" aria-label="Mostrar barra lateral">☰ ÍNDICE</button>
@@ -735,6 +739,7 @@ td.caso-nombre small{display:block; font-family:var(--mono); font-weight:400; fo
   <a class="riel-volver" href="poris.html#materia=etica">Π Repasar en Poris</a>
   <div class="riel-marca">
     <div>
+      <i data-marca style="--marca-tam:2.1rem; display:block; margin-bottom:.5rem"></i>
       <b>Ética en la<br>Inteligencia Artificial</b>
       <span>UADE · Lic. en IA · Clases 1–8 · Prof. Lascano</span>
     </div>
@@ -4132,7 +4137,7 @@ DominioWidget.montar("dominio", ExamenApi.dominioPropio);
         historial.push({ rol: "model", texto: respuesta });
       }).catch(function(err){
         cargando.remove();
-        agregarMensaje("model", "No pude responder: " + err.message);
+        agregarMensaje("model", "¡D’oh! No pude responder: " + err.message);
       }).finally(function(){
         enviar.disabled = false;
       });

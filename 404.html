@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>¡D'oh! Esta página no existe — estudIAndo</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/img/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+<style>
+:root{
+  color-scheme: light;
+  --papel:#EDEEE9; --papel-2:#F8F9F6; --papel-3:#E3E5DE;
+  --tinta:#15181A; --tinta-2:#545B60; --tinta-3:#7B8288;
+  --linea:#C7CAC2;
+  --u1:#2E3A94; --u2:#9A5A12; --u3:#1B6A5B; --u4:#6D3470; --u5:#5B3FC4;
+  --display:"Bahnschrift","Franklin Gothic Medium","Arial Narrow","Helvetica Neue",sans-serif;
+  --body:"Sitka Text","Constantia",Georgia,"Times New Roman",serif;
+  --mono:"Cascadia Mono",Consolas,"SFMono-Regular",ui-monospace,monospace;
+}
+:root[data-tema="oscuro"]{
+  color-scheme: dark;
+  --papel:#101315; --papel-2:#181C20; --papel-3:#1F2429;
+  --tinta:#E9EBE6; --tinta-2:#A2AAB0; --tinta-3:#7C858B;
+  --linea:#2B3238;
+  --u1:#909EF0; --u2:#E2A95B; --u3:#4FC7AC; --u4:#D39AD6; --u5:#A98BFF;
+}
+*{box-sizing:border-box}
+@media (prefers-reduced-motion:reduce){ *{animation:none !important} }
+body{margin:0; min-height:100vh; display:flex; align-items:center; justify-content:center; padding:2rem 1rem; background:var(--papel); color:var(--tinta); font-family:var(--body); font-size:16px; line-height:1.55; -webkit-font-smoothing:antialiased}
+main{max-width:34rem; text-align:center}
+.dona{width:min(46vw,10.5rem); height:min(46vw,10.5rem); margin:0 auto 1.2rem; animation:flota 3.2s ease-in-out infinite}
+@keyframes flota{0%,100%{transform:translateY(0) rotate(-4deg)} 50%{transform:translateY(-.55rem) rotate(4deg)}}
+.cintillo{margin:0 0 .4rem; font-family:var(--mono); font-size:.72rem; letter-spacing:.1em; text-transform:uppercase; color:var(--tinta-3)}
+h1{margin:0 0 .6rem; font-family:var(--display); font-weight:700; font-size:clamp(2.6rem,10vw,4.2rem); line-height:1.02; letter-spacing:-.01em}
+p{margin:0 0 1.4rem; color:var(--tinta-2)}
+.acciones{display:flex; flex-wrap:wrap; justify-content:center; gap:.6rem}
+.acciones a{font-family:var(--display); font-size:.95rem; font-weight:600; text-decoration:none; padding:.6rem 1.1rem; border:1px solid var(--tinta); border-radius:2px; background:var(--tinta); color:var(--papel)}
+.acciones a.sec{background:transparent; color:var(--tinta)}
+.acciones a:hover{opacity:.88}
+:focus-visible{outline:2px solid var(--u5); outline-offset:2px}
+.pie{margin-top:2.2rem; font-family:var(--mono); font-size:.68rem; color:var(--tinta-3)}
+</style>
+<script>
+/* Mismo tema que el resto del sitio (clave ia-tema). */
+(function(){
+  var t = null; try{ t = localStorage.getItem("ia-tema"); }catch(e){}
+  if(!t) t = (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) ? "oscuro" : "claro";
+  document.documentElement.setAttribute("data-tema", t);
+})();
+</script>
+</head>
+<body>
+<main>
+  <svg class="dona" viewBox="0 0 16 16" role="img" aria-label="Una dona con granas de colores">
+    <path d="M0.7,8 a7.3,7.3 0 1,0 14.6,0 a7.3,7.3 0 1,0 -14.6,0 Z M5.5,8 a2.5,2.5 0 1,1 5,0 a2.5,2.5 0 1,1 -5,0 Z" fill="#D9A05B" fill-rule="evenodd"/>
+    <path d="M1.6,8 a6.4,6.4 0 1,0 12.8,0 a6.4,6.4 0 1,0 -12.8,0 Z M5.5,8 a2.5,2.5 0 1,1 5,0 a2.5,2.5 0 1,1 -5,0 Z" fill="#EE8FB5" fill-rule="evenodd"/>
+    <rect x="6.0" y="1.8" width="2.1" height="0.85" rx="0.42" fill="#909EF0" transform="rotate(-35 7.05 2.2)"/>
+    <rect x="11.1" y="4.9" width="2.1" height="0.85" rx="0.42" fill="#E2A95B" transform="rotate(27 12.1 5.3)"/>
+    <rect x="11.2" y="10.2" width="2.1" height="0.85" rx="0.42" fill="#4FC7AC" transform="rotate(87 12.2 10.6)"/>
+    <rect x="5.0" y="12.3" width="2.1" height="0.85" rx="0.42" fill="#D39AD6" transform="rotate(155 6.0 12.7)"/>
+    <rect x="2.5" y="6.2" width="2.1" height="0.85" rx="0.42" fill="#A98BFF" transform="rotate(231 3.5 6.6)"/>
+  </svg>
+  <p class="cintillo">Error 404</p>
+  <h1>¡D'oh!</h1>
+  <p>Esta página no existe, o alguien se la comió. Mmm… dona.</p>
+  <div class="acciones">
+    <a href="/">Volver al inicio</a>
+    <a class="sec" href="/poris.html">Repasar en Poris</a>
+  </div>
+  <p class="pie">estudIAndo · Lic. en IA y Ciencia de Datos · UADE</p>
+</main>
+</body>
+</html>
