@@ -1,7 +1,8 @@
 -- Fase 9 (videos en Poris) · estudIAndo
--- Videos de repaso por materia y clase que se ven en Poris (filtro «Videos»):
+-- Videos de repaso que se ven en Poris (vista «Videos», aparte de las tarjetas), ordenados en carpetas y clases
+-- que se crean al subir (texto libre, por ejemplo «Ética» / «Clase 3»):
 --   1) bucket público poris-videos en Storage (máx. 50 MB por archivo, solo video);
---   2) tabla poris_videos con la materia, la clase y la ruta del archivo;
+--   2) tabla poris_videos con la carpeta, la clase y la ruta del archivo;
 --   3) tabla poris_editores: quiénes pueden subir y borrar. Todos los demás solo miran.
 -- Correr en el SQL Editor de Supabase. Se puede volver a correr sin problema.
 --
@@ -32,14 +33,14 @@ $$;
 -- ===== VIDEOS =====
 create table if not exists poris_videos (
   id uuid primary key default gen_random_uuid(),
-  materia text not null,
-  tema text not null,
+  carpeta text not null check (length(btrim(carpeta)) between 1 and 60),
+  clase text not null check (length(btrim(clase)) between 1 and 60),
   titulo text not null default '',
-  ruta text not null unique,          -- ruta dentro del bucket: <materia>/<tema>/<uuid>.<ext>
+  ruta text not null unique,          -- nombre del archivo en el bucket: <uuid>.<ext>
   subido_por uuid default auth.uid() references auth.users on delete set null,
   creado_at timestamptz not null default now()
 );
-create index if not exists poris_videos_materia_tema on poris_videos (materia, tema);
+create index if not exists poris_videos_carpeta_clase on poris_videos (carpeta, clase);
 alter table poris_videos enable row level security;
 
 drop policy if exists "videos publicos" on poris_videos;
