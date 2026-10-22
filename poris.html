@@ -124,6 +124,19 @@ button{font:inherit; color:inherit}
 .video-titulo{font-family:var(--display); font-weight:700; font-size:1.05rem; line-height:1.25; margin:.55rem 0 0}
 .borrar{font-family:var(--mono); font-size:.66rem; padding:.3rem .5rem; margin:-.3rem 0; background:transparent; border:0; color:var(--tinta-2); cursor:pointer}
 .borrar:hover{color:#B23A3A; text-decoration:underline}
+/* En el celular el video ocupa todo el ancho y todo el alto de la carta (estilo TikTok), con los datos encima.
+   Si la pantalla no es justo 9:16, recorta un poco arriba y abajo en vez de dejar bandas. */
+@media (max-width:540px){
+  .carta.video{position:relative; padding:0; background:#000; border-bottom:0}
+  .carta.video .carta-cuerpo{position:absolute; inset:0; padding:0}
+  .carta.video video{width:100%; height:100%; max-width:none; aspect-ratio:auto; object-fit:cover; border-radius:0}
+  .carta.video .carta-cab{position:absolute; top:0; left:0; right:0; z-index:1; padding:.8rem 1rem 2rem; background:linear-gradient(rgba(0,0,0,.6), transparent); pointer-events:none}
+  .carta.video .tema-nombre{color:#fff}
+  .carta.video .etq.tipo{color:#fff; border-color:#fff}
+  .carta.video .video-titulo{position:absolute; left:1rem; right:1rem; bottom:5.4rem; z-index:1; margin:0; color:#fff; text-shadow:0 1px 3px rgba(0,0,0,.8); pointer-events:none}
+  .carta.video .carta-pie{position:absolute; left:0; right:0; bottom:3.2rem; z-index:1; padding:1.4rem 1rem .5rem; background:linear-gradient(transparent, rgba(0,0,0,.55)); color:#fff}
+  .carta.video .carta-pie .ver, .carta.video .carta-pie .num, .carta.video .borrar{color:#fff}
+}
 
 .dialogo{width:min(26rem, calc(100% - 2rem)); padding:0; border:1px solid var(--linea); border-radius:4px; background:var(--papel-2); color:var(--tinta)}
 .dialogo::backdrop{background:rgba(16,19,21,.55)}
@@ -520,7 +533,7 @@ button{font:inherit; color:inherit}
   // Si Supabase no carga, Poris sigue andando sin videos.
   var BUCKET = "poris-videos", MAX_MB = 50;
   var cliente = window.Auth ? window.Auth.cliente : null;
-  var VIDEOS = [], esEditor = false;
+  var VIDEOS = [], videosCargados = false, esEditor = false;
 
   function limpiar(t){ return String(t || "").replace(/\s+/g, " ").trim(); }
   function sinTildes(t){ return limpiar(t).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, ""); }
@@ -566,6 +579,8 @@ button{font:inherit; color:inherit}
   function pintarCarpetas(){
     filaModos.hidden = true;
     var lista = carpetas();
+    // Hasta que cargan los videos no se puede saber si la carpeta del link existe: se deja como vino.
+    if(!videosCargados && estado.carpeta !== "todo" && lista.indexOf(estado.carpeta) < 0) lista.push(estado.carpeta);
     if(estado.carpeta !== "todo" && lista.indexOf(estado.carpeta) < 0){ estado.carpeta = "todo"; estado.clase = "todas"; }
     filaMaterias.innerHTML = "";
     filaMaterias.appendChild(chip("Todo", estado.carpeta === "todo", 0, "", function(){ estado.carpeta = "todo"; estado.clase = "todas"; aplicar(); }));
@@ -579,6 +594,7 @@ button{font:inherit; color:inherit}
     filaTemas.hidden = estado.carpeta === "todo";
     if(estado.carpeta !== "todo"){
       var m = materiaDeCarpeta(estado.carpeta), u = m ? m.u : 0, clases = clasesDe(estado.carpeta);
+      if(!videosCargados && estado.clase !== "todas" && clases.indexOf(estado.clase) < 0) clases.push(estado.clase);
       if(estado.clase !== "todas" && clases.indexOf(estado.clase) < 0) estado.clase = "todas";
       filaTemas.appendChild(chip("Todas", estado.clase === "todas", u, "tema", function(){ estado.clase = "todas"; aplicar(); }));
       clases.forEach(function(cl){
@@ -593,6 +609,7 @@ button{font:inherit; color:inherit}
     if(!cliente) return;
     cliente.from("poris_videos").select("id,carpeta,clase,titulo,ruta,creado_at").order("creado_at", { ascending:true }).then(function(r){
       if(r.error) return;
+      videosCargados = true;
       VIDEOS = (r.data || []).map(function(f){
         return { video:true, id:f.id, carpeta:limpiar(f.carpeta), clase:limpiar(f.clase), titulo:f.titulo || "", ruta:f.ruta };
       });
