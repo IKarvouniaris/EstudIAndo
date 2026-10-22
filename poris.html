@@ -39,11 +39,11 @@ button{font:inherit; color:inherit}
 
 /* ---- barra superior ---- */
 .barra{display:flex; align-items:center; justify-content:space-between; gap:.6rem; padding:.65rem 1rem; background:var(--papel-2); border-bottom:1px solid var(--linea)}
-.logo{font-family:var(--display); font-weight:700; font-size:1.15rem; letter-spacing:.01em; display:flex; align-items:center; gap:.45rem}
+.logo{font-family:var(--display); font-weight:700; font-size:1.15rem; letter-spacing:.01em; display:flex; align-items:center; gap:.45rem; white-space:nowrap}
 .logo b{font-size:1.35rem; color:var(--u1)}
 .logo small{font-family:var(--mono); font-weight:400; font-size:.62rem; color:var(--tinta-3); letter-spacing:.04em}
 .acciones{display:flex; align-items:center; gap:.45rem}
-.boton{font-family:var(--mono); font-size:.62rem; letter-spacing:.06em; padding:.4rem .6rem; background:var(--papel-3); color:var(--tinta-2); border:1px solid var(--linea); border-radius:2px; cursor:pointer}
+.boton{font-family:var(--mono); font-size:.62rem; letter-spacing:.06em; padding:.4rem .6rem; background:var(--papel-3); color:var(--tinta-2); border:1px solid var(--linea); border-radius:2px; cursor:pointer; white-space:nowrap}
 .boton:hover{color:var(--tinta); border-color:var(--tinta-3)}
 
 /* ---- filtros ---- */
@@ -110,11 +110,56 @@ button{font:inherit; color:inherit}
 .vacio b{font-family:var(--display); font-size:1.15rem; color:var(--tinta)}
 .chip.reinicio{margin-left:auto; border-style:dashed; font-family:var(--mono); font-size:.62rem; font-weight:400}
 
+/* ---- videos ---- */
+.boton.mas{font-size:.95rem; line-height:1; padding:.32rem .62rem; background:var(--tinta); border-color:var(--tinta); color:var(--papel-2)}
+.boton.mas:hover{color:var(--papel-2); filter:brightness(1.15)}
+.boton[hidden]{display:none}
+.carta.video{cursor:default}
+.carta.video:not([data-u]){--ac:var(--tinta-2)}
+.fila.vista .chip{flex:1 1 0; text-align:center}
+.dialogo .ayuda{font-family:var(--body); font-size:.8rem; letter-spacing:0; color:var(--tinta-3)}
+.carta.video .carta-cuerpo{padding:.7rem 0}
+/* Marco vertical 9:16 (formato celular): ocupa el alto disponible y se centra; si el video no es vertical, queda con bandas. */
+.carta.video video{flex:1 1 0; min-height:0; align-self:center; height:100%; width:auto; max-width:100%; aspect-ratio:9/16; object-fit:contain; background:#000; border-radius:2px}
+.video-titulo{font-family:var(--display); font-weight:700; font-size:1.05rem; line-height:1.25; margin:.55rem 0 0}
+.borrar{font-family:var(--mono); font-size:.66rem; padding:.3rem .5rem; margin:-.3rem 0; background:transparent; border:0; color:var(--tinta-2); cursor:pointer}
+.borrar:hover{color:#B23A3A; text-decoration:underline}
+/* En el celular el video ocupa todo el ancho y todo el alto de la carta (estilo TikTok), con los datos encima.
+   Si la pantalla no es justo 9:16, recorta un poco arriba y abajo en vez de dejar bandas. */
+@media (max-width:540px){
+  .carta.video{position:relative; padding:0; background:#000; border-bottom:0}
+  .carta.video .carta-cuerpo{position:absolute; inset:0; padding:0}
+  .carta.video video{width:100%; height:100%; max-width:none; aspect-ratio:auto; object-fit:cover; border-radius:0}
+  .carta.video .carta-cab{position:absolute; top:0; left:0; right:0; z-index:1; padding:.8rem 1rem 2rem; background:linear-gradient(rgba(0,0,0,.6), transparent); pointer-events:none}
+  .carta.video .tema-nombre{color:#fff}
+  .carta.video .etq.tipo{color:#fff; border-color:#fff}
+  .carta.video .video-titulo{position:absolute; left:1rem; right:1rem; bottom:5.4rem; z-index:1; margin:0; color:#fff; text-shadow:0 1px 3px rgba(0,0,0,.8); pointer-events:none}
+  .carta.video .carta-pie{position:absolute; left:0; right:0; bottom:3.2rem; z-index:1; padding:1.4rem 1rem .5rem; background:linear-gradient(transparent, rgba(0,0,0,.55)); color:#fff}
+  .carta.video .carta-pie .ver, .carta.video .carta-pie .num, .carta.video .borrar{color:#fff}
+}
+
+.dialogo{width:min(26rem, calc(100% - 2rem)); padding:0; border:1px solid var(--linea); border-radius:4px; background:var(--papel-2); color:var(--tinta)}
+.dialogo::backdrop{background:rgba(16,19,21,.55)}
+.dialogo form{display:flex; flex-direction:column; gap:.75rem; padding:1.1rem 1.2rem 1.2rem}
+.dialogo h2{font-family:var(--display); font-size:1.2rem; margin:0}
+.dialogo label{display:flex; flex-direction:column; gap:.25rem; font-family:var(--mono); font-size:.68rem; letter-spacing:.04em; color:var(--tinta-2)}
+.dialogo input, .dialogo select{font:inherit; font-family:var(--body); font-size:.92rem; letter-spacing:0; padding:.45rem .55rem; border:1px solid var(--linea); border-radius:2px; background:var(--papel); color:var(--tinta)}
+.dialogo input[type=file]{padding:.35rem}
+.dialogo progress{width:100%; accent-color:var(--u1)}
+.dialogo progress[hidden]{display:none}
+.dialogo .msg{font-family:var(--mono); font-size:.7rem; color:var(--tinta-2); margin:0; min-height:1em}
+.dialogo .msg.err{color:#B23A3A}
+.dlg-acciones{display:flex; justify-content:flex-end; gap:.5rem}
+.dlg-acciones button{font-family:var(--display); font-weight:600; font-size:.88rem; padding:.5rem .9rem; border:1px solid var(--linea); border-radius:2px; background:var(--papel); color:var(--tinta); cursor:pointer}
+.dlg-acciones button.principal{background:var(--tinta); border-color:var(--tinta); color:var(--papel-2)}
+.dlg-acciones button:disabled{opacity:.55; cursor:default}
+
 /* ---- navegación flotante (útil con mouse) ---- */
 .flechas{position:absolute; left:calc(100% + .6rem); bottom:1rem; display:flex; flex-direction:column; gap:.35rem; z-index:3}
 .flechas .boton{width:2.1rem; height:2.1rem; padding:0; font-size:.8rem; background:var(--papel-2)}
 @media (max-width:640px){ .flechas{display:none} }
 @media (max-width:540px){ .telefono{border:0} }
+@media (max-width:420px){ .barra{padding:.6rem .7rem; gap:.4rem} .acciones{gap:.3rem} .boton{padding:.4rem .42rem; letter-spacing:.03em} }
 </style>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="img/favicon-32.png" sizes="32x32" type="image/png">
@@ -126,12 +171,14 @@ button{font:inherit; color:inherit}
   <header class="barra">
     <span class="logo"><i data-marca style="--marca-tam:1.8rem"></i> Poris <small id="resumen"></small></span>
     <div class="acciones">
+      <button class="boton mas" id="btn-subir" type="button" aria-label="Agregar video" title="Agregar video" hidden>+</button>
       <button class="boton" id="btn-tema" type="button">MODO OSCURO</button>
       <a class="boton" href="index.html">estudIAndo →</a>
     </div>
   </header>
 
   <div class="filtros">
+    <div class="fila vista" id="fila-vista" role="group" aria-label="Ver"></div>
     <div class="fila" id="fila-materias" role="group" aria-label="Materia"></div>
     <div class="fila" id="fila-temas" role="group" aria-label="Tema" hidden></div>
     <div class="fila" id="fila-modos" role="group" aria-label="Qué mostrar"></div>
@@ -146,6 +193,30 @@ button{font:inherit; color:inherit}
   </div>
 </div>
 
+<dialog class="dialogo" id="dlg-subir" aria-labelledby="dlg-titulo">
+  <form id="form-subir">
+    <h2 id="dlg-titulo">Agregar video</h2>
+    <label>VIDEO (MP4, WEBM O MOV · HASTA 50 MB)
+      <input type="file" id="in-archivo" accept="video/mp4,video/webm,video/quicktime" required>
+    </label>
+    <label>CARPETA <input type="text" id="in-carpeta" list="lista-carpetas" maxlength="60" required autocomplete="off" placeholder="Ej.: Ética"></label>
+    <label>CLASE <input type="text" id="in-clase" list="lista-clases" maxlength="60" required autocomplete="off" placeholder="Ej.: Clase 3"></label>
+    <span class="ayuda">Elegí una carpeta o clase que ya tengas, o escribí una nueva.</span>
+    <datalist id="lista-carpetas"></datalist>
+    <datalist id="lista-clases"></datalist>
+    <label>TÍTULO (OPCIONAL) <input type="text" id="in-titulo" maxlength="120" placeholder="Ej.: Capu explica el velo de ignorancia"></label>
+    <progress id="prog-subida" max="100" value="0" hidden></progress>
+    <p class="msg" id="msg-subida" role="status"></p>
+    <div class="dlg-acciones">
+      <button type="button" id="btn-cancelar">Cancelar</button>
+      <button type="submit" class="principal" id="btn-enviar">Subir</button>
+    </div>
+  </form>
+</dialog>
+
+<script src="config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/auth.js"></script>
 <script src="js/mazos/ia-conceptual.js"></script>
 <script src="js/mazos/estadistica.js"></script>
 <script src="js/mazos/python.js"></script>
@@ -257,7 +328,8 @@ button{font:inherit; color:inherit}
 
   // ===== ESTADO Y FILTROS =====
   var MODOS = [["todas","Todas"], ["sin","Sin marcar"], ["repasar","Para repasar"], ["sabia","Ya sabidas"]];
-  var estado = { materia:"todo", tema:"todas", modo:"todas" };
+  // vista: «tarjetas» (materia, tema y modo) o «videos» (carpeta y clase, las que se van creando al subir).
+  var estado = { vista:"tarjetas", materia:"todo", tema:"todas", modo:"todas", carpeta:"todo", clase:"todas" };
   var feed = document.getElementById("feed");
   var filaMaterias = document.getElementById("fila-materias");
   var filaTemas = document.getElementById("fila-temas");
@@ -267,14 +339,21 @@ button{font:inherit; color:inherit}
   function materiaPorId(id){ for(var i = 0; i < MATERIAS.length; i++) if(MATERIAS[i].id === id) return MATERIAS[i]; return null; }
 
   function leerEstadoInicial(){
-    var h = (location.hash || "").replace(/^#/, ""), mat = null, tema = null, modo = null;
+    var h = (location.hash || "").replace(/^#/, ""), mat = null, tema = null, modo = null, vista = null, carpeta = null, clase = null;
     h.split("&").forEach(function(par){
       var kv = par.split("=");
       if(kv[0] === "materia") mat = decodeURIComponent(kv[1] || "");
       if(kv[0] === "tema") tema = decodeURIComponent(kv[1] || "");
       if(kv[0] === "modo") modo = decodeURIComponent(kv[1] || "");
+      if(kv[0] === "vista") vista = decodeURIComponent(kv[1] || "");
+      if(kv[0] === "carpeta") carpeta = decodeURIComponent(kv[1] || "");
+      if(kv[0] === "clase") clase = decodeURIComponent(kv[1] || "");
     });
-    if(!mat && !modo){ try{ var g = JSON.parse(localStorage.getItem("poris-filtro") || "null"); if(g){ mat = g.materia; tema = g.tema; modo = g.modo; } }catch(e){} }
+    if(!mat && !modo && !vista){ try{ var g = JSON.parse(localStorage.getItem("poris-filtro") || "null"); if(g){ mat = g.materia; tema = g.tema; modo = g.modo; vista = g.vista; carpeta = g.carpeta; clase = g.clase; } }catch(e){} }
+    // Carpeta y clase se validan al pintar los filtros, cuando ya cargaron los videos.
+    estado.vista = vista === "videos" ? "videos" : "tarjetas";
+    estado.carpeta = carpeta || "todo";
+    estado.clase = (carpeta && clase) || "todas";
     estado.modo = MODOS.some(function(x){ return x[0] === modo; }) ? modo : "todas";
     var m = mat && materiaPorId(mat);
     if(!m){ estado.materia = "todo"; estado.tema = "todas"; return; }
@@ -284,9 +363,15 @@ button{font:inherit; color:inherit}
 
   function guardarEstado(){
     var partes = [];
-    if(estado.materia !== "todo") partes.push("materia=" + encodeURIComponent(estado.materia));
-    if(estado.materia !== "todo" && estado.tema !== "todas") partes.push("tema=" + encodeURIComponent(estado.tema));
-    if(estado.modo !== "todas") partes.push("modo=" + encodeURIComponent(estado.modo));
+    if(estado.vista === "videos"){
+      partes.push("vista=videos");
+      if(estado.carpeta !== "todo") partes.push("carpeta=" + encodeURIComponent(estado.carpeta));
+      if(estado.carpeta !== "todo" && estado.clase !== "todas") partes.push("clase=" + encodeURIComponent(estado.clase));
+    }else{
+      if(estado.materia !== "todo") partes.push("materia=" + encodeURIComponent(estado.materia));
+      if(estado.materia !== "todo" && estado.tema !== "todas") partes.push("tema=" + encodeURIComponent(estado.tema));
+      if(estado.modo !== "todas") partes.push("modo=" + encodeURIComponent(estado.modo));
+    }
     var h = partes.length ? "#" + partes.join("&") : "";
     try{ history.replaceState(null, "", location.pathname + location.search + h); }catch(e){}
     try{ localStorage.setItem("poris-filtro", JSON.stringify(estado)); }catch(e){}
@@ -302,7 +387,13 @@ button{font:inherit; color:inherit}
     return b;
   }
 
+  var filaVista = document.getElementById("fila-vista");
   function pintarFiltros(){
+    filaVista.innerHTML = "";
+    filaVista.appendChild(chip("Tarjetas", estado.vista === "tarjetas", 0, "", function(){ if(estado.vista !== "tarjetas"){ estado.vista = "tarjetas"; aplicar(); } }));
+    filaVista.appendChild(chip("Videos (" + VIDEOS.length + ")", estado.vista === "videos", 0, "", function(){ if(estado.vista !== "videos"){ estado.vista = "videos"; aplicar(); } }));
+    if(estado.vista === "videos"){ pintarCarpetas(); return; }
+    filaModos.hidden = false;
     filaMaterias.innerHTML = "";
     filaMaterias.appendChild(chip("Todo", estado.materia === "todo", 0, "", function(){ estado.materia = "todo"; estado.tema = "todas"; aplicar(); }));
     MATERIAS.forEach(function(m){
@@ -437,9 +528,287 @@ button{font:inherit; color:inherit}
     return a;
   }
 
+  // ===== VIDEOS: archivos en Supabase Storage (bucket poris-videos), ver supabase/fase9_poris_videos.sql =====
+  // Van aparte de las tarjetas: se ordenan en carpetas y clases que se crean al subir (texto libre).
+  // Si Supabase no carga, Poris sigue andando sin videos.
+  var BUCKET = "poris-videos", MAX_MB = 50;
+  var cliente = window.Auth ? window.Auth.cliente : null;
+  var VIDEOS = [], videosCargados = false, esEditor = false;
+
+  function limpiar(t){ return String(t || "").replace(/\s+/g, " ").trim(); }
+  function sinTildes(t){ return limpiar(t).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, ""); }
+  function compararClase(a, b){ return a.localeCompare(b, "es", { numeric:true, sensitivity:"base" }); }
+
+  // Carpetas en el orden en que se crearon (el primer video de cada una).
+  function carpetas(){
+    var vistas = [];
+    VIDEOS.forEach(function(v){ if(vistas.indexOf(v.carpeta) < 0) vistas.push(v.carpeta); });
+    return vistas;
+  }
+  // Clases de una carpeta, en orden natural («Clase 2» antes que «Clase 10»).
+  function clasesDe(carpeta){
+    var vistas = [];
+    VIDEOS.forEach(function(v){ if(v.carpeta === carpeta && vistas.indexOf(v.clase) < 0) vistas.push(v.clase); });
+    return vistas.sort(compararClase);
+  }
+  function ordenarVideos(){
+    var orden = carpetas();
+    VIDEOS.sort(function(a, b){ return orden.indexOf(a.carpeta) - orden.indexOf(b.carpeta) || compararClase(a.clase, b.clase); });
+  }
+  function videosEnAlcance(){
+    return VIDEOS.filter(function(v){
+      return (estado.carpeta === "todo" || v.carpeta === estado.carpeta) && (estado.clase === "todas" || v.clase === estado.clase);
+    });
+  }
+
+  // Si la carpeta se llama como una materia («Ética», «Cálculo I»…), toma su color y su link al apunte.
+  function materiaDeCarpeta(carpeta){
+    var c = sinTildes(carpeta);
+    for(var i = 0; i < MATERIAS.length; i++){
+      var m = MATERIAS[i];
+      if(c === sinTildes(m.id) || c === sinTildes(m.corto) || c === sinTildes(m.nombre)) return m;
+    }
+    return null;
+  }
+  function temaDeClase(m, clase){
+    var c = sinTildes(clase);
+    for(var i = 0; i < m.temas.length; i++) if(sinTildes(m.temas[i][1]) === c) return m.temas[i];
+    return null;
+  }
+
+  function pintarCarpetas(){
+    filaModos.hidden = true;
+    var lista = carpetas();
+    // Hasta que cargan los videos no se puede saber si la carpeta del link existe: se deja como vino.
+    if(!videosCargados && estado.carpeta !== "todo" && lista.indexOf(estado.carpeta) < 0) lista.push(estado.carpeta);
+    if(estado.carpeta !== "todo" && lista.indexOf(estado.carpeta) < 0){ estado.carpeta = "todo"; estado.clase = "todas"; }
+    filaMaterias.innerHTML = "";
+    filaMaterias.appendChild(chip("Todo", estado.carpeta === "todo", 0, "", function(){ estado.carpeta = "todo"; estado.clase = "todas"; aplicar(); }));
+    lista.forEach(function(c){
+      var m = materiaDeCarpeta(c);
+      filaMaterias.appendChild(chip(c, estado.carpeta === c, m ? m.u : 0, "", function(){
+        if(estado.carpeta !== c){ estado.carpeta = c; estado.clase = "todas"; aplicar(); }
+      }));
+    });
+    filaTemas.innerHTML = "";
+    filaTemas.hidden = estado.carpeta === "todo";
+    if(estado.carpeta !== "todo"){
+      var m = materiaDeCarpeta(estado.carpeta), u = m ? m.u : 0, clases = clasesDe(estado.carpeta);
+      if(!videosCargados && estado.clase !== "todas" && clases.indexOf(estado.clase) < 0) clases.push(estado.clase);
+      if(estado.clase !== "todas" && clases.indexOf(estado.clase) < 0) estado.clase = "todas";
+      filaTemas.appendChild(chip("Todas", estado.clase === "todas", u, "tema", function(){ estado.clase = "todas"; aplicar(); }));
+      clases.forEach(function(cl){
+        filaTemas.appendChild(chip(cl, estado.clase === cl, u, "tema", function(){ estado.clase = cl; aplicar(); }));
+      });
+    }
+  }
+
+  function urlVideo(ruta){ return cliente.storage.from(BUCKET).getPublicUrl(ruta).data.publicUrl; }
+
+  function cargarVideos(){
+    if(!cliente) return;
+    cliente.from("poris_videos").select("id,carpeta,clase,titulo,ruta,creado_at").order("creado_at", { ascending:true }).then(function(r){
+      if(r.error) return;
+      videosCargados = true;
+      VIDEOS = (r.data || []).map(function(f){
+        return { video:true, id:f.id, carpeta:limpiar(f.carpeta), clase:limpiar(f.clase), titulo:f.titulo || "", ruta:f.ruta };
+      });
+      ordenarVideos();
+      if(estado.vista === "videos") aplicar(); else pintarFiltros(); // actualiza el «Videos (n)»
+    });
+  }
+
+  // Pausa el video que sale de la pantalla.
+  var obsVideo = ("IntersectionObserver" in window) ? new IntersectionObserver(function(entradas){
+    entradas.forEach(function(e){ if(!e.isIntersecting && !e.target.paused) e.target.pause(); });
+  }, { root:feed, threshold:0.4 }) : null;
+
+  function crearVideo(v, n, total){
+    var m = materiaDeCarpeta(v.carpeta), tema = m && temaDeClase(m, v.clase);
+    var a = document.createElement("article");
+    a.className = "carta video";
+    if(m) a.setAttribute("data-u", m.u);
+
+    var cab = document.createElement("div"); cab.className = "carta-cab";
+    var etq = document.createElement("span"); etq.className = "etq"; etq.textContent = v.carpeta.toUpperCase();
+    var tp = document.createElement("span"); tp.className = "etq tipo"; tp.textContent = "VIDEO";
+    var nom = document.createElement("span"); nom.className = "tema-nombre"; nom.textContent = v.clase + (tema ? " · " + tema[2] : "");
+    cab.appendChild(etq); cab.appendChild(tp); cab.appendChild(nom);
+
+    var cuerpo = document.createElement("div"); cuerpo.className = "carta-cuerpo";
+    var vid = document.createElement("video");
+    vid.controls = true; vid.preload = "metadata"; vid.playsInline = true;
+    vid.src = urlVideo(v.ruta);
+    cuerpo.appendChild(vid);
+    if(v.titulo){ var ti = document.createElement("p"); ti.className = "video-titulo"; ti.textContent = v.titulo; cuerpo.appendChild(ti); }
+    if(obsVideo) obsVideo.observe(vid);
+
+    var pie = document.createElement("div"); pie.className = "carta-pie";
+    var hueco = document.createElement("span"); hueco.className = "pista";
+    if(esEditor){
+      var bor = document.createElement("button"); bor.type = "button"; bor.className = "borrar"; bor.textContent = "Borrar video";
+      bor.addEventListener("click", function(){ borrarVideo(v); });
+      hueco.appendChild(bor);
+    }
+    pie.appendChild(hueco);
+    if(m){
+      var ver = document.createElement("a"); ver.className = "ver"; ver.textContent = "Ver en el apunte →";
+      ver.href = m.apunte + (tema ? tema[3] : "");
+      pie.appendChild(ver);
+    }
+    var num = document.createElement("span"); num.className = "num"; num.textContent = n + " / " + total;
+    pie.appendChild(num);
+
+    a.appendChild(cab); a.appendChild(cuerpo); a.appendChild(pie);
+    return a;
+  }
+
+  function borrarVideo(v){
+    if(!window.confirm("¿Borrar este video de Poris? No se puede deshacer.")) return;
+    cliente.storage.from(BUCKET).remove([v.ruta]).then(function(r){
+      if(r.error) throw r.error;
+      return cliente.from("poris_videos").delete().eq("id", v.id);
+    }).then(function(r){
+      if(r && r.error) throw r.error;
+      VIDEOS = VIDEOS.filter(function(x){ return x !== v; });
+      aplicar();
+    }).catch(function(e){ window.alert("¡D’oh! No se pudo borrar: " + (e.message || e)); });
+  }
+
+  // ----- «+»: solo para editores (tabla poris_editores) -----
+  var btnSubir = document.getElementById("btn-subir");
+  var dlg = document.getElementById("dlg-subir"), form = document.getElementById("form-subir");
+  var inArchivo = document.getElementById("in-archivo"), inTitulo = document.getElementById("in-titulo");
+  var inCarpeta = document.getElementById("in-carpeta"), inClase = document.getElementById("in-clase");
+  var listaCarpetas = document.getElementById("lista-carpetas"), listaClases = document.getElementById("lista-clases");
+  var prog = document.getElementById("prog-subida"), msg = document.getElementById("msg-subida");
+  var btnEnviar = document.getElementById("btn-enviar"), btnCancelar = document.getElementById("btn-cancelar");
+  var subiendo = null; // XHR en curso
+
+  function revisarEditor(sesion){
+    if(!sesion){ ponerEditor(false); return; }
+    cliente.rpc("es_editor_poris").then(function(r){ ponerEditor(!r.error && r.data === true); });
+  }
+  function ponerEditor(si){
+    if(esEditor === si) return;
+    esEditor = si; btnSubir.hidden = !si;
+    if(estado.vista === "videos") pintarFeed(); // muestra u oculta «Borrar video»
+  }
+
+  function opciones(lista, valores){
+    lista.innerHTML = "";
+    valores.forEach(function(v){ var o = document.createElement("option"); o.value = v; lista.appendChild(o); });
+  }
+  function sinRepetir(valores){
+    var vistos = {};
+    return valores.filter(function(v){ var k = sinTildes(v); if(!v || vistos[k]) return false; vistos[k] = true; return true; });
+  }
+  // Sugerencias: las carpetas y clases que ya existen y, además, las materias y clases de los apuntes.
+  function sugerirClases(){
+    var c = limpiar(inCarpeta.value), existente = null;
+    carpetas().forEach(function(x){ if(sinTildes(x) === sinTildes(c)) existente = x; });
+    var m = materiaDeCarpeta(c);
+    opciones(listaClases, sinRepetir((existente ? clasesDe(existente) : []).concat(m ? m.temas.map(function(t){ return t[1]; }) : [])).sort(compararClase));
+  }
+  inCarpeta.addEventListener("input", sugerirClases);
+
+  function mensaje(texto, error){ msg.textContent = texto; msg.className = "msg" + (error ? " err" : ""); }
+  function bloquear(si){ [inArchivo, inTitulo, inCarpeta, inClase, btnEnviar].forEach(function(el){ el.disabled = si; }); }
+
+  btnSubir.addEventListener("click", function(){
+    form.reset(); mensaje(""); prog.hidden = true; bloquear(false);
+    opciones(listaCarpetas, sinRepetir(carpetas().concat(MATERIAS.map(function(m){ return m.corto; }))));
+    // Arranca con lo que se está mirando: la carpeta y la clase, o la materia y el tema de las tarjetas.
+    if(estado.vista === "videos"){
+      if(estado.carpeta !== "todo") inCarpeta.value = estado.carpeta;
+      if(estado.clase !== "todas") inClase.value = estado.clase;
+    }else{
+      var m = materiaPorId(estado.materia);
+      if(m){
+        inCarpeta.value = m.corto;
+        var t = m.temas.filter(function(x){ return x[0] === estado.tema; })[0];
+        if(t) inClase.value = t[1];
+      }
+    }
+    sugerirClases();
+    dlg.showModal();
+  });
+  btnCancelar.addEventListener("click", function(){
+    if(subiendo){ subiendo.abort(); subiendo = null; }
+    dlg.close();
+  });
+  dlg.addEventListener("cancel", function(e){ if(subiendo) e.preventDefault(); });
+
+  // Sube con XHR (no con supabase-js) para poder mostrar el progreso.
+  function subirArchivo(ruta, archivo, token){
+    return new Promise(function(ok, mal){
+      var cfg = window.ESTUDIANDO_CONFIG, x = new XMLHttpRequest();
+      subiendo = x;
+      x.open("POST", cfg.SUPABASE_URL + "/storage/v1/object/" + BUCKET + "/" + ruta);
+      x.setRequestHeader("Authorization", "Bearer " + token);
+      x.setRequestHeader("apikey", cfg.SUPABASE_ANON_KEY);
+      x.setRequestHeader("Content-Type", archivo.type);
+      x.setRequestHeader("x-upsert", "false");
+      x.upload.onprogress = function(e){ if(e.lengthComputable){ prog.value = Math.round(e.loaded / e.total * 100); mensaje("Subiendo… " + prog.value + " %"); } };
+      x.onload = function(){
+        subiendo = null;
+        if(x.status >= 200 && x.status < 300) return ok();
+        var d = ""; try{ d = JSON.parse(x.responseText).message || ""; }catch(e){}
+        mal(new Error(d || "error " + x.status));
+      };
+      x.onerror = function(){ subiendo = null; mal(new Error("sin conexión")); };
+      x.onabort = function(){ subiendo = null; mal(new Error("cancelado")); };
+      x.send(archivo);
+    });
+  }
+
+  form.addEventListener("submit", function(e){
+    e.preventDefault();
+    var archivo = inArchivo.files[0];
+    if(!archivo){ mensaje("Elegí un video de la compu.", true); return; }
+    if(!/^video\/(mp4|webm|quicktime)$/.test(archivo.type)){ mensaje("¡D’oh! Tiene que ser MP4, WEBM o MOV.", true); return; }
+    if(archivo.size > MAX_MB * 1024 * 1024){ mensaje("¡D’oh! Pesa " + (archivo.size / 1048576).toFixed(1) + " MB; el máximo es " + MAX_MB + " MB.", true); return; }
+
+    // Si la carpeta o la clase ya existen escritas con otras mayúsculas o tildes, se usa la que ya está.
+    var carpeta = limpiar(inCarpeta.value), clase = limpiar(inClase.value), titulo = limpiar(inTitulo.value);
+    if(!carpeta || !clase){ mensaje("Poné la carpeta y la clase.", true); return; }
+    carpetas().forEach(function(x){ if(sinTildes(x) === sinTildes(carpeta)) carpeta = x; });
+    clasesDe(carpeta).forEach(function(x){ if(sinTildes(x) === sinTildes(clase)) clase = x; });
+
+    var ext = { "video/mp4":"mp4", "video/webm":"webm", "video/quicktime":"mov" }[archivo.type];
+    var uid = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : Date.now().toString(36) + Math.random().toString(36).slice(2);
+    var ruta = uid + "." + ext; // carpeta y clase viven en la tabla: así se pueden renombrar sin mover archivos
+
+    bloquear(true); prog.hidden = false; prog.value = 0; mensaje("Subiendo… 0 %");
+    window.Auth.obtenerSesion().then(function(s){
+      if(!s) throw new Error("tu sesión se cerró; volvé a entrar desde la portada");
+      return subirArchivo(ruta, archivo, s.access_token);
+    }).then(function(){
+      mensaje("Guardando…");
+      return cliente.from("poris_videos").insert({ carpeta:carpeta, clase:clase, titulo:titulo, ruta:ruta }).select("id").single().then(function(r){
+        if(r.error){ cliente.storage.from(BUCKET).remove([ruta]); throw r.error; } // que no quede el archivo suelto
+        return r.data;
+      });
+    }).then(function(fila){
+      VIDEOS.push({ video:true, id:fila.id, carpeta:carpeta, clase:clase, titulo:titulo, ruta:ruta });
+      ordenarVideos();
+      dlg.close();
+      // Lleva a la carpeta y la clase donde quedó el video.
+      estado.vista = "videos"; estado.carpeta = carpeta; estado.clase = clase;
+      aplicar();
+    }).catch(function(err){
+      bloquear(false); prog.hidden = true;
+      if(err.message !== "cancelado") mensaje("¡D’oh! No se pudo subir: " + (err.message || err), true);
+    });
+  });
+
   function aplicar(){
-    actuales = enAlcance().filter(pasaModo);
-    if(estado.materia === "todo") mezclar(actuales);
+    if(estado.vista === "videos"){
+      actuales = videosEnAlcance();
+    }else{
+      actuales = enAlcance().filter(pasaModo);
+      if(estado.materia === "todo") mezclar(actuales);
+    }
     pintarFiltros();
     guardarEstado();
     pintarFeed();
@@ -449,15 +818,16 @@ button{font:inherit; color:inherit}
     if(observador){ observador.disconnect(); observador = null; }
     pendientesMate = [];
     var frag = document.createDocumentFragment();
-    actuales.forEach(function(t, i){ frag.appendChild(crearCarta(t, i + 1, actuales.length)); });
+    actuales.forEach(function(t, i){ frag.appendChild(t.video ? crearVideo(t, i + 1, actuales.length) : crearCarta(t, i + 1, actuales.length)); });
     if(!actuales.length){
       var v = document.createElement("div"); v.className = "vacio";
-      var msg = { sin:["Mmm… ya marcaste todo por acá", "No quedan tarjetas sin marcar en esta selección."],
+      var aviso = { sin:["Mmm… ya marcaste todo por acá", "No quedan tarjetas sin marcar en esta selección."],
                   repasar:["Mmm… nada para repasar", "Las que marques con «Repasar» aparecen en este filtro."],
                   sabia:["¡D’oh! Todavía no marcaste ninguna como sabida", "Las que marques con «La sabía» aparecen en este filtro."],
-                  todas:["No hay tarjetas", "Probá con otra materia o tema."] }[estado.modo];
+                  videos:["Mmm… todavía no hay videos acá", esEditor ? "Subí uno con el «+» de arriba." : "Probá con otra carpeta o clase."],
+                  todas:["No hay tarjetas", "Probá con otra materia o tema."] }[estado.vista === "videos" ? "videos" : estado.modo];
       v.innerHTML = "<b></b><span></span>";
-      v.firstChild.textContent = msg[0]; v.lastChild.textContent = msg[1];
+      v.firstChild.textContent = aviso[0]; v.lastChild.textContent = aviso[1];
       frag.appendChild(v);
     }
     feed.style.scrollBehavior = "auto";
@@ -501,6 +871,11 @@ button{font:inherit; color:inherit}
 
   leerEstadoInicial();
   aplicar();
+  if(cliente){
+    cargarVideos();
+    window.Auth.obtenerSesion().then(revisarEditor);
+    window.Auth.onCambioSesion(revisarEditor);
+  }
 })();
 </script>
 </body>
