@@ -110,6 +110,34 @@ button{font:inherit; color:inherit}
 .vacio b{font-family:var(--display); font-size:1.15rem; color:var(--tinta)}
 .chip.reinicio{margin-left:auto; border-style:dashed; font-family:var(--mono); font-size:.62rem; font-weight:400}
 
+/* ---- videos ---- */
+.boton.mas{font-size:.95rem; line-height:1; padding:.32rem .62rem; background:var(--tinta); border-color:var(--tinta); color:var(--papel-2)}
+.boton.mas:hover{color:var(--papel-2); filter:brightness(1.15)}
+.boton[hidden]{display:none}
+.carta.video{cursor:default}
+.carta.video .carta-cuerpo{padding:.7rem 0}
+/* Marco vertical 9:16 (formato celular): ocupa el alto disponible y se centra; si el video no es vertical, queda con bandas. */
+.carta.video video{flex:1 1 0; min-height:0; align-self:center; height:100%; width:auto; max-width:100%; aspect-ratio:9/16; object-fit:contain; background:#000; border-radius:2px}
+.video-titulo{font-family:var(--display); font-weight:700; font-size:1.05rem; line-height:1.25; margin:.55rem 0 0}
+.borrar{font-family:var(--mono); font-size:.66rem; padding:.3rem .5rem; margin:-.3rem 0; background:transparent; border:0; color:var(--tinta-2); cursor:pointer}
+.borrar:hover{color:#B23A3A; text-decoration:underline}
+
+.dialogo{width:min(26rem, calc(100% - 2rem)); padding:0; border:1px solid var(--linea); border-radius:4px; background:var(--papel-2); color:var(--tinta)}
+.dialogo::backdrop{background:rgba(16,19,21,.55)}
+.dialogo form{display:flex; flex-direction:column; gap:.75rem; padding:1.1rem 1.2rem 1.2rem}
+.dialogo h2{font-family:var(--display); font-size:1.2rem; margin:0}
+.dialogo label{display:flex; flex-direction:column; gap:.25rem; font-family:var(--mono); font-size:.68rem; letter-spacing:.04em; color:var(--tinta-2)}
+.dialogo input, .dialogo select{font:inherit; font-family:var(--body); font-size:.92rem; letter-spacing:0; padding:.45rem .55rem; border:1px solid var(--linea); border-radius:2px; background:var(--papel); color:var(--tinta)}
+.dialogo input[type=file]{padding:.35rem}
+.dialogo progress{width:100%; accent-color:var(--u1)}
+.dialogo progress[hidden]{display:none}
+.dialogo .msg{font-family:var(--mono); font-size:.7rem; color:var(--tinta-2); margin:0; min-height:1em}
+.dialogo .msg.err{color:#B23A3A}
+.dlg-acciones{display:flex; justify-content:flex-end; gap:.5rem}
+.dlg-acciones button{font-family:var(--display); font-weight:600; font-size:.88rem; padding:.5rem .9rem; border:1px solid var(--linea); border-radius:2px; background:var(--papel); color:var(--tinta); cursor:pointer}
+.dlg-acciones button.principal{background:var(--tinta); border-color:var(--tinta); color:var(--papel-2)}
+.dlg-acciones button:disabled{opacity:.55; cursor:default}
+
 /* ---- navegación flotante (útil con mouse) ---- */
 .flechas{position:absolute; left:calc(100% + .6rem); bottom:1rem; display:flex; flex-direction:column; gap:.35rem; z-index:3}
 .flechas .boton{width:2.1rem; height:2.1rem; padding:0; font-size:.8rem; background:var(--papel-2)}
@@ -126,6 +154,7 @@ button{font:inherit; color:inherit}
   <header class="barra">
     <span class="logo"><i data-marca style="--marca-tam:1.8rem"></i> Poris <small id="resumen"></small></span>
     <div class="acciones">
+      <button class="boton mas" id="btn-subir" type="button" aria-label="Agregar video" title="Agregar video" hidden>+</button>
       <button class="boton" id="btn-tema" type="button">MODO OSCURO</button>
       <a class="boton" href="index.html">estudIAndo →</a>
     </div>
@@ -146,6 +175,27 @@ button{font:inherit; color:inherit}
   </div>
 </div>
 
+<dialog class="dialogo" id="dlg-subir" aria-labelledby="dlg-titulo">
+  <form id="form-subir">
+    <h2 id="dlg-titulo">Agregar video</h2>
+    <label>VIDEO (MP4, WEBM O MOV · HASTA 50 MB)
+      <input type="file" id="in-archivo" accept="video/mp4,video/webm,video/quicktime" required>
+    </label>
+    <label>MATERIA <select id="sel-materia"></select></label>
+    <label>CLASE <select id="sel-tema"></select></label>
+    <label>TÍTULO (OPCIONAL) <input type="text" id="in-titulo" maxlength="120" placeholder="Ej.: Capu explica el velo de ignorancia"></label>
+    <progress id="prog-subida" max="100" value="0" hidden></progress>
+    <p class="msg" id="msg-subida" role="status"></p>
+    <div class="dlg-acciones">
+      <button type="button" id="btn-cancelar">Cancelar</button>
+      <button type="submit" class="principal" id="btn-enviar">Subir</button>
+    </div>
+  </form>
+</dialog>
+
+<script src="config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/auth.js"></script>
 <script src="js/mazos/ia-conceptual.js"></script>
 <script src="js/mazos/estadistica.js"></script>
 <script src="js/mazos/python.js"></script>
@@ -256,7 +306,8 @@ button{font:inherit; color:inherit}
   }
 
   // ===== ESTADO Y FILTROS =====
-  var MODOS = [["todas","Todas"], ["sin","Sin marcar"], ["repasar","Para repasar"], ["sabia","Ya sabidas"]];
+  // «Videos» no mira las marcas: muestra los videos subidos para la materia y el tema elegidos.
+  var MODOS = [["todas","Todas"], ["sin","Sin marcar"], ["repasar","Para repasar"], ["sabia","Ya sabidas"], ["videos","Videos"]];
   var estado = { materia:"todo", tema:"todas", modo:"todas" };
   var feed = document.getElementById("feed");
   var filaMaterias = document.getElementById("fila-materias");
@@ -333,7 +384,7 @@ button{font:inherit; color:inherit}
   }
   var filaModos = document.getElementById("fila-modos");
   function pintarModos(){
-    var m = materiaPorId(estado.materia), u = m ? m.u : 0, cuenta = { todas:0, sin:0, repasar:0, sabia:0 };
+    var m = materiaPorId(estado.materia), u = m ? m.u : 0, cuenta = { todas:0, sin:0, repasar:0, sabia:0, videos:videosEnAlcance().length };
     enAlcance().forEach(function(t){ var v = marcaDe(t); cuenta.todas++; cuenta[v || "sin"]++; });
     filaModos.innerHTML = "";
     MODOS.forEach(function(x){
@@ -437,8 +488,200 @@ button{font:inherit; color:inherit}
     return a;
   }
 
+  // ===== VIDEOS: archivos en Supabase Storage (bucket poris-videos), ver supabase/fase9_poris_videos.sql =====
+  // Si Supabase no carga, Poris sigue andando sin videos.
+  var BUCKET = "poris-videos", MAX_MB = 50;
+  var cliente = window.Auth ? window.Auth.cliente : null;
+  var VIDEOS = [], esEditor = false;
+
+  function videosEnAlcance(){
+    var m = materiaPorId(estado.materia);
+    return VIDEOS.filter(function(v){ return (!m || v.m === m) && (estado.tema === "todas" || v.c === estado.tema); });
+  }
+  // En el orden del apunte, como las tarjetas; dentro de cada clase, del más viejo al más nuevo.
+  function ordenarVideos(){
+    VIDEOS.sort(function(a, b){
+      return MATERIAS.indexOf(a.m) - MATERIAS.indexOf(b.m) || a.m.temas.indexOf(temaDe(a)) - b.m.temas.indexOf(temaDe(b));
+    });
+  }
+  function urlVideo(ruta){ return cliente.storage.from(BUCKET).getPublicUrl(ruta).data.publicUrl; }
+
+  function cargarVideos(){
+    if(!cliente) return;
+    cliente.from("poris_videos").select("id,materia,tema,titulo,ruta,creado_at").order("creado_at", { ascending:true }).then(function(r){
+      if(r.error) return;
+      VIDEOS = [];
+      (r.data || []).forEach(function(f){
+        var m = materiaPorId(f.materia);
+        if(!m || !m.temas.some(function(t){ return t[0] === f.tema; })) return;
+        VIDEOS.push({ video:true, id:f.id, m:m, c:f.tema, titulo:f.titulo || "", ruta:f.ruta });
+      });
+      ordenarVideos();
+      if(estado.modo === "videos") aplicar(); else pintarModos();
+    });
+  }
+
+  // Pausa el video que sale de la pantalla.
+  var obsVideo = ("IntersectionObserver" in window) ? new IntersectionObserver(function(entradas){
+    entradas.forEach(function(e){ if(!e.isIntersecting && !e.target.paused) e.target.pause(); });
+  }, { root:feed, threshold:0.4 }) : null;
+
+  function crearVideo(v, n, total){
+    var tema = temaDe(v);
+    var a = document.createElement("article");
+    a.className = "carta video"; a.setAttribute("data-u", v.m.u);
+
+    var cab = document.createElement("div"); cab.className = "carta-cab";
+    var etq = document.createElement("span"); etq.className = "etq"; etq.textContent = v.m.corto.toUpperCase();
+    var tp = document.createElement("span"); tp.className = "etq tipo"; tp.textContent = "VIDEO";
+    var nom = document.createElement("span"); nom.className = "tema-nombre"; nom.textContent = tema ? tema[1] + " · " + tema[2] : "";
+    cab.appendChild(etq); cab.appendChild(tp); cab.appendChild(nom);
+
+    var cuerpo = document.createElement("div"); cuerpo.className = "carta-cuerpo";
+    var vid = document.createElement("video");
+    vid.controls = true; vid.preload = "metadata"; vid.playsInline = true;
+    vid.src = urlVideo(v.ruta);
+    cuerpo.appendChild(vid);
+    if(v.titulo){ var ti = document.createElement("p"); ti.className = "video-titulo"; ti.textContent = v.titulo; cuerpo.appendChild(ti); }
+    if(obsVideo) obsVideo.observe(vid);
+
+    var pie = document.createElement("div"); pie.className = "carta-pie";
+    var hueco = document.createElement("span"); hueco.className = "pista";
+    if(esEditor){
+      var bor = document.createElement("button"); bor.type = "button"; bor.className = "borrar"; bor.textContent = "Borrar video";
+      bor.addEventListener("click", function(){ borrarVideo(v); });
+      hueco.appendChild(bor);
+    }
+    var ver = document.createElement("a"); ver.className = "ver"; ver.textContent = "Ver en el apunte →";
+    ver.href = v.m.apunte + (tema ? tema[3] : "");
+    var num = document.createElement("span"); num.className = "num"; num.textContent = n + " / " + total;
+    pie.appendChild(hueco); pie.appendChild(ver); pie.appendChild(num);
+
+    a.appendChild(cab); a.appendChild(cuerpo); a.appendChild(pie);
+    return a;
+  }
+
+  function borrarVideo(v){
+    if(!window.confirm("¿Borrar este video de Poris? No se puede deshacer.")) return;
+    cliente.storage.from(BUCKET).remove([v.ruta]).then(function(r){
+      if(r.error) throw r.error;
+      return cliente.from("poris_videos").delete().eq("id", v.id);
+    }).then(function(r){
+      if(r && r.error) throw r.error;
+      VIDEOS = VIDEOS.filter(function(x){ return x !== v; });
+      aplicar();
+    }).catch(function(e){ window.alert("¡D’oh! No se pudo borrar: " + (e.message || e)); });
+  }
+
+  // ----- «+»: solo para editores (tabla poris_editores) -----
+  var btnSubir = document.getElementById("btn-subir");
+  var dlg = document.getElementById("dlg-subir"), form = document.getElementById("form-subir");
+  var inArchivo = document.getElementById("in-archivo"), inTitulo = document.getElementById("in-titulo");
+  var selMateria = document.getElementById("sel-materia"), selTema = document.getElementById("sel-tema");
+  var prog = document.getElementById("prog-subida"), msg = document.getElementById("msg-subida");
+  var btnEnviar = document.getElementById("btn-enviar"), btnCancelar = document.getElementById("btn-cancelar");
+  var subiendo = null; // XHR en curso
+
+  function revisarEditor(sesion){
+    if(!sesion){ ponerEditor(false); return; }
+    cliente.rpc("es_editor_poris").then(function(r){ ponerEditor(!r.error && r.data === true); });
+  }
+  function ponerEditor(si){
+    if(esEditor === si) return;
+    esEditor = si; btnSubir.hidden = !si;
+    if(estado.modo === "videos") pintarFeed(); // muestra u oculta «Borrar video»
+  }
+
+  MATERIAS.forEach(function(m){
+    var o = document.createElement("option"); o.value = m.id; o.textContent = m.nombre; selMateria.appendChild(o);
+  });
+  function llenarTemas(elegido){
+    var m = materiaPorId(selMateria.value);
+    selTema.innerHTML = "";
+    m.temas.forEach(function(t){
+      var o = document.createElement("option"); o.value = t[0]; o.textContent = t[1] + " · " + t[2]; selTema.appendChild(o);
+    });
+    if(elegido && m.temas.some(function(t){ return t[0] === elegido; })) selTema.value = elegido;
+  }
+  selMateria.addEventListener("change", function(){ llenarTemas(); });
+
+  function mensaje(texto, error){ msg.textContent = texto; msg.className = "msg" + (error ? " err" : ""); }
+  function bloquear(si){ [inArchivo, inTitulo, selMateria, selTema, btnEnviar].forEach(function(el){ el.disabled = si; }); }
+
+  btnSubir.addEventListener("click", function(){
+    form.reset(); mensaje(""); prog.hidden = true; bloquear(false);
+    // Arranca con la materia y la clase que se están mirando.
+    if(estado.materia !== "todo") selMateria.value = estado.materia;
+    llenarTemas(estado.tema);
+    dlg.showModal();
+  });
+  btnCancelar.addEventListener("click", function(){
+    if(subiendo){ subiendo.abort(); subiendo = null; }
+    dlg.close();
+  });
+  dlg.addEventListener("cancel", function(e){ if(subiendo) e.preventDefault(); });
+
+  // Sube con XHR (no con supabase-js) para poder mostrar el progreso.
+  function subirArchivo(ruta, archivo, token){
+    return new Promise(function(ok, mal){
+      var cfg = window.ESTUDIANDO_CONFIG, x = new XMLHttpRequest();
+      subiendo = x;
+      x.open("POST", cfg.SUPABASE_URL + "/storage/v1/object/" + BUCKET + "/" + ruta);
+      x.setRequestHeader("Authorization", "Bearer " + token);
+      x.setRequestHeader("apikey", cfg.SUPABASE_ANON_KEY);
+      x.setRequestHeader("Content-Type", archivo.type);
+      x.setRequestHeader("x-upsert", "false");
+      x.upload.onprogress = function(e){ if(e.lengthComputable){ prog.value = Math.round(e.loaded / e.total * 100); mensaje("Subiendo… " + prog.value + " %"); } };
+      x.onload = function(){
+        subiendo = null;
+        if(x.status >= 200 && x.status < 300) return ok();
+        var d = ""; try{ d = JSON.parse(x.responseText).message || ""; }catch(e){}
+        mal(new Error(d || "error " + x.status));
+      };
+      x.onerror = function(){ subiendo = null; mal(new Error("sin conexión")); };
+      x.onabort = function(){ subiendo = null; mal(new Error("cancelado")); };
+      x.send(archivo);
+    });
+  }
+
+  form.addEventListener("submit", function(e){
+    e.preventDefault();
+    var archivo = inArchivo.files[0];
+    if(!archivo){ mensaje("Elegí un video de la compu.", true); return; }
+    if(!/^video\/(mp4|webm|quicktime)$/.test(archivo.type)){ mensaje("¡D’oh! Tiene que ser MP4, WEBM o MOV.", true); return; }
+    if(archivo.size > MAX_MB * 1024 * 1024){ mensaje("¡D’oh! Pesa " + (archivo.size / 1048576).toFixed(1) + " MB; el máximo es " + MAX_MB + " MB.", true); return; }
+
+    var materia = selMateria.value, tema = selTema.value, titulo = inTitulo.value.trim();
+    var ext = { "video/mp4":"mp4", "video/webm":"webm", "video/quicktime":"mov" }[archivo.type];
+    var uid = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : Date.now().toString(36) + Math.random().toString(36).slice(2);
+    var ruta = materia + "/" + tema + "/" + uid + "." + ext;
+
+    bloquear(true); prog.hidden = false; prog.value = 0; mensaje("Subiendo… 0 %");
+    window.Auth.obtenerSesion().then(function(s){
+      if(!s) throw new Error("tu sesión se cerró; volvé a entrar desde la portada");
+      return subirArchivo(ruta, archivo, s.access_token);
+    }).then(function(){
+      mensaje("Guardando…");
+      return cliente.from("poris_videos").insert({ materia:materia, tema:tema, titulo:titulo, ruta:ruta }).select("id").single().then(function(r){
+        if(r.error){ cliente.storage.from(BUCKET).remove([ruta]); throw r.error; } // que no quede el archivo suelto
+        return r.data;
+      });
+    }).then(function(fila){
+      var m = materiaPorId(materia);
+      VIDEOS.push({ video:true, id:fila.id, m:m, c:tema, titulo:titulo, ruta:ruta });
+      ordenarVideos();
+      dlg.close();
+      // Lleva al filtro donde quedó el video.
+      estado.materia = materia; estado.tema = tema; estado.modo = "videos";
+      aplicar();
+    }).catch(function(err){
+      bloquear(false); prog.hidden = true;
+      if(err.message !== "cancelado") mensaje("¡D’oh! No se pudo subir: " + (err.message || err), true);
+    });
+  });
+
   function aplicar(){
-    actuales = enAlcance().filter(pasaModo);
+    actuales = estado.modo === "videos" ? videosEnAlcance() : enAlcance().filter(pasaModo);
     if(estado.materia === "todo") mezclar(actuales);
     pintarFiltros();
     guardarEstado();
@@ -449,15 +692,16 @@ button{font:inherit; color:inherit}
     if(observador){ observador.disconnect(); observador = null; }
     pendientesMate = [];
     var frag = document.createDocumentFragment();
-    actuales.forEach(function(t, i){ frag.appendChild(crearCarta(t, i + 1, actuales.length)); });
+    actuales.forEach(function(t, i){ frag.appendChild(t.video ? crearVideo(t, i + 1, actuales.length) : crearCarta(t, i + 1, actuales.length)); });
     if(!actuales.length){
       var v = document.createElement("div"); v.className = "vacio";
-      var msg = { sin:["Mmm… ya marcaste todo por acá", "No quedan tarjetas sin marcar en esta selección."],
+      var aviso = { sin:["Mmm… ya marcaste todo por acá", "No quedan tarjetas sin marcar en esta selección."],
                   repasar:["Mmm… nada para repasar", "Las que marques con «Repasar» aparecen en este filtro."],
                   sabia:["¡D’oh! Todavía no marcaste ninguna como sabida", "Las que marques con «La sabía» aparecen en este filtro."],
+                  videos:["Mmm… todavía no hay videos acá", esEditor ? "Subí uno con el «+» de arriba." : "Probá con otra materia o clase."],
                   todas:["No hay tarjetas", "Probá con otra materia o tema."] }[estado.modo];
       v.innerHTML = "<b></b><span></span>";
-      v.firstChild.textContent = msg[0]; v.lastChild.textContent = msg[1];
+      v.firstChild.textContent = aviso[0]; v.lastChild.textContent = aviso[1];
       frag.appendChild(v);
     }
     feed.style.scrollBehavior = "auto";
@@ -501,6 +745,11 @@ button{font:inherit; color:inherit}
 
   leerEstadoInicial();
   aplicar();
+  if(cliente){
+    cargarVideos();
+    window.Auth.obtenerSesion().then(revisarEditor);
+    window.Auth.onCambioSesion(revisarEditor);
+  }
 })();
 </script>
 </body>
