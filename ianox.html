@@ -1,0 +1,649 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IAnox — estudIAndo</title>
+<style>
+:root{
+  color-scheme: light;
+  --papel:#EDEEE9; --papel-2:#F8F9F6; --papel-3:#E3E5DE;
+  --tinta:#15181A; --tinta-2:#545B60; --tinta-3:#7B8288;
+  --linea:#C7CAC2; --linea-2:#D9DBD4;
+  --u1:#2E3A94; --u2:#9A5A12; --u3:#1B6A5B; --u4:#6D3470; --u5:#5B3FC4;
+  --u1-suave:#E2E5F6; --u2-suave:#F4E7D2; --u3-suave:#DCEDE8; --u4-suave:#F0E3F0; --u5-suave:#E8E3F8;
+  --display:"Bahnschrift","Franklin Gothic Medium","Arial Narrow","Helvetica Neue",sans-serif;
+  --body:"Sitka Text","Constantia",Georgia,"Times New Roman",serif;
+  --mono:"Cascadia Mono",Consolas,"SFMono-Regular",ui-monospace,monospace;
+}
+:root[data-tema="oscuro"]{
+  color-scheme: dark;
+  --papel:#101315; --papel-2:#181C20; --papel-3:#1F2429;
+  --tinta:#E9EBE6; --tinta-2:#A2AAB0; --tinta-3:#7C858B;
+  --linea:#2B3238; --linea-2:#232930;
+  --u1:#909EF0; --u2:#E2A95B; --u3:#4FC7AC; --u4:#D39AD6; --u5:#A98BFF;
+  --u1-suave:#1B2040; --u2-suave:#35270F; --u3-suave:#10302B; --u4-suave:#2E1830; --u5-suave:#26203F;
+}
+*{box-sizing:border-box}
+@media (prefers-reduced-motion:reduce){ *{animation:none !important; transition:none !important; scroll-behavior:auto !important} }
+html,body{height:100%}
+body{margin:0; background:var(--papel-3); color:var(--tinta); font-family:var(--body); font-size:16px; line-height:1.5; -webkit-font-smoothing:antialiased}
+:focus-visible{outline:2px solid var(--u1); outline-offset:2px}
+a{color:inherit; text-decoration:none}
+button{font:inherit; color:inherit}
+
+.telefono{max-width:520px; margin:0 auto; height:100vh; height:100dvh; background:var(--papel); border-left:1px solid var(--linea); border-right:1px solid var(--linea); display:flex; flex-direction:column; position:relative}
+
+/* ---- barra superior ---- */
+.barra{display:flex; align-items:center; justify-content:space-between; gap:.6rem; padding:.65rem 1rem; background:var(--papel-2); border-bottom:1px solid var(--linea)}
+.logo{font-family:var(--display); font-weight:700; font-size:1.15rem; letter-spacing:.01em; display:flex; align-items:center; gap:.45rem; white-space:nowrap}
+.logo b{font-size:1.35rem; color:var(--u1)}
+.logo small{font-family:var(--mono); font-weight:400; font-size:.62rem; color:var(--tinta-3); letter-spacing:.04em}
+.acciones{display:flex; align-items:center; gap:.45rem}
+.boton{font-family:var(--mono); font-size:.62rem; letter-spacing:.06em; padding:.4rem .6rem; background:var(--papel-3); color:var(--tinta-2); border:1px solid var(--linea); border-radius:2px; cursor:pointer; white-space:nowrap}
+.boton:hover{color:var(--tinta); border-color:var(--tinta-3)}
+
+/* ---- filtros ---- */
+.filtros{background:var(--papel-2); border-bottom:1px solid var(--linea); padding:.55rem 0 .6rem}
+.fila{display:flex; gap:.4rem; overflow-x:auto; padding:0 1rem; scrollbar-width:none}
+.fila::-webkit-scrollbar{display:none}
+.fila + .fila{margin-top:.45rem}
+.fila[hidden]{display:none}
+.chip{flex:0 0 auto; font-family:var(--display); font-size:.8rem; font-weight:600; padding:.32rem .75rem; border:1px solid var(--linea); border-radius:2px; background:var(--papel); color:var(--tinta-2); cursor:pointer; white-space:nowrap}
+.chip:hover{border-color:var(--tinta-3); color:var(--tinta)}
+.chip[aria-pressed="true"]{background:var(--tinta); border-color:var(--tinta); color:var(--papel-2)}
+.chip[data-u="1"][aria-pressed="true"]{background:var(--u1); border-color:var(--u1)}
+.chip[data-u="2"][aria-pressed="true"]{background:var(--u2); border-color:var(--u2)}
+.chip[data-u="3"][aria-pressed="true"]{background:var(--u3); border-color:var(--u3)}
+.chip[data-u="4"][aria-pressed="true"]{background:var(--u4); border-color:var(--u4)}
+.chip[data-u="5"][aria-pressed="true"]{background:var(--u5); border-color:var(--u5)}
+:root[data-tema="oscuro"] .chip[aria-pressed="true"]{color:#101315}
+.chip.tema{font-family:var(--mono); font-size:.68rem; font-weight:400; letter-spacing:.02em; padding:.28rem .6rem}
+
+/* ---- feed ---- */
+.feed{position:relative; flex:1; min-height:0; overflow-y:auto; scroll-snap-type:y mandatory; overscroll-behavior:contain; display:flex; flex-direction:column; scroll-behavior:smooth}
+.carta{flex:0 0 100%; min-height:100%; scroll-snap-align:start; scroll-snap-stop:always; display:flex; flex-direction:column; padding:1.2rem 1.3rem 1rem; background:var(--papel-3); cursor:pointer; border-bottom:1px solid var(--linea)}
+.carta[data-u="1"]{background:var(--u1-suave); --ac:var(--u1)}
+.carta[data-u="2"]{background:var(--u2-suave); --ac:var(--u2)}
+.carta[data-u="3"]{background:var(--u3-suave); --ac:var(--u3)}
+.carta[data-u="4"]{background:var(--u4-suave); --ac:var(--u4)}
+.carta[data-u="5"]{background:var(--u5-suave); --ac:var(--u5)}
+.carta-cab{display:flex; flex-wrap:wrap; align-items:center; gap:.45rem .6rem}
+.etq{font-family:var(--mono); font-size:.62rem; letter-spacing:.05em; background:var(--ac); color:var(--papel-2); padding:.22rem .5rem; border-radius:2px}
+:root[data-tema="oscuro"] .etq{color:#101315}
+.tema-nombre{font-family:var(--mono); font-size:.66rem; color:var(--tinta-2)}
+.carta-cuerpo{flex:1; min-height:0; overflow-y:auto; display:flex; flex-direction:column; padding:.8rem 0}
+.carta-pie{display:flex; align-items:center; justify-content:space-between; gap:.6rem; font-family:var(--mono); font-size:.66rem; color:var(--tinta-2)}
+.pista{flex:1}
+.ver{padding:.3rem .5rem; margin:-.3rem -.5rem; border-bottom:0; color:var(--tinta)}
+.ver:hover{text-decoration:underline}
+.num{color:var(--tinta-3)}
+
+.vacio{flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:.4rem; padding:2rem; text-align:center; color:var(--tinta-2); font-size:.95rem}
+.vacio b{font-family:var(--display); font-size:1.15rem; color:var(--tinta)}
+
+/* ---- videos ---- */
+.boton.mas{font-size:.95rem; line-height:1; padding:.32rem .62rem; background:var(--tinta); border-color:var(--tinta); color:var(--papel-2)}
+.boton.mas:hover{color:var(--papel-2); filter:brightness(1.15)}
+.boton[hidden]{display:none}
+.carta.video{cursor:default}
+.carta.video:not([data-u]){--ac:var(--tinta-2)}
+.dialogo .ayuda{font-family:var(--body); font-size:.8rem; letter-spacing:0; color:var(--tinta-3)}
+.carta.video .carta-cuerpo{padding:.7rem 0}
+/* Marco vertical 9:16 (formato celular): ocupa el alto disponible y se centra; si el video no es vertical, queda con bandas. */
+.carta.video video{flex:1 1 0; min-height:0; align-self:center; height:100%; width:auto; max-width:100%; aspect-ratio:9/16; object-fit:contain; background:#000; border-radius:2px}
+.video-titulo{font-family:var(--display); font-weight:700; font-size:1.05rem; line-height:1.25; margin:.55rem 0 0}
+.borrar{font-family:var(--mono); font-size:.66rem; padding:.3rem .5rem; margin:-.3rem 0; background:transparent; border:0; color:var(--tinta-2); cursor:pointer}
+.borrar:hover{color:#B23A3A; text-decoration:underline}
+/* En el celular el video ocupa todo el ancho y todo el alto de la carta (estilo TikTok), con los datos encima.
+   Si la pantalla no es justo 9:16, recorta un poco arriba y abajo en vez de dejar bandas. */
+@media (max-width:540px){
+  .carta.video{position:relative; padding:0; background:#000; border-bottom:0}
+  .carta.video .carta-cuerpo{position:absolute; inset:0; padding:0}
+  .carta.video video{width:100%; height:100%; max-width:none; aspect-ratio:auto; object-fit:cover; border-radius:0}
+  .carta.video .carta-cab{position:absolute; top:0; left:0; right:0; z-index:1; padding:.8rem 1rem 3.6rem; background:linear-gradient(rgba(0,0,0,.65), transparent); pointer-events:none}
+  .carta.video .tema-nombre{color:#fff}
+  .carta.video .etq.tipo{color:#fff; border-color:#fff}
+  /* El título va arriba, bajo carpeta y clase: abajo suelen estar los subtítulos del propio video. */
+  .carta.video .video-titulo{position:absolute; left:1rem; right:1rem; top:2.6rem; z-index:1; margin:0; color:#fff; text-shadow:0 1px 3px rgba(0,0,0,.8); pointer-events:none}
+  .carta.video .carta-pie{position:absolute; left:0; right:0; bottom:3.2rem; z-index:1; padding:1.4rem 1rem .5rem; background:linear-gradient(transparent, rgba(0,0,0,.55)); color:#fff}
+  .carta.video .carta-pie .ver, .carta.video .carta-pie .num, .carta.video .borrar{color:#fff}
+}
+
+.dialogo{width:min(26rem, calc(100% - 2rem)); padding:0; border:1px solid var(--linea); border-radius:4px; background:var(--papel-2); color:var(--tinta)}
+.dialogo::backdrop{background:rgba(16,19,21,.55)}
+.dialogo form{display:flex; flex-direction:column; gap:.75rem; padding:1.1rem 1.2rem 1.2rem}
+.dialogo h2{font-family:var(--display); font-size:1.2rem; margin:0}
+.dialogo label{display:flex; flex-direction:column; gap:.25rem; font-family:var(--mono); font-size:.68rem; letter-spacing:.04em; color:var(--tinta-2)}
+.dialogo input, .dialogo select{font:inherit; font-family:var(--body); font-size:.92rem; letter-spacing:0; padding:.45rem .55rem; border:1px solid var(--linea); border-radius:2px; background:var(--papel); color:var(--tinta)}
+.dialogo input[type=file]{padding:.35rem}
+.dialogo progress{width:100%; accent-color:var(--u1)}
+.dialogo progress[hidden]{display:none}
+.dialogo .msg{font-family:var(--mono); font-size:.7rem; color:var(--tinta-2); margin:0; min-height:1em}
+.dialogo .msg.err{color:#B23A3A}
+.dlg-acciones{display:flex; justify-content:flex-end; gap:.5rem}
+.dlg-acciones button{font-family:var(--display); font-weight:600; font-size:.88rem; padding:.5rem .9rem; border:1px solid var(--linea); border-radius:2px; background:var(--papel); color:var(--tinta); cursor:pointer}
+.dlg-acciones button.principal{background:var(--tinta); border-color:var(--tinta); color:var(--papel-2)}
+.dlg-acciones button:disabled{opacity:.55; cursor:default}
+
+/* ---- navegación flotante (útil con mouse) ---- */
+.flechas{position:absolute; left:calc(100% + .6rem); bottom:1rem; display:flex; flex-direction:column; gap:.35rem; z-index:3}
+.flechas .boton{width:2.1rem; height:2.1rem; padding:0; font-size:.8rem; background:var(--papel-2)}
+@media (max-width:640px){ .flechas{display:none} }
+@media (max-width:540px){ .telefono{border:0} }
+@media (max-width:420px){ .barra{padding:.6rem .7rem; gap:.4rem} .acciones{gap:.3rem} .boton{padding:.4rem .42rem; letter-spacing:.03em} }
+/* ---- sonido (el video arranca solo y sin sonido, como en Instagram) ---- */
+.sonido{font-family:var(--mono); font-size:.66rem; padding:.3rem .5rem; margin:-.3rem 0; background:transparent; border:0; color:var(--tinta); cursor:pointer}
+.sonido:hover{text-decoration:underline}
+@media (max-width:540px){ .carta.video .sonido{color:#fff} }
+</style>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="img/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<script defer src="js/marca.js"></script>
+</head>
+<body>
+<div class="telefono">
+  <header class="barra">
+    <span class="logo"><i data-marca style="--marca-tam:1.8rem"></i> IAnox <small id="resumen"></small></span>
+    <div class="acciones">
+      <button class="boton mas" id="btn-subir" type="button" aria-label="Agregar video" title="Agregar video" hidden>+</button>
+      <button class="boton" id="btn-tema" type="button">MODO OSCURO</button>
+      <a class="boton" href="index.html">estudIAndo →</a>
+    </div>
+  </header>
+
+  <div class="filtros">
+    <div class="fila" id="fila-carpetas" role="group" aria-label="Carpeta"></div>
+    <div class="fila" id="fila-clases" role="group" aria-label="Clase" hidden></div>
+  </div>
+
+  <main class="feed" id="feed" tabindex="-1" aria-live="polite"></main>
+
+  <div class="flechas">
+    <button class="boton" id="btn-sube" type="button" aria-label="Video anterior">▲</button>
+    <button class="boton" id="btn-baja" type="button" aria-label="Video siguiente">▼</button>
+  </div>
+</div>
+
+<dialog class="dialogo" id="dlg-subir" aria-labelledby="dlg-titulo">
+  <form id="form-subir">
+    <h2 id="dlg-titulo">Agregar video</h2>
+    <label>VIDEO (MP4, WEBM O MOV · HASTA 50 MB)
+      <input type="file" id="in-archivo" accept="video/mp4,video/webm,video/quicktime" required>
+    </label>
+    <label>CARPETA <input type="text" id="in-carpeta" list="lista-carpetas" maxlength="60" required autocomplete="off" placeholder="Ej.: Ética"></label>
+    <label>CLASE <input type="text" id="in-clase" list="lista-clases" maxlength="60" required autocomplete="off" placeholder="Ej.: Clase 3"></label>
+    <span class="ayuda">Elegí una carpeta o clase que ya tengas, o escribí una nueva.</span>
+    <datalist id="lista-carpetas"></datalist>
+    <datalist id="lista-clases"></datalist>
+    <label>TÍTULO (OPCIONAL) <input type="text" id="in-titulo" maxlength="120" placeholder="Ej.: Capu explica el velo de ignorancia"></label>
+    <progress id="prog-subida" max="100" value="0" hidden></progress>
+    <p class="msg" id="msg-subida" role="status"></p>
+    <div class="dlg-acciones">
+      <button type="button" id="btn-cancelar">Cancelar</button>
+      <button type="submit" class="principal" id="btn-enviar">Subir</button>
+    </div>
+  </form>
+</dialog>
+
+<script src="config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/auth.js"></script>
+<script>
+(function(){
+  "use strict";
+
+  // ===== TEMA (misma clave que el resto del sitio) =====
+  var raiz = document.documentElement, btnTema = document.getElementById("btn-tema");
+  function aplicarTema(t){
+    raiz.setAttribute("data-tema", t);
+    btnTema.textContent = t === "oscuro" ? "MODO CLARO" : "MODO OSCURO";
+    try{ localStorage.setItem("ia-tema", t); }catch(e){}
+  }
+  var temaGuardado = null;
+  try{ temaGuardado = localStorage.getItem("ia-tema"); }catch(e){}
+  if(!temaGuardado) temaGuardado = (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) ? "oscuro" : "claro";
+  aplicarTema(temaGuardado);
+  btnTema.addEventListener("click", function(){
+    aplicarTema(raiz.getAttribute("data-tema") === "oscuro" ? "claro" : "oscuro");
+  });
+
+  // ===== MATERIAS: solo para dar color y link al apunte a las carpetas que se llaman como una materia =====
+  // Cada tema: [etiqueta de la clase, nombre completo, ancla en el apunte]
+  var MATERIAS = [
+    { id:"ia-conceptual", corto:"Intro a la IA", nombre:"Introducción a la IA", u:1, apunte:"ia-conceptual.html", temas:[
+      ["Clase 1","Definiciones y antecedentes","#c1"],
+      ["Clase 2","Agente, entorno, racionalidad","#c2"],
+      ["Clase 3","De Turing a los detectores","#c3"],
+      ["Clase 4","¿Puede pensar una máquina?","#c4"],
+      ["Clase 5","Cultura, cine y música","#c5"],
+      ["Clase 6","Inviernos, hype y automatización","#c6"]
+    ]},
+    { id:"estadistica", corto:"Estadística", nombre:"Probabilidad y Estadística", u:2, apunte:"estadistica.html", temas:[] },
+    { id:"python", corto:"Python", nombre:"Python para Ciencia de Datos", u:3, apunte:"python.html", temas:[] },
+    { id:"etica", corto:"Ética", nombre:"Ética en la IA", u:4, apunte:"etica.html", temas:[
+      ["Clase 1","Ética, teorías y límites de la IA","#c1"],
+      ["Clase 2","Principios y conceptos técnicos","#c2"],
+      ["Clase 3","Regulación: de soft law al AI Act","#c3"],
+      ["Clase 4","Transparencia, fairness y sesgos","#c4"],
+      ["Clase 5","Impacto social de la IA","#c5"],
+      ["Clase 6","GDPR, Ley 25.326 y olvido","#c6"],
+      ["Mini casos","Mini casos para aplicar conceptos","#casoteca"]
+    ]},
+    { id:"calculo", corto:"Cálculo", nombre:"Cálculo I", u:5, apunte:"calculo.html", temas:[] }
+  ];
+
+  // ===== VIDEOS: archivos en Supabase Storage (bucket poris-videos), ver supabase/fase9_poris_videos.sql =====
+  // La tabla y el bucket conservan el nombre «poris» porque nacieron ahí; IAnox lee los mismos videos.
+  // Se ordenan en carpetas y clases que se crean al subir (texto libre).
+  var BUCKET = "poris-videos", MAX_MB = 50;
+  var cliente = window.Auth ? window.Auth.cliente : null;
+  var VIDEOS = [], videosCargados = false, esEditor = false;
+  var estado = { carpeta:"todo", clase:"todas" };
+  var actuales = [];
+  var feed = document.getElementById("feed");
+  var filaCarpetas = document.getElementById("fila-carpetas");
+  var filaClases = document.getElementById("fila-clases");
+  var resumen = document.getElementById("resumen");
+
+  function limpiar(t){ return String(t || "").replace(/\s+/g, " ").trim(); }
+  function sinTildes(t){ return limpiar(t).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, ""); }
+  function compararClase(a, b){ return a.localeCompare(b, "es", { numeric:true, sensitivity:"base" }); }
+
+  // Carpetas en el orden en que se crearon (el primer video de cada una).
+  function carpetas(){
+    var vistas = [];
+    VIDEOS.forEach(function(v){ if(vistas.indexOf(v.carpeta) < 0) vistas.push(v.carpeta); });
+    return vistas;
+  }
+  // Clases de una carpeta, en orden natural («Clase 2» antes que «Clase 10»).
+  function clasesDe(carpeta){
+    var vistas = [];
+    VIDEOS.forEach(function(v){ if(v.carpeta === carpeta && vistas.indexOf(v.clase) < 0) vistas.push(v.clase); });
+    return vistas.sort(compararClase);
+  }
+  function ordenarVideos(){
+    var orden = carpetas();
+    VIDEOS.sort(function(a, b){ return orden.indexOf(a.carpeta) - orden.indexOf(b.carpeta) || compararClase(a.clase, b.clase); });
+  }
+  function videosEnAlcance(){
+    return VIDEOS.filter(function(v){
+      return (estado.carpeta === "todo" || v.carpeta === estado.carpeta) && (estado.clase === "todas" || v.clase === estado.clase);
+    });
+  }
+
+  // Si la carpeta se llama como una materia («Ética», «Cálculo I»…), toma su color y su link al apunte.
+  function materiaDeCarpeta(carpeta){
+    var c = sinTildes(carpeta);
+    for(var i = 0; i < MATERIAS.length; i++){
+      var m = MATERIAS[i];
+      if(c === sinTildes(m.id) || c === sinTildes(m.corto) || c === sinTildes(m.nombre)) return m;
+    }
+    return null;
+  }
+  function temaDeClase(m, clase){
+    var c = sinTildes(clase);
+    for(var i = 0; i < m.temas.length; i++) if(sinTildes(m.temas[i][0]) === c) return m.temas[i];
+    return null;
+  }
+
+  // ===== ESTADO: en el hash (#carpeta=…&clase=…) y en el navegador =====
+  function leerEstadoInicial(){
+    var h = (location.hash || "").replace(/^#/, ""), carpeta = null, clase = null;
+    h.split("&").forEach(function(par){
+      var kv = par.split("=");
+      if(kv[0] === "carpeta") carpeta = decodeURIComponent(kv[1] || "");
+      if(kv[0] === "clase") clase = decodeURIComponent(kv[1] || "");
+    });
+    if(!carpeta){ try{ var g = JSON.parse(localStorage.getItem("ianox-filtro") || "null"); if(g){ carpeta = g.carpeta; clase = g.clase; } }catch(e){} }
+    // Carpeta y clase se validan al pintar los filtros, cuando ya cargaron los videos.
+    estado.carpeta = carpeta && carpeta !== "todo" ? carpeta : "todo";
+    estado.clase = (estado.carpeta !== "todo" && clase) || "todas";
+  }
+  function guardarEstado(){
+    var partes = [];
+    if(estado.carpeta !== "todo") partes.push("carpeta=" + encodeURIComponent(estado.carpeta));
+    if(estado.carpeta !== "todo" && estado.clase !== "todas") partes.push("clase=" + encodeURIComponent(estado.clase));
+    var h = partes.length ? "#" + partes.join("&") : "";
+    try{ history.replaceState(null, "", location.pathname + location.search + h); }catch(e){}
+    try{ localStorage.setItem("ianox-filtro", JSON.stringify(estado)); }catch(e){}
+  }
+
+  function chip(texto, pulsado, u, extraClase, alClick){
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "chip" + (extraClase ? " " + extraClase : "");
+    b.textContent = texto; b.setAttribute("aria-pressed", pulsado ? "true" : "false");
+    if(u) b.setAttribute("data-u", u);
+    b.addEventListener("click", alClick);
+    return b;
+  }
+
+  function pintarFiltros(){
+    var lista = carpetas();
+    // Hasta que cargan los videos no se puede saber si la carpeta del link existe: se deja como vino.
+    if(!videosCargados && estado.carpeta !== "todo" && lista.indexOf(estado.carpeta) < 0) lista.push(estado.carpeta);
+    if(estado.carpeta !== "todo" && lista.indexOf(estado.carpeta) < 0){ estado.carpeta = "todo"; estado.clase = "todas"; }
+    filaCarpetas.innerHTML = "";
+    filaCarpetas.appendChild(chip("Todo (" + VIDEOS.length + ")", estado.carpeta === "todo", 0, "", function(){ estado.carpeta = "todo"; estado.clase = "todas"; aplicar(); }));
+    lista.forEach(function(c){
+      var m = materiaDeCarpeta(c);
+      filaCarpetas.appendChild(chip(c, estado.carpeta === c, m ? m.u : 0, "", function(){
+        if(estado.carpeta !== c){ estado.carpeta = c; estado.clase = "todas"; aplicar(); }
+      }));
+    });
+    filaClases.innerHTML = "";
+    filaClases.hidden = estado.carpeta === "todo";
+    if(estado.carpeta !== "todo"){
+      var m = materiaDeCarpeta(estado.carpeta), u = m ? m.u : 0, clases = clasesDe(estado.carpeta);
+      if(!videosCargados && estado.clase !== "todas" && clases.indexOf(estado.clase) < 0) clases.push(estado.clase);
+      if(estado.clase !== "todas" && clases.indexOf(estado.clase) < 0) estado.clase = "todas";
+      filaClases.appendChild(chip("Todas", estado.clase === "todas", u, "tema", function(){ estado.clase = "todas"; aplicar(); }));
+      clases.forEach(function(cl){
+        filaClases.appendChild(chip(cl, estado.clase === cl, u, "tema", function(){ estado.clase = cl; aplicar(); }));
+      });
+    }
+  }
+
+  function urlVideo(ruta){ return cliente.storage.from(BUCKET).getPublicUrl(ruta).data.publicUrl; }
+
+  function cargarVideos(){
+    if(!cliente) return;
+    cliente.from("poris_videos").select("id,carpeta,clase,titulo,ruta,creado_at").order("creado_at", { ascending:true }).then(function(r){
+      if(r.error){ mostrarError(); return; }
+      videosCargados = true;
+      VIDEOS = (r.data || []).map(function(f){
+        return { id:f.id, carpeta:limpiar(f.carpeta), clase:limpiar(f.clase), titulo:f.titulo || "", ruta:f.ruta };
+      });
+      ordenarVideos();
+      aplicar();
+    });
+  }
+
+  // ===== REPRODUCCIÓN AUTOMÁTICA (como Instagram) =====
+  // El video que queda en pantalla arranca solo y en bucle; el que sale, se pausa.
+  // Los navegadores solo dejan arrancar solo un video sin sonido: el primero sale silenciado y, cuando se activa
+  // el sonido (con el botón o con los controles), los siguientes ya arrancan con sonido.
+  var CLAVE_SONIDO = "ianox-sonido";
+  var conSonido = false;
+  try{ conSonido = localStorage.getItem(CLAVE_SONIDO) === "1"; }catch(e){}
+  function guardarSonido(si){ conSonido = si; try{ localStorage.setItem(CLAVE_SONIDO, si ? "1" : "0"); }catch(e){} }
+
+  function reproducir(vid){
+    vid.muted = !conSonido;
+    var p = vid.play();
+    if(p && p.catch) p.catch(function(){
+      // Sin un toque previo en la página el navegador no deja arrancar con sonido: se arranca sin sonido.
+      if(!vid.muted){ vid.muted = true; vid.play().catch(function(){}); }
+    });
+  }
+  var obsVideo = ("IntersectionObserver" in window) ? new IntersectionObserver(function(entradas){
+    entradas.forEach(function(e){
+      if(e.isIntersecting && e.intersectionRatio >= 0.6) reproducir(e.target);
+      else if(!e.target.paused) e.target.pause();
+    });
+  }, { root:feed, threshold:[0, 0.6] }) : null;
+
+  function crearVideo(v, n, total){
+    var m = materiaDeCarpeta(v.carpeta), tema = m && temaDeClase(m, v.clase);
+    var a = document.createElement("article");
+    a.className = "carta video";
+    if(m) a.setAttribute("data-u", m.u);
+
+    var cab = document.createElement("div"); cab.className = "carta-cab";
+    var etq = document.createElement("span"); etq.className = "etq"; etq.textContent = v.carpeta.toUpperCase();
+    var nom = document.createElement("span"); nom.className = "tema-nombre"; nom.textContent = v.clase + (tema ? " · " + tema[1] : "");
+    cab.appendChild(etq); cab.appendChild(nom);
+
+    var cuerpo = document.createElement("div"); cuerpo.className = "carta-cuerpo";
+    var vid = document.createElement("video");
+    vid.controls = true; vid.preload = "metadata"; vid.playsInline = true; vid.loop = true; vid.muted = true;
+    vid.setAttribute("playsinline", ""); vid.setAttribute("muted", "");
+    vid.src = urlVideo(v.ruta);
+    cuerpo.appendChild(vid);
+    if(v.titulo){ var ti = document.createElement("p"); ti.className = "video-titulo"; ti.textContent = v.titulo; cuerpo.appendChild(ti); }
+    if(obsVideo) obsVideo.observe(vid);
+
+    var pie = document.createElement("div"); pie.className = "carta-pie";
+    var hueco = document.createElement("span"); hueco.className = "pista";
+    var son = document.createElement("button"); son.type = "button"; son.className = "sonido";
+    function pintarSonido(){ son.textContent = vid.muted ? "Activar sonido" : "Silenciar"; }
+    son.addEventListener("click", function(){
+      vid.muted = !vid.muted;
+      if(!vid.muted && vid.paused) vid.play().catch(function(){});
+    });
+    // Si se cambia el sonido tocando (el botón o los controles del video), se recuerda para los siguientes.
+    // Lo que silencia el navegador solo (sin un toque reciente) no cuenta.
+    vid.addEventListener("volumechange", function(){
+      pintarSonido();
+      var toque = navigator.userActivation ? navigator.userActivation.isActive : true;
+      if(toque) guardarSonido(!vid.muted);
+    });
+    pintarSonido();
+    hueco.appendChild(son);
+    if(esEditor){
+      var bor = document.createElement("button"); bor.type = "button"; bor.className = "borrar"; bor.textContent = "Borrar video";
+      bor.addEventListener("click", function(){ borrarVideo(v); });
+      hueco.appendChild(bor);
+    }
+    pie.appendChild(hueco);
+    if(m){
+      var ver = document.createElement("a"); ver.className = "ver"; ver.textContent = "Ver en el apunte →";
+      ver.href = m.apunte + (tema ? tema[2] : "");
+      pie.appendChild(ver);
+    }
+    var num = document.createElement("span"); num.className = "num"; num.textContent = n + " / " + total;
+    pie.appendChild(num);
+
+    a.appendChild(cab); a.appendChild(cuerpo); a.appendChild(pie);
+    return a;
+  }
+
+  function borrarVideo(v){
+    if(!window.confirm("¿Borrar este video de IAnox? No se puede deshacer.")) return;
+    cliente.storage.from(BUCKET).remove([v.ruta]).then(function(r){
+      if(r.error) throw r.error;
+      return cliente.from("poris_videos").delete().eq("id", v.id);
+    }).then(function(r){
+      if(r && r.error) throw r.error;
+      VIDEOS = VIDEOS.filter(function(x){ return x !== v; });
+      aplicar();
+    }).catch(function(e){ window.alert("¡D’oh! No se pudo borrar: " + (e.message || e)); });
+  }
+
+  // ===== «+»: solo para editores (tabla poris_editores) =====
+  var btnSubir = document.getElementById("btn-subir");
+  var dlg = document.getElementById("dlg-subir"), form = document.getElementById("form-subir");
+  var inArchivo = document.getElementById("in-archivo"), inTitulo = document.getElementById("in-titulo");
+  var inCarpeta = document.getElementById("in-carpeta"), inClase = document.getElementById("in-clase");
+  var listaCarpetas = document.getElementById("lista-carpetas"), listaClases = document.getElementById("lista-clases");
+  var prog = document.getElementById("prog-subida"), msg = document.getElementById("msg-subida");
+  var btnEnviar = document.getElementById("btn-enviar"), btnCancelar = document.getElementById("btn-cancelar");
+  var subiendo = null; // XHR en curso
+
+  function revisarEditor(sesion){
+    if(!sesion){ ponerEditor(false); return; }
+    cliente.rpc("es_editor_poris").then(function(r){ ponerEditor(!r.error && r.data === true); });
+  }
+  function ponerEditor(si){
+    if(esEditor === si) return;
+    esEditor = si; btnSubir.hidden = !si;
+    pintarFeed(); // muestra u oculta «Borrar video»
+  }
+
+  function opciones(lista, valores){
+    lista.innerHTML = "";
+    valores.forEach(function(v){ var o = document.createElement("option"); o.value = v; lista.appendChild(o); });
+  }
+  function sinRepetir(valores){
+    var vistos = {};
+    return valores.filter(function(v){ var k = sinTildes(v); if(!v || vistos[k]) return false; vistos[k] = true; return true; });
+  }
+  // Sugerencias: las carpetas y clases que ya existen y, además, las materias y clases de los apuntes.
+  function sugerirClases(){
+    var c = limpiar(inCarpeta.value), existente = null;
+    carpetas().forEach(function(x){ if(sinTildes(x) === sinTildes(c)) existente = x; });
+    var m = materiaDeCarpeta(c);
+    opciones(listaClases, sinRepetir((existente ? clasesDe(existente) : []).concat(m ? m.temas.map(function(t){ return t[0]; }) : [])).sort(compararClase));
+  }
+  inCarpeta.addEventListener("input", sugerirClases);
+
+  function mensaje(texto, error){ msg.textContent = texto; msg.className = "msg" + (error ? " err" : ""); }
+  function bloquear(si){ [inArchivo, inTitulo, inCarpeta, inClase, btnEnviar].forEach(function(el){ el.disabled = si; }); }
+
+  btnSubir.addEventListener("click", function(){
+    form.reset(); mensaje(""); prog.hidden = true; bloquear(false);
+    opciones(listaCarpetas, sinRepetir(carpetas().concat(MATERIAS.map(function(m){ return m.corto; }))));
+    // Arranca con la carpeta y la clase que se están mirando.
+    if(estado.carpeta !== "todo") inCarpeta.value = estado.carpeta;
+    if(estado.clase !== "todas") inClase.value = estado.clase;
+    sugerirClases();
+    dlg.showModal();
+  });
+  btnCancelar.addEventListener("click", function(){
+    if(subiendo){ subiendo.abort(); subiendo = null; }
+    dlg.close();
+  });
+  dlg.addEventListener("cancel", function(e){ if(subiendo) e.preventDefault(); });
+
+  // Sube con XHR (no con supabase-js) para poder mostrar el progreso.
+  function subirArchivo(ruta, archivo, token){
+    return new Promise(function(ok, mal){
+      var cfg = window.ESTUDIANDO_CONFIG, x = new XMLHttpRequest();
+      subiendo = x;
+      x.open("POST", cfg.SUPABASE_URL + "/storage/v1/object/" + BUCKET + "/" + ruta);
+      x.setRequestHeader("Authorization", "Bearer " + token);
+      x.setRequestHeader("apikey", cfg.SUPABASE_ANON_KEY);
+      x.setRequestHeader("Content-Type", archivo.type);
+      x.setRequestHeader("x-upsert", "false");
+      x.upload.onprogress = function(e){ if(e.lengthComputable){ prog.value = Math.round(e.loaded / e.total * 100); mensaje("Subiendo… " + prog.value + " %"); } };
+      x.onload = function(){
+        subiendo = null;
+        if(x.status >= 200 && x.status < 300) return ok();
+        var d = ""; try{ d = JSON.parse(x.responseText).message || ""; }catch(e){}
+        mal(new Error(d || "error " + x.status));
+      };
+      x.onerror = function(){ subiendo = null; mal(new Error("sin conexión")); };
+      x.onabort = function(){ subiendo = null; mal(new Error("cancelado")); };
+      x.send(archivo);
+    });
+  }
+
+  form.addEventListener("submit", function(e){
+    e.preventDefault();
+    var archivo = inArchivo.files[0];
+    if(!archivo){ mensaje("Elegí un video de la compu.", true); return; }
+    if(!/^video\/(mp4|webm|quicktime)$/.test(archivo.type)){ mensaje("¡D’oh! Tiene que ser MP4, WEBM o MOV.", true); return; }
+    if(archivo.size > MAX_MB * 1024 * 1024){ mensaje("¡D’oh! Pesa " + (archivo.size / 1048576).toFixed(1) + " MB; el máximo es " + MAX_MB + " MB.", true); return; }
+
+    // Si la carpeta o la clase ya existen escritas con otras mayúsculas o tildes, se usa la que ya está.
+    var carpeta = limpiar(inCarpeta.value), clase = limpiar(inClase.value), titulo = limpiar(inTitulo.value);
+    if(!carpeta || !clase){ mensaje("Poné la carpeta y la clase.", true); return; }
+    carpetas().forEach(function(x){ if(sinTildes(x) === sinTildes(carpeta)) carpeta = x; });
+    clasesDe(carpeta).forEach(function(x){ if(sinTildes(x) === sinTildes(clase)) clase = x; });
+
+    var ext = { "video/mp4":"mp4", "video/webm":"webm", "video/quicktime":"mov" }[archivo.type];
+    var uid = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : Date.now().toString(36) + Math.random().toString(36).slice(2);
+    var ruta = uid + "." + ext; // carpeta y clase viven en la tabla: así se pueden renombrar sin mover archivos
+
+    bloquear(true); prog.hidden = false; prog.value = 0; mensaje("Subiendo… 0 %");
+    window.Auth.obtenerSesion().then(function(s){
+      if(!s) throw new Error("tu sesión se cerró; volvé a entrar desde la portada");
+      return subirArchivo(ruta, archivo, s.access_token);
+    }).then(function(){
+      mensaje("Guardando…");
+      return cliente.from("poris_videos").insert({ carpeta:carpeta, clase:clase, titulo:titulo, ruta:ruta }).select("id").single().then(function(r){
+        if(r.error){ cliente.storage.from(BUCKET).remove([ruta]); throw r.error; } // que no quede el archivo suelto
+        return r.data;
+      });
+    }).then(function(fila){
+      VIDEOS.push({ id:fila.id, carpeta:carpeta, clase:clase, titulo:titulo, ruta:ruta });
+      ordenarVideos();
+      dlg.close();
+      // Lleva a la carpeta y la clase donde quedó el video.
+      estado.carpeta = carpeta; estado.clase = clase;
+      aplicar();
+    }).catch(function(err){
+      bloquear(false); prog.hidden = true;
+      if(err.message !== "cancelado") mensaje("¡D’oh! No se pudo subir: " + (err.message || err), true);
+    });
+  });
+
+  // ===== FEED =====
+  function aplicar(){
+    actuales = videosEnAlcance();
+    pintarFiltros();
+    guardarEstado();
+    pintarFeed();
+  }
+
+  function vacio(titulo, texto){
+    var v = document.createElement("div"); v.className = "vacio";
+    v.innerHTML = "<b></b><span></span>";
+    v.firstChild.textContent = titulo; v.lastChild.textContent = texto;
+    return v;
+  }
+  function mostrarError(){
+    feed.innerHTML = "";
+    feed.appendChild(vacio("¡D’oh! No se pudieron cargar los videos", "Revisá la conexión y recargá la página."));
+  }
+
+  function pintarFeed(){
+    if(obsVideo) obsVideo.disconnect();
+    var frag = document.createDocumentFragment();
+    actuales.forEach(function(v, i){ frag.appendChild(crearVideo(v, i + 1, actuales.length)); });
+    if(!actuales.length){
+      frag.appendChild(!videosCargados ? vacio("Cargando videos…", "")
+        : vacio("Mmm… todavía no hay videos acá", esEditor ? "Subí uno con el «+» de arriba." : "Probá con otra carpeta o clase."));
+    }
+    feed.style.scrollBehavior = "auto";
+    feed.innerHTML = "";
+    feed.appendChild(frag);
+    feed.scrollTop = 0;
+    feed.style.scrollBehavior = "";
+    actualizarResumen();
+  }
+
+  function indiceActual(){
+    var h = feed.clientHeight || 1;
+    return Math.max(0, Math.min(actuales.length - 1, Math.round(feed.scrollTop / h)));
+  }
+  function actualizarResumen(){
+    resumen.textContent = actuales.length ? (indiceActual() + 1) + " / " + actuales.length : "";
+  }
+  function ir(d){
+    var cartas = feed.children;
+    var destino = Math.max(0, Math.min(cartas.length - 1, indiceActual() + d));
+    if(cartas[destino]){ cartas[destino].scrollIntoView({ block:"start" }); }
+  }
+
+  var pendiente = false;
+  feed.addEventListener("scroll", function(){
+    if(pendiente) return; pendiente = true;
+    requestAnimationFrame(function(){ pendiente = false; actualizarResumen(); });
+  });
+
+  document.getElementById("btn-sube").addEventListener("click", function(){ ir(-1); });
+  document.getElementById("btn-baja").addEventListener("click", function(){ ir(1); });
+
+  document.addEventListener("keydown", function(e){
+    if(e.target.closest && e.target.closest("button, input, video, dialog")) return;
+    if(e.key === "ArrowDown" || e.key === "PageDown" || e.key === "j"){ e.preventDefault(); ir(1); }
+    else if(e.key === "ArrowUp" || e.key === "PageUp" || e.key === "k"){ e.preventDefault(); ir(-1); }
+  });
+
+  window.addEventListener("hashchange", function(){ leerEstadoInicial(); aplicar(); });
+
+  leerEstadoInicial();
+  aplicar();
+  if(cliente){
+    cargarVideos();
+    window.Auth.obtenerSesion().then(revisarEditor);
+    window.Auth.onCambioSesion(revisarEditor);
+  }else{
+    mostrarError();
+  }
+})();
+</script>
+</body>
+</html>
