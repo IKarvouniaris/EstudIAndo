@@ -2,10 +2,19 @@
 window.ExamenApi = (function () {
   "use strict";
 
-  function iniciarIntento(materia) {
-    return Auth.cliente.rpc("iniciar_intento", { p_materia: materia }).then(function (r) {
+  // parcial: 1 (clases 1 a 6) o 2 (clases 7, 8, 10 y 11). Si en Supabase todavía no se corrió fase9_etica_parcial2.sql,
+  // el 1.er parcial sigue funcionando (se reintenta sin el parámetro); el 2.º avisa qué falta.
+  function iniciarIntento(materia, parcial) {
+    parcial = parcial || 1;
+    return Auth.cliente.rpc("iniciar_intento", { p_materia: materia, p_parcial: parcial }).then(function (r) {
+      if (r.error && r.error.code === "PGRST202") {
+        if (parcial !== 1) throw new Error("El simulacro del 2.º parcial todavía no está activado en la base: falta correr supabase/fase9_etica_parcial2.sql.");
+        return Auth.cliente.rpc("iniciar_intento", { p_materia: materia });
+      }
+      return r;
+    }).then(function (r) {
       if (r.error) throw r.error;
-      return r.data; // {intento_id, inicio_at, preguntas:[...]}
+      return r.data; // {intento_id, inicio_at, preguntas:[...], desarrollo, parcial}
     });
   }
 

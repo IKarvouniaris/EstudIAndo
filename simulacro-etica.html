@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Simulacro 1er parcial — Ética en la IA</title>
+<title>Simulacro de parciales — Ética en la IA</title>
 <style>
 /* ---- TOKENS (mismos que etica.html) ---- */
 :root{
@@ -21,6 +21,7 @@
   --mono:"Cascadia Mono",Consolas,"SFMono-Regular",ui-monospace,monospace;
   --acento:var(--tinta); --acento-suave:var(--papel-3);
   --u4:#6D3470; --u4-suave:#F0E3F0;
+  --u5:#5B6B1E; --u5-suave:#EAEBD6; --u6:#0B5F80; --u6-suave:#DCEBF2; --u7:#A3326B; --u7-suave:#F6E1EC; --u8:#3D5266; --u8-suave:#E0E8EF;
 }
 :root[data-tema="oscuro"]{
   color-scheme: dark;
@@ -33,6 +34,7 @@
   --ok:#5CCB84; --ok-suave:#12301C;
   --mal:#EC8878; --mal-suave:#331915;
   --u4:#D39AD6; --u4-suave:#2E1830;
+  --u5:#B9C766; --u5-suave:#282C10; --u6:#6CC3E4; --u6-suave:#0D2A36; --u7:#F08DB8; --u7-suave:#33172A; --u8:#A9BCC8; --u8-suave:#18232C;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth; scroll-padding-top:6rem}
@@ -167,6 +169,19 @@ details.modelo .cuerpo div b{font-family:var(--mono); color:var(--acento)}
 .chip[data-u="4"]{--acento:var(--u4); --acento-suave:var(--u4-suave)}
 .caso.u4{--acento:var(--u4); --acento-suave:var(--u4-suave)}
 .resumen div[data-u="4"]{--acento:var(--u4)}
+.chip[data-u="5"]{--acento:var(--u5); --acento-suave:var(--u5-suave)}
+.caso.u5{--acento:var(--u5); --acento-suave:var(--u5-suave)}
+.resumen div[data-u="5"]{--acento:var(--u5)}
+.chip[data-u="6"]{--acento:var(--u6); --acento-suave:var(--u6-suave)}
+.caso.u6{--acento:var(--u6); --acento-suave:var(--u6-suave)}
+.resumen div[data-u="6"]{--acento:var(--u6)}
+.chip[data-u="7"]{--acento:var(--u7); --acento-suave:var(--u7-suave)}
+.caso.u7{--acento:var(--u7); --acento-suave:var(--u7-suave)}
+.resumen div[data-u="7"]{--acento:var(--u7)}
+.chip[data-u="8"]{--acento:var(--u8); --acento-suave:var(--u8-suave)}
+.caso.u8{--acento:var(--u8); --acento-suave:var(--u8-suave)}
+.resumen div[data-u="8"]{--acento:var(--u8)}
+.filtros .nota-parcial{font-family:var(--mono); font-size:.62rem; color:var(--tinta-3)}
 /* ---- DESARROLLO ESCRITO (el parcial es práctico) ---- */
 .desarrollo{margin:1.2rem 0 .4rem; padding:1rem 1.1rem; border:1px dashed var(--tinta-3); border-radius:2px; background:var(--papel)}
 .desarrollo .consigna{font-family:var(--display); font-weight:600; font-size:1rem; line-height:1.4; margin:0 0 .6rem}
@@ -226,16 +241,16 @@ details.modelo .cuerpo div b{font-family:var(--mono); color:var(--acento)}
 <header class="barra">
   <div class="marca">
     <a href="etica.html" title="Volver al apunte">← Apunte de Ética</a> · <a href="index.html" title="Volver al menú">Materias</a>
-    <small>Simulacro 1er parcial · Ética en la IA</small>
+    <small>Simulacro de parciales · Ética en la IA</small>
   </div>
   <div class="progreso">
     <div class="pista"><div class="ok" id="p-ok"></div><div class="mal" id="p-mal"></div></div>
-    <div class="leyenda"><span><b id="n-ok">0</b> bien · <b id="n-mal">0</b> mal · <b id="n-pend">48</b> sin responder</span><span id="pct">0%</span></div>
+    <div class="leyenda"><span><b id="n-ok">0</b> bien · <b id="n-mal">0</b> mal · <b id="n-pend">80</b> sin responder</span><span id="pct">0%</span></div>
   </div>
   <button class="btn" id="btn-corregir" type="button" title="Corrige todas las respuestas marcadas (modo examen)">Corregir todo</button>
   <button class="btn peligro" id="btn-reiniciar" type="button">Reiniciar</button>
   <a class="btn" href="leaderboard.html">Leaderboard</a>
-  <button class="btn on" id="btn-rendir" type="button" title="Examen puntuado, cuenta para el leaderboard, cooldown de 5 minutos">★ Rendir examen</button>
+  <button class="btn on" id="btn-rendir" type="button" title="Examen puntuado de uno de los dos parciales, cuenta para el leaderboard, cooldown de 5 minutos">★ Rendir examen</button>
   <button class="btn" id="btn-tema" type="button">Modo oscuro</button>
   <div id="chip-sesion"></div>
 </header>
@@ -246,26 +261,36 @@ details.modelo .cuerpo div b{font-family:var(--mono); color:var(--acento)}
 
 <main class="lienzo">
   <div class="portada">
-    <p class="cintillo">12 casos nuevos · 48 preguntas · 12 consignas de desarrollo</p>
-    <h1>Simulacro del primer parcial</h1>
+    <p class="cintillo">20 casos · 80 preguntas · 20 consignas de desarrollo · 2 parciales</p>
+    <h1>Simulacro de los parciales</h1>
     <p>
       El profesor anticipó un examen <strong>práctico</strong>: aplicar conceptos a situaciones concretas, identificar
       problemas éticos, reconocer los principios en conflicto y fundamentar la posición. Cada caso tiene cuatro preguntas
       de opción múltiple para chequear que reconocés los conceptos, y una <strong>consigna de desarrollo</strong> para
       practicar la respuesta escrita: la escribís, abrís la grilla de autocorrección y comparás con la respuesta modelo.
     </p>
-    <p>Los casos son inventados pero construidos con los conceptos y precedentes de las clases 1 a 6. Estructura sugerida para escribir: <a href="etica.html#metodo">cómo resolver un caso</a>.</p>
+    <p><strong>1.er parcial:</strong> casos 1 a 12, con los conceptos y precedentes de las clases 1 a 6. <strong>2.º parcial:</strong> casos 13 a 20, con las clases 7 (responsabilidad civil y penal), 8 (propiedad intelectual), 10 (dilemas éticos II: justicia, prueba digital) y 11 (AGI, investigación y NFHA v. Facebook). Los casos son inventados. Estructura sugerida para escribir: <a href="etica.html#metodo">cómo resolver un caso</a>.</p>
   </div>
 
+  <div class="filtros" id="f-parcial">
+    <span class="etq">Parcial</span>
+    <button class="chip on" data-p="0" type="button">Los dos</button>
+    <button class="chip" data-p="1" type="button">1.er parcial · clases 1 a 6</button>
+    <button class="chip" data-p="2" type="button">2.º parcial · clases 7, 8, 10 y 11</button>
+  </div>
   <div class="filtros" id="f-bloque">
     <span class="etq">Bloque</span>
     <button class="chip on" data-b="0" type="button">Todos</button>
-    <button class="chip" data-b="1" data-u="1" type="button">1 · Teorías y límites</button>
-    <button class="chip" data-b="2" data-u="2" type="button">2 · Principios y conceptos</button>
-    <button class="chip" data-b="3" data-u="2" type="button">3 · Regulación</button>
-    <button class="chip" data-b="4" data-u="3" type="button">4 · Transparencia y sesgos</button>
-    <button class="chip" data-b="5" data-u="3" type="button">5 · Impacto social</button>
-    <button class="chip" data-b="6" data-u="4" type="button">6 · Datos personales</button>
+    <button class="chip" data-b="1" data-p="1" data-u="1" type="button">1 · Teorías y límites</button>
+    <button class="chip" data-b="2" data-p="1" data-u="2" type="button">2 · Principios y conceptos</button>
+    <button class="chip" data-b="3" data-p="1" data-u="2" type="button">3 · Regulación</button>
+    <button class="chip" data-b="4" data-p="1" data-u="3" type="button">4 · Transparencia y sesgos</button>
+    <button class="chip" data-b="5" data-p="1" data-u="3" type="button">5 · Impacto social</button>
+    <button class="chip" data-b="6" data-p="1" data-u="4" type="button">6 · Datos personales</button>
+    <button class="chip" data-b="7" data-p="2" data-u="5" type="button">7 · Responsabilidad civil y penal</button>
+    <button class="chip" data-b="8" data-p="2" data-u="6" type="button">8 · Propiedad intelectual</button>
+    <button class="chip" data-b="9" data-p="2" data-u="7" type="button">9 · Justicia y prueba digital</button>
+    <button class="chip" data-b="10" data-p="2" data-u="8" type="button">10 · Futuro e investigación</button>
   </div>
   <div class="filtros" id="f-nivel">
     <span class="etq">Nivel</span>
@@ -282,7 +307,7 @@ details.modelo .cuerpo div b{font-family:var(--mono); color:var(--acento)}
     <button class="btn on" id="m-practica" type="button">Práctica · corrige al instante</button>
     <button class="btn" id="m-examen" type="button">Repaso diferido · corrige al final</button>
     <button class="btn" id="btn-mezclar" type="button" title="Cambia el orden de las opciones (reinicia respuestas)">Mezclar opciones</button>
-    <button class="btn" id="btn-sortear" type="button" title="Muestra 2 casos al azar, como un parcial">Sortear parcial · 2 casos</button>
+    <button class="btn" id="btn-sortear" type="button" title="Muestra 2 casos al azar del parcial elegido (o de los dos), como en el examen">Sortear parcial · 2 casos</button>
     <span class="nota">Respuestas y textos se guardan en este navegador.</span>
   </div>
 
@@ -339,7 +364,7 @@ function mezcla(arr, semilla){
 function ordenOpciones(c,p){ return mezcla(["a","b","c","d"], estado.semilla*1000 + c.n*10 + "abcd".indexOf(p.sub)); }
 
 /* ---------- FILTROS ---------- */
-var filtro = { bloque:0, nivel:"todas", estadoF:"todas", ids:null };
+var filtro = { parcial:0, bloque:0, nivel:"todas", estadoF:"todas", ids:null };
 function chips(cont, attr, fn){
   Array.prototype.forEach.call(cont.querySelectorAll("[data-"+attr+"]"), function(b){
     b.addEventListener("click", function(){
@@ -349,6 +374,15 @@ function chips(cont, attr, fn){
   });
 }
 chips(document.getElementById("f-bloque"), "b", function(v){ filtro.bloque = +v; filtro.ids = null; });
+/* Elegir un parcial muestra solo sus bloques y vuelve a «Todos» los bloques */
+chips(document.getElementById("f-parcial"), "p", function(v){
+  filtro.parcial = +v; filtro.bloque = 0; filtro.ids = null;
+  Array.prototype.forEach.call(document.querySelectorAll("#f-bloque [data-b]"), function(x){
+    var p = x.getAttribute("data-p");
+    x.classList.toggle("oculto", !!(filtro.parcial && p && +p !== filtro.parcial));
+    x.classList.toggle("on", x.getAttribute("data-b")==="0");
+  });
+});
 chips(document.getElementById("f-nivel"), "n", function(v){ filtro.nivel = v; });
 chips(document.getElementById("f-nivel"), "e", function(v){ filtro.estadoF = v; });
 
@@ -390,7 +424,9 @@ document.getElementById("btn-mezclar").addEventListener("click", function(){
 /* ---------- RENDER ---------- */
 var contCasos = document.getElementById("casos"), sinCasos = document.getElementById("sin-casos");
 function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
-var NOMBRE_BLOQUE = {1:"Teorías éticas y límites de la IA",2:"Principios y conceptos técnicos",3:"Regulación",4:"Transparencia, fairness y sesgos",5:"Impacto social",6:"Datos personales"};
+var NOMBRE_BLOQUE = {1:"Teorías éticas y límites de la IA",2:"Principios y conceptos técnicos",3:"Regulación",4:"Transparencia, fairness y sesgos",5:"Impacto social",6:"Datos personales",7:"Responsabilidad civil y penal",8:"Propiedad intelectual",9:"Justicia y prueba digital",10:"Futuro e investigación"};
+/* Las unidades 1 a 4 son del 1.er parcial; las 5 a 8, del 2.º. */
+function parcialDe(c){ return c.u >= 5 ? 2 : 1; }
 
 function estadoPregunta(c,p){
   var k=clave(c,p), r=estado.resp[k];
@@ -401,6 +437,7 @@ function estadoPregunta(c,p){
 }
 function casoVisible(c){
   if(filtro.ids) return filtro.ids.indexOf(c.n) !== -1;
+  if(filtro.parcial && parcialDe(c)!==filtro.parcial) return false;
   if(filtro.bloque && c.bloque!==filtro.bloque) return false;
   if(filtro.nivel!=="todas" && c.nivel!==filtro.nivel) return false;
   if(filtro.estadoF==="pendientes") return c.preguntas.some(function(p){ return estadoPregunta(c,p)==="pendiente"; });
@@ -507,7 +544,7 @@ function pintarProgreso(){
   document.getElementById("n-pend").textContent = tot-ok-mal;
   document.getElementById("pct").textContent = (ok+mal) ? Math.round(ok/(ok+mal)*100)+"% de acierto" : "0%";
   var r = document.getElementById("resumen"), h="";
-  Object.keys(porB).forEach(function(b){ var x=porB[b]; h += '<div data-u="'+x.u+'"><b>Bloque '+b+'</b><span>'+x.ok+'<small>/'+x.tot+'</small></span> <small>'+(x.mal?x.mal+" mal":"")+'</small></div>'; });
+  Object.keys(porB).sort(function(a,b){ return a-b; }).forEach(function(b){ var x=porB[b]; h += '<div data-u="'+x.u+'"><b>Bloque '+b+'</b><span>'+x.ok+'<small>/'+x.tot+'</small></span> <small>'+(x.mal?x.mal+" mal":"")+'</small></div>'; });
   r.innerHTML = h;
 }
 
@@ -599,7 +636,7 @@ contCasos.addEventListener("click", function(e){
   }).then(function(){ b.disabled = false; b.textContent = txtBtn; });
 });
 document.getElementById("btn-sortear").addEventListener("click", function(){
-  var ids = CASOS.map(function(c){ return c.n; });
+  var ids = CASOS.filter(function(c){ return !filtro.parcial || parcialDe(c)===filtro.parcial; }).map(function(c){ return c.n; });
   for(var i=ids.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=ids[i]; ids[i]=ids[j]; ids[j]=t; }
   filtro.ids = ids.slice(0,2); filtro.bloque = 0;
   Array.prototype.forEach.call(document.querySelectorAll("#f-bloque [data-b]"), function(x){ x.classList.toggle("on", x.getAttribute("data-b")==="0"); });
@@ -632,7 +669,8 @@ aplicarModo(estado.modo);
   // de que un elemento ya exista en el DOM justo después de reescribir el innerHTML.
   panel.addEventListener("click", function(e){
     if(e.target.closest("[data-ex-cerrar]")){ cerrar(); return; }
-    if(e.target.closest("[data-ex-empezar]")){ empezar(); return; }
+    var bEmp = e.target.closest("[data-ex-empezar]");
+    if(bEmp){ empezar(parseInt(bEmp.getAttribute("data-ex-empezar"), 10) || 1); return; }
     if(e.target.closest("[data-ex-finalizar]")){
       if(ex && Object.keys(ex.respuestas).length < ex.preguntas.length && !confirm("Todavía te faltan preguntas sin responder. ¿Finalizar igual?")) return;
       terminar();
@@ -697,14 +735,15 @@ aplicarModo(estado.modo);
   function mostrarIntro(){
     abrir(
       '<button class="ex-cerrar" data-ex-cerrar>✕ cerrar</button><h2>Examen puntuado</h2>' +
-      '<p>2 casos al azar (8 preguntas), <strong>20 minutos</strong>. Se corrige al terminar y cuenta para el leaderboard. Podés volver a intentarlo recién dentro de 5 minutos.</p>' +
-      '<button type="button" class="btn on" data-ex-empezar>Empezar</button>'
+      '<p>Elegí qué parcial rendir. Se sortean <strong>2 casos al azar (8 preguntas) y un desarrollo escrito</strong>, con <strong>20 minutos</strong>. Se corrige al terminar y cuenta para el leaderboard. Podés volver a intentarlo recién dentro de 5 minutos.</p>' +
+      '<p><button type="button" class="btn on" data-ex-empezar="1">Rendir el 1.er parcial</button> <button type="button" class="btn on" data-ex-empezar="2">Rendir el 2.º parcial</button></p>' +
+      '<p style="font-size:.8rem"><strong>1.er parcial:</strong> clases 1 a 6. <strong>2.º parcial:</strong> clases 7 (responsabilidad civil y penal), 8 (propiedad intelectual), 10 (dilemas éticos II) y 11 (AGI, investigación y NFHA v. Facebook).</p>'
     );
   }
 
-  function empezar(){
+  function empezar(parcial){
     abrir('<h2>Preparando…</h2>');
-    ExamenApi.iniciarIntento(MATERIA).then(function(r){
+    ExamenApi.iniciarIntento(MATERIA, parcial).then(function(r){
       ex = {
         intentoId: r.intento_id, inicioAt: new Date(r.inicio_at).getTime(),
         preguntas: r.preguntas, respuestas: {}, desarrollo: r.desarrollo, textoDesarrollo: ""

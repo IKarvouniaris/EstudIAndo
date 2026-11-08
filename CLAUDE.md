@@ -25,6 +25,10 @@ si cambiás un texto de `calculo.html`, corré `node tools/generar_mazo_calculo.
 Toda página nueva lleva los tres `<link rel="icon">` (copiarlos de `index.html`). Los guiños a Homero son solo muletillas
 («¡D'oh!», «Mmm… dona») y una dona propia: no dibujar ni subir imágenes del personaje (es de terceros y el repo es público).
 
+**Simulacro de Ética.** Los casos viven en `tools/casos_etica.json` (1 a 12: 1.er parcial; 13 en adelante: 2.º parcial, unidades `u` 5 a 8) y se publican con
+`python tools/seed.py` (genera `seed_etica.sql` y `seed_etica_parcial2.sql`). En cada pregunta la opción correcta no puede ser sistemáticamente la más larga ni caer
+siempre en la misma letra, y los distractores no deben delatarse con «siempre / nunca / ninguno»: medilo antes de dar un banco por terminado.
+
 ## Regla: "clase + resumen de transcripción"
 
 Cuando el usuario menciona una **clase nueva** junto con material de una
