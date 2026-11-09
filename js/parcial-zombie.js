@@ -16,6 +16,7 @@
     tBase: 8,            // segundos fijos por pregunta…
     tPorLetra: 0.085,    // …más esto por cada letra de la consigna y sus opciones (30 s para ~260 letras)
     apuroFinal: 0.6,     // en la última puerta queda este porcentaje del tiempo (0.6 = 60 %)
+    relojApuro: 10,      // desde estos segundos el contador se pone rojo, grande y tiembla
     sLejos: 0.46,        // tamaño de la pared del fondo cuando aparece la pregunta
     sCerca: 0.70,        // …y cuando se acaba el tiempo
     velPasillo: 1.5,     // qué tan rápido corre el piso
@@ -138,7 +139,7 @@
     cintillo: $("cintillo"), pregunta: $("pregunta"), avance: $("avance"),
     vidas: $("vidas"), racha: $("racha"),
     ops: Array.prototype.slice.call(document.querySelectorAll(".op")),
-    portada: $("portada"), pausa: $("pausa"), fin: $("fin"), caso: $("caso"), opciones: $("opciones"), verCaso: $("btn-ver-caso")
+    portada: $("portada"), pausa: $("pausa"), fin: $("fin"), caso: $("caso"), opciones: $("opciones"), verCaso: $("btn-ver-caso"), reloj: $("reloj"), relojN: $("reloj-n")
   };
   var cx = dom.lienzo.getContext("2d");
   var W = 300, H = 200, DPR = 1;
@@ -185,11 +186,13 @@
     E.abre = [0, 0, 0, 0]; E.sacude = [0, 0, 0, 0]; E.marca = ["", "", "", ""];
     E.pN = 0; E.pEsc = 1; E.s = CFG.sLejos; E.embiste = 0;
 
+    // arriba de la consigna: por dónde vas y, si el mazo lo trae, el tema que se evalúa (bien a la vista)
     var partes = ["Puerta " + (E.i + 1) + " de " + n];
     if (E.caso) partes.push("caso " + tanda.nCaso);
     if (E.preg.rol) partes.push(E.preg.rol);
-    if (E.preg.clase != null) partes.push("clase " + E.preg.clase);
+    if (!E.preg.tema && E.preg.clase != null) partes.push("clase " + E.preg.clase);
     dom.cintillo.textContent = partes.join(" · ");
+    if (E.preg.tema) { dom.cintillo.appendChild(document.createTextNode(" · ")); dom.cintillo.appendChild(el("b", "tema", E.preg.tema)); }
     dom.pregunta.textContent = E.preg.q;
     dom.opciones.style.setProperty("--n", String(E.n));
     dom.opciones.classList.toggle("cuatro", E.n > 3);
@@ -280,6 +283,7 @@
 
   function terminar(gano) {
     E.fase = "fin";
+    pintarReloj();
     document.documentElement.style.setProperty("--peligro", "0");
     if (gano) Sonido.gana(); else Sonido.pierde();
     var mejor = leerMejor(E.mazo);
@@ -356,6 +360,7 @@
         cab.appendChild(a);
       }
       li.appendChild(cab);
+      if (h.p.tema) li.appendChild(el("p", "caso", "Tema: " + h.p.tema));
       if (h.caso) li.appendChild(el("p", "caso", "Caso: " + h.caso.titulo));
       li.appendChild(el("p", "q", h.p.q));
       if (h.bien) {
@@ -784,6 +789,19 @@
   }
 
   /* ---------------------------- Actualización --------------------------- */
+  // El contador de segundos: se ve mientras la pregunta está abierta y se pone en rojo al final.
+  var relojSeg = -1, relojVisto = false;
+  function pintarReloj() {
+    var ver = E.fase === "pregunta";
+    if (ver !== relojVisto) { relojVisto = ver; dom.reloj.hidden = !ver; }
+    if (!ver) return;
+    var seg = Math.max(0, Math.ceil(E.tMax - E.t));
+    if (seg === relojSeg) return;
+    relojSeg = seg;
+    dom.relojN.textContent = seg;
+    dom.reloj.classList.toggle("apuro", seg <= CFG.relojApuro);
+  }
+
   var peligroCss = -1;
   function actualizar(dt) {
     E.reloj += dt;
@@ -870,6 +888,8 @@
     }
     E.zombi = lerp(E.zombi, clamp(objetivoZ, 0, 1), clamp(dt * 6, 0, 1));
 
+    pintarReloj();
+
     // el borde rojo de las opciones acompaña al zombie (por si mirás las tarjetas y no el pasillo)
     var pc = E.fase === "pregunta" ? Math.round(clamp((E.zombi - 0.45) / 0.55, 0, 1) * 20) / 20 : 0;
     if (pc !== peligroCss) { peligroCss = pc; document.documentElement.style.setProperty("--peligro", String(pc)); }
@@ -898,9 +918,13 @@
 
   function medir() {
     var r = dom.escena.getBoundingClientRect();
-    W = Math.max(120, Math.round(r.width)); H = Math.max(120, Math.round(r.height));
-    DPR = Math.min(2, window.devicePixelRatio || 1);
+    var w = Math.max(120, Math.round(r.width)), h = Math.max(120, Math.round(r.height)), dpr = Math.min(2, window.devicePixelRatio || 1);
+    if (w === W && h === H && dpr === DPR && dom.lienzo.width === Math.round(w * dpr)) return;
+    W = w; H = h; DPR = dpr;
     dom.lienzo.width = Math.round(W * DPR); dom.lienzo.height = Math.round(H * DPR);
+    // cambiar el tamaño borra el lienzo: se redibuja en el acto para que no parpadee cuando la pregunta nueva
+    // ocupa más o menos renglones y el pasillo cambia de alto
+    if (E.fase !== "fin") dibujar();
   }
 
   /* ------------------------------ Controles ----------------------------- */
