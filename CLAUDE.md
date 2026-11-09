@@ -36,6 +36,17 @@ tiene sus casos en `js/casos-etica-roles.js` y sigue las mismas reglas de opcion
 para la corrección**) y `js/situaciones-ia-p2.js`. Si cambiás el texto de esas clases o las situaciones, volvé a correr el script y commiteá el resultado.
 El apunte de Intro a la IA numera las clases seguidas (1–13), sin el salto de la cátedra (1–6, 9–15).
 
+**Parcial Zombie** (`parcial-zombie.html`): juego de repaso (pasillo, zombie, una puerta por opción). Es una plantilla: `js/parcial-zombie.js` no sabe de
+materias y lee los mazos de `js/mazos-zombie.js`; para sumar una materia se carga su archivo de preguntas en el HTML y se agrega una entrada ahí (el formato está
+en la cabecera de ese archivo), sin tocar el juego. Mazos de hoy: **Intro a la IA** (`js/preguntas-zombie-ia.js`, 30 preguntas de tres opciones; la correcta es
+siempre `ops[0]` y el juego las mezcla) y **Ética** (reutiliza tal cual `js/casos-etica-roles.js`, los casos por roles: si cambiás ese archivo, cambia el juego).
+Las preguntas de Intro a la IA siguen las reglas de opciones de los simulacros y **no nombran al profesor, a la cátedra ni «la clase N»** (van sobre las
+diapositivas y los casos prácticos): después de tocarlas, corré `node tools/medir_preguntas_zombie.js`. No usar en el juego bancos cuyas respuestas viven en
+tablas privadas de Supabase (por ejemplo `tools/casos_etica.json`, el examen puntuado de Ética): el mazo viaja entero al navegador. El juego se dibuja en un
+`<canvas>` (sin imágenes ni emojis), los valores para ajustar están en `CFG`, arriba de `js/parcial-zombie.js`, y en pantalla las opciones van pegadas debajo
+de la consigna, con el pasillo abajo. El brief está en `docs/parcial-zombie-brief.md`. Si cambia el texto de las clases 7 a 12, revisá que los «porqué» sigan
+diciendo lo mismo que el apunte.
+
 ## Regla: "clase + resumen de transcripción"
 
 Cuando el usuario menciona una **clase nueva** junto con material de una
