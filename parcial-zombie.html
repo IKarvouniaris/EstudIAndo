@@ -69,6 +69,7 @@ button{font:inherit; color:inherit}
 .cartel{flex:0 0 auto; padding:.5rem .8rem .5rem; background:var(--papel-2)}
 .cartel .fila{display:flex; align-items:center; gap:.6rem; margin:0 0 .2rem; min-height:1.5rem}
 .cartel .cintillo{font-family:var(--mono); font-size:.68rem; letter-spacing:.13em; text-transform:uppercase; color:var(--tinta-3); margin:0; flex:1 1 auto}
+.cartel .cintillo .tema{color:var(--luz); font-weight:700}
 .ver-caso{flex:0 0 auto; cursor:pointer; font-family:var(--mono); font-size:.68rem; letter-spacing:.08em; text-transform:uppercase; background:transparent;
   color:var(--luz); border:1px solid var(--luz); border-radius:2px; padding:.3rem .5rem; line-height:1}
 .cartel p.pregunta{margin:0; font-family:var(--display); font-weight:600; font-size:clamp(1rem,4.3vw,1.22rem); line-height:1.24; letter-spacing:.005em; text-wrap:pretty}
@@ -77,6 +78,16 @@ button{font:inherit; color:inherit}
 .escena{position:relative; flex:1 1 auto; min-height:150px; background:#0A0E0E; overflow:hidden; padding-bottom:env(safe-area-inset-bottom)}
 .escena::after{content:""; position:absolute; left:0; right:0; top:0; height:4px; background:var(--sangre); opacity:calc(var(--peligro) * var(--peligro)); pointer-events:none}
 .escena canvas{position:absolute; inset:0; width:100%; height:100%; display:block; touch-action:manipulation; cursor:pointer}
+/* El contador: arriba a la derecha del pasillo, sobre el techo. No recibe toques, así que no tapa ninguna puerta. */
+.reloj{position:absolute; top:.5rem; right:.55rem; z-index:2; pointer-events:none; display:flex; align-items:baseline; gap:.12rem;
+  font-family:var(--mono); font-weight:700; font-size:1.15rem; line-height:1; color:var(--tinta); background:rgba(9,12,13,.78);
+  border:1px solid var(--linea); border-radius:3px; padding:.28rem .5rem; transform-origin:top right; font-variant-numeric:tabular-nums}
+.reloj small{font-size:.6em; font-weight:400; color:var(--tinta-3)}
+.reloj.apuro{font-size:2.3rem; color:#FF5444; border-color:var(--sangre); background:rgba(40,6,5,.86); text-shadow:0 0 14px rgba(194,59,46,.8);
+  animation:reloj-tiembla .32s linear infinite}
+.reloj.apuro small{color:#FF5444}
+@keyframes reloj-tiembla{0%,100%{transform:translate(0,0) rotate(0)} 20%{transform:translate(-2px,1px) rotate(-4deg)}
+  40%{transform:translate(2px,-1px) rotate(3deg)} 60%{transform:translate(-1px,-2px) rotate(-2deg)} 80%{transform:translate(1px,1px) rotate(3deg)}}
 .aviso{position:absolute; left:50%; top:14%; transform:translateX(-50%); pointer-events:none; font-family:var(--display); font-weight:700;
   font-size:clamp(1.5rem,7vw,2.3rem); letter-spacing:.02em; color:#fff; text-shadow:0 2px 0 #000, 0 0 18px rgba(0,0,0,.8); opacity:0; white-space:nowrap}
 .aviso.ver{animation:aviso 1.1s ease-out}
@@ -161,7 +172,7 @@ button{font:inherit; color:inherit}
 .resumen .r.rojo span{text-decoration:line-through; text-decoration-thickness:1px}
 .resumen .porque{margin:.4rem 0 0; font-size:.9rem; color:var(--tinta-2); max-width:none}
 
-@media (prefers-reduced-motion:reduce){ .aviso.ver{animation-duration:.01s; opacity:1} .vidas .cora.late{animation:none} }
+@media (prefers-reduced-motion:reduce){ .reloj.apuro{animation:none} .aviso.ver{animation-duration:.01s; opacity:1} .vidas .cora.late{animation:none} }
 </style>
 </head>
 <body>
@@ -203,6 +214,7 @@ button{font:inherit; color:inherit}
 
   <div class="escena" id="escena">
     <canvas id="lienzo" aria-label="Pasillo con una puerta por opción. Tocá una para elegir."></canvas>
+    <div class="reloj" id="reloj" hidden aria-hidden="true"><b id="reloj-n">0</b><small>s</small></div>
     <div class="aviso" id="aviso" aria-hidden="true"></div>
   </div>
 

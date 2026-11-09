@@ -16,6 +16,7 @@
     tBase: 8,            // segundos fijos por pregunta…
     tPorLetra: 0.085,    // …más esto por cada letra de la consigna y sus opciones (30 s para ~260 letras)
     apuroFinal: 0.6,     // en la última puerta queda este porcentaje del tiempo (0.6 = 60 %)
+    relojApuro: 10,      // desde estos segundos el contador se pone rojo, grande y tiembla
     sLejos: 0.46,        // tamaño de la pared del fondo cuando aparece la pregunta
     sCerca: 0.70,        // …y cuando se acaba el tiempo
     velPasillo: 1.5,     // qué tan rápido corre el piso
@@ -138,7 +139,7 @@
     cintillo: $("cintillo"), pregunta: $("pregunta"), avance: $("avance"),
     vidas: $("vidas"), racha: $("racha"),
     ops: Array.prototype.slice.call(document.querySelectorAll(".op")),
-    portada: $("portada"), pausa: $("pausa"), fin: $("fin"), caso: $("caso"), opciones: $("opciones"), verCaso: $("btn-ver-caso")
+    portada: $("portada"), pausa: $("pausa"), fin: $("fin"), caso: $("caso"), opciones: $("opciones"), verCaso: $("btn-ver-caso"), reloj: $("reloj"), relojN: $("reloj-n")
   };
   var cx = dom.lienzo.getContext("2d");
   var W = 300, H = 200, DPR = 1;
@@ -185,11 +186,13 @@
     E.abre = [0, 0, 0, 0]; E.sacude = [0, 0, 0, 0]; E.marca = ["", "", "", ""];
     E.pN = 0; E.pEsc = 1; E.s = CFG.sLejos; E.embiste = 0;
 
+    // arriba de la consigna: por dónde vas y, si el mazo lo trae, el tema que se evalúa (bien a la vista)
     var partes = ["Puerta " + (E.i + 1) + " de " + n];
     if (E.caso) partes.push("caso " + tanda.nCaso);
     if (E.preg.rol) partes.push(E.preg.rol);
-    if (E.preg.clase != null) partes.push("clase " + E.preg.clase);
+    if (!E.preg.tema && E.preg.clase != null) partes.push("clase " + E.preg.clase);
     dom.cintillo.textContent = partes.join(" · ");
+    if (E.preg.tema) { dom.cintillo.appendChild(document.createTextNode(" · ")); dom.cintillo.appendChild(el("b", "tema", E.preg.tema)); }
     dom.pregunta.textContent = E.preg.q;
     dom.opciones.style.setProperty("--n", String(E.n));
     dom.opciones.classList.toggle("cuatro", E.n > 3);
@@ -280,6 +283,7 @@
 
   function terminar(gano) {
     E.fase = "fin";
+    pintarReloj();
     document.documentElement.style.setProperty("--peligro", "0");
     if (gano) Sonido.gana(); else Sonido.pierde();
     var mejor = leerMejor(E.mazo);
@@ -356,6 +360,7 @@
         cab.appendChild(a);
       }
       li.appendChild(cab);
+      if (h.p.tema) li.appendChild(el("p", "caso", "Tema: " + h.p.tema));
       if (h.caso) li.appendChild(el("p", "caso", "Caso: " + h.caso.titulo));
       li.appendChild(el("p", "q", h.p.q));
       if (h.bien) {
@@ -408,7 +413,7 @@
     casillero1: "#4E6F7A", casillero2: "#466571", casilleroSombra: "#2C434C",
     tuboOn: "#E6F7EA", tuboOff: "#3B4A46",
     madera: "#7C5433", maderaOsc: "#63411F", maderaLuz: "#93683F", marco: "#221A12", vidrio: "#A9C2B6", herraje: "#CDB878", zocalo: "#828B88",
-    placa: "#E9E3CF", tinta: "#1B2422", luz: "#FFD766", sangre: "#C23B2E",
+    placa: "#E9E3CF", tinta: "#1B2422", luz: "#FFD766", sangre: "#C23B2E", uade: "#17386B", uadeLetra: "#F4F1E6",
     buzo: "#E6E1CD", buzoSombra: "#BDB8A4", mochila: "#5661C9", mochilaOsc: "#3E48A0", jean: "#2E4069", zapa: "#F2EFE5", pelo: "#3A2A20", piel: "#D9A982",
     zPiel: "#8FA56D", zPielOsc: "#62774A", zRopa: "#4D4138", zRopaOsc: "#352C26", zUña: "#262B1F", zHerida: "#6E1F1C", zPelo: "#22271E"
   };
@@ -544,7 +549,8 @@
     cx.strokeStyle = COL.junta; cx.lineWidth = Math.max(1, pr.w * 0.006);
     cx.strokeRect(pr.x0, pr.y0, pr.w, pr.h);
 
-    // cartel de salida sobre la última tanda
+    // en la franja libre de arriba de las puertas: el cartel de la facultad, o el de salida en la última tanda
+    if (!ultima) dibujarCartelUade(pr);
     if (ultima) {
       var sw = pr.w * 0.26, sh = pr.h * 0.085, sx = pr.x0 + pr.w / 2 - sw / 2, sy = pr.y0 + pr.h * 0.07;
       cx.shadowColor = "rgba(92,203,132,.9)"; cx.shadowBlur = sh * 0.9;
@@ -559,6 +565,21 @@
       dibujarPuerta(d.x + tem, d.y, d.w, d.h, E.abre[k], E.marca[k], k);
       rectPuertas[k] = { x: d.x - d.w * 0.2, y: d.y - d.h * 0.3, w: d.w * 1.4, h: d.h * 1.3 };
     }
+  }
+
+  // Cartel «UADE» en la pared del fondo. Son las letras del nombre sobre una chapa azul, dibujadas acá:
+  // no es el logo oficial de la universidad (es una marca de terceros y el repo es público).
+  function dibujarCartelUade(pr) {
+    var alto = pr.h * 0.115, ancho = alto * 3.2;
+    var x = pr.x0 + pr.w / 2 - ancho / 2, y = pr.y0 + pr.h * 0.055;
+    cx.fillStyle = "rgba(0,0,0,.3)"; redondo(x + alto * 0.05, y + alto * 0.09, ancho, alto, alto * 0.1); cx.fill();
+    cx.fillStyle = COL.uade; redondo(x, y, ancho, alto, alto * 0.1); cx.fill();
+    cx.strokeStyle = "rgba(244,241,230,.55)"; cx.lineWidth = Math.max(1, alto * 0.04); cx.stroke();
+    cx.fillStyle = COL.uadeLetra;
+    cx.font = "700 " + Math.round(alto * 0.7) + "px Bahnschrift, 'Franklin Gothic Medium', 'Arial Narrow', sans-serif";
+    cx.textAlign = "center"; cx.textBaseline = "middle";
+    var letras = "UADE", paso = ancho * 0.205, x0 = x + ancho / 2 - paso * 1.5;
+    for (var i = 0; i < letras.length; i++) cx.fillText(letras[i], x0 + paso * i, y + alto / 2 + alto * 0.05);
   }
 
   function dibujarPuerta(x, y, w, h, abre, marca, k) {
@@ -784,6 +805,19 @@
   }
 
   /* ---------------------------- Actualización --------------------------- */
+  // El contador de segundos: se ve mientras la pregunta está abierta y se pone en rojo al final.
+  var relojSeg = -1, relojVisto = false;
+  function pintarReloj() {
+    var ver = E.fase === "pregunta";
+    if (ver !== relojVisto) { relojVisto = ver; dom.reloj.hidden = !ver; }
+    if (!ver) return;
+    var seg = Math.max(0, Math.ceil(E.tMax - E.t));
+    if (seg === relojSeg) return;
+    relojSeg = seg;
+    dom.relojN.textContent = seg;
+    dom.reloj.classList.toggle("apuro", seg <= CFG.relojApuro);
+  }
+
   var peligroCss = -1;
   function actualizar(dt) {
     E.reloj += dt;
@@ -870,6 +904,8 @@
     }
     E.zombi = lerp(E.zombi, clamp(objetivoZ, 0, 1), clamp(dt * 6, 0, 1));
 
+    pintarReloj();
+
     // el borde rojo de las opciones acompaña al zombie (por si mirás las tarjetas y no el pasillo)
     var pc = E.fase === "pregunta" ? Math.round(clamp((E.zombi - 0.45) / 0.55, 0, 1) * 20) / 20 : 0;
     if (pc !== peligroCss) { peligroCss = pc; document.documentElement.style.setProperty("--peligro", String(pc)); }
@@ -898,9 +934,13 @@
 
   function medir() {
     var r = dom.escena.getBoundingClientRect();
-    W = Math.max(120, Math.round(r.width)); H = Math.max(120, Math.round(r.height));
-    DPR = Math.min(2, window.devicePixelRatio || 1);
+    var w = Math.max(120, Math.round(r.width)), h = Math.max(120, Math.round(r.height)), dpr = Math.min(2, window.devicePixelRatio || 1);
+    if (w === W && h === H && dpr === DPR && dom.lienzo.width === Math.round(w * dpr)) return;
+    W = w; H = h; DPR = dpr;
     dom.lienzo.width = Math.round(W * DPR); dom.lienzo.height = Math.round(H * DPR);
+    // cambiar el tamaño borra el lienzo: se redibuja en el acto para que no parpadee cuando la pregunta nueva
+    // ocupa más o menos renglones y el pasillo cambia de alto
+    if (E.fase !== "fin") dibujar();
   }
 
   /* ------------------------------ Controles ----------------------------- */

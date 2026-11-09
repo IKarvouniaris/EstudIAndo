@@ -10,13 +10,14 @@
      volver: "ia-conceptual.html#c13",
      grupos: [                      // cada grupo es un caso (con sus preguntas en orden) o un montón suelto
        { caso: null | { titulo, ambito, hechos: [párrafos] },
-         preguntas: [ { q, ops: [3 o 4 textos], ok: índice de la correcta, porque, clase, rol? } ] }
+         preguntas: [ { q, ops: [3 o 4 textos], ok: índice de la correcta, porque, clase, tema?, rol? } ] }
      ]
    }
 
    - Grupo sin caso: sus preguntas se mezclan entre sí en cada partida.
    - Grupo con caso: los casos se mezclan, pero las preguntas de cada caso salen juntas y en su orden;
      antes de la primera se muestra el caso (el zombie espera) y se puede volver a leer con «Ver el caso».
+   - tema: el área que evalúa la pregunta (no la respuesta). Si está, se muestra arriba de la consigna.
    - La cantidad de puertas sale de ops.length (3 o 4). Las opciones cambian de puerta en cada partida.
    - El tiempo de cada pregunta se calcula con el largo del texto (CFG.tBase y CFG.tPorLetra en el juego). */
 (function () {
@@ -34,7 +35,7 @@
       volver: "ia-conceptual.html#c13",
       grupos: [{
         caso: null,
-        preguntas: ia.map(function (p) { return { q: p.q, ops: p.ops.slice(), ok: 0, porque: p.porque, clase: p.clase }; })
+        preguntas: ia.map(function (p) { return { q: p.q, ops: p.ops.slice(), ok: 0, porque: p.porque, clase: p.clase, tema: p.tema }; })
       }]
     });
   }

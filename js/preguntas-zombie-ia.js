@@ -1,323 +1,333 @@
 /* Parcial Zombie (parcial-zombie.html): las 30 puertas del 2.º parcial de Introducción a la IA.
    Preguntas escritas para el juego a partir de las clases 7 a 12 del apunte (ia-conceptual.html) y de las
    18 situaciones del simulacro escrito (tools/situaciones_ia_p2.json); no son preguntas de la cátedra.
-   Las consignas y los «porque» preguntan por el contenido (diapositivas y casos prácticos) y no nombran
-   al profesor, a la cátedra ni «la clase N»: el número de clase va aparte, en el campo clase.
-   Cada pregunta: clase (para enlazar al apunte), q (la consigna), ops (tres opciones) y porque (una línea).
-   OJO: la correcta es SIEMPRE ops[0]; el juego mezcla las opciones entre las tres puertas en cada partida.
-   Reglas del banco (CLAUDE.md): las tres opciones tienen largo parejo, la correcta no es sistemáticamente
-   la más larga ni la más corta, y los distractores no se delatan con «siempre / nunca / ninguno».
-   Para medirlo: node tools/medir_preguntas_zombie.js */
+
+   Cada pregunta: clase (para enlazar al apunte), tema (se muestra arriba de la consigna), q (la consigna),
+   ops (tres opciones) y porque (se lee en el resumen final).
+   OJO: la correcta es SIEMPRE ops[0]; el juego mezcla las opciones entre las puertas en cada partida.
+
+   CÓMO SE ESCRIBEN (pautas de redacción de ítems de opción múltiple: Haladyna, Downing y Rodriguez, 2002;
+   Little y Bjork, 2012). Para medirlo: node tools/medir_preguntas_zombie.js
+   1. Un solo concepto por pregunta, y el tema a la vista. El tema nombra el área, no la respuesta.
+   2. La consigna es una pregunta directa y completa: se tiene que poder contestar tapando las opciones.
+      Sin relleno: el caso práctico entra solo si es lo que se evalúa, y en una oración.
+   3. En positivo: nada de «cuál NO es».
+   4. Opciones cortas y paralelas: las tres son del mismo tipo (tres conceptos, tres acciones…) y dicen
+      una sola cosa. Nada de «Sí, porque…» ni «Concepto: su definición», que meten dos ideas en una opción.
+   5. Los distractores son conceptos vecinos, los que de verdad se confunden. Ninguno es absurdo.
+   6. Largo parejo, sin «siempre / nunca / ninguno / todas las anteriores».
+   7. El «porque» explica el concepto y dice qué son los distractores, así el error también enseña.
+   8. No se nombra al profesor, a la cátedra ni «la clase N»: se pregunta por el contenido. */
 window.PREGUNTAS_ZOMBIE_IA = [
   /* ---------- Clase 7 · inteligencia biológica y automatización ---------- */
   {
-    id: 1, clase: 7,
-    q: "Una cámara revisa etiquetas torcidas en una línea de envases. ¿Qué separa a la percepción del reconocimiento de patrones?",
+    id: 1, clase: 7, tema: "Percepción",
+    q: "En un sistema de visión por computadora, ¿qué hace la etapa de percepción?",
     ops: [
-      "La percepción capta la señal y el reconocimiento la clasifica.",
-      "La percepción clasifica la señal y el reconocimiento la capta.",
-      "Son dos nombres para la misma etapa del sistema de visión."
+      "Capta e interpreta la señal del entorno.",
+      "Clasifica lo captado en categorías.",
+      "Guarda los casos para consultarlos después."
     ],
-    porque: "Percibir es captar e interpretar la señal del entorno; reconocer patrones es identificar regularidades o clases en lo ya percibido."
+    porque: "Percibir es captar e interpretar la señal. Clasificar lo percibido es reconocimiento de patrones, y guardar casos es memoria."
   },
   {
-    id: 2, clase: 7,
-    q: "¿Qué pasa si se le suma IA a un proceso que está desordenado?",
+    id: 2, clase: 7, tema: "Automatización de procesos",
+    q: "Un trámite manual está desordenado y se lo quiere automatizar con IA. ¿Qué hay que hacer primero?",
     ops: [
-      "La IA automatiza el desorden.",
-      "La IA ordena el proceso con el uso.",
-      "El modelo compensa el desorden solo."
+      "Rediseñar el proceso y sacar pasos de más.",
+      "Entrenar un modelo con los datos actuales.",
+      "Digitalizar los formularios tal como están."
     ],
-    porque: "Si el proceso está desordenado, la IA automatiza el desorden: primero se rediseña el proceso y después se incorpora la tecnología."
+    porque: "Si el proceso está desordenado, la IA automatiza el desorden. Primero se rediseña el proceso y después se suma la tecnología."
   },
   {
-    id: 3, clase: 7,
-    q: "Hay que comprobar si un DNI coincide con un nombre en una base ordenada. ¿Qué conviene usar?",
+    id: 3, clase: 7, tema: "Reglas e IA",
+    q: "Una decisión se resuelve con una condición explícita y conocida. ¿Qué herramienta conviene?",
     ops: [
-      "Una regla o consulta estructurada: es más rápida y más barata.",
-      "Un modelo de lenguaje, que interpreta mejor los datos del padrón.",
-      "Un clasificador entrenado con los trámites de años anteriores."
+      "Una regla programada.",
+      "Un modelo de lenguaje.",
+      "Un modelo predictivo."
     ],
-    porque: "Si una regla explícita alcanza para decidir, usar IA ahí es más caro, más lento y no aporta nada."
+    porque: "Para condiciones explícitas, una regla es más rápida, barata y confiable. La IA se reserva para clasificar texto, detectar anomalías o interpretar documentos."
   },
   {
-    id: 4, clase: 7,
-    q: "Una empresa del Mercosur no encaja en la regla general del trámite. ¿Qué corresponde hacer?",
+    id: 4, clase: 7, tema: "Diseño de trámites",
+    q: "A un trámite llega un caso previsto que no sigue la regla general, como una empresa extranjera. ¿Cómo se lo trata?",
     ops: [
-      "Codificar una excepción explícita, aparte de la regla principal.",
-      "Rechazar el trámite de forma automática por no cumplir la regla.",
-      "Forzar el caso dentro de la regla general para no demorarlo."
+      "Con una excepción escrita aparte.",
+      "Con un rechazo automático del caso.",
+      "Con la regla general, sin cambios."
     ],
-    porque: "Las excepciones son situaciones previstas que no siguen la regla general: se codifican aparte, no se fuerzan ni se rechazan."
+    porque: "Los casos previstos que no siguen la regla general se codifican como excepciones aparte: no se rechazan ni se fuerzan dentro de la regla."
   },
   {
-    id: 5, clase: 7,
-    q: "A una clínica llega un paciente inconsciente y faltan sus datos administrativos. ¿Qué debe hacer el sistema?",
+    id: 5, clase: 7, tema: "Automatización en salud",
+    q: "A una clínica llega un paciente grave y todavía faltan sus datos administrativos. ¿Qué va primero?",
     ops: [
-      "Permitir la atención urgente y completar los datos después.",
-      "Frenar el ingreso hasta que alguien cargue los datos mínimos.",
-      "Dejar que el modelo de riesgo decida si se lo atiende o no."
+      "Atenderlo y estabilizarlo.",
+      "Completar sus datos mínimos.",
+      "Esperar el puntaje de riesgo."
     ],
-    porque: "En salud las reglas deben admitir concesiones: no se bloquea la atención urgente por falta de información."
+    porque: "En salud las reglas admiten concesiones: la atención urgente no se bloquea por falta de datos. Un modelo de riesgo recomienda prioridades, no frena la atención."
   },
   {
-    id: 6, clase: 7,
-    q: "Un asistente de voz municipal contesta con mucha fluidez. ¿Qué garantiza esa fluidez?",
+    id: 6, clase: 7, tema: "Lenguaje natural",
+    q: "Un modelo de lenguaje responde con un texto fluido y bien escrito. ¿Qué se puede afirmar de esa respuesta?",
     ops: [
-      "Nada por sí sola: fluidez no es comprensión ni verdad.",
-      "Que entendió el pedido, porque la respuesta es coherente.",
-      "Que el dato es correcto, porque sale del entrenamiento."
+      "Que suena plausible.",
+      "Que es verdadera.",
+      "Que el modelo la entiende."
     ],
-    porque: "El PLN genera texto prediciendo secuencias plausibles: la fluidez no garantiza comprensión ni verdad."
+    porque: "Un modelo de lenguaje predice secuencias plausibles de palabras. La fluidez no garantiza verdad ni comprensión."
   },
 
   /* ---------- Clase 8 · cognición distribuida y metáforas cerebro-máquina ---------- */
   {
-    id: 7, clase: 8,
-    q: "En la cognición distribuida, ¿cuál es la unidad de análisis?",
+    id: 7, clase: 8, tema: "Cognición distribuida",
+    q: "¿Qué plantea la idea de cognición distribuida sobre dónde ocurre el razonamiento?",
     ops: [
-      "El sistema sociotécnico: personas, artefactos, datos y tiempo.",
-      "La mente individual de quien toma la decisión final del caso.",
-      "El algoritmo, que concentra todo el razonamiento del sistema."
+      "Se reparte entre personas, artefactos y datos.",
+      "Ocurre dentro de la mente de cada persona.",
+      "Se concentra en el algoritmo del sistema."
     ],
-    porque: "La unidad deja de ser la mente individual: el razonamiento también ocurre en documentos, bases de datos, roles y memoria de la organización."
+    porque: "La unidad de análisis deja de ser la mente individual: el razonamiento también ocurre en documentos, bases de datos, roles y memoria de la organización."
   },
   {
-    id: 8, clase: 8,
-    q: "En un equipo de mantenimiento, los tableros, sensores y bases que conservan y transforman información son distribución…",
+    id: 8, clase: 8, tema: "Cognición distribuida",
+    q: "Tableros, sensores y bases de datos conservan y transforman información. ¿Qué tipo de distribución de la cognición es?",
     ops: [
-      "Material: los artefactos participan de la tarea cognitiva.",
-      "Social: el razonamiento se reparte entre roles distintos.",
-      "Temporal: la decisión depende de registros acumulados."
+      "Material.",
+      "Social.",
+      "Temporal."
     ],
-    porque: "La distribución material es la de documentos, tableros, sensores, modelos y bases; la social es entre personas y la temporal, entre momentos."
+    porque: "Es material: los artefactos participan de la tarea. La social es el reparto entre personas con roles distintos; la temporal, el peso de los registros acumulados."
   },
   {
-    id: 9, clase: 8,
-    q: "¿Qué deja afuera la metáfora «el cerebro es una computadora»?",
+    id: 9, clase: 8, tema: "Metáforas cerebro-máquina",
+    q: "La metáfora «el cerebro es una computadora» describe entradas, proceso y salidas. ¿Qué deja afuera?",
     ops: [
       "El cuerpo, el contexto y la plasticidad.",
-      "Las entradas, el proceso y las salidas.",
-      "Las redes neuronales y su aprendizaje."
+      "La memoria y el procesamiento de datos.",
+      "Las redes neuronales y su entrenamiento."
     ],
-    porque: "Esa metáfora aporta vocabulario funcional (entradas, procesamiento, memoria, salidas) pero oculta el cuerpo, el contexto y la plasticidad."
+    porque: "La metáfora da vocabulario funcional (entradas, proceso, memoria, salidas) pero oculta el cuerpo, el contexto y la plasticidad del cerebro."
   },
   {
-    id: 10, clase: 8,
-    q: "«El modelo dice riesgo alto, entonces se rechaza». ¿Qué riesgo de la metáfora cerebral aparece?",
+    id: 10, clase: 8, tema: "Riesgos de la metáfora cerebral",
+    q: "¿Cómo se llama el error de tratar la predicción de un modelo como un veredicto sobre una persona?",
     ops: [
-      "Determinismo: tomar la predicción como un veredicto.",
-      "Antropomorfismo: atribuirle intención al sistema.",
-      "Reduccionismo: ignorar el cuerpo y la cultura."
+      "Determinismo.",
+      "Antropomorfismo.",
+      "Reduccionismo."
     ],
-    porque: "Determinismo es suponer que una predicción define a una persona. La predicción es una señal para revisar, no un veredicto."
+    porque: "Es determinismo: creer que la predicción define a la persona. Antropomorfismo es atribuirle intención al sistema; reduccionismo, ver la inteligencia como cálculo aislado."
   },
   {
-    id: 11, clase: 8,
-    q: "Un modelo de riesgo comercial no usa el origen de la persona, pero sí su código postal. ¿Cuál es el problema?",
+    id: 11, clase: 8, tema: "Sesgo en los datos",
+    q: "Un modelo no usa una variable sensible, pero sí otra que la reemplaza de forma indirecta, como el código postal. ¿Cómo se llama esa otra?",
     ops: [
-      "El código postal actúa como proxy y puede discriminar igual.",
-      "No hay problema: alcanza con excluir las variables sensibles.",
-      "El código postal es un dato sensible y no se puede guardar."
+      "Variable proxy.",
+      "Variable objetivo.",
+      "Variable de control."
     ],
-    porque: "No alcanza con sacar las variables sensibles: hay que evitar los proxies, que las reemplazan de forma indirecta."
+    porque: "Un proxy reemplaza de forma indirecta a una variable sensible y puede discriminar igual: no alcanza con sacar las variables sensibles."
   },
   {
-    id: 12, clase: 8,
-    q: "En la priorización de mantenimiento público, una zona reporta menos fallas que las demás. ¿Cómo hay que leerlo?",
+    id: 12, clase: 8, tema: "Equidad en servicios públicos",
+    q: "Un sistema reparte el mantenimiento según los reclamos, y un barrio reclama poco. ¿Qué riesgo hay que controlar?",
     ops: [
-      "Menos reportes no significa menos necesidad.",
-      "Es una zona en buen estado, que puede esperar.",
-      "Es un dato confiable: lo cargan los vecinos."
+      "Que quede relegado aunque necesite lo mismo.",
+      "Que reciba más recursos de los que necesita.",
+      "Que sus reclamos se cuenten dos veces."
     ],
-    porque: "El riesgo específico del caso es discriminar zonas que reportan menos por tener menor acceso o capacidad de reporte."
+    porque: "Menos reportes no significa menos necesidad: puede haber menos acceso o capacidad de reportar. Por eso se audita que el sistema no relegue zonas."
   },
 
   /* ---------- Clase 9 · patrones, símbolos y experiencia ---------- */
   {
-    id: 13, clase: 9,
-    q: "«SI el paciente tiene fiebre y tos, ENTONCES puede tener una infección respiratoria» es un ejemplo de…",
+    id: 13, clase: 9, tema: "Los tres pilares de la IA",
+    q: "¿Qué pilar de la IA representa el conocimiento con reglas del tipo «si… entonces…»?",
     ops: [
-      "Razonamiento simbólico: una regla explícita y auditable.",
-      "Reconocimiento de patrones: una regularidad aprendida.",
-      "Aprendizaje por experiencia: mejora con cada caso nuevo."
+      "Razonamiento simbólico.",
+      "Reconocimiento de patrones.",
+      "Aprendizaje por experiencia."
     ],
-    porque: "El razonamiento simbólico representa el conocimiento con reglas si–entonces, y cada conclusión se explica con la regla que la produjo."
+    porque: "El razonamiento simbólico usa reglas explícitas y auditables. El reconocimiento de patrones estima regularidades a partir de ejemplos, sin reglas escritas a mano."
   },
   {
-    id: 14, clase: 9,
-    q: "Un sistema guarda todo el historial de incidencias técnicas de la empresa. ¿Eso es aprender?",
+    id: 14, clase: 9, tema: "Memoria y aprendizaje",
+    q: "¿Qué tiene que pasar para decir que un sistema aprendió, y no solo que guardó datos?",
     ops: [
-      "No: aprender exige que el desempeño cambie con los casos.",
-      "Sí: cuanto más historial guarda, más aprende el sistema.",
-      "Sí, si ese historial queda guardado en una base vectorial."
+      "Que su desempeño mejore con los casos.",
+      "Que almacene cada caso que recibe.",
+      "Que recupere rápido un caso anterior."
     ],
-    porque: "La memoria conserva y recupera; el aprendizaje modifica el modelo a partir de resultados confirmados."
+    porque: "Aprender es mejorar el desempeño a partir de la experiencia. Guardar y recuperar casos es memoria: conserva, pero no modifica el modelo."
   },
   {
-    id: 15, clase: 9,
-    q: "En 2012, Google Brain agrupó gatos en videos de YouTube sin que nadie le dijera qué era un gato. ¿Qué demuestra?",
+    id: 15, clase: 9, tema: "Los tres pilares de la IA",
+    q: "Una red neuronal identifica gatos en videos sin que nadie le haya dicho qué es un gato. ¿Qué pilar de la IA muestra?",
     ops: [
-      "Que se aprenden patrones de datos no estructurados.",
-      "Que una red neuronal comprende lo que clasifica.",
-      "Que las reglas si–entonces escalan a millones de videos."
+      "Reconocimiento de patrones.",
+      "Razonamiento simbólico.",
+      "Planificación de acciones."
     ],
-    porque: "El hito muestra que la IA puede aprender patrones a partir de datos no estructurados; reconocer no es comprender."
+    porque: "Encontrar regularidades en datos no estructurados es reconocimiento de patrones (Google Brain, 2012). No hay reglas escritas a mano, que serían razonamiento simbólico."
   },
   {
-    id: 16, clase: 9,
-    q: "Un sistema de fraude detecta un consumo anómalo, aplica un umbral legal y se ajusta con los casos confirmados. ¿Qué pilares combina?",
+    id: 16, clase: 9, tema: "Los tres pilares de la IA",
+    q: "Un sistema antifraude se ajusta con los casos que los analistas confirman. ¿Qué pilar de la IA es ese ajuste?",
     ops: [
-      "Los tres: patrones, reglas y aprendizaje.",
-      "Solo patrones, en tres etapas seguidas.",
-      "Patrones y reglas; el ajuste es memoria."
+      "Aprendizaje por experiencia.",
+      "Reconocimiento de patrones.",
+      "Razonamiento simbólico."
     ],
-    porque: "Reconoce un patrón anómalo, aplica reglas antes de alertar y aprende de los casos que los analistas confirman."
+    porque: "Ajustarse con casos confirmados es aprendizaje por experiencia. Detectar el consumo anómalo es reconocimiento de patrones; aplicar un umbral legal, razonamiento simbólico."
   },
   {
-    id: 17, clase: 9,
-    q: "Hay que comparar el costo de dos nubes para procesar eventos en tiempo real. ¿Cómo se hace una comparación justa?",
+    id: 17, clase: 9, tema: "Costos en la nube",
+    q: "Para comparar de forma justa el costo de dos nubes, ¿qué se compara?",
     ops: [
-      "Modelar el mismo caso de carga y comparar el costo total.",
-      "Comparar el precio unitario que publica cada proveedor.",
-      "Elegir la que tenga el catálogo de servicios más amplio."
+      "El costo total del mismo caso de carga.",
+      "El precio unitario de cada servicio.",
+      "La cantidad de servicios de cada catálogo."
     ],
-    porque: "Cada proveedor factura unidades distintas: lo que importa es el costo total (TCO) del caso completo, no el precio unitario."
+    porque: "Cada proveedor factura unidades distintas, así que los precios unitarios no son comparables. Se modela el mismo caso y se mira el costo total (TCO)."
   },
   {
-    id: 18, clase: 9,
-    q: "Un sistema clasifica bien una grieta en la foto de un puente. ¿Qué error típico hay que evitar?",
+    id: 18, clase: 9, tema: "Reconocer y comprender",
+    q: "Un sistema clasifica bien una grieta en la foto de un puente. ¿Qué hizo con esa grieta?",
     ops: [
-      "Confundir reconocer la grieta con comprender su causa.",
-      "Confundir la foto del puente con un dato estructurado.",
-      "Confundir la detección visual con un motor de reglas."
+      "Reconoció un patrón.",
+      "Comprendió su causa.",
+      "Dedujo con una regla."
     ],
-    porque: "Detectar, reconocer el patrón y comprender la causa son tres niveles distintos: el sistema clasifica la grieta sin saber por qué apareció."
+    porque: "Clasificar es reconocer un patrón. Comprender por qué apareció la grieta es otro nivel, y deducir con reglas sería razonamiento simbólico."
   },
 
   /* ---------- Clase 10 · planificación y toma de decisiones ---------- */
   {
-    id: 19, clase: 10,
-    q: "«Ubicar todas las clases» y «con la menor cantidad de cambios de aula» son, en ese orden…",
+    id: 19, clase: 10, tema: "Planificación",
+    q: "En un problema de planificación, ¿para qué sirve el criterio?",
     ops: [
-      "La meta y el criterio para elegir entre planes.",
-      "El criterio y la meta que el plan debe cumplir.",
-      "Dos restricciones del mismo problema de aulas."
+      "Para elegir entre los planes que llegan a la meta.",
+      "Para definir a dónde tiene que llegar el plan.",
+      "Para limitar las acciones que están permitidas."
     ],
-    porque: "La meta es a dónde hay que llegar; el criterio permite elegir entre los planes que la cumplen."
+    porque: "La meta dice a dónde llegar; el criterio (más corto, más barato, más seguro) elige entre los planes que la cumplen. Lo que limita las acciones son las restricciones."
   },
   {
-    id: 20, clase: 10,
-    q: "El modelo avisa: «este pedido llegará tarde». ¿Por qué eso todavía no es una decisión?",
+    id: 20, clase: 10, tema: "Predicción y decisión",
+    q: "Un modelo predice que un pedido va a llegar tarde. ¿Qué falta para que haya una decisión?",
     ops: [
-      "Falta un objetivo y una política de actuación.",
-      "Falta que el modelo tenga más datos históricos.",
-      "Falta que apruebe quien paga el proyecto."
+      "Un objetivo y una política.",
+      "Una predicción con mayor precisión.",
+      "Un historial más largo de pedidos."
     ],
-    porque: "Una predicción no es una decisión: decidir es comparar consecuencias contra un objetivo y actuar según una política."
+    porque: "Una predicción todavía no es una decisión: decidir es comparar consecuencias contra un objetivo y actuar según una política."
   },
   {
-    id: 21, clase: 10,
-    q: "En un diagrama de Gantt, ¿qué es la ruta crítica?",
+    id: 21, clase: 10, tema: "Cronograma del proyecto",
+    q: "En el cronograma de un proyecto, ¿qué es la ruta crítica?",
     ops: [
-      "La cadena de actividades que define la duración total.",
-      "La lista de tareas que más pesan en el presupuesto.",
-      "El grupo de tareas que pueden hacerse en paralelo."
+      "La cadena de tareas que define la duración total.",
+      "La lista de tareas que más pesan en el costo.",
+      "El grupo de tareas que se hacen en paralelo."
     ],
-    porque: "Un atraso en una actividad de la ruta crítica retrasa todo el proyecto: por eso esas actividades reciben atención especial."
+    porque: "La ruta crítica es la cadena de actividades que fija la duración total: un atraso en cualquiera de ellas retrasa todo el proyecto."
   },
 
   /* ---------- Clase 11 · de la IA estrecha a la superinteligencia ---------- */
   {
-    id: 22, clase: 11,
-    q: "Un traductor automático de atención sanitaria maneja cien idiomas. ¿Qué tipo de IA es?",
+    id: 22, clase: 11, tema: "Tipos de IA",
+    q: "Un traductor automático funciona en cien idiomas, pero solo traduce. ¿Qué tipo de IA es?",
     ops: [
-      "Estrecha: hace una sola tarea, traducir, en muchos idiomas.",
-      "General: transfiere lo que aprendió entre cien dominios.",
-      "Casi general: cada idioma nuevo amplía su generalidad."
+      "IA estrecha.",
+      "IA general.",
+      "Superinteligencia."
     ],
-    porque: "Muchos idiomas no son muchos dominios: sigue siendo IA estrecha (Narrow AI) porque no generaliza fuera de su tarea."
+    porque: "Es IA estrecha (Narrow AI): hace una sola tarea. Muchos idiomas no son muchos dominios; una IA general llevaría lo aprendido a tareas distintas."
   },
   {
-    id: 23, clase: 11,
-    q: "¿Qué exigiría una IA general (AGI) que la IA estrecha no tiene?",
+    id: 23, clase: 11, tema: "Tipos de IA",
+    q: "¿Qué capacidad distingue a una IA general de una IA estrecha?",
     ops: [
-      "Transferir lo aprendido a otro dominio sin reentrenar.",
-      "Procesar más datos y más rápido que una persona.",
-      "Integrar varios modelos estrechos en un producto."
+      "Transferir lo aprendido a otros dominios.",
+      "Procesar muchos más datos en menos tiempo.",
+      "Rendir mejor en su tarea específica."
     ],
-    porque: "Una AGI no sería solo «más grande»: exigiría abstracción, transferencia entre dominios y adaptación a situaciones nuevas."
+    porque: "Una IA general aplicaría lo aprendido en un dominio a otro sin reentrenarla. Más velocidad o mejor rendimiento en una tarea siguen siendo IA estrecha."
   },
   {
-    id: 24, clase: 11,
-    q: "Un organismo del Estado coordina diez IA estrechas dentro de un mismo agente. ¿Eso es una AGI?",
+    id: 24, clase: 11, tema: "Tipos de IA",
+    q: "Un sistema coordina diez IA estrechas, una por tarea. ¿Qué es el conjunto?",
     ops: [
-      "No: orquestar modelos no es transferir conocimiento.",
-      "Sí: al sumar dominios, el sistema se vuelve general.",
-      "Sí, porque resuelve tareas de áreas distintas."
+      "Un conjunto de IA estrechas.",
+      "Una IA general en formación.",
+      "Una superinteligencia parcial."
     ],
-    porque: "Integrar varias Narrow AI en un mismo producto no alcanza: la orquestación no es transferencia."
+    porque: "Coordinar modelos no es transferir conocimiento: cada uno sigue atado a su tarea, así que el conjunto sigue siendo IA estrecha."
   },
   {
-    id: 25, clase: 11,
-    q: "Una empresa afirma que su sistema ya es una superinteligencia. ¿Cómo hay que tomar esa afirmación?",
+    id: 25, clase: 11, tema: "Superinteligencia",
+    q: "¿Qué es hoy la superinteligencia?",
     ops: [
-      "Como una hipótesis: no se afirma sin evidencia.",
-      "Como un producto que ya usan las grandes empresas.",
-      "Como la etapa que sigue al completar la IA estrecha."
+      "Una hipótesis sobre el futuro.",
+      "Un producto que ya está disponible.",
+      "Una etapa de la IA estrecha."
     ],
-    porque: "La superinteligencia es una hipótesis, no un producto existente; debatirla exige declarar supuestos, probabilidades e incertidumbres."
+    porque: "La superinteligencia (superar ampliamente a las personas en casi todo) es una hipótesis: no existe como producto y no se afirma sin evidencia."
   },
   {
-    id: 26, clase: 11,
-    q: "Una IA diseña puentes originales para una constructora y no sabe hacer otra cosa. ¿Qué prueba eso?",
+    id: 26, clase: 11, tema: "Superinteligencia",
+    q: "¿Qué tendría una superinteligencia que no tendría una IA general?",
     ops: [
-      "Creatividad especializada, no inteligencia general.",
-      "Inteligencia general, porque produjo algo novedoso.",
-      "Superinteligencia dentro del dominio de la ingeniería."
+      "Una ventaja muy amplia sobre las personas.",
+      "Una flexibilidad parecida a la humana.",
+      "Un gran rendimiento en una sola tarea."
     ],
-    porque: "Generar algo novedoso en un solo dominio no prueba inteligencia general: es creatividad especializada."
+    porque: "La IA general alude a una flexibilidad comparable a la humana; la superinteligencia, a una ventaja muy superior y sostenida. Rendir en una sola tarea es IA estrecha."
   },
   {
-    id: 27, clase: 11,
-    q: "Un sistema de red eléctrica optimiza la métrica que le dieron y termina dañando la finalidad. ¿Qué riesgo es?",
+    id: 27, clase: 11, tema: "Riesgos de una IA avanzada",
+    q: "Un sistema cumple al pie de la letra la métrica que le dieron y aun así daña el propósito buscado. ¿Qué riesgo es?",
     ops: [
-      "Alineación: el objetivo quedó mal especificado.",
-      "Concentración: pocos actores controlan el sistema.",
-      "Seguridad: alguien lo usó de forma maliciosa."
+      "Alineación.",
+      "Concentración.",
+      "Seguridad."
     ],
-    porque: "Alineación: un objetivo mal especificado puede optimizar la métrica y dañar la finalidad. Se necesitan restricciones, verificación y supervisión."
+    porque: "Es alineación: un objetivo mal especificado optimiza la métrica y daña la finalidad. Concentración es el poder en pocos actores; seguridad, el uso malicioso y las fallas."
   },
 
   /* ---------- Clase 12 · escenarios, impacto y gobernanza ---------- */
   {
-    id: 28, clase: 12,
-    q: "Un mismo problema se puede encarar con IA o sin ella. ¿Cuándo no hace falta IA?",
+    id: 28, clase: 12, tema: "Reglas e IA",
+    q: "Al automatizar un proceso, ¿para qué parte se reserva la IA?",
     ops: [
-      "Cuando una regla simple resuelve el problema.",
-      "Cuando el volumen de casos es demasiado alto.",
-      "Cuando una persona ya revisa cada resultado."
+      "Para la ambigüedad, donde la regla no alcanza.",
+      "Para los pasos estables, que no cambian.",
+      "Para las decisiones finales más sensibles."
     ],
-    porque: "Si una regla simple resuelve el problema, no hace falta IA: la IA se reserva para la ambigüedad, donde la regla no alcanza."
+    porque: "Los pasos estables se automatizan con reglas y la IA se aplica a la ambigüedad. Las decisiones sensibles conservan revisión humana."
   },
   {
-    id: 29, clase: 12,
-    q: "De las cinco preguntas éticas antes de desplegar, ¿cuál corresponde a la autonomía?",
+    id: 29, clase: 12, tema: "Ética antes de desplegar",
+    q: "¿Qué pregunta el principio ético de autonomía antes de desplegar un sistema de IA?",
     ops: [
       "¿La persona sabe que interactúa con una IA?",
       "¿El error afecta distinto a distintos grupos?",
-      "¿Quién corrige, compensa y aprende del error?"
+      "¿Quién corrige y compensa el error?"
     ],
-    porque: "Autonomía: si una persona no sabe que habla con una IA, decide distinto. Las otras dos son justicia y responsabilidad."
+    porque: "Autonomía es saber que se interactúa con una IA. La pregunta por los grupos es de justicia, y la de quién corrige, de responsabilidad."
   },
   {
-    id: 30, clase: 12,
-    q: "¿Con qué etapa termina el ciclo de vida de la gobernanza de un sistema de IA?",
+    id: 30, clase: 12, tema: "Gobernanza",
+    q: "¿Qué tiene que poder hacerse con un sistema de IA al final de su ciclo de vida?",
     ops: [
-      "Operación, que incluye poder retirar el sistema.",
-      "Despliegue, cuando el modelo pasa a producción.",
-      "Modelo, cuando supera las pruebas de sesgo."
+      "Retirarlo de operación.",
+      "Reentrenarlo sin límite.",
+      "Extenderlo a más áreas."
     ],
-    porque: "El ciclo es caso de uso, datos, modelo, despliegue y operación, y termina con «retirada»: hay que poder apagar el sistema."
+    porque: "El ciclo de gobernanza (caso de uso, datos, modelo, despliegue, operación) termina con la retirada: hay que poder apagar el sistema."
   }
 ];

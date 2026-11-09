@@ -41,10 +41,14 @@ materias y lee los mazos de `js/mazos-zombie.js`; para sumar una materia se carg
 en la cabecera de ese archivo), sin tocar el juego. Mazos de hoy: **Intro a la IA** (`js/preguntas-zombie-ia.js`, 30 preguntas de tres opciones; la correcta es
 siempre `ops[0]` y el juego las mezcla) y **Ética** (reutiliza tal cual `js/casos-etica-roles.js`, los casos por roles: si cambiás ese archivo, cambia el juego).
 Las preguntas de Intro a la IA siguen las reglas de opciones de los simulacros y **no nombran al profesor, a la cátedra ni «la clase N»** (van sobre las
-diapositivas y los casos prácticos): después de tocarlas, corré `node tools/medir_preguntas_zombie.js`. No usar en el juego bancos cuyas respuestas viven en
+diapositivas y los casos prácticos). Además siguen las pautas de redacción que están en la cabecera de `js/preguntas-zombie-ia.js`, porque una primera tanda
+salió confusa: un solo concepto por pregunta con su `tema` a la vista (el área, no la respuesta), consigna directa que se pueda contestar tapando las opciones,
+en positivo, opciones cortas, paralelas y de una sola idea (nada de «Concepto: definición» ni «Sí, porque…»), y distractores que sean conceptos vecinos.
+Después de tocarlas, corré `node tools/medir_preguntas_zombie.js` y releelas: el script cuenta, pero no juzga si se entienden. No usar en el juego bancos cuyas respuestas viven en
 tablas privadas de Supabase (por ejemplo `tools/casos_etica.json`, el examen puntuado de Ética): el mazo viaja entero al navegador. El juego se dibuja en un
 `<canvas>` (sin imágenes ni emojis), los valores para ajustar están en `CFG`, arriba de `js/parcial-zombie.js`, y en pantalla las opciones van pegadas debajo
-de la consigna, con el pasillo abajo. El brief está en `docs/parcial-zombie-brief.md`. Si cambia el texto de las clases 7 a 12, revisá que los «porqué» sigan
+de la consigna, con el pasillo abajo. El cartel «UADE» del pasillo son letras dibujadas en código, no el logo oficial: no subir el archivo del logo de la universidad (marca de terceros, repo público).
+El brief está en `docs/parcial-zombie-brief.md`. Si cambia el texto de las clases 7 a 12, revisá que los «porqué» sigan
 diciendo lo mismo que el apunte.
 
 ## Regla: "clase + resumen de transcripción"

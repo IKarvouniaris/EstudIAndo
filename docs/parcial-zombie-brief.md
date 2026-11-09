@@ -27,6 +27,12 @@ After play: remover las preguntas que dice "segun el profe en la clase X" y eso,
 
 After play: agregar en el menu principal que puedas elegir que materia queres jugar, si la de etica de la ia o la de introduccion a la ia (de etica ya tenemos las preguntas multiple choice asi que seria reutilizarlas) Es decir, que este modo de juego sea como una "plantilla" y que cambien las preguntas en base a la materia
 
+After play: las preguntas y respuestas son bastante confusas y no dejan en claro el tema que se esta evaluando, investiga en internet cual es la mejor manera de hacer las preguntas y respuestas de multiple choice para entender los conceptos
+
+After play: quiero que se muestre un timer de los segundos que transcurren mientras te corre el zombie y apartir de los ultimos 10 te sale en rojo el contador en mas grande y se mueve (ponelo en un lugar donde no te moleste elegir las puertas o opciones
+
+After play: arriba de las puertas que queda un espacio en verde agrega UADE (busca el logo en internet)
+
 **Pitch:** Corré por el pasillo de la facultad con un zombie en la nuca: cada tanda de tres puertas es una pregunta del 2.º parcial de Intro a la IA, y solo una te deja seguir.
 
 **Genre:** quiz de opción múltiple + corredor. El quiz manda en preguntas, respuestas y revelación; el corredor, en el ritmo y la presión.
@@ -35,13 +41,14 @@ After play: agregar en el menu principal que puedas elegir que materia queres ju
 
 **Question:** ¿repasar con un zombie atrás hace que quieras jugar otra partida, o el apuro no deja leer?
 
-**Hooks:** el reloj es el zombie (no hay barra de tiempo: lo ves acercarse) y al final repasás todo lo que contestaste.
+**Hooks:** el reloj es el zombie: lo ves acercarse. Desde que se jugó hay además un contador de segundos arriba a la derecha del pasillo, que en los últimos 10 se pone rojo, grande y tiembla. Y al final repasás todo lo que contestaste.
 
 **Intent:** —
 
 ## Look and references
 
 - Look: pasillo de facultad de noche, visto desde atrás del jugador. Paredes verde hospital apagado, piso en damero que corre hacia vos, casilleros y carteleras a los costados, tubos fluorescentes que parpadean. El jugador de espaldas con mochila; el zombie entra por el borde de abajo, primero las manos y después la cabeza. Puertas de madera con una chapa con la letra A, B o C. Verde frío para el ambiente, rojo solo para el peligro y las mordidas, amarillo cálido para la luz de la puerta correcta. Todo dibujado en canvas, sin emojis ni imágenes *(guessed)*.
+- Sobre las puertas, una chapa azul con las letras UADE, dibujada en código. No es el logo oficial: no se sube el archivo de una marca de terceros a un repo público.
 - Detalle propio: los tubos se apagan uno por uno, desde atrás, a medida que el zombie se acerca *(guessed)*.
 - Pantalla: la pregunta arriba, las opciones pegadas debajo y el pasillo abajo. (La primera versión tenía el pasillo en el medio y las opciones al pie; se cambió después de jugarlo.) El texto no va sobre las puertas porque en un celular quedaría ilegible *(guessed)*.
 - Marca: tipografías y logo del sitio, los tres `<link rel="icon">` y un «¡D'oh!» cuando te muerden *(guessed)*.
@@ -90,6 +97,7 @@ Cada pregunta da 30 segundos al principio y 18 en la puerta 30 *(guessed: `tInic
 
 - Frenar después de cada puerta para explicar.
 - Preguntas que nombren al profesor, a la cátedra o «la clase N».
+- Preguntas confusas o que no dejen claro qué tema evalúan: opciones largas o con dos ideas, consignas vagas.
 - La consigna y las opciones separadas por el pasillo.
 - Más de tres vidas.
 - Dibujos de Homero o de cualquier personaje ajeno (regla del repo).
@@ -125,4 +133,5 @@ Cada pregunta da 30 segundos al principio y 18 en la puerta 30 *(guessed: `tInic
 
 - Opciones debajo de la consigna, preguntas de Intro a la IA sin referencias al profesor ni a la cátedra, y selector de materia con el mazo de Ética.
 - Probado por script: una corrida completa de Ética (32 puertas, cuatro por tanda, caso antes de correr) y el arranque de Intro a la IA.
+- Las 30 preguntas de Intro a la IA se reescribieron con pautas de redacción de ítems (en la cabecera de `js/preguntas-zombie-ia.js`) y cada una muestra su tema arriba de la consigna. Al ser más cortas, el tiempo por pregunta bajó a entre 13 y 24 segundos: es lo primero a mirar al jugarlo.
 - No evaluado: cómo se ve Ética en celular, la pantalla del caso, «Ver el caso», «Cambiar de materia» y el selector de la portada no se miraron en pantalla; los sonidos siguen sin escucharse.
