@@ -1,0 +1,257 @@
+{
+  "_nota": "Simulacro escrito del 2.º parcial de Intro a la IA. Consignas: Word de la cátedra (18 situaciones). Criterios: redactados para el apunte a partir de la guía de respuestas orientativas; no son la guía textual. 'clases' = secciones de ia-conceptual.html que la IA recibe como contexto al corregir. Se publica con: python tools/seed_ia_parcial2.py",
+  "situaciones": [
+    {
+      "id": 1, "nivel": "Baja", "titulo": "Control visual de envases", "clases": [7, 9, 11],
+      "rol": "Usted es ingeniero/a de procesos en una empresa alimentaria. La inspección manual no detecta de forma uniforme etiquetas torcidas y tapas ausentes.",
+      "partes": [
+        {"letra": "a", "tipo": "Concepto 1", "consigna": "Defina percepción y reconocimiento de patrones, y diferencie sus funciones.",
+         "criterios": ["Define la percepción como captar e interpretar estímulos o señales del entorno.", "Define el reconocimiento de patrones como identificar regularidades o clases en lo percibido.", "Marca la diferencia: la percepción adquiere la señal y el reconocimiento la clasifica (no son lo mismo)."]},
+        {"letra": "b", "tipo": "Concepto 2", "consigna": "Explique por qué la visión por computadora del caso es Narrow AI y no General AI.",
+         "criterios": ["Señala que el sistema hace una tarea específica y acotada (detectar defectos definidos en envases).", "Explica que no transfiere lo aprendido a otros dominios ni generaliza fuera de su tarea, que es lo que pediría una AGI."]},
+        {"letra": "c", "tipo": "Aplicación al proceso", "consigna": "Proponga un flujo desde la captura de imágenes hasta la clasificación de envases.",
+         "criterios": ["Incluye una captura controlada (cámara, iluminación, posición en la línea).", "Incluye preprocesamiento y un modelo o reglas que clasifiquen el envase.", "Define una salida con umbral: aprobar, rechazar o derivar a revisión."]},
+        {"letra": "d", "tipo": "Diseño y control", "consigna": "Indique dos controles humanos o métricas para decidir si el sistema puede intervenir en la línea.",
+         "criterios": ["Propone métricas de desempeño por tipo de defecto (precisión, recall, tasa de falsos rechazos o similares).", "Propone control humano: muestreo, revisión de dudosos o una parada segura antes de dejarlo actuar solo."]}
+      ]
+    },
+    {
+      "id": 2, "nivel": "Baja", "titulo": "Asistente de voz municipal", "clases": [7, 11],
+      "rol": "Usted integra el equipo de ingeniería de un municipio que desea automatizar consultas sobre turnos, tasas y horarios mediante un asistente de voz.",
+      "partes": [
+        {"letra": "a", "tipo": "Concepto 1", "consigna": "Explique la función del lenguaje en la inteligencia biológica y su relación con la comunicación.",
+         "criterios": ["Explica que el lenguaje permite representar y comunicar significados.", "Relaciona el lenguaje con el uso de símbolos y del contexto para entender y hacerse entender."]},
+        {"letra": "b", "tipo": "Concepto 2", "consigna": "Defina un asistente de voz como aplicación de Narrow AI y delimite su dominio.",
+         "criterios": ["Define el asistente como combinación de reconocimiento de voz, intención, diálogo y respuesta.", "Delimita su dominio: un catálogo acotado de consultas (turnos, tasas, horarios), sin comprensión general."]},
+        {"letra": "c", "tipo": "Aplicación al proceso", "consigna": "Diseñe el proceso básico: recibir la consulta, identificar intención y entregar respuesta.",
+         "criterios": ["Describe la secuencia audio → reconocimiento de voz → identificación de la intención.", "Consulta una base de información autorizada y entrega la respuesta.", "Registra la interacción para seguimiento o mejora."]},
+        {"letra": "d", "tipo": "Diseño y control", "consigna": "Indique cómo derivaría a una persona las consultas ambiguas, nuevas o sensibles.",
+         "criterios": ["Define disparadores de escalamiento: baja confianza, intentos repetidos, consulta fuera de catálogo o dato sensible.", "Describe la derivación a una persona conservando el contexto de la consulta."]}
+      ]
+    },
+    {
+      "id": 3, "nivel": "Baja", "titulo": "Memoria de incidencias técnicas", "clases": [7, 9],
+      "rol": "Usted es ingeniero/a de soporte en una compañía eléctrica. Se quiere reutilizar el historial de fallos resueltos para asistir al personal de campo.",
+      "partes": [
+        {"letra": "a", "tipo": "Concepto 1", "consigna": "Diferencie memoria y aprendizaje en la inteligencia biológica.",
+         "criterios": ["Define la memoria como conservar y recuperar información.", "Define el aprendizaje como un cambio en el comportamiento o desempeño producido por la experiencia, y los diferencia."]},
+        {"letra": "b", "tipo": "Concepto 2", "consigna": "Defina aprendizaje por experiencia sin confundirlo con almacenar registros.",
+         "criterios": ["Define el aprendizaje por experiencia como mejorar el desempeño en una tarea a partir de casos o datos.", "Aclara explícitamente que guardar registros no es aprender: tiene que cambiar el modelo o el desempeño."]},
+        {"letra": "c", "tipo": "Aplicación al proceso", "consigna": "Proponga cómo usar incidencias históricas para recomendar una solución probable.",
+         "criterios": ["Estructura los casos (síntomas, causa, solución).", "Recupera casos similares al problema nuevo y recomienda una solución con un nivel de confianza."]},
+        {"letra": "d", "tipo": "Diseño y control", "consigna": "Indique qué datos mínimos guardaría y cómo verificaría la recomendación antes de actuar.",
+         "criterios": ["Lista datos mínimos pertinentes (equipo, fecha, síntomas, causa confirmada, acción y resultado).", "Exige que un técnico valide la recomendación antes de ejecutarla."]}
+      ]
+    },
+    {
+      "id": 4, "nivel": "Baja", "titulo": "Traducción de atención sanitaria", "clases": [7, 11],
+      "rol": "Usted diseña un apoyo de traducción automática para orientar a pacientes extranjeros en un hospital público, sin sustituir decisiones clínicas.",
+      "partes": [
+        {"letra": "a", "tipo": "Concepto 1", "consigna": "Explique qué capacidad cognitiva se relaciona con comprender y producir lenguaje.",
+         "criterios": ["Identifica al lenguaje como la capacidad cognitiva en juego.", "Explica que implica comprender y producir mensajes con significado y en contexto."]},
+        {"letra": "b", "tipo": "Concepto 2", "consigna": "Justifique por qué la traducción automática es Narrow AI aunque procese varios idiomas.",
+         "criterios": ["Explica que sigue siendo una sola tarea especializada (traducir).", "Aclara que manejar muchos idiomas no implica competencia cognitiva general ni transferencia a otros dominios."]},
+        {"letra": "c", "tipo": "Aplicación al proceso", "consigna": "Describa qué mensajes administrativos automatizaría y cuáles excluiría del alcance.",
+         "criterios": ["Incluye mensajes de orientación de bajo riesgo (turnos, señalización, trámites).", "Excluye explícitamente diagnóstico, consentimiento informado, prescripción u otras decisiones clínicas."]},
+        {"letra": "d", "tipo": "Diseño y control", "consigna": "Proponga una revisión humana para nombres, medicación y mensajes de alto impacto.",
+         "criterios": ["Propone confirmación por un profesional o intérprete en nombres, dosis, alergias o decisiones clínicas.", "Vincula el nivel de control con el impacto del mensaje."]}
+      ]
+    },
+    {
+      "id": 5, "nivel": "Baja", "titulo": "Reglas para priorizar solicitudes", "clases": [9],
+      "rol": "Usted es ingeniero/a en una aseguradora. Debe automatizar la clasificación inicial de solicitudes según documentación, vencimiento y tipo de trámite.",
+      "partes": [
+        {"letra": "a", "tipo": "Concepto 1", "consigna": "Defina razonamiento simbólico básico mediante símbolos, hechos y reglas.",
+         "criterios": ["Explica que se representan hechos con símbolos.", "Explica que se aplican reglas explícitas (si–entonces) para derivar conclusiones."]},
+        {"letra": "b", "tipo": "Concepto 2", "consigna": "Distinga una regla explícita de un patrón aprendido a partir de ejemplos.",
+         "criterios": ["Define la regla como un criterio programado por una persona.", "Define el patrón aprendido como una regularidad estimada a partir de datos o ejemplos."]},
+        {"letra": "c", "tipo": "Aplicación al proceso", "consigna": "Escriba tres reglas tipo SI-ENTONCES para asignar prioridad sin aprobar automáticamente.",
+         "criterios": ["Escribe tres reglas con forma SI condición ENTONCES acción, coherentes con documentación, vencimiento o tipo de trámite.", "Las reglas asignan prioridad o piden subsanación, pero no aprueban la solicitud automáticamente."]},
+        {"letra": "d", "tipo": "Diseño y control", "consigna": "Indique cómo registrar regla aplicada, datos de entrada y decisión humana final.",
+         "criterios": ["Propone un registro (log) con los datos de entrada, la regla aplicada y su versión.", "Registra la decisión final y quién la tomó."]}
+      ]
+    },
+    {
+      "id": 6, "nivel": "Baja", "titulo": "Equipo de mantenimiento distribuido", "clases": [8],
+      "rol": "Usted coordina mantenimiento en una universidad pública. Técnicos, sensores, manuales y una mesa de ayuda participan en la resolución de averías.",
+      "partes": [
+        {"letra": "a", "tipo": "Concepto 1", "consigna": "Defina cognición distribuida e identifique sus componentes en la situación.",
+         "criterios": ["Define la cognición distribuida como repartida entre personas, artefactos, información y entorno (y el tiempo).", "Identifica los componentes del caso: técnicos, sensores, manuales, mesa de ayuda."]},
+        {"letra": "b", "tipo": "Concepto 2", "consigna": "Explique por qué la metáfora cerebro-máquina no implica que ambos sean idénticos.",
+         "criterios": ["Explica que la metáfora es un modelo útil para pensar o diseñar.", "Aclara que cerebro y computadora no son equivalentes ni literal ni funcionalmente (cuerpo, contexto, plasticidad)."]},
+        {"letra": "c", "tipo": "Aplicación al proceso", "consigna": "Diseñe un circuito de colaboración entre sensores, sistema de tickets y técnicos.",
+         "criterios": ["Describe un circuito: el sensor genera la alerta, la mesa abre el ticket, el manual aporta el procedimiento.", "El técnico diagnostica, actúa y cierra el caso."]},
+        {"letra": "d", "tipo": "Diseño y control", "consigna": "Proponga un mecanismo para mantener una memoria organizacional de soluciones.",
+         "criterios": ["Propone un repositorio de casos resueltos y validados, con una clasificación y búsqueda.", "Prevé revisión o actualización periódica del repositorio."]}
+      ]
+    },
+    {
+      "id": 7, "nivel": "Media", "titulo": "Fraude en compras públicas", "clases": [7, 9],
+      "rol": "Usted es ingeniero/a de datos en una agencia estatal. Debe detectar compras atípicas sin acusar automáticamente a proveedores ni funcionarios.",
+      "partes": [
+        {"letra": "a", "tipo": "Concepto 1", "consigna": "Relacione percepción de datos y reconocimiento de patrones en este contexto.",
+         "criterios": ["Explica percibir datos como adquirir y representar señales (montos, fechas, proveedores).", "Explica reconocer patrones como detectar regularidades o anomalías en esas señales, y los relaciona en el caso."]},
+        {"letra": "b", "tipo": "Concepto 2", "consigna": "Compare patrones aprendidos con reglas simbólicas de contratación y explique su complementariedad.",
+         "criterios": ["Distingue el modelo que descubre anomalías de las reglas que expresan la normativa.", "Explica que combinados mejoran la cobertura y la trazabilidad."]},
+        {"letra": "c", "tipo": "Aplicación al proceso", "consigna": "Diseñe un flujo híbrido que puntúe anomalías y aplique reglas antes de enviar alertas.",
+         "criterios": ["Incluye ingesta y control de calidad de datos.", "Puntúa anomalías y aplica reglas antes de generar una alerta priorizada.", "Deriva a un analista que cierra el caso de forma documentada."]},
+        {"letra": "d", "tipo": "Diseño y control", "consigna": "Defina trazabilidad, revisión humana y tratamiento de falsos positivos.",
+         "criterios": ["Exige explicar las variables y reglas que dispararon la alerta.", "Prohíbe sancionar o acusar automáticamente: revisión humana obligatoria.", "Prevé el tratamiento de falsos positivos y la posibilidad de rectificación."]}
+      ]
+    },
+    {
+      "id": 8, "nivel": "Media", "titulo": "Aprendizaje en mantenimiento ferroviario", "clases": [7, 8, 9],
+      "rol": "Usted trabaja en una empresa ferroviaria. Sensores registran vibración y temperatura, mientras los técnicos documentan causas y reparaciones.",
+      "partes": [
+        {"letra": "a", "tipo": "Concepto 1", "consigna": "Explique cómo memoria y aprendizaje por experiencia se conectan sin ser equivalentes.",
+         "criterios": ["Explica que la memoria aporta los casos registrados.", "Explica que el aprendizaje ajusta el modelo a partir de resultados confirmados, y que por eso no son lo mismo."]},
+        {"letra": "b", "tipo": "Concepto 2", "consigna": "Identifique un aporte de la neurociencia que pueda inspirar procesamiento distribuido, sin afirmar copia literal.",
+         "criterios": ["Nombra un aporte pertinente (conectividad, procesamiento distribuido o en paralelo, plasticidad).", "Aclara que es inspiración y no una copia del cerebro."]},
+        {"letra": "c", "tipo": "Aplicación al proceso", "consigna": "Proponga un ciclo para aprender de fallos confirmados y actualizar alertas predictivas.",
+         "criterios": ["Describe un ciclo: capturar datos de sensores y diagnósticos, etiquetar la causa confirmada.", "Entrenar, validar, desplegar y retroalimentar las alertas."]},
+        {"letra": "d", "tipo": "Diseño y control", "consigna": "Defina separación de datos, validación temporal y criterio de reentrenamiento.",
+         "criterios": ["Separa datos de entrenamiento y prueba por períodos o equipos, probando hacia el futuro.", "Define cuándo reentrenar (deriva o umbral de desempeño aprobado)."]}
+      ]
+    },
+    {
+      "id": 9, "nivel": "Media", "titulo": "Atención bancaria multicanal", "clases": [7, 11],
+      "rol": "Usted diseña automatización para un banco que recibe voz, chat y formularios. El sistema debe resolver consultas simples y escalar otras.",
+      "partes": [
+        {"letra": "a", "tipo": "Concepto 1", "consigna": "Analice percepción, lenguaje y memoria como funciones distintas dentro del servicio.",
+         "criterios": ["Asigna la percepción a recibir voz o texto.", "Asigna el lenguaje a interpretar la consulta.", "Asigna la memoria a conservar el contexto y el conocimiento autorizado."]},
+        {"letra": "b", "tipo": "Concepto 2", "consigna": "Explique por qué integrar varias Narrow AI no demuestra por sí mismo General AI.",
+         "criterios": ["Explica que integrar u orquestar módulos no garantiza abstracción ni transferencia flexible a dominios nuevos."]},
+        {"letra": "c", "tipo": "Aplicación al proceso", "consigna": "Diseñe la orquestación entre voz, clasificación de intención, base de conocimiento y agente.",
+         "criterios": ["Describe el recorrido: canal, transcripción, intención, contexto y búsqueda en la base.", "Termina en una respuesta o en la transferencia a un agente con el historial."]},
+        {"letra": "d", "tipo": "Diseño y control", "consigna": "Proponga criterios de escalamiento por baja confianza, ambigüedad y riesgo financiero.",
+         "criterios": ["Escala por baja confianza o ambigüedad.", "Escala por riesgo financiero: operaciones monetarias, sospecha de fraude o pedidos fuera de alcance."]}
+      ]
+    },
+    {
+      "id": 10, "nivel": "Media", "titulo": "Diagnóstico visual de infraestructura", "clases": [9, 11],
+      "rol": "Usted es ingeniero/a en una empresa vial. Drones capturan imágenes de puentes para localizar grietas y priorizar inspecciones presenciales.",
+      "partes": [
+        {"letra": "a", "tipo": "Concepto 1", "consigna": "Diferencie detectar una grieta, reconocer un patrón de daño y comprender su causa.",
+         "criterios": ["Detectar es localizar la grieta.", "Reconocer es clasificar el tipo de daño.", "Comprender la causa requiere contexto y análisis adicional que el modelo no aporta solo."]},
+        {"letra": "b", "tipo": "Concepto 2", "consigna": "Explique el alcance de una Narrow AI visual y los límites de su inferencia.",
+         "criterios": ["Explica que identifica patrones para los que fue entrenada.", "Señala que no determina por sí sola la causa ni la seguridad estructural."]},
+        {"letra": "c", "tipo": "Aplicación al proceso", "consigna": "Diseñe el proceso desde la captura hasta la orden de inspección, incluyendo geolocalización.",
+         "criterios": ["Incluye plan de vuelo, captura y control de calidad de imágenes.", "Incluye detección, geolocalización o mapa y priorización.", "Termina en una orden de visita de un inspector."]},
+        {"letra": "d", "tipo": "Diseño y control", "consigna": "Defina un muestreo de revisión y qué evidencia impediría automatizar el cierre del caso.",
+         "criterios": ["Propone revisar una muestra (por ejemplo estratificada) y todos los casos críticos.", "Establece que el caso no se cierra sin inspección profesional."]}
+      ]
+    },
+    {
+      "id": 11, "nivel": "Media", "titulo": "Gestión de expedientes con reglas", "clases": [9],
+      "rol": "Usted automatiza expedientes en un organismo tributario. Hay normativa explícita, documentos heterogéneos y excepciones que requieren criterio experto.",
+      "partes": [
+        {"letra": "a", "tipo": "Concepto 1", "consigna": "Explique cómo el razonamiento simbólico representa hechos, reglas y conclusiones.",
+         "criterios": ["Los hechos describen el expediente.", "Las reglas codifican la normativa y un motor deriva el estado o la acción."]},
+        {"letra": "b", "tipo": "Concepto 2", "consigna": "Relacione reconocimiento de patrones con extracción de datos, sin equipararlo a razonamiento jurídico.",
+         "criterios": ["Ubica el reconocimiento de patrones en la extracción de datos de documentos (OCR, campos).", "Aclara que la conclusión jurídica requiere reglas y revisión, no sólo patrones."]},
+        {"letra": "c", "tipo": "Aplicación al proceso", "consigna": "Diseñe una arquitectura que extraiga campos, valide reglas y derive excepciones.",
+         "criterios": ["Incluye extracción (OCR) y validación de campos.", "Incluye un motor de reglas y una cola de excepciones resuelta por personas."]},
+        {"letra": "d", "tipo": "Diseño y control", "consigna": "Proponga versionado de reglas y auditoría para conocer qué normativa produjo cada resultado.",
+         "criterios": ["Propone un repositorio versionado de reglas con vigencia, pruebas y aprobación.", "Registra qué regla y versión produjo cada resultado."]}
+      ]
+    },
+    {
+      "id": 12, "nivel": "Media", "titulo": "Diseño inspirado en neurociencia", "clases": [8, 9],
+      "rol": "Usted lidera I+D en una fábrica. Se evalúa un sistema que combine detección visual, memoria de casos y reglas de seguridad para detener maquinaria.",
+      "partes": [
+        {"letra": "a", "tipo": "Concepto 1", "consigna": "Explique dos aportes generales de la neurociencia al diseño de IA y sus límites como analogía.",
+         "criterios": ["Nombra dos aportes pertinentes (redes conectadas, aprendizaje adaptativo, memoria asociativa, atención).", "Señala que la analogía tiene límites: no equivalen al cerebro real."]},
+        {"letra": "b", "tipo": "Concepto 2", "consigna": "Compare procesamiento distribuido y razonamiento simbólico en el sistema propuesto.",
+         "criterios": ["El procesamiento distribuido procesa señales en paralelo (por ejemplo, la detección visual).", "El razonamiento simbólico impone reglas explícitas y auditables (por ejemplo, las de seguridad)."]},
+        {"letra": "c", "tipo": "Aplicación al proceso", "consigna": "Diseñe capas separadas para percepción, memoria de casos, reglas y actuación.",
+         "criterios": ["Separa percepción, memoria de casos, reglas y actuación en capas.", "Las reglas de seguridad tienen prioridad sobre lo que estime la percepción, y el actuador lleva a un estado seguro."]},
+        {"letra": "d", "tipo": "Diseño y control", "consigna": "Indique qué funciones deben ser deterministas y cómo probaría una parada segura.",
+         "criterios": ["Establece que la parada de seguridad debe ser determinista y a prueba de fallas.", "Propone pruebas de latencia, falla de sensor y recuperación."]}
+      ]
+    },
+    {
+      "id": 13, "nivel": "Alta", "titulo": "Agente transversal del Estado", "clases": [11],
+      "rol": "Usted asesora a un gobierno que propone un único agente para salud, impuestos, educación y justicia, con capacidad de transferir conocimiento entre dominios.",
+      "partes": [
+        {"letra": "a", "tipo": "Concepto 1", "consigna": "Establezca criterios que diferencien General AI de una colección de sistemas Narrow AI.",
+         "criterios": ["La AGI exige desempeño amplio, abstracción y transferencia a tareas nuevas.", "Orquestar varios sistemas estrechos no cumple esos criterios."]},
+        {"letra": "b", "tipo": "Concepto 2", "consigna": "Analice por qué abstracción, transferencia y creatividad son desafíos teóricos centrales.",
+         "criterios": ["Explica que habría que formar conceptos reutilizables (abstracción) y aplicarlos en dominios nuevos (transferencia).", "Explica que habría que producir soluciones nuevas y pertinentes en contextos nuevos (creatividad), y por qué eso sigue sin resolverse."]},
+        {"letra": "c", "tipo": "Aplicación al proceso", "consigna": "Diseñe una estrategia por etapas que empiece con dominios acotados, interfaces y supervisión.",
+         "criterios": ["Empieza con pilotos en dominios acotados y permisos mínimos.", "Usa interfaces estables y supervisión, y se expande sólo con evidencia."]},
+        {"letra": "d", "tipo": "Diseño y control", "consigna": "Defina pruebas para detectar transferencia espuria, errores fuera de dominio y exceso de autonomía.",
+         "criterios": ["Propone pruebas con casos inéditos o adversariales.", "Detecta confianza indebida o errores fuera de dominio y bloquea acciones fuera de su alcance."]}
+      ]
+    },
+    {
+      "id": 14, "nivel": "Alta", "titulo": "Control de red eléctrica autónoma", "clases": [7, 8, 9],
+      "rol": "Usted diseña una plataforma para una red eléctrica nacional que aprende de incidentes, aplica reglas de seguridad y coordina operadores y sistemas regionales.",
+      "partes": [
+        {"letra": "a", "tipo": "Concepto 1", "consigna": "Integre percepción, memoria, aprendizaje y razonamiento simbólico en un único modelo funcional.",
+         "criterios": ["Asigna cada función: los sensores perciben, el historial recuerda, los modelos aprenden, las reglas limitan.", "Deja la decisión final en los operadores."]},
+        {"letra": "b", "tipo": "Concepto 2", "consigna": "Explique la cognición distribuida entre personas, software, sensores y procedimientos.",
+         "criterios": ["Explica que la decisión emerge de la coordinación entre centros, sistemas, procedimientos y experiencia humana, no de un único componente."]},
+        {"letra": "c", "tipo": "Aplicación al proceso", "consigna": "Proponga una arquitectura híbrida con límites de acción y modos degradados.",
+         "criterios": ["Propone capas (regionales) con un motor de reglas prioritario.", "Separa recomendar de autorizar y prevé un modo degradado o control local."]},
+        {"letra": "d", "tipo": "Diseño y control", "consigna": "Diseñe pruebas ante datos adversos, fallos simultáneos y recomendaciones conflictivas.",
+         "criterios": ["Propone simulación, pruebas de ataque (red team) o inyección de fallas.", "Define cómo se reconcilian recomendaciones en conflicto y cómo se vuelve al control manual."]}
+      ]
+    },
+    {
+      "id": 15, "nivel": "Alta", "titulo": "IA creativa para ingeniería", "clases": [11],
+      "rol": "Usted evalúa un sistema que propone diseños de puentes novedosos, reutiliza experiencias y argumenta que posee creatividad general.",
+      "partes": [
+        {"letra": "a", "tipo": "Concepto 1", "consigna": "Defina qué combinación de abstracción, transferencia y creatividad apoyaría una afirmación de General AI.",
+         "criterios": ["Pide evidencia conjunta: abstracciones reutilizables, transferencia eficiente y creatividad útil.", "Exige que se vea en varios dominios, no sólo en el diseño de puentes."]},
+        {"letra": "b", "tipo": "Concepto 2", "consigna": "Explique por qué generar novedades válidas en un dominio no prueba inteligencia general.",
+         "criterios": ["Explica que la novedad especializada puede surgir de búsqueda o de modelos de un solo dominio, sin competencia general."]},
+        {"letra": "c", "tipo": "Aplicación al proceso", "consigna": "Diseñe un proceso de generación, simulación, verificación normativa y aprobación profesional.",
+         "criterios": ["Incluye requisitos, generación de alternativas y simulación.", "Incluye chequeo normativo, revisión independiente y firma de un profesional."]},
+        {"letra": "d", "tipo": "Diseño y control", "consigna": "Proponga pruebas fuera de distribución y criterios para rechazar diseños plausibles pero inseguros.",
+         "criterios": ["Propone casos inéditos: cargas extremas, materiales nuevos.", "Rechaza el diseño si viola restricciones o si la incertidumbre es alta, aunque parezca plausible."]}
+      ]
+    },
+    {
+      "id": 16, "nivel": "Alta", "titulo": "Hipótesis de superinteligencia corporativa", "clases": [11, 12],
+      "rol": "Usted integra un comité de riesgo de una multinacional que estudia un sistema hipotético capaz de superar ampliamente a expertos en múltiples dominios.",
+      "partes": [
+        {"letra": "a", "tipo": "Concepto 1", "consigna": "Diferencie General AI y superinteligencia, indicando qué afirmaciones son hipotéticas.",
+         "criterios": ["La AGI igualaría capacidades generales humanas; la superinteligencia las superaría ampliamente.", "Marca que ambas son hipotéticas y no deben afirmarse sin evidencia."]},
+        {"letra": "b", "tipo": "Concepto 2", "consigna": "Analice desalineación de objetivos, concentración de poder y pérdida de control como debates de riesgo.",
+         "criterios": ["Explica la desalineación: un objetivo mal especificado puede escalar el daño.", "Incluye la concentración de poder y la pérdida de control (quién accede y quién controla)."]},
+        {"letra": "c", "tipo": "Aplicación al proceso", "consigna": "Proponga una gobernanza preventiva con autorización escalonada, aislamiento y reversibilidad.",
+         "criterios": ["Propone aislamiento (sandbox), permisos mínimos y aprobación múltiple.", "Incluye límites de recursos, registros, reversión y un apagado independiente."]},
+        {"letra": "d", "tipo": "Diseño y control", "consigna": "Diseñe indicadores de capacidad, intentos de eludir controles y criterios de apagado.",
+         "criterios": ["Vigila saltos súbitos de capacidad y búsqueda de privilegios.", "Vigila ocultamiento o resistencia a ser detenido, y define cuándo apagar."]}
+      ]
+    },
+    {
+      "id": 17, "nivel": "Alta", "titulo": "Ecosistema sanitario cognitivo", "clases": [7, 8, 9],
+      "rol": "Usted diseña un sistema para hospitales que integra imágenes, historias clínicas, lenguaje, guías médicas y experiencia de equipos multidisciplinares.",
+      "partes": [
+        {"letra": "a", "tipo": "Concepto 1", "consigna": "Modele la diferencia entre percepción, memoria, aprendizaje, lenguaje y razonamiento.",
+         "criterios": ["Distingue las cinco funciones: captar señales, almacenar, adaptarse, comunicar y derivar conclusiones.", "Las ubica en el sistema del caso (imágenes, historias clínicas, guías, equipos)."]},
+        {"letra": "b", "tipo": "Concepto 2", "consigna": "Explique cómo la cognición distribuida evita atribuir toda la decisión a un único algoritmo.",
+         "criterios": ["Explica que la decisión pertenece al sistema sociotécnico: profesionales, guías, datos y herramientas."]},
+        {"letra": "c", "tipo": "Aplicación al proceso", "consigna": "Diseñe el flujo de apoyo clínico sin permitir diagnósticos o tratamientos plenamente autónomos.",
+         "criterios": ["Diseña un flujo de apoyo: análisis por módulo, evidencia visible, recomendación.", "La decisión pasa por profesionales (por ejemplo, una junta clínica) y queda registrada."]},
+        {"letra": "d", "tipo": "Diseño y control", "consigna": "Defina validación por subgrupos, explicación de evidencia, privacidad y responsabilidad final.",
+         "criterios": ["Evalúa el desempeño por subgrupos de pacientes.", "Explica las fuentes de la recomendación y minimiza datos (privacidad).", "Asigna la responsabilidad final a profesionales."]}
+      ]
+    },
+    {
+      "id": 18, "nivel": "Alta", "titulo": "Arquitectura cerebro-máquina crítica", "clases": [8, 9],
+      "rol": "Usted revisa una propuesta de seguridad pública que afirma copiar el cerebro para predecir conductas y automatizar intervenciones preventivas.",
+      "partes": [
+        {"letra": "a", "tipo": "Concepto 1", "consigna": "Critique la metáfora cerebro-máquina y distinga inspiración neurocientífica de equivalencia funcional.",
+         "criterios": ["Explica que la neurociencia inspira principios de diseño.", "Rechaza la afirmación de «copiar el cerebro» o de equivalencia cerebro-computadora."]},
+        {"letra": "b", "tipo": "Concepto 2", "consigna": "Analice las diferencias entre reconocer correlaciones, razonar con símbolos y comprender contexto.",
+         "criterios": ["Reconocer correlaciones es clasificar; razonar con símbolos es aplicar reglas.", "Comprender el contexto no se deduce automáticamente de ninguna de las dos."]},
+        {"letra": "c", "tipo": "Aplicación al proceso", "consigna": "Rediseñe el proyecto hacia usos acotados y no punitivos, con decisión humana y derecho a revisión.",
+         "criterios": ["Limita el sistema a usos acotados (análisis agregado o apoyo) y no punitivos.", "Prohíbe intervenciones automáticas y habilita decisión humana y apelación."]},
+        {"letra": "d", "tipo": "Diseño y control", "consigna": "Proponga pruebas de sesgo, robustez, explicabilidad y proporcionalidad antes de cualquier despliegue.",
+         "criterios": ["Propone auditoría independiente de sesgo por grupos y pruebas de robustez.", "Pide explicaciones utilizables y una evaluación de necesidad y proporcionalidad."]}
+      ]
+    }
+  ]
+}

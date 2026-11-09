@@ -45,7 +45,7 @@ Una materia por día de cursada (la fila del día aparece resaltada en `index.ht
 |---|---|---|---|---|
 | **Cálculo I** (lun) · `calculo.html` | Aplicación propia: 9 módulos (mapa general, Módulo 0 y Unidades I a VII), 59 temas con criterio, ejemplo y ejercicio guiado; plan de estudio | **Práctica con lápiz**: 165 ejercicios en una pizarra. **Entrenador de decisiones** estilo Duolingo: 275 problemas en 55 lecciones | No tiene | Corrección de la hoja con lápiz (`corregir-lapiz`, 40/día) |
 | **Prob. y Estadística** (mar) · `estadistica.html` | Hoja de fórmulas imprimible, guía de decisión (binomial / Pascal / hipergeométrica / hiperPascal), temas 1 a 7 (los 4 últimos, del 2.º parcial) con ejemplos resueltos paso a paso, errores típicos, guía de GeoGebra, glosario, 86 flashcards | Simulacro en modo práctica (verifica cada parte y muestra la resolución) | **Sí**: se elige el 1.er parcial (5 ejercicios) o el 2.º (4), 60 min, respuestas numéricas corregidas en Postgres. 47 ejercicios (162 respuestas). Leaderboard y dominio por tema | Tutor del apunte (`preguntar-apunte`) |
-| **Intro a la IA** (mié) · `ia-conceptual.html` | 9 clases, ~61 flashcards, glosario, confusiones típicas, línea de tiempo | `simulacro.html`: simulacro del 1er parcial, **estático** (se guarda en el navegador) | No tiene | No tiene |
+| **Intro a la IA** (mié) · `ia-conceptual.html` | 13 clases (1.er y 2.º parcial), ~61 flashcards, glosario, confusiones típicas, línea de tiempo | `simulacro-ia-2.html`: simulacro **escrito** del 2.º parcial con corrección por IA (práctica y examen, con cuenta) · `simulacro.html`: simulacro del 1er parcial, **estático** (se guarda en el navegador) | No tiene | No tiene |
 | **Python para Ciencia de Datos** (jue) · `python.html` | Clases 00 a 06, chuleta de comandos, glosario (30), flashcards (30) | `entrenador-python.html`: **124 preguntas** de opción múltiple (86 por clase y 38 de los modelos A/B/C) y **laboratorio** con 16 ejercicios que se ejecutan en el navegador (Pyodide) con corrección automática | **Sí**: 3 ejercicios de código al azar, 45 min, corregidos por Gemini leyendo el código. 6 ejercicios en la base (modelos A y B). Leaderboard y dominio por tema | Corrección del simulacro (`corregir-codigo`, 20/día). Sin tutor |
 | **Ética en la IA** (vie) · `etica.html` | 10 clases (1 a 8, 10 y 11), casoteca, confusiones, glosario, ~59 flashcards, línea de tiempo | `simulacro-etica.html` en modo práctica (corrige al instante; el desarrollo se puede corregir con IA), con filtro por parcial | **Sí**, a elección **1.er o 2.º parcial**: 2 casos (8 preguntas) + 1 desarrollo escrito, 20 min. 20 casos y 80 preguntas en la base (12 del 1.er parcial, 8 del 2.º). Leaderboard con historial personal y dominio por unidad | Examen (`corregir-desarrollo`, 20/día), práctica (`corregir-practica`, 15/día) y tutor del apunte (`preguntar-apunte`, 40/día) |
 
@@ -81,6 +81,7 @@ Además, transversal a las materias:
 | `corregir-desarrollo` | Examen de Ética | Corrige el desarrollo contra la grilla y suma al puntaje final | 20 | `desarrollos` |
 | `corregir-practica` | Práctica de Ética | Misma corrección, sin puntaje ni ranking | 15 | `correcciones_practica` |
 | `corregir-codigo` | Examen de Python | Corrige un ejercicio de código leyéndolo | 20 | `codigo_entregas` |
+| `corregir-situacion` | Simulacro escrito del 2.º parcial de Intro a la IA | Corrige las partes a–d de una situación contra su grilla, con las clases del apunte como contexto | 30 | `ia_correcciones` |
 | `corregir-lapiz` | Práctica con lápiz de Cálculo | Lee la foto de la hoja y marca renglón por renglón | 40 | `calculo_correcciones` |
 | `preguntar-apunte` | Tutor de Ética y de Estadística | Responde sobre el apunte usando el texto de la página como contexto | 40 | `preguntas_ia` |
 
@@ -109,7 +110,7 @@ Todas verifican la sesión del usuario y reintentan ante los errores intermitent
 ### Operación (lo que se hace a mano)
 
 - **SQL, en este orden, en el SQL Editor de Supabase** (todos son idempotentes): `schema.sql` → `seed_etica.sql` → `fase3.sql` → `fase4.sql` → `fase4b_tutor.sql` → `fase5_python.sql` + `seed_python.sql` → `fase6_correccion_practica.sql` → `fase6_dominio.sql` → `fase6_opciones_etica.sql` → `fase6_estadistica.sql` → `fase8_estadistica_continuas.sql` → `seed_estadistica.sql` → `fase7_calculo.sql` → `fase7_calculo_endurecer.sql` → `seed_etica_parcial2.sql` → `fase9_etica_parcial2.sql`. *Falta confirmar que `fase7_calculo_endurecer.sql` ya se corrió; los dos últimos (simulacro del 2.º parcial de Ética) hay que correrlos, en ese orden, para que el examen puntuado del 2.º parcial funcione. Mientras tanto, el 1.er parcial sigue andando y el 2.º avisa qué falta.*
-- **Edge Functions:** `npx supabase functions deploy <nombre>` para `corregir-desarrollo`, `corregir-practica`, `corregir-codigo`, `corregir-lapiz` y `preguntar-apunte`. El secret `GEMINI_API_KEY` se carga con `supabase secrets set` (nunca en el repo). El CLI no tiene `functions logs`: para ver errores hay que mirar el Dashboard. **Mergear un PR no despliega las funciones:** si un PR agrega o cambia algo en `supabase/functions/`, hay que desplegarlo a mano. Para ver cuáles están activas: `npx supabase functions list --project-ref fwvubyecchzsjwtvddwv` (tienen que figurar las cinco). Si una función no está desplegada, la página muestra «No pude corregir… (código: unavailable) · Failed to send a request to the Edge Function» y la función responde 404.
+- **Edge Functions:** `npx supabase functions deploy <nombre>` para `corregir-desarrollo`, `corregir-practica`, `corregir-codigo`, `corregir-lapiz`, `corregir-situacion` y `preguntar-apunte`. El secret `GEMINI_API_KEY` se carga con `supabase secrets set` (nunca en el repo). El CLI no tiene `functions logs`: para ver errores hay que mirar el Dashboard. **Mergear un PR no despliega las funciones:** si un PR agrega o cambia algo en `supabase/functions/`, hay que desplegarlo a mano. Para ver cuáles están activas: `npx supabase functions list --project-ref fwvubyecchzsjwtvddwv` (tienen que figurar las cinco). Si una función no está desplegada, la página muestra «No pude corregir… (código: unavailable) · Failed to send a request to the Edge Function» y la función responde 404.
 - **Supabase gratis se pausa a los 7 días sin actividad.** Pasó el 2026-10-01: llegó el mail, se reactivó desde el dashboard y no se perdió nada. Se puede reactivar dentro de los 90 días; después, el proyecto no se puede restaurar. Mientras está pausado no andan el login, los exámenes, el tutor ni las correcciones (los apuntes sí).
 - **Deploy:** Vercel despliega solo cada push a `main`. El repo es público (`IKarvouniaris/EstudIAndo`) y hay un colaborador (`ivanox97`) que trabaja por pull requests; `main` no tiene protección de rama.
 - **Contenido nuevo:** la regla "clase + resumen de transcripción" está en `CLAUDE.md`. Los bancos grandes se generan con scripts de `tools/` (`seed.py`, `seed_python.py`, `seed_estadistica.py`, `generar_estadistica.py`), que producen los `seed_*.sql`.
@@ -131,7 +132,7 @@ Todas verifican la sesión del usuario y reintentan ante los errores intermitent
 ### Estudio y contenido
 
 - 🟡 **Poris, siguientes pasos:** guardar las marcas en la cuenta (hoy están solo en el navegador, igual que el entrenador de Python) para que sigan en el celular; repetición espaciada de verdad tipo Leitner (hoy «Para repasar» es un filtro, no vuelven solas con el tiempo); gestos de swipe (`gestures.js` de Poris) si el scroll nativo no alcanza; que el mazo mezclado priorice los temas más flojos usando «Tu dominio por tema».
-- 🟡 **Más tarjetas en Poris:** el mazo de Ética solo cubre las clases 1 a 6 y los mini casos (el apunte tiene 10 clases: faltan las 7, 8, 10 y 11), el de Intro a la IA cubre las clases 1 a 6 (el apunte tiene 9), y las de Cálculo se arman solas desde el apunte (ver la bitácora), por lo que solo hay las de definición, meta y señales. Las 40 preguntas del Kahoot de Intro a la IA se arman a partir del HTML del apunte y por eso no están en Poris. Las tarjetas de las clases nuevas se agregan en `js/mazos/<materia>.js`.
+- 🟡 **Más tarjetas en Poris:** el mazo de Ética solo cubre las clases 1 a 6 y los mini casos (el apunte tiene 10 clases: faltan las 7, 8, 10 y 11), el de Intro a la IA cubre las clases 1 a 6 (el apunte tiene 13: faltan las del 2.º parcial), y las de Cálculo se arman solas desde el apunte (ver la bitácora), por lo que solo hay las de definición, meta y señales. Las 40 preguntas del Kahoot de Intro a la IA se arman a partir del HTML del apunte y por eso no están en Poris. Las tarjetas de las clases nuevas se agregan en `js/mazos/<materia>.js`.
 - 🟢 **Qué quedó de IAgram:** los 21 posts de Ética (concepto, trampa y caso real) se borraron junto con `iagram.html`; siguen en el historial de git. Se podrían volver a sumar a Poris como tarjetas de otro tipo. Los guiones de Capu (`guiones/`) no cambian, pero se escribieron para esos posts.
 - 🟡 **Estadística, lo que falte del 2.º parcial:** el apunte llega hasta la clase 13 (continuas, fenómenos de vida, normal y log-normal, Poisson y Gamma). Falta lo que venga después (por ejemplo el teorema central del límite, si se da).
 - 🟡 **Python:** ampliar el banco del simulacro más allá de los 6 ejercicios, sumar el modelo C, y agregar tutor.
@@ -229,7 +230,7 @@ Navegador (Vercel, HTML estático · supabase-js, KaTeX, CodeMirror y Pyodide de
  │              verificar_num / revelar_*, leaderboard_*, dominio_*, calculo_merge
  ├─ Realtime: calculo_docs (progreso de Cálculo sincronizado entre dispositivos)
  └─ Edge Functions ──► Gemini (key en secrets)
-      corregir-desarrollo · corregir-practica · corregir-codigo · corregir-lapiz · preguntar-apunte
+      corregir-desarrollo · corregir-practica · corregir-codigo · corregir-lapiz · corregir-situacion · preguntar-apunte
 
 Supabase (Postgres)
  ├─ perfiles (creada a mano) · casos · preguntas · ejercicios_codigo · ejercicios_num   (públicas, sin respuestas)
@@ -335,6 +336,26 @@ Agregados por `ivanox97` a partir de las grabaciones y el material de la cátedr
 
 - **Ética:** clase 07 (responsabilidad civil y penal) y clase 08 (IA y propiedad intelectual, con el caso «El autor invisible»). El apunte llega a 8 clases.
 - **Intro a la IA:** clase 07 (automatización responsable), 08 (cognición distribuida y neurociencia) y 09 (planificación, riesgos y automatización). El apunte llega a 9 clases.
+
+### Intro a la IA: 2.º parcial completo y simulacro escrito con IA (2026-11-09)
+
+A partir de los PPT de la cátedra (clases 11.0, 11.1, 13 y 14 en su numeración), sus infografías, dos grabaciones (30 de octubre y la de escenarios) y el Word del examen modelo de 18 situaciones. Se numera **seguido, sin el salto de la cátedra** (que va 1–6, 9–15):
+
+| Apunte | Cátedra | Tema |
+|---|---|---|
+| 7 | 9 | Inteligencia biológica y automatización (ya existía) |
+| 8 | 10 | Cognición distribuida y neurociencia (ya existía) |
+| **9 (nueva)** | 11 | Patrones, razonamiento simbólico y aprendizaje por experiencia + reconocimiento de patrones en tiempo real en AWS, GCP, Azure y Oracle (sin grabación) |
+| 10 | 12 | Planificación y toma de decisiones (era la 9: se renumeró, con sus 10.x) |
+| **11 (nueva)** | 13 | IA estrecha, general y superinteligencia; recursos (energía, superconductores, centros de datos), riesgos, VUCA y habilidades (con la grabación del 30/10) |
+| **12 (nueva)** | 14 | Escenarios de la IA: impacto social, económico y ético, gobernanza, horizontes de 2 a 50 años, matriz automatizar–asistir–humano, RentAHuman (con la grabación) |
+| **13 (nueva)** | 15 | Guía del simulacro del 2.º parcial: formato, distinciones que se repiten, de qué clase sale cada concepto y el repaso hecho en clase |
+
+- **Riel:** las clases 7 a 13 quedan en un solo bloque «2.º parcial» (`data-u="6"`); en «Práctica» se suma el simulacro escrito.
+- **Simulacro escrito** (`simulacro-ia-2.html`): las 18 situaciones se responden por escrito (a–d) y la Edge Function `corregir-situacion` las corrige con Gemini contra una grilla por parte y con el texto de las clases del apunte como contexto; el puntaje (25 por parte) lo calcula la función, no el modelo. **Práctica** (cualquier situación, borrador y última corrección en el navegador; link directo `#s=N`) y **examen** (sortea una por nivel, 60/90/120 min, se entrega solo al terminar el tiempo y da la nota). Requiere cuenta; límite de 30 correcciones por día.
+- **Datos:** `tools/situaciones_ia_p2.json` (consignas de la cátedra + criterios redactados a partir de su guía, no copiados) → `python tools/seed_ia_parcial2.py` genera `supabase/seed_ia_parcial2.sql` (situaciones, grilla y contexto: tablas privadas de `fase10_ia_parcial2.sql`) y `js/situaciones-ia-p2.js` (sólo consignas). Si cambia el texto de las clases 7 a 12, hay que volver a correr el script y el SQL.
+- **Para activarlo:** correr `fase10_ia_parcial2.sql` y `seed_ia_parcial2.sql` en Supabase y desplegar `npx supabase functions deploy corregir-situacion` (usa el mismo `GEMINI_API_KEY`).
+- **Verificado:** las 13 secciones en orden y sin anclas rotas, los SVG nuevos sin texto fuera de sus cajas, la página del simulacro (lista, filtros, borrador, link directo, resultado guardado, examen con reloj y sorteo por nivel) y la sintaxis de la función. **No** se probó una corrección real: la función todavía no está desplegada.
 
 ### IAgram: feed de estudio estilo Instagram (2026-09-27; reemplazado por Poris el 2026-10-20)
 
@@ -759,7 +780,8 @@ estudIAndo/
 ├─ simulacro-estadistica.html       práctica + examen puntuado (numérico)
 ├─ simulacro-python.html            práctica + examen puntuado (código)
 ├─ simulacro-etica.html             práctica + examen puntuado de los dos parciales (opción múltiple + desarrollo)
-├─ simulacro.html                   simulacro estático de Intro a la IA
+├─ simulacro.html                   simulacro estático de Intro a la IA (1.er parcial)
+├─ simulacro-ia-2.html              simulacro escrito del 2.º parcial de Intro a la IA, corregido con IA
 ├─ entrenador-python.html           entrenador de Python: opción múltiple + laboratorio (Pyodide)
 ├─ ianox.html                       IAnox: feed de videos de repaso por carpeta y clase (autoplay, subida con «+»)
 ├─ poris.html                       Poris: feed de repaso con las flashcards de las cuatro materias (reemplazó a IAgram)
@@ -790,9 +812,9 @@ estudIAndo/
 │  ├─ schema.sql · seed_etica.sql · seed_etica_parcial2.sql · seed_python.sql · seed_estadistica.sql
 │  ├─ fase3.sql · fase4.sql · fase4b_tutor.sql · fase5_python.sql
 │  ├─ fase6_correccion_practica.sql · fase6_dominio.sql · fase6_opciones_etica.sql · fase6_estadistica.sql · fase8_estadistica_continuas.sql
-│  ├─ fase7_calculo.sql · fase7_calculo_endurecer.sql · fase9_etica_parcial2.sql
-│  └─ functions/  corregir-desarrollo · corregir-practica · corregir-codigo · corregir-lapiz · preguntar-apunte
-├─ tools/                           seed.py · seed_python.py · seed_estadistica.py · generar_estadistica.py · generar_mazo_calculo.js y los JSON de origen
+│  ├─ fase7_calculo.sql · fase7_calculo_endurecer.sql · fase9_etica_parcial2.sql · fase10_ia_parcial2.sql + seed_ia_parcial2.sql
+│  └─ functions/  corregir-desarrollo · corregir-practica · corregir-codigo · corregir-lapiz · corregir-situacion · preguntar-apunte
+├─ tools/                           seed.py · seed_python.py · seed_estadistica.py · seed_ia_parcial2.py · generar_estadistica.py · generar_mazo_calculo.js y los JSON de origen
 ├─ docs/superpowers/                spec y plan de IAgram (reemplazado por Poris)
 └─ guiones/                         21 guiones de TikTok con Capu
 ```
