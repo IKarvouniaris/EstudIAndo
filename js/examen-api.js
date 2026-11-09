@@ -2,7 +2,7 @@
 window.ExamenApi = (function () {
   "use strict";
 
-  // parcial: 1 (clases 1 a 6) o 2 (clases 7, 8, 10 y 11). Si en Supabase todavía no se corrió fase9_etica_parcial2.sql,
+  // parcial: 1 (clases 1 a 6) o 2 (clases 7 a 10). Si en Supabase todavía no se corrió fase9_etica_parcial2.sql,
   // el 1.er parcial sigue funcionando (se reintenta sin el parámetro); el 2.º avisa qué falta.
   function iniciarIntento(materia, parcial) {
     parcial = parcial || 1;
