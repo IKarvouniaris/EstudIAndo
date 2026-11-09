@@ -1,0 +1,501 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Simulacro del segundo parcial — Ética en la IA</title>
+<style>
+/* ---- TOKENS (mismos que etica.html) ---- */
+:root{
+  color-scheme: light;
+  --papel:#EDEEE9; --papel-2:#F8F9F6; --papel-3:#E3E5DE;
+  --tinta:#15181A; --tinta-2:#545B60; --tinta-3:#7B8288;
+  --linea:#C7CAC2; --linea-2:#D9DBD4;
+  --u5:#5B6B1E; --u5-suave:#EAEBD6; --u6:#0B5F80; --u6-suave:#DCEBF2;
+  --u7:#A3326B; --u7-suave:#F6E1EC; --u8:#3D5266; --u8-suave:#E0E8EF;
+  --ok:#1F7A3E; --ok-suave:#DCEFE1;
+  --mal:#9E3122; --mal-suave:#F7E4E0;
+  --display:"Bahnschrift","Franklin Gothic Medium","Arial Narrow","Helvetica Neue",sans-serif;
+  --body:"Sitka Text","Constantia",Georgia,"Times New Roman",serif;
+  --mono:"Cascadia Mono",Consolas,"SFMono-Regular",ui-monospace,monospace;
+  --acento:var(--u7); --acento-suave:var(--u7-suave);
+}
+:root[data-tema="oscuro"]{
+  color-scheme: dark;
+  --papel:#101315; --papel-2:#181C20; --papel-3:#1F2429;
+  --tinta:#E9EBE6; --tinta-2:#A2AAB0; --tinta-3:#7C858B;
+  --linea:#2B3238; --linea-2:#232930;
+  --u5:#B9C766; --u5-suave:#282C10; --u6:#6CC3E4; --u6-suave:#0D2A36;
+  --u7:#F08DB8; --u7-suave:#33172A; --u8:#A9BCC8; --u8-suave:#18232C;
+  --ok:#5CCB84; --ok-suave:#12301C;
+  --mal:#EC8878; --mal-suave:#331915;
+}
+*{box-sizing:border-box}
+@media (prefers-reduced-motion:reduce){ *{animation:none !important; transition:none !important} }
+body{margin:0; background:var(--papel); color:var(--tinta); font-family:var(--body); font-size:16.5px; line-height:1.6; -webkit-font-smoothing:antialiased}
+:focus-visible{outline:2px solid var(--acento); outline-offset:2px}
+a{color:var(--acento)}
+.oculto{display:none !important}
+[data-clase="7"]{--c:var(--u5); --c-suave:var(--u5-suave)}
+[data-clase="8"]{--c:var(--u6); --c-suave:var(--u6-suave)}
+[data-clase="9"]{--c:var(--u7); --c-suave:var(--u7-suave)}
+[data-clase="10"]{--c:var(--u8); --c-suave:var(--u8-suave)}
+
+/* ---- BARRA ---- */
+.barra{position:sticky; top:0; z-index:40; background:var(--papel-3); border-bottom:1px solid var(--linea); padding:.6rem clamp(1rem,3vw,2rem); display:flex; flex-wrap:wrap; align-items:center; gap:.6rem 1rem}
+.barra .marca{font-family:var(--display); font-weight:700; font-size:.82rem; letter-spacing:.12em; text-transform:uppercase; margin-right:auto}
+.barra .marca small{display:block; font-family:var(--mono); font-size:.62rem; color:var(--tinta-3); letter-spacing:.06em; font-weight:400; text-transform:none}
+.barra .marca a{text-decoration:none; color:var(--tinta-2)}
+.barra .marca a:hover{color:var(--tinta)}
+.reloj{font-family:var(--mono); font-size:.9rem; font-weight:700; padding:.3rem .6rem; border:1px solid var(--acento); border-radius:2px; color:var(--acento)}
+.reloj.apurado{color:var(--mal); border-color:var(--mal)}
+.btn{cursor:pointer; font-family:var(--mono); font-size:.66rem; letter-spacing:.08em; text-transform:uppercase; background:var(--papel-2); color:var(--tinta-2); border:1px solid var(--linea); border-radius:2px; padding:.5rem .75rem; line-height:1}
+.btn:hover{color:var(--tinta); border-color:var(--tinta-3)}
+.btn.on, .btn.principal{background:var(--tinta); color:var(--papel); border-color:var(--tinta)}
+.btn.principal:hover{filter:brightness(1.15); color:var(--papel)}
+.btn:disabled{opacity:.5; cursor:default}
+.btn.peligro:hover{color:var(--mal); border-color:var(--mal)}
+
+/* ---- LIENZO ---- */
+.lienzo{max-width:960px; margin:0 auto; padding:2rem clamp(1rem,3vw,2rem) 6rem}
+.portada h1{font-family:var(--display); font-weight:700; font-size:clamp(1.7rem,4vw,2.4rem); letter-spacing:-.015em; line-height:1.1; margin:.2rem 0 .6rem}
+.cintillo{font-family:var(--mono); font-size:.66rem; letter-spacing:.17em; text-transform:uppercase; color:var(--tinta-3); margin:0}
+.portada p{max-width:68ch; color:var(--tinta-2)}
+.modos{display:flex; gap:.4rem; flex-wrap:wrap; align-items:center; margin:1.2rem 0 1.4rem}
+.filtros{display:flex; flex-wrap:wrap; gap:.4rem; align-items:center; margin:0 0 1rem}
+.filtros .etq{font-family:var(--mono); font-size:.62rem; letter-spacing:.14em; text-transform:uppercase; color:var(--tinta-3); margin-right:.3rem}
+.chip{cursor:pointer; font-family:var(--display); font-size:.8rem; padding:.3rem .65rem; border:1px solid var(--linea); border-left:3px solid var(--c, var(--linea)); border-radius:2px; background:var(--papel-2); color:var(--tinta-2)}
+.chip:hover{color:var(--tinta)}
+.chip.on{background:var(--c-suave, var(--papel-3)); color:var(--tinta); border-color:var(--c, var(--tinta)); font-weight:600}
+.aviso{background:var(--papel-2); border:1px solid var(--linea); border-left:3px solid var(--acento); border-radius:2px; padding:.7rem .9rem; font-size:.92rem; margin:0 0 1.2rem}
+
+/* ---- LISTA ---- */
+.grilla{display:grid; gap:.6rem; grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
+.tarjeta{cursor:pointer; text-align:left; display:flex; flex-direction:column; gap:.3rem; padding:.8rem .9rem; background:var(--papel-2); border:1px solid var(--linea); border-top:3px solid var(--c); border-radius:2px; color:var(--tinta); font:inherit}
+.tarjeta:hover{border-color:var(--tinta-3); border-top-color:var(--c)}
+.tarjeta .meta{display:flex; gap:.6rem; font-family:var(--mono); font-size:.62rem; letter-spacing:.1em; text-transform:uppercase; color:var(--c)}
+.tarjeta .meta .estado{margin-left:auto; color:var(--tinta-3); letter-spacing:.04em; text-transform:none}
+.tarjeta b{font-family:var(--display); font-size:1rem; line-height:1.25}
+.tarjeta small{font-family:var(--mono); font-size:.66rem; color:var(--tinta-3)}
+
+/* ---- CASO ---- */
+.caso{background:var(--papel-2); border:1px solid var(--linea); border-top:4px solid var(--c); border-radius:2px; padding:1.2rem clamp(1rem,2.5vw,1.6rem) 1rem; margin:0 0 1.4rem}
+.caso .eyebrow{display:flex; flex-wrap:wrap; gap:.5rem 1rem; align-items:center; font-family:var(--mono); font-size:.64rem; letter-spacing:.14em; text-transform:uppercase; color:var(--c); margin:0 0 .4rem}
+.caso h2{font-family:var(--display); font-weight:700; font-size:1.4rem; letter-spacing:-.01em; margin:0 0 .6rem; line-height:1.2}
+.caso .hechos p{margin:0 0 .6rem}
+.derechos{display:flex; flex-wrap:wrap; gap:.35rem; margin:.4rem 0 .8rem}
+.derechos span{font-family:var(--mono); font-size:.64rem; letter-spacing:.04em; padding:.2rem .45rem; border:1px solid var(--c); border-radius:2px; color:var(--c)}
+.repasar{font-family:var(--mono); font-size:.68rem; color:var(--tinta-3); margin:0 0 .4rem}
+.pregunta{border-top:1px solid var(--linea-2); padding:1rem 0 .5rem}
+.pregunta .enunciado{font-family:var(--display); font-weight:600; font-size:1.02rem; line-height:1.4; margin:0 0 .6rem}
+.pregunta .enunciado small{display:inline-block; font-family:var(--mono); font-weight:700; font-size:.62rem; letter-spacing:.14em; text-transform:uppercase; color:var(--papel); background:var(--c); padding:.15rem .45rem; border-radius:2px; margin-right:.5rem; vertical-align:2px}
+.opciones{display:grid; gap:.35rem; margin:0 0 .6rem}
+.opcion{display:grid; grid-template-columns:1.6rem 1fr; gap:.6rem; align-items:start; width:100%; text-align:left; cursor:pointer; padding:.5rem .65rem; background:var(--papel); border:1px solid var(--linea-2); border-radius:2px; color:var(--tinta); font-family:var(--body); font-size:.93rem; line-height:1.45}
+.opcion:hover{border-color:var(--tinta-3); background:var(--papel-3)}
+.opcion .letra{font-family:var(--mono); font-size:.72rem; font-weight:700; color:var(--tinta-3); border:1px solid var(--linea); border-radius:2px; width:1.5rem; height:1.5rem; display:grid; place-items:center}
+.opcion.elegida{border-color:var(--c); background:var(--c-suave)}
+.opcion.elegida .letra{border-color:var(--c); color:var(--c)}
+.opcion:disabled{cursor:default}
+.opcion.correcta{border-color:var(--ok); background:var(--ok-suave); box-shadow:inset 3px 0 0 var(--ok)}
+.opcion.correcta .letra{background:var(--ok); border-color:var(--ok); color:#fff}
+.opcion.incorrecta{border-color:var(--mal); background:var(--mal-suave); box-shadow:inset 3px 0 0 var(--mal)}
+.opcion.incorrecta .letra{background:var(--mal); border-color:var(--mal); color:#fff}
+.opcion.apagada{opacity:.55}
+.justif label{display:block; font-family:var(--mono); font-size:.62rem; letter-spacing:.12em; text-transform:uppercase; color:var(--tinta-3); margin:0 0 .25rem}
+.justif textarea{width:100%; min-height:4.6rem; resize:vertical; font:inherit; font-size:.93rem; line-height:1.5; padding:.5rem .65rem; background:var(--papel); color:var(--tinta); border:1px solid var(--linea); border-radius:2px}
+.justif textarea:focus{border-color:var(--c); outline:none}
+.justif .contador{font-family:var(--mono); font-size:.6rem; color:var(--tinta-3); text-align:right; margin-top:.15rem}
+.justif .contador.largo{color:var(--mal)}
+.devolucion{margin:.6rem 0 .2rem; display:grid; gap:.45rem}
+.devolucion .veredicto{font-family:var(--mono); font-size:.7rem; letter-spacing:.1em; text-transform:uppercase}
+.devolucion .veredicto.ok{color:var(--ok)} .devolucion .veredicto.mal{color:var(--mal)}
+.devolucion .bloque{font-size:.9rem; padding:.5rem .7rem; background:var(--papel); border-left:3px solid var(--c); border-radius:2px}
+.devolucion .bloque b{display:block; font-family:var(--mono); font-size:.6rem; letter-spacing:.12em; text-transform:uppercase; color:var(--tinta-3); margin-bottom:.15rem}
+.devolucion .bloque.modelo{border-left-color:var(--ok)}
+.devolucion .bloque.tuya{border-left-color:var(--tinta-3); color:var(--tinta-2)}
+.autoeval{display:flex; gap:.5rem; align-items:center; font-family:var(--mono); font-size:.68rem; color:var(--tinta-2)}
+.autoeval input{width:1rem; height:1rem; accent-color:var(--ok)}
+.acciones{display:flex; gap:.5rem; flex-wrap:wrap; align-items:center; justify-content:flex-end; padding-top:.8rem}
+.acciones .msg{margin-right:auto; font-family:var(--mono); font-size:.7rem; color:var(--tinta-3)}
+.acciones .msg.mal{color:var(--mal)}
+.nota-caso{display:flex; flex-wrap:wrap; align-items:baseline; gap:.4rem 1rem; margin:.8rem 0 0; padding-top:.8rem; border-top:2px solid var(--c)}
+.nota-caso b{font-family:var(--display); font-size:1.6rem; line-height:1}
+.nota-caso span{font-family:var(--mono); font-size:.7rem; color:var(--tinta-3)}
+
+/* ---- EXAMEN ---- */
+.pestanas{display:flex; gap:.4rem; flex-wrap:wrap; margin:0 0 1rem}
+.resumen-examen{display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:.5rem; margin:0 0 1rem}
+.resumen-examen div{background:var(--papel-2); border:1px solid var(--linea); border-left:3px solid var(--c, var(--acento)); border-radius:2px; padding:.55rem .75rem}
+.resumen-examen small{display:block; font-family:var(--mono); font-size:.6rem; letter-spacing:.12em; text-transform:uppercase; color:var(--tinta-3)}
+.resumen-examen b{font-family:var(--display); font-size:1.2rem}
+.pie{border-top:1px solid var(--linea); margin-top:2rem; padding-top:1rem; font-family:var(--mono); font-size:.66rem; color:var(--tinta-3)}
+@media (max-width:640px){ .barra{padding:.5rem .8rem} .opcion{grid-template-columns:1.4rem 1fr; gap:.5rem} }
+@media print{ .barra,.modos,.filtros,.acciones,.btn{display:none !important} }
+</style>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="img/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+</head>
+<body>
+
+<header class="barra">
+  <div class="marca">
+    <a href="etica.html" title="Volver al apunte">← Apunte</a> · <a href="simulacro-etica.html" title="Simulacro con casos de opción múltiple">Otros simulacros</a> · <a href="index.html" title="Volver al menú">Materias</a>
+    <small>Simulacro del segundo parcial · Ética en la IA</small>
+  </div>
+  <span class="reloj oculto" id="reloj" title="Tiempo restante del examen">--:--</span>
+  <button class="btn" id="btn-tema" type="button">Modo oscuro</button>
+</header>
+
+<main class="lienzo">
+  <div class="portada">
+    <p class="cintillo">8 casos · 4 roles por caso · formato del 2.º parcial</p>
+    <h1>Simulacro del segundo parcial</h1>
+    <p>
+      Como en el parcial: casos donde se violan derechos vistos en las clases 7 a 10 (responsabilidad, propiedad
+      intelectual, justicia y derecho penal, discriminación e investigación). En cada caso hay una pregunta por rol
+      —<strong>víctima, fiscalía, defensa y juzgado</strong>— y cada respuesta se <strong>justifica en 2 o 3 renglones</strong>.
+      Al corregir ves la opción correcta, por qué las otras no, y una justificación modelo para comparar con la tuya.
+    </p>
+  </div>
+
+  <div class="modos">
+    <button class="btn on" id="m-practica" type="button">Práctica</button>
+    <button class="btn" id="m-examen" type="button">Examen (3 casos)</button>
+  </div>
+
+  <!-- PRÁCTICA -->
+  <section id="v-practica">
+    <div id="p-lista">
+      <div class="filtros" id="f-clase">
+        <span class="etq">Clase</span>
+        <button class="chip on" data-cl="0" type="button">Todas</button>
+        <button class="chip" data-cl="7" data-clase="7" type="button">7 · Responsabilidad</button>
+        <button class="chip" data-cl="8" data-clase="8" type="button">8 · Propiedad intelectual</button>
+        <button class="chip" data-cl="9" data-clase="9" type="button">9 · Justicia y derecho penal</button>
+        <button class="chip" data-cl="10" data-clase="10" type="button">10 · Discriminación e investigación</button>
+      </div>
+      <div class="grilla" id="grilla"></div>
+    </div>
+    <div id="p-caso" class="oculto">
+      <div class="filtros"><button class="btn" id="btn-volver" type="button">← Todos los casos</button></div>
+      <div id="p-cuerpo"></div>
+    </div>
+  </section>
+
+  <!-- EXAMEN -->
+  <section id="v-examen" class="oculto">
+    <div id="e-inicio">
+      <div class="aviso">Se sortean <strong>3 casos de clases distintas</strong>, como en el parcial. Respondé las 12 preguntas y justificá cada una; al entregar se corrigen las opciones y ves las justificaciones modelo. Lo que escribas queda guardado en este navegador.</div>
+      <div class="filtros" id="e-duracion">
+        <span class="etq">Duración</span>
+        <button class="chip" data-min="45" type="button">45 min</button>
+        <button class="chip on" data-min="60" type="button">60 min</button>
+        <button class="chip" data-min="90" type="button">90 min</button>
+      </div>
+      <div class="acciones" style="justify-content:flex-start"><button class="btn principal" id="btn-empezar" type="button">Empezar examen</button></div>
+    </div>
+    <div id="e-curso" class="oculto">
+      <div class="pestanas" id="e-pestanas"></div>
+      <div id="e-cuerpo"></div>
+      <div class="acciones">
+        <span class="msg" id="e-msg"></span>
+        <button class="btn peligro" id="btn-abandonar" type="button">Abandonar</button>
+        <button class="btn principal" id="btn-entregar" type="button">Entregar y corregir</button>
+      </div>
+    </div>
+    <div id="e-final" class="oculto">
+      <div class="resumen-examen" id="e-resumen"></div>
+      <div id="e-detalle"></div>
+      <div class="acciones" style="justify-content:flex-start"><button class="btn principal" id="btn-otro" type="button">Hacer otro examen</button></div>
+    </div>
+  </section>
+
+  <p class="pie">Casos escritos para el apunte a partir de las clases 7 a 10, con el formato que anticipó la cátedra; no son casos oficiales. Las justificaciones modelo son una referencia: la tuya puede decirlo con otras palabras.</p>
+</main>
+
+<script src="js/casos-etica-roles.js"></script>
+<script>
+(function(){
+  "use strict";
+
+  // ===== TEMA (misma clave que el resto del sitio) =====
+  var raiz = document.documentElement, btnTema = document.getElementById("btn-tema");
+  function aplicarTema(t){
+    raiz.setAttribute("data-tema", t);
+    btnTema.textContent = t === "oscuro" ? "Modo claro" : "Modo oscuro";
+    try{ localStorage.setItem("ia-tema", t); }catch(e){}
+  }
+  var temaGuardado = null;
+  try{ temaGuardado = localStorage.getItem("ia-tema"); }catch(e){}
+  if(!temaGuardado) temaGuardado = (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) ? "oscuro" : "claro";
+  aplicarTema(temaGuardado);
+  btnTema.addEventListener("click", function(){ aplicarTema(raiz.getAttribute("data-tema") === "oscuro" ? "claro" : "oscuro"); });
+
+  // ===== DATOS =====
+  var CASOS = window.CASOS_ETICA_ROLES || [];
+  var CLASES = { 7:"Responsabilidad civil y penal", 8:"Propiedad intelectual", 9:"Dilemas éticos II e IA y derecho penal", 10:"AGI, discriminación e investigación" };
+  var LETRAS = ["a", "b", "c", "d"];
+  var MAX_JUSTIF = 400; // 2 o 3 renglones
+  function porId(id){ for(var i = 0; i < CASOS.length; i++) if(CASOS[i].id === id) return CASOS[i]; return null; }
+  function leer(k, def){ try{ var v = JSON.parse(localStorage.getItem(k)); return v == null ? def : v; }catch(e){ return def; } }
+  function escribir(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+  function borrar(k){ try{ localStorage.removeItem(k); }catch(e){} }
+  function el(tag, clase, texto){ var e = document.createElement(tag); if(clase) e.className = clase; if(texto != null) e.textContent = texto; return e; }
+
+  // Estado de un caso: {r:[{op, j, auto}], corregido:bool}
+  function estadoVacio(c){ return { r:c.preguntas.map(function(){ return { op:"", j:"", auto:false }; }), corregido:false }; }
+  function aciertos(c, est){ var n = 0; c.preguntas.forEach(function(p, i){ if(est.r[i].op === p.ok) n++; }); return n; }
+
+  // Arma un caso. est se modifica en el lugar; alCambiar(est) guarda. Si est.corregido, muestra la devolución.
+  function crearCaso(c, est, alCambiar, bloqueado){
+    var caja = el("article", "caso"); caja.setAttribute("data-clase", c.clase);
+    var eb = el("p", "eyebrow"); eb.appendChild(el("span", null, "Caso " + c.id + " · Clase " + c.clase)); eb.appendChild(el("span", null, c.ambito)); caja.appendChild(eb);
+    caja.appendChild(el("h2", null, c.titulo));
+    var hechos = el("div", "hechos"); c.hechos.forEach(function(t){ hechos.appendChild(el("p", null, t)); }); caja.appendChild(hechos);
+    var der = el("div", "derechos"); c.derechos.forEach(function(d){ der.appendChild(el("span", null, d)); }); caja.appendChild(der);
+    var rep = el("p", "repasar"); rep.appendChild(document.createTextNode("Repasar: "));
+    var a = el("a", null, "Clase " + c.clase + " — " + CLASES[c.clase]); a.href = "etica.html#c" + c.clase; a.target = "_blank"; a.rel = "noopener"; rep.appendChild(a);
+    caja.appendChild(rep);
+
+    c.preguntas.forEach(function(p, i){
+      var r = est.r[i];
+      var d = el("div", "pregunta");
+      var en = el("p", "enunciado"); en.appendChild(el("small", null, p.rol)); en.appendChild(document.createTextNode(p.texto)); d.appendChild(en);
+      var ops = el("div", "opciones"); ops.setAttribute("role", "radiogroup"); ops.setAttribute("aria-label", p.rol);
+      var botones = {};
+      LETRAS.forEach(function(l){
+        var b = el("button", "opcion"); b.type = "button"; b.setAttribute("role", "radio");
+        b.appendChild(el("span", "letra", l)); b.appendChild(el("span", null, p.opciones[l]));
+        if(est.corregido){
+          b.disabled = true;
+          if(l === p.ok) b.classList.add("correcta");
+          else if(l === r.op) b.classList.add("incorrecta");
+          else b.classList.add("apagada");
+        }else{
+          if(r.op === l) b.classList.add("elegida");
+          b.setAttribute("aria-checked", r.op === l ? "true" : "false");
+          b.disabled = !!bloqueado;
+          b.addEventListener("click", function(){
+            r.op = l;
+            LETRAS.forEach(function(x){ botones[x].classList.toggle("elegida", x === l); botones[x].setAttribute("aria-checked", x === l ? "true" : "false"); });
+            if(alCambiar) alCambiar(est);
+          });
+        }
+        botones[l] = b; ops.appendChild(b);
+      });
+      d.appendChild(ops);
+
+      if(!est.corregido){
+        var j = el("div", "justif");
+        var idTa = "j-" + c.id + "-" + i;
+        var lab = el("label", null, "Justificá en 2 o 3 renglones"); lab.htmlFor = idTa;
+        var ta = el("textarea"); ta.id = idTa; ta.value = r.j || ""; ta.disabled = !!bloqueado; ta.placeholder = "Por qué es esa la respuesta, con los conceptos de la clase…";
+        var cont = el("div", "contador");
+        function contar(){ cont.textContent = ta.value.length + " caracteres" + (ta.value.length > MAX_JUSTIF ? " · más de 3 renglones: resumí" : ""); cont.classList.toggle("largo", ta.value.length > MAX_JUSTIF); }
+        contar();
+        ta.addEventListener("input", function(){ r.j = ta.value; contar(); if(alCambiar) alCambiar(est); });
+        j.appendChild(lab); j.appendChild(ta); j.appendChild(cont);
+        d.appendChild(j);
+      }else{
+        var dv = el("div", "devolucion");
+        var acierto = r.op === p.ok;
+        dv.appendChild(el("div", "veredicto " + (acierto ? "ok" : "mal"), acierto ? "✓ Correcta" : (r.op ? "✗ Elegiste " + r.op + ") · la correcta es " + p.ok + ")" : "✗ Sin responder · la correcta es " + p.ok + ")")));
+        var b1 = el("div", "bloque"); b1.appendChild(el("b", null, "Por qué")); b1.appendChild(document.createTextNode(p.porque));
+        if(r.op && r.op !== p.ok && p.descarte[r.op]){ b1.appendChild(document.createElement("br")); b1.appendChild(document.createTextNode("Tu opción: " + p.descarte[r.op])); }
+        dv.appendChild(b1);
+        var b2 = el("div", "bloque modelo"); b2.appendChild(el("b", null, "Justificación modelo")); b2.appendChild(document.createTextNode(p.modelo)); dv.appendChild(b2);
+        var b3 = el("div", "bloque tuya"); b3.appendChild(el("b", null, "Tu justificación")); b3.appendChild(document.createTextNode(r.j && r.j.trim() ? r.j : "(sin justificación)")); dv.appendChild(b3);
+        var au = el("label", "autoeval");
+        var chk = el("input"); chk.type = "checkbox"; chk.checked = !!r.auto;
+        chk.addEventListener("change", function(){ r.auto = chk.checked; if(alCambiar) alCambiar(est); if(est.alAutoevaluar) est.alAutoevaluar(); });
+        au.appendChild(chk); au.appendChild(document.createTextNode("Mi justificación dice lo mismo que la modelo (con mis palabras)"));
+        dv.appendChild(au);
+        d.appendChild(dv);
+      }
+      caja.appendChild(d);
+    });
+    return caja;
+  }
+
+  function resumenCaso(c, est){
+    var n = aciertos(c, est), j = est.r.filter(function(r){ return r.auto; }).length;
+    var div = el("div", "nota-caso");
+    div.appendChild(el("b", null, n + " / 4"));
+    div.appendChild(el("span", null, "opciones correctas · " + j + " de 4 justificaciones que marcaste como equivalentes a la modelo"));
+    return div;
+  }
+
+  // ===== MODOS =====
+  var mPractica = document.getElementById("m-practica"), mExamen = document.getElementById("m-examen");
+  var vPractica = document.getElementById("v-practica"), vExamen = document.getElementById("v-examen");
+  function modo(m){
+    mPractica.classList.toggle("on", m === "practica"); mExamen.classList.toggle("on", m === "examen");
+    vPractica.classList.toggle("oculto", m !== "practica"); vExamen.classList.toggle("oculto", m !== "examen");
+    if(m === "examen") mostrarExamen();
+  }
+  mPractica.addEventListener("click", function(){ if(location.hash.indexOf("examen") >= 0) history.replaceState(null, "", location.pathname); modo("practica"); });
+  mExamen.addEventListener("click", function(){ history.replaceState(null, "", location.pathname + "#examen"); modo("examen"); });
+
+  // ===== PRÁCTICA =====
+  var filtroClase = 0;
+  var grilla = document.getElementById("grilla");
+  var pLista = document.getElementById("p-lista"), pCaso = document.getElementById("p-caso"), pCuerpo = document.getElementById("p-cuerpo");
+  function claveCaso(id){ return "etica2-caso-" + id; }
+  function estadoCaso(c){ var e = leer(claveCaso(c.id), null); return e && e.r && e.r.length === c.preguntas.length ? e : estadoVacio(c); }
+
+  function pintarLista(){
+    grilla.innerHTML = "";
+    CASOS.filter(function(c){ return !filtroClase || c.clase === filtroClase; }).forEach(function(c){
+      var est = estadoCaso(c);
+      var b = el("button", "tarjeta"); b.type = "button"; b.setAttribute("data-clase", c.clase);
+      var m = el("span", "meta"); m.appendChild(el("span", null, "Clase " + c.clase));
+      var respondidas = est.r.filter(function(r){ return r.op; }).length;
+      m.appendChild(el("span", "estado", est.corregido ? "corregido · " + aciertos(c, est) + "/4" : (respondidas ? respondidas + "/4 respondidas" : "")));
+      b.appendChild(m); b.appendChild(el("b", null, c.titulo)); b.appendChild(el("small", null, c.ambito));
+      b.addEventListener("click", function(){ abrir(c.id); });
+      grilla.appendChild(b);
+    });
+  }
+  Array.prototype.forEach.call(document.querySelectorAll("#f-clase .chip"), function(ch){
+    ch.addEventListener("click", function(){
+      filtroClase = parseInt(ch.getAttribute("data-cl"), 10);
+      Array.prototype.forEach.call(document.querySelectorAll("#f-clase .chip"), function(x){ x.classList.toggle("on", x === ch); });
+      pintarLista();
+    });
+  });
+
+  function abrir(id){
+    var c = porId(id); if(!c) return;
+    history.replaceState(null, "", location.pathname + "#c=" + id);
+    pLista.classList.add("oculto"); pCaso.classList.remove("oculto");
+    pCuerpo.innerHTML = "";
+    var est = estadoCaso(c);
+    var caja = crearCaso(c, est, function(e){ escribir(claveCaso(id), { r:e.r, corregido:e.corregido }); });
+    var acc = el("div", "acciones"); var msg = el("span", "msg");
+    var bBorrar = el("button", "btn peligro", "Borrar respuestas"); bBorrar.type = "button";
+    acc.appendChild(msg); acc.appendChild(bBorrar);
+    if(!est.corregido){
+      var bCorr = el("button", "btn principal", "Corregir caso"); bCorr.type = "button"; acc.appendChild(bCorr);
+      bCorr.addEventListener("click", function(){
+        var faltan = est.r.filter(function(r){ return !r.op; }).length;
+        if(faltan && !window.confirm("Te faltan " + faltan + " preguntas por responder. ¿Corregir igual?")) return;
+        est.corregido = true; escribir(claveCaso(id), { r:est.r, corregido:true }); abrir(id);
+      });
+    }else{
+      var nota = resumenCaso(c, est); caja.appendChild(nota);
+      est.alAutoevaluar = function(){ var n2 = resumenCaso(c, est); caja.replaceChild(n2, nota); nota = n2; };
+    }
+    caja.appendChild(acc);
+    pCuerpo.appendChild(caja);
+    window.scrollTo(0, 0);
+    bBorrar.addEventListener("click", function(){
+      if(!window.confirm("¿Borrar tus respuestas de este caso?")) return;
+      borrar(claveCaso(id)); abrir(id);
+    });
+  }
+  document.getElementById("btn-volver").addEventListener("click", function(){
+    history.replaceState(null, "", location.pathname);
+    pCaso.classList.add("oculto"); pLista.classList.remove("oculto"); pintarLista();
+  });
+
+  // ===== EXAMEN =====
+  // {ids, inicio, minutos, est:{id:{r}}, entregado}
+  var CLAVE_EXAMEN = "etica2-examen";
+  var eInicio = document.getElementById("e-inicio"), eCurso = document.getElementById("e-curso"), eFinal = document.getElementById("e-final");
+  var ePestanas = document.getElementById("e-pestanas"), eCuerpo = document.getElementById("e-cuerpo"), eMsg = document.getElementById("e-msg");
+  var reloj = document.getElementById("reloj"), intervalo = null, actual = 0, minutosElegidos = 60;
+  Array.prototype.forEach.call(document.querySelectorAll("#e-duracion .chip"), function(ch){
+    ch.addEventListener("click", function(){
+      minutosElegidos = parseInt(ch.getAttribute("data-min"), 10);
+      Array.prototype.forEach.call(document.querySelectorAll("#e-duracion .chip"), function(x){ x.classList.toggle("on", x === ch); });
+    });
+  });
+  function examen(){ return leer(CLAVE_EXAMEN, null); }
+  function guardarExamen(x){ escribir(CLAVE_EXAMEN, x); }
+
+  // Tres casos de clases distintas.
+  function sortear(){
+    var clases = [7, 8, 9, 10].sort(function(){ return Math.random() - .5; }).slice(0, 3).sort(function(a, b){ return a - b; });
+    return clases.map(function(cl){ var de = CASOS.filter(function(c){ return c.clase === cl; }); return de[Math.floor(Math.random() * de.length)].id; });
+  }
+  function tic(){
+    var x = examen(); if(!x || x.entregado){ pararReloj(); return; }
+    var ms = x.inicio + x.minutos * 60000 - Date.now();
+    if(ms <= 0){ reloj.textContent = "0:00"; pararReloj(); entregar(true); return; }
+    var min = Math.floor(ms / 60000), seg = Math.floor(ms % 60000 / 1000);
+    reloj.textContent = min + ":" + (seg < 10 ? "0" : "") + seg;
+    reloj.classList.toggle("apurado", ms < 5 * 60000);
+  }
+  function arrancarReloj(){ reloj.classList.remove("oculto"); tic(); if(!intervalo) intervalo = setInterval(tic, 1000); }
+  function pararReloj(){ if(intervalo){ clearInterval(intervalo); intervalo = null; } reloj.classList.add("oculto"); }
+
+  function mostrarExamen(){
+    var x = examen();
+    eInicio.classList.toggle("oculto", !!x); eCurso.classList.toggle("oculto", !x || !!x.entregado); eFinal.classList.toggle("oculto", !x || !x.entregado);
+    if(!x) return;
+    if(x.entregado){ pintarFinal(x); return; }
+    arrancarReloj(); pintarCurso();
+  }
+  function pintarCurso(){
+    var x = examen(); if(!x) return;
+    ePestanas.innerHTML = "";
+    x.ids.forEach(function(id, i){
+      var c = porId(id);
+      var b = el("button", "btn" + (i === actual ? " on" : ""), "Caso " + (i + 1) + " · clase " + c.clase); b.type = "button";
+      b.addEventListener("click", function(){ actual = i; pintarCurso(); window.scrollTo(0, 0); });
+      ePestanas.appendChild(b);
+    });
+    eCuerpo.innerHTML = "";
+    var id = x.ids[actual], c = porId(id);
+    var est = x.est[id] || (x.est[id] = estadoVacio(c));
+    eCuerpo.appendChild(crearCaso(c, est, function(e){ var y = examen(); if(!y || y.entregado) return; y.est[id] = { r:e.r, corregido:false }; guardarExamen(y); }));
+  }
+  document.getElementById("btn-empezar").addEventListener("click", function(){
+    actual = 0;
+    guardarExamen({ ids:sortear(), inicio:Date.now(), minutos:minutosElegidos, est:{}, entregado:false });
+    mostrarExamen(); window.scrollTo(0, 0);
+  });
+  document.getElementById("btn-abandonar").addEventListener("click", function(){
+    if(!window.confirm("¿Abandonar el examen? Se borra lo que respondiste.")) return;
+    borrar(CLAVE_EXAMEN); pararReloj(); mostrarExamen();
+  });
+  document.getElementById("btn-entregar").addEventListener("click", function(){ entregar(false); });
+  document.getElementById("btn-otro").addEventListener("click", function(){ borrar(CLAVE_EXAMEN); actual = 0; mostrarExamen(); });
+
+  function entregar(porTiempo){
+    var x = examen(); if(!x || x.entregado) return;
+    if(!porTiempo && !window.confirm("¿Entregar el examen? Se corrigen las 12 preguntas.")) return;
+    x.ids.forEach(function(id){ var c = porId(id); x.est[id] = x.est[id] || estadoVacio(c); x.est[id].corregido = true; });
+    x.entregado = true; x.porTiempo = !!porTiempo; guardarExamen(x); pararReloj(); mostrarExamen(); window.scrollTo(0, 0);
+  }
+  function pintarFinal(x){
+    var res = document.getElementById("e-resumen"), det = document.getElementById("e-detalle");
+    res.innerHTML = ""; det.innerHTML = "";
+    var total = 0, n = 0;
+    x.ids.forEach(function(id){ var c = porId(id); total += aciertos(c, x.est[id]); n += c.preguntas.length; });
+    var d0 = el("div"); d0.appendChild(el("small", null, x.porTiempo ? "Nota · entregado por tiempo" : "Nota de las opciones"));
+    d0.appendChild(el("b", null, (Math.round(total / n * 100) / 10).toFixed(1).replace(".", ",") + " / 10")); d0.appendChild(el("small", null, total + " de " + n + " correctas")); res.appendChild(d0);
+    x.ids.forEach(function(id){
+      var c = porId(id), est = x.est[id];
+      var d = el("div"); d.setAttribute("data-clase", c.clase);
+      d.appendChild(el("small", null, "Clase " + c.clase)); d.appendChild(el("b", null, aciertos(c, est) + " / 4")); d.appendChild(el("small", null, c.titulo));
+      res.appendChild(d);
+      var caja = crearCaso(c, est, function(e){ var y = examen(); if(!y) return; y.est[id] = { r:e.r, corregido:true }; guardarExamen(y); });
+      var nota = resumenCaso(c, est); caja.appendChild(nota);
+      est.alAutoevaluar = function(){ var n2 = resumenCaso(c, est); caja.replaceChild(n2, nota); nota = n2; };
+      det.appendChild(caja);
+    });
+    var av = el("div", "aviso"); av.textContent = "La nota es sólo de las opciones. Las justificaciones las evaluás vos: compará cada una con la modelo y marcá las que dicen lo mismo con tus palabras.";
+    det.insertBefore(av, det.firstChild);
+  }
+
+  // ===== INICIO =====
+  pintarLista();
+  var h = location.hash, m = /^#c=(\d+)$/.exec(h);
+  if(h === "#examen" || (examen() && !examen().entregado)) modo("examen");
+  else if(m && porId(parseInt(m[1], 10))) abrir(parseInt(m[1], 10));
+})();
+</script>
+</body>
+</html>

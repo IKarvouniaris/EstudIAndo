@@ -47,7 +47,7 @@ Una materia por día de cursada (la fila del día aparece resaltada en `index.ht
 | **Prob. y Estadística** (mar) · `estadistica.html` | Hoja de fórmulas imprimible, guía de decisión (binomial / Pascal / hipergeométrica / hiperPascal), temas 1 a 7 (los 4 últimos, del 2.º parcial) con ejemplos resueltos paso a paso, errores típicos, guía de GeoGebra, glosario, 86 flashcards | Simulacro en modo práctica (verifica cada parte y muestra la resolución) | **Sí**: se elige el 1.er parcial (5 ejercicios) o el 2.º (4), 60 min, respuestas numéricas corregidas en Postgres. 47 ejercicios (162 respuestas). Leaderboard y dominio por tema | Tutor del apunte (`preguntar-apunte`) |
 | **Intro a la IA** (mié) · `ia-conceptual.html` | 13 clases (1.er y 2.º parcial), ~61 flashcards, glosario, confusiones típicas, línea de tiempo | `simulacro-ia-2.html`: simulacro **escrito** del 2.º parcial con corrección por IA (práctica y examen, con cuenta) · `simulacro.html`: simulacro del 1er parcial, **estático** (se guarda en el navegador) | No tiene | No tiene |
 | **Python para Ciencia de Datos** (jue) · `python.html` | Clases 00 a 06, chuleta de comandos, glosario (30), flashcards (30) | `entrenador-python.html`: **124 preguntas** de opción múltiple (86 por clase y 38 de los modelos A/B/C) y **laboratorio** con 16 ejercicios que se ejecutan en el navegador (Pyodide) con corrección automática | **Sí**: 3 ejercicios de código al azar, 45 min, corregidos por Gemini leyendo el código. 6 ejercicios en la base (modelos A y B). Leaderboard y dominio por tema | Corrección del simulacro (`corregir-codigo`, 20/día). Sin tutor |
-| **Ética en la IA** (vie) · `etica.html` | 10 clases (1 a 8, 10 y 11), casoteca, confusiones, glosario, ~59 flashcards, línea de tiempo | `simulacro-etica.html` en modo práctica (corrige al instante; el desarrollo se puede corregir con IA), con filtro por parcial | **Sí**, a elección **1.er o 2.º parcial**: 2 casos (8 preguntas) + 1 desarrollo escrito, 20 min. 20 casos y 80 preguntas en la base (12 del 1.er parcial, 8 del 2.º). Leaderboard con historial personal y dominio por unidad | Examen (`corregir-desarrollo`, 20/día), práctica (`corregir-practica`, 15/día) y tutor del apunte (`preguntar-apunte`, 40/día) |
+| **Ética en la IA** (vie) · `etica.html` | 10 clases (1 a 10; la 9 suma IA y derecho penal), casoteca, confusiones, glosario, ~59 flashcards, línea de tiempo | `simulacro-etica.html` en modo práctica (corrige al instante; el desarrollo se puede corregir con IA), con filtro por parcial · `simulacro-etica-2.html`: **formato del 2.º parcial**, casos por roles (víctima, fiscalía, defensa, juzgado) con justificación, práctica y examen de 3 casos, sin cuenta | **Sí**, a elección **1.er o 2.º parcial**: 2 casos (8 preguntas) + 1 desarrollo escrito, 20 min. 20 casos y 80 preguntas en la base (12 del 1.er parcial, 8 del 2.º). Leaderboard con historial personal y dominio por unidad | Examen (`corregir-desarrollo`, 20/día), práctica (`corregir-practica`, 15/día) y tutor del apunte (`preguntar-apunte`, 40/día) |
 
 Además, transversal a las materias:
 
@@ -132,7 +132,7 @@ Todas verifican la sesión del usuario y reintentan ante los errores intermitent
 ### Estudio y contenido
 
 - 🟡 **Poris, siguientes pasos:** guardar las marcas en la cuenta (hoy están solo en el navegador, igual que el entrenador de Python) para que sigan en el celular; repetición espaciada de verdad tipo Leitner (hoy «Para repasar» es un filtro, no vuelven solas con el tiempo); gestos de swipe (`gestures.js` de Poris) si el scroll nativo no alcanza; que el mazo mezclado priorice los temas más flojos usando «Tu dominio por tema».
-- 🟡 **Más tarjetas en Poris:** el mazo de Ética solo cubre las clases 1 a 6 y los mini casos (el apunte tiene 10 clases: faltan las 7, 8, 10 y 11), el de Intro a la IA cubre las clases 1 a 6 (el apunte tiene 13: faltan las del 2.º parcial), y las de Cálculo se arman solas desde el apunte (ver la bitácora), por lo que solo hay las de definición, meta y señales. Las 40 preguntas del Kahoot de Intro a la IA se arman a partir del HTML del apunte y por eso no están en Poris. Las tarjetas de las clases nuevas se agregan en `js/mazos/<materia>.js`.
+- 🟡 **Más tarjetas en Poris:** el mazo de Ética solo cubre las clases 1 a 6 y los mini casos (el apunte tiene 10 clases: faltan las 7 a 10), el de Intro a la IA cubre las clases 1 a 6 (el apunte tiene 13: faltan las del 2.º parcial), y las de Cálculo se arman solas desde el apunte (ver la bitácora), por lo que solo hay las de definición, meta y señales. Las 40 preguntas del Kahoot de Intro a la IA se arman a partir del HTML del apunte y por eso no están en Poris. Las tarjetas de las clases nuevas se agregan en `js/mazos/<materia>.js`.
 - 🟢 **Qué quedó de IAgram:** los 21 posts de Ética (concepto, trampa y caso real) se borraron junto con `iagram.html`; siguen en el historial de git. Se podrían volver a sumar a Poris como tarjetas de otro tipo. Los guiones de Capu (`guiones/`) no cambian, pero se escribieron para esos posts.
 - 🟡 **Estadística, lo que falte del 2.º parcial:** el apunte llega hasta la clase 13 (continuas, fenómenos de vida, normal y log-normal, Poisson y Gamma). Falta lo que venga después (por ejemplo el teorema central del límite, si se da).
 - 🟡 **Python:** ampliar el banco del simulacro más allá de los 6 ejercicios, sumar el modelo C, y agregar tutor.
@@ -438,6 +438,14 @@ Material: `Etica.rar` de la cátedra (diapositivas de las clases 10 y 11, más l
 
 Este es el plan con el que se arrancó. Los checkboxes y las notas reflejan lo que efectivamente se hizo; lo que dice "1 hora" de cooldown o "parcial.html" es el diseño original, no el estado actual (para eso, ver las secciones 1 y 2).
 
+
+### Ética: clases seguidas, IA y derecho penal, y simulacro por roles (2026-11-09)
+
+- **Numeración seguida:** como la cátedra no dio una clase 9 aparte y no hay más clases, el apunte numera 1 a 10: la vieja **10** (dilemas éticos II) pasa a ser la **9** y la vieja **11** (AGI, NFHA) pasa a ser la **10**, con sus subtítulos, anclas, casoteca, riel y título. En las notas de fuentes de cada una queda el número de la cátedra. Coincide con los bloques 9 y 10 del simulacro.
+- **Clase 9, segunda parte (9.10 a 9.19): IA y derecho penal.** Del PPT «Clase 10» de la cátedra («Transformación del paradigma delictivo») y la grabación del 4/11: los 8 supuestos de imputación, dolo, culpa y deber de cuidado (el ejemplo del semáforo), desvío funcional y escala de autonomía (diagrama), autoría mediata tecnológica (Roxin), deepfakes como lesiones (arts. 89 a 91), la IA como multiplicador delictivo (lavado, narcotráfico), phishing con IA, el tipo penal **proyectado** de manipulación electoral y el caso Zárate-Campana (art. 128). Se corrige un dato dicho en clase (el Código Penal es de 1921, no de 1910) y el encuadre del phishing como defraudación informática se marca como «lectura del apunte».
+- **Simulacro del 2.º parcial** (`simulacro-etica-2.html`), con el formato que anticipó la cátedra: casos donde se violan derechos, una pregunta de opción múltiple por rol (víctima, fiscalía, defensa y juzgado) y una justificación de 2 o 3 renglones por respuesta. 8 casos (2 por clase, de la 7 a la 10) en `js/casos-etica-roles.js`, escritos para el apunte. **Práctica** (link directo `#c=N`) y **examen** (3 casos de clases distintas, 45/60/90 min). Corrige la opción al instante y muestra por qué, por qué no las otras y una **justificación modelo**; la justificación propia se autoevalúa. Todo en el navegador (`etica2-caso-N`, `etica2-examen`), sin cuenta ni IA.
+- **Opciones medidas:** la correcta queda repartida 8/8/8/8 entre a–d (2 de cada letra por rol), es la más larga en 7 de 32 preguntas (la segunda en 14, tercera en 9, la más corta en 2) y no hay distractores con «siempre / nunca / ninguno / todo».
+- **Verificado:** las 10 secciones en orden y sin anclas rotas, el diagrama nuevo sin texto fuera de sus cajas, y en el simulacro la lista, el filtro, corregir un caso, la autoevaluación, el sorteo de 3 clases distintas, recargar a mitad del examen sin perder nada y la entrega.
 ### Fase 0 · Preparación
 
 **Objetivo:** proyecto creado, login funcionando en local y en Vercel.
@@ -780,6 +788,7 @@ estudIAndo/
 ├─ simulacro-estadistica.html       práctica + examen puntuado (numérico)
 ├─ simulacro-python.html            práctica + examen puntuado (código)
 ├─ simulacro-etica.html             práctica + examen puntuado de los dos parciales (opción múltiple + desarrollo)
+├─ simulacro-etica-2.html           2.º parcial de Ética con el formato del examen: casos por roles con justificación
 ├─ simulacro.html                   simulacro estático de Intro a la IA (1.er parcial)
 ├─ simulacro-ia-2.html              simulacro escrito del 2.º parcial de Intro a la IA, corregido con IA
 ├─ entrenador-python.html           entrenador de Python: opción múltiple + laboratorio (Pyodide)
@@ -797,6 +806,7 @@ estudIAndo/
 │  ├─ auth.js · sesion.js           login (Google / magic link) y chip de sesión con perfil
 │  ├─ marca.js                      dibuja la marca (<i data-marca>) y el huevo de pascua de las donas
 │  ├─ simulacro-api.js · examen-api.js   cliente de Ética (práctica y examen)
+│  ├─ casos-etica-roles.js          8 casos por roles del simulacro del 2.º parcial de Ética
 │  ├─ codigo-api.js                 cliente de Python (examen de código)
 │  ├─ num-api.js                    cliente de Estadística (examen numérico)
 │  ├─ tutor-api.js · dominio-widget.js   tutor IA y barra «Tu dominio por tema»
