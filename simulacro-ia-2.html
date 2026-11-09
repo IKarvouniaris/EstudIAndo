@@ -1,0 +1,560 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Simulacro escrito 2.º parcial — Introducción a la IA</title>
+<style>
+/* ---- TOKENS (mismos que ia-conceptual.html) ---- */
+:root{
+  color-scheme: light;
+  --papel:#EDEEE9; --papel-2:#F8F9F6; --papel-3:#E3E5DE;
+  --tinta:#15181A; --tinta-2:#545B60; --tinta-3:#7B8288;
+  --linea:#C7CAC2; --linea-2:#D9DBD4;
+  --u1:#2E3A94; --u6:#0B5F80; --u1-suave:#E2E5F6; --u6-suave:#DCEBF2;
+  --baja:#1B6A5B; --media:#8C5A04; --alta:#6D3470;
+  --ok:#1F7A3E; --ok-suave:#DCEFE1;
+  --mal:#9E3122; --mal-suave:#F7E4E0;
+  --display:"Bahnschrift","Franklin Gothic Medium","Arial Narrow","Helvetica Neue",sans-serif;
+  --body:"Sitka Text","Constantia",Georgia,"Times New Roman",serif;
+  --mono:"Cascadia Mono",Consolas,"SFMono-Regular",ui-monospace,monospace;
+  --acento:var(--u6); --acento-suave:var(--u6-suave);
+}
+:root[data-tema="oscuro"]{
+  color-scheme: dark;
+  --papel:#101315; --papel-2:#181C20; --papel-3:#1F2429;
+  --tinta:#E9EBE6; --tinta-2:#A2AAB0; --tinta-3:#7C858B;
+  --linea:#2B3238; --linea-2:#232930;
+  --u1:#909EF0; --u6:#6CC3E4; --u1-suave:#1B2040; --u6-suave:#0D2A36;
+  --baja:#4FC7AC; --media:#E2AC55; --alta:#D39AD6;
+  --ok:#5CCB84; --ok-suave:#12301C;
+  --mal:#EC8878; --mal-suave:#331915;
+}
+*{box-sizing:border-box}
+@media (prefers-reduced-motion:reduce){ *{animation:none !important; transition:none !important} }
+body{margin:0; background:var(--papel); color:var(--tinta); font-family:var(--body); font-size:16.5px; line-height:1.6; -webkit-font-smoothing:antialiased}
+:focus-visible{outline:2px solid var(--u6); outline-offset:2px}
+a{color:var(--acento)}
+.oculto{display:none !important}
+
+/* ---- BARRA ---- */
+.barra{position:sticky; top:0; z-index:40; background:var(--papel-3); border-bottom:1px solid var(--linea); padding:.6rem clamp(1rem,3vw,2rem); display:flex; flex-wrap:wrap; align-items:center; gap:.6rem 1rem}
+.barra .marca{font-family:var(--display); font-weight:700; font-size:.82rem; letter-spacing:.12em; text-transform:uppercase; margin-right:auto}
+.barra .marca small{display:block; font-family:var(--mono); font-size:.62rem; color:var(--tinta-3); letter-spacing:.06em; font-weight:400; text-transform:none}
+.barra .marca a{text-decoration:none; color:var(--tinta-2)}
+.barra .marca a:hover{color:var(--tinta)}
+.reloj{font-family:var(--mono); font-size:.9rem; font-weight:700; padding:.3rem .6rem; border:1px solid var(--acento); border-radius:2px; color:var(--acento)}
+.reloj.apurado{color:var(--mal); border-color:var(--mal)}
+.btn{cursor:pointer; font-family:var(--mono); font-size:.66rem; letter-spacing:.08em; text-transform:uppercase; background:var(--papel-2); color:var(--tinta-2); border:1px solid var(--linea); border-radius:2px; padding:.5rem .75rem; line-height:1}
+.btn:hover{color:var(--tinta); border-color:var(--tinta-3)}
+.btn.on, .btn.principal{background:var(--tinta); color:var(--papel); border-color:var(--tinta)}
+.btn.principal:hover{filter:brightness(1.15); color:var(--papel)}
+.btn:disabled{opacity:.5; cursor:default}
+.btn.peligro:hover{color:var(--mal); border-color:var(--mal)}
+
+/* ---- LIENZO ---- */
+.lienzo{max-width:960px; margin:0 auto; padding:2rem clamp(1rem,3vw,2rem) 6rem}
+.portada h1{font-family:var(--display); font-weight:700; font-size:clamp(1.7rem,4vw,2.4rem); letter-spacing:-.015em; line-height:1.1; margin:.2rem 0 .6rem}
+.cintillo{font-family:var(--mono); font-size:.66rem; letter-spacing:.17em; text-transform:uppercase; color:var(--tinta-3); margin:0}
+.portada p{max-width:68ch; color:var(--tinta-2)}
+.modos{display:flex; gap:.4rem; flex-wrap:wrap; align-items:center; margin:1.2rem 0 1.4rem}
+.filtros{display:flex; flex-wrap:wrap; gap:.4rem; align-items:center; margin:0 0 1rem}
+.filtros .etq{font-family:var(--mono); font-size:.62rem; letter-spacing:.14em; text-transform:uppercase; color:var(--tinta-3); margin-right:.3rem}
+.chip{cursor:pointer; font-family:var(--display); font-size:.8rem; padding:.3rem .65rem; border:1px solid var(--linea); border-radius:2px; background:var(--papel-2); color:var(--tinta-2)}
+.chip:hover{color:var(--tinta)}
+.chip.on{background:var(--acento-suave); color:var(--tinta); border-color:var(--acento); font-weight:600}
+.aviso{background:var(--papel-2); border:1px solid var(--linea); border-left:3px solid var(--acento); border-radius:2px; padding:.7rem .9rem; font-size:.92rem; margin:0 0 1.2rem}
+.aviso.mal{border-left-color:var(--mal); background:var(--mal-suave)}
+
+/* ---- LISTA DE SITUACIONES ---- */
+.grilla{display:grid; gap:.6rem; grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
+.tarjeta{cursor:pointer; text-align:left; display:flex; flex-direction:column; gap:.3rem; padding:.8rem .9rem; background:var(--papel-2); border:1px solid var(--linea); border-top:3px solid var(--nivel); border-radius:2px; color:var(--tinta); font:inherit}
+.tarjeta:hover{border-color:var(--tinta-3); border-top-color:var(--nivel)}
+.tarjeta .meta{display:flex; gap:.6rem; font-family:var(--mono); font-size:.62rem; letter-spacing:.1em; text-transform:uppercase; color:var(--nivel)}
+.tarjeta .meta .estado{margin-left:auto; color:var(--tinta-3); letter-spacing:.04em; text-transform:none}
+.tarjeta b{font-family:var(--display); font-size:1rem; line-height:1.25}
+[data-nivel="Baja"]{--nivel:var(--baja)} [data-nivel="Media"]{--nivel:var(--media)} [data-nivel="Alta"]{--nivel:var(--alta)}
+
+/* ---- SITUACIÓN ---- */
+.situacion{background:var(--papel-2); border:1px solid var(--linea); border-top:4px solid var(--nivel); border-radius:2px; padding:1.2rem clamp(1rem,2.5vw,1.6rem) 1rem; margin:0 0 1.4rem}
+.situacion .eyebrow{display:flex; flex-wrap:wrap; gap:.5rem 1rem; align-items:center; font-family:var(--mono); font-size:.64rem; letter-spacing:.14em; text-transform:uppercase; color:var(--nivel); margin:0 0 .4rem}
+.situacion .eyebrow .nivel{padding:.12rem .45rem; border:1px solid var(--nivel); border-radius:2px}
+.situacion h2{font-family:var(--display); font-weight:700; font-size:1.4rem; letter-spacing:-.01em; margin:0 0 .5rem; line-height:1.2}
+.situacion .rol{margin:0 0 .4rem}
+.situacion .rol b, .situacion .consigna-gral b{font-family:var(--mono); font-size:.62rem; letter-spacing:.12em; text-transform:uppercase; color:var(--tinta-3); margin-right:.4rem}
+.situacion .consigna-gral{font-style:italic; color:var(--tinta-2); margin:0 0 .6rem; font-size:.93rem}
+.situacion .repasar{font-family:var(--mono); font-size:.68rem; color:var(--tinta-3); margin:0 0 .8rem}
+.parte{border-top:1px solid var(--linea-2); padding:.9rem 0 .4rem}
+.parte label{display:grid; grid-template-columns:2rem 1fr; gap:.5rem; font-family:var(--display); font-weight:600; font-size:1rem; line-height:1.4; margin:0 0 .5rem}
+.parte label em{font-family:var(--mono); font-style:normal; font-weight:700; color:var(--nivel)}
+.parte label small{display:block; font-family:var(--mono); font-weight:400; font-size:.62rem; letter-spacing:.12em; text-transform:uppercase; color:var(--tinta-3)}
+.parte textarea{width:100%; min-height:7.5rem; resize:vertical; font:inherit; font-size:.95rem; line-height:1.5; padding:.6rem .7rem; background:var(--papel); color:var(--tinta); border:1px solid var(--linea); border-radius:2px}
+.parte textarea:focus{border-color:var(--nivel); outline:none}
+.parte .contador{font-family:var(--mono); font-size:.6rem; color:var(--tinta-3); text-align:right; margin-top:.15rem}
+.acciones{display:flex; gap:.5rem; flex-wrap:wrap; align-items:center; justify-content:flex-end; padding-top:.7rem}
+.acciones .msg{margin-right:auto; font-family:var(--mono); font-size:.7rem; color:var(--tinta-3)}
+.acciones .msg.mal{color:var(--mal)}
+
+/* ---- RESULTADO ---- */
+.resultado{margin:1rem 0 0; border-top:2px solid var(--nivel); padding-top:1rem}
+.nota{display:flex; flex-wrap:wrap; align-items:baseline; gap:.4rem 1rem; margin:0 0 .8rem}
+.nota b{font-family:var(--display); font-size:2rem; line-height:1}
+.nota span{font-family:var(--mono); font-size:.7rem; color:var(--tinta-3)}
+.res-parte{background:var(--papel); border:1px solid var(--linea-2); border-radius:2px; padding:.7rem .8rem; margin:.5rem 0}
+.res-parte h4{display:flex; gap:.6rem; align-items:baseline; margin:0 0 .4rem; font-family:var(--display); font-size:.95rem}
+.res-parte h4 span{margin-left:auto; font-family:var(--mono); font-size:.7rem; color:var(--tinta-3)}
+.criterio{display:grid; grid-template-columns:1.3rem 1fr; gap:.45rem; font-size:.88rem; margin:.3rem 0}
+.criterio i{font-style:normal; font-family:var(--mono); font-weight:700; color:var(--mal)}
+.criterio.ok i{color:var(--ok)}
+.criterio small{display:block; color:var(--tinta-2); font-size:.84rem}
+.devolucion{font-size:.88rem; margin:.5rem 0 0; padding:.45rem .6rem; border-left:3px solid var(--nivel); background:var(--papel-2)}
+.general{margin:.8rem 0 0; padding:.7rem .9rem; background:var(--papel); border:1px solid var(--linea-2); border-radius:2px; font-size:.92rem}
+.general h5{margin:0 0 .3rem; font-family:var(--mono); font-size:.62rem; letter-spacing:.14em; text-transform:uppercase; color:var(--tinta-3)}
+.general h5.ok{color:var(--ok)} .general h5.mal{color:var(--mal)}
+.general p{margin:0 0 .5rem}
+
+/* ---- EXAMEN ---- */
+.pestanas{display:flex; gap:.4rem; flex-wrap:wrap; margin:0 0 1rem}
+.resumen-examen{display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:.5rem; margin:0 0 1rem}
+.resumen-examen div{background:var(--papel-2); border:1px solid var(--linea); border-left:3px solid var(--nivel, var(--acento)); border-radius:2px; padding:.55rem .75rem}
+.resumen-examen small{display:block; font-family:var(--mono); font-size:.6rem; letter-spacing:.12em; text-transform:uppercase; color:var(--tinta-3)}
+.resumen-examen b{font-family:var(--display); font-size:1.2rem}
+.pie{border-top:1px solid var(--linea); margin-top:2rem; padding-top:1rem; font-family:var(--mono); font-size:.66rem; color:var(--tinta-3)}
+@media (max-width:640px){ .barra{padding:.5rem .8rem} .parte label{grid-template-columns:1.6rem 1fr} }
+@media print{ .barra,.modos,.filtros,.acciones,.btn{display:none !important} }
+</style>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="img/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+</head>
+<body>
+
+<header class="barra">
+  <div class="marca">
+    <a href="ia-conceptual.html#c13" title="Volver al apunte">← Apunte</a> · <a href="index.html" title="Volver al menú">Materias</a>
+    <small>Simulacro escrito 2.º parcial · Intro a la IA</small>
+  </div>
+  <span class="reloj oculto" id="reloj" title="Tiempo restante del examen">--:--</span>
+  <div id="chip-sesion"></div>
+  <button class="btn" id="btn-tema" type="button">Modo oscuro</button>
+</header>
+
+<main class="lienzo">
+  <div class="portada">
+    <p class="cintillo">18 situaciones · 3 niveles · corrección con IA</p>
+    <h1>Simulacro escrito del segundo parcial</h1>
+    <p>
+      Las situaciones del examen modelo de la cátedra. Cada una tiene cuatro partes: dos conceptos, una aplicación
+      al proceso y una de diseño y control. Respondé por escrito, como en el examen, y la IA corrige cada parte
+      contra su grilla, usando el apunte como contexto. Antes de empezar, conviene leer la
+      <a href="ia-conceptual.html#c13">guía del simulacro en el apunte</a>.
+    </p>
+  </div>
+
+  <div class="modos">
+    <button class="btn on" id="m-practica" type="button">Práctica</button>
+    <button class="btn" id="m-examen" type="button">Examen</button>
+  </div>
+
+  <div class="aviso oculto" id="aviso-sesion">Para corregir con IA tenés que <strong>iniciar sesión</strong> (botón de arriba). Podés escribir igual: las respuestas se guardan en este navegador.</div>
+
+  <!-- PRÁCTICA -->
+  <section id="v-practica">
+    <div id="p-lista">
+      <div class="filtros">
+        <span class="etq">Nivel</span>
+        <button class="chip on" data-n="todas" type="button">Todas</button>
+        <button class="chip" data-n="Baja" type="button">Baja</button>
+        <button class="chip" data-n="Media" type="button">Media</button>
+        <button class="chip" data-n="Alta" type="button">Alta</button>
+      </div>
+      <div class="grilla" id="grilla"></div>
+    </div>
+    <div id="p-situacion" class="oculto">
+      <div class="filtros"><button class="btn" id="btn-volver" type="button">← Todas las situaciones</button></div>
+      <div id="p-cuerpo"></div>
+    </div>
+  </section>
+
+  <!-- EXAMEN -->
+  <section id="v-examen" class="oculto">
+    <div id="e-inicio">
+      <div class="aviso">El examen sortea <strong>una situación de cada nivel</strong> (baja, media y alta). Tenés un tiempo límite; al entregar, la IA corrige las tres y te da la nota. Si se termina el tiempo, se entrega solo. Lo que escribas se guarda en el navegador, así que podés recargar la página sin perderlo.</div>
+      <div class="filtros" id="e-duracion">
+        <span class="etq">Duración</span>
+        <button class="chip" data-min="60" type="button">60 min</button>
+        <button class="chip on" data-min="90" type="button">90 min</button>
+        <button class="chip" data-min="120" type="button">120 min</button>
+      </div>
+      <div class="acciones" style="justify-content:flex-start"><button class="btn principal" id="btn-empezar" type="button">Empezar examen</button></div>
+    </div>
+    <div id="e-curso" class="oculto">
+      <div class="pestanas" id="e-pestanas"></div>
+      <div id="e-cuerpo"></div>
+      <div class="acciones">
+        <span class="msg" id="e-msg"></span>
+        <button class="btn peligro" id="btn-abandonar" type="button">Abandonar</button>
+        <button class="btn principal" id="btn-entregar" type="button">Entregar y corregir</button>
+      </div>
+    </div>
+    <div id="e-final" class="oculto">
+      <div class="resumen-examen" id="e-resumen"></div>
+      <div id="e-detalle"></div>
+      <div class="acciones" style="justify-content:flex-start"><button class="btn principal" id="btn-otro" type="button">Hacer otro examen</button></div>
+    </div>
+  </section>
+
+  <p class="pie">Consignas: examen modelo de la cátedra. Criterios de corrección redactados a partir de su guía de respuestas orientativas. La corrección por IA es una ayuda para practicar, no la nota del parcial.</p>
+</main>
+
+<script src="config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/auth.js"></script>
+<script src="js/situaciones-ia-p2.js"></script>
+<script>
+(function(){
+  "use strict";
+
+  // ===== TEMA (misma clave que el resto del sitio) =====
+  var raiz = document.documentElement, btnTema = document.getElementById("btn-tema");
+  function aplicarTema(t){
+    raiz.setAttribute("data-tema", t);
+    btnTema.textContent = t === "oscuro" ? "Modo claro" : "Modo oscuro";
+    try{ localStorage.setItem("ia-tema", t); }catch(e){}
+  }
+  var temaGuardado = null;
+  try{ temaGuardado = localStorage.getItem("ia-tema"); }catch(e){}
+  if(!temaGuardado) temaGuardado = (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) ? "oscuro" : "claro";
+  aplicarTema(temaGuardado);
+  btnTema.addEventListener("click", function(){ aplicarTema(raiz.getAttribute("data-tema") === "oscuro" ? "claro" : "oscuro"); });
+
+  // ===== DATOS =====
+  var SITUACIONES = window.SITUACIONES_IA_P2 || [];
+  var CLASES = window.CLASES_IA_P2 || {};
+  var NIVELES = ["Baja", "Media", "Alta"];
+  var LETRAS = ["a", "b", "c", "d"];
+  var MAX_CARACTERES = 3000;
+  function porId(id){ for(var i = 0; i < SITUACIONES.length; i++) if(SITUACIONES[i].id === id) return SITUACIONES[i]; return null; }
+
+  function leer(k, def){ try{ var v = JSON.parse(localStorage.getItem(k)); return v == null ? def : v; }catch(e){ return def; } }
+  function escribir(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+  function borrar(k){ try{ localStorage.removeItem(k); }catch(e){} }
+  function el(tag, clase, texto){ var e = document.createElement(tag); if(clase) e.className = clase; if(texto != null) e.textContent = texto; return e; }
+
+  // ===== SESIÓN Y CORRECCIÓN =====
+  var cliente = window.Auth ? window.Auth.cliente : null;
+  var sesion = null;
+  var avisoSesion = document.getElementById("aviso-sesion");
+  function ponerSesion(s){ sesion = s; avisoSesion.classList.toggle("oculto", !!s); }
+  if(cliente){ window.Auth.obtenerSesion().then(ponerSesion); window.Auth.onCambioSesion(ponerSesion); }
+  else ponerSesion(null);
+
+  function corregir(id, respuestas){
+    if(!cliente) return Promise.reject(new Error("no se pudo conectar con el servidor"));
+    return cliente.functions.invoke("corregir-situacion", { body:{ situacion_id:id, respuestas:respuestas } }).then(function(r){
+      if(r.error){
+        // Los 4xx de la Edge Function traen el motivo real en el cuerpo de la respuesta.
+        var ctx = r.error.context;
+        if(ctx && typeof ctx.json === "function"){
+          return ctx.json().then(function(b){ throw new Error(b && b.error ? b.error : r.error.message); }, function(){ throw r.error; });
+        }
+        throw r.error;
+      }
+      return r.data; // {partes, coherencia, devolucion, puntaje_pct, restantes_hoy}
+    });
+  }
+
+  // ===== PIEZAS COMUNES =====
+  function linksClases(s){
+    var p = el("p", "repasar");
+    p.appendChild(document.createTextNode("Repasar: "));
+    s.clases.forEach(function(c, i){
+      if(i) p.appendChild(document.createTextNode(" · "));
+      var a = el("a", null, "Clase " + c + (CLASES[c] ? " — " + CLASES[c] : ""));
+      a.href = "ia-conceptual.html#c" + c; a.target = "_blank"; a.rel = "noopener";
+      p.appendChild(a);
+    });
+    return p;
+  }
+
+  // Arma la situación con sus cuatro cuadros de texto. alCambiar(respuestas) se llama en cada tecla.
+  function crearSituacion(s, respuestas, alCambiar, deshabilitada){
+    var caja = el("article", "situacion"); caja.setAttribute("data-nivel", s.nivel);
+    var eb = el("p", "eyebrow");
+    eb.appendChild(el("span", null, "Situación " + s.id));
+    eb.appendChild(el("span", "nivel", "Complejidad " + s.nivel.toLowerCase()));
+    caja.appendChild(eb);
+    caja.appendChild(el("h2", null, s.titulo));
+    var rol = el("p", "rol"); rol.appendChild(el("b", null, "Rol y situación")); rol.appendChild(document.createTextNode(s.rol)); caja.appendChild(rol);
+    var cg = el("p", "consigna-gral"); cg.appendChild(el("b", null, "Consigna")); cg.appendChild(document.createTextNode("Responda las cuatro partes con vocabulario técnico y justificación.")); caja.appendChild(cg);
+    caja.appendChild(linksClases(s));
+    s.partes.forEach(function(p){
+      var d = el("div", "parte");
+      var idTa = "ta-" + s.id + "-" + p.letra;
+      var lab = el("label"); lab.htmlFor = idTa;
+      lab.appendChild(el("em", null, p.letra + ")"));
+      var t = el("span"); t.appendChild(el("small", null, p.tipo)); t.appendChild(document.createTextNode(p.consigna)); lab.appendChild(t);
+      var ta = el("textarea"); ta.id = idTa; ta.maxLength = MAX_CARACTERES; ta.value = respuestas[p.letra] || ""; ta.disabled = !!deshabilitada;
+      ta.placeholder = "Escribí tu respuesta…";
+      var cont = el("div", "contador");
+      function contar(){ cont.textContent = ta.value.length + " / " + MAX_CARACTERES; }
+      contar();
+      ta.addEventListener("input", function(){ respuestas[p.letra] = ta.value; contar(); if(alCambiar) alCambiar(respuestas); });
+      d.appendChild(lab); d.appendChild(ta); d.appendChild(cont);
+      caja.appendChild(d);
+    });
+    return caja;
+  }
+
+  function nota10(pct){ return (Math.round(pct) / 10).toFixed(1).replace(".", ","); }
+
+  function crearResultado(r){
+    var caja = el("div", "resultado");
+    var n = el("div", "nota");
+    n.appendChild(el("b", null, r.puntaje_pct + " %"));
+    n.appendChild(el("span", null, "de los criterios cumplidos · equivale a " + nota10(r.puntaje_pct) + " / 10"));
+    caja.appendChild(n);
+    r.partes.forEach(function(p){
+      var d = el("div", "res-parte");
+      var h = el("h4"); h.appendChild(document.createTextNode(p.letra + ") " + p.tipo)); h.appendChild(el("span", null, p.puntaje_pct + " %")); d.appendChild(h);
+      p.criterios.forEach(function(c){
+        var f = el("div", "criterio" + (c.cumple ? " ok" : ""));
+        f.appendChild(el("i", null, c.cumple ? "✓" : "✗"));
+        var tx = el("div"); tx.appendChild(document.createTextNode(c.criterio));
+        if(c.justificacion) tx.appendChild(el("small", null, c.justificacion));
+        f.appendChild(tx); d.appendChild(f);
+      });
+      if(p.devolucion) d.appendChild(el("p", "devolucion", p.devolucion));
+      caja.appendChild(d);
+    });
+    var g = el("div", "general");
+    if(r.coherencia){
+      g.appendChild(el("h5", r.coherencia.cumple ? "ok" : "mal", r.coherencia.cumple ? "✓ Coherencia entre las partes" : "✗ Coherencia entre las partes"));
+      g.appendChild(el("p", null, r.coherencia.justificacion || ""));
+    }
+    if(r.devolucion){ g.appendChild(el("h5", null, "Devolución general")); g.appendChild(el("p", null, r.devolucion)); }
+    caja.appendChild(g);
+    return caja;
+  }
+
+  function hayTexto(resp){ return LETRAS.reduce(function(n, l){ return n + (resp[l] || "").trim().length; }, 0) >= 60; }
+
+  // ===== MODOS =====
+  var mPractica = document.getElementById("m-practica"), mExamen = document.getElementById("m-examen");
+  var vPractica = document.getElementById("v-practica"), vExamen = document.getElementById("v-examen");
+  function modo(m){
+    mPractica.classList.toggle("on", m === "practica"); mExamen.classList.toggle("on", m === "examen");
+    vPractica.classList.toggle("oculto", m !== "practica"); vExamen.classList.toggle("oculto", m !== "examen");
+    if(m === "examen") mostrarExamen();
+  }
+  mPractica.addEventListener("click", function(){ if(location.hash.indexOf("examen") >= 0) history.replaceState(null, "", location.pathname); modo("practica"); });
+  mExamen.addEventListener("click", function(){ history.replaceState(null, "", location.pathname + "#examen"); modo("examen"); });
+
+  // ===== PRÁCTICA =====
+  var filtroNivel = "todas";
+  var grilla = document.getElementById("grilla");
+  var pLista = document.getElementById("p-lista"), pSituacion = document.getElementById("p-situacion"), pCuerpo = document.getElementById("p-cuerpo");
+
+  function estadoDe(id){
+    var r = leer("ia2-resultado-" + id, null);
+    if(r) return "corregida · " + r.puntaje_pct + " %";
+    var b = leer("ia2-borrador-" + id, null);
+    return b && hayTexto(b) ? "en borrador" : "";
+  }
+  function pintarLista(){
+    grilla.innerHTML = "";
+    SITUACIONES.filter(function(s){ return filtroNivel === "todas" || s.nivel === filtroNivel; }).forEach(function(s){
+      var b = el("button", "tarjeta"); b.type = "button"; b.setAttribute("data-nivel", s.nivel);
+      var m = el("span", "meta"); m.appendChild(el("span", null, "#" + s.id + " · " + s.nivel)); m.appendChild(el("span", "estado", estadoDe(s.id)));
+      b.appendChild(m); b.appendChild(el("b", null, s.titulo));
+      b.addEventListener("click", function(){ abrir(s.id); });
+      grilla.appendChild(b);
+    });
+  }
+  Array.prototype.forEach.call(document.querySelectorAll("#p-lista .chip"), function(c){
+    c.addEventListener("click", function(){
+      filtroNivel = c.getAttribute("data-n");
+      Array.prototype.forEach.call(document.querySelectorAll("#p-lista .chip"), function(x){ x.classList.toggle("on", x === c); });
+      pintarLista();
+    });
+  });
+
+  function abrir(id){
+    var s = porId(id); if(!s) return;
+    history.replaceState(null, "", location.pathname + "#s=" + id);
+    pLista.classList.add("oculto"); pSituacion.classList.remove("oculto");
+    pCuerpo.innerHTML = "";
+    var resp = leer("ia2-borrador-" + id, {});
+    var caja = crearSituacion(s, resp, function(r){ escribir("ia2-borrador-" + id, r); });
+    var acc = el("div", "acciones");
+    var msg = el("span", "msg");
+    var bBorrar = el("button", "btn peligro", "Borrar respuestas"); bBorrar.type = "button";
+    var bCorr = el("button", "btn principal", "Corregir con IA"); bCorr.type = "button";
+    acc.appendChild(msg); acc.appendChild(bBorrar); acc.appendChild(bCorr);
+    caja.appendChild(acc);
+    var zona = el("div"); caja.appendChild(zona);
+    var previo = leer("ia2-resultado-" + id, null);
+    if(previo){ zona.appendChild(el("p", "cintillo", "Última corrección guardada")); zona.appendChild(crearResultado(previo)); }
+    pCuerpo.appendChild(caja);
+    window.scrollTo(0, 0);
+
+    bBorrar.addEventListener("click", function(){
+      if(!window.confirm("¿Borrar tus respuestas y la corrección de esta situación?")) return;
+      borrar("ia2-borrador-" + id); borrar("ia2-resultado-" + id); abrir(id);
+    });
+    bCorr.addEventListener("click", function(){
+      if(!sesion){ msg.className = "msg mal"; msg.textContent = "Iniciá sesión para corregir con IA."; return; }
+      if(!hayTexto(resp)){ msg.className = "msg mal"; msg.textContent = "Escribí un poco más antes de corregir."; return; }
+      bCorr.disabled = true; msg.className = "msg"; msg.textContent = "Corrigiendo… (puede tardar unos segundos)";
+      corregir(id, resp).then(function(r){
+        escribir("ia2-resultado-" + id, r);
+        zona.innerHTML = ""; zona.appendChild(crearResultado(r));
+        msg.textContent = "Listo. Te quedan " + r.restantes_hoy + " correcciones hoy.";
+        zona.scrollIntoView({ block:"start", behavior:"smooth" });
+      }).catch(function(e){
+        msg.className = "msg mal"; msg.textContent = "¡D’oh! " + (e.message || e);
+      }).then(function(){ bCorr.disabled = false; });
+    });
+  }
+  document.getElementById("btn-volver").addEventListener("click", function(){
+    history.replaceState(null, "", location.pathname);
+    pSituacion.classList.add("oculto"); pLista.classList.remove("oculto"); pintarLista();
+  });
+
+  // ===== EXAMEN =====
+  // Estado en el navegador: {ids, inicio, minutos, respuestas:{id:{a..d}}, resultados:{id:r}, entregado}
+  var CLAVE_EXAMEN = "ia2-examen";
+  var eInicio = document.getElementById("e-inicio"), eCurso = document.getElementById("e-curso"), eFinal = document.getElementById("e-final");
+  var ePestanas = document.getElementById("e-pestanas"), eCuerpo = document.getElementById("e-cuerpo"), eMsg = document.getElementById("e-msg");
+  var reloj = document.getElementById("reloj"), intervalo = null, actual = 0, entregando = false;
+  var minutosElegidos = 90;
+
+  Array.prototype.forEach.call(document.querySelectorAll("#e-duracion .chip"), function(c){
+    c.addEventListener("click", function(){
+      minutosElegidos = parseInt(c.getAttribute("data-min"), 10);
+      Array.prototype.forEach.call(document.querySelectorAll("#e-duracion .chip"), function(x){ x.classList.toggle("on", x === c); });
+    });
+  });
+
+  function sortear(){
+    return NIVELES.map(function(n){
+      var de = SITUACIONES.filter(function(s){ return s.nivel === n; });
+      return de[Math.floor(Math.random() * de.length)].id;
+    });
+  }
+  function examen(){ return leer(CLAVE_EXAMEN, null); }
+  function guardarExamen(x){ escribir(CLAVE_EXAMEN, x); }
+
+  function restanteMs(x){ return x.inicio + x.minutos * 60000 - Date.now(); }
+  function tic(){
+    var x = examen(); if(!x || x.entregado){ pararReloj(); return; }
+    var ms = restanteMs(x);
+    if(ms <= 0){ reloj.textContent = "0:00"; pararReloj(); entregar(true); return; }
+    var min = Math.floor(ms / 60000), seg = Math.floor(ms % 60000 / 1000);
+    reloj.textContent = min + ":" + (seg < 10 ? "0" : "") + seg;
+    reloj.classList.toggle("apurado", ms < 5 * 60000);
+  }
+  function arrancarReloj(){ reloj.classList.remove("oculto"); tic(); if(!intervalo) intervalo = setInterval(tic, 1000); }
+  function pararReloj(){ if(intervalo){ clearInterval(intervalo); intervalo = null; } reloj.classList.add("oculto"); }
+
+  function mostrarExamen(){
+    var x = examen();
+    eInicio.classList.toggle("oculto", !!x); eCurso.classList.toggle("oculto", !x || !!x.entregado); eFinal.classList.toggle("oculto", !x || !x.entregado);
+    if(!x) return;
+    if(x.entregado){ pintarFinal(x); return; }
+    arrancarReloj(); pintarCurso();
+  }
+
+  function pintarCurso(){
+    var x = examen(); if(!x) return;
+    ePestanas.innerHTML = "";
+    x.ids.forEach(function(id, i){
+      var s = porId(id);
+      var b = el("button", "btn" + (i === actual ? " on" : ""), (i + 1) + " · " + s.nivel); b.type = "button";
+      b.addEventListener("click", function(){ actual = i; pintarCurso(); });
+      ePestanas.appendChild(b);
+    });
+    eCuerpo.innerHTML = "";
+    var id = x.ids[actual], s = porId(id);
+    var resp = x.respuestas[id] || (x.respuestas[id] = {});
+    eCuerpo.appendChild(crearSituacion(s, resp, function(r){ var y = examen(); if(!y || y.entregado) return; y.respuestas[id] = r; guardarExamen(y); }, entregando));
+  }
+
+  document.getElementById("btn-empezar").addEventListener("click", function(){
+    actual = 0;
+    guardarExamen({ ids:sortear(), inicio:Date.now(), minutos:minutosElegidos, respuestas:{}, resultados:{}, entregado:false });
+    mostrarExamen(); window.scrollTo(0, 0);
+  });
+  document.getElementById("btn-abandonar").addEventListener("click", function(){
+    if(!window.confirm("¿Abandonar el examen? Se borra lo que escribiste.")) return;
+    borrar(CLAVE_EXAMEN); pararReloj(); mostrarExamen();
+  });
+  document.getElementById("btn-entregar").addEventListener("click", function(){ entregar(false); });
+  document.getElementById("btn-otro").addEventListener("click", function(){ borrar(CLAVE_EXAMEN); actual = 0; mostrarExamen(); });
+
+  // Corrige una por una (secuencial, para no saturar el límite de la función) y guarda lo que ya se corrigió.
+  function entregar(porTiempo){
+    var x = examen(); if(!x || x.entregado || entregando) return;
+    if(!porTiempo && !window.confirm("¿Entregar el examen? Se corrigen las tres situaciones.")) return;
+    if(!sesion){ eMsg.className = "msg mal"; eMsg.textContent = porTiempo ? "Se terminó el tiempo. Iniciá sesión y tocá «Entregar» para corregir." : "Iniciá sesión para corregir con IA."; return; }
+    entregando = true; pararReloj(); pintarCurso();
+    document.getElementById("btn-entregar").disabled = true;
+    var pendientes = x.ids.filter(function(id){ return !x.resultados[id]; });
+    var hechas = x.ids.length - pendientes.length;
+    eMsg.className = "msg"; eMsg.textContent = (porTiempo ? "Se terminó el tiempo. " : "") + "Corrigiendo " + (hechas + 1) + " de " + x.ids.length + "…";
+    var cadena = Promise.resolve();
+    pendientes.forEach(function(id){
+      cadena = cadena.then(function(){
+        var resp = x.respuestas[id] || {};
+        var vacia = !hayTexto(resp);
+        var p = vacia ? Promise.resolve(resultadoVacio(id)) : corregir(id, resp);
+        return p.then(function(r){
+          x.resultados[id] = r; guardarExamen(x); hechas++;
+          if(hechas < x.ids.length) eMsg.textContent = "Corrigiendo " + (hechas + 1) + " de " + x.ids.length + "…";
+        });
+      });
+    });
+    cadena.then(function(){
+      x.entregado = true; guardarExamen(x); entregando = false; mostrarExamen(); window.scrollTo(0, 0);
+    }).catch(function(e){
+      entregando = false; document.getElementById("btn-entregar").disabled = false; pintarCurso();
+      eMsg.className = "msg mal"; eMsg.textContent = "¡D’oh! " + (e.message || e) + " Lo que ya se corrigió quedó guardado: volvé a tocar «Entregar».";
+    });
+  }
+  // Una situación casi en blanco no se manda a la IA: vale 0.
+  function resultadoVacio(id){
+    var s = porId(id);
+    return { puntaje_pct:0, devolucion:"La situación quedó sin responder.", coherencia:null,
+      partes:s.partes.map(function(p){ return { letra:p.letra, tipo:p.tipo, puntaje_pct:0, criterios:[], devolucion:"Sin respuesta." }; }) };
+  }
+
+  function pintarFinal(x){
+    var res = document.getElementById("e-resumen"), det = document.getElementById("e-detalle");
+    res.innerHTML = ""; det.innerHTML = "";
+    var total = 0;
+    x.ids.forEach(function(id){ total += x.resultados[id] ? x.resultados[id].puntaje_pct : 0; });
+    var prom = Math.round(total / x.ids.length);
+    var d0 = el("div"); d0.appendChild(el("small", null, "Nota del examen")); d0.appendChild(el("b", null, nota10(prom) + " / 10")); d0.appendChild(el("small", null, prom + " % de los criterios")); res.appendChild(d0);
+    x.ids.forEach(function(id){
+      var s = porId(id), r = x.resultados[id];
+      var d = el("div"); d.setAttribute("data-nivel", s.nivel);
+      d.appendChild(el("small", null, s.nivel + " · #" + s.id)); d.appendChild(el("b", null, (r ? r.puntaje_pct : 0) + " %")); d.appendChild(el("small", null, s.titulo));
+      res.appendChild(d);
+      var caja = crearSituacion(s, x.respuestas[id] || {}, null, true);
+      if(r) caja.appendChild(crearResultado(r));
+      det.appendChild(caja);
+    });
+  }
+
+  // ===== INICIO =====
+  pintarLista();
+  var h = location.hash;
+  var m = /^#s=(\d+)$/.exec(h);
+  if(h === "#examen" || (examen() && !examen().entregado)) modo("examen");
+  else if(m && porId(parseInt(m[1], 10))) abrir(parseInt(m[1], 10));
+})();
+</script>
+<script src="js/sesion.js"></script>
+<script>Sesion.montar("chip-sesion");</script>
+</body>
+</html>

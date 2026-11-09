@@ -29,6 +29,11 @@ Toda página nueva lleva los tres `<link rel="icon">` (copiarlos de `index.html`
 `python tools/seed.py` (genera `seed_etica.sql` y `seed_etica_parcial2.sql`). En cada pregunta la opción correcta no puede ser sistemáticamente la más larga ni caer
 siempre en la misma letra, y los distractores no deben delatarse con «siempre / nunca / ninguno»: medilo antes de dar un banco por terminado.
 
+**Simulacro escrito del 2.º parcial de Intro a la IA** (`simulacro-ia-2.html`). Las 18 situaciones y sus criterios viven en `tools/situaciones_ia_p2.json`;
+`python tools/seed_ia_parcial2.py` genera `supabase/seed_ia_parcial2.sql` (que incluye **el texto de las clases 7 a 12 de `ia-conceptual.html` como contexto
+para la corrección**) y `js/situaciones-ia-p2.js`. Si cambiás el texto de esas clases o las situaciones, volvé a correr el script y commiteá el resultado.
+El apunte de Intro a la IA numera las clases seguidas (1–13), sin el salto de la cátedra (1–6, 9–15).
+
 ## Regla: "clase + resumen de transcripción"
 
 Cuando el usuario menciona una **clase nueva** junto con material de una
