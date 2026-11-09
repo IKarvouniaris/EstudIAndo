@@ -3,7 +3,7 @@
 -- Es idempotente: se puede volver a correr.
 --
 -- 1) iniciar_intento(p_materia, p_parcial): el examen puntuado sortea 2 casos del parcial elegido.
---    p_parcial = 1 → casos de las unidades 1 a 4 (clases 1 a 6); p_parcial = 2 → unidades 5 a 8 (clases 7, 8, 10 y 11).
+--    p_parcial = 1 → casos de las unidades 1 a 4 (clases 1 a 6); p_parcial = 2 → unidades 5 a 8 (clases 7 a 10).
 --    Con un solo argumento sigue funcionando (por defecto es el 1.er parcial), así que una página vieja no se rompe.
 -- 2) dominio_etica(): suma las unidades 5 a 8 al «dominio por tema».
 -- El cooldown de 5 minutos, el leaderboard y la corrección no cambian: valen para los dos parciales.

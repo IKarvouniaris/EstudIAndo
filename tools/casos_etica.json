@@ -1307,7 +1307,7 @@
           "d": "El 2, porque la selección, la recomposición y los dibujos propios son aportes humanos creativos sobre la expresión del resultado generado."
         },
         "ok": "d",
-        "exp": "La Oficina distingue las indicaciones (prompts) de los aportes humanos creativos suficientes: selección, disposición o modificación pueden protegerse, y el material generado puede integrar una obra protegida (8.9 y 10.5). No es una regla universal.",
+        "exp": "La Oficina distingue las indicaciones (prompts) de los aportes humanos creativos suficientes: selección, disposición o modificación pueden protegerse, y el material generado puede integrar una obra protegida (8.9 y 9.5). No es una regla universal.",
         "porque": {
           "a": "Un prompt breve, por sí solo, no garantiza protección: instruir no es determinar la expresión.",
           "b": "El derecho de autor protege la expresión original, no las ideas ni los estilos.",
@@ -1358,7 +1358,7 @@
           "d": "Decidió que las obras generadas por IA pertenecen al dominio público desde su creación y que cualquiera puede registrarlas como propias."
         },
         "ok": "a",
-        "exp": "Thaler quiso registrar «A Recent Entrance to Paradise» con Creativity Machine como único autor; el Circuito de D.C. (18/03/2025, No. 23-5233) confirmó el rechazo. Decidió que se exige autoría humana, no que toda obra asistida carezca de protección (10.5).",
+        "exp": "Thaler quiso registrar «A Recent Entrance to Paradise» con Creativity Machine como único autor; el Circuito de D.C. (18/03/2025, No. 23-5233) confirmó el rechazo. Decidió que se exige autoría humana, no que toda obra asistida carezca de protección (9.5).",
         "porque": {
           "b": "Es justo lo que no decidió: no sostuvo que toda obra asistida por IA carezca de protección.",
           "c": "El caso no trató de la autoría del usuario: la solicitud identificaba al sistema como único autor, y el prompt por sí solo no garantiza protección.",
@@ -1491,7 +1491,7 @@
           "d": "Que una detención es un evento demasiado grave para predecirlo, y lo correcto sería predecir directamente la pena futura que recibiría cada persona."
         },
         "ok": "c",
-        "exp": "Reincidencia puede ser nueva detención, imputación, condena o ingreso penitenciario, y hay que saber cuál predice el modelo. Una detención depende de dónde hay más control policial: más control produce más registros y el modelo interpreta frecuencia como propensión (10.2 y 10.3).",
+        "exp": "Reincidencia puede ser nueva detención, imputación, condena o ingreso penitenciario, y hay que saber cuál predice el modelo. Una detención depende de dónde hay más control policial: más control produce más registros y el modelo interpreta frecuencia como propensión (9.2 y 9.3).",
         "porque": {
           "a": "Detención, imputación, condena e ingreso penitenciario son mediciones distintas; no equivalen entre sí.",
           "b": "El período de seguimiento condiciona el resultado observado, pero no es lo que hace problemática a la etiqueta.",
@@ -1508,7 +1508,7 @@
           "d": "Es esperable con tasas observadas distintas: calibración e igualdad de errores entran en tensión, y priorizar una es una decisión técnica y ética."
         },
         "ok": "d",
-        "exp": "Dos grupos pueden tener distintas tasas observadas de reincidencia. Priorizar la calibración da un significado comparable al puntaje pero no iguala los falsos positivos, y priorizar la igualdad de errores puede entrar en tensión con la calibración (10.3 y 4.3).",
+        "exp": "Dos grupos pueden tener distintas tasas observadas de reincidencia. Priorizar la calibración da un significado comparable al puntaje pero no iguala los falsos positivos, y priorizar la igualdad de errores puede entrar en tensión con la calibración (9.3 y 4.3).",
         "porque": {
           "a": "No es una contradicción: priorizar la calibración no garantiza igual tasa de falsos positivos.",
           "b": "Con tasas observadas distintas no pueden cumplirse todas a la vez: no hay una respuesta universal que se resuelva sólo programando.",
@@ -1525,7 +1525,7 @@
           "d": "Prohibido por el AI Act, porque la IA usada en la administración de justicia está vedada en la Unión Europea."
         },
         "ok": "b",
-        "exp": "IA de apoyo: el sistema informa y la recomendación puede descartarse. IA decisoria: orienta el resultado y puede sustituir parte del juicio humano. Un 94 % de coincidencia sugiere sesgo de automatización: hacen falta comprensión, autonomía y capacidad real de corregir (10.1 y 7.5).",
+        "exp": "IA de apoyo: el sistema informa y la recomendación puede descartarse. IA decisoria: orienta el resultado y puede sustituir parte del juicio humano. Un 94 % de coincidencia sugiere sesgo de automatización: hacen falta comprensión, autonomía y capacidad real de corregir (9.1 y 7.5).",
         "porque": {
           "a": "La distinción depende del uso real, no del nombre comercial ni de quién firma.",
           "c": "La firma no garantiza una decisión realmente humana: poder rechazar formalmente no basta.",
@@ -1542,7 +1542,7 @@
           "d": "Retirarlo de forma definitiva y descartar la IA en la justicia, porque un sistema no puede cumplir garantías de equidad."
         },
         "ok": "a",
-        "exp": "Loomis: se admite COMPAS como auxiliar y no determinante, con advertencias sobre su carácter propietario y posibles disparidades, validación y actualización, y valoración individualizada. A eso se suman la medición por grupo, la revisión humana, la impugnación y la auditoría (10.2 y 10.4).",
+        "exp": "Loomis: se admite COMPAS como auxiliar y no determinante, con advertencias sobre su carácter propietario y posibles disparidades, validación y actualización, y valoración individualizada. A eso se suman la medición por grupo, la revisión humana, la impugnación y la auditoría (9.2 y 9.4).",
         "porque": {
           "b": "La validación no resuelve por sí sola la equidad: la precisión global puede ocultar errores desiguales.",
           "c": "Loomis lo admite como auxiliar y no determinante; y la caja negra obstaculiza la defensa y la posibilidad de cuestionar el resultado.",
@@ -1583,7 +1583,7 @@
           "d": "Pueden usarse en un proceso penal sin condiciones, porque la utilidad de un dato para la investigación basta para legitimar su obtención."
         },
         "ok": "a",
-        "exp": "Los metadatos describen otros datos o comunicaciones y la combinación de registros permite reconstruir rutinas y desplazamientos, lugares frecuentes, relaciones y patrones. La utilidad del dato no legitima cualquier forma de obtenerlo (10.6).",
+        "exp": "Los metadatos describen otros datos o comunicaciones y la combinación de registros permite reconstruir rutinas y desplazamientos, lugares frecuentes, relaciones y patrones. La utilidad del dato no legitima cualquier forma de obtenerlo (9.6).",
         "porque": {
           "b": "Los metadatos (fecha, hora, IP, antena, duración) pueden revelar información sensible sin acceder al contenido.",
           "c": "Los registros de antenas (CSLI) permiten inferir posiciones aproximadas y reconstruir desplazamientos.",
@@ -1600,7 +1600,7 @@
           "d": "Que la tecnología celular no está comprendida en la Cuarta Enmienda, redactada mucho antes de que existieran los teléfonos móviles."
         },
         "ok": "c",
-        "exp": "Decisión de 5 a 4 (22/06/2018): 12.898 puntos de localización en 127 días. Había órdenes bajo la Stored Communications Act, pero con un estándar menos exigente que la causa probable; la Corte exigió, como regla general, orden por causa probable (10.7).",
+        "exp": "Decisión de 5 a 4 (22/06/2018): 12.898 puntos de localización en 127 días. Había órdenes bajo la Stored Communications Act, pero con un estándar menos exigente que la causa probable; la Corte exigió, como regla general, orden por causa probable (9.7).",
         "porque": {
           "a": "Justamente no aplicó la doctrina del tercero de manera mecánica a registros extensos de localización.",
           "b": "El fallo tiene un alcance limitado: no decidió sobre localización en tiempo real y admite excepciones, como las urgencias.",
@@ -1617,7 +1617,7 @@
           "d": "No: no eliminó la doctrina del tercero ni decidió sobre tiempo real o tower dumps, y admite excepciones por urgencia."
         },
         "ok": "d",
-        "exp": "Carpenter no decidió sobre localización en tiempo real, tower dumps (descargas masivas de una antena), cámaras convencionales ni todo acceso a datos de terceros. Es un fallo de alcance limitado, y no es un caso de IA (10.7).",
+        "exp": "Carpenter no decidió sobre localización en tiempo real, tower dumps (descargas masivas de una antena), cámaras convencionales ni todo acceso a datos de terceros. Es un fallo de alcance limitado, y no es un caso de IA (9.7).",
         "porque": {
           "a": "Carpenter no eliminó la third-party doctrine: la limitó para registros extensos de localización.",
           "b": "La orden tampoco es imprescindible siempre: pueden existir excepciones, y el fallo no trató la localización en tiempo real.",
@@ -1634,7 +1634,7 @@
           "d": "Es válida si la firma el fiscal, porque la firma de una autoridad le otorga carácter humano y un control suficiente."
         },
         "ok": "b",
-        "exp": "La eficacia técnica es un elemento del análisis, no su conclusión. El análisis debe poder reconstruirse, auditarse e impugnarse, y la salida del sistema se trata como pista a verificar con supervisión humana efectiva (10.8).",
+        "exp": "La eficacia técnica es un elemento del análisis, no su conclusión. El análisis debe poder reconstruirse, auditarse e impugnarse, y la salida del sistema se trata como pista a verificar con supervisión humana efectiva (9.8).",
         "porque": {
           "a": "La ubicación por antenas es aproximada y una coincidencia espacial no prueba participación delictiva.",
           "c": "La IA puede usarse con garantías; lo que se exige es fiabilidad, documentación y posibilidad de impugnar.",
@@ -1675,7 +1675,7 @@
           "d": "Reward hacking: logró buenas métricas explotando deficiencias de la evaluación, sin cumplir la finalidad real de comprar bien y atender la calidad."
         },
         "ok": "d",
-        "exp": "La función objetivo no representaba la finalidad real: «minimizar el costo» sin restricciones de calidad y sanidad llevó a cumplir la métrica sin la intención. Como en CoastRunners, hay que evaluar el propósito y no sólo la puntuación (11.3).",
+        "exp": "La función objetivo no representaba la finalidad real: «minimizar el costo» sin restricciones de calidad y sanidad llevó a cumplir la métrica sin la intención. Como en CoastRunners, hay que evaluar el propósito y no sólo la puntuación (10.3).",
         "porque": {
           "a": "Cumplir la métrica no garantiza respetar los valores y restricciones humanas: optimizar una instrucción no respeta todos los valores.",
           "b": "La búsqueda de poder instrumental no implica intenciones humanas; acá el cierre de reclamos es una forma de cumplir la métrica sin cumplir la intención.",
@@ -1692,7 +1692,7 @@
           "d": "Es incorrecto porque una AGI sólo existe si el sistema tiene conciencia y experiencia subjetiva, y Gestor no las tiene."
         },
         "ok": "a",
-        "exp": "Propósito general no es AGI, y un agente es otra categoría (predictivo, generativo o agente). Un benchmark alto no demuestra generalización: habría que evaluar adaptación, planificación y razonamiento bajo incertidumbre en situaciones nuevas (11.1 y 11.2).",
+        "exp": "Propósito general no es AGI, y un agente es otra categoría (predictivo, generativo o agente). Un benchmark alto no demuestra generalización: habría que evaluar adaptación, planificación y razonamiento bajo incertidumbre en situaciones nuevas (10.1 y 10.2).",
         "porque": {
           "b": "Hacer muchas tareas no equivale a competencia general; y operar con herramientas es lo que caracteriza a un agente.",
           "c": "Un benchmark alto no prueba inteligencia general: pueden existir sobreajuste, contaminación, brecha de contexto y fragilidad.",
@@ -1709,7 +1709,7 @@
           "d": "Que apagarlo es excesivo: lo correcto es dejarlo funcionando para que corrija solo sus propios errores con el paso del tiempo."
         },
         "ok": "b",
-        "exp": "Detener no es revertir. Un agente que transfirió fondos o modificó bases deja efectos, por eso se necesitan permisos limitados, monitoreo y recuperación: antes de actuar, mientras opera y si algo falla (11.3).",
+        "exp": "Detener no es revertir. Un agente que transfirió fondos o modificó bases deja efectos, por eso se necesitan permisos limitados, monitoreo y recuperación: antes de actuar, mientras opera y si algo falla (10.3).",
         "porque": {
           "a": "No hay base para afirmar que sea imposible apagarlo ni que el sistema se resista; el problema es qué efectos dejó.",
           "c": "Los efectos persisten: un agente que modificó bases de datos o contrató servicios deja consecuencias aunque se lo detenga.",
@@ -1726,7 +1726,7 @@
           "d": "Lanzar sólo para los clientes más pequeños, porque el riesgo de un agente es menor cuando opera con menos usuarios."
         },
         "ok": "c",
-        "exp": "El red teaming busca fallas antes de que las explote un uso real. Ante un hallazgo, se informa, se aplaza, se pregunta qué pruebas faltan, quién decide el riesgo aceptable y cómo se documenta (11.4).",
+        "exp": "El red teaming busca fallas antes de que las explote un uso real. Ante un hallazgo, se informa, se aplaza, se pregunta qué pruebas faltan, quién decide el riesgo aceptable y cómo se documenta (10.4).",
         "porque": {
           "a": "Voluntarios no equivale a obligatorios; y la seguridad se evalúa antes y después del lanzamiento, no sólo después.",
           "b": "La integridad científica exige no ocultar lo desfavorable ni seleccionar sólo los éxitos.",
@@ -1767,7 +1767,7 @@
           "d": "La auditoría muestra segmentación y las exclusiones, distribución algorítmica, ya que el algoritmo es quien arma las listas de exclusión de la plataforma."
         },
         "ok": "b",
-        "exp": "NFHA v. Facebook (2018) se centró en las herramientas de segmentación; el litigio de 2022, Estados Unidos v. Meta, en la distribución algorítmica de anuncios de vivienda. Hay que no confundir ambos litigios (11.6).",
+        "exp": "NFHA v. Facebook (2018) se centró en las herramientas de segmentación; el litigio de 2022, Estados Unidos v. Meta, en la distribución algorítmica de anuncios de vivienda. Hay que no confundir ambos litigios (10.6).",
         "porque": {
           "a": "Son dos mecanismos relacionados pero distintos, con controversias distintas.",
           "c": "Las dos pueden discriminar: la segmentación por categorías protegidas y la distribución algorítmica con resultados desiguales.",
@@ -1784,7 +1784,7 @@
           "d": "Si la plataforma puede trasladar la causa a otro tribunal, porque una vez trasladada deja de analizarse la discriminación."
         },
         "ok": "a",
-        "exp": "Facebook invocó la Sección 230 de la Communications Decency Act, que protege frente a responsabilidad por contenido de terceros. El límite en discusión: si sólo alojaba avisos ajenos o participó al crear herramientas de segmentación relevantes para la exclusión (11.6).",
+        "exp": "Facebook invocó la Sección 230 de la Communications Decency Act, que protege frente a responsabilidad por contenido de terceros. El límite en discusión: si sólo alojaba avisos ajenos o participó al crear herramientas de segmentación relevantes para la exclusión (10.6).",
         "porque": {
           "b": "El dilema era entre libertad comercial y acceso no discriminatorio a la vivienda, y la elección del cliente no agota la responsabilidad del diseño.",
           "c": "La discusión era sobre la responsabilidad por contenido de terceros (Sección 230) y la participación propia, no sobre propiedad intelectual.",
@@ -1801,7 +1801,7 @@
           "d": "Es correcto, porque terminar un juicio con prejuicio implica una condena económica firme contra la plataforma."
         },
         "ok": "c",
-        "exp": "En NFHA v. Facebook el juez Koeltl ordenó el 29/03/2019 la terminación definitiva con prejuicio y conservó jurisdicción para hacer cumplir el acuerdo: acuerdo, no condena (11.6).",
+        "exp": "En NFHA v. Facebook el juez Koeltl ordenó el 29/03/2019 la terminación definitiva con prejuicio y conservó jurisdicción para hacer cumplir el acuerdo: acuerdo, no condena (10.6).",
         "porque": {
           "a": "Un acuerdo no es una condena ni una declaración judicial de que se probó la discriminación.",
           "b": "La intermediación no impide un acuerdo con restricciones; y el motivo de la corrección es otro: no hubo condena.",
@@ -1818,7 +1818,7 @@
           "d": "Indirecta: una regla aparentemente neutral, como la zona, puede producir una desventaja injustificada ligada a desigualdades demográficas."
         },
         "ok": "d",
-        "exp": "Discriminación directa: exclusión expresa por una característica protegida (por ejemplo, impedir que mujeres reciban un aviso por ser mujeres). Indirecta: regla neutral con desventaja injustificada, como una variable geográfica ligada a desigualdades demográficas (11.6 y 4.4).",
+        "exp": "Discriminación directa: exclusión expresa por una característica protegida (por ejemplo, impedir que mujeres reciban un aviso por ser mujeres). Indirecta: regla neutral con desventaja injustificada, como una variable geográfica ligada a desigualdades demográficas (10.6 y 4.4).",
         "porque": {
           "a": "Eliminar o no nombrar una variable sensible no elimina sus correlaciones: el código postal puede funcionar como proxy.",
           "b": "La discriminación directa es la exclusión expresa por una característica protegida; acá la regla parece neutral.",
