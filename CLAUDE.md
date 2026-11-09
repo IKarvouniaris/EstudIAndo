@@ -47,7 +47,8 @@ en positivo, opciones cortas, paralelas y de una sola idea (nada de «Concepto: 
 Después de tocarlas, corré `node tools/medir_preguntas_zombie.js` y releelas: el script cuenta, pero no juzga si se entienden. No usar en el juego bancos cuyas respuestas viven en
 tablas privadas de Supabase (por ejemplo `tools/casos_etica.json`, el examen puntuado de Ética): el mazo viaja entero al navegador. El juego se dibuja en un
 `<canvas>` (sin imágenes ni emojis), los valores para ajustar están en `CFG`, arriba de `js/parcial-zombie.js`, y en pantalla las opciones van pegadas debajo
-de la consigna, con el pasillo abajo. El brief está en `docs/parcial-zombie-brief.md`. Si cambia el texto de las clases 7 a 12, revisá que los «porqué» sigan
+de la consigna, con el pasillo abajo. El cartel «UADE» del pasillo son letras dibujadas en código, no el logo oficial: no subir el archivo del logo de la universidad (marca de terceros, repo público).
+El brief está en `docs/parcial-zombie-brief.md`. Si cambia el texto de las clases 7 a 12, revisá que los «porqué» sigan
 diciendo lo mismo que el apunte.
 
 ## Regla: "clase + resumen de transcripción"

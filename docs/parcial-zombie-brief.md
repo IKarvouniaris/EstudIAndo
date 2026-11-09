@@ -31,6 +31,8 @@ After play: las preguntas y respuestas son bastante confusas y no dejan en claro
 
 After play: quiero que se muestre un timer de los segundos que transcurren mientras te corre el zombie y apartir de los ultimos 10 te sale en rojo el contador en mas grande y se mueve (ponelo en un lugar donde no te moleste elegir las puertas o opciones
 
+After play: arriba de las puertas que queda un espacio en verde agrega UADE (busca el logo en internet)
+
 **Pitch:** Corré por el pasillo de la facultad con un zombie en la nuca: cada tanda de tres puertas es una pregunta del 2.º parcial de Intro a la IA, y solo una te deja seguir.
 
 **Genre:** quiz de opción múltiple + corredor. El quiz manda en preguntas, respuestas y revelación; el corredor, en el ritmo y la presión.
@@ -46,6 +48,7 @@ After play: quiero que se muestre un timer de los segundos que transcurren mient
 ## Look and references
 
 - Look: pasillo de facultad de noche, visto desde atrás del jugador. Paredes verde hospital apagado, piso en damero que corre hacia vos, casilleros y carteleras a los costados, tubos fluorescentes que parpadean. El jugador de espaldas con mochila; el zombie entra por el borde de abajo, primero las manos y después la cabeza. Puertas de madera con una chapa con la letra A, B o C. Verde frío para el ambiente, rojo solo para el peligro y las mordidas, amarillo cálido para la luz de la puerta correcta. Todo dibujado en canvas, sin emojis ni imágenes *(guessed)*.
+- Sobre las puertas, una chapa azul con las letras UADE, dibujada en código. No es el logo oficial: no se sube el archivo de una marca de terceros a un repo público.
 - Detalle propio: los tubos se apagan uno por uno, desde atrás, a medida que el zombie se acerca *(guessed)*.
 - Pantalla: la pregunta arriba, las opciones pegadas debajo y el pasillo abajo. (La primera versión tenía el pasillo en el medio y las opciones al pie; se cambió después de jugarlo.) El texto no va sobre las puertas porque en un celular quedaría ilegible *(guessed)*.
 - Marca: tipografías y logo del sitio, los tres `<link rel="icon">` y un «¡D'oh!» cuando te muerden *(guessed)*.

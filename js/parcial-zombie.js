@@ -413,7 +413,7 @@
     casillero1: "#4E6F7A", casillero2: "#466571", casilleroSombra: "#2C434C",
     tuboOn: "#E6F7EA", tuboOff: "#3B4A46",
     madera: "#7C5433", maderaOsc: "#63411F", maderaLuz: "#93683F", marco: "#221A12", vidrio: "#A9C2B6", herraje: "#CDB878", zocalo: "#828B88",
-    placa: "#E9E3CF", tinta: "#1B2422", luz: "#FFD766", sangre: "#C23B2E",
+    placa: "#E9E3CF", tinta: "#1B2422", luz: "#FFD766", sangre: "#C23B2E", uade: "#17386B", uadeLetra: "#F4F1E6",
     buzo: "#E6E1CD", buzoSombra: "#BDB8A4", mochila: "#5661C9", mochilaOsc: "#3E48A0", jean: "#2E4069", zapa: "#F2EFE5", pelo: "#3A2A20", piel: "#D9A982",
     zPiel: "#8FA56D", zPielOsc: "#62774A", zRopa: "#4D4138", zRopaOsc: "#352C26", zUña: "#262B1F", zHerida: "#6E1F1C", zPelo: "#22271E"
   };
@@ -549,7 +549,8 @@
     cx.strokeStyle = COL.junta; cx.lineWidth = Math.max(1, pr.w * 0.006);
     cx.strokeRect(pr.x0, pr.y0, pr.w, pr.h);
 
-    // cartel de salida sobre la última tanda
+    // en la franja libre de arriba de las puertas: el cartel de la facultad, o el de salida en la última tanda
+    if (!ultima) dibujarCartelUade(pr);
     if (ultima) {
       var sw = pr.w * 0.26, sh = pr.h * 0.085, sx = pr.x0 + pr.w / 2 - sw / 2, sy = pr.y0 + pr.h * 0.07;
       cx.shadowColor = "rgba(92,203,132,.9)"; cx.shadowBlur = sh * 0.9;
@@ -564,6 +565,21 @@
       dibujarPuerta(d.x + tem, d.y, d.w, d.h, E.abre[k], E.marca[k], k);
       rectPuertas[k] = { x: d.x - d.w * 0.2, y: d.y - d.h * 0.3, w: d.w * 1.4, h: d.h * 1.3 };
     }
+  }
+
+  // Cartel «UADE» en la pared del fondo. Son las letras del nombre sobre una chapa azul, dibujadas acá:
+  // no es el logo oficial de la universidad (es una marca de terceros y el repo es público).
+  function dibujarCartelUade(pr) {
+    var alto = pr.h * 0.115, ancho = alto * 3.2;
+    var x = pr.x0 + pr.w / 2 - ancho / 2, y = pr.y0 + pr.h * 0.055;
+    cx.fillStyle = "rgba(0,0,0,.3)"; redondo(x + alto * 0.05, y + alto * 0.09, ancho, alto, alto * 0.1); cx.fill();
+    cx.fillStyle = COL.uade; redondo(x, y, ancho, alto, alto * 0.1); cx.fill();
+    cx.strokeStyle = "rgba(244,241,230,.55)"; cx.lineWidth = Math.max(1, alto * 0.04); cx.stroke();
+    cx.fillStyle = COL.uadeLetra;
+    cx.font = "700 " + Math.round(alto * 0.7) + "px Bahnschrift, 'Franklin Gothic Medium', 'Arial Narrow', sans-serif";
+    cx.textAlign = "center"; cx.textBaseline = "middle";
+    var letras = "UADE", paso = ancho * 0.205, x0 = x + ancho / 2 - paso * 1.5;
+    for (var i = 0; i < letras.length; i++) cx.fillText(letras[i], x0 + paso * i, y + alto / 2 + alto * 0.05);
   }
 
   function dibujarPuerta(x, y, w, h, abre, marca, k) {
