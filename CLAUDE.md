@@ -38,13 +38,14 @@ El apunte de Intro a la IA numera las clases seguidas (1–13), sin el salto de 
 
 **Parcial Zombie** (`parcial-zombie.html`): juego de repaso (pasillo, zombie, una puerta por opción). Es una plantilla: `js/parcial-zombie.js` no sabe de
 materias y lee los mazos de `js/mazos-zombie.js`; para sumar una materia se carga su archivo de preguntas en el HTML y se agrega una entrada ahí (el formato está
-en la cabecera de ese archivo), sin tocar el juego. Mazos de hoy: **Intro a la IA** (`js/preguntas-zombie-ia.js`, 30 preguntas de tres opciones; la correcta es
-siempre `ops[0]` y el juego las mezcla) y **Ética** (reutiliza tal cual `js/casos-etica-roles.js`, los casos por roles: si cambiás ese archivo, cambia el juego).
+en la cabecera de ese archivo), sin tocar el juego. Cada mazo tiene niveles (uno por clase) y entre nivel y nivel se baja una escalera. Mazos de hoy: **Intro a la IA** (238 preguntas de tres opciones, un archivo por clase en
+`js/zombie-ia/c07.js … c12.js`; el formato y las pautas están en `js/preguntas-zombie-ia.js`; la correcta es siempre `ops[0]` y el juego las mezcla; cada pregunta trae el `ref` del apartado
+del apunte y hay una pregunta por cada concepto de cada apartado: el medidor falla si un apartado de las clases 7 a 12 queda sin preguntas) y **Ética** (reutiliza tal cual `js/casos-etica-roles.js`, los casos por roles: si cambiás ese archivo, cambia el juego).
 Las preguntas de Intro a la IA siguen las reglas de opciones de los simulacros y **no nombran al profesor, a la cátedra ni «la clase N»** (van sobre las
 diapositivas y los casos prácticos). Además siguen las pautas de redacción que están en la cabecera de `js/preguntas-zombie-ia.js`, porque una primera tanda
 salió confusa: un solo concepto por pregunta con su `tema` a la vista (el área, no la respuesta), consigna directa que se pueda contestar tapando las opciones,
 en positivo, opciones cortas, paralelas y de una sola idea (nada de «Concepto: definición» ni «Sí, porque…»), y distractores que sean conceptos vecinos.
-Después de tocarlas, corré `node tools/medir_preguntas_zombie.js` y releelas: el script cuenta, pero no juzga si se entienden. No usar en el juego bancos cuyas respuestas viven en
+Después de tocarlas, corré `node tools/medir_preguntas_zombie.js` y releelas: el script cuenta, pero no juzga si se entienden. Si agregás un apartado nuevo al apunte (clases 7 a 12), agregá su pregunta o el medidor va a fallar. No usar en el juego bancos cuyas respuestas viven en
 tablas privadas de Supabase (por ejemplo `tools/casos_etica.json`, el examen puntuado de Ética): el mazo viaja entero al navegador. El juego se dibuja en un
 `<canvas>` (sin imágenes ni emojis), los valores para ajustar están en `CFG`, arriba de `js/parcial-zombie.js`, y en pantalla las opciones van pegadas debajo
 de la consigna, con el pasillo abajo. El cartel «UADE» del pasillo son letras dibujadas en código, no el logo oficial: no subir el archivo del logo de la universidad (marca de terceros, repo público).

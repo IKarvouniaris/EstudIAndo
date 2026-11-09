@@ -147,6 +147,21 @@ button{font:inherit; color:inherit}
 .mazo small{font-family:var(--mono); font-size:.68rem; color:var(--tinta-3)}
 .mazo.on{border-color:var(--luz); background:#24210F}
 .mazo.on b{color:var(--luz)}
+/* niveles: uno por clase; se puede empezar en cualquiera */
+.niveles{margin:0 0 1rem}
+.niveles-lista{display:grid; gap:.3rem; margin:.3rem 0 .2rem}
+.nivel-op{cursor:pointer; display:grid; grid-template-columns:1.7rem 1fr auto; align-items:center; gap:.55rem; text-align:left; padding:.4rem .6rem;
+  background:var(--papel-2); border:1px solid var(--linea); border-radius:3px}
+.nivel-op:hover{border-color:var(--tinta-3)}
+.nivel-op b{width:1.7rem; height:1.7rem; display:grid; place-items:center; background:var(--placa); color:#1B2422; border-radius:2px; font-family:var(--display); font-size:.95rem}
+.nivel-op span{font-size:.92rem; color:var(--tinta); line-height:1.2}
+.nivel-op small{font-family:var(--mono); font-size:.66rem; color:var(--tinta-3); white-space:nowrap}
+.nivel-op.on{border-color:var(--luz); background:#24210F}
+.nivel-op.on b{background:var(--luz)}
+.niveles .nota{font-size:.82rem; color:var(--luz); margin:.25rem 0 0; min-height:1.2em; max-width:none}
+.resumen li.nivel-cab{display:flex; justify-content:space-between; align-items:baseline; gap:.6rem; border:0; background:transparent; padding:.6rem .1rem .1rem; margin-top:.4rem}
+.resumen li.nivel-cab b{font-family:var(--display); font-size:1rem; color:var(--luz); letter-spacing:.02em; line-height:1.2}
+.resumen li.nivel-cab span{font-family:var(--mono); font-size:.72rem; color:var(--tinta-3); white-space:nowrap}
 .hechos p{color:var(--tinta); max-width:none; margin:.7rem 0; font-size:1rem; line-height:1.45}
 .capa h1.chico{font-size:clamp(1.5rem,6.5vw,2.2rem); text-transform:none; line-height:1.08}
 .mejor{font-family:var(--mono); font-size:.8rem; color:var(--tinta-3); margin-top:1.1rem}
@@ -230,6 +245,11 @@ button{font:inherit; color:inherit}
         <li><b>3</b><span>vidas. Si errás la puerta o se te acaba el tiempo, te muerde.</span></li>
         <li><b>5</b><span>aciertos seguidos te devuelven una vida perdida.</span></li>
       </ul>
+      <div class="niveles" id="niveles" hidden>
+        <p class="cintillo">Dónde empezás</p>
+        <div class="niveles-lista" id="niveles-lista" role="radiogroup" aria-label="Nivel por el que empezar"></div>
+        <p class="nota" id="niveles-nota"></p>
+      </div>
       <div class="botones">
         <button class="btn principal" id="btn-correr" type="button">Correr</button>
         <a class="btn" id="btn-repasar" href="index.html">Repasar el apunte</a>
@@ -288,8 +308,14 @@ button{font:inherit; color:inherit}
 </div>
 
 <script src="js/marca.js"></script>
-<!-- Un archivo de preguntas por materia; js/mazos-zombie.js los convierte en mazos para el juego -->
+<!-- Un archivo de preguntas por materia (Intro a la IA: uno por clase); js/mazos-zombie.js los convierte en mazos para el juego -->
 <script src="js/preguntas-zombie-ia.js"></script>
+<script src="js/zombie-ia/c07.js"></script>
+<script src="js/zombie-ia/c08.js"></script>
+<script src="js/zombie-ia/c09.js"></script>
+<script src="js/zombie-ia/c10.js"></script>
+<script src="js/zombie-ia/c11.js"></script>
+<script src="js/zombie-ia/c12.js"></script>
 <script src="js/casos-etica-roles.js"></script>
 <script src="js/mazos-zombie.js"></script>
 <script src="js/parcial-zombie.js"></script>
