@@ -33,6 +33,12 @@ After play: quiero que se muestre un timer de los segundos que transcurren mient
 
 After play: arriba de las puertas que queda un espacio en verde agrega UADE (busca el logo en internet)
 
+After play: estoy pensando que deberiamos hacer "niveles" por cada clase, es decir que las 30 preguntas (o las que consideres necesarias para recorrer cada opcion y cada concepto de la clase (no solo 1 opcion de un concepto entero como pasa ahora) y que cuando hayamos completado todas las preguntas del "nivel" (por ejemplo clase "De la inteligencia biologica a la automatizacion) y pasemos a las siguientes preguntas de la siguiente clase en orden "nivel 2" (Clase Cognición distribuida y neurociencia) que haya una animacion de que bajamos escaleras y abrimos la puerta de la escalera para llegar al siguiente nivel) y asi cada clase hasta completarlas todas. Yo pretendo que jugando este juego pueda repasar todos los conceptos que necesito para el segundo parcial
+
+After play: la animacion de bajar las escaleras quedo genial! podemos cambiar la animacion del pasillo para transitar el pasillo en vez de que se mueva hacia nosotros infinitamente? usando de ejemplo la animacion de la escalera que hiciste?
+
+After play: hace que parezca que esta corriendo, va caminando muy lento, como podemos hacer esa ilusion? hace que corra en el lugar y mire para atras asustado mientras se sigue moviendo al ritmo que esta ahora, pero que parezca que esta corriendo
+
 **Pitch:** Corré por el pasillo de la facultad con un zombie en la nuca: cada tanda de tres puertas es una pregunta del 2.º parcial de Intro a la IA, y solo una te deja seguir.
 
 **Genre:** quiz de opción múltiple + corredor. El quiz manda en preguntas, respuestas y revelación; el corredor, en el ritmo y la presión.
@@ -86,6 +92,8 @@ Cada pregunta da 30 segundos al principio y 18 en la puerta 30 *(guessed: `tInic
 - [x] Resumen final en verde y rojo
 - [x] Sonidos sintetizados (pasos, puerta, golpe, mordida, gruñido, latido) con botón para silenciar *(guessed)*
 - [x] Mejor marca guardada en el navegador, una por materia
+- [x] Niveles por clase (6 en Intro a la IA, 4 en Ética), con una escalera animada entre uno y otro, una vida de regalo al pasar de nivel *(guessed)* y la opción de empezar en cualquier nivel *(guessed)*
+- [x] Preguntas para todos los conceptos de las clases 7 a 12 de Intro a la IA: 238, con cobertura medida contra el apunte
 - [x] Elegir la materia en la portada: el juego es una plantilla y cada materia es un mazo (`js/mazos-zombie.js`)
 - [x] Mazo de Ética: los 8 casos por roles de `simulacro-etica-2.html`, con cuatro puertas y el caso a la vista antes de correr *(guessed: cuál banco de Ética, las cuatro puertas y la pantalla del caso)*
 

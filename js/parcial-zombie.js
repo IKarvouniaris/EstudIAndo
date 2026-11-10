@@ -1,5 +1,6 @@
 /* Parcial Zombie (parcial-zombie.html). Un pasillo, un zombie atrás y tres o cuatro puertas por pregunta.
-   Es una plantilla: las materias son «mazos» que arma js/mazos-zombie.js (ahí está el formato). El juego
+   Es una plantilla: las materias son «mazos» que arma js/mazos-zombie.js (ahí está el formato). Cada mazo tiene
+   niveles (uno por clase): se juegan en orden y entre uno y otro se baja una escalera. Dentro de cada nivel el juego
    mezcla las preguntas (o los casos) y cambia las opciones de puerta en cada partida.
    Todo se dibuja en un <canvas> 2D con perspectiva de un punto de fuga: no hay imágenes ni emojis.
    El reloj de cada pregunta es el zombie: «peligro» va de 0 (lejos) a 1 (te alcanzó).
@@ -17,15 +18,22 @@
     tPorLetra: 0.085,    // …más esto por cada letra de la consigna y sus opciones (30 s para ~260 letras)
     apuroFinal: 0.6,     // en la última puerta queda este porcentaje del tiempo (0.6 = 60 %)
     relojApuro: 10,      // desde estos segundos el contador se pone rojo, grande y tiembla
-    sLejos: 0.46,        // tamaño de la pared del fondo cuando aparece la pregunta
-    sCerca: 0.70,        // …y cuando se acaba el tiempo
-    velPasillo: 1.5,     // qué tan rápido corre el piso
+    // El pasillo se recorre de verdad: las puertas (la pared del fondo) se acercan y el piso, los casilleros y las lámparas
+    // pasan al ritmo de ese acercamiento. «s» es el tamaño de la pared del fondo: chico = lejos, grande = encima.
+    sIni: 0.32,          // al entrar al pasillo: las puertas, lejos
+    sLejos: 0.44,        // al terminar de llegar, cuando ya se lee con calma
+    sCerca: 0.74,        // cuando se acaba el tiempo: las puertas casi encima
+    tLlegada: 1.5,       // s: lo que tarda en correr desde la entrada hasta ese punto
+    cadencia: 12,        // rad/s: lo rápido que mueve las piernas. Corre en el lugar: no depende de lo que avanza el pasillo
     dCorre: 0.40,        // s: correr hasta la puerta elegida
     dRebote: 0.45,       // s: rebotar contra la puerta equivocada
     dMordida: 0.75,      // s: la mordida
     dRevela: 0.50,       // s: ir hasta la puerta correcta
     dCruza: 0.45,        // s: cruzar la puerta
-    dCae: 1.0            // s: caer cuando no quedan vidas
+    dCae: 1.0,           // s: caer cuando no quedan vidas
+    dEntrada: 1.8,       // s: se muestra el nombre del nivel antes de que corra el reloj de su primera pregunta
+    dEscalera: 5.2,      // s: bajar la escalera hasta la puerta del nivel siguiente
+    vidaPorNivel: 1      // vidas que se recuperan al pasar de nivel (siempre hasta el máximo)
   };
 
   var MAZOS = window.MAZOS_ZOMBIE || [];
@@ -109,6 +117,7 @@
       },
       acierto: function () { tono(660, 660, 0.07, "triangle", 0.11); tono(880, 880, 0.1, "triangle", 0.11, 0.07); },
       cura: function () { tono(523, 523, 0.11, "triangle", 0.14, 0.12); tono(659, 659, 0.11, "triangle", 0.14, 0.23); tono(784, 784, 0.2, "triangle", 0.14, 0.34); },
+      nivel: function () { [392, 523, 659, 784].forEach(function (f, i) { tono(f, f, 0.16, "triangle", 0.13, i * 0.09); }); },
       latido: function (f) { tono(62, 40, 0.1, "sine", 0.32 * f); tono(56, 36, 0.1, "sine", 0.24 * f, 0.17); },
       gruñido: function (f) { tono(92, 58, 0.7, "sawtooth", 0.07 * f); tono(47, 40, 0.7, "square", 0.04 * f); ruido(0.6, 0.05 * f, 500, "bandpass", 0, 3); },
       gana: function () { [392, 523, 659, 784, 1047].forEach(function (f, i) { tono(f, f, 0.18, "triangle", 0.16, i * 0.11); }); },
@@ -118,17 +127,20 @@
 
   /* ------------------------------ Estado ------------------------------ */
   var E = {
-    fase: "portada",   // portada | caso | pregunta | corre | rebote | mordida | revela | cruza | cae | fin
+    fase: "portada",   // portada | entrada | caso | pregunta | corre | rebote | mordida | revela | cruza | escalera | cae | fin
     pausa: false,
     mazo: MAZOS[0] || null,
-    tandas: [], i: 0,  // tandas[i] = { p: pregunta, caso: caso o null, abre: true si es la primera de su caso, nCaso }
+    tandas: [], i: 0,  // tandas[i] = { p: pregunta, caso: caso o null, abre: true si es la primera de su caso, nCaso,
+                       //               nivel, enNivel, totalNivel, abreNivel, ultimaNivel }
+    desde: 0, nNiveles: 1,   // nivel por el que se empieza (0 = el primero) y cuántos niveles tiene el mazo
+    esc: null, escU: 0, escPuerta: false, tPasoEsc: 0, vidaGanada: false,
     vidas: CFG.vidas, racha: 0, corrida: 0, mejorRacha: 0, aciertos: 0,
     historial: [],     // { p, elegida (índice en p.ops, o null si se acabó el tiempo), bien }
     preg: null, caso: null, n: 3, puertas: [0, 1, 2], correcta: 0,
     t: 0, tMax: 30, ft: 0,
     elegida: -1, acerto: false,
     // presentación
-    s: CFG.sLejos, s0: CFG.sLejos, pN: 0, pN0: 0, pEsc: 1, dist: 0, reloj: 0,
+    s: CFG.sLejos, s0: CFG.sLejos, pN: 0, pN0: 0, pEsc: 1, dist: 0, dist0: 1 / CFG.sLejos, fasePaso: 0, pasoN: 0, giro: 0, reloj: 0,
     zombi: 0, embiste: 0, rojo: 0, tiembla: 0, fundido: 0, negro: 0,
     abre: [0, 0, 0, 0], sacude: [0, 0, 0, 0], marca: ["", "", "", ""],
     tPaso: 0, tLatido: 0, tGruñido: 3
@@ -146,25 +158,42 @@
   var rectPuertas = [null, null, null, null];   // dónde quedó cada puerta en pantalla (para tocarla)
 
   /* ----------------------------- Partida ------------------------------ */
-  // Arma la corrida: los grupos sin caso mezclan sus preguntas; los casos se mezclan entre sí y conservan su orden interno.
-  function armarTandas(mazo) {
-    var bloques = [];
-    mazo.grupos.forEach(function (g) {
-      if (g.caso) bloques.push(g.preguntas.map(function (p, j) { return { p: p, caso: g.caso, abre: j === 0 }; }));
-      else g.preguntas.forEach(function (p) { bloques.push([{ p: p, caso: null, abre: false }]); });
-    });
-    mezclar(bloques);
+  // Un mazo tiene niveles (uno por clase). Si no los trae, es un único nivel con todos sus grupos.
+  function nivelesDe(mazo) { return mazo.niveles || [{ titulo: mazo.detalle, clase: null, grupos: mazo.grupos }]; }
+  function gruposDe(mazo) { return nivelesDe(mazo).reduce(function (a, n) { return a.concat(n.grupos); }, []); }
+  function totalPreguntas(mazo, desde) {
+    return nivelesDe(mazo).reduce(function (s, n, i) {
+      return i < (desde || 0) ? s : s + n.grupos.reduce(function (t2, g) { return t2 + g.preguntas.length; }, 0);
+    }, 0);
+  }
+
+  // Arma la corrida desde el nivel «desde»: los niveles van en orden y, dentro de cada uno, los grupos sin caso
+  // mezclan sus preguntas y los casos se mezclan entre sí conservando su orden interno.
+  function armarTandas(mazo, desde) {
     var tandas = [], nCaso = 0;
-    bloques.forEach(function (b) { if (b[0].caso) nCaso++; b.forEach(function (x) { x.nCaso = nCaso; tandas.push(x); }); });
+    nivelesDe(mazo).forEach(function (niv, ni) {
+      if (ni < desde) return;
+      var bloques = [];
+      niv.grupos.forEach(function (g) {
+        if (g.caso) bloques.push(g.preguntas.map(function (p, j) { return { p: p, caso: g.caso, abre: j === 0 }; }));
+        else g.preguntas.forEach(function (p) { bloques.push([{ p: p, caso: null, abre: false }]); });
+      });
+      mezclar(bloques);
+      var primera = tandas.length;
+      bloques.forEach(function (b) { if (b[0].caso) nCaso++; b.forEach(function (x) { x.nCaso = nCaso; x.nivel = ni; tandas.push(x); }); });
+      for (var j = primera; j < tandas.length; j++) { tandas[j].enNivel = j - primera + 1; tandas[j].totalNivel = tandas.length - primera; }
+      tandas[primera].abreNivel = true;
+      tandas[tandas.length - 1].ultimaNivel = true;
+    });
     return tandas;
   }
-  function totalPreguntas(mazo) { return mazo.grupos.reduce(function (s, g) { return s + g.preguntas.length; }, 0); }
 
   function nueva() {
     if (!E.mazo) return;
-    E.tandas = armarTandas(E.mazo);
+    E.nNiveles = nivelesDe(E.mazo).length;
+    E.tandas = armarTandas(E.mazo, E.desde);
     E.i = 0; E.vidas = CFG.vidas; E.racha = 0; E.corrida = 0; E.mejorRacha = 0; E.aciertos = 0;
-    E.historial = []; E.pausa = false; E.negro = 0; E.rojo = 0; E.zombi = 0; E.embiste = 0;
+    E.historial = []; E.pausa = false; E.negro = 0; E.rojo = 0; E.zombi = 0; E.embiste = 0; E.esc = null; E.vidaGanada = false;
     dom.portada.hidden = true; dom.pausa.hidden = true; dom.fin.hidden = true; dom.caso.hidden = true;
     E.fundido = 1;
     cargar();
@@ -184,10 +213,12 @@
     E.tMax = (CFG.tBase + CFG.tPorLetra * letras) * lerp(1, CFG.apuroFinal, n > 1 ? E.i / (n - 1) : 0);
     E.elegida = -1; E.acerto = false;
     E.abre = [0, 0, 0, 0]; E.sacude = [0, 0, 0, 0]; E.marca = ["", "", "", ""];
-    E.pN = 0; E.pEsc = 1; E.s = CFG.sLejos; E.embiste = 0;
+    E.pN = 0; E.pEsc = 1; E.s = CFG.sIni; E.dist0 = 1 / E.s; E.dist = 0; E.embiste = 0;
 
     // arriba de la consigna: por dónde vas y, si el mazo lo trae, el tema que se evalúa (bien a la vista)
-    var partes = ["Puerta " + (E.i + 1) + " de " + n];
+    var partes = [];
+    if (E.nNiveles > 1) partes.push("Nivel " + (tanda.nivel + 1) + " de " + E.nNiveles);
+    partes.push("Puerta " + tanda.enNivel + " de " + tanda.totalNivel);
     if (E.caso) partes.push("caso " + tanda.nCaso);
     if (E.preg.rol) partes.push(E.preg.rol);
     if (!E.preg.tema && E.preg.clase != null) partes.push("clase " + E.preg.clase);
@@ -203,7 +234,13 @@
     dom.avance.textContent = (E.i + 1) + "/" + n;
     dom.verCaso.hidden = !E.caso;
 
-    if (tanda.abre) { E.fase = "caso"; mostrarCaso(false); }   // el zombie espera mientras se lee el caso
+    dom.opciones.style.visibility = "";
+    E.vidaGanada = E.vidaGanada && tanda.abreNivel;
+    if (tanda.abreNivel && E.nNiveles > 1) { E.fase = "entrada"; E.ft = 0; Sonido.nivel(); }   // se lee el nombre del nivel y recién ahí corre el reloj
+    else abrirPregunta();
+  }
+  function abrirPregunta() {
+    if (E.tandas[E.i].abre) { E.fase = "caso"; mostrarCaso(false); }   // el zombie espera mientras se lee el caso
     else E.fase = "pregunta";
   }
 
@@ -230,7 +267,7 @@
     if (E.fase !== "pregunta" || E.pausa || k < 0 || k >= E.n) return;
     Sonido.iniciar();
     E.elegida = k; E.acerto = (k === E.correcta);
-    E.historial.push({ p: E.preg, caso: E.caso, elegida: E.puertas[k], bien: E.acerto });
+    E.historial.push({ p: E.preg, caso: E.caso, nivel: E.tandas[E.i].nivel, elegida: E.puertas[k], bien: E.acerto });
     dom.ops.forEach(function (b, j) { b.disabled = true; if (j === k) b.classList.add("elegida"); });
     if (E.acerto) anotarAcierto();
     E.pN0 = E.pN; E.s0 = E.s; E.ft = 0; E.fase = "corre";
@@ -253,7 +290,7 @@
   }
 
   function seAcaboElTiempo() {
-    E.historial.push({ p: E.preg, caso: E.caso, elegida: null, bien: false });
+    E.historial.push({ p: E.preg, caso: E.caso, nivel: E.tandas[E.i].nivel, elegida: null, bien: false });
     dom.ops.forEach(function (b) { b.disabled = true; });
     E.elegida = -1; E.acerto = false;
     morder("¡Te alcanzó!");
@@ -276,8 +313,32 @@
   }
 
   function siguiente() {
+    var tanda = E.tandas[E.i];
+    if (E.i + 1 >= E.tandas.length) { terminar(true); return; }
+    if (tanda.ultimaNivel && E.nNiveles > 1) { empezarEscalera(tanda.nivel); return; }
     E.i++;
-    if (E.i >= E.tandas.length) { terminar(true); return; }
+    cargar();
+  }
+
+  // Terminar un nivel: se baja por la escalera hasta la puerta del siguiente.
+  function empezarEscalera(ni) {
+    var vistas = 0, bien = 0, niveles = nivelesDe(E.mazo);
+    E.historial.forEach(function (h) { if (h.nivel === ni) { vistas++; if (h.bien) bien++; } });
+    E.esc = { ni: ni, bien: bien, total: vistas, tituloSig: niveles[ni + 1].titulo };
+    E.fase = "escalera"; E.ft = 0; E.escU = 0; E.escPuerta = false; E.tPasoEsc = 0; E.fundido = 1;
+    dom.cintillo.textContent = "Nivel " + (ni + 1) + " superado";
+    dom.pregunta.textContent = bien + " de " + vistas + " bien. Bajás al nivel " + (ni + 2) + ": " + E.esc.tituloSig + ".";
+    dom.opciones.style.visibility = "hidden";     // el espacio queda, así el pasillo no salta
+    dom.verCaso.hidden = true;
+  }
+  function terminarEscalera() {
+    E.i++;
+    E.vidaGanada = false;
+    if (E.vidas < CFG.vidas && CFG.vidaPorNivel > 0) {
+      E.vidas = Math.min(CFG.vidas, E.vidas + CFG.vidaPorNivel);
+      E.vidaGanada = true;
+      pintarHud(); latir(E.vidas - 1); Sonido.cura();
+    }
     cargar();
   }
 
@@ -287,10 +348,12 @@
     document.documentElement.style.setProperty("--peligro", "0");
     if (gano) Sonido.gana(); else Sonido.pierde();
     var mejor = leerMejor(E.mazo);
-    var esta = { aciertos: E.aciertos, gano: gano };
-    var supera = !mejor || (esta.gano && !mejor.gano) || (esta.gano === mejor.gano && esta.aciertos > mejor.aciertos);
+    var nivel = E.tandas.length ? E.tandas[Math.min(E.i, E.tandas.length - 1)].nivel + 1 : 1;
+    var esta = { aciertos: E.aciertos, gano: gano, nivel: nivel };
+    var cuenta = E.desde === 0;      // la marca solo cuenta si se arranca en el primer nivel
+    var supera = cuenta && (!mejor || (esta.gano && !mejor.gano) || (esta.gano === mejor.gano && esta.aciertos > mejor.aciertos));
     if (supera) { try { localStorage.setItem(claveMejor(E.mazo), JSON.stringify(esta)); } catch (e) {} }
-    pintarFin(gano, supera, supera ? esta : mejor);
+    pintarFin(gano, supera, supera ? esta : mejor, cuenta);
   }
 
   function leerMejor(mazo) {
@@ -299,7 +362,8 @@
   }
   function textoMejor(m, mazo) {
     if (!m) return "";
-    return m.aciertos + " de " + totalPreguntas(mazo) + (m.gano ? " · escapaste" : " · te alcanzó");
+    var fin = m.gano ? " · escapaste" : (m.nivel && nivelesDe(mazo).length > 1 ? " · llegaste al nivel " + m.nivel : " · te alcanzó");
+    return m.aciertos + " de " + totalPreguntas(mazo) + fin;
   }
 
   /* ------------------------------- HUD -------------------------------- */
@@ -330,7 +394,7 @@
     if (texto != null) e.textContent = texto;
     return e;
   }
-  function pintarFin(gano, supera, mejor) {
+  function pintarFin(gano, supera, mejor, cuenta) {
     var n = E.tandas.length, vistas = E.historial.length;
     $("fin-cintillo").textContent = (gano ? "Salida de emergencia · " : "Fin de la corrida · ") + E.mazo.materia;
     var t = $("fin-titulo");
@@ -345,17 +409,30 @@
     $("fin-racha").textContent = E.mejorRacha;
     var fm = $("fin-mejor");
     fm.textContent = "";
-    fm.appendChild(document.createTextNode(supera ? "Nueva mejor marca: " : "Tu mejor marca: "));
-    fm.appendChild(el("b", "", textoMejor(mejor, E.mazo)));
+    if (!cuenta) fm.appendChild(document.createTextNode("Empezaste en el nivel " + (E.desde + 1) + ": esta corrida no cuenta para tu mejor marca."));
+    else {
+      fm.appendChild(document.createTextNode(supera ? "Nueva mejor marca: " : "Tu mejor marca: "));
+      fm.appendChild(el("b", "", textoMejor(mejor, E.mazo)));
+    }
 
     var ol = $("resumen");
     ol.textContent = "";
+    var nivelPrev = null, niveles = nivelesDe(E.mazo);
     E.historial.forEach(function (h, i) {
+      if (E.nNiveles > 1 && h.nivel !== nivelPrev) {      // un encabezado por nivel, con cuánto acertaste en él
+        nivelPrev = h.nivel;
+        var vi = 0, bi = 0;
+        E.historial.forEach(function (x) { if (x.nivel === h.nivel) { vi++; if (x.bien) bi++; } });
+        var cab0 = el("li", "nivel-cab");
+        cab0.appendChild(el("b", "", "Nivel " + (h.nivel + 1) + " · " + niveles[h.nivel].titulo));
+        cab0.appendChild(el("span", "", bi + " bien de " + vi));
+        ol.appendChild(cab0);
+      }
       var li = el("li", h.bien ? "bien" : "mal");
       var cab = el("p", "n");
       cab.appendChild(el("span", "", "Puerta " + (i + 1) + (h.p.rol ? " · " + h.p.rol : "") + (h.bien ? " · bien" : " · mordida")));
       if (h.p.clase != null) {
-        var a = el("a", "", "clase " + h.p.clase);
+        var a = el("a", "", "clase " + h.p.clase + (h.p.ref ? " · " + h.p.ref : ""));
         a.href = E.mazo.apunte + "#c" + h.p.clase;
         cab.appendChild(a);
       }
@@ -634,9 +711,12 @@
   }
 
   // El jugador, de espaldas: buzo claro, mochila azul, corre moviendo brazos y piernas.
-  function dibujarJugador(xc, pieY, alto, fase, quieto) {
-    var a = alto, sw = Math.sin(fase), cw = Math.cos(fase);
-    var bote = quieto ? 0 : Math.abs(sw) * a * 0.025;
+  // corre (0 a 1): cuánto vigor tiene la carrera (rodillas altas, brazos que bombean, rebote). giro (0 a 1): la cabeza
+  // se da vuelta de la nuca a la cara, asustada, para mirar al zombie que viene atrás.
+  function dibujarJugador(xc, pieY, alto, fase, quieto, giro, corre) {
+    var a = alto, sw = Math.sin(fase), f = corre || 0, g = giro || 0;
+    if (!quieto) xc += sw * a * 0.012 * f;
+    var bote = quieto ? 0 : Math.abs(sw) * a * (0.025 + 0.02 * f);
     var y = pieY - bote;
     cx.lineCap = "round"; cx.lineJoin = "round";
 
@@ -645,7 +725,7 @@
 
     // piernas
     for (var l = -1; l <= 1; l += 2) {
-      var sube = quieto ? 0 : Math.max(0, l * sw) * a * 0.13;
+      var sube = quieto ? 0 : Math.max(0, l * sw) * a * (0.13 + 0.05 * f);
       var cadX = xc + l * a * 0.075, cadY = y - a * 0.42;
       var pieX = xc + l * a * 0.085, pieYY = y - a * 0.03 - sube;
       cx.strokeStyle = COL.jean; cx.lineWidth = a * 0.115;
@@ -659,7 +739,7 @@
     for (var b = -1; b <= 1; b += 2) {
       var osc = quieto ? 0 : -b * sw;
       var homX = xc + b * a * 0.165, homY = y - a * 0.72;
-      var manX = xc + b * a * (0.24 + 0.02 * osc), manY = y - a * (0.47 + 0.10 * osc);
+      var manX = xc + b * a * (0.24 + 0.02 * osc), manY = y - a * (0.47 + (0.10 + 0.07 * f) * osc);
       cx.strokeStyle = COL.buzoSombra; cx.lineWidth = a * 0.085;
       cx.beginPath(); cx.moveTo(homX, homY); cx.quadraticCurveTo(homX + b * a * 0.09, (homY + manY) / 2, manX, manY); cx.stroke();
       cx.fillStyle = COL.piel; cx.beginPath(); cx.arc(manX, manY, a * 0.042, 0, 6.3); cx.fill();
@@ -677,12 +757,37 @@
     cx.strokeStyle = COL.mochilaOsc; cx.lineWidth = a * 0.022;
     cx.beginPath(); cx.arc(xc, y - a * 0.745, a * 0.035, Math.PI, 0); cx.stroke();
 
-    // cabeza de espaldas: capucha baja, cuello, pelo y orejas
+    // cuello de la capucha y nuca: no giran
     cx.fillStyle = COL.buzoSombra; cx.beginPath(); cx.ellipse(xc, y - a * 0.775, a * 0.115, a * 0.05, 0, 0, 6.3); cx.fill();
     cx.fillStyle = COL.piel; cx.fillRect(xc - a * 0.035, y - a * 0.84, a * 0.07, a * 0.07);
-    cx.beginPath(); cx.arc(xc - a * 0.092, y - a * 0.895 + cw * a * 0.002, a * 0.022, 0, 6.3); cx.arc(xc + a * 0.092, y - a * 0.895, a * 0.022, 0, 6.3); cx.fill();
-    cx.fillStyle = COL.pelo; cx.beginPath(); cx.arc(xc, y - a * 0.905, a * 0.094, 0, 6.3); cx.fill();
-    cx.beginPath(); cx.moveTo(xc - a * 0.09, y - a * 0.88); cx.quadraticCurveTo(xc, y - a * 0.80, xc + a * 0.09, y - a * 0.88); cx.fill();
+
+    // cabeza: gira sobre su eje. Se achata hasta ser una línea y al pasar la mitad ya se ve la cara, no la nuca
+    cx.save();
+    cx.translate(xc, y - a * 0.905);
+    cx.rotate(-0.14 * Math.sin(g * Math.PI));
+    cx.scale(Math.max(0.1, Math.abs(Math.cos(g * Math.PI))), 1);
+    if (g < 0.5) {                                              // de espaldas: orejas, pelo y nuca
+      cx.fillStyle = COL.piel; cx.beginPath(); cx.arc(-a * 0.092, a * 0.01, a * 0.022, 0, 6.3); cx.arc(a * 0.092, a * 0.01, a * 0.022, 0, 6.3); cx.fill();
+      cx.fillStyle = COL.pelo; cx.beginPath(); cx.arc(0, 0, a * 0.094, 0, 6.3); cx.fill();
+      cx.beginPath(); cx.moveTo(-a * 0.09, a * 0.025); cx.quadraticCurveTo(0, a * 0.105, a * 0.09, a * 0.025); cx.fill();
+    } else {                                                    // de frente: cara de susto
+      cx.fillStyle = COL.piel; cx.beginPath(); cx.arc(-a * 0.094, a * 0.012, a * 0.022, 0, 6.3); cx.arc(a * 0.094, a * 0.012, a * 0.022, 0, 6.3); cx.fill();
+      cx.beginPath(); cx.arc(0, a * 0.004, a * 0.094, 0, 6.3); cx.fill();
+      cx.fillStyle = COL.pelo;                                  // pelo con flequillo
+      cx.beginPath(); cx.moveTo(-a * 0.097, -a * 0.008); cx.arc(0, 0, a * 0.099, Math.PI, 2 * Math.PI); cx.lineTo(a * 0.097, -a * 0.008);
+      cx.quadraticCurveTo(0, -a * 0.05, -a * 0.097, -a * 0.008); cx.fill();
+      cx.fillStyle = "#F7F6EE";                                 // ojos muy abiertos
+      cx.beginPath(); cx.ellipse(-a * 0.036, a * 0.016, a * 0.027, a * 0.034, 0, 0, 6.3); cx.ellipse(a * 0.036, a * 0.016, a * 0.027, a * 0.034, 0, 0, 6.3); cx.fill();
+      cx.fillStyle = COL.tinta;
+      cx.beginPath(); cx.arc(-a * 0.036, a * 0.026, a * 0.011, 0, 6.3); cx.arc(a * 0.036, a * 0.026, a * 0.011, 0, 6.3); cx.fill();
+      cx.strokeStyle = COL.pelo; cx.lineWidth = Math.max(1.2, a * 0.013);   // cejas levantadas hacia adentro
+      cx.beginPath(); cx.moveTo(-a * 0.066, -a * 0.014); cx.lineTo(-a * 0.016, -a * 0.040); cx.moveTo(a * 0.066, -a * 0.014); cx.lineTo(a * 0.016, -a * 0.040); cx.stroke();
+      cx.fillStyle = "#3A1518";                                 // boca abierta
+      cx.beginPath(); cx.ellipse(0, a * 0.062, a * 0.021, a * 0.028, 0, 0, 6.3); cx.fill();
+      cx.fillStyle = "#9FD8F0";                                 // gota de sudor
+      cx.beginPath(); cx.arc(a * 0.085, -a * 0.03, a * 0.012, 0, 6.3); cx.fill();
+    }
+    cx.restore();
   }
 
   // El zombie viene de atrás de la cámara: primero asoman las manos por abajo, después la cabeza.
@@ -784,20 +889,169 @@
     }
   }
 
+  /* ----------------------- Escalera entre niveles ----------------------- */
+  // Se baja una escalera vista desde atrás: los escalones corren hacia la cámara, todo converge a un punto más bajo
+  // que el del pasillo (se mira hacia abajo) y al final hay un rellano con la puerta metálica del nivel siguiente.
+  var ESC = { pasos: 22, dz: 0.3, zc: 0.8, recorrido: 6.15 };
+  var COLE = { t1: "#9AA19C", t2: "#868D89", muro: "#3F4E4B", banda: "#4F6B62", techo: "#161D1C", fondo: "#56645F", baranda: "#D6B955",
+    barandaOsc: "#8B7430", marco: "#202927", chapa: "#6F817B", chapaOsc: "#55645F", lampara: "#E6F7EA", cartel: "#1F7A3E" };
+
+  function fuente(px) { return "700 " + Math.round(px) + "px Bahnschrift, 'Franklin Gothic Medium', 'Arial Narrow', sans-serif"; }
+  function envolver(texto, maxW) {
+    var palabras = texto.split(" "), lineas = [], actual = "";
+    palabras.forEach(function (p) {
+      var prueba = actual ? actual + " " + p : p;
+      if (cx.measureText(prueba).width > maxW && actual) { lineas.push(actual); actual = p; } else actual = prueba;
+    });
+    if (actual) lineas.push(actual);
+    return lineas;
+  }
+  // Cartel sobre la escena: «Nivel 2» y debajo el nombre del nivel (envuelto en las líneas que hagan falta).
+  function dibujarCartelNivel(titulo, sub, alfa, extra) {
+    if (alfa <= 0.01) return;
+    cx.save(); cx.globalAlpha = clamp(alfa, 0, 1);
+    var tam = clamp(W * 0.095, 22, 38), tamSub = clamp(W * 0.046, 14, 19), ancho = W * 0.88;
+    cx.font = fuente(tamSub);
+    var lineas = sub ? envolver(sub, ancho - 28) : [];
+    var alto = tam * 1.45 + lineas.length * tamSub * 1.25 + (extra ? tamSub * 1.4 : 0) + 20;
+    var x = (W - ancho) / 2, y = H * 0.05;
+    cx.fillStyle = "rgba(9,12,13,.9)"; redondo(x, y, ancho, alto, 8); cx.fill();
+    cx.strokeStyle = COL.luz; cx.lineWidth = 2; cx.stroke();
+    cx.textAlign = "center"; cx.textBaseline = "middle";
+    cx.fillStyle = COL.luz; cx.font = fuente(tam); cx.fillText(titulo.toUpperCase(), W / 2, y + 10 + tam * 0.72);
+    cx.fillStyle = "#EDEFEA"; cx.font = fuente(tamSub);
+    lineas.forEach(function (l, i) { cx.fillText(l, W / 2, y + 10 + tam * 1.45 + tamSub * (0.62 + 1.25 * i)); });
+    if (extra) { cx.fillStyle = "#7DE0A0"; cx.fillText(extra, W / 2, y + 10 + tam * 1.45 + lineas.length * tamSub * 1.25 + tamSub * 0.8); }
+    cx.restore();
+  }
+
+  function dibujarEscalera(u) {
+    var vx = W / 2, vy = H * 0.44, izq = -W * 0.10, der = W * 1.10;
+    var camH = H * 0.62, techo = -H * 0.30, hs = camH * 0.17;       // alto de la cámara sobre el piso, techo (arriba) y alto de cada escalón
+    var dz = ESC.dz, zc = ESC.zc, pasos = ESC.pasos, pend = hs / dz;
+    var avance = suave(clamp(u / 0.8, 0, 1)), trav = ESC.recorrido * avance, tj = trav / dz;
+    var zF = zc + pasos * dz - trav;                                   // distancia a la pared del fondo
+    var zMin = 0.5;
+    function X(xn, z) { return vx + (xn - vx) / z; }
+    function Yc(rel, z) { return vy + (rel + pend * (z - zc)) / z; }  // superficies que siguen la pendiente (techo, muros, baranda)
+    function relPiso(zA) { return camH + pend * (zA - zc); }          // el piso de cada escalón, medido desde su borde cercano
+    var bob = QUIETO ? 0 : Math.sin(((tj % 1) + 1) % 1 * Math.PI) * H * 0.014 * (u < 0.8 ? 1 : 0);
+
+    cx.save(); cx.translate(0, bob);
+    cx.fillStyle = "#0A0E0E"; cx.fillRect(-10, -10, W + 20, H + 20);
+
+    // techo y muros
+    cuad(X(izq, zMin), Yc(techo, zMin), X(der, zMin), Yc(techo, zMin), X(der, zF), Yc(techo, zF), X(izq, zF), Yc(techo, zF), COLE.techo);
+    [izq, der].forEach(function (xn) {
+      var a = Yc(techo, zMin), b = Yc(camH * 1.7, zMin), c2 = Yc(techo, zF), d = Yc(camH * 1.7, zF);
+      cuad(X(xn, zMin), a, X(xn, zF), c2, X(xn, zF), d, X(xn, zMin), b, COLE.muro);
+      // franja pintada a media altura
+      cuad(X(xn, zMin), Yc(-camH * 0.02, zMin), X(xn, zF), Yc(-camH * 0.02, zF), X(xn, zF), Yc(camH * 0.14, zF), X(xn, zMin), Yc(camH * 0.14, zMin), COLE.banda);
+    });
+
+    // pared del fondo con la puerta del nivel siguiente
+    var relF = relPiso(zF - dz), yF = vy + relF / zF, yC = Yc(techo, zF), xi = X(izq, zF), xd = X(der, zF);
+    cx.fillStyle = COLE.fondo; cx.fillRect(xi, yC, xd - xi, yF - yC);
+    var dw = (xd - xi) * 0.26, dh = (yF - yC) * 0.66, dx = vx - dw / 2, dy = yF - dh, m = dw * 0.07;
+    var abre = suave((u - 0.80) / 0.16);
+    cx.fillStyle = COLE.marco; cx.fillRect(dx - m, dy - m, dw + m * 2, dh + m);
+    if (abre > 0) { var vano = cx.createLinearGradient(0, dy, 0, dy + dh); vano.addColorStop(0, "#FFF4C9"); vano.addColorStop(1, "#E9B94A"); cx.fillStyle = vano; }
+    else cx.fillStyle = "#0F1413";
+    cx.fillRect(dx, dy, dw, dh);
+    var hw = dw * (1 - abre * 0.86);
+    if (hw > 1) {
+      cx.fillStyle = COLE.chapa; cx.fillRect(dx, dy, hw, dh);
+      cx.fillStyle = COLE.chapaOsc; cx.fillRect(dx, dy + dh * 0.9, hw, dh * 0.1);
+      cx.fillStyle = COLE.marco; cx.fillRect(dx + hw * 0.3, dy + dh * 0.1, hw * 0.4, dh * 0.2);
+      cx.fillStyle = "#A9C2B6"; cx.fillRect(dx + hw * 0.33, dy + dh * 0.12, hw * 0.34, dh * 0.16);
+      cx.fillStyle = "#CFD6D2"; cx.fillRect(dx + hw * 0.12, dy + dh * 0.52, hw * 0.76, Math.max(2, dh * 0.035));   // barra antipánico
+    }
+    var cw = dw * 1.4, ch = Math.max(14, dh * 0.2), cxx = vx - cw / 2, cyy = dy - m - ch * 1.35;
+    cx.fillStyle = COLE.cartel; redondo(cxx, cyy, cw, ch, ch * 0.18); cx.fill();
+    cx.fillStyle = "#EAFBEF"; cx.font = fuente(ch * 0.6); cx.textAlign = "center"; cx.textBaseline = "middle";
+    cx.fillText("NIVEL " + (E.esc ? E.esc.ni + 2 : ""), vx, cyy + ch / 2 + 1);
+
+    // escalones: del más lejano al más cercano, para que los de adelante tapen a los de atrás
+    var jIni = Math.floor(tj) - 1, j;
+    for (j = pasos - 1; j >= jIni; j--) {
+      var zA = zc + j * dz - trav, zB = zA + dz;
+      if (zB <= zMin) continue;
+      var a = Math.max(zA, zMin), rel = relPiso(zA), yA = vy + rel / a, yB = vy + rel / zB;
+      cuad(X(izq, a), yA, X(der, a), yA, X(der, zB), yB, X(izq, zB), yB, j % 2 ? COLE.t1 : COLE.t2);
+      var niebla = clamp((zA - zc) / 6.5, 0, 1) * 0.7;
+      if (niebla > 0.02) cuad(X(izq, a), yA, X(der, a), yA, X(der, zB), yB, X(izq, zB), yB, "rgba(8,12,12," + niebla + ")");
+      cx.strokeStyle = "rgba(255,255,255," + (0.2 * (1 - niebla)) + ")"; cx.lineWidth = Math.max(1, 2 / a);
+      cx.beginPath(); cx.moveTo(X(izq, a), yA); cx.lineTo(X(der, a), yA); cx.stroke();
+    }
+
+    // barandas con sus parantes
+    var railRel = camH * 0.52;
+    [izq, der].forEach(function (xn) {
+      cx.strokeStyle = COLE.baranda; cx.lineWidth = Math.max(3, W * 0.012);
+      cx.beginPath(); cx.moveTo(X(xn, zMin * 1.1), Yc(railRel, zMin * 1.1)); cx.lineTo(X(xn, zF), Yc(railRel, zF)); cx.stroke();
+      cx.strokeStyle = COLE.barandaOsc;
+      for (var jj = Math.max(0, Math.floor(tj)); jj < pasos; jj++) {
+        var za = zc + jj * dz - trav;
+        if (za < zMin * 1.1) continue;
+        cx.lineWidth = Math.max(1, 2.4 / za);
+        cx.beginPath(); cx.moveTo(X(xn, za), Yc(railRel, za)); cx.lineTo(X(xn, za), vy + relPiso(za) / za); cx.stroke();
+      }
+    });
+
+    // lámparas en el techo, una cada tres escalones
+    for (var mm = 0; mm < 9; mm++) {
+      var zl = zc + mm * 3 * dz - trav + 0.4;
+      if (zl < 0.6 || zl > zF - 0.2) continue;
+      var lw = (der - izq) * 0.09 / zl, ly = Yc(techo * 0.94, zl);
+      cx.shadowColor = "rgba(214,247,224,.8)"; cx.shadowBlur = 16 / zl;
+      cx.fillStyle = COLE.lampara; cx.fillRect(vx - lw / 2, ly, lw, Math.max(2, lw * 0.22));
+      cx.shadowBlur = 0;
+    }
+
+    // luz que entra cuando se abre la puerta
+    if (abre > 0) {
+      var luz = cx.createRadialGradient(vx, dy + dh * 0.5, 0, vx, dy + dh * 0.5, Math.max(W, H) * 0.75);
+      luz.addColorStop(0, "rgba(255,236,170," + (0.6 * abre) + ")"); luz.addColorStop(1, "rgba(255,236,170,0)");
+      cx.fillStyle = luz; cx.fillRect(0, 0, W, H);
+    }
+    cx.restore();
+
+    // el jugador baja; al final se acerca a la puerta y se achica
+    var alto0 = Math.min(H * 0.34, W * 0.42) * 0.92, t = suave((u - 0.80) / 0.2);
+    var salto = QUIETO || u > 0.8 ? 0 : Math.abs(Math.sin(((tj % 1) + 1) % 1 * Math.PI)) * H * 0.012;
+    dibujarJugador(vx, lerp(H * 0.92, yF, t) - salto, alto0, E.reloj * 11, false);
+
+    // carteles: primero lo que terminaste y, al bajar, lo que viene
+    if (E.esc) {
+      var a1 = suave(u / 0.08) * (1 - suave((u - 0.36) / 0.08));
+      dibujarCartelNivel("Nivel " + (E.esc.ni + 1) + " superado", E.esc.bien + " de " + E.esc.total + " bien", a1);
+      dibujarCartelNivel("Nivel " + (E.esc.ni + 2), E.esc.tituloSig, suave((u - 0.52) / 0.08), null);
+    }
+  }
+
   function dibujar() {
     var peligro = E.fase === "portada" ? 0.25 : clamp(E.zombi, 0, 1);
     cx.setTransform(DPR, 0, 0, DPR, 0, 0);
     cx.save();
     if (E.tiembla > 0.01 && !QUIETO) cx.translate((Math.random() - 0.5) * 14 * E.tiembla, (Math.random() - 0.5) * 10 * E.tiembla);
-    var pr = dibujarPasillo(peligro);
-    dibujarFondo(pr);
+    if (E.fase === "escalera") {
+      cx.restore(); cx.save();
+      dibujarEscalera(E.escU);
+    } else {
+      var pr = dibujarPasillo(peligro);
+      dibujarFondo(pr);
 
-    var alto = Math.min(H * 0.34, W * 0.42) * E.pEsc;
-    var pieY = lerp(H * 0.93, pr.y1 + alto * 0.02, clamp((1 - E.pEsc) / 0.45, 0, 1) * 0.75);
-    var quieto = E.fase === "mordida" || E.fase === "cae" || E.pausa;
-    if (E.fase !== "fin" || E.negro < 1) dibujarJugador(W / 2 + E.pN * W, pieY, alto, E.dist * 9, quieto);
-    dibujarZombie(E.fase === "portada" ? 0.34 + Math.sin(E.reloj * 0.8) * 0.06 : E.zombi, E.embiste);
+      var alto = Math.min(H * 0.34, W * 0.42) * E.pEsc;
+      var pieY = lerp(H * 0.93, pr.y1 + alto * 0.02, clamp((1 - E.pEsc) / 0.45, 0, 1) * 0.75);
+      var quieto = E.fase === "mordida" || E.fase === "cae" || E.fase === "caso" || E.fase === "entrada" || E.fase === "portada" || E.fase === "rebote" || E.pausa;
+      if (E.fase !== "fin" || E.negro < 1) dibujarJugador(W / 2 + E.pN * W, pieY, alto, E.fasePaso, quieto, E.giro, 1);
+      dibujarZombie(E.fase === "portada" ? 0.34 + Math.sin(E.reloj * 0.8) * 0.06 : E.zombi, E.embiste);
+    }
     cx.restore();
+    if (E.fase === "entrada" && E.tandas[E.i]) {          // el nombre del nivel al llegar
+      var ni = E.tandas[E.i].nivel;
+      dibujarCartelNivel("Nivel " + (ni + 1), nivelesDe(E.mazo)[ni].titulo, clamp((CFG.dEntrada - E.ft) / 0.4, 0, 1), E.vidaGanada ? "+1 vida" : null);
+    }
 
     if (E.rojo > 0.01) { cx.fillStyle = "rgba(170,22,18," + (0.55 * E.rojo) + ")"; cx.fillRect(0, 0, W, H); }
     if (E.fundido > 0.01) { cx.fillStyle = "rgba(255,236,170," + clamp(E.fundido, 0, 1) + ")"; cx.fillRect(0, 0, W, H); }
@@ -821,8 +1075,7 @@
   var peligroCss = -1;
   function actualizar(dt) {
     E.reloj += dt;
-    var corre = E.fase === "pregunta" || E.fase === "corre" || E.fase === "revela" || E.fase === "cruza" || E.fase === "portada" || E.fase === "caso";
-    E.dist += dt * CFG.velPasillo * (corre ? (E.fase === "portada" || E.fase === "caso" ? 0.6 : 1) : 0.12);
+    var corre = E.fase === "pregunta" || E.fase === "corre" || E.fase === "revela" || E.fase === "cruza" || E.fase === "portada" || E.fase === "caso" || E.fase === "entrada";
     E.rojo = Math.max(0, E.rojo - dt * 1.6);
     E.tiembla = Math.max(0, E.tiembla - dt * 2.4);
     for (var k = 0; k < 4; k++) E.sacude[k] = Math.max(0, E.sacude[k] - dt * 2.4);
@@ -833,7 +1086,10 @@
         E.t += dt;
         E.fundido = Math.max(0, E.fundido - dt * 2.4);
         objetivoZ = E.t / E.tMax;
-        E.s = lerp(CFG.sLejos, CFG.sCerca, clamp(objetivoZ, 0, 1));
+        // primero se corre desde la entrada hasta el punto de lectura; después se camina hacia las puertas mientras el zombie se acerca
+        E.s = E.t < CFG.tLlegada
+          ? lerp(CFG.sIni, CFG.sLejos, frena(E.t / CFG.tLlegada))
+          : lerp(CFG.sLejos, CFG.sCerca, clamp((E.t - CFG.tLlegada) / Math.max(1, E.tMax - CFG.tLlegada), 0, 1));
         if (E.t >= E.tMax) seAcaboElTiempo();
         break;
       case "corre":
@@ -841,7 +1097,7 @@
         objetivoZ = E.t / E.tMax;
         E.s = lerp(E.s0, E.s0 + 0.07, frena(u));
         E.pN = lerp(E.pN0, xPuertaN(E.elegida, E.s), frena(u));
-        E.pEsc = lerp(1, 0.78, frena(u));
+        E.pEsc = 1;                       // no se achica al acercarse a la puerta
         if (u >= 1) {
           if (E.acerto) { Sonido.puerta(); Sonido.acierto(); E.s0 = E.s; E.ft = 0; E.fase = "cruza"; }
           else { Sonido.golpe(); E.marca[E.elegida] = "mal"; E.sacude[E.elegida] = 1; E.tiembla = 0.5; E.ft = 0; E.fase = "rebote"; }
@@ -851,7 +1107,7 @@
         E.ft += dt; u = E.ft / CFG.dRebote;
         objetivoZ = 1;
         E.pN = lerp(xPuertaN(E.elegida, E.s), 0, frena(u));
-        E.pEsc = lerp(0.78, 1, frena(u));
+        E.pEsc = 1;
         if (u >= 1) morder("¡D'oh!");
         break;
       case "mordida":
@@ -870,7 +1126,7 @@
         objetivoZ = 0.45;
         E.s = lerp(E.s0, Math.min(E.s0 + 0.07, 0.8), frena(u));
         E.pN = lerp(E.pN0, xPuertaN(E.correcta, E.s), frena(u));
-        E.pEsc = lerp(1, 0.78, frena(u));
+        E.pEsc = 1;                       // no se achica al acercarse a la puerta
         if (u >= 1) { Sonido.puerta(); E.elegida = E.correcta; E.s0 = E.s; E.ft = 0; E.fase = "cruza"; }
         break;
       case "cruza":
@@ -879,7 +1135,7 @@
         E.abre[E.elegida] = frena(u * 1.7);
         E.s = lerp(E.s0, E.s0 + 0.42, u * u);
         E.pN = xPuertaN(E.elegida, E.s);
-        E.pEsc = lerp(0.78, 0.58, clamp(u, 0, 1));
+        E.pEsc = 1;                       // ni al cruzarla
         E.fundido = clamp(u * u * 1.15, 0, 1);
         if (u >= 1) { E.fundido = 1; siguiente(); }
         break;
@@ -890,10 +1146,26 @@
         E.negro = clamp(u, 0, 1);
         if (u >= 1) terminar(false);
         break;
+      case "entrada":
+        E.ft += dt;
+        E.fundido = Math.max(0, E.fundido - dt * 2.4);
+        objetivoZ = 0;
+        E.s = CFG.sIni;
+        if (E.ft >= CFG.dEntrada) abrirPregunta();
+        break;
+      case "escalera":
+        E.ft += dt; u = clamp(E.ft / CFG.dEscalera, 0, 1); E.escU = u;
+        objetivoZ = 0;
+        E.fundido = u < 0.12 ? 1 - suave(u / 0.12) : (u > 0.88 ? suave((u - 0.88) / 0.12) : 0);
+        if (!E.escPuerta && u >= 0.80) { E.escPuerta = true; Sonido.puerta(); }
+        E.tPasoEsc -= dt;
+        if (E.tPasoEsc <= 0 && u < 0.8) { Sonido.paso(); E.tPasoEsc = 0.17; }
+        if (u >= 1) terminarEscalera();
+        break;
       case "caso":
         E.fundido = Math.max(0, E.fundido - dt * 2.4);
         objetivoZ = 0.15;
-        E.s = CFG.sLejos;
+        E.s = CFG.sIni;
         break;
       case "portada":
         objetivoZ = 0.3;
@@ -902,6 +1174,15 @@
       default:
         objetivoZ = E.zombi;
     }
+    // lo que recorrió el jugador es lo que se acercó la pared: el piso, los casilleros y las lámparas pasan a ese ritmo
+    E.dist = E.dist0 - 1 / E.s;
+    var parado = E.fase === "mordida" || E.fase === "cae" || E.fase === "caso" || E.fase === "entrada" || E.fase === "portada" || E.fase === "rebote";
+    // corre en el lugar: las piernas van a una cadencia fija (más rápido cuanto más cerca está el zombie) aunque el pasillo avance despacio
+    if (!parado) E.fasePaso += dt * CFG.cadencia * (1 + 0.3 * clamp(E.zombi, 0, 1));
+    // y mira para atrás, asustado, cada tanto: más seguido y más tiempo cuanto más cerca viene
+    var ciclo = lerp(3.2, 1.6, clamp(E.zombi, 0, 1)), ventana = lerp(0.8, 1.2, clamp(E.zombi, 0, 1));
+    var mira = E.fase === "pregunta" && E.t > 1.2 && (E.t % ciclo) > ciclo - ventana;
+    E.giro = lerp(E.giro, mira ? 1 : 0, clamp(dt * 9, 0, 1));
     E.zombi = lerp(E.zombi, clamp(objetivoZ, 0, 1), clamp(dt * 6, 0, 1));
 
     pintarReloj();
@@ -911,8 +1192,9 @@
     if (pc !== peligroCss) { peligroCss = pc; document.documentElement.style.setProperty("--peligro", String(pc)); }
 
     // sonidos de fondo
-    if (E.fase !== "portada" && E.fase !== "fin" && E.fase !== "caso") {
-      if (corre) { E.tPaso -= dt; if (E.tPaso <= 0) { Sonido.paso(); E.tPaso = 0.29; } }
+    if (E.fase !== "portada" && E.fase !== "fin" && E.fase !== "caso" && E.fase !== "entrada" && E.fase !== "escalera") {
+      var pasoN = Math.floor(E.fasePaso / Math.PI);               // un paso cada vez que cambia la pierna
+      if (pasoN !== E.pasoN) { E.pasoN = pasoN; if (corre && !parado) Sonido.paso(); }
       if (E.fase === "pregunta" && E.zombi > 0.5) {
         E.tLatido -= dt;
         if (E.tLatido <= 0) { Sonido.latido(clamp((E.zombi - 0.4) / 0.6, 0.2, 1)); E.tLatido = lerp(1.05, 0.5, clamp((E.zombi - 0.5) / 0.5, 0, 1)); }
@@ -1000,9 +1282,11 @@
   /* ------------------------------ Arranque ------------------------------ */
   /* ------------------------- Portada: elegir materia ------------------------- */
   function elegirMazo(mazo, recordar) {
+    if (E.mazo !== mazo) E.desde = 0;
     E.mazo = mazo;
-    var n = totalPreguntas(mazo), casos = mazo.grupos.filter(function (g) { return g.caso; }).length;
-    var puertas = mazo.grupos[0].preguntas[0].ops.length;
+    var grupos = gruposDe(mazo), n = totalPreguntas(mazo), niv = nivelesDe(mazo).length;
+    var casos = grupos.filter(function (g) { return g.caso; }).length;
+    var puertas = grupos[0].preguntas[0].ops.length;
     Array.prototype.forEach.call($("mazos").children, function (b) {
       var on = b.getAttribute("data-id") === mazo.id;
       b.classList.toggle("on", on); b.setAttribute("aria-checked", on ? "true" : "false");
@@ -1010,9 +1294,12 @@
     $("portada-bajada").textContent = "Corrés por el pasillo de la facultad con un zombie en la nuca. Cada tanda de " +
       (puertas === 4 ? "cuatro" : "tres") + " puertas es una pregunta: tocá la puerta correcta antes de que te alcance.";
     $("regla-n").textContent = n;
-    $("regla-puertas").textContent = casos
-      ? "puertas hasta la salida: " + casos + " casos en un orden distinto cada vez. Cada caso lo leés tranquilo antes de correr."
-      : "puertas hasta la salida, en un orden distinto cada vez.";
+    $("regla-puertas").textContent = niv > 1
+      ? "puertas en " + niv + " niveles, uno por clase. Al terminar cada uno bajás la escalera al siguiente." + (casos ? " Cada caso lo leés tranquilo antes de correr." : "")
+      : (casos
+        ? "puertas hasta la salida: " + casos + " casos en un orden distinto cada vez. Cada caso lo leés tranquilo antes de correr."
+        : "puertas hasta la salida, en un orden distinto cada vez.");
+    pintarNiveles(mazo);
     $("btn-repasar").href = mazo.apunte;
     $("link-marca").href = mazo.volver; $("link-marca").title = "Volver al apunte de " + mazo.materia;
     $("link-salir-pausa").href = mazo.volver; $("link-volver-fin").href = mazo.volver;
@@ -1023,6 +1310,26 @@
       try { history.replaceState(null, "", "#mazo=" + mazo.id); } catch (e) {}
     }
   }
+  // Para repasar una sola clase (o retomar donde quedaste) se puede empezar en cualquier nivel.
+  function notaNiveles() {
+    $("niveles-nota").textContent = E.desde > 0 ? "Empezás en el nivel " + (E.desde + 1) + ": esta corrida no cuenta para tu mejor marca." : "";
+  }
+  function pintarNiveles(mazo) {
+    var caja = $("niveles"), lista = $("niveles-lista"), niv = nivelesDe(mazo);
+    caja.hidden = niv.length < 2;
+    if (niv.length < 2) return;
+    lista.textContent = "";
+    niv.forEach(function (n, i) {
+      var b = el("button", "nivel-op" + (i === E.desde ? " on" : ""));
+      b.type = "button"; b.setAttribute("role", "radio"); b.setAttribute("aria-checked", i === E.desde ? "true" : "false");
+      b.appendChild(el("b", "", String(i + 1)));
+      b.appendChild(el("span", "", n.titulo));
+      b.appendChild(el("small", "", totalPreguntas({ niveles: [n] }) + " puertas"));
+      b.addEventListener("click", function () { E.desde = i; pintarNiveles(mazo); });
+      lista.appendChild(b);
+    });
+    notaNiveles();
+  }
   function pintarMazos() {
     var caja = $("mazos");
     caja.textContent = "";
@@ -1030,8 +1337,8 @@
       var b = el("button", "mazo");
       b.type = "button"; b.setAttribute("role", "radio"); b.setAttribute("data-id", mz.id);
       b.appendChild(el("b", "", mz.materia));
-      var casos = mz.grupos.filter(function (g) { return g.caso; }).length;
-      b.appendChild(el("span", "", mz.detalle + " · " + totalPreguntas(mz) + " puertas" + (casos ? " · " + casos + " casos" : "")));
+      var casos = gruposDe(mz).filter(function (g) { return g.caso; }).length, nv = nivelesDe(mz).length;
+      b.appendChild(el("span", "", mz.detalle + " · " + totalPreguntas(mz) + " puertas" + (nv > 1 ? " · " + nv + " niveles" : "") + (casos ? " · " + casos + " casos" : "")));
       var mejor = leerMejor(mz);
       b.appendChild(el("small", "", mejor ? "Tu mejor marca: " + textoMejor(mejor, mz) : "Todavía sin jugar"));
       b.addEventListener("click", function () { elegirMazo(mz, true); });
@@ -1041,7 +1348,8 @@
   function irAPortada() {
     E.fase = "portada"; E.pausa = false; E.negro = 0; E.rojo = 0; E.fundido = 0; E.embiste = 0; E.zombi = 0.3;
     E.n = 3; E.tandas = []; E.i = 0; E.marca = ["", "", "", ""]; E.abre = [0, 0, 0, 0]; E.pN = 0; E.pEsc = 1;
-    E.vidas = CFG.vidas; E.racha = 0;
+    E.vidas = CFG.vidas; E.racha = 0; E.esc = null; E.vidaGanada = false;
+    dom.opciones.style.visibility = "";
     Sonido.reanudar();
     dom.fin.hidden = true; dom.pausa.hidden = true; dom.caso.hidden = true; dom.portada.hidden = false;
     dom.pregunta.textContent = ""; dom.verCaso.hidden = true;
@@ -1067,6 +1375,7 @@
   window.juego = {
     estado: E, CFG: CFG, MAZOS: MAZOS, elegir: elegir, nueva: nueva, cerrarCaso: cerrarCaso,
     mazo: function (id) { MAZOS.forEach(function (m) { if (m.id === id) elegirMazo(m, false); }); },
+    desde: function (i) { E.desde = i; },
     // avanza el juego «a mano» n segundos (sirve para probar sin esperar ni depender de la pestaña visible)
     paso: function (seg) { for (var t = 0; t < seg && E.fase !== "fin"; t += 1 / 60) actualizar(1 / 60); if (E.fase !== "fin") dibujar(); },
     correcta: function () { return E.correcta; }
