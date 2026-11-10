@@ -18,9 +18,13 @@
     tPorLetra: 0.085,    // …más esto por cada letra de la consigna y sus opciones (30 s para ~260 letras)
     apuroFinal: 0.6,     // en la última puerta queda este porcentaje del tiempo (0.6 = 60 %)
     relojApuro: 10,      // desde estos segundos el contador se pone rojo, grande y tiembla
-    sLejos: 0.46,        // tamaño de la pared del fondo cuando aparece la pregunta
-    sCerca: 0.70,        // …y cuando se acaba el tiempo
-    velPasillo: 1.5,     // qué tan rápido corre el piso
+    // El pasillo se recorre de verdad: las puertas (la pared del fondo) se acercan y el piso, los casilleros y las lámparas
+    // pasan al ritmo de ese acercamiento. «s» es el tamaño de la pared del fondo: chico = lejos, grande = encima.
+    sIni: 0.32,          // al entrar al pasillo: las puertas, lejos
+    sLejos: 0.44,        // al terminar de llegar, cuando ya se lee con calma
+    sCerca: 0.74,        // cuando se acaba el tiempo: las puertas casi encima
+    tLlegada: 1.5,       // s: lo que tarda en correr desde la entrada hasta ese punto
+    cadencia: 12,        // rad/s: lo rápido que mueve las piernas. Corre en el lugar: no depende de lo que avanza el pasillo
     dCorre: 0.40,        // s: correr hasta la puerta elegida
     dRebote: 0.45,       // s: rebotar contra la puerta equivocada
     dMordida: 0.75,      // s: la mordida
@@ -136,7 +140,7 @@
     t: 0, tMax: 30, ft: 0,
     elegida: -1, acerto: false,
     // presentación
-    s: CFG.sLejos, s0: CFG.sLejos, pN: 0, pN0: 0, pEsc: 1, dist: 0, reloj: 0,
+    s: CFG.sLejos, s0: CFG.sLejos, pN: 0, pN0: 0, pEsc: 1, dist: 0, dist0: 1 / CFG.sLejos, fasePaso: 0, pasoN: 0, giro: 0, reloj: 0,
     zombi: 0, embiste: 0, rojo: 0, tiembla: 0, fundido: 0, negro: 0,
     abre: [0, 0, 0, 0], sacude: [0, 0, 0, 0], marca: ["", "", "", ""],
     tPaso: 0, tLatido: 0, tGruñido: 3
@@ -209,7 +213,7 @@
     E.tMax = (CFG.tBase + CFG.tPorLetra * letras) * lerp(1, CFG.apuroFinal, n > 1 ? E.i / (n - 1) : 0);
     E.elegida = -1; E.acerto = false;
     E.abre = [0, 0, 0, 0]; E.sacude = [0, 0, 0, 0]; E.marca = ["", "", "", ""];
-    E.pN = 0; E.pEsc = 1; E.s = CFG.sLejos; E.embiste = 0;
+    E.pN = 0; E.pEsc = 1; E.s = CFG.sIni; E.dist0 = 1 / E.s; E.dist = 0; E.embiste = 0;
 
     // arriba de la consigna: por dónde vas y, si el mazo lo trae, el tema que se evalúa (bien a la vista)
     var partes = [];
@@ -707,9 +711,12 @@
   }
 
   // El jugador, de espaldas: buzo claro, mochila azul, corre moviendo brazos y piernas.
-  function dibujarJugador(xc, pieY, alto, fase, quieto) {
-    var a = alto, sw = Math.sin(fase), cw = Math.cos(fase);
-    var bote = quieto ? 0 : Math.abs(sw) * a * 0.025;
+  // corre (0 a 1): cuánto vigor tiene la carrera (rodillas altas, brazos que bombean, rebote). giro (0 a 1): la cabeza
+  // se da vuelta de la nuca a la cara, asustada, para mirar al zombie que viene atrás.
+  function dibujarJugador(xc, pieY, alto, fase, quieto, giro, corre) {
+    var a = alto, sw = Math.sin(fase), f = corre || 0, g = giro || 0;
+    if (!quieto) xc += sw * a * 0.012 * f;
+    var bote = quieto ? 0 : Math.abs(sw) * a * (0.025 + 0.02 * f);
     var y = pieY - bote;
     cx.lineCap = "round"; cx.lineJoin = "round";
 
@@ -718,7 +725,7 @@
 
     // piernas
     for (var l = -1; l <= 1; l += 2) {
-      var sube = quieto ? 0 : Math.max(0, l * sw) * a * 0.13;
+      var sube = quieto ? 0 : Math.max(0, l * sw) * a * (0.13 + 0.05 * f);
       var cadX = xc + l * a * 0.075, cadY = y - a * 0.42;
       var pieX = xc + l * a * 0.085, pieYY = y - a * 0.03 - sube;
       cx.strokeStyle = COL.jean; cx.lineWidth = a * 0.115;
@@ -732,7 +739,7 @@
     for (var b = -1; b <= 1; b += 2) {
       var osc = quieto ? 0 : -b * sw;
       var homX = xc + b * a * 0.165, homY = y - a * 0.72;
-      var manX = xc + b * a * (0.24 + 0.02 * osc), manY = y - a * (0.47 + 0.10 * osc);
+      var manX = xc + b * a * (0.24 + 0.02 * osc), manY = y - a * (0.47 + (0.10 + 0.07 * f) * osc);
       cx.strokeStyle = COL.buzoSombra; cx.lineWidth = a * 0.085;
       cx.beginPath(); cx.moveTo(homX, homY); cx.quadraticCurveTo(homX + b * a * 0.09, (homY + manY) / 2, manX, manY); cx.stroke();
       cx.fillStyle = COL.piel; cx.beginPath(); cx.arc(manX, manY, a * 0.042, 0, 6.3); cx.fill();
@@ -750,12 +757,37 @@
     cx.strokeStyle = COL.mochilaOsc; cx.lineWidth = a * 0.022;
     cx.beginPath(); cx.arc(xc, y - a * 0.745, a * 0.035, Math.PI, 0); cx.stroke();
 
-    // cabeza de espaldas: capucha baja, cuello, pelo y orejas
+    // cuello de la capucha y nuca: no giran
     cx.fillStyle = COL.buzoSombra; cx.beginPath(); cx.ellipse(xc, y - a * 0.775, a * 0.115, a * 0.05, 0, 0, 6.3); cx.fill();
     cx.fillStyle = COL.piel; cx.fillRect(xc - a * 0.035, y - a * 0.84, a * 0.07, a * 0.07);
-    cx.beginPath(); cx.arc(xc - a * 0.092, y - a * 0.895 + cw * a * 0.002, a * 0.022, 0, 6.3); cx.arc(xc + a * 0.092, y - a * 0.895, a * 0.022, 0, 6.3); cx.fill();
-    cx.fillStyle = COL.pelo; cx.beginPath(); cx.arc(xc, y - a * 0.905, a * 0.094, 0, 6.3); cx.fill();
-    cx.beginPath(); cx.moveTo(xc - a * 0.09, y - a * 0.88); cx.quadraticCurveTo(xc, y - a * 0.80, xc + a * 0.09, y - a * 0.88); cx.fill();
+
+    // cabeza: gira sobre su eje. Se achata hasta ser una línea y al pasar la mitad ya se ve la cara, no la nuca
+    cx.save();
+    cx.translate(xc, y - a * 0.905);
+    cx.rotate(-0.14 * Math.sin(g * Math.PI));
+    cx.scale(Math.max(0.1, Math.abs(Math.cos(g * Math.PI))), 1);
+    if (g < 0.5) {                                              // de espaldas: orejas, pelo y nuca
+      cx.fillStyle = COL.piel; cx.beginPath(); cx.arc(-a * 0.092, a * 0.01, a * 0.022, 0, 6.3); cx.arc(a * 0.092, a * 0.01, a * 0.022, 0, 6.3); cx.fill();
+      cx.fillStyle = COL.pelo; cx.beginPath(); cx.arc(0, 0, a * 0.094, 0, 6.3); cx.fill();
+      cx.beginPath(); cx.moveTo(-a * 0.09, a * 0.025); cx.quadraticCurveTo(0, a * 0.105, a * 0.09, a * 0.025); cx.fill();
+    } else {                                                    // de frente: cara de susto
+      cx.fillStyle = COL.piel; cx.beginPath(); cx.arc(-a * 0.094, a * 0.012, a * 0.022, 0, 6.3); cx.arc(a * 0.094, a * 0.012, a * 0.022, 0, 6.3); cx.fill();
+      cx.beginPath(); cx.arc(0, a * 0.004, a * 0.094, 0, 6.3); cx.fill();
+      cx.fillStyle = COL.pelo;                                  // pelo con flequillo
+      cx.beginPath(); cx.moveTo(-a * 0.097, -a * 0.008); cx.arc(0, 0, a * 0.099, Math.PI, 2 * Math.PI); cx.lineTo(a * 0.097, -a * 0.008);
+      cx.quadraticCurveTo(0, -a * 0.05, -a * 0.097, -a * 0.008); cx.fill();
+      cx.fillStyle = "#F7F6EE";                                 // ojos muy abiertos
+      cx.beginPath(); cx.ellipse(-a * 0.036, a * 0.016, a * 0.027, a * 0.034, 0, 0, 6.3); cx.ellipse(a * 0.036, a * 0.016, a * 0.027, a * 0.034, 0, 0, 6.3); cx.fill();
+      cx.fillStyle = COL.tinta;
+      cx.beginPath(); cx.arc(-a * 0.036, a * 0.026, a * 0.011, 0, 6.3); cx.arc(a * 0.036, a * 0.026, a * 0.011, 0, 6.3); cx.fill();
+      cx.strokeStyle = COL.pelo; cx.lineWidth = Math.max(1.2, a * 0.013);   // cejas levantadas hacia adentro
+      cx.beginPath(); cx.moveTo(-a * 0.066, -a * 0.014); cx.lineTo(-a * 0.016, -a * 0.040); cx.moveTo(a * 0.066, -a * 0.014); cx.lineTo(a * 0.016, -a * 0.040); cx.stroke();
+      cx.fillStyle = "#3A1518";                                 // boca abierta
+      cx.beginPath(); cx.ellipse(0, a * 0.062, a * 0.021, a * 0.028, 0, 0, 6.3); cx.fill();
+      cx.fillStyle = "#9FD8F0";                                 // gota de sudor
+      cx.beginPath(); cx.arc(a * 0.085, -a * 0.03, a * 0.012, 0, 6.3); cx.fill();
+    }
+    cx.restore();
   }
 
   // El zombie viene de atrás de la cámara: primero asoman las manos por abajo, después la cabeza.
@@ -987,7 +1019,7 @@
     // el jugador baja; al final se acerca a la puerta y se achica
     var alto0 = Math.min(H * 0.34, W * 0.42) * 0.92, t = suave((u - 0.80) / 0.2);
     var salto = QUIETO || u > 0.8 ? 0 : Math.abs(Math.sin(((tj % 1) + 1) % 1 * Math.PI)) * H * 0.012;
-    dibujarJugador(vx, lerp(H * 0.92, yF, t) - salto, lerp(alto0, alto0 * 0.5, t), E.reloj * 11, false);
+    dibujarJugador(vx, lerp(H * 0.92, yF, t) - salto, alto0, E.reloj * 11, false);
 
     // carteles: primero lo que terminaste y, al bajar, lo que viene
     if (E.esc) {
@@ -1011,8 +1043,8 @@
 
       var alto = Math.min(H * 0.34, W * 0.42) * E.pEsc;
       var pieY = lerp(H * 0.93, pr.y1 + alto * 0.02, clamp((1 - E.pEsc) / 0.45, 0, 1) * 0.75);
-      var quieto = E.fase === "mordida" || E.fase === "cae" || E.pausa;
-      if (E.fase !== "fin" || E.negro < 1) dibujarJugador(W / 2 + E.pN * W, pieY, alto, E.dist * 9, quieto);
+      var quieto = E.fase === "mordida" || E.fase === "cae" || E.fase === "caso" || E.fase === "entrada" || E.fase === "portada" || E.fase === "rebote" || E.pausa;
+      if (E.fase !== "fin" || E.negro < 1) dibujarJugador(W / 2 + E.pN * W, pieY, alto, E.fasePaso, quieto, E.giro, 1);
       dibujarZombie(E.fase === "portada" ? 0.34 + Math.sin(E.reloj * 0.8) * 0.06 : E.zombi, E.embiste);
     }
     cx.restore();
@@ -1044,7 +1076,6 @@
   function actualizar(dt) {
     E.reloj += dt;
     var corre = E.fase === "pregunta" || E.fase === "corre" || E.fase === "revela" || E.fase === "cruza" || E.fase === "portada" || E.fase === "caso" || E.fase === "entrada";
-    E.dist += dt * CFG.velPasillo * (corre ? (E.fase === "portada" || E.fase === "caso" || E.fase === "entrada" ? 0.6 : 1) : 0.12);
     E.rojo = Math.max(0, E.rojo - dt * 1.6);
     E.tiembla = Math.max(0, E.tiembla - dt * 2.4);
     for (var k = 0; k < 4; k++) E.sacude[k] = Math.max(0, E.sacude[k] - dt * 2.4);
@@ -1055,7 +1086,10 @@
         E.t += dt;
         E.fundido = Math.max(0, E.fundido - dt * 2.4);
         objetivoZ = E.t / E.tMax;
-        E.s = lerp(CFG.sLejos, CFG.sCerca, clamp(objetivoZ, 0, 1));
+        // primero se corre desde la entrada hasta el punto de lectura; después se camina hacia las puertas mientras el zombie se acerca
+        E.s = E.t < CFG.tLlegada
+          ? lerp(CFG.sIni, CFG.sLejos, frena(E.t / CFG.tLlegada))
+          : lerp(CFG.sLejos, CFG.sCerca, clamp((E.t - CFG.tLlegada) / Math.max(1, E.tMax - CFG.tLlegada), 0, 1));
         if (E.t >= E.tMax) seAcaboElTiempo();
         break;
       case "corre":
@@ -1063,7 +1097,7 @@
         objetivoZ = E.t / E.tMax;
         E.s = lerp(E.s0, E.s0 + 0.07, frena(u));
         E.pN = lerp(E.pN0, xPuertaN(E.elegida, E.s), frena(u));
-        E.pEsc = lerp(1, 0.78, frena(u));
+        E.pEsc = 1;                       // no se achica al acercarse a la puerta
         if (u >= 1) {
           if (E.acerto) { Sonido.puerta(); Sonido.acierto(); E.s0 = E.s; E.ft = 0; E.fase = "cruza"; }
           else { Sonido.golpe(); E.marca[E.elegida] = "mal"; E.sacude[E.elegida] = 1; E.tiembla = 0.5; E.ft = 0; E.fase = "rebote"; }
@@ -1073,7 +1107,7 @@
         E.ft += dt; u = E.ft / CFG.dRebote;
         objetivoZ = 1;
         E.pN = lerp(xPuertaN(E.elegida, E.s), 0, frena(u));
-        E.pEsc = lerp(0.78, 1, frena(u));
+        E.pEsc = 1;
         if (u >= 1) morder("¡D'oh!");
         break;
       case "mordida":
@@ -1092,7 +1126,7 @@
         objetivoZ = 0.45;
         E.s = lerp(E.s0, Math.min(E.s0 + 0.07, 0.8), frena(u));
         E.pN = lerp(E.pN0, xPuertaN(E.correcta, E.s), frena(u));
-        E.pEsc = lerp(1, 0.78, frena(u));
+        E.pEsc = 1;                       // no se achica al acercarse a la puerta
         if (u >= 1) { Sonido.puerta(); E.elegida = E.correcta; E.s0 = E.s; E.ft = 0; E.fase = "cruza"; }
         break;
       case "cruza":
@@ -1101,7 +1135,7 @@
         E.abre[E.elegida] = frena(u * 1.7);
         E.s = lerp(E.s0, E.s0 + 0.42, u * u);
         E.pN = xPuertaN(E.elegida, E.s);
-        E.pEsc = lerp(0.78, 0.58, clamp(u, 0, 1));
+        E.pEsc = 1;                       // ni al cruzarla
         E.fundido = clamp(u * u * 1.15, 0, 1);
         if (u >= 1) { E.fundido = 1; siguiente(); }
         break;
@@ -1116,7 +1150,7 @@
         E.ft += dt;
         E.fundido = Math.max(0, E.fundido - dt * 2.4);
         objetivoZ = 0;
-        E.s = CFG.sLejos;
+        E.s = CFG.sIni;
         if (E.ft >= CFG.dEntrada) abrirPregunta();
         break;
       case "escalera":
@@ -1131,7 +1165,7 @@
       case "caso":
         E.fundido = Math.max(0, E.fundido - dt * 2.4);
         objetivoZ = 0.15;
-        E.s = CFG.sLejos;
+        E.s = CFG.sIni;
         break;
       case "portada":
         objetivoZ = 0.3;
@@ -1140,6 +1174,15 @@
       default:
         objetivoZ = E.zombi;
     }
+    // lo que recorrió el jugador es lo que se acercó la pared: el piso, los casilleros y las lámparas pasan a ese ritmo
+    E.dist = E.dist0 - 1 / E.s;
+    var parado = E.fase === "mordida" || E.fase === "cae" || E.fase === "caso" || E.fase === "entrada" || E.fase === "portada" || E.fase === "rebote";
+    // corre en el lugar: las piernas van a una cadencia fija (más rápido cuanto más cerca está el zombie) aunque el pasillo avance despacio
+    if (!parado) E.fasePaso += dt * CFG.cadencia * (1 + 0.3 * clamp(E.zombi, 0, 1));
+    // y mira para atrás, asustado, cada tanto: más seguido y más tiempo cuanto más cerca viene
+    var ciclo = lerp(3.2, 1.6, clamp(E.zombi, 0, 1)), ventana = lerp(0.8, 1.2, clamp(E.zombi, 0, 1));
+    var mira = E.fase === "pregunta" && E.t > 1.2 && (E.t % ciclo) > ciclo - ventana;
+    E.giro = lerp(E.giro, mira ? 1 : 0, clamp(dt * 9, 0, 1));
     E.zombi = lerp(E.zombi, clamp(objetivoZ, 0, 1), clamp(dt * 6, 0, 1));
 
     pintarReloj();
@@ -1150,7 +1193,8 @@
 
     // sonidos de fondo
     if (E.fase !== "portada" && E.fase !== "fin" && E.fase !== "caso" && E.fase !== "entrada" && E.fase !== "escalera") {
-      if (corre) { E.tPaso -= dt; if (E.tPaso <= 0) { Sonido.paso(); E.tPaso = 0.29; } }
+      var pasoN = Math.floor(E.fasePaso / Math.PI);               // un paso cada vez que cambia la pierna
+      if (pasoN !== E.pasoN) { E.pasoN = pasoN; if (corre && !parado) Sonido.paso(); }
       if (E.fase === "pregunta" && E.zombi > 0.5) {
         E.tLatido -= dt;
         if (E.tLatido <= 0) { Sonido.latido(clamp((E.zombi - 0.4) / 0.6, 0.2, 1)); E.tLatido = lerp(1.05, 0.5, clamp((E.zombi - 0.5) / 0.5, 0, 1)); }
