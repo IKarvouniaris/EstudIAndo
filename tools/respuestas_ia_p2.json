@@ -1,0 +1,111 @@
+{
+  "_nota": "Respuestas modelo del simulacro escrito del 2.º parcial de Intro a la IA, una por parte. Las redactó Claude a partir del apunte y de los criterios de tools/situaciones_ia_p2.json (cada respuesta toca todos los criterios de su parte); no son la guía textual de la cátedra. Se publican con: python tools/seed_ia_parcial2.py (genera js/respuestas-ia-p2.js).",
+  "1": {
+    "a": "La percepción es captar e interpretar señales o estímulos del entorno; en el caso, la cámara adquiere la imagen del envase en la línea. El reconocimiento de patrones es identificar regularidades o clases dentro de lo percibido: reconocer que una etiqueta está torcida o que falta la tapa. La diferencia es que la percepción adquiere la señal y el reconocimiento la clasifica; no son lo mismo, porque se puede captar una imagen sin reconocer qué muestra.",
+    "b": "La visión por computadora del caso es Narrow AI porque hace una única tarea específica y acotada: detectar defectos definidos (etiquetas torcidas, tapas ausentes) en envases. No transfiere lo aprendido a otros dominios ni generaliza fuera de esa tarea, que es justamente lo que exigiría una Inteligencia Artificial General (AGI).",
+    "c": "Primero, una captura controlada: cámara fija, iluminación estable y posición del envase en la línea. Luego, un preprocesamiento de la imagen (recorte, normalización) y un modelo de visión o reglas que clasifican el envase. Finalmente, la salida se decide con un umbral: aprobar si la confianza es alta, rechazar si hay defecto claro y derivar a revisión humana los casos dudosos.",
+    "d": "Métrica: precisión y recall por tipo de defecto, junto con la tasa de falsos rechazos, para saber cuántos defectos se pierden y cuántos envases buenos se descartan. Control humano: muestreo periódico de lo aprobado y revisión de los casos dudosos, con una parada segura que frene la línea antes de dejar que el sistema actúe solo."
+  },
+  "2": {
+    "a": "En la inteligencia biológica el lenguaje es un sistema simbólico que permite representar ideas y significados y comunicarlos a otros para razonar y coordinar acciones. Se relaciona con la comunicación porque, para entender y hacerse entender, usa símbolos y también el contexto y el conocimiento compartido: la misma frase puede significar cosas distintas según la situación.",
+    "b": "Un asistente de voz es una aplicación de Narrow AI que combina reconocimiento de voz, identificación de la intención, diálogo y síntesis de la respuesta. Su dominio es un catálogo acotado de consultas (turnos, tasas y horarios del municipio): no comprende en general ni resuelve tareas fuera de ese catálogo, lo que sería propio de una IA general.",
+    "c": "Primero, el audio de la consulta entra por el canal de voz. Luego, un reconocimiento de voz lo transcribe a texto y un modelo identifica la intención (por ejemplo, consultar un turno). A continuación se consulta una base de información autorizada del municipio y se entrega la respuesta al ciudadano, en voz. Finalmente, la interacción queda registrada para su seguimiento y mejora.",
+    "d": "Se escala a una persona cuando hay baja confianza en la intención, intentos repetidos sin resolver, una consulta fuera del catálogo o un dato sensible. La derivación conserva el contexto: la persona recibe la transcripción, la intención detectada y lo ya respondido, para que el ciudadano no tenga que repetir su consulta."
+  },
+  "3": {
+    "a": "La memoria es conservar y recuperar información (por ejemplo, recordar un fallo anterior). El aprendizaje es un cambio en el comportamiento o desempeño producido por la experiencia. Se diferencian porque guardar un recuerdo no implica mejorar: hay aprendizaje solo si lo vivido cambia lo que se hace después.",
+    "b": "El aprendizaje por experiencia es mejorar el desempeño en una tarea a partir de casos o datos. No hay que confundirlo con almacenar registros: guardar el historial de fallos es solo memoria; para que haya aprendizaje tiene que cambiar el modelo o el desempeño del sistema gracias a esos datos.",
+    "c": "Primero se estructuran los casos históricos con síntomas, causa y solución. Cuando llega un problema nuevo, se recuperan los casos similares y se recomienda la solución más probable junto con un nivel de confianza, para que el personal de campo vea cuánto puede apoyarse en ella.",
+    "d": "Datos mínimos: equipo, fecha, síntomas, causa confirmada, acción realizada y resultado; nada más de lo necesario. Antes de actuar, un técnico valida la recomendación: el sistema sugiere y la persona decide y ejecuta."
+  },
+  "4": {
+    "a": "La capacidad cognitiva en juego es el lenguaje. Implica comprender y producir mensajes con significado y en contexto: no alcanza con cambiar palabras, hay que entender qué se quiere decir en esa situación y expresarlo de forma adecuada.",
+    "b": "Sigue siendo Narrow AI porque realiza una sola tarea especializada: traducir. Manejar muchos idiomas no implica competencia cognitiva general ni transferencia a otros dominios: es la misma tarea repetida en más idiomas, no una inteligencia general.",
+    "c": "Se automatizarían mensajes de orientación de bajo riesgo: turnos, señalización, indicaciones de trámites y horarios. Se excluye explícitamente todo lo clínico: diagnóstico, consentimiento informado, prescripción u otras decisiones médicas, que no pasan por la traducción automática.",
+    "d": "Un profesional o intérprete confirma los nombres, las dosis de medicación, las alergias y cualquier mensaje que influya en una decisión clínica. El nivel de control es proporcional al impacto: lo administrativo puede ir con revisión por muestreo; lo de alto impacto, con confirmación humana previa."
+  },
+  "5": {
+    "a": "El razonamiento simbólico básico representa hechos mediante símbolos (por ejemplo, documentación_completa = no, vencimiento = próximo) y aplica reglas explícitas del tipo si–entonces para derivar conclusiones a partir de esos hechos.",
+    "b": "Una regla explícita es un criterio programado por una persona: si ocurre tal condición, entonces tal acción. Un patrón aprendido es una regularidad estimada a partir de datos o ejemplos, sin que nadie la escriba. La regla es auditable por diseño; el patrón depende de los datos con los que se entrenó.",
+    "c": "SI falta documentación ENTONCES pedir subsanación y dejar la solicitud en espera. SI el vencimiento es de menos de 5 días ENTONCES asignar prioridad alta. SI el tipo de trámite es de baja complejidad y la documentación está completa ENTONCES asignar prioridad normal y derivarla a un analista. En ningún caso una regla aprueba la solicitud automáticamente.",
+    "d": "Se guarda un registro (log) por cada solicitud con los datos de entrada, la regla aplicada y su versión. Además se registra la decisión humana final y quién la tomó, de modo que se pueda reconstruir por qué se asignó esa prioridad y quién resolvió."
+  },
+  "6": {
+    "a": "La cognición distribuida es la idea de que el conocimiento y las decisiones no están solo en una cabeza: se reparten entre personas, artefactos, información y entorno (y a lo largo del tiempo). En el caso, sus componentes son los técnicos, los sensores, los manuales y la mesa de ayuda.",
+    "b": "La metáfora cerebro-máquina es un modelo útil para pensar y diseñar, pero cerebro y computadora no son idénticos: no son equivalentes ni literal ni funcionalmente. El cerebro tiene cuerpo, contexto y plasticidad que una computadora no reproduce.",
+    "c": "El sensor detecta una anomalía y genera la alerta; la mesa de ayuda abre el ticket; el manual aporta el procedimiento indicado para esa avería. El técnico diagnostica, actúa y cierra el caso, dejando registrado lo hecho.",
+    "d": "Se mantiene un repositorio de casos resueltos y validados, con una clasificación (tipo de avería, equipo, solución) y una búsqueda que permita encontrarlos. Se prevé una revisión y actualización periódica para retirar lo obsoleto y sumar lo nuevo."
+  },
+  "7": {
+    "a": "Percibir los datos es adquirir y representar señales: montos, fechas, proveedores. Reconocer patrones es detectar regularidades o anomalías en esas señales (por ejemplo, compras con montos atípicos o proveedores que siempre ganan). Se relacionan porque primero hay que percibir y representar los datos para poder encontrar patrones en ellos.",
+    "b": "El modelo de patrones aprendidos descubre anomalías a partir de datos históricos, sin que nadie las haya definido; las reglas simbólicas expresan la normativa de contratación de forma explícita. Son complementarios: combinados mejoran la cobertura (el modelo detecta lo no previsto) y la trazabilidad (las reglas permiten explicar el criterio).",
+    "c": "Primero se ingieren los datos de compras y se controla su calidad. Luego un modelo puntúa las anomalías y se aplican las reglas de contratación; recién después se genera una alerta priorizada. La alerta se deriva a un analista, que cierra el caso de forma documentada.",
+    "d": "Trazabilidad: se explican las variables y las reglas que dispararon cada alerta. Revisión humana: el sistema nunca sanciona ni acusa automáticamente, y un analista debe revisar cada caso. Falsos positivos: se miden y se tratan, y se prevé un canal para rectificar cuando se señaló a alguien por error."
+  },
+  "8": {
+    "a": "La memoria aporta los casos registrados: qué pasó, con qué señales y cómo se resolvió. El aprendizaje por experiencia ajusta el modelo a partir de resultados confirmados. Están conectados porque el aprendizaje usa lo que la memoria conserva, pero no son equivalentes: tener el historial guardado no mejora nada hasta que el modelo cambia con él.",
+    "b": "Un aporte de la neurociencia es la conectividad y el procesamiento distribuido y en paralelo de las redes neuronales, junto con la plasticidad. Es una inspiración para diseñar redes artificiales, no una copia literal del cerebro.",
+    "c": "Ciclo: se capturan los datos de los sensores y los diagnósticos de los técnicos, y se etiqueta la causa confirmada de cada falla. Con eso se entrena el modelo, se valida, se despliega como alerta predictiva y se retroalimenta con los nuevos fallos confirmados para volver a empezar.",
+    "d": "Se separan los datos de entrenamiento y de prueba por períodos o por equipos, y se valida hacia el futuro (entrenar con el pasado, probar con lo posterior). Se reentrena cuando se detecta deriva de los datos o cuando el desempeño cae por debajo de un umbral previamente aprobado."
+  },
+  "9": {
+    "a": "La percepción es recibir la entrada, sea voz o texto del cliente. El lenguaje es interpretar la consulta: entender qué quiere decir y qué pide. La memoria es conservar el contexto de la conversación y el conocimiento autorizado del banco. Son funciones distintas que el servicio combina.",
+    "b": "Integrar u orquestar varias Narrow AI no demuestra por sí mismo una General AI: coordinar módulos especializados no garantiza abstracción ni transferencia flexible a dominios nuevos. El conjunto sigue funcionando solo dentro de las tareas para las que se diseñó cada módulo.",
+    "c": "El recorrido es: llega la consulta por un canal (voz, chat o formulario), se transcribe si es voz, se identifica la intención, se recupera el contexto y se busca en la base de conocimiento. El proceso termina entregando la respuesta o transfiriendo a un agente humano junto con el historial de la conversación.",
+    "d": "Se escala a una persona cuando la confianza en la intención es baja o la consulta es ambigua. También se escala por riesgo financiero: operaciones monetarias, sospecha de fraude o pedidos fuera del alcance del sistema, que no se resuelven de forma automática."
+  },
+  "10": {
+    "a": "Detectar una grieta es localizarla en la imagen. Reconocer un patrón de daño es clasificar qué tipo de daño es. Comprender su causa es otra cosa: requiere contexto y un análisis adicional (materiales, cargas, historia del puente) que el modelo no aporta por sí solo.",
+    "b": "Una Narrow AI visual identifica los patrones para los que fue entrenada. Su alcance termina ahí: no determina por sí sola la causa de un daño ni la seguridad estructural del puente, porque eso excede lo que puede inferir de una imagen.",
+    "c": "Se define un plan de vuelo, se capturan las imágenes con el dron y se controla su calidad. Luego el modelo detecta las grietas, se las geolocaliza en un mapa y se priorizan según gravedad. El proceso termina con una orden de visita para que un inspector revise el lugar.",
+    "d": "Se revisa una muestra de las detecciones (por ejemplo estratificada por tipo de daño) y todos los casos críticos. El caso nunca se cierra sin inspección profesional: ninguna evidencia generada solo por el modelo alcanza para cerrarlo automáticamente."
+  },
+  "11": {
+    "a": "En el razonamiento simbólico los hechos describen el expediente (por ejemplo, tipo de trámite, monto, documentación presentada). Las reglas codifican la normativa y un motor de reglas deriva el estado del expediente o la acción a seguir, con una conclusión que se puede explicar.",
+    "b": "El reconocimiento de patrones sirve para extraer datos de documentos heterogéneos: OCR y detección de campos. No equivale a razonamiento jurídico: la conclusión sobre qué corresponde según la ley exige reglas y revisión experta, no solo patrones.",
+    "c": "Primero se extraen los campos de los documentos con OCR y se validan. Luego un motor de reglas aplica la normativa. Las excepciones, es decir, los casos que no encajan en las reglas, van a una cola que resuelven personas con criterio experto.",
+    "d": "Las reglas se guardan en un repositorio versionado, con su vigencia, pruebas y aprobación antes de publicarse. Cada resultado registra qué regla y qué versión lo produjo, de modo que una auditoría pueda saber qué normativa estaba vigente y por qué se llegó a esa conclusión."
+  },
+  "12": {
+    "a": "Dos aportes de la neurociencia al diseño de IA son las redes de unidades conectadas (redes neuronales) y el aprendizaje adaptativo; también la memoria asociativa y la atención. Tienen un límite como analogía: son inspiración, no equivalencia, porque una red artificial no es un cerebro real.",
+    "b": "El procesamiento distribuido trabaja con señales en paralelo, como la detección visual, y se apoya en patrones aprendidos. El razonamiento simbólico impone reglas explícitas y auditables, como las de seguridad que deciden detener la maquinaria. El primero percibe y estima; el segundo fija límites que se pueden verificar.",
+    "c": "Se diseñan capas separadas: percepción (detección visual), memoria de casos, reglas y actuación. Las reglas de seguridad tienen prioridad sobre lo que estime la percepción, y el actuador lleva a la máquina a un estado seguro cuando una regla lo exige.",
+    "d": "La parada de seguridad debe ser determinista y a prueba de fallas: siempre debe reaccionar igual y no depender de un modelo probabilístico. Se prueba con mediciones de latencia (cuánto tarda en frenar), con falla de sensor y con la recuperación posterior al estado seguro."
+  },
+  "13": {
+    "a": "Una General AI exige desempeño amplio en muchos dominios, abstracción (formar conceptos reutilizables) y transferencia a tareas nuevas. Una colección de sistemas Narrow AI, aunque se orqueste, no cumple esos criterios: cada sistema sigue limitado a su tarea y su dominio.",
+    "b": "La abstracción es formar conceptos reutilizables, y la transferencia es aplicarlos en dominios nuevos sin empezar de cero. La creatividad es producir soluciones nuevas y pertinentes en contextos nuevos. Siguen siendo desafíos teóricos centrales porque ningún sistema actual logra hacerlo de forma general y confiable, y no hay consenso sobre cómo conseguirlo.",
+    "c": "Se avanza por etapas: primero pilotos en dominios acotados (por ejemplo, un trámite concreto) con permisos mínimos; se usan interfaces estables y supervisión humana; y solo se amplía a otros dominios cuando hay evidencia de que funciona, nunca por anticipado.",
+    "d": "Se prueba con casos inéditos y adversariales para detectar transferencia espuria (que parezca que generaliza sin hacerlo) y errores fuera del dominio. Se vigila la confianza indebida y se bloquean las acciones fuera del alcance autorizado, para evitar el exceso de autonomía."
+  },
+  "14": {
+    "a": "Un único modelo funcional con cada función asignada: los sensores perciben el estado de la red, el historial de incidentes funciona como memoria, los modelos aprenden de esos incidentes y las reglas de seguridad limitan lo que puede hacerse (razonamiento simbólico). La decisión final queda en los operadores humanos.",
+    "b": "La cognición distribuida significa que la decisión emerge de la coordinación entre centros de control, sistemas de software, sensores, procedimientos y la experiencia de las personas, y no de un único componente. Ningún elemento por sí solo decide: el conocimiento está repartido en todo el sistema sociotécnico.",
+    "c": "Una arquitectura híbrida en capas, con operación regional y un motor de reglas con prioridad sobre los modelos aprendidos. Se separa recomendar de autorizar: el sistema recomienda y un operador autoriza. Se prevé un modo degradado, con control local, para cuando fallen las comunicaciones o los modelos.",
+    "d": "Se prueba con simulación, pruebas de ataque (red team) e inyección de fallas, incluyendo datos adversos y fallos simultáneos. Se define cómo se reconcilian las recomendaciones en conflicto (por ejemplo, prevalece la regla de seguridad o decide el operador) y cómo se vuelve al control manual."
+  },
+  "15": {
+    "a": "Para apoyar una afirmación de General AI se necesitaría evidencia conjunta de abstracciones reutilizables, transferencia eficiente y creatividad útil, y que se observe en varios dominios distintos, no solo en el diseño de puentes.",
+    "b": "Generar novedades válidas en un dominio no prueba inteligencia general porque esa novedad puede surgir de una búsqueda o de un modelo especializado en un solo dominio, sin ninguna competencia general: es una Narrow AI muy buena en una tarea.",
+    "c": "Primero se definen los requisitos (cargas, normas, límites) y se generan alternativas de diseño. Se las simula bajo cargas y escenarios. Luego se hace un chequeo normativo, una revisión independiente y, por último, la aprobación y firma de un profesional responsable.",
+    "d": "Se prueba con casos fuera de distribución: cargas extremas y materiales nuevos. Se rechaza un diseño si viola alguna restricción o si la incertidumbre es alta, aunque parezca plausible: que se vea razonable no alcanza para aprobarlo."
+  },
+  "16": {
+    "a": "La General AI igualaría las capacidades generales humanas; la superinteligencia las superaría ampliamente. Ambas son hipotéticas: no existen hoy y no deben afirmarse sin evidencia, por lo que se analizan como escenarios de riesgo y no como hechos.",
+    "b": "Desalineación de objetivos: si el objetivo está mal especificado, un sistema muy capaz puede escalar el daño cumpliéndolo al pie de la letra. Concentración de poder: quién accede y se beneficia del sistema. Pérdida de control: que nadie pueda corregirlo ni detenerlo. Son debates de riesgo, no predicciones.",
+    "c": "Gobernanza preventiva: el sistema se aísla en un entorno cerrado (sandbox), con permisos mínimos y autorización escalonada que requiere la aprobación de varias personas. Se limitan los recursos de cómputo, se registra todo, cada acción puede revertirse y existe un apagado independiente del propio sistema.",
+    "d": "Indicadores: saltos súbitos de capacidad y búsqueda de privilegios no concedidos; ocultamiento o resistencia a ser detenido, es decir, intentos de eludir los controles. Se definen de antemano los criterios de apagado: qué señales obligan a apagar y quién tiene la autoridad para hacerlo."
+  },
+  "17": {
+    "a": "Percepción: captar señales (las imágenes médicas). Memoria: almacenar (historias clínicas y guías). Aprendizaje: adaptarse con la experiencia y los casos. Lenguaje: comunicar (interpretar y redactar texto clínico). Razonamiento: derivar conclusiones a partir de los datos y las guías. El sistema las distribuye en módulos, y las decisiones se apoyan en los equipos multidisciplinares.",
+    "b": "La cognición distribuida muestra que la decisión pertenece al sistema sociotécnico completo: profesionales, guías, datos y herramientas. Por eso no se le atribuye toda la decisión a un único algoritmo, y la responsabilidad no se delega en él.",
+    "c": "Cada módulo analiza su fuente (imágenes, historia, guías) y muestra su evidencia de forma visible; el sistema ofrece una recomendación. La decisión pasa por los profesionales, por ejemplo una junta clínica, y queda registrada. Nunca hay un diagnóstico ni un tratamiento plenamente autónomos.",
+    "d": "Validación por subgrupos de pacientes para ver si el desempeño es equitativo. Explicación de las fuentes de cada recomendación. Privacidad: se minimizan los datos. Responsabilidad final: recae siempre en los profesionales, no en el sistema."
+  },
+  "18": {
+    "a": "La neurociencia inspira principios de diseño (redes conectadas, aprendizaje adaptativo), pero eso no es equivalencia funcional. Se rechaza la afirmación de «copiar el cerebro»: cerebro y computadora no son equivalentes, y la metáfora es un modelo útil, no una identidad.",
+    "b": "Reconocer correlaciones es clasificar según regularidades en los datos; razonar con símbolos es aplicar reglas explícitas. Comprender el contexto no se deduce automáticamente de ninguna de las dos: una correlación no explica por qué ocurre algo, y las reglas solo valen para lo previsto.",
+    "c": "Se rediseña hacia usos acotados y no punitivos: análisis agregado o apoyo a la prevención, sin apuntar a personas. Se prohíben las intervenciones automáticas; toda decisión es humana y hay derecho a revisión y apelación.",
+    "d": "Auditoría independiente de sesgo por grupos y pruebas de robustez. Explicaciones utilizables por quienes toman la decisión y por las personas afectadas. Antes de desplegar, una evaluación de necesidad y proporcionalidad: si el sistema es realmente necesario y si su impacto es proporcional al fin."
+  }
+}

@@ -34,6 +34,7 @@ tiene sus casos en `js/casos-etica-roles.js` y sigue las mismas reglas de opcion
 **Simulacro escrito del 2.º parcial de Intro a la IA** (`simulacro-ia-2.html`). Las 18 situaciones y sus criterios viven en `tools/situaciones_ia_p2.json`;
 `python tools/seed_ia_parcial2.py` genera `supabase/seed_ia_parcial2.sql` (que incluye **el texto de las clases 7 a 12 de `ia-conceptual.html` como contexto
 para la corrección**) y `js/situaciones-ia-p2.js`. Si cambiás el texto de esas clases o las situaciones, volvé a correr el script y commiteá el resultado.
+La pestaña **Respuestas** del simulacro muestra, desplegables, las respuestas modelo de las 18 situaciones: viven en `tools/respuestas_ia_p2.json` (una por parte, redactadas por Claude a partir del apunte y de los criterios; no son la guía textual de la cátedra) y el mismo script las publica con los criterios en `js/respuestas-ia-p2.js`. Si agregás una situación, el script falla hasta que le cargues sus cuatro respuestas. Se puede abrir en cualquier momento, también con un examen en curso.
 El apunte de Intro a la IA numera las clases seguidas (1–13), sin el salto de la cátedra (1–6, 9–15).
 
 **Parcial Zombie** (`parcial-zombie.html`): juego de repaso (pasillo, zombie, una puerta por opción). Es una plantilla: `js/parcial-zombie.js` no sabe de
