@@ -52,6 +52,12 @@ de la consigna, con el pasillo abajo. El cartel «UADE» del pasillo son letras 
 El brief está en `docs/parcial-zombie-brief.md`. Si cambia el texto de las clases 7 a 12, revisá que los «porqué» sigan
 diciendo lo mismo que el apunte.
 
+**Armá el flujo** (`flujo-ia.html`): pizarrón en el que se enlazan cajas con cables para diseñar cómo se automatiza un proceso (situaciones del simulacro escrito del 2.º parcial de Intro a la IA).
+Los datos viven en `js/flujo-ia-datos.js` (100 cajas, sus `frases` para el panel «Mi respuesta», el ejemplo guiado y las 18 situaciones, cada una con su solución modelo y sus criterios), la revisión en `js/flujo-ia-eval.js` (la usan el juego y el medidor) y el
+motor en `js/flujo-ia.js`. Para sumar una situación se agrega una entrada en `situaciones` con `mision`, `modelo` y `crit` (el formato está en la cabecera del archivo de datos) y se corre
+`node tools/medir_flujo_ia.js`: tiene que aprobar la solución modelo. Las cajas trampa son errores típicos del apunte y no se marcan en la bandeja. Cada caja y cada criterio llevan el `ref` de un apartado real de
+`ia-conceptual.html` (el medidor lo comprueba), así que si cambia la numeración del apunte hay que actualizarlos. En nivel bajo (situaciones 1 a 6) el pizarrón dibuja huecos punteados donde faltan cajas de la solución modelo, y a un costado el panel «Mi respuesta» redacta la respuesta del parcial con las `frases` de las cajas puestas (cada caja que no es trampa necesita la suya: el medidor lo comprueba). No usar el texto de las diapositivas tal cual: las misiones y los porqués son síntesis propia.
+
 ## Regla: "clase + resumen de transcripción"
 
 Cuando el usuario menciona una **clase nueva** junto con material de una
