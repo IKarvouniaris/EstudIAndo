@@ -1506,6 +1506,805 @@ const BANCO = [
   "<code>sns.boxplot(data=df, x=\"turno\", y=\"nota\", subplot=2)</code>":"No existe el parámetro <code>subplot</code> en las funciones de Seaborn: Seaborn no interpreta posiciones numéricas.",
   "<code>axes[1].boxplot(data=df, x=\"turno\", y=\"nota\")</code>":"Ese es el <code>boxplot</code> de <b>Matplotlib</b>: no tiene un parámetro <code>y</code> y tira <code>TypeError</code>. Seaborn se llama con <code>sns.</code> y se le pasa <code>ax=</code> para elegir el panel."
  }
+},
+
+/* ---------- GUÍA 2.º PARCIAL · Git, entornos, proyectos (clase 7) y pandas aplicado (clase 8) ----------
+   Armadas a partir del simulacro A de la cátedra y su resolución (hecha con Claude), no de las diapositivas. */
+{
+ id:"p2g-01", clase:7, etq:"2.º parcial", tema:"Git", nivel:"baja",
+ caso:"Tres personas arman un análisis de datos en el mismo proyecto y necesitan saber qué cambió cada una y poder volver atrás si algo se rompe.",
+ pide:"¿Para qué sirve Git en ese proyecto?",
+ ops:[
+  "Registrar y gestionar los cambios del proyecto a lo largo del tiempo",
+  "Ejecutar los notebooks de forma automática cada vez que alguien guarda",
+  "Reemplazar a pandas para que el procesamiento de los datos sea más rápido",
+  "Guardar las contraseñas del equipo en un lugar compartido para todos"
+ ],
+ aprendido:"Git es un sistema de <b>control de versiones</b>: guarda la historia de los cambios, permite volver a un punto anterior, ver quién cambió qué y trabajar en paralelo sin pisarse. No ejecuta código ni procesa datos, y nunca es lugar para claves.",
+ porque:{
+  "Ejecutar los notebooks de forma automática cada vez que alguien guarda":"Git no ejecuta nada: guarda versiones. Correr notebooks automáticamente es tarea de otras herramientas (CI, planificadores).",
+  "Reemplazar a pandas para que el procesamiento de los datos sea más rápido":"Git no procesa datos; pandas y Git resuelven problemas distintos y se usan juntos.",
+  "Guardar las contraseñas del equipo en un lugar compartido para todos":"Nunca: todo lo que entra a Git queda en el historial y lo ve cualquiera con acceso al repositorio."
+ }
+},
+
+{
+ id:"p2g-02", clase:7, etq:"2.º parcial", tema:"Git", nivel:"baja",
+ caso:"Tenés una carpeta con tus scripts de análisis y querés empezar a versionarla.",
+ pide:"¿Qué comando convierte la carpeta actual en un repositorio Git?",
+ ops:[
+  "<code>git init</code>",
+  "<code>git start</code>",
+  "<code>git create repo</code>",
+  "<code>git open</code>"
+ ],
+ aprendido:"<code>git init</code> se ejecuta una vez en la carpeta y crea la carpeta oculta <code>.git</code>, donde Git guarda toda la historia.",
+ porque:{
+  "<code>git start</code>":"No existe ese comando en Git.",
+  "<code>git create repo</code>":"No existe: el comando que crea el repositorio es <code>git init</code>.",
+  "<code>git open</code>":"No existe; y en cualquier caso no inicializaría el repositorio."
+ }
+},
+
+{
+ id:"p2g-03", clase:7, etq:"2.º parcial", tema:"Git", nivel:"baja",
+ caso:"Modificaste <code>analisis.py</code> y querés que ese cambio entre en el próximo commit.",
+ pide:"¿Qué comando agrega el archivo al área de preparación (staging)?",
+ ops:[
+  "<code>git add analisis.py</code>",
+  "<code>git save analisis.py</code>",
+  "<code>git commit analisis.py</code>",
+  "<code>git stage --all</code>"
+ ],
+ aprendido:"El flujo es <b>carpeta de trabajo → <code>git add</code> → staging → <code>git commit</code> → historial</b>. El staging es la «sala de espera» donde elegís qué cambios entran en la próxima versión.",
+ porque:{
+  "<code>git save analisis.py</code>":"No existe un comando <code>git save</code>.",
+  "<code>git commit analisis.py</code>":"<code>commit</code> guarda lo que ya está en staging; no es el comando que prepara el archivo.",
+  "<code>git stage --all</code>":"No apunta a ese archivo puntual (y la forma habitual de preparar es <code>git add</code>)."
+ }
+},
+
+{
+ id:"p2g-04", clase:7, etq:"2.º parcial", tema:"Git", nivel:"baja",
+ caso:"Ya preparaste los cambios de limpieza de datos y querés guardarlos como una versión con un mensaje claro.",
+ pide:"¿Qué comando crea el commit con ese mensaje?",
+ ops:[
+  "<code>git commit -m \"Agrega limpieza de valores faltantes\"</code>",
+  "<code>git add -m \"Agrega limpieza de valores faltantes\"</code>",
+  "<code>git push -m \"Agrega limpieza de valores faltantes\"</code>",
+  "<code>git log \"Agrega limpieza de valores faltantes\"</code>"
+ ],
+ aprendido:"<code>-m</code> es «message». Un buen mensaje está en presente y dice <b>qué hace</b> el cambio («Agrega limpieza…»), no «cambios» ni «arreglos varios».",
+ porque:{
+  "<code>git add -m \"Agrega limpieza de valores faltantes\"</code>":"<code>add</code> no lleva mensaje: prepara archivos, no guarda versiones.",
+  "<code>git push -m \"Agrega limpieza de valores faltantes\"</code>":"<code>push</code> sube commits ya hechos al remoto; no crea el commit ni recibe <code>-m</code>.",
+  "<code>git log \"Agrega limpieza de valores faltantes\"</code>":"<code>git log</code> solo muestra la historia de commits."
+ }
+},
+
+{
+ id:"p2g-05", clase:7, etq:"2.º parcial", tema:"Git", nivel:"media",
+ caso:"Un proyecto de datos tiene estos archivos: <code>README.md</code>, <code>src/limpieza.py</code>, <code>.env</code> (con la clave de la base de datos) y <code>tests/test_limpieza.py</code>.",
+ pide:"¿Cuál debería ir en <code>.gitignore</code>?",
+ ops:[
+  "<code>.env</code>",
+  "<code>README.md</code>",
+  "<code>src/limpieza.py</code>",
+  "<code>tests/test_limpieza.py</code>"
+ ],
+ aprendido:"<code>.gitignore</code> lista lo que Git no debe versionar: secretos (<code>.env</code>), el entorno (<code>.venv/</code>), caché (<code>__pycache__/</code>) y datos (<code>data/</code>). Se sube una plantilla <code>.env.example</code> sin valores reales.",
+ porque:{
+  "<code>README.md</code>":"El README explica el proyecto y se versiona.",
+  "<code>src/limpieza.py</code>":"Es el código del proyecto: es justamente lo que se versiona.",
+  "<code>tests/test_limpieza.py</code>":"Los tests son parte del proyecto y se versionan junto con el código."
+ }
+},
+
+{
+ id:"p2g-06", clase:7, etq:"2.º parcial", tema:"Git", nivel:"media",
+ caso:"Editaste <code>src/limpieza.py</code>. <code>git status</code> lo muestra como <i>modified</i>, pero no aparece bajo «Changes to be committed».",
+ pide:"¿Qué falta hacer antes de commitear?",
+ ops:[
+  "Agregarlo al staging con <code>git add src/limpieza.py</code>",
+  "Subirlo al remoto con <code>git push</code>, que lo manda al repositorio compartido",
+  "Crear una rama nueva con <code>git switch -c</code> para aislar el cambio",
+  "Reiniciar el repositorio con <code>git init</code> para que detecte el cambio"
+ ],
+ aprendido:"«Modified» sin «Changes to be committed» significa que el cambio está en la carpeta de trabajo pero <b>no en el staging</b>: hay que prepararlo con <code>git add</code> y recién ahí lo incluye el commit.",
+ porque:{
+  "Subirlo al remoto con <code>git push</code>, que lo manda al repositorio compartido":"El push viene después del commit; sin commit no hay nada que subir.",
+  "Crear una rama nueva con <code>git switch -c</code> para aislar el cambio":"Una rama no prepara cambios: el archivo seguiría fuera del staging.",
+  "Reiniciar el repositorio con <code>git init</code> para que detecte el cambio":"El repositorio ya existe; <code>git init</code> no prepara cambios."
+ }
+},
+
+{
+ id:"p2g-07", clase:7, etq:"2.º parcial", tema:"Git", nivel:"baja",
+ caso:"Un compañero dice que «Git y GitHub son lo mismo».",
+ pide:"¿Cuál afirmación es correcta?",
+ ops:[
+  "Git registra los cambios; GitHub aloja una copia del repositorio para compartirla",
+  "GitHub es el programa que guarda las versiones en tu compu y Git es solo la página web",
+  "Son dos nombres del mismo programa, que solo cambian según el sistema operativo",
+  "Git solo funciona si el proyecto está subido a GitHub"
+ ],
+ aprendido:"GitHub y GitLab no son Git: son sitios que alojan una copia del repositorio (el «remoto») para compartirlo, hacer pull requests y revisar código.",
+ porque:{
+  "GitHub es el programa que guarda las versiones en tu compu y Git es solo la página web":"Está invertido: el programa de versiones es Git; GitHub es el servicio web.",
+  "Son dos nombres del mismo programa, que solo cambian según el sistema operativo":"No: Git es una herramienta; GitHub (o GitLab) es una plataforma que la usa.",
+  "Git solo funciona si el proyecto está subido a GitHub":"Git funciona 100 % local; GitHub es opcional y sirve para compartir y revisar."
+ }
+},
+
+{
+ id:"p2g-08", clase:7, etq:"2.º parcial", tema:"Git", nivel:"media",
+ caso:"Hiciste un commit en tu compu y querés que tus compañeros lo vean; también querés traer lo que ellos subieron.",
+ pide:"¿Qué par de comandos hace eso, en ese orden?",
+ ops:[
+  "<code>git push</code> sube tus commits y <code>git pull</code> trae los del remoto",
+  "<code>git pull</code> para subir tus commits y <code>git push</code> para traer los del remoto",
+  "<code>git add</code> para subir tus commits y <code>git log</code> para traer los del remoto",
+  "<code>git init</code> para subir y <code>git status</code> para traer"
+ ],
+ aprendido:"<code>git push</code> sube tus commits al remoto; <code>git pull</code> trae los commits del remoto. <code>git status</code> te dice en qué lugar está cada cosa.",
+ porque:{
+  "<code>git pull</code> para subir tus commits y <code>git push</code> para traer los del remoto":"Están invertidos: <code>push</code> sube y <code>pull</code> trae.",
+  "<code>git add</code> para subir tus commits y <code>git log</code> para traer los del remoto":"<code>add</code> prepara archivos y <code>log</code> solo muestra historial: ninguno comunica con el remoto.",
+  "<code>git init</code> para subir y <code>git status</code> para traer":"<code>init</code> crea el repo y <code>status</code> solo informa el estado."
+ }
+},
+
+{
+ id:"p2g-09", clase:7, etq:"2.º parcial", tema:"Git", nivel:"media",
+ caso:"Un equipo quiere probar una limpieza distinta sin tocar la versión que ya funciona.",
+ pide:"¿Qué es lo más adecuado?",
+ ops:[
+  "Crear una rama y trabajar ahí, sin tocar <code>main</code>",
+  "Copiar la carpeta del proyecto y renombrarla «proyecto_nuevo»",
+  "Editar directamente <code>main</code> y deshacer si sale mal",
+  "Borrar el historial y empezar un repositorio nuevo"
+ ],
+ aprendido:"Una <b>rama</b> es una línea de trabajo paralela: probás cosas sin tocar <code>main</code> y, si sirve, la fusionás (merge) mediante un pull request.",
+ porque:{
+  "Copiar la carpeta del proyecto y renombrarla «proyecto_nuevo»":"Es un parche manual: pierde la historia común y hace imposible fusionar los cambios después.",
+  "Editar directamente <code>main</code> y deshacer si sale mal":"Contamina la rama que debe funcionar siempre; se evita justamente con ramas.",
+  "Borrar el historial y empezar un repositorio nuevo":"Perdés toda la historia; una rama resuelve el problema sin perder nada."
+ }
+},
+
+{
+ id:"p2g-10", clase:7, etq:"2.º parcial", tema:"Git", nivel:"media",
+ caso:"Dos ramas modificaron las mismas líneas de <code>limpieza.py</code> y al fusionarlas Git se detiene.",
+ pide:"¿Qué es lo que ocurrió?",
+ ops:[
+  "Un conflicto: Git te pide que decidas con qué versión quedarte",
+  "Un error del repositorio, que se arregla borrando la carpeta <code>.git</code>",
+  "Un commit duplicado que Git elimina solo en la próxima fusión",
+  "Una advertencia sin importancia: Git se queda con la rama más nueva"
+ ],
+ aprendido:"Un <b>conflicto</b> aparece cuando dos ramas cambiaron las mismas líneas. Git marca el lugar y tenés que decidir qué queda, probar y recién ahí commitear la resolución.",
+ porque:{
+  "Un error del repositorio, que se arregla borrando la carpeta <code>.git</code>":"Es una situación normal del trabajo en equipo; borrar <code>.git</code> destruye la historia.",
+  "Un commit duplicado que Git elimina solo en la próxima fusión":"Git no resuelve conflictos por su cuenta cuando ambas ramas tocaron las mismas líneas.",
+  "Una advertencia sin importancia: Git se queda con la rama más nueva":"No elige por vos: si lo hiciera, perderías el trabajo de una de las dos personas."
+ }
+},
+
+{
+ id:"p2g-11", clase:7, etq:"2.º parcial", tema:"Notebooks", nivel:"alta",
+ caso:"Dos personas modificaron las mismas celdas de un notebook <code>.ipynb</code> y apareció un conflicto de fusión con marcas <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code> en el archivo.",
+ pide:"¿Cuál es el procedimiento más seguro para no perder análisis valiosos?",
+ ops:[
+  "Guardar copia de ambas versiones, compararlas por celda con una herramienta para notebooks y decidir con la otra persona",
+  "Aceptar la versión propia para terminar rápido y que la otra persona rehaga su parte",
+  "Borrar a mano las marcas <code>&lt;&lt;&lt;&lt;</code> del archivo sin abrirlo y commitear",
+  "Eliminar el notebook del repositorio y volver a escribirlo desde cero entre los dos"
+ ],
+ aprendido:"Un notebook por dentro es JSON (código, salidas, imágenes, metadatos): las marcas de conflicto pueden romperlo. Procedimiento: respaldar ambas versiones, comparar con <b>nbdime</b> (o el diff de Jupyter/VS Code), acordar qué celdas quedan, reejecutar de cero (<i>Restart &amp; Run All</i>) y recién entonces <code>git add</code> y commit.",
+ porque:{
+  "Aceptar la versión propia para terminar rápido y que la otra persona rehaga su parte":"Descarta trabajo ajeno sin mirarlo: justo lo que el procedimiento seguro quiere evitar.",
+  "Borrar a mano las marcas <code>&lt;&lt;&lt;&lt;</code> del archivo sin abrirlo y commitear":"Un notebook es un JSON enorme: tocarlo a ciegas puede dejarlo ilegible y que no abra.",
+  "Eliminar el notebook del repositorio y volver a escribirlo desde cero entre los dos":"Es innecesario y se pierde lo hecho; el conflicto tiene solución con herramientas de comparación."
+ }
+},
+
+{
+ id:"p2g-12", clase:7, etq:"2.º parcial", tema:"Notebooks", nivel:"media",
+ caso:"El equipo sufre conflictos en los notebooks cada semana.",
+ pide:"¿Qué medida ayuda a <b>prevenirlos</b>?",
+ ops:[
+  "Mover la lógica reutilizable a archivos <code>.py</code> y limpiar las salidas antes de commitear",
+  "Commitear los notebooks con todas las salidas e imágenes para que se vea el resultado",
+  "Que todos editen el mismo notebook a la vez para ahorrar archivos",
+  "Renombrar los notebooks todos los días con la fecha"
+ ],
+ aprendido:"Para prevenir: <b>lógica en <code>.py</code></b> (se versiona y testea mejor), <b>notebooks distintos por persona</b> y <b>salidas limpias</b> antes de commitear (<code>nbstripout</code>).",
+ porque:{
+  "Commitear los notebooks con todas las salidas e imágenes para que se vea el resultado":"Las salidas hacen crecer el JSON y multiplican los conflictos: conviene limpiarlas (por ejemplo con nbstripout).",
+  "Que todos editen el mismo notebook a la vez para ahorrar archivos":"Es la receta del conflicto: lo mejor es que cada persona trabaje en notebooks distintos.",
+  "Renombrar los notebooks todos los días con la fecha":"Genera archivos duplicados y no evita que dos personas toquen las mismas celdas."
+ }
+},
+
+{
+ id:"p2g-13", clase:7, etq:"2.º parcial", tema:"Ramas", nivel:"media",
+ caso:"Un equipo desarrolla en paralelo ingestión, limpieza y modelado de datos y quiere proteger la rama principal.",
+ pide:"¿Qué flujo de trabajo reduce más los conflictos?",
+ ops:[
+  "<code>main</code> protegida, una rama por tarea y cambios por pull request revisado",
+  "Todos hacen commits directo a <code>main</code> para que el código esté siempre actualizado",
+  "Una sola rama «desarrollo» compartida donde todos editan los mismos archivos",
+  "Que cada persona trabaje semanas en su rama y fusione todo junto al final del proyecto"
+ ],
+ aprendido:"<b>main protegida</b> (solo entra código por PR aprobado, idealmente con tests automáticos), <b>una rama por tarea</b> (<code>feature/limpieza</code>), <b>ramas cortas</b> y <b>actualizarse seguido</b> con los cambios de main; y separar el código en módulos distintos para que no se editen los mismos archivos.",
+ porque:{
+  "Todos hacen commits directo a <code>main</code> para que el código esté siempre actualizado":"Sin protección ni revisión, una rotura de cualquiera afecta a todos.",
+  "Una sola rama «desarrollo» compartida donde todos editan los mismos archivos":"Concentra los cambios en los mismos archivos y multiplica los conflictos.",
+  "Que cada persona trabaje semanas en su rama y fusione todo junto al final del proyecto":"Cuanto más vive una rama separada, más conflictos acumula: conviene fusionar seguido."
+ }
+},
+
+{
+ id:"p2g-14", clase:7, etq:"2.º parcial", tema:"Ramas", nivel:"media",
+ caso:"Tu rama <code>feature/modelado</code> lleva dos semanas abierta y <code>main</code> recibió muchos cambios.",
+ pide:"¿Qué conviene hacer antes de seguir trabajando?",
+ ops:[
+  "Traer los cambios de <code>main</code> a tu rama y resolver conflictos de a poco",
+  "Esperar a terminar todo y recién ahí fusionar de una vez",
+  "Borrar tu rama y copiar los archivos de <code>main</code>",
+  "Subir tus cambios directo a <code>main</code> sin revisión para evitar la diferencia"
+ ],
+ aprendido:"Ramas cortas, PR frecuentes y <b>actualizarse seguido</b> (<code>git pull origin main</code> o rebase): resolver conflictos chicos y pronto es mucho más fácil que uno enorme al final.",
+ porque:{
+  "Esperar a terminar todo y recién ahí fusionar de una vez":"Cuanto más se espera, más grandes y difíciles son los conflictos.",
+  "Borrar tu rama y copiar los archivos de <code>main</code>":"Perdés tu trabajo; actualizar la rama conserva tus commits.",
+  "Subir tus cambios directo a <code>main</code> sin revisión para evitar la diferencia":"Saltea la protección de <code>main</code> y el control del equipo."
+ }
+},
+
+{
+ id:"p2g-15", clase:7, etq:"2.º parcial", tema:"Datos y Git", nivel:"media",
+ caso:"El proyecto usa un CSV de 4 GB con datos personales de clientes.",
+ pide:"¿Por qué <b>no</b> debería subirse directamente a Git?",
+ ops:[
+  "Por el tamaño y porque el dato personal quedaría en el historial de quien acceda al repositorio",
+  "Porque Git no puede leer archivos con extensión CSV",
+  "Porque pandas deja de funcionar si el CSV está dentro de un repositorio",
+  "Porque cada vez que se abre el CSV, Git cambia su contenido"
+ ],
+ aprendido:"Git está pensado para texto chico. Un CSV de 4 GB agranda y enlentece el repo (GitHub rechaza archivos de más de 100 MB y cada versión queda para siempre) y, si tiene datos personales, aunque lo borres después <b>sigue en el historial</b> (también hay normas de protección de datos, como la Ley 25.326).",
+ porque:{
+  "Porque Git no puede leer archivos con extensión CSV":"Git versiona cualquier archivo; el problema es el tamaño y el contenido, no la extensión.",
+  "Porque pandas deja de funcionar si el CSV está dentro de un repositorio":"pandas lee el archivo igual; no depende de Git.",
+  "Porque cada vez que se abre el CSV, Git cambia su contenido":"Git no modifica los archivos al abrirlos."
+ }
+},
+
+{
+ id:"p2g-16", clase:7, etq:"2.º parcial", tema:"Datos y Git", nivel:"alta",
+ caso:"Ya decidiste no subir el CSV de 4 GB con datos personales y querés que otra persona autorizada pueda reproducir el análisis.",
+ pide:"¿Qué estrategia es la más adecuada?",
+ ops:[
+  "Ignorar <code>data/</code> en Git, guardar el archivo en almacenamiento con permisos y versionar la referencia (DVC o script + checksum)",
+  "Subirlo a Git LFS en un repositorio público para esquivar el límite de tamaño de GitHub",
+  "Enviarlo por mail a cada persona y no documentar nada más en el proyecto ni en el README",
+  "Comprimirlo en un .zip y subirlo a la rama principal junto con el código del análisis"
+ ],
+ aprendido:"Se versiona la <b>referencia</b> al dato, no el dato: <code>data/</code> en <code>.gitignore</code>, almacenamiento seguro con permisos, <b>DVC</b> (o un script de descarga con checksum), README con quién da acceso y cómo ponerlo en <code>data/raw/</code>, y una muestra anonimizada o sintética para desarrollo.",
+ porque:{
+  "Subirlo a Git LFS en un repositorio público para esquivar el límite de tamaño de GitHub":"LFS resuelve el tamaño pero no la privacidad: los datos personales seguirían visibles para quien acceda.",
+  "Enviarlo por mail a cada persona y no documentar nada más en el proyecto ni en el README":"No es reproducible ni auditable, y expone datos personales sin control de acceso.",
+  "Comprimirlo en un .zip y subirlo a la rama principal junto con el código del análisis":"Sigue siendo un archivo enorme con datos personales dentro del historial."
+ }
+},
+
+{
+ id:"p2e-01", clase:7, etq:"2.º parcial", tema:"Entornos virtuales", nivel:"baja",
+ caso:"Un proyecto necesita pandas 2.1 y otro, pandas 3.0, en la misma computadora.",
+ pide:"¿Qué herramienta resuelve que no se pisen?",
+ ops:[
+  "Un entorno virtual por proyecto (con <code>python -m venv .venv</code>)",
+  "Instalar ambas versiones de pandas juntas en el Python del sistema",
+  "Copiar la carpeta de pandas dentro de cada notebook",
+  "Usar <code>git branch</code> para que cada rama tenga su propia versión instalada"
+ ],
+ aprendido:"Un <b>entorno virtual</b> es una instalación de Python aislada para un proyecto, con sus propias librerías y versiones. Se crea con <code>python -m venv .venv</code> y se activa antes de instalar.",
+ porque:{
+  "Instalar ambas versiones de pandas juntas en el Python del sistema":"Una instalación global admite una sola versión de cada librería a la vez.",
+  "Copiar la carpeta de pandas dentro de cada notebook":"Es frágil y no se actualiza: no es la forma de manejar dependencias.",
+  "Usar <code>git branch</code> para que cada rama tenga su propia versión instalada":"Las ramas versionan archivos del proyecto, no las librerías instaladas en la máquina."
+ }
+},
+
+{
+ id:"p2e-02", clase:7, etq:"2.º parcial", tema:"Entornos virtuales", nivel:"media",
+ caso:"Un compañero clona el repositorio pero no puede ejecutar el notebook: faltan paquetes.",
+ pide:"¿Qué mejora la reproducibilidad?",
+ ops:[
+  "Documentar la versión de Python y versionar <code>requirements.txt</code>",
+  "Enviarle la carpeta <code>__pycache__</code> para que no tenga que instalar nada",
+  "Subir la carpeta <code>.venv</code> entera al repositorio",
+  "Borrar las importaciones del notebook para que no falle"
+ ],
+ aprendido:"Lo que se versiona es la <b>lista de dependencias</b> (<code>requirements.txt</code> o <code>pyproject.toml</code>), no el entorno: cada persona lo recrea con <code>pip install -r requirements.txt</code>.",
+ porque:{
+  "Enviarle la carpeta <code>__pycache__</code> para que no tenga que instalar nada":"Son archivos compilados temporales y no sirven en otra máquina.",
+  "Subir la carpeta <code>.venv</code> entera al repositorio":"Es pesada y depende de la máquina y del sistema operativo: se ignora y se recrea con el archivo de dependencias.",
+  "Borrar las importaciones del notebook para que no falle":"Rompe el código: las librerías hacen falta."
+ }
+},
+
+{
+ id:"p2e-03", clase:7, etq:"2.º parcial", tema:"Reproducibilidad", nivel:"media",
+ caso:"Vas a correr el proyecto de un compañero en tu compu desde cero.",
+ pide:"¿Cuál es el orden correcto?",
+ ops:[
+  "Activar el entorno → instalar dependencias → ejecutar el notebook desde el inicio → verificar",
+  "Instalar dependencias → activar el entorno → ejecutar solo las celdas que fallen → verificar los resultados",
+  "Ejecutar el notebook → instalar lo que falte → activar el entorno → verificar",
+  "Verificar resultados → activar el entorno → instalar → ejecutar"
+ ],
+ aprendido:"Secuencia: <b>activar el entorno</b> (todo lo siguiente ocurre ahí), <b>instalar</b> con <code>pip install -r requirements.txt</code>, <b>ejecutar desde el inicio</b> (<i>Restart Kernel &amp; Run All</i>, sin depender de celdas corridas a mano) y <b>verificar</b>.",
+ porque:{
+  "Instalar dependencias → activar el entorno → ejecutar solo las celdas que fallen → verificar los resultados":"Si instalás antes de activar, los paquetes quedan en el lugar equivocado; y correr celdas sueltas depende del orden en que las tocaste.",
+  "Ejecutar el notebook → instalar lo que falte → activar el entorno → verificar":"Se ejecuta con un entorno sin preparar y se activa el entorno al final: nada queda aislado.",
+  "Verificar resultados → activar el entorno → instalar → ejecutar":"No se puede verificar un resultado que todavía no se produjo."
+ }
+},
+
+{
+ id:"p2e-04", clase:7, etq:"2.º parcial", tema:"Reproducibilidad", nivel:"baja",
+ caso:"Alguien dice que su análisis «es reproducible».",
+ pide:"¿Qué significa en un proyecto de datos?",
+ ops:[
+  "Que otra persona puede correrlo y obtener los mismos resultados",
+  "Que el notebook tiene muchas celdas y se ejecutó muchas veces",
+  "Que el código usa solo pandas y ninguna otra librería en todo el proyecto",
+  "Que los datos se suben al repositorio junto con el código para que todos los tengan"
+ ],
+ aprendido:"Reproducibilidad = <b>entorno virtual + dependencias versionadas + notebook corrido de cero + lógica en <code>src/</code> con tests</b>, y datos documentados aunque no se versionen.",
+ porque:{
+  "Que el notebook tiene muchas celdas y se ejecutó muchas veces":"La cantidad de ejecuciones no dice nada de poder repetirlo en otra máquina.",
+  "Que el código usa solo pandas y ninguna otra librería en todo el proyecto":"Es independiente del tipo de librerías: importa que el entorno y los pasos estén documentados.",
+  "Que los datos se suben al repositorio junto con el código para que todos los tengan":"Muchas veces los datos no se pueden versionar (tamaño, privacidad): se documenta cómo obtenerlos."
+ }
+},
+
+{
+ id:"p2e-05", clase:7, etq:"2.º parcial", tema:"Estructura de proyectos", nivel:"media",
+ caso:"El mismo bloque de limpieza está copiado en cuatro notebooks y encontraste un error en él.",
+ pide:"¿Cómo conviene reorganizar el proyecto?",
+ ops:[
+  "Pasarlo a una función en un módulo <code>.py</code>, importarla y probarla con tests",
+  "Corregir el error en uno de los notebooks y avisar al resto que lo copie",
+  "Unir los cuatro notebooks en uno solo de miles de líneas",
+  "Dejar el bloque copiado y agregar un comentario «ojo con esto»"
+ ],
+ aprendido:"Es el principio <b>DRY</b> (<i>Don't Repeat Yourself</i>): una función en <code>src/proyecto/limpieza.py</code>, <code>from proyecto.limpieza import limpiar_datos</code> en cada notebook y un test en <code>tests/test_limpieza.py</code>. Los notebooks quedan para explorar y mostrar.",
+ porque:{
+  "Corregir el error en uno de los notebooks y avisar al resto que lo copie":"Seguís con cuatro copias: es fácil olvidarse de alguna.",
+  "Unir los cuatro notebooks en uno solo de miles de líneas":"Es más difícil de leer, de revisar y de fusionar sin conflictos.",
+  "Dejar el bloque copiado y agregar un comentario «ojo con esto»":"Un comentario no arregla el problema de fondo (código repetido)."
+ }
+},
+
+{
+ id:"p2e-06", clase:7, etq:"2.º parcial", tema:"Estructura de proyectos", nivel:"media",
+ caso:"Estás armando un proyecto profesional de datos y tenés que decidir dónde va cada cosa.",
+ pide:"¿Qué organización es la más adecuada?",
+ ops:[
+  "Código en <code>src/</code>, notebooks en <code>notebooks/</code>, pruebas en <code>tests/</code>, configuración aparte y datos en <code>data/</code> sin versionar",
+  "Todo en una carpeta: scripts, notebooks, datos y claves, y un solo archivo <code>main.py</code>",
+  "Los datos crudos dentro de <code>src/</code> y las claves en el código para que sea fácil acceder",
+  "Un notebook por cada paso y ninguna carpeta de pruebas, porque «ya se ve en la salida»"
+ ],
+ aprendido:"Estructura típica: <code>README.md</code>, <code>pyproject.toml</code>, <code>.gitignore</code>, <code>.env.example</code>, <code>config/</code>, <code>data/{raw,interim,processed}</code> (sin versionar), <code>notebooks/</code> numerados, <code>src/&lt;paquete&gt;/</code>, <code>tests/</code>, <code>docs/</code> y <code>reports/</code>.",
+ porque:{
+  "Todo en una carpeta: scripts, notebooks, datos y claves, y un solo archivo <code>main.py</code>":"Mezcla todo: no se puede testear, ni reutilizar, ni proteger lo sensible.",
+  "Los datos crudos dentro de <code>src/</code> y las claves en el código para que sea fácil acceder":"Las claves nunca van en el código y los datos no son código fuente.",
+  "Un notebook por cada paso y ninguna carpeta de pruebas, porque «ya se ve en la salida»":"Sin tests no sabés si un cambio rompe algo, y la lógica queda atrapada en los notebooks."
+ }
+},
+
+{
+ id:"p2e-07", clase:7, etq:"2.º parcial", tema:"Estructura de proyectos", nivel:"media",
+ caso:"Dentro de <code>data/</code> tenés una carpeta <code>raw/</code>.",
+ pide:"¿Qué debe cumplirse con los datos de <code>raw/</code>?",
+ ops:[
+  "Se guardan tal como llegaron y nunca se modifican",
+  "Se editan a mano cada vez que se encuentra un error para que queden limpios",
+  "Se suben al repositorio junto con el código para que todos tengan lo mismo",
+  "Se borran después de procesarlos para ahorrar espacio"
+ ],
+ aprendido:"Los datos crudos son la fuente de verdad: <b>nunca se pisan</b>. La limpieza produce datos intermedios y procesados mediante código, así que todo el pipeline puede repetirse desde <code>raw/</code>.",
+ porque:{
+  "Se editan a mano cada vez que se encuentra un error para que queden limpios":"Editar el original destruye la trazabilidad: la limpieza se hace por código, en <code>interim/</code> y <code>processed/</code>.",
+  "Se suben al repositorio junto con el código para que todos tengan lo mismo":"Muchas veces son pesados o sensibles; se documenta de dónde obtenerlos.",
+  "Se borran después de procesarlos para ahorrar espacio":"Sin el original no se puede regenerar nada ni verificar los resultados."
+ }
+},
+
+{
+ id:"p2e-08", clase:7, etq:"2.º parcial", tema:"Testing", nivel:"media",
+ caso:"Tenés una función <code>limpiar_datos(df)</code> en <code>src/proyecto/limpieza.py</code> y un archivo <code>tests/test_limpieza.py</code> con pytest.",
+ pide:"¿Para qué sirven esos tests?",
+ ops:[
+  "Verificar automáticamente que la función sigue dando lo esperado",
+  "Para reemplazar a la documentación del proyecto y explicar cómo se instala",
+  "Para hacer que la función corra más rápido cuando procesa muchos datos",
+  "Para ejecutar el notebook completo de forma automática en cada cambio"
+ ],
+ aprendido:"Un test es código que llama a tu función con un ejemplo y verifica el resultado (<code>assert</code>). Con <code>pytest</code> los corrés todos; si un cambio rompe algo, el test lo avisa antes de que llegue a <code>main</code>.",
+ porque:{
+  "Para reemplazar a la documentación del proyecto y explicar cómo se instala":"Los tests verifican comportamiento; no explican cómo instalar ni usar el proyecto.",
+  "Para hacer que la función corra más rápido cuando procesa muchos datos":"No afectan la velocidad: verifican que el resultado sea correcto.",
+  "Para ejecutar el notebook completo de forma automática en cada cambio":"Eso lo hace otra herramienta; los tests prueban funciones."
+ }
+},
+
+{
+ id:"p2e-09", clase:7, etq:"2.º parcial", tema:"Estructura de proyectos", nivel:"media",
+ caso:"En <code>.env.example</code> ves nombres de variables como <code>DB_USER=</code> y <code>DB_PASSWORD=</code> sin valores.",
+ pide:"¿Qué es ese archivo y qué se hace con él?",
+ ops:[
+  "Una plantilla de variables sin valores reales: se versiona y cada persona crea su <code>.env</code> local",
+  "El archivo con las claves reales del equipo, que se sube para que todos lo usen sin pedir nada",
+  "Un archivo temporal que Git borra automáticamente en cada commit del repositorio",
+  "La configuración del entorno virtual, que se crea con <code>python -m venv</code> en la carpeta"
+ ],
+ aprendido:"<code>.env</code> (secretos, ignorado) y <code>.env.example</code> (plantilla sin valores, versionada) permiten que cualquiera sepa qué configuración hace falta sin exponer credenciales.",
+ porque:{
+  "El archivo con las claves reales del equipo, que se sube para que todos lo usen sin pedir nada":"Las claves reales van en el <code>.env</code>, que se ignora.",
+  "Un archivo temporal que Git borra automáticamente en cada commit del repositorio":"Git no borra archivos por su cuenta; este se versiona a propósito.",
+  "La configuración del entorno virtual, que se crea con <code>python -m venv</code> en la carpeta":"El entorno virtual es la carpeta <code>.venv</code>; <code>.env.example</code> es otra cosa."
+ }
+},
+
+{
+ id:"p2p-01", clase:8, etq:"2.º parcial", tema:"Errores típicos", nivel:"baja",
+ caso:"Un código llama a <code>df.describes()</code> y se corta.",
+ codigo:"import pandas as pd\ndf = pd.DataFrame({\"edad\": [34, 45, 52]})\nprint(df.describes())",
+ pide:"¿Cuál es el problema?",
+ ops:[
+  "El método se llama <code>describe</code>, sin «s»: da <code>AttributeError</code>",
+  "Falta importar <code>numpy</code> antes de usar <code>describe</code>",
+  "Hay que pasar el nombre de la columna como argumento entre las comillas",
+  "<code>describe</code> funciona con una Series, pero no con un DataFrame completo"
+ ],
+ aprendido:"Un nombre de método mal escrito da <b><code>AttributeError</code></b> («no tiene el atributo»). Es un error que rompe el programa y avisa, a diferencia de los errores lógicos.",
+ porque:{
+  "Falta importar <code>numpy</code> antes de usar <code>describe</code>":"describe es de pandas; no hace falta numpy para usarlo.",
+  "Hay que pasar el nombre de la columna como argumento entre las comillas":"describe() sin argumentos resume todas las columnas numéricas.",
+  "<code>describe</code> funciona con una Series, pero no con un DataFrame completo":"Funciona con las dos: sobre un DataFrame resume todas las columnas numéricas."
+ }
+},
+
+{
+ id:"p2p-02", clase:8, etq:"2.º parcial", tema:"Errores típicos", nivel:"media",
+ caso:"Querés la mediana de una columna y escribís:",
+ codigo:"print(\"Mediana:\", df[\"presion\"].mean)",
+ pide:"¿Qué problemas tiene esa línea?",
+ ops:[
+  "Faltan los paréntesis y <code>mean</code> calcula la media, no la mediana",
+  "No hay problema: imprime la mediana porque <code>mean</code> se usa para el valor central",
+  "Solo el nombre: con <code>.median</code> sin paréntesis ya imprime el valor",
+  "Que falta convertir la columna a texto antes de imprimirla"
+ ],
+ aprendido:"Un método se <b>ejecuta con paréntesis</b>: <code>.mean</code> imprime <code>&lt;bound method …&gt;</code>. Y hay que elegir bien la función: <code>mean()</code> = media, <code>median()</code> = mediana.",
+ porque:{
+  "No hay problema: imprime la mediana porque <code>mean</code> se usa para el valor central":"<code>mean</code> es la media; la mediana es <code>median</code>.",
+  "Solo el nombre: con <code>.median</code> sin paréntesis ya imprime el valor":"Sin paréntesis tampoco se ejecuta: imprime el método en sí.",
+  "Que falta convertir la columna a texto antes de imprimirla":"No hace falta convertir nada: el problema está en la llamada."
+ }
+},
+
+{
+ id:"p2p-03", clase:8, etq:"2.º parcial", tema:"Estadística descriptiva", nivel:"media",
+ caso:"La presión sistólica de cinco personas es 118, 128, 132, 145 y 151. Si el 151 se reemplazara por 300 (un valor extremo):",
+ pide:"¿Qué pasaría con la media y con la mediana?",
+ ops:[
+  "La media subiría mucho y la mediana seguiría en 132",
+  "Las dos subirían lo mismo, porque ambas usan todos los datos",
+  "La mediana subiría a 300 y la media seguiría en 134,8",
+  "No cambiarían, porque pandas descarta el valor extremo antes de calcular"
+ ],
+ aprendido:"La <b>media</b> usa todos los valores y la arrastra un extremo; la <b>mediana</b> es el valor central de los datos ordenados y es <b>robusta</b> a outliers.",
+ porque:{
+  "Las dos subirían lo mismo, porque ambas usan todos los datos":"La mediana solo depende del dato central ordenado: no se mueve.",
+  "La mediana subiría a 300 y la media seguiría en 134,8":"Es al revés: el extremo arrastra a la media; la mediana queda en el valor del medio.",
+  "No cambiarían, porque pandas descarta el valor extremo antes de calcular":"pandas no descarta valores extremos: los usa para calcular."
+ }
+},
+
+{
+ id:"p2p-04", clase:8, etq:"2.º parcial", tema:"Estadística descriptiva", nivel:"media",
+ caso:"El <code>describe()</code> de una columna muestra <code>std = 13,3</code> y <code>mean = 134,8</code>.",
+ pide:"¿Cómo se interpreta el desvío estándar?",
+ ops:[
+  "Los datos se alejan, en promedio, unos 13 puntos de la media",
+  "Que el 13,3 % de los datos son valores atípicos de la columna",
+  "Que la mediana de la columna vale 13,3 en las mismas unidades",
+  "Que hay 13 datos en la columna y el resto son valores repetidos"
+ ],
+ aprendido:"<code>std</code> mide la dispersión: chico = datos parecidos entre sí; grande = muy dispersos. pandas calcula el desvío <b>muestral</b> (divide por n − 1).",
+ porque:{
+  "Que el 13,3 % de los datos son valores atípicos de la columna":"El desvío no es un porcentaje de atípicos: está en las unidades de los datos.",
+  "Que la mediana de la columna vale 13,3 en las mismas unidades":"La mediana es la fila <code>50%</code> del describe; el std mide dispersión.",
+  "Que hay 13 datos en la columna y el resto son valores repetidos":"La cantidad de datos es la fila <code>count</code>."
+ }
+},
+
+{
+ id:"p2p-05", clase:8, etq:"2.º parcial", tema:"pivot_table", nivel:"baja",
+ caso:"Querés una tabla con las ciudades en las filas, las estaciones en las columnas y la temperatura media en cada celda.",
+ pide:"¿Qué parámetros de <code>pivot_table</code> corresponden?",
+ ops:[
+  "<code>index=\"ciudad\", columns=\"estacion\", values=\"temperatura\", aggfunc=\"mean\"</code>",
+  "<code>index=\"estacion\", columns=\"ciudad\", values=\"mean\", aggfunc=\"temperatura\"</code>",
+  "<code>rows=\"ciudad\", cols=\"estacion\", data=\"temperatura\", func=\"mean\"</code>",
+  "<code>index=\"ciudad\", column=\"estacion\", value=\"temperatura\", aggfunc=\"average\"</code>"
+ ],
+ aprendido:"<code>index</code> = filas, <code>columns</code> = columnas, <code>values</code> = qué número va adentro, <code>aggfunc</code> = cómo se resume (<code>\"mean\"</code>, <code>\"sum\"</code>, <code>\"count\"</code>, <code>\"min\"</code>, <code>\"max\"</code>, <code>\"median\"</code>).",
+ porque:{
+  "<code>index=\"estacion\", columns=\"ciudad\", values=\"mean\", aggfunc=\"temperatura\"</code>":"Mezcla qué va en cada parámetro: <code>values</code> es la columna numérica y <code>aggfunc</code> la función.",
+  "<code>rows=\"ciudad\", cols=\"estacion\", data=\"temperatura\", func=\"mean\"</code>":"Esos nombres de parámetros no existen en <code>pivot_table</code>.",
+  "<code>index=\"ciudad\", column=\"estacion\", value=\"temperatura\", aggfunc=\"average\"</code>":"Hay tres errores: <code>columns</code> y <code>values</code> van en plural, y <code>\"average\"</code> no es una función válida."
+ }
+},
+
+{
+ id:"p2p-06", clase:8, etq:"2.º parcial", tema:"pivot_table", nivel:"media",
+ caso:"Con <code>aggfunc=\"average\"</code> el código corta.",
+ pide:"¿Qué valor de <code>aggfunc</code> pide el promedio?",
+ ops:[
+  "<code>\"mean\"</code>",
+  "<code>\"avg\"</code>",
+  "<code>\"average\"</code>",
+  "<code>\"promedio\"</code>"
+ ],
+ aprendido:"El promedio se pide como <code>\"mean\"</code>. Con <code>margins=True</code> la tabla suma una fila y una columna <code>All</code> con los resúmenes generales.",
+ porque:{
+  "<code>\"avg\"</code>":"No es un nombre válido de función de pandas.",
+  "<code>\"average\"</code>":"En inglés corriente sí se dice así, pero pandas no lo reconoce: corta con <code>AttributeError</code>.",
+  "<code>\"promedio\"</code>":"pandas no entiende nombres en español."
+ }
+},
+
+{
+ id:"p2p-07", clase:8, etq:"2.º parcial", tema:"Cuartiles e IQR", nivel:"media",
+ caso:"Para obtener el percentil 25 de una Series escribís <code>serie.quantile(25)</code>.",
+ pide:"¿Qué ocurre y cómo se corrige?",
+ ops:[
+  "Da <code>ValueError</code>: <code>quantile</code> recibe una proporción, así que va <code>0.25</code>",
+  "Funciona bien: <code>quantile(25)</code> es la forma correcta de pedir el percentil 25",
+  "Da <code>KeyError</code> porque hay que indicar la columna",
+  "Devuelve el 25.º dato de la Series, contando desde cero"
+ ],
+ aprendido:"<code>quantile()</code> recibe una <b>proporción entre 0 y 1</b> (0.25, 0.5, 0.75), no un porcentaje.",
+ porque:{
+  "Funciona bien: <code>quantile(25)</code> es la forma correcta de pedir el percentil 25":"pandas espera un valor entre 0 y 1, no entre 0 y 100.",
+  "Da <code>KeyError</code> porque hay que indicar la columna":"El error es <code>ValueError</code> y se debe al rango del valor, no a una columna.",
+  "Devuelve el 25.º dato de la Series, contando desde cero":"<code>quantile</code> no trabaja con posiciones: calcula un cuantil."
+ }
+},
+
+{
+ id:"p2p-08", clase:8, etq:"2.º parcial", tema:"Cuartiles e IQR", nivel:"alta",
+ caso:"Los datos <code>[10, 12, 11, 13, 12, 40]</code> tienen Q1 = 11,25 y Q3 = 12,75.",
+ pide:"¿Cuál es el IQR y qué valor queda como atípico?",
+ ops:[
+  "IQR = 1,5 (Q3 − Q1); los límites son 9 y 15, y el atípico es 40",
+  "IQR = 24 (Q3 + Q1); no hay valores atípicos",
+  "IQR = 1,5; los límites son 11,25 y 12,75, y son atípicos todos los valores fuera de ese rango",
+  "IQR = 30 (máximo − mínimo); el atípico es 10"
+ ],
+ aprendido:"IQR = <b>Q3 − Q1</b>. Regla de Tukey: atípico si está fuera de <code>Q1 − 1,5·IQR</code> y <code>Q3 + 1,5·IQR</code>. No se borra automáticamente: primero se revisa si es un error o un evento real.",
+ porque:{
+  "IQR = 24 (Q3 + Q1); no hay valores atípicos":"El IQR es una resta, no una suma: Q3 − Q1.",
+  "IQR = 1,5; los límites son 11,25 y 12,75, y son atípicos todos los valores fuera de ese rango":"Los límites son Q1 − 1,5·IQR y Q3 + 1,5·IQR (9 y 15), no los cuartiles.",
+  "IQR = 30 (máximo − mínimo); el atípico es 10":"El rango total no es el IQR; y 10 está dentro de los límites (9 a 15)."
+ }
+},
+
+{
+ id:"p2p-09", clase:8, etq:"2.º parcial", tema:"Filtros booleanos", nivel:"media",
+ caso:"Querés quedarte con los valores menores al límite inferior <b>o</b> mayores al superior:",
+ codigo:"atipicos = serie[serie < lim_inf and serie > lim_sup]",
+ pide:"¿Qué problema tiene el filtro?",
+ ops:[
+  "Con Series no sirve <code>and</code>: se usa <code>|</code> entre paréntesis (y <code>&amp;</code> para «y»)",
+  "No hay problema: <code>and</code> combina las dos condiciones en cada fila del filtro",
+  "Que falta convertir la Series en una lista de Python antes de filtrar",
+  "Que <code>and</code> debería ser <code>or</code>, escrito en inglés para que sea reconocido"
+ ],
+ aprendido:"En pandas se combinan condiciones con <code>&amp;</code> (y), <code>|</code> (o) y <code>~</code> (no), <b>cada condición entre paréntesis</b>: <code>serie[(serie &lt; a) | (serie &gt; b)]</code>.",
+ porque:{
+  "No hay problema: <code>and</code> combina las dos condiciones en cada fila del filtro":"Con Series da <code>ValueError</code> (valor de verdad ambiguo): hay que usar operadores elemento a elemento.",
+  "Que falta convertir la Series en una lista de Python antes de filtrar":"No hace falta convertir nada: pandas filtra con máscaras booleanas.",
+  "Que <code>and</code> debería ser <code>or</code>, escrito en inglés para que sea reconocido":"<code>or</code> tampoco funciona con Series: tiene el mismo problema que <code>and</code>."
+ }
+},
+
+{
+ id:"p2p-10", clase:8, etq:"2.º parcial", tema:"Valores faltantes", nivel:"alta",
+ caso:"En una tabla de emisiones falta el dato de Energía 2023 y tenés que decidir cómo mostrarlo.",
+ pide:"¿Qué decisión es la más honesta?",
+ ops:[
+  "Conservarlo como faltante (NaN): que no se midió no significa que sea cero",
+  "Reemplazarlo por 0, porque así la tabla queda completa y se puede sumar",
+  "Eliminar el sector Energía de todos los años",
+  "Reemplazarlo por el promedio de todo el dataset sin avisar"
+ ],
+ aprendido:"Un <b>valor faltante</b> (<code>None</code> → <code>NaN</code>) es «no tengo el dato», no cero. Si hay que completarlo, con un método explícito y documentado (estimación, otra fuente).",
+ porque:{
+  "Reemplazarlo por 0, porque así la tabla queda completa y se puede sumar":"Falsea la tabla: «Energía bajó 100 %» sería una conclusión equivocada.",
+  "Eliminar el sector Energía de todos los años":"Se pierde información que sí existe (por ejemplo, 2022).",
+  "Reemplazarlo por el promedio de todo el dataset sin avisar":"Es un dato inventado sin declararlo: si se completa, debe hacerse con un método explícito y documentado."
+ }
+},
+
+{
+ id:"p2p-11", clase:8, etq:"2.º parcial", tema:"Valores faltantes", nivel:"alta",
+ caso:"Una celda de la tabla dinámica solo tenía valores faltantes y usaste <code>aggfunc=\"sum\"</code>.",
+ pide:"¿Qué muestra esa celda y cómo se conserva el faltante?",
+ ops:[
+  "Muestra 0 (la suma de nada es 0); con <code>sum(min_count=1)</code> se obtiene NaN",
+  "Muestra NaN: <code>sum</code> conserva los faltantes de cada celda del resultado",
+  "Muestra un error, porque <code>sum</code> no admite valores faltantes en la columna",
+  "Muestra el promedio de la columna, para no dejar huecos en la tabla"
+ ],
+ aprendido:"Trampa: <code>aggfunc=\"sum\"</code> convierte un grupo vacío en <b>0</b> sin avisar. <code>lambda s: s.sum(min_count=1)</code> («sumá solo si hay al menos un dato real») devuelve NaN. El total por fila: <code>tabla.sum(axis=1, min_count=1)</code>.",
+ porque:{
+  "Muestra NaN: <code>sum</code> conserva los faltantes de cada celda del resultado":"Justamente no: por defecto convierte un grupo sin datos en 0.",
+  "Muestra un error, porque <code>sum</code> no admite valores faltantes en la columna":"No da error: ignora los NaN al sumar.",
+  "Muestra el promedio de la columna, para no dejar huecos en la tabla":"<code>sum</code> no rellena con promedios."
+ }
+},
+
+{
+ id:"p2p-12", clase:8, etq:"2.º parcial", tema:"Variables derivadas", nivel:"baja",
+ caso:"Calculás el IMC de cada persona:",
+ codigo:"df[\"imc\"] = df[\"peso_kg\"] / df[\"altura_m\"] * 2",
+ pide:"¿Qué tipo de error es y cuál es la fórmula correcta?",
+ ops:[
+  "Es un error lógico (corre y da valores absurdos): va <code>/ df[\"altura_m\"] ** 2</code>",
+  "Es un error que rompe el programa: Python avisa con un <code>TypeError</code>",
+  "No hay error: <code>* 2</code> es la forma de elevar al cuadrado",
+  "El único problema es que faltan paréntesis alrededor de <code>peso_kg</code>"
+ ],
+ aprendido:"IMC = peso / altura². <code>** 2</code> eleva al cuadrado. Los errores <b>lógicos</b> son los más peligrosos porque el programa corre y no avisa.",
+ porque:{
+  "Es un error que rompe el programa: Python avisa con un <code>TypeError</code>":"No avisa: la cuenta es válida y da un número, solo que equivocado.",
+  "No hay error: <code>* 2</code> es la forma de elevar al cuadrado":"<code>* 2</code> multiplica por 2; elevar al cuadrado es <code>** 2</code>.",
+  "El único problema es que faltan paréntesis alrededor de <code>peso_kg</code>":"Los paréntesis no cambian la potencia: el error es <code>* 2</code> en vez de <code>** 2</code>."
+ }
+},
+
+{
+ id:"p2p-13", clase:8, etq:"2.º parcial", tema:"pd.cut", nivel:"media",
+ caso:"Definís <code>bins = [0, 18.5, 25, 30, 100]</code> y cinco etiquetas para clasificar el IMC.",
+ pide:"¿Cuántas etiquetas debe tener <code>labels</code>?",
+ ops:[
+  "Cuatro: siempre una menos que la cantidad de bordes",
+  "Cinco, una por cada borde de <code>bins</code>",
+  "Las que quieras: pandas reparte las etiquetas sobrantes al azar",
+  "Tres: los dos bordes extremos no cuentan"
+ ],
+ aprendido:"<b>cantidad de labels = cantidad de bins − 1</b>. Si no coincide, <code>pd.cut</code> da <code>ValueError: Bin labels must be one fewer than the number of bin edges</code>.",
+ porque:{
+  "Cinco, una por cada borde de <code>bins</code>":"Cinco bordes forman cuatro intervalos: <code>labels</code> da error si hay cinco.",
+  "Las que quieras: pandas reparte las etiquetas sobrantes al azar":"pandas exige coincidencia exacta con los intervalos.",
+  "Tres: los dos bordes extremos no cuentan":"Los extremos también delimitan intervalos (0–18,5 y 30–100)."
+ }
+},
+
+{
+ id:"p2p-14", clase:8, etq:"2.º parcial", tema:"pd.cut", nivel:"alta",
+ caso:"Escribís <code>pd.cut(df[\"imc\"], bins, labels)</code> con una lista de <b>cuatro</b> etiquetas.",
+ pide:"¿Qué ocurre?",
+ ops:[
+  "No hay error, pero la lista cae en <code>right</code> y el resultado son intervalos, no nombres",
+  "Funciona perfecto: el tercer argumento posicional de <code>pd.cut</code> es <code>labels</code> y se aplica",
+  "Da <code>ValueError</code> porque faltan etiquetas para cubrir todos los intervalos",
+  "Da <code>KeyError</code> porque <code>bins</code> no es una columna del DataFrame usado"
+ ],
+ aprendido:"Por eso se usan <b>argumentos con nombre</b>: <code>pd.cut(x, bins=bins, labels=labels, right=False)</code>. Un valor posicional puede caer en un parámetro equivocado sin que haya error.",
+ porque:{
+  "Funciona perfecto: el tercer argumento posicional de <code>pd.cut</code> es <code>labels</code> y se aplica":"El tercer argumento posicional es <code>right</code>, no <code>labels</code>.",
+  "Da <code>ValueError</code> porque faltan etiquetas para cubrir todos los intervalos":"Con cuatro etiquetas y cinco bordes la cantidad es correcta; el problema es otro.",
+  "Da <code>KeyError</code> porque <code>bins</code> no es una columna del DataFrame usado":"<code>bins</code> es una lista y se acepta como segundo argumento."
+ }
+},
+
+{
+ id:"p2p-15", clase:8, etq:"2.º parcial", tema:"pd.cut", nivel:"media",
+ caso:"La OMS considera que un IMC de 25,0 ya es sobrepeso. Con <code>pd.cut</code> por defecto (<code>right=True</code>), un IMC de 25,0 cae en el intervalo <code>(18,5; 25]</code>.",
+ pide:"¿Qué parámetro hace que el 25,0 cuente como sobrepeso?",
+ ops:[
+  "<code>right=False</code>, que hace los intervalos <code>[a, b)</code>",
+  "<code>include_lowest=True</code>, que incluye el valor mínimo del primer intervalo",
+  "<code>labels=False</code>, que devuelve el número de cada intervalo",
+  "<code>closed=\"left\"</code>, que cierra los intervalos por la izquierda"
+ ],
+ aprendido:"<code>right=True</code> (por defecto) incluye el borde derecho: <code>(a, b]</code>. <code>right=False</code> incluye el izquierdo: <code>[a, b)</code>.",
+ porque:{
+  "<code>include_lowest=True</code>, que incluye el valor mínimo del primer intervalo":"Solo cambia cómo se trata el primer borde, no los demás.",
+  "<code>labels=False</code>, que devuelve el número de cada intervalo":"Cambia las etiquetas por números de intervalo, no los bordes.",
+  "<code>closed=\"left\"</code>, que cierra los intervalos por la izquierda":"Ese parámetro no existe en <code>pd.cut</code> (<code>closed</code> es de los intervalos, no de <code>cut</code>)."
+ }
+},
+
+{
+ id:"p2p-16", clase:8, etq:"2.º parcial", tema:"groupby.apply", nivel:"media",
+ caso:"Calculás un promedio ponderado por región:",
+ codigo:"df.groupby(\"region\").apply(f, include_groups=False)",
+ pide:"¿Qué hace <code>include_groups=False</code>?",
+ ops:[
+  "No le pasa a tu función la columna por la que se agrupó (<code>region</code>)",
+  "Excluye del resultado las regiones con población cero",
+  "Hace que <code>apply</code> trabaje sin dividir el DataFrame en grupos",
+  "Desactiva la advertencia de rendimiento de pandas"
+ ],
+ aprendido:"<code>groupby(...).apply(f)</code>: <b>dividir</b> en grupos, <b>aplicar</b> <code>f</code> a cada mini-DataFrame y <b>combinar</b> los resultados. El parámetro se llama <code>include_groups</code> (plural) y existe desde pandas 2.2.",
+ porque:{
+  "Excluye del resultado las regiones con población cero":"No filtra grupos: controla qué columnas recibe la función.",
+  "Hace que <code>apply</code> trabaje sin dividir el DataFrame en grupos":"El DataFrame sí se divide; el parámetro solo omite la columna de agrupación.",
+  "Desactiva la advertencia de rendimiento de pandas":"No es un parámetro de avisos."
+ }
+},
+
+{
+ id:"p2p-17", clase:8, etq:"2.º parcial", tema:"groupby.apply", nivel:"alta",
+ caso:"La función del promedio ponderado dividiría por la suma de los pesos, y en una región esa suma puede ser 0.",
+ pide:"¿Cómo se evita la división por cero?",
+ ops:[
+  "Calcular antes el total de pesos y, si es 0, devolver <code>np.nan</code> («no se puede calcular»)",
+  "Sumar 1 al total de pesos en todos los casos para evitar que sea cero",
+  "Dejar que la división dé el error y atraparlo con un <code>try</code> vacío",
+  "Devolver 0 como promedio ponderado cuando los pesos suman 0"
+ ],
+ aprendido:"Promedio ponderado = <b>Σ(valor × peso) / Σ(peso)</b>. Si Σ(peso) = 0 no hay promedio posible: se devuelve <code>np.nan</code>, no 0. Con <code>np.average</code> la división por cero corta con <code>ZeroDivisionError</code>.",
+ porque:{
+  "Sumar 1 al total de pesos en todos los casos para evitar que sea cero":"Falsea el resultado en todos los grupos, no solo en el vacío.",
+  "Dejar que la división dé el error y atraparlo con un <code>try</code> vacío":"Un <code>except</code> vacío oculta el problema y devuelve basura sin avisar.",
+  "Devolver 0 como promedio ponderado cuando los pesos suman 0":"Un 0 parece un valor real; no es lo mismo que «no se puede calcular»."
+ }
+},
+
+{
+ id:"p2p-18", clase:8, etq:"2.º parcial", tema:"groupby.apply", nivel:"media",
+ caso:"Tu función dentro de <code>apply</code> devuelve <code>pd.Series({\"pib_ponderado\": ..., \"poblacion_total\": ...})</code>.",
+ pide:"¿Qué forma tiene el resultado de <code>apply</code>?",
+ ops:[
+  "Un DataFrame: una fila por grupo y cada etiqueta de la Series es una columna",
+  "Una sola Series con una celda por grupo, donde cada celda contiene otra Series",
+  "Un diccionario de Python con una clave por región",
+  "Un error, porque <code>apply</code> solo acepta funciones que devuelven un número"
+ ],
+ aprendido:"Si la función devuelve un número suelto, obtenés una Series de una columna. Si devuelve una <b><code>pd.Series</code> con etiquetas</b>, pandas arma un DataFrame: ideal para devolver varios resultados por grupo.",
+ porque:{
+  "Una sola Series con una celda por grupo, donde cada celda contiene otra Series":"Cuando la función devuelve una Series con etiquetas, pandas arma columnas.",
+  "Un diccionario de Python con una clave por región":"El resultado es una estructura de pandas, no un diccionario.",
+  "Un error, porque <code>apply</code> solo acepta funciones que devuelven un número":"<code>apply</code> acepta números, Series o DataFrames."
+ }
+},
+
+{
+ id:"p2p-19", clase:8, etq:"2.º parcial", tema:"Errores típicos", nivel:"media",
+ caso:"Te dan un código con errores y poco tiempo para encontrarlos.",
+ pide:"¿Qué conviene revisar, en orden?",
+ ops:[
+  "El objetivo, y línea por línea los nombres, parámetros, paréntesis y fórmulas",
+  "Solo la última línea del código, porque ahí suele aparecer el mensaje de error",
+  "Reescribir todo desde cero sin leer el original, para evitar confusiones",
+  "Ejecutarlo varias veces hasta que dé el resultado esperado, sin leerlo"
+ ],
+ aprendido:"Dos tipos de error: los que <b>rompen</b> el programa (nombres mal escritos, parámetros en singular, paréntesis) y los <b>lógicos</b> (fórmula equivocada), que corren sin avisar y son más peligrosos.",
+ porque:{
+  "Solo la última línea del código, porque ahí suele aparecer el mensaje de error":"Muchos errores están antes: un error lógico ni siquiera muestra mensaje.",
+  "Reescribir todo desde cero sin leer el original, para evitar confusiones":"Pierde tiempo y no entrena a reconocer los errores típicos.",
+  "Ejecutarlo varias veces hasta que dé el resultado esperado, sin leerlo":"Los errores lógicos corren sin avisar: hay que razonar la fórmula."
+ }
 }
 
 ];
@@ -3727,6 +4526,622 @@ axes[2].set_title("Correlación")
 
 fig.tight_layout()
 plt.show()`
+},
+
+/* ---------------- GUÍA 2.º PARCIAL · «encontrá el error» ----------------
+   Código con errores, como en el 2.º parcial: hay que encontrar qué falla y dejarlo andando.
+   Ej 1 a 6: los del simulacro A de la cátedra (resolución hecha con Claude).
+   Ej 7 a 11: variantes nuevas con los mismos tipos de error. */
+{
+ id:"lab-p1", modelo:"P2", ej:"Ej 1", titulo:"Estadísticas descriptivas de presión arterial",
+ paquetes:["pandas"], limpiar:[],
+ enunciado:"Se analiza una muestra pequeña con estructura de registros clínicos anonimizados. El código de abajo tiene <b>dos errores</b> que impiden obtener el resumen pedido: encontralos y corregilos.",
+ datos:`edad:               [34, 45, 52, 41, 63]
+presion_sistolica:  [118, 132, 145, 128, 151]`,
+ tareas:[
+  "Encontrar los dos errores que impiden obtener el resumen (uno rompe el programa, el otro da un resultado equivocado sin avisar).",
+  "Mostrar <code>describe()</code> solo para <code>presion_sistolica</code> y guardarlo en <code>resumen</code>.",
+  "Guardar en <code>mediana</code> la mediana de <code>presion_sistolica</code>.",
+  "Para pensar (no se corrige acá): ¿en qué se diferencian la media y la mediana?"
+ ],
+ variables:[
+  ["resumen","describe() de la columna presion_sistolica (count, mean, std, min, 25 %, 50 %, 75 %, max)"],
+  ["mediana","la mediana de presion_sistolica (un número, no un método)"]
+ ],
+ nota:"Un método se ejecuta con paréntesis: <code>.mean</code> sin <code>()</code> no calcula nada. Y ojo con el nombre: la media es <code>mean</code>, la mediana es <code>median</code>.",
+ inicial:`import pandas as pd
+
+datos = {"edad": [34, 45, 52, 41, 63],
+         "presion_sistolica": [118, 132, 145, 128, 151]}
+df = pd.DataFrame(datos)
+
+# Tarea 2: describe() solo de presion_sistolica
+resumen = df.describes()
+
+# Tarea 3: la mediana
+mediana = df["presion_sistolica"].mean
+
+print(resumen)
+print("Mediana:", mediana)
+`,
+ tests:[
+  {nombre:"resumen es el describe() de presion_sistolica",
+   codigo:`assert hasattr(resumen, "index") and list(resumen.index) == ["count","mean","std","min","25%","50%","75%","max"], "resumen debe ser el resultado de describe() de UNA columna (una Series con count, mean, std, min, 25%, 50%, 75% y max)"
+assert abs(float(resumen["mean"]) - 134.8) < 1e-9, "la media da " + str(resumen["mean"]) + " y debería dar 134.8"`},
+  {nombre:"mediana vale 132",
+   codigo:`assert not callable(mediana), "mediana es un método, no un número: te faltan los paréntesis de .median()"
+assert abs(float(mediana) - 132) < 1e-9, f"da {mediana} y debería dar 132 (la media es 134.8: acordate de pedir median, no mean)"`}
+ ],
+ solucion:`import pandas as pd
+
+datos = {"edad": [34, 45, 52, 41, 63],
+         "presion_sistolica": [118, 132, 145, 128, 151]}
+df = pd.DataFrame(datos)
+
+# describe() existe con ese nombre (sin "s"); sobre una columna da una Series
+resumen = df["presion_sistolica"].describe()
+
+# median() con paréntesis (y es la mediana, no la media)
+mediana = df["presion_sistolica"].median()
+
+print(resumen)
+print("Mediana:", mediana)
+`
+},
+{
+ id:"lab-p2", modelo:"P2", ej:"Ej 2", titulo:"Tabla dinámica de temperatura",
+ paquetes:["pandas"], limpiar:[],
+ enunciado:"Temperatura media por ciudad y estación, en una tabla con las ciudades en las filas y las estaciones en las columnas. Los parámetros de <code>pivot_table</code> tienen errores.",
+ datos:`ciudad:      ["A", "A", "B", "B"]
+estacion:    ["Verano", "Invierno", "Verano", "Invierno"]
+temperatura: [29, 14, 31, 12]`,
+ tareas:[
+  "Corregir los parámetros incorrectos de <code>pivot_table</code>.",
+  "Agregar <code>margins=True</code> para incluir los promedios generales (fila y columna <code>All</code>)."
+ ],
+ variables:[
+  ["tabla","DataFrame con ciudades en filas, estaciones en columnas y los promedios generales en la fila y la columna All"]
+ ],
+ nota:"Los nombres de columnas se escriben exactamente como están en el DataFrame (<code>\"ciudad\"</code>, no <code>\"ciudades\"</code>). Y <code>aggfunc</code> usa nombres de funciones de pandas: el promedio es <code>\"mean\"</code>.",
+ inicial:`import pandas as pd
+
+df = pd.DataFrame({"ciudad": ["A", "A", "B", "B"],
+                   "estacion": ["Verano", "Invierno", "Verano", "Invierno"],
+                   "temperatura": [29, 14, 31, 12]})
+
+tabla = pd.pivot_table(df, index="ciudades", columns="estacion",
+                       values="temperatura", aggfunc="average")
+
+print(tabla)
+`,
+ tests:[
+  {nombre:"las filas son las ciudades (más All) y las columnas las estaciones (más All)",
+   codigo:`assert list(tabla.index) == ["A","B","All"], f"las filas son {list(tabla.index)}; deberían ser A, B y All (margins=True)"
+assert sorted(tabla.columns) == ["All","Invierno","Verano"], f"las columnas son {list(tabla.columns)}; deberían ser Invierno, Verano y All"`},
+  {nombre:"los valores son promedios",
+   codigo:`assert abs(tabla.loc["A","Verano"] - 29) < 1e-9 and abs(tabla.loc["B","Invierno"] - 12) < 1e-9, "las celdas deben tener la temperatura de cada ciudad y estación"
+assert abs(tabla.loc["A","All"] - 21.5) < 1e-9, "el promedio anual de A debería dar 21.5"
+assert abs(tabla.loc["All","Invierno"] - 13) < 1e-9 and abs(tabla.loc["All","Verano"] - 30) < 1e-9, "los promedios de cada estación deberían dar 13 y 30"
+assert abs(tabla.loc["All","All"] - 21.5) < 1e-9, "el promedio de los 4 datos debería dar 21.5"`}
+ ],
+ solucion:`import pandas as pd
+
+df = pd.DataFrame({"ciudad": ["A", "A", "B", "B"],
+                   "estacion": ["Verano", "Invierno", "Verano", "Invierno"],
+                   "temperatura": [29, 14, 31, 12]})
+
+tabla = pd.pivot_table(df,
+                       index="ciudad",         # la columna se llama "ciudad"
+                       columns="estacion",
+                       values="temperatura",
+                       aggfunc="mean",         # "average" no existe en pandas
+                       margins=True)           # fila y columna All con los promedios generales
+
+print(tabla)
+`
+},
+{
+ id:"lab-p3", modelo:"P2", ej:"Ej 3", titulo:"Valor atípico en PM2.5 con la regla del IQR",
+ paquetes:["pandas"], limpiar:[],
+ enunciado:"Concentraciones de PM2.5 en µg/m³. Hay que detectar la medición anormal con cuartiles y la regla del rango intercuartílico (IQR). El código tiene errores en los percentiles y en la fórmula.",
+ datos:`pm25 = [12, 14, 13, 15, 16, 14, 80]`,
+ tareas:[
+  "Corregir los percentiles de <code>quantile()</code>.",
+  "Corregir la fórmula del IQR.",
+  "Identificar el valor atípico: guardarlo (como Series) en <code>atipicos</code>."
+ ],
+ variables:[
+  ["q1","primer cuartil"],
+  ["q3","tercer cuartil"],
+  ["iqr","rango intercuartílico"],
+  ["limite_superior","q3 + 1.5 · iqr"],
+  ["atipicos","Series con los valores que superan el límite superior"]
+ ],
+ nota:"<code>quantile()</code> recibe una <b>proporción entre 0 y 1</b> (0.25), no un porcentaje (25). Y el IQR es una <b>resta</b>: Q3 − Q1.",
+ inicial:`import pandas as pd
+
+pm25 = pd.Series([12, 14, 13, 15, 16, 14, 80])
+
+q1 = pm25.quantile(25)
+q3 = pm25.quantile(75)
+iqr = q1 + q3
+limite_superior = q3 + 1.5 * iqr
+
+atipicos = pm25[pm25 > limite_superior]
+print(atipicos)
+`,
+ tests:[
+  {nombre:"q1 = 13.5 y q3 = 15.5",
+   codigo:`assert abs(float(q1) - 13.5) < 1e-9, f"q1 da {q1} y debería dar 13.5 (el percentil 25 se pide como 0.25)"
+assert abs(float(q3) - 15.5) < 1e-9, f"q3 da {q3} y debería dar 15.5 (el percentil 75 se pide como 0.75)"`},
+  {nombre:"iqr = 2 y el límite superior es 18.5",
+   codigo:`assert abs(float(iqr) - 2.0) < 1e-9, f"el IQR da {iqr}: es Q3 - Q1, una resta"
+assert abs(float(limite_superior) - 18.5) < 1e-9, f"el límite superior da {limite_superior} y debería dar 18.5"`},
+  {nombre:"el único atípico es 80 (índice 6)",
+   codigo:`assert list(atipicos.values) == [80], f"atipicos tiene {list(atipicos.values)}; el único valor por encima de 18.5 es 80"
+assert list(atipicos.index) == [6], "el 80 está en el índice 6"`}
+ ],
+ solucion:`import pandas as pd
+
+pm25 = pd.Series([12, 14, 13, 15, 16, 14, 80])
+
+q1 = pm25.quantile(0.25)   # proporción entre 0 y 1
+q3 = pm25.quantile(0.75)
+iqr = q3 - q1              # el IQR es una resta
+limite_superior = q3 + 1.5 * iqr
+
+atipicos = pm25[pm25 > limite_superior]
+print("Q1:", q1, "Q3:", q3, "IQR:", iqr, "límite:", limite_superior)
+print(atipicos)
+`
+},
+{
+ id:"lab-p4", modelo:"P2", ej:"Ej 4", titulo:"Emisiones por año y sector, con un dato faltante",
+ paquetes:["pandas"], limpiar:[],
+ enunciado:"Emisiones de CO₂ por sector en una tabla didáctica. Hay un dato faltante (Energía 2023). Armá la tabla dinámica con la <b>suma</b>, <b>conservando el faltante</b> (un dato que no se midió no equivale a cero) y agregá un total por sector.",
+ datos:`anio:   [2022, 2022, 2023, 2023]
+sector: ["Energía", "Transporte", "Energía", "Transporte"]
+co2:    [120.0, 80.0, None, 85.0]`,
+ tareas:[
+  "Corregir los nombres de los parámetros de <code>pivot_table</code>.",
+  "Conservar el faltante como <code>NaN</code>: no rellenarlo con 0 (y ojo: <code>aggfunc=\"sum\"</code> convierte una celda sin datos en 0; se evita con <code>min_count=1</code>).",
+  "Agregar una columna <code>Total</code> con el total de cada sector."
+ ],
+ variables:[
+  ["tabla","filas = sectores; columnas = 2022, 2023 y Total; Energía 2023 sigue siendo NaN"]
+ ],
+ nota:"<code>sum(min_count=1)</code> significa «sumá solo si hay al menos un dato real; si no, devolvé NaN». Se la pasás a <code>aggfunc</code> con una función chica: <code>lambda s: s.sum(min_count=1)</code>. Para el total por fila: <code>tabla.sum(axis=1, min_count=1)</code>.",
+ inicial:`import pandas as pd
+
+df = pd.DataFrame({
+    "anio": [2022, 2022, 2023, 2023],
+    "sector": ["Energía", "Transporte", "Energía", "Transporte"],
+    "co2": [120.0, 80.0, None, 85.0]})
+
+tabla = df.pivot_table(index="sector", column="anio",
+                       value="co2", aggfunc="sum", fill_value="0")
+
+print(tabla)
+`,
+ tests:[
+  {nombre:"la tabla tiene los sectores en filas y los años en columnas",
+   codigo:`assert sorted(tabla.index) == ["Energía","Transporte"], f"las filas son {list(tabla.index)}; deberían ser los dos sectores"
+assert 2022 in tabla.columns and 2023 in tabla.columns, f"las columnas son {list(tabla.columns)}; deberían incluir 2022 y 2023"`},
+  {nombre:"el faltante de Energía 2023 se conserva como NaN",
+   codigo:`assert tabla.loc["Energía", 2023] != tabla.loc["Energía", 2023], "Energía 2023 debería seguir siendo NaN: no se rellena con 0 y 'sum' lo vuelve 0 si no hay datos (probá sum(min_count=1))"`},
+  {nombre:"la columna Total suma lo que hay en cada sector",
+   codigo:`assert "Total" in tabla.columns, "falta la columna Total"
+assert abs(float(tabla.loc["Transporte","Total"]) - 165) < 1e-9, "el total de Transporte debería dar 80 + 85 = 165"
+assert abs(float(tabla.loc["Energía","Total"]) - 120) < 1e-9, "el total de Energía debería dar 120 (solo tiene dato en 2022)"`}
+ ],
+ solucion:`import pandas as pd
+
+df = pd.DataFrame({
+    "anio": [2022, 2022, 2023, 2023],
+    "sector": ["Energía", "Transporte", "Energía", "Transporte"],
+    "co2": [120.0, 80.0, None, 85.0]})
+
+tabla = df.pivot_table(index="sector",
+                       columns="anio",                 # plural
+                       values="co2",                   # plural
+                       aggfunc=lambda s: s.sum(min_count=1))   # NaN si la celda no tiene datos
+
+tabla["Total"] = tabla.sum(axis=1, min_count=1)        # total por sector (axis=1: a lo largo de la fila)
+
+print(tabla)
+`
+},
+{
+ id:"lab-p5", modelo:"P2", ej:"Ej 5", titulo:"Índice de masa corporal y categorías con pd.cut",
+ paquetes:["pandas"], limpiar:[],
+ enunciado:"Se crea una variable derivada (el IMC) y se la clasifica en categorías con <code>pd.cut</code>. Hay errores de fórmula, de cantidad de etiquetas y de cómo se pasan los argumentos.",
+ datos:`peso_kg:  [60, 78, 95, 52]
+altura_m: [1.65, 1.75, 1.70, 1.60]
+bins:     [0, 18.5, 25, 30, 100]
+labels:   Bajo, Normal, Sobrepeso, Obesidad`,
+ tareas:[
+  "Corregir la fórmula del IMC: peso / altura².",
+  "Corregir la cantidad de etiquetas (con 5 bordes hay 4 intervalos) y cómo se pasan a <code>pd.cut</code>.",
+  "Redondear el IMC a una cifra decimal."
+ ],
+ variables:[
+  ["df","con las columnas imc (redondeada a 1 decimal) y categoria"]
+ ],
+ nota:"Elevar al cuadrado es <code>** 2</code>; <code>* 2</code> es «multiplicar por 2». Y en <code>pd.cut(x, bins, ...)</code> el tercer argumento posicional es <code>right</code>, <b>no</b> <code>labels</code>: si lo pasás sin nombre, la lista de etiquetas cae en el parámetro equivocado y <b>no da error</b> (devuelve intervalos en vez de nombres).",
+ inicial:`import pandas as pd
+
+df = pd.DataFrame({"peso_kg": [60, 78, 95, 52],
+                   "altura_m": [1.65, 1.75, 1.70, 1.60]})
+
+df["imc"] = df["peso_kg"] / df["altura_m"] * 2
+
+bins = [0, 18.5, 25, 30, 100]
+labels = ["Bajo", "Normal", "Sobrepeso", "Obesidad", "Extremo"]
+df["categoria"] = pd.cut(df["imc"], bins, labels)
+
+print(df)
+`,
+ tests:[
+  {nombre:"el IMC es peso / altura² con una cifra decimal",
+   codigo:`esperado = [22.0, 25.5, 32.9, 20.3]
+assert [round(float(x), 1) for x in df["imc"]] == esperado, f"imc da {list(df['imc'])}; debería dar {esperado} (peso / altura ** 2)"
+assert all(abs(float(x) * 10 - round(float(x) * 10)) < 1e-6 for x in df["imc"]), "el imc debe quedar redondeado a 1 decimal: .round(1)"`},
+  {nombre:"la categoría es un nombre (no un intervalo)",
+   codigo:`cats = [str(c) for c in df["categoria"]]
+assert all(c in ["Bajo","Normal","Sobrepeso","Obesidad"] for c in cats), f"categoria tiene {cats}; deberían ser los nombres de las etiquetas (pasá labels=labels con nombre)"
+assert cats == ["Normal","Sobrepeso","Obesidad","Normal"], f"categoria da {cats} y debería dar ['Normal','Sobrepeso','Obesidad','Normal']"`}
+ ],
+ solucion:`import pandas as pd
+
+df = pd.DataFrame({"peso_kg": [60, 78, 95, 52],
+                   "altura_m": [1.65, 1.75, 1.70, 1.60]})
+
+# ** 2 es "al cuadrado"; round(1) deja un decimal
+df["imc"] = (df["peso_kg"] / df["altura_m"] ** 2).round(1)
+
+bins = [0, 18.5, 25, 30, 100]                          # 5 bordes -> 4 intervalos
+labels = ["Bajo", "Normal", "Sobrepeso", "Obesidad"]   # 4 etiquetas
+# argumentos con nombre; right=False hace que el 25.0 cuente como Sobrepeso
+df["categoria"] = pd.cut(df["imc"], bins=bins, labels=labels, right=False)
+
+print(df)
+`
+},
+{
+ id:"lab-p6", modelo:"P2", ej:"Ej 6", titulo:"PIB per cápita ponderado por población",
+ paquetes:["numpy","pandas"], limpiar:[],
+ enunciado:"PIB per cápita regional, ponderado por población. Hay que usar <code>groupby.apply</code> de forma controlada, prevenir la división por cero y devolver un DataFrame con dos columnas.",
+ datos:`region:    ["Norte", "Norte", "Sur", "Sur"]
+pib_pc:    [12000, 18000, 9000, 15000]
+poblacion: [2.0, 1.0, 0.0, 3.0]`,
+ tareas:[
+  "Corregir las llamadas a <code>sum()</code>.",
+  "Hacer la función segura ante una suma de pesos igual a cero (devolver <code>np.nan</code>).",
+  "Devolver un DataFrame con <code>pib_ponderado</code> y <code>poblacion_total</code> por región."
+ ],
+ variables:[
+  ["promedio_ponderado","función que recibe el mini-DataFrame de una región y devuelve una pd.Series con pib_ponderado y poblacion_total"],
+  ["resultado","DataFrame con una fila por región y las columnas pib_ponderado y poblacion_total"]
+ ],
+ nota:"El promedio ponderado es Σ(valor × peso) / Σ(peso). <code>include_groups=False</code> (plural) le dice a pandas que no pase la columna de agrupación a tu función. Si la función devuelve una <code>pd.Series</code> con etiquetas, cada etiqueta se vuelve una columna del resultado.",
+ inicial:`import pandas as pd
+import numpy as np
+
+df = pd.DataFrame({
+    "region": ["Norte", "Norte", "Sur", "Sur"],
+    "pib_pc": [12000, 18000, 9000, 15000],
+    "poblacion": [2.0, 1.0, 0.0, 3.0]})
+
+def promedio_ponderado(g):
+    return (g["pib_pc"] * g["poblacion"]).sum / g["poblacion"].sum
+
+resultado = df.groupby("region").apply(promedio_ponderado, include_group=False)
+print(resultado)
+`,
+ tests:[
+  {nombre:"el resultado es un DataFrame con pib_ponderado y poblacion_total",
+   codigo:`assert hasattr(resultado, "columns"), "resultado debe ser un DataFrame con DOS columnas: la función tiene que devolver una pd.Series con pib_ponderado y poblacion_total"
+assert list(resultado.columns) == ["pib_ponderado","poblacion_total"], f"las columnas son {list(resultado.columns)}"`},
+  {nombre:"Norte = 14000 (población 3) y Sur = 15000 (población 3)",
+   codigo:`assert abs(float(resultado.loc["Norte","pib_ponderado"]) - 14000) < 1e-6, "Norte debería dar (12000·2 + 18000·1) / 3 = 14000"
+assert abs(float(resultado.loc["Sur","pib_ponderado"]) - 15000) < 1e-6, "Sur debería dar (9000·0 + 15000·3) / 3 = 15000"
+assert float(resultado.loc["Norte","poblacion_total"]) == 3 and float(resultado.loc["Sur","poblacion_total"]) == 3, "la población total de cada región es 3"`},
+  {nombre:"la función no divide por cero",
+   codigo:`g = pd.DataFrame({"pib_pc": [100, 200], "poblacion": [0.0, 0.0]})
+r = promedio_ponderado(g)
+assert np.isnan(r["pib_ponderado"]), "con pesos que suman 0 el pib_ponderado debería ser np.nan"
+assert float(r["poblacion_total"]) == 0`}
+ ],
+ solucion:`import pandas as pd
+import numpy as np
+
+df = pd.DataFrame({
+    "region": ["Norte", "Norte", "Sur", "Sur"],
+    "pib_pc": [12000, 18000, 9000, 15000],
+    "poblacion": [2.0, 1.0, 0.0, 3.0]})
+
+def promedio_ponderado(g):
+    poblacion_total = g["poblacion"].sum()           # sum() con paréntesis
+    if poblacion_total == 0:                         # protección contra la división por cero
+        pib_ponderado = np.nan
+    else:
+        pib_ponderado = (g["pib_pc"] * g["poblacion"]).sum() / poblacion_total
+    return pd.Series({"pib_ponderado": pib_ponderado,
+                      "poblacion_total": poblacion_total})
+
+resultado = df.groupby("region").apply(promedio_ponderado, include_groups=False)
+print(resultado)
+`
+},
+{
+ id:"lab-p7", modelo:"P2", ej:"Ej 7", titulo:"Ventas por vendedor y mes con totales",
+ paquetes:["pandas"], limpiar:[],
+ enunciado:"Una tabla dinámica con la <b>suma</b> de ventas por vendedor y por mes, con totales generales llamados «Total». Los parámetros y la función de agregación tienen errores.",
+ datos:`vendedor: ["Ana", "Ana", "Beto", "Beto", "Ana", "Beto"]
+mes:      ["Marzo", "Abril", "Marzo", "Abril", "Marzo", "Abril"]
+monto:    [1200, 900, 700, 1500, 300, 200]`,
+ tareas:[
+  "Corregir los nombres de columna y de parámetros de <code>pivot_table</code>.",
+  "Usar la función de agregación correcta para sumar.",
+  "Agregar los totales con <code>margins=True</code>, llamados <code>Total</code> (parámetro <code>margins_name</code>)."
+ ],
+ variables:[
+  ["tabla","vendedores en filas, meses en columnas, suma de monto y fila/columna Total"]
+ ],
+ nota:"Los valores válidos de <code>aggfunc</code> son nombres como <code>\"sum\"</code>, <code>\"mean\"</code>, <code>\"count\"</code>, <code>\"min\"</code>, <code>\"max\"</code>. El parámetro de los totales se llama <code>margins_name</code>.",
+ inicial:`import pandas as pd
+
+df = pd.DataFrame({"vendedor": ["Ana", "Ana", "Beto", "Beto", "Ana", "Beto"],
+                   "mes": ["Marzo", "Abril", "Marzo", "Abril", "Marzo", "Abril"],
+                   "monto": [1200, 900, 700, 1500, 300, 200]})
+
+tabla = pd.pivot_table(df, index="vendedores", column="mes",
+                       values="monto", aggfunc="total", margins=True)
+print(tabla)
+`,
+ tests:[
+  {nombre:"las celdas suman los montos por vendedor y mes",
+   codigo:`assert abs(tabla.loc["Ana","Marzo"] - 1500) < 1e-9, "Ana en Marzo debería dar 1200 + 300 = 1500"
+assert abs(tabla.loc["Beto","Abril"] - 1700) < 1e-9, "Beto en Abril debería dar 1500 + 200 = 1700"`},
+  {nombre:"los totales se llaman Total",
+   codigo:`assert "Total" in tabla.index and "Total" in tabla.columns, "los totales deben llamarse Total (margins=True con margins_name='Total')"
+assert abs(tabla.loc["Total","Total"] - 4800) < 1e-9, "el total general debería dar 4800"
+assert abs(tabla.loc["Ana","Total"] - 2400) < 1e-9 and abs(tabla.loc["Total","Abril"] - 2600) < 1e-9, "revisá los totales por fila y por columna"`}
+ ],
+ solucion:`import pandas as pd
+
+df = pd.DataFrame({"vendedor": ["Ana", "Ana", "Beto", "Beto", "Ana", "Beto"],
+                   "mes": ["Marzo", "Abril", "Marzo", "Abril", "Marzo", "Abril"],
+                   "monto": [1200, 900, 700, 1500, 300, 200]})
+
+tabla = pd.pivot_table(df, index="vendedor", columns="mes",     # la columna es "vendedor"; el parámetro es "columns"
+                       values="monto", aggfunc="sum",           # "sum", no "total"
+                       margins=True, margins_name="Total")
+print(tabla)
+`
+},
+{
+ id:"lab-p8", modelo:"P2", ej:"Ej 8", titulo:"Tiempos de respuesta: atípicos en los dos extremos",
+ paquetes:["pandas"], limpiar:[],
+ enunciado:"Tiempos de respuesta (en milisegundos) de un servicio. Hay que detectar los valores atípicos tanto <b>por arriba</b> como <b>por abajo</b> con la regla del IQR. El código tiene un error de signos y un error al combinar las dos condiciones.",
+ datos:`tiempos = [210, 195, 205, 220, 198, 215, 202, 5, 900]  (ms)`,
+ tareas:[
+  "Corregir las fórmulas de los dos límites.",
+  "Corregir el filtro que combina las dos condiciones (en pandas se usa <code>|</code> con paréntesis, no <code>and</code>).",
+  "Guardar los valores atípicos en <code>atipicos</code>."
+ ],
+ variables:[
+  ["limite_inferior","q1 − 1.5 · iqr"],
+  ["limite_superior","q3 + 1.5 · iqr"],
+  ["atipicos","Series con los tiempos fuera de los dos límites"]
+ ],
+ nota:"En un filtro de pandas, <code>and</code>/<code>or</code> no sirven con Series (da <code>ValueError: truth value of a Series is ambiguous</code>). Se usa <code>&amp;</code> (y) y <code>|</code> (o), y cada condición va entre paréntesis.",
+ inicial:`import pandas as pd
+
+tiempos = pd.Series([210, 195, 205, 220, 198, 215, 202, 5, 900])
+
+q1 = tiempos.quantile(0.25)
+q3 = tiempos.quantile(0.75)
+iqr = q3 - q1
+
+limite_inferior = q1 + 1.5 * iqr
+limite_superior = q3 - 1.5 * iqr
+
+atipicos = tiempos[tiempos < limite_inferior and tiempos > limite_superior]
+print(atipicos)
+`,
+ tests:[
+  {nombre:"los límites están bien calculados",
+   codigo:`q1, q3 = tiempos.quantile(0.25), tiempos.quantile(0.75)
+iqr = q3 - q1
+assert abs(float(limite_inferior) - (q1 - 1.5 * iqr)) < 1e-9, f"limite_inferior da {limite_inferior}: es q1 MENOS 1.5 * iqr"
+assert abs(float(limite_superior) - (q3 + 1.5 * iqr)) < 1e-9, f"limite_superior da {limite_superior}: es q3 MÁS 1.5 * iqr"`},
+  {nombre:"los atípicos son 5 y 900",
+   codigo:`assert sorted(atipicos.values) == [5, 900], f"atipicos tiene {sorted(atipicos.values)}; los valores fuera de los límites son 5 y 900"`}
+ ],
+ solucion:`import pandas as pd
+
+tiempos = pd.Series([210, 195, 205, 220, 198, 215, 202, 5, 900])
+
+q1 = tiempos.quantile(0.25)
+q3 = tiempos.quantile(0.75)
+iqr = q3 - q1
+
+limite_inferior = q1 - 1.5 * iqr    # se RESTA por abajo
+limite_superior = q3 + 1.5 * iqr    # se SUMA por arriba
+
+# | = «o»; cada condición entre paréntesis
+atipicos = tiempos[(tiempos < limite_inferior) | (tiempos > limite_superior)]
+print(atipicos)
+`
+},
+{
+ id:"lab-p9", modelo:"P2", ej:"Ej 9", titulo:"Grupos de edad con pd.cut",
+ paquetes:["pandas"], limpiar:[],
+ enunciado:"Se clasifican edades en cuatro grupos con <code>pd.cut</code>. El código <b>no da ningún error</b>, pero el resultado está mal: encontrá por qué.",
+ datos:`edad:   [5, 17, 18, 29, 30, 64, 65, 90]
+grupos: Menor [0, 18)  ·  Joven [18, 30)  ·  Adulto [30, 65)  ·  Mayor [65, 120)`,
+ tareas:[
+  "Corregir la lista de etiquetas (cantidad de bordes menos uno).",
+  "Pasar los argumentos con nombre para que cada uno caiga en su lugar.",
+  "Hacer que el borde izquierdo de cada grupo esté incluido (18 años ya es «Joven», 65 ya es «Mayor»)."
+ ],
+ variables:[
+  ["edades","DataFrame con la columna grupo (nombres, no intervalos)"],
+  ["conteo","cantidad de personas por grupo (value_counts)"]
+ ],
+ nota:"En <code>pd.cut</code> el borde derecho de cada intervalo está incluido por defecto (<code>right=True</code>): <code>(0, 18]</code>. Con <code>right=False</code> los intervalos son <code>[0, 18)</code>.",
+ inicial:`import pandas as pd
+
+edades = pd.DataFrame({"edad": [5, 17, 18, 29, 30, 64, 65, 90]})
+
+bins = [0, 18, 30, 65, 120]
+labels = ["Menor", "Joven", "Adulto", "Mayor", "Anciano"]
+edades["grupo"] = pd.cut(edades["edad"], bins, labels)
+
+conteo = edades["grupo"].value_counts()
+print(edades)
+print(conteo)
+`,
+ tests:[
+  {nombre:"los grupos son nombres (no intervalos)",
+   codigo:`gs = [str(g) for g in edades["grupo"]]
+assert all(g in ["Menor","Joven","Adulto","Mayor"] for g in gs), f"grupo tiene {gs}: tienen que ser los nombres de las etiquetas (labels=labels, con nombre, y 4 etiquetas para 5 bordes)"`},
+  {nombre:"los bordes izquierdos están incluidos",
+   codigo:`gs = [str(g) for g in edades["grupo"]]
+assert gs == ["Menor","Menor","Joven","Joven","Adulto","Adulto","Mayor","Mayor"], f"grupo da {gs}; 18 debería ser Joven, 30 Adulto y 65 Mayor (right=False)"`},
+  {nombre:"conteo: 2 personas por grupo",
+   codigo:`assert int(conteo.sum()) == 8 and all(int(v) == 2 for v in conteo.values), f"conteo da {dict(conteo)}; debería haber 2 personas en cada uno de los 4 grupos"`}
+ ],
+ solucion:`import pandas as pd
+
+edades = pd.DataFrame({"edad": [5, 17, 18, 29, 30, 64, 65, 90]})
+
+bins = [0, 18, 30, 65, 120]                        # 5 bordes -> 4 intervalos
+labels = ["Menor", "Joven", "Adulto", "Mayor"]     # 4 etiquetas
+# bins= y labels= con nombre; right=False -> intervalos [a, b)
+edades["grupo"] = pd.cut(edades["edad"], bins=bins, labels=labels, right=False)
+
+conteo = edades["grupo"].value_counts()
+print(edades)
+print(conteo)
+`
+},
+{
+ id:"lab-p10", modelo:"P2", ej:"Ej 10", titulo:"Variación porcentual de precios",
+ paquetes:["pandas"], limpiar:[],
+ enunciado:"Se calcula la variación porcentual del precio de cada producto y se busca cuál subió más. Hay un error de <b>orden de las operaciones</b> (da un número sin sentido pero no corta), un redondeo que falta y una llamada sin paréntesis.",
+ datos:`producto:        ["A", "B", "C"]
+precio_anterior: [210.0, 55.0, 80.0]
+precio_actual:   [230.0, 49.5, 80.0]`,
+ tareas:[
+  "Corregir la fórmula: (actual − anterior) / anterior · 100.",
+  "Redondear la variación a una cifra decimal.",
+  "Guardar en <code>mayor_suba</code> el <b>nombre</b> del producto que más subió (no su posición)."
+ ],
+ variables:[
+  ["df","con la columna variacion (porcentaje, 1 decimal)"],
+  ["mayor_suba","el nombre del producto con la mayor variación"]
+ ],
+ nota:"La multiplicación y la división se resuelven antes que la resta: si querés restar primero, va entre paréntesis. Y <code>idxmax()</code> devuelve la <b>etiqueta del índice</b> de la fila: para sacar el nombre del producto hay que buscarlo con <code>df.loc[...]</code>.",
+ inicial:`import pandas as pd
+
+df = pd.DataFrame({"producto": ["A", "B", "C"],
+                   "precio_anterior": [210.0, 55.0, 80.0],
+                   "precio_actual": [230.0, 49.5, 80.0]})
+
+df["variacion"] = df["precio_actual"] - df["precio_anterior"] / df["precio_anterior"] * 100
+
+mayor_suba = df["variacion"].idxmax
+
+print(df)
+print("Mayor suba:", mayor_suba)
+`,
+ tests:[
+  {nombre:"la variación está bien calculada y redondeada",
+   codigo:`esperado = [9.5, -10.0, 0.0]
+assert [float(x) for x in df["variacion"]] == esperado, f"variacion da {list(df['variacion'])}; debería dar {esperado} ((actual - anterior) / anterior * 100, con .round(1))"`},
+  {nombre:"mayor_suba es el nombre del producto: A",
+   codigo:`assert not callable(mayor_suba), "mayor_suba es un método: te faltan los paréntesis de idxmax()"
+assert mayor_suba == "A", f"mayor_suba da {mayor_suba!r}; debería ser el nombre del producto ('A'), no la posición"`}
+ ],
+ solucion:`import pandas as pd
+
+df = pd.DataFrame({"producto": ["A", "B", "C"],
+                   "precio_anterior": [210.0, 55.0, 80.0],
+                   "precio_actual": [230.0, 49.5, 80.0]})
+
+# paréntesis: la resta va primero; .round(1) deja un decimal
+df["variacion"] = ((df["precio_actual"] - df["precio_anterior"]) / df["precio_anterior"] * 100).round(1)
+
+# idxmax() CON paréntesis devuelve la fila; con .loc se saca el nombre
+mayor_suba = df.loc[df["variacion"].idxmax(), "producto"]
+
+print(df)
+print("Mayor suba:", mayor_suba)
+`
+},
+{
+ id:"lab-p11", modelo:"P2", ej:"Ej 11", titulo:"Precio promedio ponderado por categoría",
+ paquetes:["numpy","pandas"], limpiar:[],
+ enunciado:"Precio promedio ponderado por las unidades vendidas, por categoría, con <code>np.average</code>. Hay un error de nombre de parámetro, falta la protección contra pesos que suman cero y la función devuelve un solo número en vez de dos columnas.",
+ datos:`categoria: ["Lacteos", "Lacteos", "Panes", "Panes"]
+precio:    [100.0, 140.0, 80.0, 120.0]
+unidades:  [30, 10, 0, 0]`,
+ tareas:[
+  "Corregir los nombres de parámetros (<code>np.average</code> recibe <code>weights</code>; <code>apply</code> recibe <code>include_groups</code>).",
+  "Proteger la función: si las unidades suman 0, el precio ponderado es <code>np.nan</code>.",
+  "Devolver un DataFrame con <code>precio_ponderado</code> y <code>unidades_total</code> por categoría."
+ ],
+ variables:[
+  ["resumen_categoria","función que recibe el mini-DataFrame de una categoría y devuelve una pd.Series con precio_ponderado y unidades_total"],
+  ["resultado","DataFrame con una fila por categoría y esas dos columnas"]
+ ],
+ nota:"Con pesos que suman 0, <code>np.average</code> corta con <code>ZeroDivisionError</code>. En <code>Panes</code> las dos filas tienen 0 unidades: no se puede ponderar y el resultado correcto es «no calculable» (<code>np.nan</code>), no 0.",
+ inicial:`import pandas as pd
+import numpy as np
+
+df = pd.DataFrame({
+    "categoria": ["Lacteos", "Lacteos", "Panes", "Panes"],
+    "precio": [100.0, 140.0, 80.0, 120.0],
+    "unidades": [30, 10, 0, 0]})
+
+def resumen_categoria(g):
+    return np.average(g["precio"], weight=g["unidades"])
+
+resultado = df.groupby("categoria").apply(resumen_categoria, include_group=False)
+print(resultado)
+`,
+ tests:[
+  {nombre:"el resultado es un DataFrame con precio_ponderado y unidades_total",
+   codigo:`assert hasattr(resultado, "columns"), "resultado debe ser un DataFrame con dos columnas: la función tiene que devolver una pd.Series con precio_ponderado y unidades_total"
+assert list(resultado.columns) == ["precio_ponderado","unidades_total"], f"las columnas son {list(resultado.columns)}"`},
+  {nombre:"Lacteos = 110 con 40 unidades",
+   codigo:`assert abs(float(resultado.loc["Lacteos","precio_ponderado"]) - 110) < 1e-6, "Lacteos debería dar (100·30 + 140·10) / 40 = 110"
+assert float(resultado.loc["Lacteos","unidades_total"]) == 40`},
+  {nombre:"Panes (0 unidades) da NaN y no corta",
+   codigo:`assert np.isnan(resultado.loc["Panes","precio_ponderado"]), "Panes tiene pesos que suman 0: el precio ponderado debería ser np.nan"
+assert float(resultado.loc["Panes","unidades_total"]) == 0`}
+ ],
+ solucion:`import pandas as pd
+import numpy as np
+
+df = pd.DataFrame({
+    "categoria": ["Lacteos", "Lacteos", "Panes", "Panes"],
+    "precio": [100.0, 140.0, 80.0, 120.0],
+    "unidades": [30, 10, 0, 0]})
+
+def resumen_categoria(g):
+    unidades_total = g["unidades"].sum()
+    if unidades_total == 0:                         # np.average cortaría con ZeroDivisionError
+        precio = np.nan
+    else:
+        precio = np.average(g["precio"], weights=g["unidades"])   # weights, en plural
+    return pd.Series({"precio_ponderado": precio, "unidades_total": unidades_total})
+
+resultado = df.groupby("categoria").apply(resumen_categoria, include_groups=False)
+print(resultado)
+`
 }
 
 ];

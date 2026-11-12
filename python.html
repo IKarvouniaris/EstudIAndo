@@ -67,7 +67,7 @@ a{color:var(--acento)}
 .btn-tema{cursor:pointer; font-family:var(--mono); font-size:.66rem; letter-spacing:.08em; padding:.45rem .7rem; background:var(--papel-2); color:var(--tinta-2); border:1px solid var(--linea); border-radius:2px; width:100%}
 .btn-tema:hover{color:var(--tinta); border-color:var(--tinta-3)}
 
-.lienzo{max-width:800px; margin:0 auto; padding:2.4rem clamp(1rem,3vw,2.4rem) 6rem}
+.lienzo{width:100%; max-width:800px; min-width:0; margin:0 auto; padding:2.4rem clamp(1rem,3vw,2.4rem) 6rem}  /* width:100% + min-width:0: un bloque de código ancho no ensancha la página, hace scroll adentro */
 .portada .cintillo{font-family:var(--mono); font-size:.66rem; letter-spacing:.17em; text-transform:uppercase; color:var(--tinta-3); margin:0}
 .portada h1{font-family:var(--display); font-weight:700; font-size:clamp(1.9rem,4.5vw,2.7rem); line-height:1.05; letter-spacing:-.01em; margin:.3rem 0 .8rem}
 .portada p{color:var(--tinta-2); max-width:66ch}
@@ -157,7 +157,7 @@ code{font-family:var(--mono)}
     <div>
       <i data-marca style="--marca-tam:2.1rem; display:block; margin-bottom:.5rem"></i>
       <b>Python para<br>Ciencia de Datos</b>
-      <span>UADE · 2.º cuatrimestre 2026 · Clases 0-6</span>
+      <span>UADE · 2.º cuatrimestre 2026 · Clases 0-6 y guía del 2.º parcial</span>
     </div>
     <button class="btn-riel" id="btn-cerrar" type="button" title="Ocultar barra lateral" aria-label="Ocultar barra lateral">✕</button>
   </div>
@@ -165,7 +165,7 @@ code{font-family:var(--mono)}
   <div class="buscador">
     <label class="oculto" for="q">Buscar concepto</label>
     <input id="q" type="search" placeholder="buscar función o concepto…" autocomplete="off">
-    <p id="q-estado">7 clases · glosario · chuleta · flashcards</p>
+    <p id="q-estado">7 clases + guía del 2.º parcial · glosario · chuleta · flashcards</p>
   </div>
 
   <nav id="nav">
@@ -180,6 +180,10 @@ code{font-family:var(--mono)}
     <a class="item" href="#c4">04 · Limpieza, índices y formatos</a>
     <a class="item" href="#c5">05 · Matplotlib</a>
     <a class="item" href="#c6">06 · Seaborn</a>
+    <div class="riel-grupo">2.º parcial · guía</div>
+    <a class="item" href="#p2a">P2.1 · pandas aplicado y errores</a>
+    <a class="item" href="#p2b">P2.2 · Git y trabajo en equipo</a>
+    <a class="item" href="#p2c">P2.3 · Entornos y estructura</a>
     <div class="riel-grupo">Herramientas</div>
     <a class="item" href="#chuleta">◎ Chuleta rápida</a>
     <a class="item" href="#glosario">A–Z Glosario</a>
@@ -197,7 +201,7 @@ code{font-family:var(--mono)}
 
 <main class="lienzo">
   <header class="portada">
-    <p class="cintillo">Apunte práctico · Clases 0 a 6 · Primer parcial</p>
+    <p class="cintillo">Apunte práctico · Clases 0 a 6 · Primer parcial · Guía del 2.º parcial</p>
     <h1>De variables sueltas<br>a un pipeline<br><i>que se puede confiar</i></h1>
     <p>
       Este resumen sigue el orden real de la cursada: primero código legible y a prueba de errores,
@@ -455,6 +459,321 @@ sns.scatterplot(data=df, x="Horas", y="Nota", hue="Curso", size="Proyectos",
     </div>
   </section>
 
+  <!-- ============================ GUÍA 2.º PARCIAL (provisional) ============================ -->
+  <section class="clase" id="p2a" data-busca="2 parcial segundo parcial guia describe media mediana desvio estandar pivot_table aggfunc margins quantile cuartiles iqr tukey outlier atipico faltantes nan fill_value min_count pd.cut bins labels right imc groupby apply include_groups promedio ponderado division por cero codigo con errores">
+    <p class="eyebrow">Guía del 2.º parcial · 1 de 3</p>
+    <h2>pandas aplicado: encontrar y corregir errores</h2>
+    <p class="objetivo">El 2.º parcial pide resolver ejercicios de <b>código con errores</b>: leés el código, encontrás qué falla y lo dejás andando, explicando el diagnóstico. Esta sección junta los conceptos de pandas que esos ejercicios usan: <code>describe</code>, <code>pivot_table</code>, cuartiles e IQR, valores faltantes, <code>pd.cut</code> y <code>groupby.apply</code>.</p>
+    <p class="objetivo"><b>Fuente:</b> el simulacro A del 2.º parcial que dio la cátedra y su resolución explicada (hecha con Claude), no las diapositivas. Todo el código de acá se ejecutó y las salidas son reales. Cuando lleguen los materiales con los números de clase, se contrasta y se reubica.</p>
+
+    <h3>Cómo encarar un «código con errores»</h3>
+    <ul class="conceptos">
+      <li><b>Leé el objetivo</b> antes que el código: ¿qué tendría que producir?</li>
+      <li><b>Revisá línea por línea</b>: nombres de columnas (¿coinciden con los del DataFrame?), nombres de métodos y parámetros (¿están bien escritos? ¿en plural?), paréntesis y la fórmula (¿la cuenta es la correcta?).</li>
+      <li><b>Distinguí dos tipos de error.</b> Los que <b>rompen</b> el programa (da un error y frena) y los <b>lógicos</b> (corre, pero el resultado está mal: una fórmula equivocada). Los segundos son más peligrosos porque no avisan.</li>
+      <li>En el espacio de diagnóstico escribí <b>qué falla, por qué y cómo se corrige</b>, con el resultado esperado.</li>
+    </ul>
+
+    <h3>Tres ideas que se repiten en todos los ejercicios</h3>
+    <ul class="conceptos">
+      <li><b>Un método se ejecuta con paréntesis.</b> <code>df["x"].mean</code> no calcula nada: devuelve el método en sí (<code>&lt;bound method …&gt;</code>) y, si lo usás en una cuenta, da <code>TypeError</code>.</li>
+      <li><b>Los parámetros se escriben exactamente como pandas los espera</b>: <code>columns</code>, no <code>column</code>; <code>values</code>, no <code>value</code>; <code>include_groups</code>, no <code>include_group</code>. Un parámetro mal escrito da <code>TypeError: unexpected keyword argument</code>.</li>
+      <li><b>Los nombres de columnas</b> se copian tal cual: <code>"ciudades"</code> en vez de <code>"ciudad"</code> da <code>KeyError</code>. Y salvo el primer argumento, conviene pasar todo <b>con nombre</b>: un valor posicional puede caer en el parámetro equivocado sin que haya error.</li>
+    </ul>
+
+    <h3>Estadística descriptiva: describe, media, mediana y desvío</h3>
+    <p><code>describe()</code> resume de una vez las columnas numéricas: <code>count</code> (datos no vacíos), <code>mean</code> (media), <code>std</code> (desvío estándar), <code>min</code>/<code>max</code> y los cuartiles <code>25%</code>, <code>50%</code> (la mediana) y <code>75%</code>. Sobre una sola columna (una Series) también existe.</p>
+    <pre><code>import pandas as pd
+
+df = pd.DataFrame({"edad": [34, 45, 52, 41, 63],
+                   "presion_sistolica": [118, 132, 145, 128, 151]})
+
+print(df["presion_sistolica"].describe())          # describe(), sin «s», de UNA columna
+print("Mediana:", df["presion_sistolica"].median()) # median() con paréntesis
+# count 5 · mean 134.8 · std 13.255 · min 118 · 25% 128 · 50% 132 · 75% 145 · max 151</code></pre>
+    <ul class="conceptos">
+      <li><b>Media</b> (134,8): suma de todos / cantidad. Usa todos los valores, así que un extremo la «arrastra».</li>
+      <li><b>Mediana</b> (132): el valor central de los datos ordenados. Solo depende de la posición, así que es <b>robusta a outliers</b>: si el 151 fuera 300, la media subiría a 164,6 y la mediana seguiría en 132.</li>
+      <li><b>Desvío estándar</b> (≈ 13,3): cuánto se alejan, en promedio, los datos de la media. Chico = datos parecidos; grande = muy dispersos. pandas calcula el desvío <b>muestral</b> (divide por n − 1).</li>
+    </ul>
+
+    <h3>Tablas dinámicas con pivot_table</h3>
+    <p>Reorganiza una tabla «larga» en una tabla «cruzada». Le decís cuatro cosas:</p>
+    <div class="chuleta">
+      <div><code>index</code><span>¿Qué va en las <b>filas</b>?</span></div>
+      <div><code>columns</code><span>¿Qué va en las <b>columnas</b>?</span></div>
+      <div><code>values</code><span>¿Qué <b>número</b> va adentro de las celdas?</span></div>
+      <div><code>aggfunc</code><span>Si hay varios datos para una celda, ¿cómo los resumo? <code>"mean"</code>, <code>"sum"</code>, <code>"count"</code>, <code>"min"</code>, <code>"max"</code>, <code>"median"</code>. <b>No existe <code>"average"</code></b>: el promedio es <code>"mean"</code>.</span></div>
+      <div><code>margins=True</code><span>Agrega una fila y una columna <code>All</code> con el resumen general (se renombra con <code>margins_name="Total"</code>).</span></div>
+    </div>
+    <pre><code>df = pd.DataFrame({"ciudad": ["A", "A", "B", "B"],
+                   "estacion": ["Verano", "Invierno", "Verano", "Invierno"],
+                   "temperatura": [29, 14, 31, 12]})
+
+tabla = pd.pivot_table(df, index="ciudad", columns="estacion",
+                       values="temperatura", aggfunc="mean", margins=True)
+# estacion  Invierno  Verano   All
+# A             14.0    29.0  21.5
+# B             12.0    31.0  21.5
+# All           13.0    30.0  21.5</code></pre>
+    <p>Se lee así: fila A × columna Verano = 29 (hay un solo dato). La columna <code>All</code> de la fila A es el promedio anual de A: (14 + 29) / 2 = 21,5. La esquina <code>All/All</code> es el promedio de los cuatro datos.</p>
+
+    <h3>Cuartiles, IQR y valores atípicos</h3>
+    <ul class="conceptos">
+      <li><b>Cuartiles</b>: parten los datos ordenados en 4 partes. Q1 (percentil 25), Q2 = mediana, Q3 (percentil 75).</li>
+      <li><b>IQR</b> (rango intercuartílico) = <b>Q3 − Q1</b>. Es una resta, no una suma.</li>
+      <li><b>Regla de Tukey</b>: es atípico lo que cae fuera de <code>Q1 − 1,5·IQR</code> y <code>Q3 + 1,5·IQR</code>. Es la misma regla con que el boxplot dibuja los puntos sueltos.</li>
+      <li><code>quantile()</code> recibe una <b>proporción entre 0 y 1</b> (<code>0.25</code>), no un porcentaje: <code>quantile(25)</code> da <code>ValueError</code>.</li>
+    </ul>
+    <pre><code>pm25 = pd.Series([12, 14, 13, 15, 16, 14, 80])      # µg/m³
+q1 = pm25.quantile(0.25)        # 13.5
+q3 = pm25.quantile(0.75)        # 15.5
+iqr = q3 - q1                   # 2.0
+limite_superior = q3 + 1.5 * iqr    # 18.5
+limite_inferior = q1 - 1.5 * iqr    # 10.5
+
+# | = «o» y cada condición entre paréntesis (con Series no sirve «and»/«or»)
+atipicos = pm25[(pm25 &gt; limite_superior) | (pm25 &lt; limite_inferior)]   # el 80 (índice 6)</code></pre>
+    <p>pandas interpola linealmente para los cuartiles (por eso aparece 13,5): otros métodos manuales pueden dar valores levemente distintos, pero la conclusión es la misma. Y un atípico <b>no se borra automáticamente</b>: primero se revisa si es un error de carga o un evento real.</p>
+
+    <h3>Valores faltantes en una tabla dinámica</h3>
+    <ul class="conceptos">
+      <li>Un dato faltante (<code>None</code>) se guarda como <code>NaN</code>: «no tengo el dato». <b>No es lo mismo que cero</b>: que no se midió la emisión de Energía en 2023 no significa que haya emitido 0.</li>
+      <li><code>fill_value</code> reemplaza las celdas vacías del <i>resultado</i> y debe ser un <b>número</b> (<code>0</code>), no un texto (<code>"0"</code>). Pero rellenar con 0 falsea la tabla: es una decisión que hay que justificar.</li>
+      <li><b>Trampa:</b> con <code>aggfunc="sum"</code> una celda que solo tenía <code>NaN</code> aparece como <b>0</b> (la suma de nada es 0). Para conservar el <code>NaN</code> se usa <code>sum(min_count=1)</code>: «sumá solo si hay al menos un dato real».</li>
+    </ul>
+    <pre><code>df = pd.DataFrame({"anio": [2022, 2022, 2023, 2023],
+                   "sector": ["Energía", "Transporte", "Energía", "Transporte"],
+                   "co2": [120.0, 80.0, None, 85.0]})
+
+tabla = df.pivot_table(index="sector", columns="anio", values="co2",
+                       aggfunc=lambda s: s.sum(min_count=1))       # conserva el NaN
+tabla["Total"] = tabla.sum(axis=1, min_count=1)      # axis=1: a lo largo de cada fila
+# anio         2022  2023  Total
+# Energía     120.0   NaN  120.0       (el total de Energía solo cuenta 2022)
+# Transporte   80.0  85.0  165.0</code></pre>
+    <p>Si en cambio se decide (y se justifica) tratar el faltante como 0, los totales salen con <code>aggfunc="sum", fill_value=0, margins=True, margins_name="Total"</code>.</p>
+
+    <h3>Variables derivadas y pd.cut</h3>
+    <ul class="conceptos">
+      <li><b>Variable derivada</b>: una columna nueva calculada de otras, <code>df["imc"] = …</code>. pandas hace la cuenta fila por fila.</li>
+      <li><b>Orden de las operaciones</b>: <code>**</code> (potencia) se resuelve antes que <code>*</code> y <code>/</code>. IMC = peso / altura²: <code>peso / altura ** 2</code>. <code>peso / altura * 2</code> es <code>(peso / altura) * 2</code>: un error lógico, no avisa.</li>
+      <li><b>Discretizar</b> = pasar un número a categorías con <code>pd.cut(x, bins=…, labels=…)</code>. <code>bins</code> son los <b>bordes</b> y <code>labels</code> los nombres: <b>cantidad de labels = cantidad de bordes − 1</b> (5 bordes forman 4 intervalos).</li>
+      <li><b>Pasá los argumentos con nombre.</b> El tercer argumento posicional de <code>pd.cut</code> es <code>right</code>, no <code>labels</code>: <code>pd.cut(imc, bins, labels)</code> <b>no da error</b>, pero devuelve intervalos en vez de nombres.</li>
+      <li><code>right=True</code> (por defecto) incluye el borde derecho: <code>(a, b]</code>. Con <code>right=False</code> son <code>[a, b)</code>, y un IMC de 25,0 cae en «Sobrepeso», como en la tabla de la OMS.</li>
+    </ul>
+    <pre><code>df = pd.DataFrame({"peso_kg": [60, 78, 95, 52], "altura_m": [1.65, 1.75, 1.70, 1.60]})
+df["imc"] = (df["peso_kg"] / df["altura_m"] ** 2).round(1)      # 22.0, 25.5, 32.9, 20.3
+
+bins = [0, 18.5, 25, 30, 100]                          # 5 bordes → 4 intervalos
+labels = ["Bajo", "Normal", "Sobrepeso", "Obesidad"]   # 4 etiquetas
+df["categoria"] = pd.cut(df["imc"], bins=bins, labels=labels, right=False)
+# Normal, Sobrepeso, Obesidad, Normal</code></pre>
+
+    <h3>groupby + apply: promedio ponderado y división por cero</h3>
+    <ul class="conceptos">
+      <li><b>Promedio ponderado</b> = Σ(valor × peso) / Σ(peso). Norte: (12000·2 + 18000·1) / 3 = 14000 (el simple daría 15000: la zona con más gente pesa más).</li>
+      <li><code>groupby("region").apply(f)</code>: <b>divide</b> el DataFrame en grupos, <b>aplica</b> <code>f</code> a cada mini-DataFrame y <b>combina</b> los resultados. <code>include_groups=False</code> (plural, desde pandas 2.2) evita pasarle a <code>f</code> la columna por la que se agrupó.</li>
+      <li><b>División por cero</b>: si los pesos de un grupo suman 0, no hay promedio posible. La función «segura» chequea antes y devuelve <code>np.nan</code> (no 0). Con <code>np.average</code> la división por cero corta con <code>ZeroDivisionError</code>.</li>
+      <li>Si la función devuelve una <b><code>pd.Series</code> con etiquetas</b>, cada etiqueta se vuelve una columna: así el resultado es un DataFrame con varias columnas por grupo.</li>
+    </ul>
+    <pre><code>import numpy as np
+
+def promedio_ponderado(g):                       # g = mini-DataFrame de UNA región
+    poblacion_total = g["poblacion"].sum()       # sum() con paréntesis
+    if poblacion_total == 0:
+        pib = np.nan                             # no se puede ponderar
+    else:
+        pib = (g["pib_pc"] * g["poblacion"]).sum() / poblacion_total
+    return pd.Series({"pib_ponderado": pib, "poblacion_total": poblacion_total})
+
+resultado = df.groupby("region").apply(promedio_ponderado, include_groups=False)
+#         pib_ponderado  poblacion_total
+# Norte         14000.0              3.0
+# Sur           15000.0              3.0</code></pre>
+    <p>Además, el cuerpo de una función <code>def</code> va <b>indentado</b> (4 espacios): sin sangría da <code>IndentationError</code>.</p>
+
+    <div class="errores">
+      <p><b>Errores típicos de un vistazo</b></p>
+      <ul>
+        <li><b>Método sin paréntesis</b>: <code>.mean</code>, <code>.sum</code> → <code>.median()</code>, <code>.sum()</code>.</li>
+        <li><b>Nombre de método mal escrito</b>: <code>describes()</code> → <code>describe()</code> (<code>AttributeError</code>).</li>
+        <li><b>Nombre de columna distinto al real</b>: <code>"ciudades"</code> → <code>"ciudad"</code> (<code>KeyError</code>).</li>
+        <li><b>Parámetro en singular</b>: <code>column=</code>, <code>value=</code>, <code>include_group=</code> → plural (<code>TypeError</code>).</li>
+        <li><b>aggfunc inexistente</b>: <code>"average"</code> → <code>"mean"</code>.</li>
+        <li><b>Percentil como porcentaje</b>: <code>quantile(25)</code> → <code>quantile(0.25)</code> (<code>ValueError</code>).</li>
+        <li><b>Fórmula equivocada</b>: <code>q1 + q3</code> → <code>q3 - q1</code>; <code>altura * 2</code> → <code>altura ** 2</code> (error lógico).</li>
+        <li><b>Tipo de dato equivocado</b>: <code>fill_value="0"</code> → <code>fill_value=0</code>.</li>
+        <li><b>Faltante tratado como cero</b>: <code>sum</code> sobre un grupo vacío → <code>sum(min_count=1)</code> y justificar la decisión.</li>
+        <li><b>Labels ≠ intervalos</b>: 5 labels con 5 bordes → 4 labels; y pasarlos <b>con nombre</b>.</li>
+        <li><b>División por cero</b>: <code>suma / pesos</code> → <code>if pesos == 0: np.nan</code>.</li>
+        <li><b>Y/o con Series</b>: <code>and</code>/<code>or</code> → <code>&amp;</code>/<code>|</code> con cada condición entre paréntesis.</li>
+      </ul>
+    </div>
+    <p>Para practicar: el <a href="entrenador-python.html">entrenador</a> tiene 11 ejercicios de «encontrá el error» en el laboratorio (con corrección automática) y preguntas de opción múltiple de esta guía.</p>
+  </section>
+
+  <section class="clase" id="p2b" data-busca="2 parcial guia git github control de versiones repositorio commit staging add push pull rama branch merge conflicto pull request gitignore env notebook nbdime nbstripout dvc lfs datos sensibles ley 25326 main protegida feature">
+    <p class="eyebrow">Guía del 2.º parcial · 2 de 3</p>
+    <h2>Git y trabajo en equipo con datos</h2>
+    <p class="objetivo">Git registra los cambios de un proyecto de análisis de datos y permite que varias personas trabajen en paralelo sin pisarse. Acá están el vocabulario, los comandos, qué no versionar, cómo trabajar con ramas y cómo resolver los problemas típicos (conflictos en notebooks, datos grandes y sensibles).</p>
+    <p class="objetivo"><b>Fuente:</b> simulacro A del 2.º parcial de la cátedra y su resolución (hecha con Claude); no son las diapositivas.</p>
+
+    <h3>Qué es Git y vocabulario mínimo</h3>
+    <ul class="conceptos">
+      <li><b>Git</b> es un sistema de <b>control de versiones</b>: guarda la historia de los cambios, permite volver a un punto anterior y ver qué cambió, quién y por qué. Pensalo como un «guardar partida».</li>
+      <li><b>GitHub / GitLab no son Git</b>: son sitios donde se aloja una copia del repositorio (el <i>remoto</i>) para compartirlo y revisarlo. Git funciona perfectamente sin ellos.</li>
+      <li><b>Repositorio</b>: la carpeta del proyecto más toda su historia (en la carpeta oculta <code>.git</code>). <b>Commit</b>: una «foto» guardada del proyecto, con un mensaje. <b>Staging</b>: la «sala de espera» de los cambios que entrarán en el próximo commit.</li>
+      <li><b>Rama (branch)</b>: una línea de trabajo paralela, para probar sin tocar <code>main</code>. <b>Merge</b>: unir los cambios de una rama en otra. <b>Conflicto</b>: dos ramas cambiaron las mismas líneas y Git te pide que decidas. <b>Pull request (PR)</b>: pedido para fusionar una rama donde un compañero revisa antes.</li>
+    </ul>
+
+    <h3>El flujo básico: tres lugares</h3>
+    <pre><code>carpeta de trabajo   (editás archivos)
+      │  git add
+      ▼
+staging              (cambios preparados)
+      │  git commit -m "..."
+      ▼
+historial del repo   (cambios guardados)
+      │  git push
+      ▼
+remoto (GitHub)      (cambios compartidos)</code></pre>
+    <div class="chuleta">
+      <div><code>git init</code><span>Convierte la carpeta actual en repositorio (una sola vez; crea <code>.git</code>).</span></div>
+      <div><code>git status</code><span>Muestra qué archivos cambiaron y cuáles están preparados.</span></div>
+      <div><code>git add archivo</code><span>Pasa los cambios de ese archivo al staging.</span></div>
+      <div><code>git commit -m "mensaje"</code><span>Guarda lo que está en staging como un commit. El mensaje, en presente y diciendo <b>qué hace</b> el cambio («Agrega limpieza de valores faltantes»).</span></div>
+      <div><code>git log</code><span>Muestra el historial de commits.</span></div>
+      <div><code>git push</code> / <code>git pull</code><span>Sube tus commits al remoto / trae los del remoto.</span></div>
+      <div><code>git switch -c nombre</code><span>Crea una rama nueva y se pasa a ella.</span></div>
+    </div>
+    <p><b>Interpretar <code>git status</code>:</b> si un archivo aparece como <i>modified</i> pero <b>no</b> bajo «Changes to be committed», el cambio está en la carpeta de trabajo y no en el staging. Falta <code>git add src/limpieza.py</code>; recién ahí el commit lo incluye.</p>
+
+    <h3>Qué no se versiona: .gitignore</h3>
+    <p><code>.gitignore</code> lista lo que Git debe ignorar. En un proyecto de datos normalmente: secretos y configuración local (<code>.env</code>), el entorno virtual (<code>.venv/</code>), caché (<code>__pycache__/</code>), los datos (<code>data/</code>) y salidas generadas. El README, el código (<code>src/</code>) y los tests <b>sí</b> se versionan. Nunca se suben contraseñas: todo lo que entra a Git queda en el historial, y lo ve cualquiera con acceso.</p>
+    <pre><code># .gitignore
+.env
+.venv/
+__pycache__/
+data/
+*.csv</code></pre>
+
+    <h3>Estrategia de ramas para un equipo</h3>
+    <ul class="conceptos">
+      <li><b><code>main</code> protegida</b>: nadie hace push directo; solo entra código por pull request aprobado. Siempre debe funcionar.</li>
+      <li><b>Una rama por tarea</b>, con nombres claros: <code>feature/ingestion</code>, <code>feature/limpieza</code>, <code>feature/modelado</code>.</li>
+      <li><b>Pull requests con revisión</b>: otro integrante revisa el código y, idealmente, corren tests automáticos (CI, por ejemplo GitHub Actions). Se fusiona solo si se aprueba y los tests pasan.</li>
+      <li><b>Ramas cortas y fusiones frecuentes</b>: cuanto más vive una rama separada, más conflictos. Traer seguido los cambios de <code>main</code> (<code>git pull origin main</code> o rebase) para resolverlos de a poco.</li>
+      <li><b>Separar responsabilidades en módulos</b> (<code>ingestion.py</code>, <code>limpieza.py</code>, <code>modelado.py</code>) para que no se editen los mismos archivos. Opcional: una rama <code>develop</code> de integración (Git Flow); para equipos chicos alcanza con <code>main</code> + ramas de tarea.</li>
+    </ul>
+
+    <h3>Conflictos en un notebook</h3>
+    <p>Un notebook (<code>.ipynb</code>) por dentro es un archivo <b>JSON enorme</b> (código, salidas, imágenes, metadatos): las marcas de conflicto (<code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code>, <code>=======</code>, <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code>) pueden romperlo y hacer que no abra. Procedimiento seguro:</p>
+    <ol class="conceptos">
+      <li><b>No resolver a ciegas</b> ni borrar una versión entera. Primero respaldar las dos (por ejemplo <code>git show main:analisis.ipynb &gt; analisis_main.ipynb</code>) o trabajar en una rama aparte.</li>
+      <li><b>Comparar con una herramienta que entienda notebooks</b>: <code>nbdime</code> (<code>nbdiff</code>, <code>nbmerge</code>) o el diff de Jupyter/VS Code, que muestran las diferencias por celda.</li>
+      <li><b>Hablar con la otra persona</b> y decidir qué celdas quedan; si los dos análisis sirven, conservarlos en celdas separadas.</li>
+      <li><b>Reejecutar de cero</b> (<i>Restart &amp; Run All</i>) para verificar que funciona y que los resultados son coherentes.</li>
+      <li>Recién ahí <code>git add</code> y <code>git commit</code> marcando que se resolvió el conflicto.</li>
+    </ol>
+    <p><b>Para prevenirlos:</b> mover la lógica a archivos <code>.py</code>, que cada persona trabaje en notebooks distintos y limpiar las salidas antes de commitear (por ejemplo con <code>nbstripout</code>).</p>
+
+    <h3>Datos grandes y sensibles</h3>
+    <p>Un CSV de 4 GB con datos personales <b>no</b> debería subirse a Git:</p>
+    <ul class="conceptos">
+      <li><b>Tamaño</b>: Git está pensado para texto chico. GitHub rechaza archivos de más de 100 MB y cada versión del CSV queda para siempre en el historial: el repo se vuelve enorme y lento de clonar.</li>
+      <li><b>Privacidad</b>: cualquiera con acceso al repo vería los datos, y aunque los borres después, siguen en el historial. Además puede violar normas de protección de datos (en Argentina, la Ley 25.326).</li>
+      <li>Git no maneja permisos finos, cifrado ni auditoría de quién accede.</li>
+    </ul>
+    <p><b>Estrategia reproducible:</b> <code>data/</code> en <code>.gitignore</code>; el archivo en un almacenamiento seguro con control de acceso (servidor, bucket con permisos, base de datos), idealmente cifrado; <b>versionar la referencia al dato, no el dato</b> (con <b>DVC</b> se sube a Git un archivo chico que apunta a la versión exacta, o al menos un script <code>descargar_datos.py</code> con un checksum); documentar en el README de dónde se obtiene y cómo se coloca en <code>data/raw/</code>; usar una muestra anonimizada o sintética para desarrollo; y las credenciales en <code>.env</code> (ignorado), nunca en el código. <b>Git LFS</b> sirve para archivos grandes pero no resuelve el problema de los datos personales.</p>
+    <p>Para practicar: preguntas de opción múltiple de Git en el <a href="entrenador-python.html">entrenador</a> (mazo «2.º parcial · Git, entornos y estructura de proyectos»).</p>
+  </section>
+
+  <section class="clase" id="p2c" data-busca="2 parcial guia entorno virtual venv requirements pyproject reproducibilidad dry modulo src tests pytest estructura de proyecto carpetas data raw interim processed notebooks env example config">
+    <p class="eyebrow">Guía del 2.º parcial · 3 de 3</p>
+    <h2>Entornos, reproducibilidad y estructura de proyectos</h2>
+    <p class="objetivo">Que otra persona (o vos en seis meses) pueda correr el proyecto y obtener los mismos resultados. Es el hilo conductor de casi todas las preguntas: entorno virtual, dependencias versionadas, notebook corrido de cero y lógica reutilizable en módulos con tests.</p>
+    <p class="objetivo"><b>Fuente:</b> simulacro A del 2.º parcial de la cátedra y su resolución (hecha con Claude); no son las diapositivas. El tema de <b>testing</b> acá es introductorio; se amplía cuando lleguen los materiales de la cátedra.</p>
+
+    <h3>Entornos virtuales y dependencias</h3>
+    <ul class="conceptos">
+      <li>Un <b>entorno virtual</b> (<code>.venv</code>) es una instalación de Python <b>aislada</b> por proyecto, con sus propias librerías y versiones: un proyecto que necesita pandas 2.1 no choca con otro que necesita pandas 3.0.</li>
+      <li>Las <b>dependencias</b> (qué librerías y qué versiones) se anotan en <code>requirements.txt</code> o <code>pyproject.toml</code>. <b>Ese archivo sí se sube a Git; la carpeta <code>.venv</code> no</b> (es pesada y depende de cada computadora: cada uno la recrea).</li>
+      <li>Lo que mejora la reproducibilidad: <b>documentar la versión de Python</b> y <b>versionar el archivo de dependencias</b>. No sirve enviar <code>__pycache__</code> (archivos compilados temporales), subir <code>.venv</code> ni borrar las importaciones.</li>
+    </ul>
+    <pre><code>python -m venv .venv                  # crear el entorno
+source .venv/bin/activate             # activarlo (Windows: .venv\Scripts\activate)
+pip install -r requirements.txt       # instalar las dependencias anotadas</code></pre>
+
+    <h3>Secuencia correcta de trabajo</h3>
+    <ol class="conceptos">
+      <li><b>Activar el entorno virtual</b>: así todo lo que sigue ocurre en el entorno del proyecto.</li>
+      <li><b>Instalar las dependencias</b> (<code>pip install -r requirements.txt</code>): si instalás antes de activar, se instalan en el lugar equivocado.</li>
+      <li><b>Ejecutar el notebook desde el inicio</b> (<i>Restart Kernel &amp; Run All</i>): no dependés de celdas corridas a mano en otro orden ni de variables que quedaron en memoria.</li>
+      <li><b>Verificar los resultados</b>: que coincidan con lo esperado o con los tests.</li>
+    </ol>
+
+    <h3>Separar los notebooks de la lógica reutilizable (principio DRY)</h3>
+    <p>Si el mismo bloque de limpieza está copiado en cuatro notebooks y encontrás un error, hay que arreglarlo cuatro veces (y te vas a olvidar alguna): viola <b>DRY</b> (<i>Don't Repeat Yourself</i>). La solución: una función en un módulo, importarla desde los notebooks y escribir tests.</p>
+    <pre><code># src/proyecto/limpieza.py
+def limpiar_datos(df):
+    """Elimina duplicados y normaliza los nombres de las columnas."""
+    df = df.drop_duplicates()
+    df.columns = df.columns.str.lower().str.strip()
+    return df
+
+# en cada notebook (en vez de copiar el bloque):
+from proyecto.limpieza import limpiar_datos
+
+# tests/test_limpieza.py   (se corren con:  pytest)
+import pandas as pd
+from proyecto.limpieza import limpiar_datos
+
+def test_limpiar_datos_quita_duplicados_y_normaliza_columnas():
+    df = pd.DataFrame({" Edad ": [30, 30, 41], "CIUDAD": ["A", "A", "B"]})
+    limpio = limpiar_datos(df)
+    assert list(limpio.columns) == ["edad", "ciudad"]
+    assert len(limpio) == 2</code></pre>
+    <ul class="conceptos">
+      <li>Para que <code>from proyecto.limpieza import …</code> funcione desde un notebook, el proyecto tiene que estar instalado en el entorno: con un <code>pyproject.toml</code>, <code>pip install -e .</code> (modo editable).</li>
+      <li>Un <b>test</b> llama a tu función con un ejemplo y verifica el resultado con <code>assert</code>. Sirve para saber que sigue funcionando cuando la cambiás. Los notebooks quedan para explorar y mostrar.</li>
+    </ul>
+
+    <h3>Estructura profesional de un proyecto de datos</h3>
+    <pre><code>mi_proyecto/
+├── README.md               # qué es, cómo instalar, cómo obtener los datos y cómo correrlo
+├── pyproject.toml          # (o requirements.txt) dependencias y versiones
+├── .gitignore              # ignora data/, .venv/, .env, __pycache__/, salidas
+├── .env.example            # plantilla de variables SIN valores reales (sí se versiona)
+├── config/
+│   └── config.yaml         # rutas y parámetros (sin secretos)
+├── data/                   # NO versionada
+│   ├── raw/                # datos originales: nunca se modifican
+│   ├── interim/            # datos intermedios
+│   └── processed/          # datos listos para analizar o modelar
+├── notebooks/
+│   ├── 01_exploracion.ipynb
+│   └── 02_modelado.ipynb   # numerados para saber el orden
+├── src/
+│   └── mi_proyecto/        # código reutilizable (paquete)
+│       ├── __init__.py
+│       ├── ingestion.py
+│       ├── limpieza.py
+│       └── modelado.py
+├── tests/
+│   ├── test_limpieza.py
+│   └── test_modelado.py
+├── docs/                   # documentación adicional, diccionario de datos
+└── reports/
+    └── figures/            # gráficos y reportes generados</code></pre>
+    <ul class="conceptos">
+      <li>El <b>código reutilizable vive en <code>src/</code></b> y se importa desde los notebooks; los <b>tests</b> están separados en <code>tests/</code>.</li>
+      <li>La <b>configuración</b> va fuera del código; los <b>datos y secretos no se versionan</b> pero su obtención está documentada (README, <code>.env.example</code>).</li>
+      <li>Los <b>datos crudos nunca se pisan</b>: todo se regenera desde <code>raw/</code>, lo que garantiza la reproducibilidad.</li>
+    </ul>
+    <p>Para practicar: mazo «2.º parcial · Git, entornos y estructura de proyectos» en el <a href="entrenador-python.html">entrenador</a>.</p>
+  </section>
+
   <section class="herramienta" id="chuleta" data-busca="chuleta cheatsheet referencia rapida funciones">
     <p class="eyebrow">Herramienta transversal</p>
     <h2>Chuleta rápida</h2>
@@ -546,6 +865,37 @@ sns.scatterplot(data=df, x="Horas", y="Nota", hue="Curso", size="Proyectos",
         <div><code>sns.boxplot() / sns.stripplot()</code><span>Distribución por grupo + observaciones individuales superpuestas.</span></div>
         <div><code>sns.pairplot(df, hue=)</code><span>Relaciones por pares entre variables numéricas.</span></div>
         <div><code>sns.scatterplot(hue=, size=, style=)</code><span>Varias variables codificadas en un mismo gráfico.</span></div>
+      </div>
+    </div>
+
+    <div class="chuleta-grupo">
+      <h3>pandas para el 2.º parcial (código con errores)</h3>
+      <div class="chuleta">
+        <div><code>serie.describe()</code><span>Resumen: <code>count, mean, std, min, 25%, 50%, 75%, max</code>. Se llama <code>describe</code> (sin «s»). Sobre una columna o sobre todo el DataFrame.</span></div>
+        <div><code>.mean()</code> / <code>.median()</code><span>Siempre con paréntesis. Media = promedio; mediana = valor central, robusta a outliers.</span></div>
+        <div><code>pd.pivot_table(df, index=, columns=, values=, aggfunc=)</code><span>Tabla cruzada. Parámetros en plural; <code>aggfunc="mean"</code> (no <code>"average"</code>). <code>margins=True</code> agrega totales <code>All</code> (<code>margins_name="Total"</code>).</span></div>
+        <div><code>serie.quantile(0.25)</code><span>Percentil como <b>proporción 0–1</b>, no como porcentaje (<code>quantile(25)</code> da <code>ValueError</code>).</span></div>
+        <div><code>iqr = q3 - q1</code><span>Regla del IQR: atípico si está fuera de <code>q1 - 1.5*iqr</code> o <code>q3 + 1.5*iqr</code>. El filtro combina con <code>|</code> y paréntesis, no con <code>and</code>.</span></div>
+        <div><code>fill_value=0</code> / <code>sum(min_count=1)</code><span><code>fill_value</code> numérico. <code>"sum"</code> convierte un grupo sin datos en 0; <code>min_count=1</code> conserva el <code>NaN</code>. Total por fila: <code>tabla.sum(axis=1, min_count=1)</code>.</span></div>
+        <div><code>pd.cut(x, bins=, labels=, right=False)</code><span>Categorías a partir de un número. Labels = bordes − 1. Argumentos con nombre: el 3.º posicional es <code>right</code>. <code>right=False</code> → intervalos <code>[a, b)</code>.</span></div>
+        <div><code>df["x"] / df["y"] ** 2</code><span>Potencia con <code>**</code> (se resuelve antes que <code>*</code> y <code>/</code>); <code>* 2</code> multiplica por 2. <code>.round(1)</code> redondea.</span></div>
+        <div><code>df.groupby("k").apply(f, include_groups=False)</code><span>Aplica <code>f</code> a cada grupo. Si <code>f</code> devuelve una <code>pd.Series</code> con etiquetas, el resultado es un DataFrame. Protegé la división por cero con <code>np.nan</code>.</span></div>
+        <div><code>np.average(x, weights=w)</code><span>Promedio ponderado. Se llama <code>weights</code> (plural) y corta con <code>ZeroDivisionError</code> si los pesos suman 0.</span></div>
+      </div>
+    </div>
+
+    <div class="chuleta-grupo">
+      <h3>Git, entornos y proyectos (2.º parcial)</h3>
+      <div class="chuleta">
+        <div><code>git init · status · add · commit -m · log</code><span>Crear el repo, ver el estado, preparar archivos, guardar un commit con mensaje, ver el historial.</span></div>
+        <div><code>git push</code> / <code>git pull</code><span>Subir tus commits al remoto / traer los del remoto.</span></div>
+        <div><code>git switch -c rama</code><span>Crear una rama y pasarse a ella. <code>main</code> protegida + una rama por tarea + pull request revisado.</span></div>
+        <div><code>.gitignore</code><span>Ignora <code>.env</code>, <code>.venv/</code>, <code>__pycache__/</code> y <code>data/</code>. El código, el README y los tests sí se versionan.</span></div>
+        <div><code>python -m venv .venv</code><span>Crea un entorno virtual por proyecto. Se activa y después <code>pip install -r requirements.txt</code>. Se versiona <code>requirements.txt</code> / <code>pyproject.toml</code>, no <code>.venv</code>.</span></div>
+        <div><code>pip install -e .</code><span>Instala el proyecto en modo editable para importar <code>src/</code> desde los notebooks.</span></div>
+        <div><code>pytest</code><span>Corre los tests de <code>tests/</code>; cada test usa <code>assert</code> sobre una función del paquete.</span></div>
+        <div><code>nbdiff</code> / <code>nbmerge</code> · <code>nbstripout</code><span>Comparar y fusionar notebooks por celda (nbdime) · limpiar las salidas antes de commitear.</span></div>
+        <div><code>DVC</code><span>Versiona la <b>referencia</b> a un dataset grande o sensible; el dato vive en un almacenamiento con permisos.</span></div>
       </div>
     </div>
   </section>
@@ -784,7 +1134,7 @@ sns.scatterplot(data=df, x="Horas", y="Nota", hue="Curso", size="Proyectos",
   pintar();
 
   /* ---------- CONTEO ---------- */
-  estado.textContent = "7 clases · " + document.querySelectorAll(".glosario > div").length + " términos · " + MAZO.length + " tarjetas";
+  estado.textContent = "7 clases + guía del 2.º parcial · " + document.querySelectorAll(".glosario > div").length + " términos · " + MAZO.length + " tarjetas";
   textoInicial = estado.textContent;
 })();
 Sesion.montar("chip-sesion");

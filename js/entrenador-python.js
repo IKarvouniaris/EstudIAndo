@@ -74,7 +74,10 @@ var CLASES = [
   { n:3, titulo:"NumPy y Pandas", desc:"Vectorización, máscaras, where/select y primeros DataFrames." },
   { n:4, titulo:"Selección, unión y limpieza", desc:"loc/iloc, filtros, concat vs merge, nulos, duplicados y formatos." },
   { n:5, titulo:"Matplotlib", desc:"Figure/Axes, líneas, barras, histogramas y dispersión." },
-  { n:6, titulo:"Seaborn", desc:"Heatmap, boxplot, pairplot, multivariados y exportación." }
+  { n:6, titulo:"Seaborn", desc:"Heatmap, boxplot, pairplot, multivariados y exportación." },
+  /* Guía del 2.º parcial (provisional, hasta tener las diapositivas con los números reales de clase) */
+  { n:7, etiqueta:"2.º parcial · guía", titulo:"Git, entornos y estructura de proyectos", desc:"Git y GitHub, ramas, conflictos en notebooks, datos grandes, venv, reproducibilidad y tests." },
+  { n:8, etiqueta:"2.º parcial · guía", titulo:"pandas aplicado: encontrá el error", desc:"describe, pivot_table, cuartiles e IQR, faltantes, pd.cut y groupby.apply." }
 ];
 
 function preguntasDeClase(n){
@@ -137,7 +140,7 @@ function renderInicio(){
 
   document.getElementById("mazos-clases").innerHTML = CLASES.map(function(c){
     var qs = preguntasDeClase(c.n);
-    return tarjeta("clase-" + c.n, "Clase " + c.n, c.titulo, c.desc, qs.length + " preg.", porcentajeMazo(qs));
+    return tarjeta("clase-" + c.n, c.etiqueta || ("Clase " + c.n), c.titulo, c.desc, qs.length + " preg.", porcentajeMazo(qs));
   }).join("");
 
   var falladas = TODAS.filter(function(q){ return p[q.id] && p[q.id].no > 0; }).length;
@@ -161,9 +164,10 @@ function renderInicio(){
   var resueltos = EJERCICIOS.filter(function(e){ return hechos[e.id]; }).length;
   document.getElementById("mazos-lab").innerHTML =
     tarjeta("__lab__", "Python en vivo", "Resolver los ejercicios en el navegador",
-      "Los " + EJERCICIOS.filter(function(e){ return e.modelo !== "Extra"; }).length + " ejercicios de los modelos A, B y C, más " +
+      "Los " + EJERCICIOS.filter(function(e){ return e.modelo !== "Extra" && e.modelo !== "P2"; }).length + " ejercicios de los modelos A, B y C, " +
       EJERCICIOS.filter(function(e){ return e.modelo === "Extra"; }).length + " de práctica extra con comandos que los parciales no tocan " +
-      "(limpieza, merge, pivot_table, subplots, Seaborn, try/except…). Editor y corrección automática; los archivos ya están cargados.",
+      "(limpieza, merge, pivot_table, subplots, Seaborn, try/except…) y " + EJERCICIOS.filter(function(e){ return e.modelo === "P2"; }).length +
+      " de la guía del 2.º parcial: código con errores que hay que encontrar y corregir. Editor y corrección automática; los archivos ya están cargados.",
       resueltos + " de " + EJERCICIOS.length + " resueltos",
       Math.round(resueltos / EJERCICIOS.length * 100), true);
 
@@ -186,7 +190,7 @@ function armarMazo(clave){
   if(clave.indexOf("clase-") === 0){
     n = +clave.split("-")[1];
     m = CLASES.filter(function(c){ return c.n === n; })[0];
-    return { titulo:"Clase " + n + " · " + m.titulo, qs:preguntasDeClase(n) };
+    return { titulo:(m.etiqueta || ("Clase " + n)) + " · " + m.titulo, qs:preguntasDeClase(n) };
   }
   if(clave === "mix-20") return { titulo:"Simulacro rápido", qs:mezclar(TODAS).slice(0, 20) };
   if(clave === "todo")   return { titulo:"Banco completo", qs:TODAS.slice() };
@@ -225,7 +229,7 @@ function pintarPregunta(){
 
   document.getElementById("quiz-ficha").innerHTML =
     '<div class="etqs">' +
-      '<span class="etq acento">' + (q.ej ? q.ej : "Clase " + q.clase) + '</span>' +
+      '<span class="etq acento">' + (q.etq ? q.etq : (q.ej ? q.ej : "Clase " + q.clase)) + '</span>' +
       '<span class="etq">' + q.tema + '</span>' +
       '<span class="etq">' + q.nivel + '</span>' +
     '</div>' +
@@ -550,14 +554,15 @@ function setEditor(v){
   else { var ta = document.getElementById("ed-area"); if(ta) ta.value = v; }
 }
 
-function etiquetaModelo(ej){ return ej.modelo === "Extra" ? "Práctica extra" : "Modelo " + ej.modelo; }
+function etiquetaModelo(ej){ return ej.modelo === "Extra" ? "Práctica extra" : (ej.modelo === "P2" ? "Guía 2.º parcial · encontrá el error" : "Modelo " + ej.modelo); }
+function etiquetaCorta(ej){ return ej.modelo === "P2" ? "2.º parcial" : ej.modelo; }
 
 function pintarFichas(){
   var hechos = leerJSON(K_LAB);
   document.getElementById("lab-fichas").innerHTML = EJERCICIOS.map(function(e){
     return '<button class="ficha-ej' + (e.id === labActual ? " on" : "") +
       (hechos[e.id] ? " hecho" : "") + '" type="button" data-ej="' + e.id + '">' +
-      '<span class="mk">' + (hechos[e.id] ? "✓" : "○") + '</span>' + e.modelo + " · " + e.ej + '</button>';
+      '<span class="mk">' + (hechos[e.id] ? "✓" : "○") + '</span>' + etiquetaCorta(e) + " · " + e.ej + '</button>';
   }).join("");
   var bs = document.querySelectorAll("[data-ej]"), i;
   for(i = 0; i < bs.length; i++){

@@ -60,6 +60,8 @@ motor en `js/flujo-ia.js`. Para sumar una situación se agrega una entrada en `s
 `node tools/medir_flujo_ia.js`: tiene que aprobar la solución modelo. Las cajas trampa son errores típicos del apunte y no se marcan en la bandeja. Cada caja y cada criterio llevan el `ref` de un apartado real de
 `ia-conceptual.html` (el medidor lo comprueba), así que si cambia la numeración del apunte hay que actualizarlos. En nivel bajo (situaciones 1 a 6) el pizarrón dibuja huecos punteados donde faltan cajas de la solución modelo, y a un costado el panel «Mi respuesta» redacta la respuesta del parcial con las `frases` de las cajas puestas (cada caja que no es trampa necesita la suya: el medidor lo comprueba). No usar el texto de las diapositivas tal cual: las misiones y los porqués son síntesis propia.
 
+**Guía del 2.º parcial de Python** (provisional). Sale del simulacro A de la cátedra y de su resolución (hecha con Claude), no de las diapositivas: está en `python.html` (`#p2a` a `#p2c`, grupo del riel «2.º parcial · guía»), en la chuleta y en el entrenador (mazos de las clases 7 y 8 con etiqueta «2.º parcial · guía» y laboratorio `lab-p1`…`lab-p11`). Cuando lleguen los materiales de la cátedra, contrastar y pasar a clases reales (preguntar la numeración). Todo ejercicio nuevo del laboratorio se prueba con Pyodide 0.26.4 (pandas 2.2): la solución pasa todos los tests y el código inicial falla.
+
 ## Regla: "clase + resumen de transcripción"
 
 Cuando el usuario menciona una **clase nueva** junto con material de una
