@@ -8,7 +8,7 @@ const base = path.join(__dirname, "..", "js");
 const ctx = { window: {}, module: undefined };
 ctx.window = ctx; ctx.globalThis = ctx;
 vm.createContext(ctx);
-["simulacros-etica-p2-orden.js", "simulacros-etica-p2-a.js", "simulacros-etica-p2-b.js", "simulacros-etica-p2-c.js"].forEach(f => {
+["simulacros-etica-p2-orden.js", "simulacros-etica-p2-a.js", "simulacros-etica-p2-b.js", "simulacros-etica-p2-c.js", "simulacros-etica-p2-d.js"].forEach(f => {
   vm.runInContext(fs.readFileSync(path.join(base, f), "utf8"), ctx, { filename: f });
 });
 const SIMS = ctx.SIMULACROS_ETICA_P2, orden = ctx.ordenOpcionesEticaP2;
@@ -18,7 +18,7 @@ const err = m => errores.push(m);
 
 let nMc = 0, nDev = 0, ptsDev = 0;
 const letras = [0, 0, 0, 0, 0], letrasProp = [0, 0, 0, 0, 0];
-let empateLarga = 0, largaOk = 0, cortaOk = 0, nProp = 0, absOk = 0, absDis = 0, disTot = 0;
+let catLarga = 0, catN = 0, empateLarga = 0, largaOk = 0, cortaOk = 0, nProp = 0, absOk = 0, absDis = 0, disTot = 0;
 
 SIMS.forEach(sim => {
   const ids = new Set();
@@ -39,6 +39,7 @@ SIMS.forEach(sim => {
       letras[pos]++;
       if(!sim.fijo) letrasProp[pos]++;
       const lens = p.o.map(t => t.length), okLen = lens[ok];
+      if(sim.fijo){ catN++; if(okLen === Math.max(...lens)) catLarga++; }
       if(!sim.fijo){
         nProp++;
         const otras = lens.filter((_, k) => k !== ok); if(okLen >= 1.12 * Math.max(...otras)) largaOk++; if(okLen === Math.max(...lens)) empateLarga++;
@@ -65,11 +66,14 @@ const L = "ABCDE";
 console.log(`Simulacros: ${SIMS.length} · casos: ${SIMS.reduce((n, s) => n + s.casos.length, 0)} · opción múltiple: ${nMc} · a desarrollar: ${nDev} (${ptsDev} pts)`);
 console.log("Letra de la correcta (todos):   " + letras.map((n, i) => `${L[i]}=${n}`).join("  "));
 console.log("Letra de la correcta (propios): " + letrasProp.map((n, i) => `${L[i]}=${n}`).join("  ") + `  (de ${nProp})`);
+console.log(`Cátedra (no se modifica, solo informativo): la correcta es la más larga en ${catLarga} de ${catN}.`);
 console.log(`Propios: la correcta supera por más de 12 % a la segunda más larga en ${largaOk} de ${nProp} (${Math.round(largaOk / nProp * 100)} %); es la más larga (aun por poco) en ${empateLarga} y la más corta en ${cortaOk}.`);
+console.log(`Propios: la correcta es la más larga en ${Math.round(empateLarga / nProp * 100)} % y la más corta en ${Math.round(cortaOk / nProp * 100)} % (por azar, 20 % cada una).`);
 console.log(`Propios: palabras absolutas en ${absOk} correctas y en ${absDis} de ${disTot} distractores.`);
 
 if(nProp && largaOk / nProp > 0.15) err(`La correcta sobresale por largo en ${Math.round(largaOk / nProp * 100)} % de las preguntas propias (máximo 15 %)`);
-if(nProp && empateLarga / nProp > 0.55) err(`La correcta es la más larga en ${Math.round(empateLarga / nProp * 100)} % de las preguntas propias (máximo 55 %)`);
+if(nProp && empateLarga / nProp > 0.30) err(`La correcta es la más larga en ${Math.round(empateLarga / nProp * 100)} % de las preguntas propias (máximo 30 %; por azar, con 5 opciones, sería 20 %)`);
+if(nProp && cortaOk / nProp > 0.30) err(`La correcta es la más corta en ${Math.round(cortaOk / nProp * 100)} % de las preguntas propias (máximo 30 %)`);
 const maxL = Math.max(...letrasProp), minL = Math.min(...letrasProp);
 if(nProp && (maxL > nProp * 0.32 || minL < nProp * 0.1)) err(`Letras desparejas en las preguntas propias: ${letrasProp.join("/")}`);
 if(nProp && absDis / disTot > 0.12) err(`Demasiadas palabras absolutas en los distractores (${Math.round(absDis / disTot * 100)} %)`);

@@ -493,6 +493,16 @@ Material: `2do parcial - simulacro A.docx` (el simulacro de la **cátedra**, con
 - **Arreglo de paso:** `.lienzo` de `python.html` tenía `margin:0 auto` en una grilla, así que un bloque de código ancho ensanchaba toda la página (ya pasaba en la clase 3); ahora tiene `width:100%` y `min-width:0`.
 - **Pendiente:** contrastar con los PDFs de la cátedra, ubicar el contenido en clases reales, ampliar testing (hoy es introductorio) y decidir si va simulacro puntuado del 2.º parcial (formato distinto: diagnóstico escrito + preguntas).
 
+### Ética: simulacros 1 a 6 sin la correcta más larga y simulacro «0 v2» difícil (2026-11-12)
+
+Aviso de quien estudia: en los simulacros nuevos del 2.º parcial (`simulacro-etica-2-desarrollo.html`) la respuesta correcta solía ser la opción más larga. Medido: en el **simulacro 0 (los casos de la cátedra) lo es en 20 de 20** (promedio 1,7 veces el largo de las otras), y en los **simulacros propios 1 a 6, en 23 de 48 (48 %)**; por azar, con cinco opciones, sería 20 %. El banco por roles (`simulacro-etica-2.html`) estaba bien (22 %).
+
+- **Simulacro 0:** no se toca. Son los casos reales de la cátedra con su clave y ese patrón es información (la página ya lo avisa en «Cómo suelen armarse las opciones», ahora también con el dato de que la correcta es la más larga).
+- **Simulacros 1 a 6:** se reescribieron 14 opciones correctas (acortándolas, sin cambiar el sentido ni el «por qué»). Quedan con la correcta como la más larga en 10 de 48 (21 %) y como la más corta en 9 (19 %).
+- **Simulacro 0 v2 · difícil** (`js/simulacros-etica-p2-d.js`, id 7): dos casos nuevos con el formato de la cátedra (10 de opción múltiple de cinco opciones y 2 a desarrollar cada uno): **AulaPlus** (detector de IA que sanciona a un estudiante; clases 7, 8 y 9: supervisión formal, falsos positivos por grupo, pérdida de chance, logs, entrenamiento con obras protegidas, autoría) y **VIGÍA** (patrullaje predictivo, cinco meses de antenas por oficio, secreto comercial, red teaming ignorado, agente que lee de más y «paso hacia la AGI»; clases 9 y 10). Las cinco opciones tienen largo parecido y cada distractor es verdadero en abstracto y falso aplicado al caso; la correcta es la más larga en 6 de 20 y la más corta en 4. Es un simulacro propio, no reemplaza al de la cátedra.
+- **Medidor** (`tools/medir_simulacros_etica_p2.js`): ahora incluye el simulacro 7 y **falla si, en los simulacros propios, la correcta es la más larga o la más corta en más del 30 %** (antes solo fallaba por encima del 55 % y no detectaba esto). Estado: 24 % la más larga, 22 % la más corta, 0 palabras absolutas en las correctas.
+- Pendiente: el apunte no dice que el simulacro de la cátedra tenga el patrón del largo; se dejó solo en la página de simulacros.
+
 ---
 
 ## 7. Plan original por fases (referencia)

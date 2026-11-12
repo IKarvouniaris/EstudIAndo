@@ -29,7 +29,7 @@ Toda página nueva lleva los tres `<link rel="icon">` (copiarlos de `index.html`
 `python tools/seed.py` (genera `seed_etica.sql` y `seed_etica_parcial2.sql`). En cada pregunta la opción correcta no puede ser sistemáticamente la más larga ni caer
 siempre en la misma letra, y los distractores no deben delatarse con «siempre / nunca / ninguno»: medilo antes de dar un banco por terminado.
 El simulacro del 2.º parcial con el formato del examen (`simulacro-etica-2.html`: casos por roles víctima/fiscalía/defensa/juzgado con justificación)
-tiene sus casos en `js/casos-etica-roles.js` y sigue las mismas reglas de opciones. El apunte de Ética numera las clases seguidas (1–10).
+tiene sus casos en `js/casos-etica-roles.js` y sigue las mismas reglas de opciones. Los simulacros de casos breves (`simulacro-etica-2-desarrollo.html`, datos en `js/simulacros-etica-p2-*.js`) se miden con `node tools/medir_simulacros_etica_p2.js`: en los propios la correcta no puede ser la más larga ni la más corta en más del 30 % (el simulacro 0 es de la cátedra y no se modifica; ahí la correcta es siempre la más larga). El «0 v2 · difícil» (`-d.js`) es la referencia de opciones del mismo largo y todas verosímiles. El apunte de Ética numera las clases seguidas (1–10).
 
 **Simulacro escrito del 2.º parcial de Intro a la IA** (`simulacro-ia-2.html`). Las 18 situaciones y sus criterios viven en `tools/situaciones_ia_p2.json`;
 `python tools/seed_ia_parcial2.py` genera `supabase/seed_ia_parcial2.sql` (que incluye **el texto de las clases 7 a 12 de `ia-conceptual.html` como contexto
