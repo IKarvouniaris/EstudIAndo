@@ -113,6 +113,28 @@ a{color:var(--acento)}
 .general h5.ok{color:var(--ok)} .general h5.mal{color:var(--mal)}
 .general p{margin:0 0 .5rem}
 
+/* ---- RESPUESTAS ---- */
+.lista-resp{display:grid; gap:.5rem}
+.sit-resp{background:var(--papel-2); border:1px solid var(--linea); border-left:4px solid var(--nivel); border-radius:2px}
+.sit-resp>summary{cursor:pointer; list-style:none; display:flex; flex-wrap:wrap; align-items:baseline; gap:.2rem .8rem; padding:.7rem .9rem}
+.sit-resp>summary::-webkit-details-marker{display:none}
+.sit-resp>summary::before{content:"+"; font-family:var(--mono); font-weight:700; color:var(--nivel); width:1rem}
+.sit-resp[open]>summary::before{content:"\2212"}
+.sit-resp>summary .meta{font-family:var(--mono); font-size:.62rem; letter-spacing:.1em; text-transform:uppercase; color:var(--nivel)}
+.sit-resp>summary b{font-family:var(--display); font-size:1rem; line-height:1.25}
+.sit-resp .cuerpo-resp{padding:0 .9rem .9rem; border-top:1px solid var(--linea-2)}
+.sit-resp .rol-resp{font-size:.9rem; color:var(--tinta-2); margin:.7rem 0 .2rem}
+.resp-parte{background:var(--papel); border:1px solid var(--linea-2); border-radius:2px; padding:.7rem .85rem; margin:.6rem 0 0}
+.resp-parte h4{display:grid; grid-template-columns:1.6rem 1fr; gap:.4rem; margin:0 0 .5rem; font-family:var(--display); font-size:.95rem; line-height:1.35; font-weight:600}
+.resp-parte h4 em{font-family:var(--mono); font-style:normal; font-weight:700; color:var(--nivel)}
+.resp-parte h4 small{display:block; font-family:var(--mono); font-weight:400; font-size:.6rem; letter-spacing:.12em; text-transform:uppercase; color:var(--tinta-3)}
+.resp-parte .modelo{margin:0 0 .5rem; font-size:.93rem; padding:.5rem .7rem; border-left:3px solid var(--ok); background:var(--ok-suave)}
+.resp-parte .modelo b, .resp-parte .pide b{display:block; font-family:var(--mono); font-size:.6rem; letter-spacing:.14em; text-transform:uppercase; color:var(--tinta-3); margin-bottom:.15rem}
+.resp-parte .pide{font-size:.86rem; color:var(--tinta-2)}
+.resp-parte .pide ul{margin:.15rem 0 0; padding-left:1.1rem}
+.resp-acciones{display:flex; gap:.4rem; flex-wrap:wrap; margin:0 0 .8rem}
+.nota-resp{font-size:.88rem; color:var(--tinta-2); margin:0 0 1rem}
+
 /* ---- EXAMEN ---- */
 .pestanas{display:flex; gap:.4rem; flex-wrap:wrap; margin:0 0 1rem}
 .resumen-examen{display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:.5rem; margin:0 0 1rem}
@@ -154,6 +176,7 @@ a{color:var(--acento)}
   <div class="modos">
     <button class="btn on" id="m-practica" type="button">Práctica</button>
     <button class="btn" id="m-examen" type="button">Examen</button>
+    <button class="btn" id="m-respuestas" type="button">Respuestas</button>
   </div>
 
   <div class="aviso oculto" id="aviso-sesion">Para corregir con IA tenés que <strong>iniciar sesión</strong> (botón de arriba). Podés escribir igual: las respuestas se guardan en este navegador.</div>
@@ -174,6 +197,23 @@ a{color:var(--acento)}
       <div class="filtros"><button class="btn" id="btn-volver" type="button">← Todas las situaciones</button></div>
       <div id="p-cuerpo"></div>
     </div>
+  </section>
+
+  <!-- RESPUESTAS -->
+  <section id="v-respuestas" class="oculto">
+    <p class="nota-resp">Las respuestas modelo de las 18 situaciones, para estudiar. Cada una cubre todos los criterios de su parte. Las redactó Claude a partir del apunte y de los criterios de corrección: son orientativas, no la guía textual de la cátedra. Intentá responder primero y mirá después.</p>
+    <div class="filtros">
+      <span class="etq">Nivel</span>
+      <button class="chip on" data-n="todas" type="button">Todas</button>
+      <button class="chip" data-n="Baja" type="button">Baja</button>
+      <button class="chip" data-n="Media" type="button">Media</button>
+      <button class="chip" data-n="Alta" type="button">Alta</button>
+    </div>
+    <div class="resp-acciones">
+      <button class="btn" id="r-abrir" type="button">Desplegar todas</button>
+      <button class="btn" id="r-cerrar" type="button">Plegar todas</button>
+    </div>
+    <div class="lista-resp" id="lista-resp"></div>
   </section>
 
   <!-- EXAMEN -->
@@ -211,6 +251,7 @@ a{color:var(--acento)}
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="js/auth.js"></script>
 <script src="js/situaciones-ia-p2.js"></script>
+<script src="js/respuestas-ia-p2.js"></script>
 <script>
 (function(){
   "use strict";
@@ -342,13 +383,50 @@ a{color:var(--acento)}
   // ===== MODOS =====
   var mPractica = document.getElementById("m-practica"), mExamen = document.getElementById("m-examen");
   var vPractica = document.getElementById("v-practica"), vExamen = document.getElementById("v-examen");
+  var mRespuestas = document.getElementById("m-respuestas"), vRespuestas = document.getElementById("v-respuestas");
   function modo(m){
-    mPractica.classList.toggle("on", m === "practica"); mExamen.classList.toggle("on", m === "examen");
-    vPractica.classList.toggle("oculto", m !== "practica"); vExamen.classList.toggle("oculto", m !== "examen");
+    mPractica.classList.toggle("on", m === "practica"); mExamen.classList.toggle("on", m === "examen"); mRespuestas.classList.toggle("on", m === "respuestas");
+    vPractica.classList.toggle("oculto", m !== "practica"); vExamen.classList.toggle("oculto", m !== "examen"); vRespuestas.classList.toggle("oculto", m !== "respuestas");
     if(m === "examen") mostrarExamen();
+    if(m === "respuestas") pintarRespuestas();
   }
-  mPractica.addEventListener("click", function(){ if(location.hash.indexOf("examen") >= 0) history.replaceState(null, "", location.pathname); modo("practica"); });
+  mPractica.addEventListener("click", function(){ if(location.hash.indexOf("examen") >= 0 || location.hash === "#respuestas") history.replaceState(null, "", location.pathname); modo("practica"); });
   mExamen.addEventListener("click", function(){ history.replaceState(null, "", location.pathname + "#examen"); modo("examen"); });
+  mRespuestas.addEventListener("click", function(){
+    history.replaceState(null, "", location.pathname + "#respuestas"); modo("respuestas");
+  });
+
+  // ===== RESPUESTAS =====
+  var RESPUESTAS = window.RESPUESTAS_IA_P2 || {}, filtroResp = "todas", listaResp = document.getElementById("lista-resp");
+  function pintarRespuestas(){
+    listaResp.innerHTML = "";
+    SITUACIONES.filter(function(s){ return filtroResp === "todas" || s.nivel === filtroResp; }).forEach(function(s){
+      var d = el("details", "sit-resp"); d.setAttribute("data-nivel", s.nivel);
+      var sm = el("summary"); sm.appendChild(el("span", "meta", "#" + s.id + " · " + s.nivel)); sm.appendChild(el("b", null, s.titulo)); d.appendChild(sm);
+      var cuerpo = el("div", "cuerpo-resp");
+      cuerpo.appendChild(el("p", "rol-resp", s.rol));
+      s.partes.forEach(function(p){
+        var r = (RESPUESTAS[s.id] || {})[p.letra]; if(!r) return;
+        var b = el("div", "resp-parte");
+        var h = el("h4"); h.appendChild(el("em", null, p.letra + ")"));
+        var t = el("span"); t.appendChild(el("small", null, p.tipo)); t.appendChild(document.createTextNode(p.consigna)); h.appendChild(t); b.appendChild(h);
+        var m = el("p", "modelo"); m.appendChild(el("b", null, "Respuesta modelo")); m.appendChild(document.createTextNode(r.modelo)); b.appendChild(m);
+        var pide = el("div", "pide"); pide.appendChild(el("b", null, "Qué pide la grilla"));
+        var ul = el("ul"); r.criterios.forEach(function(c){ ul.appendChild(el("li", null, c)); }); pide.appendChild(ul); b.appendChild(pide);
+        cuerpo.appendChild(b);
+      });
+      d.appendChild(cuerpo); listaResp.appendChild(d);
+    });
+  }
+  Array.prototype.forEach.call(document.querySelectorAll("#v-respuestas .chip"), function(c){
+    c.addEventListener("click", function(){
+      filtroResp = c.getAttribute("data-n");
+      Array.prototype.forEach.call(document.querySelectorAll("#v-respuestas .chip"), function(x){ x.classList.toggle("on", x === c); });
+      pintarRespuestas();
+    });
+  });
+  document.getElementById("r-abrir").addEventListener("click", function(){ Array.prototype.forEach.call(listaResp.querySelectorAll("details"), function(d){ d.open = true; }); });
+  document.getElementById("r-cerrar").addEventListener("click", function(){ Array.prototype.forEach.call(listaResp.querySelectorAll("details"), function(d){ d.open = false; }); });
 
   // ===== PRÁCTICA =====
   var filtroNivel = "todas";
@@ -551,6 +629,7 @@ a{color:var(--acento)}
   var h = location.hash;
   var m = /^#s=(\d+)$/.exec(h);
   if(h === "#examen" || (examen() && !examen().entregado)) modo("examen");
+  else if(h === "#respuestas") modo("respuestas");
   else if(m && porId(parseInt(m[1], 10))) abrir(parseInt(m[1], 10));
 })();
 </script>

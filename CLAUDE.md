@@ -35,6 +35,7 @@ tiene sus casos en `js/casos-etica-roles.js` y sigue las mismas reglas de opcion
 `python tools/seed_ia_parcial2.py` genera `supabase/seed_ia_parcial2.sql` (que incluye **el texto de las clases 7 a 12 de `ia-conceptual.html` como contexto
 para la corrección**) y `js/situaciones-ia-p2.js`. Si cambiás el texto de esas clases o las situaciones, volvé a correr el script y commiteá el resultado.
 **Simulacros del 2.º parcial con el formato que anticipó el profe** (`simulacro-etica-2-desarrollo.html`): 2 casos breves por simulacro, con opción múltiple de cinco opciones (A–E) y preguntas a desarrollar, y la respuesta modelo al lado de cada pregunta (el alumno se autoevalúa con una checklist y se calcula la nota con la escala de la UADE). Los datos viven en `js/simulacros-etica-p2-a|b|c.js` (la cabecera de la A explica el formato); el simulacro 0 resume los casos de la cátedra (SONORA y MAREA) con palabras propias y conserva su clave: no pegar el texto original (repo público). En los simulacros propios la correcta va primera en los datos y `js/simulacros-etica-p2-orden.js` mezcla las opciones con un orden fijo. Después de tocar opciones, corré `node tools/medir_simulacros_etica_p2.js` (letras, largo de la correcta, palabras delatoras) y releé que las consignas sigan claras.
+La pestaña **Respuestas** del simulacro muestra, desplegables, las respuestas modelo de las 18 situaciones: viven en `tools/respuestas_ia_p2.json` (una por parte, redactadas por Claude a partir del apunte y de los criterios; no son la guía textual de la cátedra) y el mismo script las publica con los criterios en `js/respuestas-ia-p2.js`. Si agregás una situación, el script falla hasta que le cargues sus cuatro respuestas. Se puede abrir en cualquier momento, también con un examen en curso.
 El apunte de Intro a la IA numera las clases seguidas (1–13), sin el salto de la cátedra (1–6, 9–15).
 
 **Parcial Zombie** (`parcial-zombie.html`): juego de repaso (pasillo, zombie, una puerta por opción). Es una plantilla: `js/parcial-zombie.js` no sabe de
@@ -52,6 +53,12 @@ tablas privadas de Supabase (por ejemplo `tools/casos_etica.json`, el examen pun
 de la consigna, con el pasillo abajo. El cartel «UADE» del pasillo son letras dibujadas en código, no el logo oficial: no subir el archivo del logo de la universidad (marca de terceros, repo público).
 El brief está en `docs/parcial-zombie-brief.md`. Si cambia el texto de las clases 7 a 12, revisá que los «porqué» sigan
 diciendo lo mismo que el apunte.
+
+**Armá el flujo** (`flujo-ia.html`): pizarrón en el que se enlazan cajas con cables para diseñar cómo se automatiza un proceso (situaciones del simulacro escrito del 2.º parcial de Intro a la IA).
+Los datos viven en `js/flujo-ia-datos.js` (100 cajas, sus `frases` para el panel «Mi respuesta», el ejemplo guiado y las 18 situaciones, cada una con su solución modelo y sus criterios), la revisión en `js/flujo-ia-eval.js` (la usan el juego y el medidor) y el
+motor en `js/flujo-ia.js`. Para sumar una situación se agrega una entrada en `situaciones` con `mision`, `modelo` y `crit` (el formato está en la cabecera del archivo de datos) y se corre
+`node tools/medir_flujo_ia.js`: tiene que aprobar la solución modelo. Las cajas trampa son errores típicos del apunte y no se marcan en la bandeja. Cada caja y cada criterio llevan el `ref` de un apartado real de
+`ia-conceptual.html` (el medidor lo comprueba), así que si cambia la numeración del apunte hay que actualizarlos. En nivel bajo (situaciones 1 a 6) el pizarrón dibuja huecos punteados donde faltan cajas de la solución modelo, y a un costado el panel «Mi respuesta» redacta la respuesta del parcial con las `frases` de las cajas puestas (cada caja que no es trampa necesita la suya: el medidor lo comprueba). No usar el texto de las diapositivas tal cual: las misiones y los porqués son síntesis propia.
 
 ## Regla: "clase + resumen de transcripción"
 

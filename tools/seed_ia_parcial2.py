@@ -3,6 +3,7 @@
 Lee tools/situaciones_ia_p2.json y las clases de ia-conceptual.html, y escribe:
   - supabase/seed_ia_parcial2.sql  -> situaciones con su grilla + texto de las clases (contexto para la IA)
   - js/situaciones-ia-p2.js        -> consignas para la página (sin criterios: esos sólo los ve la función)
+  - js/respuestas-ia-p2.js         -> respuestas modelo (tools/respuestas_ia_p2.json) + criterios, para la pestaña «Respuestas»
 
 Uso:  python tools/seed_ia_parcial2.py
 Volver a correrlo (y el SQL en Supabase) cada vez que cambian las situaciones o el texto de las clases.
@@ -17,6 +18,8 @@ JSON_SITUACIONES = RAIZ / "tools" / "situaciones_ia_p2.json"
 APUNTE = RAIZ / "ia-conceptual.html"
 SALIDA_SQL = RAIZ / "supabase" / "seed_ia_parcial2.sql"
 SALIDA_JS = RAIZ / "js" / "situaciones-ia-p2.js"
+JSON_RESPUESTAS = RAIZ / "tools" / "respuestas_ia_p2.json"
+SALIDA_RESPUESTAS = RAIZ / "js" / "respuestas-ia-p2.js"
 
 BLOQUES = {"p", "div", "li", "tr", "dt", "dd", "h2", "h3", "h4", "figcaption", "caption", "article", "table", "ol", "ul", "section"}
 
@@ -131,8 +134,21 @@ def main():
     )
     SALIDA_JS.write_text(js, encoding="utf-8", newline="\n")
 
+    respuestas = json.loads(JSON_RESPUESTAS.read_text(encoding="utf-8"))
+    publicadas = {}
+    for s in datos:
+        r = respuestas.get(str(s["id"]), {})
+        for p in s["partes"]:
+            assert r.get(p["letra"], "").strip(), f"Falta la respuesta modelo de la situación {s['id']}, parte {p['letra']}"
+        publicadas[str(s["id"])] = {p["letra"]: {"modelo": r[p["letra"]].strip(), "criterios": p["criterios"]} for p in s["partes"]}
+    SALIDA_RESPUESTAS.write_text(
+        "/* Generado por tools/seed_ia_parcial2.py — no editar a mano. Respuestas modelo (redactadas a partir del apunte, no la guía\n"
+        "   textual de la cátedra) y criterios de cada parte, para la pestaña «Respuestas» del simulacro. */\n"
+        "window.RESPUESTAS_IA_P2 = " + json.dumps(publicadas, ensure_ascii=False, indent=1) + ";\n",
+        encoding="utf-8", newline="\n")
+
     total = sum(len(clases[c][1]) for c in usadas)
-    print(f"OK: {len(datos)} situaciones -> {SALIDA_SQL.name} y {SALIDA_JS.name}")
+    print(f"OK: {len(datos)} situaciones -> {SALIDA_SQL.name}, {SALIDA_JS.name} y {SALIDA_RESPUESTAS.name}")
     for c in usadas:
         print(f"  clase {c}: {len(clases[c][1]):>6} caracteres de contexto · {clases[c][0]}")
     print(f"  total de contexto: {total} caracteres")
