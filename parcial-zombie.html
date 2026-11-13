@@ -211,6 +211,15 @@ body.en-sala #btn-pausa, body.en-sala #btn-otra, body.en-sala #btn-cambiar{displ
 .cuenta{font-family:var(--display); font-weight:700; font-size:clamp(5rem,32vw,10rem); line-height:1; color:var(--luz); text-align:center; margin:1rem 0}
 .fin-sala{margin:.6rem 0 1rem}
 .fin-sala h2{margin-top:.4rem}
+.podio{display:flex; align-items:flex-end; justify-content:center; gap:.4rem; margin:.6rem 0 .9rem}
+.podio .escalon{flex:1 1 0; max-width:9.5rem; min-width:0; display:flex; flex-direction:column; align-items:center; text-align:center; gap:.1rem}
+.podio .quien{font-family:var(--display); font-weight:700; font-size:1rem; color:var(--tinta); overflow-wrap:anywhere; line-height:1.15}
+.podio small{font-family:var(--mono); font-size:.66rem; color:var(--tinta-2); margin-bottom:.3rem}
+.podio b{width:100%; display:grid; place-items:center; font-family:var(--display); font-size:1.5rem; color:#1B1A12; background:var(--placa); border-radius:3px 3px 0 0}
+.podio .p1 b{height:5.4rem; background:var(--luz)}
+.podio .p2 b{height:3.9rem}
+.podio .p3 b{height:2.7rem; background:#B9A98A}
+.podio .yo .quien{color:var(--luz)}
 .posiciones{list-style:none; margin:.3rem 0 .8rem; padding:0; display:grid; gap:.3rem}
 .posiciones li{display:flex; justify-content:space-between; gap:.6rem; flex-wrap:wrap; padding:.5rem .7rem; background:var(--papel-2); border:1px solid var(--linea); border-left:3px solid var(--linea); border-radius:3px}
 .posiciones li.yo{border-left-color:var(--luz)}
