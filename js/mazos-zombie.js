@@ -54,42 +54,43 @@
     });
   }
 
-  /* Ética en la IA, 2.º parcial: los casos por roles de simulacro-etica-2.html (js/casos-etica-roles.js), tal cual,
-     agrupados por clase (un nivel por clase, de la 7 a la 10).
-     Se reutiliza ese banco y no el del examen puntuado (tools/casos_etica.json) porque las respuestas de aquel
+  /* Ética en la IA, 2.º parcial: las preguntas de opción múltiple de los simulacros de casos breves
+     (js/simulacros-etica-p2-*.js, simulacro-etica-2-desarrollo.html), un nivel por simulacro y cada caso con su texto.
+     Las de desarrollo quedan afuera (no se pueden jugar con puertas). Los simulacros tienen cinco opciones y el juego
+     dibuja hasta cuatro puertas: QUITAR dice qué distractor sale de cada pregunta («caso:número»), elegido a mano entre
+     los menos parecidos a la correcta. Si se cambian las opciones de un simulacro, hay que revisar esta tabla.
+     Se reutilizan estos simulacros y no el banco del examen puntuado (tools/casos_etica.json): las respuestas de aquel
      viven en una tabla privada de Supabase y no deben viajar al navegador (ver «Reglas de seguridad» en ROADMAP.md). */
-  var etica = window.CASOS_ETICA_ROLES || [];
-  if (etica.length) {
-    var TITULOS = {
-      7: "Responsabilidad civil y penal",
-      8: "Propiedad intelectual y autoría",
-      9: "IA y derecho penal",
-      10: "Discriminación y ética de la investigación"
-    };
-    var porClase = {};
-    etica.forEach(function (c) { (porClase[c.clase] = porClase[c.clase] || []).push(c); });
+  var sims = window.SIMULACROS_ETICA_P2 || [];
+  if (sims.length) {
+    var QUITAR = {"0A:0":3,"0A:1":4,"0A:2":1,"0A:3":3,"0A:4":3,"0A:5":1,"0A:6":4,"0A:7":1,"0A:8":4,"0A:9":3,"0B:0":3,"0B:1":0,"0B:2":0,"0B:3":4,"0B:4":2,"0B:5":2,"0B:6":1,"0B:7":3,"0B:8":3,"0B:9":1,"1A:0":2,"1A:1":2,"1A:2":4,"1A:3":3,"1B:0":4,"1B:1":2,"1B:2":2,"1B:3":1,"2A:0":4,"2A:1":2,"2A:2":4,"2A:3":3,"2B:0":3,"2B:1":4,"2B:2":4,"2B:3":4,"3A:0":1,"3A:1":2,"3A:2":3,"3A:3":2,"3B:0":3,"3B:1":2,"3B:2":1,"3B:3":2,"4A:0":4,"4A:1":2,"4A:2":4,"4A:3":1,"4B:0":4,"4B:1":2,"4B:2":1,"4B:3":3,"5A:0":3,"5A:1":2,"5A:2":4,"5A:3":4,"5B:0":3,"5B:1":4,"5B:2":3,"5B:3":2,"6A:0":4,"6A:1":3,"6A:2":3,"6A:3":4,"6B:0":3,"6B:1":1,"6B:2":3,"6B:3":1};
+    var PRINCIPAL = { "0A": 8, "0B": 8, "1A": 7, "1B": 8, "2A": 4, "2B": 9, "3A": 9, "3B": 10, "4A": 10, "4B": 7, "5A": 8, "5B": 4, "6A": 9, "6B": 9 };
     MAZOS.push({
       id: "etica",
       materia: "Ética en la IA",
-      detalle: "2.º parcial · casos por roles",
+      detalle: "2.º parcial · casos breves",
       apunte: "etica.html",
       volver: "etica.html",
-      niveles: Object.keys(porClase).map(Number).sort(function (a, b) { return a - b; }).map(function (cl) {
+      niveles: sims.map(function (sim) {
         return {
-          titulo: TITULOS[cl] || "Clase " + cl,
-          clase: cl,
-          grupos: porClase[cl].map(function (c) {
+          titulo: sim.id === 0 ? "SONORA y MAREA" : sim.sub,
+          clase: null,
+          grupos: sim.casos.map(function (c) {
             return {
               caso: { titulo: c.titulo, ambito: c.ambito, hechos: c.hechos.slice() },
-              preguntas: c.preguntas.map(function (p) {
-                var letras = Object.keys(p.opciones).sort();
+              preguntas: c.mc.map(function (p, i) {
+                var correcta = sim.fijo ? p.ok : 0, sale = QUITAR[c.id + ":" + i], ops = [], ok = 0;
+                p.o.forEach(function (t, k) {
+                  if (k === sale) return;
+                  if (k === correcta) ok = ops.length;
+                  ops.push(t);
+                });
                 return {
-                  q: p.texto,
-                  ops: letras.map(function (l) { return p.opciones[l]; }),
-                  ok: letras.indexOf(p.ok),
-                  porque: p.porque,
-                  clase: c.clase,
-                  rol: p.rol
+                  q: p.t.replace(/^\d+\.\s*/, ""),
+                  ops: ops,
+                  ok: ok,
+                  porque: p.p,
+                  clase: PRINCIPAL[c.id]
                 };
               })
             };
