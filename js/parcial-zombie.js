@@ -47,9 +47,21 @@
   function clamp(x, a, b) { return Math.max(a, Math.min(b, x)); }
   function suave(t) { t = clamp(t, 0, 1); return t * t * (3 - 2 * t); }
   function frena(t) { t = clamp(t, 0, 1); return 1 - (1 - t) * (1 - t); }
+  // Todo el azar de la partida sale de «azar»: en una sala se le pone una semilla común y así los jugadores reciben
+  // las mismas preguntas, en el mismo orden y con las mismas puertas.
+  var azar = Math.random;
+  function conSemilla(sem) {
+    var a = sem >>> 0;
+    return function () {
+      a = (a + 0x6D2B79F5) | 0;
+      var t = Math.imul(a ^ (a >>> 15), 1 | a);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
   function mezclar(a) {
     for (var i = a.length - 1; i > 0; i--) {
-      var j = Math.floor(Math.random() * (i + 1)), x = a[i]; a[i] = a[j]; a[j] = x;
+      var j = Math.floor(azar() * (i + 1)), x = a[i]; a[i] = a[j]; a[j] = x;
     }
     return a;
   }
@@ -130,6 +142,9 @@
     fase: "portada",   // portada | entrada | caso | pregunta | corre | rebote | mordida | revela | cruza | escalera | cae | fin
     pausa: false,
     mazo: MAZOS[0] || null,
+    sala: null,        // en una partida de sala: { semilla }. Sin sala, la partida es la de siempre
+    tiempoX: 1,        // multiplicador del tiempo de cada pregunta (la sala lo elige)
+    corte: null,
     tandas: [], i: 0,  // tandas[i] = { p: pregunta, caso: caso o null, abre: true si es la primera de su caso, nCaso,
                        //               nivel, enNivel, totalNivel, abreNivel, ultimaNivel }
     desde: 0, nNiveles: 1,   // nivel por el que se empieza (0 = el primero) y cuántos niveles tiene el mazo
@@ -169,8 +184,9 @@
 
   // Arma la corrida desde el nivel «desde»: los niveles van en orden y, dentro de cada uno, los grupos sin caso
   // mezclan sus preguntas y los casos se mezclan entre sí conservando su orden interno.
-  function armarTandas(mazo, desde) {
+  function armarTandas(mazo, desde, semilla) {
     var tandas = [], nCaso = 0;
+    if (semilla != null) azar = conSemilla(semilla);
     nivelesDe(mazo).forEach(function (niv, ni) {
       if (ni < desde) return;
       var bloques = [];
@@ -185,13 +201,20 @@
       tandas[primera].abreNivel = true;
       tandas[tandas.length - 1].ultimaNivel = true;
     });
+    if (semilla != null) {          // con semilla, también el orden de las puertas queda fijo
+      tandas.forEach(function (t) {
+        var o = []; for (var k = 0; k < t.p.ops.length; k++) o.push(k);
+        t.puertas = mezclar(o);
+      });
+      azar = Math.random;
+    }
     return tandas;
   }
 
   function nueva() {
     if (!E.mazo) return;
     E.nNiveles = nivelesDe(E.mazo).length;
-    E.tandas = armarTandas(E.mazo, E.desde);
+    E.tandas = armarTandas(E.mazo, E.desde, E.sala ? E.sala.semilla : null);
     E.i = 0; E.vidas = CFG.vidas; E.racha = 0; E.corrida = 0; E.mejorRacha = 0; E.aciertos = 0;
     E.historial = []; E.pausa = false; E.negro = 0; E.rojo = 0; E.zombi = 0; E.embiste = 0; E.esc = null; E.vidaGanada = false;
     dom.portada.hidden = true; dom.pausa.hidden = true; dom.fin.hidden = true; dom.caso.hidden = true;
@@ -206,11 +229,12 @@
     E.n = E.preg.ops.length;
     E.puertas = [];
     for (k = 0; k < E.n; k++) E.puertas.push(k);
-    mezclar(E.puertas);                        // puertas[k] = qué opción quedó detrás de la puerta k
+    if (tanda.puertas) E.puertas = tanda.puertas.slice();
+    else mezclar(E.puertas);                   // puertas[k] = qué opción quedó detrás de la puerta k
     E.correcta = E.puertas.indexOf(E.preg.ok);
     E.t = 0; E.ft = 0;
     var letras = E.preg.q.length + E.preg.ops.join("").length;
-    E.tMax = (CFG.tBase + CFG.tPorLetra * letras) * lerp(1, CFG.apuroFinal, n > 1 ? E.i / (n - 1) : 0);
+    E.tMax = (CFG.tBase + CFG.tPorLetra * letras) * lerp(1, CFG.apuroFinal, n > 1 ? E.i / (n - 1) : 0) * E.tiempoX;
     E.elegida = -1; E.acerto = false;
     E.abre = [0, 0, 0, 0]; E.sacude = [0, 0, 0, 0]; E.marca = ["", "", "", ""];
     E.pN = 0; E.pEsc = 1; E.s = CFG.sIni; E.dist0 = 1 / E.s; E.dist = 0; E.embiste = 0;
@@ -287,6 +311,7 @@
     dom.ops[E.elegida].classList.add("bien");
     E.marca[E.elegida] = "bien";
     pintarHud();
+    reportar(null);
   }
 
   function seAcaboElTiempo() {
@@ -310,6 +335,7 @@
       else b.classList.add("apagada");
     });
     pintarHud();
+    reportar(null);
   }
 
   function siguiente() {
@@ -342,18 +368,20 @@
     cargar();
   }
 
-  function terminar(gano) {
-    E.fase = "fin";
+  function terminar(gano, corte) {
+    E.fase = "fin"; E.corte = corte || null;
+    dom.pausa.hidden = true; dom.caso.hidden = true; E.pausa = false;
     pintarReloj();
     document.documentElement.style.setProperty("--peligro", "0");
     if (gano) Sonido.gana(); else Sonido.pierde();
     var mejor = leerMejor(E.mazo);
     var nivel = E.tandas.length ? E.tandas[Math.min(E.i, E.tandas.length - 1)].nivel + 1 : 1;
     var esta = { aciertos: E.aciertos, gano: gano, nivel: nivel };
-    var cuenta = E.desde === 0;      // la marca solo cuenta si se arranca en el primer nivel
+    var cuenta = E.desde === 0 && !E.sala;      // la marca solo cuenta si se arranca en el primer nivel y no es una sala
     var supera = cuenta && (!mejor || (esta.gano && !mejor.gano) || (esta.gano === mejor.gano && esta.aciertos > mejor.aciertos));
     if (supera) { try { localStorage.setItem(claveMejor(E.mazo), JSON.stringify(esta)); } catch (e) {} }
     pintarFin(gano, supera, supera ? esta : mejor, cuenta);
+    if (!corte) reportar(gano ? "gano" : "cayo");
   }
 
   function leerMejor(mazo) {
@@ -404,12 +432,14 @@
     $("fin-bajada").textContent = gano
       ? "Pasaste las " + n + " puertas con " + E.vidas + (E.vidas === 1 ? " vida" : " vidas") + ". Abajo está el repaso de lo que contestaste."
       : "Llegaste hasta la puerta " + vistas + " de " + n + ". Mirá abajo en cuáles te mordió y volvé a intentarlo: el orden cambia.";
+    if (E.corte) { t.textContent = E.corte.titulo; $("fin-bajada").textContent = E.corte.bajada; }
     $("fin-aciertos").textContent = E.aciertos;
     $("fin-puertas").textContent = vistas + "/" + n;
     $("fin-racha").textContent = E.mejorRacha;
     var fm = $("fin-mejor");
     fm.textContent = "";
-    if (!cuenta) fm.appendChild(document.createTextNode("Empezaste en el nivel " + (E.desde + 1) + ": esta corrida no cuenta para tu mejor marca."));
+    if (E.sala) fm.appendChild(document.createTextNode("Partida de sala: no cuenta para tu mejor marca."));
+    else if (!cuenta) fm.appendChild(document.createTextNode("Empezaste en el nivel " + (E.desde + 1) + ": esta corrida no cuenta para tu mejor marca."));
     else {
       fm.appendChild(document.createTextNode(supera ? "Nueva mejor marca: " : "Tu mejor marca: "));
       fm.appendChild(el("b", "", textoMejor(mejor, E.mazo)));
@@ -1227,7 +1257,7 @@
 
   /* ------------------------------ Controles ----------------------------- */
   function pausar(si) {
-    if (E.fase === "portada" || E.fase === "fin" || !dom.caso.hidden) return;
+    if (E.fase === "portada" || E.fase === "fin" || !dom.caso.hidden || E.sala) return;   // en una sala no se pausa: el tiempo corre para todos
     E.pausa = si;
     dom.pausa.hidden = !si;
     if (si) { Sonido.suspender(); $("btn-seguir").focus({ preventScroll: true }); }
@@ -1363,6 +1393,36 @@
     for (var i = 0; i < MAZOS.length; i++) if (MAZOS[i].id === id) return MAZOS[i];
     return MAZOS[0];
   }
+
+  /* ------------------------ API para el modo sala ----------------------- */
+  // js/zombie-sala.js maneja la sala (Supabase Realtime) y usa esto para arrancar la partida con la semilla común,
+  // enterarse del progreso y cortar la partida cuando la sala ya tiene resultado.
+  function reportar(fin) {
+    var f = window.ParcialZombie && window.ParcialZombie.alEstado;
+    if (E.sala && f) f({ i: E.historial.length, n: E.tandas.length, vidas: E.vidas, aciertos: E.aciertos, fin: fin });
+  }
+  window.ParcialZombie = {
+    alEstado: null,
+    mazos: function () { return MAZOS; },
+    nivelesDe: nivelesDe,
+    totalPreguntas: totalPreguntas,
+    enCurso: function () { return !!E.sala && E.fase !== "portada" && E.fase !== "fin"; },
+    empezarSala: function (o) {
+      var mz = null; MAZOS.forEach(function (m) { if (m.id === o.mazoId) mz = m; });
+      if (!mz) return false;
+      E.mazo = mz; E.desde = Math.max(0, Math.min(o.desde || 0, nivelesDe(mz).length - 1));
+      E.sala = { semilla: o.semilla }; E.tiempoX = o.tiempoX || 1;
+      document.body.classList.add("en-sala");
+      Sonido.iniciar(); nueva(); reportar(null);
+      return true;
+    },
+    cortar: function (titulo, bajada) { if (E.sala && E.fase !== "fin" && E.fase !== "portada") terminar(false, { titulo: titulo, bajada: bajada }); },
+    salirSala: function () {
+      E.sala = null; E.tiempoX = 1; E.corte = null;
+      document.body.classList.remove("en-sala");
+      irAPortada();
+    }
+  };
 
   pintarSonido();
   pintarHud();

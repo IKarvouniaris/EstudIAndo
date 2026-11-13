@@ -187,6 +187,36 @@ button{font:inherit; color:inherit}
 .resumen .r.rojo span{text-decoration:line-through; text-decoration-thickness:1px}
 .resumen .porque{margin:.4rem 0 0; font-size:.9rem; color:var(--tinta-2); max-width:none}
 
+/* ---- SALA (modo multijugador) ---- */
+.sala-hud{flex:0 0 auto; display:flex; flex-wrap:wrap; gap:.35rem; padding:.3rem .65rem; background:var(--papel-3); border-bottom:1px solid var(--linea)}
+.sala-hud .jug{display:inline-flex; align-items:baseline; gap:.45rem; padding:.15rem .5rem; border:1px solid var(--linea); border-left:3px solid var(--luz); border-radius:2px; background:var(--papel-2)}
+.sala-hud .jug b{font-family:var(--display); font-size:.82rem; color:var(--tinta)}
+.sala-hud .jug small{font-family:var(--mono); font-size:.66rem; color:var(--tinta-2); letter-spacing:.04em}
+.sala-hud .jug.cayo{border-left-color:var(--sangre); opacity:.7}
+.sala-hud .jug.gano{border-left-color:var(--ok)}
+body.en-sala #btn-pausa, body.en-sala #btn-otra, body.en-sala #btn-cambiar{display:none}
+.codigo-sala{font-family:var(--display); font-weight:700; font-size:clamp(2.6rem,14vw,4.4rem); letter-spacing:.25em; color:var(--luz); line-height:1; margin:.2rem 0 .6rem}
+.jugadores{list-style:none; margin:.2rem 0 .6rem; padding:0; display:grid; gap:.3rem}
+.jugadores li{display:flex; justify-content:space-between; align-items:baseline; gap:.6rem; padding:.45rem .7rem; background:var(--papel-2); border:1px solid var(--linea); border-left:3px solid var(--linea); border-radius:3px}
+.jugadores li.yo{border-left-color:var(--luz)}
+.jugadores li b{font-family:var(--display); font-size:1.05rem; color:var(--tinta)}
+.jugadores li small{font-family:var(--mono); font-size:.66rem; color:var(--tinta-3); letter-spacing:.08em; text-transform:uppercase}
+.controles{display:grid; gap:.55rem; margin:.3rem 0}
+.campo-l{display:grid; gap:.2rem}
+.campo-l span{font-family:var(--mono); font-size:.64rem; letter-spacing:.13em; text-transform:uppercase; color:var(--tinta-3)}
+.campo{font:inherit; font-size:.95rem; padding:.6rem .7rem; background:var(--papel-2); color:var(--tinta); border:1px solid var(--linea); border-radius:3px; max-width:100%}
+.campo.codigo{width:7.5rem; text-transform:uppercase; letter-spacing:.3em; text-align:center; font-family:var(--display); font-size:1.3rem}
+.nota-sala{font-size:.85rem; color:var(--tinta-2); max-width:none}
+.error-sala{color:var(--mal); background:var(--mal-suave); border:1px solid var(--mal); border-radius:3px; padding:.5rem .7rem; max-width:none}
+.cuenta{font-family:var(--display); font-weight:700; font-size:clamp(5rem,32vw,10rem); line-height:1; color:var(--luz); text-align:center; margin:1rem 0}
+.fin-sala{margin:.6rem 0 1rem}
+.fin-sala h2{margin-top:.4rem}
+.posiciones{list-style:none; margin:.3rem 0 .8rem; padding:0; display:grid; gap:.3rem}
+.posiciones li{display:flex; justify-content:space-between; gap:.6rem; flex-wrap:wrap; padding:.5rem .7rem; background:var(--papel-2); border:1px solid var(--linea); border-left:3px solid var(--linea); border-radius:3px}
+.posiciones li.yo{border-left-color:var(--luz)}
+.posiciones li b{font-family:var(--display); color:var(--tinta)}
+.posiciones li span{font-family:var(--mono); font-size:.72rem; color:var(--tinta-2)}
+
 @media (prefers-reduced-motion:reduce){ .reloj.apuro{animation:none} .aviso.ver{animation-duration:.01s; opacity:1} .vidas .cora.late{animation:none} }
 </style>
 </head>
@@ -210,6 +240,9 @@ button{font:inherit; color:inherit}
       <svg viewBox="0 0 24 24"><path class="lleno" d="M4 9.5h3.2L12 5.5v13l-4.8-4H4z"/><path class="ondas" d="M15.5 9.2a4 4 0 0 1 0 5.6M18 6.8a7.4 7.4 0 0 1 0 10.4"/><path class="tacha" d="M15.5 9.5l5 5M20.5 9.5l-5 5"/></svg>
     </button>
   </header>
+
+  <!-- Modo sala: cómo van los otros jugadores (lo llena js/zombie-sala.js) -->
+  <div class="sala-hud" id="sala-hud" hidden aria-live="off"></div>
 
   <!-- La pregunta y, pegadas abajo, las opciones: se leen de un tirón. El pasillo queda debajo. -->
   <div class="cartel">
@@ -252,9 +285,15 @@ button{font:inherit; color:inherit}
       </div>
       <div class="botones">
         <button class="btn principal" id="btn-correr" type="button">Correr</button>
+        <button class="btn" id="btn-sala" type="button">Jugar con amigos</button>
         <a class="btn" id="btn-repasar" href="index.html">Repasar el apunte</a>
       </div>
     </div>
+  </section>
+
+  <!-- Sala: entrar, armar la partida y esperar a los demás (lo llena js/zombie-sala.js) -->
+  <section class="capa opaca" id="sala" hidden>
+    <div class="centro" id="sala-cuerpo"></div>
   </section>
 
   <!-- El caso (mazos con casos): se lee antes de su primera pregunta y se puede volver a abrir -->
@@ -289,6 +328,7 @@ button{font:inherit; color:inherit}
       <p class="cintillo" id="fin-cintillo"></p>
       <h1 id="fin-titulo"></h1>
       <p id="fin-bajada"></p>
+      <div id="fin-sala" class="fin-sala" hidden></div>
       <div class="cifras">
         <div><b id="fin-aciertos">0</b><span>aciertos</span></div>
         <div><b id="fin-puertas">0</b><span>puertas vistas</span></div>
@@ -316,8 +356,15 @@ button{font:inherit; color:inherit}
 <script src="js/zombie-ia/c10.js"></script>
 <script src="js/zombie-ia/c11.js"></script>
 <script src="js/zombie-ia/c12.js"></script>
-<script src="js/casos-etica-roles.js"></script>
+<script src="js/simulacros-etica-p2-orden.js"></script>
+<script src="js/simulacros-etica-p2-a.js"></script>
+<script src="js/simulacros-etica-p2-b.js"></script>
+<script src="js/simulacros-etica-p2-c.js"></script>
 <script src="js/mazos-zombie.js"></script>
 <script src="js/parcial-zombie.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/zombie-sala.js"></script>
 </body>
 </html>
