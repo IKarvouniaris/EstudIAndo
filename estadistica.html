@@ -252,6 +252,7 @@ table.frases td:first-child{font-family:var(--display); font-weight:600}
     <a class="item" href="#flashcards">▤ Flashcards</a>
     <div class="riel-grupo">Práctica</div>
     <a class="item externo" href="simulacro-estadistica.html">▶ Simulacro (1.er y 2.º parcial) ↗</a>
+    <a class="item externo" href="parcial-zombie.html#mazo=estadistica">Z Parcial Zombie: reconocé el modelo ↗</a>
     <a class="item externo" href="leaderboard-estadistica.html">★ Leaderboard ↗</a>
   </nav>
   <div class="riel-pie">
@@ -469,7 +470,7 @@ table.frases td:first-child{font-family:var(--display); font-weight:600}
   </section>
 
   <!-- ===================================================================== -->
-  <section class="clase" id="decidir" data-busca="decidir que modelo usar binomial pascal hipergeometrico hiperpascal cuando usar tipo de problema">
+  <section class="clase" id="decidir" data-busca="decidir que modelo usar binomial pascal hipergeometrico hiperpascal cuando usar tipo de problema reconocer el modelo palabras clave integradores teorema central del limite suma fractil clase 15">
     <p class="eyebrow">Guía de decisión</p>
     <h2>¿Qué herramienta uso en cada caso?</h2>
     <p class="objetivo">Antes de calcular, identificá <strong>qué tipo de problema es</strong>. Casi todo el parcial se resuelve preguntándote estas cosas en orden.</p>
@@ -537,6 +538,52 @@ table.frases td:first-child{font-family:var(--display); font-weight:600}
         <li>«Recibe en promedio 600 llamadas por hora… ¿cuál es la probabilidad en un minuto?» → <b>Poisson</b> (\(m=\lambda t\) con unidades coherentes).</li>
         <li>«Llegan 7 pedidos al día… ¿cuánto pasa hasta los próximos 10?» → <b>Gamma</b> con Molina.</li>
       </ul>
+    </div>
+
+    <h3>Paso 5 · La forma de la pregunta (ejercicios integradores)</h3>
+    <p>El modelo sale de <b>qué variable se mide</b> (pasos 2 y 4). Lo que hay que hacer con él sale de <b>cómo está redactada la pregunta</b>. En los integradores casi siempre hay un modelo «adentro» y una de estas capas «afuera»:</p>
+    <div class="scroll-x"><table class="frases">
+      <tr><th>Si la pregunta dice…</th><th>Qué hacer</th><th>Por qué (con un ejemplo simple)</th></tr>
+      <tr><td>Dos proveedores, tipos o inspectores con sus porcentajes, y «uno elegido al azar»</td><td><b>Probabilidad total</b>: el modelo da la probabilidad de cada origen y se pondera</td><td>No sabés de cuál salió, así que promediás la chance de cada origen, pesada por cuánto aporta. <em>Ej.: el 30 % de la fruta viene del cajón A (10 % podrida) y el 70 % del B (20 %). Podrida al azar: \(0{,}3\cdot0{,}1+0{,}7\cdot0{,}2=0{,}17\).</em> El modelo (Weibull, normal…) solo sirve para sacar ese 10 % y ese 20 %.</td></tr>
+      <tr><td>«<b>Si</b> resistió / fue rechazada / duró más de…, ¿cuál es la probabilidad de que <b>sea de</b> A?»</td><td><b>Bayes</b>: las verosimilitudes salen del modelo de cada origen</td><td>Ya viste el resultado y querés ir para atrás, al origen: de todas las formas de llegar a ese resultado, ¿qué parte le toca a A? <em>Ej.: la fruta salió podrida. Del cajón A: \(0{,}03/0{,}17=18\,\%\).</em></td></tr>
+      <tr><td>«Duró <b>exactamente</b> 6.012 páginas» en una variable continua</td><td>Bayes con la <b>densidad</b> \(f(x)\) de cada origen, no con el área (el área en un punto es 0)</td><td>Acertar justo un valor tiene probabilidad 0 en los dos orígenes, y \(0/0\) no dice nada. Se compara qué tan alta está cada curva en ese punto. <em>Ej.: alguien mide exactamente 1,90 m. Es más creíble que juegue al básquet que que sea jockey, porque la curva de los basquetbolistas está más alta en 1,90.</em></td></tr>
+      <tr><td>«De una muestra de \(n\), \(k\) cumplen…» después de una variable continua</td><td>La continua da \(p\) para <em>una</em> unidad; después <b>binomial</b> con ese \(p\)</td><td>La continua contesta por una sola unidad. Con \(n\) unidades independientes ya estás contando cuántas cumplen. <em>Ej.: cada lamparita dura más de un año con \(p=0{,}8\) (salió del Weibull). Que 2 de 3 duren: \(3\cdot0{,}8^2\cdot0{,}2=0{,}384\).</em></td></tr>
+      <tr><td>«El valor superado por el 15 %», «capacidad con 90 % de seguridad», «beneficio que se garantiza con 0,95»</td><td><b>Fractil</b>: se despeja \(x\), no se calcula una probabilidad</td><td>Te dan el porcentaje y piden el valor: es el camino inverso. De la tabla sale \(z\) y después \(x=\mu+z\sigma\). <em>Ej.: notas con media 6 y desvío 2. La nota que solo supera el 10 %: \(z=1{,}28\), \(x=6+1{,}28\cdot2=8{,}6\).</em></td></tr>
+      <tr><td>Dan dos porcentajes y ningún parámetro («el 10 % pesa más de 500 y el 7 % menos de 410»)</td><td><b>Sistema de dos ecuaciones</b> \(x=\mu+z\sigma\) para hallar \(\mu\) y \(\sigma\)</td><td>Cada porcentaje dice a cuántos desvíos de la media está un valor. Dos datos, dos incógnitas. <em>Ej.: si el 8 está un desvío arriba de la media y el 4 un desvío abajo, la media es 6 y el desvío 2.</em></td></tr>
+      <tr><td>Una densidad con dos constantes y un dato de probabilidad</td><td>Dos ecuaciones: área total \(=1\) y el dato</td><td>Toda densidad encierra el 100 % de los casos: esa condición nunca te la dan, pero siempre está. <em>Ej.: \(f(x)=k\) entre 0 y 4. El rectángulo mide \(4k=1\), así que \(k=0{,}25\).</em></td></tr>
+      <tr><td>La demanda de <b>30 días</b>, el total de \(n\) unidades, y solo dan media y desvío de una</td><td><b>Teorema central del límite</b> (paso 6)</td><td>Al sumar muchos días, los altos y los bajos se compensan y el total queda en forma de campana, aunque un día suelto no lo sea. <em>Ej.: gasto $10 por día, con desvío 2. En 100 días espero 1.000, con desvío \(2\cdot\sqrt{100}=20\) (no 200).</em></td></tr>
+    </table></div>
+    <div class="cuando"><b>Pistas que aparecieron en los integradores de la clase 15</b>
+      <ul>
+        <li>«Con o sin reposición», las dos igual de probables <em>a priori</em> → <b>binomial</b> contra <b>hipergeométrica</b>, y Bayes entre las dos.</li>
+        <li>Caja de 65 con 5 de segunda, muestra de 5 → lote chico: <b>hipergeométrica</b>. El inspector que «saca hasta encontrar la segunda» → <b>hiperPascal</b>, que se resuelve como «en 5 extracciones hay 2 o más».</li>
+        <li>Te dan \(\beta\) y \(\omega\) (cartuchos, resistencia a la rotura) → <b>Weibull</b>, \(G(x)=e^{-(x/\beta)^{\omega}}\); con dos orígenes, total y Bayes.</li>
+        <li>«Muestra de 5 piezas y solo 1 no se rompió» → <b>binomial</b> con \(p=G(x)\) de cada proveedor, y después Bayes.</li>
+        <li>Montos de depósitos con media 20.000 y desvío 17.500 → \(CV=87{,}5\,\%\): <b>log-normal</b>. «Más de 55 de 100 depósitos» → binomial con \(n=100\) (se aproxima con la normal).</li>
+        <li>«0,25 nudos/m²» y tablas de 0,5 m × 1,2 m → una tasa sobre un continuo: <b>Poisson</b> con \(m=\lambda\cdot0{,}6\). De ahí \(p=1-e^{-m}\) (tabla con algún nudo), y «la primera con nudo es la 6.ª» → <b>Pascal</b> con \(r=1\), \(n=6\).</li>
+        <li>«Gamma de media 24 y desvío 6» → de \(r/\lambda=24\) y \(r/\lambda^2=36\) salen \(\lambda=2/3\) y \(r=16\); el área se calcula con Molina.</li>
+      </ul>
+    </div>
+
+    <h3>Paso 6 · Suma de muchos días o unidades: teorema central del límite</h3>
+    <p>Si el enunciado da la media \(\mu\) y el desvío \(\sigma\) de <em>una</em> unidad (un día, una pieza) <b>sin decir qué distribución tiene</b>, y pregunta por el <b>total de \(n\)</b> unidades independientes (con \(n\) grande, 30 o más), ese total es aproximadamente normal:</p>
+    <div class="expr">\( S=X_1+\dots+X_n\ \approx\ N\!\left(n\mu;\ \sigma\sqrt{n}\right) \)</div>
+    <p>La media se multiplica por \(n\); el desvío, por \(\sqrt n\) (lo que se suma son las varianzas).</p>
+    <div class="ejemplo"><p class="titulo">Ejemplo resuelto · tanque de nafta y beneficio anual</p>
+      <div class="consigna"><b>Consigna</b>La demanda diaria de una nafta tiene media 3.120 litros y desvío 750 litros. a) ¿Qué capacidad necesita el tanque para cubrir la demanda de 30 días (el lapso entre camiones) con 90 % de seguridad? b) El combustible cuesta 0,11 U$s/litro más un flete de U$s 100 por camión y se vende a 0,125 U$s/litro: ¿qué beneficio anual (365 días) se puede garantizar con probabilidad 0,95?</div>
+      <ol>
+        <li><p><span class="paso-titulo">a) Suma de 30 días y fractil.</span> No dan la distribución diaria, pero piden un total de 30 días: TCL.</p>
+          <div class="expr">\( E(S)=30\cdot3120=93600\qquad\sigma_S=750\sqrt{30}=4107{,}9 \)</div>
+          <div class="expr">\( x_{0{,}90}=93600+1{,}2816\cdot4107{,}9=\mathbf{98.864{,}5\ litros} \)</div></li>
+        <li><p><span class="paso-titulo">b) Demanda anual.</span> Lo mismo con 365 días:</p>
+          <div class="expr">\( E(S)=365\cdot3120=1.138.800\qquad\sigma_S=750\sqrt{365}=14.328{,}6 \)</div></li>
+        <li><p><span class="paso-titulo">Armar el beneficio.</span> Por litro quedan \(0{,}125-0{,}11=0{,}015\) U$s. El camión llega cada 30 días: en el año son 12 fletes, U$s 1.200.</p>
+          <div class="expr">\( B=0{,}015\cdot S-1200 \)</div></li>
+        <li><p><span class="paso-titulo">Fractil del lado izquierdo.</span> «Garantizar con 0,95» es \(P(B\ge b)=0{,}95\): el valor que deja 5 % <b>por debajo</b>, con \(z=-1{,}645\).</p>
+          <div class="expr">\( s_{0{,}05}=1.138.800-1{,}645\cdot14.328{,}6=1.115.229{,}5 \)</div>
+          <div class="expr">\( b=0{,}015\cdot1.115.229{,}5-1200\approx\mathbf{15.528\ U\$s} \)</div>
+          <p class="porque">Dos trampas: usar \(z\) positivo (lo que se garantiza es un mínimo, cola izquierda) y olvidarse de los fletes o contar 12,17 en vez de 12 camiones.</p></li>
+      </ol>
     </div>
   </section>
 
@@ -808,6 +855,9 @@ table.frases td:first-child{font-family:var(--display); font-weight:600}
     <h3>Binomial</h3>
     <div class="cuando"><b>Cuándo</b>
       <p>n ensayos independientes, p constante, cuento cuántos éxitos hubo. Palabras: "en una muestra de 15 piezas", "en 20 días", "de 100 envíos".</p></div>
+    <div class="cuando criollo"><b>En criollo</b>
+      <p>La fórmula es \(P(X=k)=\binom{n}{k}\,p^{k}(1-p)^{n-k}\). Leída en voz alta: hago \(n\) intentos y quiero \(k\) aciertos. Multiplico \(p\) una vez por cada acierto y \(1-p\) una vez por cada error: eso es la probabilidad de <em>un</em> orden posible. Como los aciertos pueden caer en cualquier lugar, multiplico por la cantidad de formas de elegir cuáles \(k\) son los aciertos (el combinatorio).</p>
+      <p><strong>Ejemplo tonto:</strong> pateo 3 penales y emboco la mitad. ¿Exactamente 2 goles? Hay 3 formas (gol-gol-afuera, gol-afuera-gol, afuera-gol-gol), y cada una vale \(0{,}5\cdot0{,}5\cdot0{,}5\): \(3\cdot0{,}125=0{,}375\). Y lo que espero en promedio es \(n\cdot p\): si pateo 10 y emboco la mitad, espero 5.</p></div>
     <div class="ejemplo"><p class="titulo">Ejemplo resuelto · muestra de 15 piezas con 10 % de defectuosas</p>
       <div class="consigna"><b>Consigna</b>Un proceso tecnológico produce piezas con un 10 % de defectuosas. Se toma una muestra de 15 piezas. ¿Cuál es la probabilidad de encontrar: a) 2 o menos defectuosas?; b) exactamente 2 defectuosas?; c) menos de 12 buenas?</div>
       <p><span class="paso-titulo">Identificar el modelo.</span> Hay n = 15 piezas fijas (la muestra), cada una es independiente de las demás y la probabilidad de ser defectuosa es siempre 10 % (no dice que se saque de un lote finito con una cantidad exacta de defectuosas, así que no es hipergeométrico). Se define \(X\) = "cantidad de piezas defectuosas en la muestra" y \(X\sim B(15;\,0{,}10)\).</p>
@@ -838,6 +888,9 @@ table.frases td:first-child{font-family:var(--display); font-weight:600}
     <h3>Pascal</h3>
     <div class="cuando"><b>Cuándo</b>
       <p>Repito ensayos hasta conseguir el \(r\)-ésimo éxito y cuento cuántos ensayos hicieron falta. Palabras: "hasta encontrar la segunda defectuosa", "cuántas piezas hay que fabricar para obtener 10 buenas". Dominio: \(n\ge r\).</p></div>
+    <div class="cuando criollo"><b>En criollo</b>
+      <p>La fórmula es \(P(N=n)=\binom{n-1}{r-1}\,p^{r}(1-p)^{n-r}\). Para que el éxito número \(r\) caiga <em>justo</em> en el intento \(n\) tienen que pasar dos cosas: el último intento es éxito sí o sí, y en los \(n-1\) anteriores hubo \(r-1\) éxitos en cualquier orden (por eso el combinatorio es de \(n-1\) y no de \(n\)).</p>
+      <p><strong>Ejemplo tonto:</strong> tiro una moneda hasta sacar la segunda cara. ¿Que salga justo en la tercera tirada? En las dos primeras tuvo que haber una sola cara (2 formas) y la tercera es cara: \(2\cdot0{,}5^2\cdot0{,}5=0{,}25\). En promedio hacen falta \(r/p\) intentos: para 2 caras, \(2/0{,}5=4\) tiradas.</p></div>
     <div class="ejemplo"><p class="titulo">Ejemplo resuelto · piezas revisadas hasta la 2.ª defectuosa</p>
       <div class="consigna"><b>Consigna</b>En un proceso de control de calidad se efectúa una revisión periódica examinando la cantidad de piezas necesarias hasta encontrar la segunda defectuosa. Si el proceso trabaja con un 20 % de defectuosas, ¿cuál es la probabilidad de tener que revisar: a) 8 piezas o menos?; b) 12 piezas o más?; c) exactamente 12 piezas?</div>
       <p><span class="paso-titulo">Identificar el modelo.</span> Acá lo que se cuenta no es "cuántas defectuosas salen en n pruebas" sino "cuántas piezas hace falta revisar para juntar 2 defectuosas" — se fija la cantidad de éxitos (r = 2) y la variable es el número de pruebas. Es Pascal, con N (número de piezas revisadas) \(\sim Pa(r=2;\,p=0{,}2)\). El dominio empieza en N = 2 (como mínimo, las dos primeras ya podrían ser defectuosas).</p>
@@ -855,6 +908,9 @@ table.frases td:first-child{font-family:var(--display); font-weight:600}
     <h3>Hipergeométrico</h3>
     <div class="cuando"><b>Cuándo</b>
       <p>Población <b>finita</b> de \(N\) elementos con \(R\) éxitos; se extraen \(n\) <b>sin reposición</b>; cuento éxitos en la muestra. La probabilidad cambia en cada extracción (por eso no es binomial). Palabras: "un lote de 40 elementos con 5 defectuosos, se prueban 5", "una caja de 65 con 5 de segunda calidad".</p></div>
+    <div class="cuando criollo"><b>En criollo</b>
+      <p>La fórmula es \(P(X=x)=\dfrac{\binom{R}{x}\binom{N-R}{n-x}}{\binom{N}{n}}\), que no es más que <b>casos favorables sobre casos posibles</b>. Abajo: todas las formas de sacar \(n\) cosas de las \(N\). Arriba: las formas de elegir \(x\) entre las \(R\) «marcadas», por las formas de completar la muestra con las no marcadas.</p>
+      <p><strong>Ejemplo tonto:</strong> una bolsa con 5 caramelos, 2 de menta. Saco 2 sin mirar. ¿Uno solo de menta? Formas de sacar 2 de 5: 10. Formas de elegir 1 de menta (2) por 1 de los otros (3): 6. Da \(6/10=0{,}6\).</p></div>
     <div class="ejemplo"><p class="titulo">Ejemplo resuelto · cargamento de 40 elementos</p>
       <div class="consigna"><b>Consigna</b>Un cargamento contiene 40 elementos. Se seleccionan al azar y se prueban 5. Si dos o más resultan defectuosos, se devuelve el cargamento. a) Si el cargamento contiene en realidad 5 elementos defectuosos, ¿cuál es la probabilidad de que sea aceptado? b) Si el cargamento contiene en realidad 10 elementos defectuosos, ¿cuál es la probabilidad de que <b>no</b> sea aceptado?</div>
       <p><span class="paso-titulo">Identificar el modelo.</span> Hay una población finita y conocida (N = 40 elementos), se extrae una muestra fija (n = 5) <b>sin reposición</b> (se prueban 5 elementos del mismo cargamento, no se devuelven para volver a probar), y se cuentan éxitos (defectuosos) en esa muestra. Es hipergeométrico: \(X\sim H(N=40,\,R,\,n=5)\), donde R cambia según el ítem.</p>
@@ -872,6 +928,9 @@ table.frases td:first-child{font-family:var(--display); font-weight:600}
     <h3>HiperPascal</h3>
     <div class="cuando"><b>Cuándo</b>
       <p>Igual que el hipergeométrico, pero fijo la cantidad de éxitos \(r\) y cuento cuántas extracciones necesito. Palabras: "se extraen bolillas sin reposición hasta obtener la segunda roja". Dominio: \(r\le n\le N-R+r\).</p></div>
+    <div class="cuando criollo"><b>En criollo</b>
+      <p>Son dos pasos pegados. Primero una hipergeométrica: en las \(n-1\) primeras extracciones salieron \(r-1\) éxitos. Después multiplico por la probabilidad de que <em>la siguiente</em> sea éxito, mirando lo que quedó en la caja: éxitos que quedan sobre elementos que quedan.</p>
+      <p><strong>Ejemplo tonto:</strong> la misma bolsa (5 caramelos, 2 de menta). ¿Que el segundo de menta salga justo en la tercera sacada? En las dos primeras salió uno solo de menta (0,6, del ejemplo anterior). Quedan 3 caramelos y 1 de menta: \(1/3\). Entonces \(0{,}6\cdot\tfrac13=0{,}2\).</p></div>
     <div class="ejemplo"><p class="titulo">Ejemplo resuelto · urna de 12 bolillas, hasta la 2.ª roja</p>
       <div class="consigna"><b>Consigna</b>Una urna tiene 12 bolillas: 5 rojas y 7 blancas. Se extraen bolillas sin reposición hasta obtener la segunda roja. Calcular: a) la probabilidad de que la segunda roja aparezca justo en la 4.ª extracción; b) la probabilidad de necesitar 5 extracciones o menos; c) la menor cantidad de extracciones que puede hacer falta.</div>
       <p><span class="paso-titulo">Identificar el modelo.</span> Es como el caso anterior pero sin reposición y contando pruebas en vez de éxitos: población finita (N = 12), sin reposición, y se fija la cantidad de éxitos buscados (r = 2 rojas). Es hiperPascal: N = número de extracciones \(\sim HP(N_{total}=12,\,R=5,\,r=2)\).</p>
@@ -1062,6 +1121,9 @@ table.frases td:first-child{font-family:var(--display); font-weight:600}
     </table></div>
     <p>\(\lambda\) es la tasa de falla: número medio de fallas <b>por unidad de continuo</b> (por metro, por hora…). Si el enunciado da la duración o longitud <em>media</em> \(\mu\), usá \(\lambda=1/\mu\). Con \(\lambda=0{,}01\) fallas/m la longitud media entre fallas es \(1/0{,}01=100\) m.</p>
 
+    <div class="cuando criollo"><b>En criollo</b>
+      <p>\(\lambda\) dice qué tan seguido falla: es 1 dividido la vida media. \(G(x)=e^{-\lambda x}\) es la probabilidad de <b>seguir funcionando</b> pasado el momento \(x\): arranca en 1 (al principio todos andan) y se achica a medida que pasa el tiempo. Si preguntan por «falló antes de \(x\)», es 1 menos eso.</p>
+      <p><strong>Ejemplo tonto:</strong> una lamparita con vida media de 100 horas (\(\lambda=0{,}01\)). ¿Que dure más de 100 horas? \(e^{-1}=0{,}37\). Ojo: no es 50 %; la mayoría dura menos que la media y unas pocas duran muchísimo. Otra rareza: «no tiene memoria». Una lamparita que ya duró 100 horas tiene la misma chance de durar 50 más que una recién comprada.</p></div>
     <div class="ejemplo"><p class="titulo">Ejemplo resuelto · dos proveedores de cable (exponencial + Bayes)</p>
       <div class="consigna"><b>Consigna</b>Un cable plástico lo entregan dos proveedores. El proveedor A entrega el 70 % y la longitud media entre fallas es de 170 m; el B entrega el resto y su longitud media entre fallas es de 200 m. La longitud entre fallas es exponencial. Se eligió un rollo al azar de 250 m y no se encontraron fallas. ¿Cuál es la probabilidad de que pertenezca al proveedor A?</div>
       <ol>
@@ -1092,6 +1154,9 @@ table.frases td:first-child{font-family:var(--display); font-weight:600}
       <tr><td>Varianza y desvío</td><td>\(V(X)=\beta^2\left[\Gamma\!\left(1+\dfrac{2}{\omega}\right)-\Gamma^2\!\left(1+\dfrac{1}{\omega}\right)\right]\qquad\sigma=\sqrt{\sigma^2}\)</td></tr>
     </table></div>
 
+    <div class="cuando criollo"><b>En criollo</b>
+      <p>Para leer \(G(x)=e^{-(x/\beta)^{\omega}}\): primero mido \(x\) en «cuántas \(\beta\)» es (\(x/\beta\)). \(\beta\) es la vida característica: cuando \(x=\beta\) siempre queda vivo el 37 % (\(e^{-1}\)), valga lo que valga \(\omega\). Después elevo a \(\omega\), que dice qué tan «de golpe» fallan: con \(\omega\) grande casi todos aguantan hasta cerca de \(\beta\) y ahí caen juntos. Por último, eso va con signo menos en el exponente de \(e\).</p>
+      <p><strong>Ejemplo tonto:</strong> pilas con \(\beta=60\) horas y \(\omega=3\). ¿Que una dure más de 30 horas? 30 es la mitad de \(\beta\): \(0{,}5^3=0{,}125\), y \(e^{-0{,}125}=0{,}88\). El 88 % pasa las 30 horas.</p></div>
     <div class="ejemplo"><p class="titulo">Ejemplo resuelto · baterías con vida Weibull</p>
       <div class="consigna"><b>Consigna</b>La vida útil de unas baterías es aleatoria con distribución Weibull de \(\beta=60\) horas y \(\omega=3\). a) ¿Qué duración debe especificarse para tener la seguridad de que será superada por el 95 % de las baterías? b) De las que duran más de 50 horas, ¿qué porcentaje dura menos de 60 horas?</div>
       <ol>
@@ -1130,6 +1195,9 @@ table.frases td:first-child{font-family:var(--display); font-weight:600}
     </table></div>
     <p class="porque">Se nota la asimetría negativa: \(\ln(\ln2)\) es negativo y \(-\beta C\) también, así que la mediana y la media quedan por <em>debajo</em> de la moda (\(\bar x\lt Me\lt Mo\)).</p>
 
+    <div class="cuando criollo"><b>En criollo</b>
+      <p>\(\theta\) es la edad a la que más gente muere (la moda). \((x-\theta)/\beta\) dice a cuántos «pasos \(\beta\)» estoy de esa edad: negativo si todavía falta, positivo si ya la pasé. La doble exponencial de \(G(x)\) hace que mucho antes de \(\theta\) casi todos sigan vivos y que, pasando \(\theta\), la supervivencia se desplome.</p>
+      <p><strong>Ejemplo tonto:</strong> con \(\theta=74\) años, a los 74 el exponente vale 0, \(e^{0}=1\) y queda \(e^{-1}=0{,}37\): el 37 % sigue vivo. Diez años antes queda mucho más; diez años después, casi nadie.</p></div>
     <div class="ejemplo"><p class="titulo">Ejemplo resuelto · vida de los varones (Gumbel del mínimo)</p>
       <div class="consigna"><b>Consigna</b>La vida de los varones de un país sigue una distribución Gumbel del mínimo. Se sabe que la media es de 70,1 años y que el 8 % supera los 80 años. ¿Qué porcentaje de los varones supera los 65 años?</div>
       <ol>
@@ -1180,6 +1248,9 @@ table.frases td:first-child{font-family:var(--display); font-weight:600}
     </table></div>
     <p class="porque">De acá sale «Seis Sigma», el método de calidad de empresas como Toyota o Motorola: si la tolerancia de una pieza queda a 6 desvíos de la media, casi ninguna pieza sale mal. Y sale también por qué centrar una máquina justo en el valor del envase es un error: la mitad de las bolsas pesaría menos de lo que dice el paquete.</p>
 
+    <div class="cuando criollo"><b>En criollo</b>
+      <p>La fórmula de la densidad no se usa para calcular: solo dibuja una campana centrada en \(\mu\) y con ancho \(\sigma\). El exponente mide a cuántos desvíos estoy de la media, al cuadrado (por eso da lo mismo estar arriba o abajo: es simétrica) y con signo menos (cuanto más lejos, más baja la curva).</p>
+      <p><strong>Para tener una idea:</strong> más o menos el 68 % de los casos cae a un desvío de la media y el 95 % a dos. Si las notas tienen media 6 y desvío 2, dos de cada tres alumnos sacan entre 4 y 8. Las probabilidades salen de la tabla, estandarizando.</p></div>
     <h3>Normal estándar y estandarización</h3>
     <p>La normal estándar es el caso \(\mu=0\) y \(\sigma=1\), con la variable \(Z\) (Laplace). Cualquier normal se transforma en esa misma \(Z\):</p>
     <div class="expr">\( Z=\dfrac{x-\mu}{\sigma}\qquad X\sim N(\mu,\sigma^2)\ \Rightarrow\ Z\sim N(0,1)\qquad f(z)=\dfrac{1}{\sqrt{2\pi}}\,e^{-z^2/2} \)</div>
@@ -1188,6 +1259,9 @@ table.frases td:first-child{font-family:var(--display); font-weight:600}
     <div class="cuando"><b>Cómo usar la tabla</b>
       <p>La tabla trae el área a la izquierda de \(z\), \(F(z)\), para valores de \(z\) entre 0 y 4. Fila = parte entera y primer decimal; columna = segundo decimal. Por ejemplo, \(z=1{,}23\): fila 1,2, columna 0,03 → \(0{,}8907\). Para un \(z\) <b>negativo</b> se usa la simetría: \(F(-z)=1-F(z)\). Así, \(P(Z\lt-1{,}23)=1-0{,}8907=0{,}1093\).</p></div>
 
+    <div class="cuando criollo"><b>En criollo</b>
+      <p>\(z\) responde una sola pregunta: <b>¿a cuántos desvíos de la media estoy?</b> Resto la media (me paro en el centro) y divido por el desvío (cambio la unidad de «kilos» o «litros» a «desvíos»). Así cualquier normal se convierte en la misma, y alcanza con una sola tabla.</p>
+      <p><strong>Ejemplo tonto:</strong> notas con media 6 y desvío 2. Un 9 está 3 puntos arriba de la media, o sea \(z=3/2=1{,}5\) desvíos. Con 1,5 voy a la tabla. El camino inverso (me dan el porcentaje, quiero la nota) es \(x=\mu+z\cdot\sigma\).</p></div>
     <h3>Qué me piden → qué hago</h3>
     <div class="scroll-x"><table class="frases">
       <tr><th>Si me piden…</th><th>Entonces…</th><th>Por ejemplo</th></tr>
@@ -1245,6 +1319,9 @@ table.frases td:first-child{font-family:var(--display); font-weight:600}
       <tr><td>Varianza y desvío</td><td>\(\sigma^2=e^{\,2m+D^2}\left(e^{D^2}-1\right)\qquad\sigma=\sqrt{\sigma^2}\)</td></tr>
     </table></div>
 
+    <div class="cuando criollo"><b>En criollo</b>
+      <p>El truco: a la variable le saco logaritmo, y lo que queda <b>sí</b> es una normal. \(m\) y \(D\) son la media y el desvío de ese logaritmo, no de la plata. La receta es siempre la misma: 1) con \(\mu\) y \(\sigma\) del enunciado calculo \(D\) y \(m\); 2) le saco \(\ln\) al valor que me dan; 3) estandarizo \(z=(\ln x-m)/D\); 4) voy a la tabla.</p>
+      <p><strong>Por qué hace falta:</strong> en un barrio donde casi todos ganan 100 y uno gana 10.000, el promedio no representa a nadie. El logaritmo «aprieta» los valores gigantes y la campana vuelve a ser simétrica. Para un fractil se hace al revés: \(\ln x=m+z\,D\) y se deshace con \(e\).</p></div>
     <div class="ejemplo"><p class="titulo">Ejemplo resuelto · saldos de cuentas de ahorro</p>
       <div class="consigna"><b>Consigna</b>Los saldos de las cuentas de ahorro de un banco tienen media U$s 120 y desvío U$s 85. Calcular: a) el % de los saldos superior a U$s 140; b) de los saldos superiores a la media, el % que supera U$s 140; c) el saldo superado por el 90 % de las cuentas; d) la mediana de los saldos.</div>
       <ol>
@@ -1300,6 +1377,9 @@ table.frases td:first-child{font-family:var(--display); font-weight:600}
     <div class="expr">\( F(r)=P(X\le r)=\sum_{x=0}^{r}\dfrac{e^{-m}m^x}{x!}\qquad G(r)=P(X\ge r)=\sum_{x=r}^{\infty}\dfrac{e^{-m}m^x}{x!} \)</div>
     <p>Esperanza y varianza son <b>iguales</b> a \(m\): \(E(X)=V(X)=m\) (valen \(\lambda\) cuando el continuo es de una unidad), y \(\sigma=\sqrt{m}\). Cuidá las unidades: si \(\lambda\) está «por hora» y el tramo se da en minutos, convertí antes de armar \(m\).</p>
 
+    <div class="cuando criollo"><b>En criollo</b>
+      <p>Primero armo \(m=\lambda\cdot t\): cuántos acontecimientos <b>espero</b> en mi tramo. Después, en \(P(r)=e^{-m}m^{r}/r!\): \(e^{-m}\) es la probabilidad de que no pase nada; cada acontecimiento agrega un factor \(m\); y divido por \(r!\) porque no importa en qué orden llegaron.</p>
+      <p><strong>Ejemplo tonto:</strong> me llegan 2 mensajes por hora en promedio. ¿Ninguno en una hora? \(e^{-2}=0{,}135\). ¿Exactamente 2? \(0{,}135\cdot2^2/2=0{,}27\). Si el tramo fuera de media hora, primero cambio \(m\): \(2\cdot0{,}5=1\).</p></div>
     <div class="ejemplo"><p class="titulo">Ejemplo resuelto · conmutador telefónico</p>
       <div class="consigna"><b>Consigna</b>Un conmutador telefónico recibe en promedio 600 llamadas por hora y puede hacer como máximo 20 conexiones en un minuto dado. ¿Cuál es la probabilidad de que su capacidad sea superada en un minuto dado?</div>
       <ol>
@@ -1322,12 +1402,18 @@ table.frases td:first-child{font-family:var(--display); font-weight:600}
     <div class="cuando"><b>Caso particular: la exponencial</b>
       <p>Con \(r=1\) la densidad queda \(f(x)=\lambda e^{-\lambda x}\): es el modelo <b>exponencial</b>. Entonces la exponencial es, a la vez, un caso particular del <b>Gamma</b> dentro del proceso de Poisson (el continuo hasta el <em>primer</em> acontecimiento) y un caso particular del <b>Weibull</b> en los fenómenos de vida (\(\omega=1\)).</p></div>
 
+    <div class="cuando criollo"><b>En criollo</b>
+      <p>Es Poisson mirado al revés: en vez de «cuántos pasan en un tramo», pregunto «cuánto tengo que esperar hasta juntar \(r\)». La esperanza \(r/\lambda\) es puro sentido común: si pasan 2 colectivos por hora, para ver pasar 3 espero \(3/2=1{,}5\) horas.</p>
+      <p>La densidad casi nunca se integra a mano: con \(r\) entero se da vuelta la pregunta y se resuelve con Poisson (la relación de Molina, acá abajo).</p></div>
     <h3>Relación de Molina: de Gamma a Poisson</h3>
     <p>Cuando \(r\) es <b>entero</b>, las áreas del Gamma se calculan con tablas o calculadora de Poisson. La lógica: «el \(r\)-ésimo acontecimiento aparece antes de \(x\)» equivale a «en el tramo \((0,x)\) hay <em>al menos</em> \(r\) acontecimientos». Con \(m=\lambda\cdot x\):</p>
     <div class="expr">\( P(X\le x)=F_\gamma(x/r;\lambda)=G_{po}(r\,/\,m=\lambda x)\qquad P(X\ge x)=G_\gamma(x/r;\lambda)=F_{po}(r-1\,/\,m=\lambda x) \)</div>
     <p>Si \(r\) <b>no es entero</b> no se puede usar Molina (Poisson es discreta). En ese caso se aproxima con Wilson–Hilferty (1931):</p>
     <div class="expr">\( F_\gamma(x/r;\lambda)\approx\Phi\!\left\{3\sqrt{r}\left[\left(\dfrac{\lambda x}{r}\right)^{1/3}+\dfrac{1}{9r}-1\right]\right\}\qquad x_\alpha\approx\dfrac{r}{\lambda}\left(\dfrac{z_\alpha}{3\sqrt r}-\dfrac{1}{9r}+1\right)^{3} \)</div>
 
+    <div class="cuando criollo"><b>En criollo</b>
+      <p>Es la misma historia contada de dos maneras. «El tercer colectivo llegó <b>antes</b> de una hora» es lo mismo que «en esa hora pasaron <b>3 o más</b>». Y «el tercero tardó <b>más</b> de una hora» es lo mismo que «en esa hora pasaron <b>2 o menos</b>»: por eso aparece \(r-1\).</p>
+      <p>Entonces, cada vez que un Gamma pregunta por tiempo, la paso a una pregunta de cantidad: armo \(m=\lambda\cdot x\) y uso Poisson.</p></div>
     <div class="ejemplo"><p class="titulo">Ejemplo resuelto · rollos de tela que terminan en la 2.ª falla (Gamma)</p>
       <div class="consigna"><b>Consigna</b>Un proceso de fabricación de tela genera en promedio 1 falla cada 100 metros. La longitud de cada rollo queda determinada por la aparición de la segunda falla (todos los rollos tienen una falla). Calcular: a) el % de los rollos con longitud inferior a 150 m; b) la longitud superada por el 90 % de los rollos; c) la longitud superada por el 10 %; d) la longitud mediana; e) la longitud modal.</div>
       <ol>

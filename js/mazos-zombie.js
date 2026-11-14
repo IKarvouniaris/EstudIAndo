@@ -100,5 +100,31 @@
     });
   }
 
+  /* Estadística, 2.º parcial: «reconocé el modelo». Enunciados breves y cuatro puertas con distribuciones o
+     herramientas (js/zombie-estadistica.js, un nivel por paso de la guía de decisión del apunte). El apunte de
+     Estadística no tiene secciones #cN, así que las preguntas no llevan «clase» (no hay enlace por pregunta). */
+  var est = (window.NIVELES_ZOMBIE_ESTADISTICA || []).slice().sort(function (a, b) { return a.orden - b.orden; });
+  if (est.length) {
+    MAZOS.push({
+      id: "estadistica",
+      materia: "Estadística",
+      detalle: "2.º parcial · reconocé el modelo",
+      apunte: "estadistica.html#decidir",
+      volver: "estadistica.html#decidir",
+      niveles: est.map(function (n) {
+        return {
+          titulo: n.titulo,
+          clase: null,
+          grupos: [{
+            caso: null,
+            preguntas: n.preguntas.map(function (p) {
+              return { q: p.q, ops: p.ops.slice(), ok: 0, porque: p.porque, tema: p.tema };
+            })
+          }]
+        };
+      })
+    });
+  }
+
   window.MAZOS_ZOMBIE = MAZOS;
 })();
