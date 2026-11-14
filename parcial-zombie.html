@@ -194,7 +194,7 @@ button{font:inherit; color:inherit}
 .sala-hud .jug small{font-family:var(--mono); font-size:.66rem; color:var(--tinta-2); letter-spacing:.04em}
 .sala-hud .jug.cayo{border-left-color:var(--sangre); opacity:.7}
 .sala-hud .jug.gano{border-left-color:var(--ok)}
-body.en-sala #btn-pausa, body.en-sala #btn-otra, body.en-sala #btn-cambiar{display:none}
+body.en-sala #btn-pausa, body.en-sala #btn-otra, body.en-sala #btn-falladas, body.en-sala #btn-cambiar{display:none}
 .codigo-sala{font-family:var(--display); font-weight:700; font-size:clamp(2.6rem,14vw,4.4rem); letter-spacing:.25em; color:var(--luz); line-height:1; margin:.2rem 0 .6rem}
 .jugadores{list-style:none; margin:.2rem 0 .6rem; padding:0; display:grid; gap:.3rem}
 .jugadores li{display:flex; justify-content:space-between; align-items:baseline; gap:.6rem; padding:.45rem .7rem; background:var(--papel-2); border:1px solid var(--linea); border-left:3px solid var(--linea); border-radius:3px}
@@ -336,6 +336,7 @@ body.en-sala #btn-pausa, body.en-sala #btn-otra, body.en-sala #btn-cambiar{displ
       </div>
       <div class="botones">
         <button class="btn principal" id="btn-otra" type="button">Correr de nuevo</button>
+        <button class="btn" id="btn-falladas" type="button" hidden>Repasar las que fallé</button>
         <button class="btn" id="btn-cambiar" type="button">Cambiar de materia</button>
         <a class="btn" id="link-volver-fin" href="index.html">Volver al apunte</a>
       </div>
@@ -360,6 +361,7 @@ body.en-sala #btn-pausa, body.en-sala #btn-otra, body.en-sala #btn-cambiar{displ
 <script src="js/simulacros-etica-p2-a.js"></script>
 <script src="js/simulacros-etica-p2-b.js"></script>
 <script src="js/simulacros-etica-p2-c.js"></script>
+<script src="js/zombie-estadistica.js"></script>
 <script src="js/mazos-zombie.js"></script>
 <script src="js/parcial-zombie.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
