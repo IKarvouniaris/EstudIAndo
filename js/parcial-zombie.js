@@ -211,10 +211,28 @@
     return tandas;
   }
 
+  // «Repasar las que fallé»: una corrida de un solo nivel con las preguntas mordidas de la corrida anterior.
+  // Las sueltas se mezclan; las de un caso salen juntas, en su orden, y vuelven a mostrar el caso.
+  function armarRepaso(falladas) {
+    var bloques = [], casos = [], deCaso = [], tandas = [], nCaso = 0;
+    falladas.forEach(function (f) {
+      if (!f.caso) { bloques.push([{ p: f.p, caso: null, abre: false }]); return; }
+      var k = casos.indexOf(f.caso);
+      if (k < 0) { casos.push(f.caso); deCaso.push([]); bloques.push(deCaso[deCaso.length - 1]); k = casos.length - 1; }
+      deCaso[k].push({ p: f.p, caso: f.caso, abre: deCaso[k].length === 0 });
+    });
+    mezclar(bloques);
+    bloques.forEach(function (b) { if (b[0].caso) nCaso++; b.forEach(function (x) { x.nCaso = nCaso; x.nivel = 0; tandas.push(x); }); });
+    tandas.forEach(function (t, j) { t.enNivel = j + 1; t.totalNivel = tandas.length; });
+    tandas[0].abreNivel = true; tandas[tandas.length - 1].ultimaNivel = true;
+    return tandas;
+  }
+
   function nueva() {
     if (!E.mazo) return;
-    E.nNiveles = nivelesDe(E.mazo).length;
-    E.tandas = armarTandas(E.mazo, E.desde, E.sala ? E.sala.semilla : null);
+    if (E.sala) E.repaso = null;
+    E.nNiveles = E.repaso ? 1 : nivelesDe(E.mazo).length;
+    E.tandas = E.repaso ? armarRepaso(E.repaso) : armarTandas(E.mazo, E.desde, E.sala ? E.sala.semilla : null);
     E.i = 0; E.vidas = CFG.vidas; E.racha = 0; E.corrida = 0; E.mejorRacha = 0; E.aciertos = 0;
     E.historial = []; E.pausa = false; E.negro = 0; E.rojo = 0; E.zombi = 0; E.embiste = 0; E.esc = null; E.vidaGanada = false;
     dom.portada.hidden = true; dom.pausa.hidden = true; dom.fin.hidden = true; dom.caso.hidden = true;
@@ -377,7 +395,7 @@
     var mejor = leerMejor(E.mazo);
     var nivel = E.tandas.length ? E.tandas[Math.min(E.i, E.tandas.length - 1)].nivel + 1 : 1;
     var esta = { aciertos: E.aciertos, gano: gano, nivel: nivel };
-    var cuenta = E.desde === 0 && !E.sala;      // la marca solo cuenta si se arranca en el primer nivel y no es una sala
+    var cuenta = E.desde === 0 && !E.sala && !E.repaso;      // la marca solo cuenta si se arranca en el primer nivel y no es una sala
     var supera = cuenta && (!mejor || (esta.gano && !mejor.gano) || (esta.gano === mejor.gano && esta.aciertos > mejor.aciertos));
     if (supera) { try { localStorage.setItem(claveMejor(E.mazo), JSON.stringify(esta)); } catch (e) {} }
     pintarFin(gano, supera, supera ? esta : mejor, cuenta);
@@ -439,6 +457,7 @@
     var fm = $("fin-mejor");
     fm.textContent = "";
     if (E.sala) fm.appendChild(document.createTextNode("Partida de sala: no cuenta para tu mejor marca."));
+    else if (E.repaso) fm.appendChild(document.createTextNode("Repaso de las que fallaste: no cuenta para tu mejor marca."));
     else if (!cuenta) fm.appendChild(document.createTextNode("Empezaste en el nivel " + (E.desde + 1) + ": esta corrida no cuenta para tu mejor marca."));
     else {
       fm.appendChild(document.createTextNode(supera ? "Nueva mejor marca: " : "Tu mejor marca: "));
@@ -484,6 +503,10 @@
       li.appendChild(el("p", "porque", h.p.porque));
       ol.appendChild(li);
     });
+    // «Repasar las que fallé»: solo fuera de una sala y si hubo alguna mordida
+    E.falladas = E.historial.filter(function (h) { return !h.bien; }).map(function (h) { return { p: h.p, caso: h.caso }; });
+    var bf = $("btn-falladas");
+    if (bf) { bf.hidden = !!E.sala || !E.falladas.length; bf.textContent = "Repasar las que fallé (" + E.falladas.length + ")"; }
     dom.fin.hidden = false;
     dom.fin.scrollTop = 0;
     $("btn-otra").focus({ preventScroll: true });
@@ -1288,8 +1311,12 @@
     if (!dom.caso.hidden) { if (t === "escape" || t === "enter") { ev.preventDefault(); cerrarCaso(); } return; }
     if (t === "escape" || t === "p") { if (E.fase !== "portada" && E.fase !== "fin") { ev.preventDefault(); pausar(!E.pausa); } }
   });
-  $("btn-correr").addEventListener("click", function () { Sonido.iniciar(); nueva(); });
-  $("btn-otra").addEventListener("click", function () { Sonido.iniciar(); nueva(); });
+  $("btn-correr").addEventListener("click", function () { Sonido.iniciar(); E.repaso = null; nueva(); });
+  $("btn-otra").addEventListener("click", function () { Sonido.iniciar(); E.repaso = null; nueva(); });
+  if ($("btn-falladas")) $("btn-falladas").addEventListener("click", function () {
+    if (!E.falladas || !E.falladas.length) return;
+    Sonido.iniciar(); E.repaso = E.falladas.slice(); nueva();
+  });
   $("btn-reiniciar").addEventListener("click", function () { Sonido.reanudar(); nueva(); });
   $("btn-seguir").addEventListener("click", function () { pausar(false); });
   $("btn-caso-seguir").addEventListener("click", cerrarCaso);

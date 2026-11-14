@@ -70,7 +70,7 @@ a{color:var(--acento)}
 .btn-tema{cursor:pointer; font-family:var(--mono); font-size:.66rem; letter-spacing:.08em; padding:.45rem .7rem; background:var(--papel-2); color:var(--tinta-2); border:1px solid var(--linea); border-radius:2px; width:100%}
 .btn-tema:hover{color:var(--tinta); border-color:var(--tinta-3)}
 
-.lienzo{max-width:860px; margin:0 auto; padding:2.4rem clamp(1rem,3vw,2.4rem) 6rem}
+.lienzo{max-width:860px; width:100%; min-width:0; margin:0 auto; padding:2.4rem clamp(1rem,3vw,2.4rem) 6rem}
 .portada .cintillo{font-family:var(--mono); font-size:.66rem; letter-spacing:.17em; text-transform:uppercase; color:var(--tinta-3); margin:0}
 .portada h1{font-family:var(--display); font-weight:700; font-size:clamp(1.9rem,4.5vw,2.7rem); line-height:1.05; letter-spacing:-.01em; margin:.3rem 0 .8rem}
 .portada p{color:var(--tinta-2); max-width:66ch}
@@ -79,7 +79,7 @@ a{color:var(--acento)}
 .clase .eyebrow, .herramienta .eyebrow{font-family:var(--mono); font-size:.64rem; letter-spacing:.14em; text-transform:uppercase; color:var(--acento); margin:0 0 .3rem}
 .clase h2, .herramienta h2{font-family:var(--display); font-weight:700; font-size:1.5rem; margin:0 0 .6rem; letter-spacing:-.01em}
 .clase .objetivo, .herramienta .intro{color:var(--tinta-2); margin:0 0 1rem}
-.clase h3{font-family:var(--display); font-weight:700; font-size:1.08rem; margin:1.6rem 0 .5rem; color:var(--acento)}
+.clase h3, .herramienta h3{font-family:var(--display); font-weight:700; font-size:1.08rem; margin:1.6rem 0 .5rem; color:var(--acento)}
 .clase h4{font-family:var(--mono); font-size:.68rem; letter-spacing:.1em; text-transform:uppercase; color:var(--tinta-3); margin:1.1rem 0 .4rem}
 .conceptos{margin:0; padding-left:1.3rem}
 .conceptos li{margin:.35rem 0}
@@ -110,6 +110,50 @@ code{font-family:var(--mono); font-size:.88em}
 table.tabla{border-collapse:collapse; margin:.5rem 0; font-family:var(--mono); font-size:.8rem}
 table.tabla th, table.tabla td{border:1px solid var(--linea); padding:.25rem .6rem; text-align:right}
 table.tabla th{background:var(--papel-3); font-weight:600}
+/* Repaso exprés, integradores con pasos tapados y cuentas rápidas */
+.plan3{display:grid; gap:.7rem; margin:.6rem 0}
+@media (min-width:760px){ .plan3{grid-template-columns:repeat(3,1fr)} }
+.plan3 > div{background:var(--papel-2); border:1px solid var(--linea); border-top:3px solid var(--acento); border-radius:2px; padding:.7rem .9rem; font-size:.93rem}
+.plan3 h4{margin-top:0}
+.plan3 ul{margin:.3rem 0 0; padding-left:1.1rem}
+.plan3 li{margin:.3rem 0}
+.arbol, .arbol ul{list-style:none; margin:0; padding:0}
+.arbol{margin:.6rem 0}
+.arbol ul{margin-left:.5rem; padding-left:1rem; border-left:2px solid var(--linea)}
+.arbol li{margin:.45rem 0; position:relative}
+.arbol ul > li::before{content:""; position:absolute; left:-1rem; top:.8em; width:.75rem; border-top:2px solid var(--linea)}
+.arbol .nodo{font-family:var(--display); font-weight:700}
+.arbol .rama{color:var(--tinta-2); font-size:.93rem}
+.arbol .hoja{display:inline-block; font-family:var(--mono); font-size:.7rem; letter-spacing:.06em; text-transform:uppercase; background:var(--acento-suave); color:var(--acento); border:1px solid var(--acento); border-radius:2px; padding:.08rem .45rem; margin-left:.25rem; white-space:nowrap}
+.gancho{display:block; font-weight:400; font-style:italic; font-size:.84rem; color:var(--tinta-2); margin-top:.15rem}
+.bolsillo{list-style:none; padding:0; margin:.5rem 0}
+.bolsillo li{margin:.4rem 0}
+.bolsillo label{display:flex; gap:.55rem; align-items:flex-start; cursor:pointer}
+.bolsillo input{margin-top:.35rem}
+.empeza{display:flex; flex-wrap:wrap; gap:.4rem 1rem; align-items:center; justify-content:space-between; background:var(--acento-suave); border:1px solid var(--acento); border-left:4px solid var(--acento); border-radius:2px; padding:.75rem 1rem; margin:1.2rem 0 0}
+.empeza p{margin:0; font-size:.95rem}
+.empeza a{font-family:var(--mono); font-size:.72rem; letter-spacing:.08em; text-transform:uppercase; white-space:nowrap}
+.ggb{background:var(--papel-3); border-left:3px solid var(--tinta-3); border-radius:2px; padding:.4rem .7rem; font-size:.9rem}
+@media (max-width:720px){
+  table.fichas, table.fichas tbody, table.fichas tr, table.fichas td{display:block; width:auto}
+  table.fichas tr:first-child{display:none}
+  table.fichas tr{border:1px solid var(--linea); border-top:3px solid var(--acento); border-radius:2px; background:var(--papel-2); padding:.5rem .8rem; margin:.7rem 0}
+  table.fichas td{border:0; padding:.25rem 0}
+  table.fichas td:first-child{font-size:1.05rem; padding-bottom:.4rem}
+  table.fichas td[data-l]::before{content:attr(data-l); display:block; font-family:var(--mono); font-size:.6rem; letter-spacing:.1em; text-transform:uppercase; color:var(--tinta-3)}
+}
+details.paso{border:1px solid var(--linea); border-radius:2px; margin:.45rem 0; background:var(--papel)}
+details.paso > summary{cursor:pointer; padding:.5rem .75rem; font-family:var(--display); font-weight:600; font-size:.95rem}
+details.paso[open] > summary{border-bottom:1px solid var(--linea)}
+details.paso > div{padding:.25rem .85rem .5rem}
+.cuentas{padding-left:1.4rem}
+.cuenta{margin:1.1rem 0}
+.cuenta .resp-fila{display:flex; flex-wrap:wrap; gap:.45rem; align-items:center; margin:.4rem 0}
+.cuenta input{font:inherit; width:8.5rem; padding:.3rem .5rem; border:1px solid var(--linea); border-radius:2px; background:var(--papel); color:var(--tinta)}
+.cuenta button{font-family:var(--mono); font-size:.68rem; letter-spacing:.08em; text-transform:uppercase; padding:.45rem .7rem; border:1px solid var(--tinta); background:var(--tinta); color:var(--papel); border-radius:2px; cursor:pointer}
+.cuenta .veredicto{font-size:.9rem}
+.cuenta .veredicto.ok{color:var(--ok); font-weight:600}
+.cuenta .veredicto.mal{color:var(--alerta)}
 .scroll-x{overflow-x:auto}
 
 /* ---- Hoja de fórmulas ---- */
@@ -235,6 +279,7 @@ table.frases td:first-child{font-family:var(--display); font-weight:600}
     <div class="riel-grupo">Panorama</div>
     <a class="item" href="#dominio-sec">▲ Tu dominio por tema</a>
     <a class="item" href="#hoja">∑ Hoja de fórmulas</a>
+    <a class="item" href="#expres">⚡ Repaso exprés (2.º parcial)</a>
     <a class="item" href="#decidir">? ¿Qué uso en cada caso?</a>
     <div class="riel-grupo">Temas</div>
     <a class="item" href="#t1">1 · Estadística descriptiva</a>
@@ -251,6 +296,8 @@ table.frases td:first-child{font-family:var(--display); font-weight:600}
     <a class="item" href="#glosario">A–Z Glosario</a>
     <a class="item" href="#flashcards">▤ Flashcards</a>
     <div class="riel-grupo">Práctica</div>
+    <a class="item" href="#integradores">◧ Integradores, paso a paso</a>
+    <a class="item" href="#cuentas">＝ Cuentas rápidas</a>
     <a class="item externo" href="simulacro-estadistica.html">▶ Simulacro (1.er y 2.º parcial) ↗</a>
     <a class="item externo" href="parcial-zombie.html#mazo=estadistica">Z Parcial Zombie: reconocé el modelo ↗</a>
     <a class="item externo" href="leaderboard-estadistica.html">★ Leaderboard ↗</a>
@@ -272,6 +319,10 @@ table.frases td:first-child{font-family:var(--display); font-weight:600}
       temas 1 y 2 completos y del tema 3 la parte de variables discretas (sin expectativas parciales). Los temas 4 a 7 (clases 10 a 13) siguen con lo que se vio después del primer parcial: variables continuas, fenómenos de vida, normal y log-normal, y el proceso de Poisson.
     </p>
   </header>
+  <aside class="empeza" aria-label="Segundo parcial">
+    <p><b>¿Rendís el 2.º parcial y vas con poco tiempo?</b> Hay un camino corto: plan de tres días, árbol para elegir el modelo, integradores y GeoGebra.</p>
+    <a href="#expres">Empezá acá →</a>
+  </aside>
 
   <section class="herramienta" id="dominio-sec" data-busca="tu dominio por tema progreso mastery">
     <p class="eyebrow">Basado en tus exámenes rendidos</p>
@@ -470,6 +521,161 @@ table.frases td:first-child{font-family:var(--display); font-weight:600}
   </section>
 
   <!-- ===================================================================== -->
+  <!-- ===================================================================== -->
+  <section class="clase" id="expres" data-busca="repaso expres plan de tres dias arbol de decision fichas modelos pares que se confunden frases gancho checklist antes de entregar segundo parcial">
+    <p class="eyebrow">Repaso exprés · 2.º parcial</p>
+    <h2>Si tenés tres días y poco estudiado</h2>
+    <p class="objetivo">Lo mínimo para llegar: un plan, un árbol para elegir el modelo, una ficha por modelo, los pares que se confunden y una lista para repasar antes de entregar. Menos lectura y más intentos de resolver.</p>
+
+    <h3>Plan de tres días</h3>
+    <div class="plan3">
+      <div><h4>Día 1 · reconocer</h4>
+        <ul>
+          <li>Leé <a href="#expres-bayes">Bayes en cinco minutos</a>, el <a href="#expres-arbol">árbol</a> y las <a href="#expres-fichas">fichas</a> (40 minutos, sin estudiar fórmulas todavía).</li>
+          <li>Jugá los niveles 1 y 2 de <a href="parcial-zombie.html#mazo=estadistica">Parcial Zombie</a> y después «Repasar las que fallé».</li>
+          <li>De cada modelo que fallaste, leé solo su recuadro «En criollo».</li>
+        </ul></div>
+      <div><h4>Día 2 · calcular</h4>
+        <ul>
+          <li>Abrí GeoGebra con la <a href="#calculadora">guía de qué cargar</a> al lado y hacé las <a href="#cuentas">cuentas rápidas</a>.</li>
+          <li>Resolvé los <a href="#integradores">integradores</a> 1 a 5 destapando un paso por vez.</li>
+          <li>Niveles 3 y 4 del zombie.</li>
+        </ul></div>
+      <div><h4>Día 3 · la víspera</h4>
+        <ul>
+          <li>Integradores 6 a 10 y los <a href="#integradores-nuevos">seis nuevos</a>, en papel y con GeoGebra, sin mirar: destapá solo para corregir.</li>
+          <li>Repasá los <a href="#expres-pares">pares que se confunden</a> y nivel 5 del zombie.</li>
+          <li>Cerrá con la <a href="#expres-bolsillo">lista de bolsillo</a>. Nada nuevo a la noche.</li>
+        </ul></div>
+    </div>
+    <div class="cuando"><b>Si no llegás con todo</b>
+      <p>Salteá primero Gumbel y la aproximación de Wilson–Hilferty: no aparecieron en los integradores. Lo que no se puede saltear: Bayes con un modelo adentro, Weibull, normal con fractil, log-normal y Poisson con sus unidades.</p></div>
+
+    <h3 id="expres-bayes">Bayes en cinco minutos</h3>
+    <p>Casi todos los integradores terminan acá, así que conviene tenerlo aceitado antes que cualquier modelo. Siempre es la misma tabla de cuatro columnas:</p>
+    <ol class="conceptos">
+      <li><b>Una fila por origen</b> (proveedor, tipo, inspector), con su porcentaje: es lo que sabías <em>antes</em> de mirar («a priori»). Tienen que sumar 1.</li>
+      <li><b>En cada fila, la probabilidad de lo que se observó</b> si ese fuera el origen. Este es el único número que sale del modelo (Weibull, normal, Poisson, binomial…).</li>
+      <li><b>Multiplicás</b> las dos columnas: es el «camino» completo.</li>
+      <li><b>Sumás los productos</b>: eso es la <b>probabilidad total</b> (y la respuesta, si preguntan por «uno al azar»).</li>
+      <li><b>Dividís cada producto por esa suma</b>: eso es <b>Bayes</b>, lo que sabés <em>después</em> de mirar («a posteriori»).</li>
+    </ol>
+    <div class="scroll-x"><table class="frases">
+      <tr><th>Origen</th><th>A priori</th><th>P(lo observado | origen)</th><th>Producto</th><th>A posteriori</th></tr>
+      <tr><td>Cajón A</td><td>0,30</td><td>0,10</td><td>0,03</td><td>\(0{,}03/0{,}17=0{,}18\)</td></tr>
+      <tr><td>Cajón B</td><td>0,70</td><td>0,20</td><td>0,14</td><td>\(0{,}14/0{,}17=0{,}82\)</td></tr>
+      <tr><td>Suma</td><td>1</td><td></td><td><b>0,17</b> (total)</td><td>1</td></tr>
+    </table></div>
+    <p>Ejemplo: el 30 % de la fruta viene del cajón A, donde el 10 % está podrida, y el resto del B, donde lo está el 20 %. Una fruta al azar está podrida con probabilidad 0,17; y si salió podrida, es del A con probabilidad 0,18.</p>
+    <div class="cuando"><b>Cómo se engancha con los modelos</b>
+      <p>En un integrador lo único que cambia es la tercera columna. «Resistió 23 tn» → \(G(23)\) de cada proveedor. «Duró exactamente 6.012» → \(f(6{,}012)\) de cada tipo. «1 de 5 resistió» → la binomial de cada proveedor. El resto de la tabla se llena igual.</p>
+      <p>Dos controles rápidos: la última columna suma 1, y el origen que «explica mejor» lo observado tiene que subir respecto de su porcentaje inicial.</p></div>
+
+    <h3 id="expres-arbol">El árbol: del enunciado al modelo</h3>
+    <p>Se recorre de arriba hacia abajo. Vale la pena saber dibujarlo de memoria en la hoja del parcial.</p>
+    <ul class="arbol">
+      <li><span class="nodo">¿Qué hago con lo que observo?</span>
+        <ul>
+          <li><span class="nodo">Lo cuento</span> <span class="rama">(0, 1, 2… piezas, llamadas, fallas)</span>
+            <ul>
+              <li><span class="rama">Me dan una tasa por unidad de continuo (por hora, por metro, por m²) y un tramo</span> <span class="hoja">Poisson</span></li>
+              <li><span class="nodo">Hay éxitos y fracasos: ¿qué está fijo?</span>
+                <ul>
+                  <li><span class="rama">La muestra \(n\), y \(p\) no cambia (con reposición o proceso)</span> <span class="hoja">Binomial</span></li>
+                  <li><span class="rama">La muestra \(n\), de un lote chico con \(N\) y \(R\), sin reposición</span> <span class="hoja">Hipergeométrica</span></li>
+                  <li><span class="rama">Los éxitos \(r\) («hasta encontrar el…»), y \(p\) no cambia</span> <span class="hoja">Pascal</span></li>
+                  <li><span class="rama">Los éxitos \(r\), de un lote chico sin reposición</span> <span class="hoja">HiperPascal</span></li>
+                </ul></li>
+            </ul></li>
+          <li><span class="nodo">Lo mido</span> <span class="rama">(horas, metros, kilos, plata)</span>
+            <ul>
+              <li><span class="rama">Me dan \(f(x)\) con constantes a hallar</span> <span class="hoja">Integrales</span></li>
+              <li><span class="nodo">Es una duración o una resistencia</span>
+                <ul>
+                  <li><span class="rama">Me dan \(\beta\) y \(\omega\)</span> <span class="hoja">Weibull</span></li>
+                  <li><span class="rama">Falla al azar; me dan la vida media o la tasa</span> <span class="hoja">Exponencial</span></li>
+                  <li><span class="rama">Seres vivos, solo desgaste; me dan \(\theta\) y \(\beta\)</span> <span class="hoja">Gumbel</span></li>
+                </ul></li>
+              <li><span class="nodo">Me dan media y desvío (o dos porcentajes)</span>
+                <ul>
+                  <li><span class="rama">Pesos, medidas, consumos; \(CV\) bajo</span> <span class="hoja">Normal</span></li>
+                  <li><span class="rama">Plata (sueldos, saldos, depósitos); \(CV\gt60\,\%\)</span> <span class="hoja">Log-normal</span></li>
+                  <li><span class="rama">Es el total de muchos días o unidades</span> <span class="hoja">TCL</span></li>
+                </ul></li>
+              <li><span class="rama">Cuánto continuo pasa hasta el \(r\)-ésimo acontecimiento</span> <span class="hoja">Gamma</span></li>
+            </ul></li>
+        </ul></li>
+      <li><span class="nodo">Y después, ¿cómo está hecha la pregunta?</span>
+        <ul>
+          <li><span class="rama">Dos orígenes con porcentajes, «uno al azar»</span> <span class="hoja">Probabilidad total</span></li>
+          <li><span class="rama">«Si pasó tal cosa, ¿de cuál viene?»</span> <span class="hoja">Bayes</span></li>
+          <li><span class="rama">«De una muestra de \(n\), \(k\) cumplen»</span> <span class="hoja">Binomial encima</span></li>
+          <li><span class="rama">«El valor superado por el…», «con 90 % de seguridad»</span> <span class="hoja">Fractil</span></li>
+        </ul></li>
+    </ul>
+
+    <h3 id="expres-fichas">Una ficha por modelo</h3>
+    <p>Todas con el mismo formato, para comparar de un vistazo. Debajo del nombre, una frase para acordarse.</p>
+    <div class="scroll-x"><table class="frases fichas">
+      <tr><th>Modelo</th><th>Pista en el enunciado</th><th>Me dan</th><th>Lo que uso</th><th>Error típico</th></tr>
+      <tr><td>Binomial<span class="gancho">«De \(n\), ¿cuántos?»</span></td><td data-l="Pista en el enunciado">«en una muestra de 15», «de 100 envíos»</td><td data-l="Me dan">\(n\) y \(p\)</td><td data-l="Lo que uso">\(\binom{n}{k}p^k(1-p)^{n-k}\); «alguno» \(=1-(1-p)^n\)</td><td data-l="Error típico">Dejar la pregunta en «buenas» cuando la variable es «defectuosas»</td></tr>
+      <tr><td>Pascal<span class="gancho">«El último siempre es éxito.»</span></td><td data-l="Pista en el enunciado">«hasta encontrar la segunda», «la primera es la sexta»</td><td data-l="Me dan">\(r\) y \(p\)</td><td data-l="Lo que uso">\(\binom{n-1}{r-1}p^r(1-p)^{n-r}\)</td><td data-l="Error típico">Usar el combinatorio de \(n\) en vez de \(n-1\)</td></tr>
+      <tr><td>Hipergeométrica<span class="gancho">«Favorables sobre posibles.»</span></td><td data-l="Pista en el enunciado">«lote de 40 con 5 fallados, se prueban 5»</td><td data-l="Me dan">\(N\), \(R\), \(n\)</td><td data-l="Lo que uso">\(\dfrac{\binom{R}{x}\binom{N-R}{n-x}}{\binom{N}{n}}\)</td><td data-l="Error típico">Tratarla como binomial con \(p=R/N\)</td></tr>
+      <tr><td>HiperPascal<span class="gancho">«Hipergeométrica y una más.»</span></td><td data-l="Pista en el enunciado">«se saca sin reposición hasta la segunda roja»</td><td data-l="Me dan">\(N\), \(R\), \(r\)</td><td data-l="Lo que uso">Hipergeométrica de las \(n-1\) primeras, por la chance de la siguiente</td><td data-l="Error típico">Olvidar que «necesita 5 o menos» es «2 o más en 5»</td></tr>
+      <tr><td>Poisson<span class="gancho">«Primero \(m\), después todo.»</span></td><td data-l="Pista en el enunciado">«90 llamadas por hora», «0,25 nudos por m²»</td><td data-l="Me dan">\(\lambda\) y el tramo \(t\)</td><td data-l="Lo que uso">\(m=\lambda t\); \(P(r)=e^{-m}m^r/r!\)</td><td data-l="Error típico">No pasar \(\lambda\) y \(t\) a la misma unidad</td></tr>
+      <tr><td>Exponencial<span class="gancho">«No tiene memoria.»</span></td><td data-l="Pista en el enunciado">«falla al azar», «vida media de 500 horas»</td><td data-l="Me dan">vida media \(=1/\lambda\)</td><td data-l="Lo que uso">\(G(x)=e^{-\lambda x}\)</td><td data-l="Error típico">Creer que la mitad supera la media (es el 37 %)</td></tr>
+      <tr><td>Weibull<span class="gancho">«En \(x=\beta\) queda el 37 %.»</span></td><td data-l="Pista en el enunciado">«vida útil», «resistencia a la rotura»</td><td data-l="Me dan">\(\beta\) y \(\omega\)</td><td data-l="Lo que uso">\(G(x)=e^{-(x/\beta)^{\omega}}\)</td><td data-l="Error típico">Mezclar unidades (\(\beta\) en miles, \(x\) en unidades); usar \(F\) por \(G\)</td></tr>
+      <tr><td>Gumbel del mínimo<span class="gancho">«\(\theta\) es la edad más común.»</span></td><td data-l="Pista en el enunciado">«vida de seres vivos», «solo desgaste»</td><td data-l="Me dan">\(\theta\) y \(\beta\)</td><td data-l="Lo que uso">\(G(x)=e^{-e^{(x-\theta)/\beta}}\)</td><td data-l="Error típico">Confundir su \(\beta\) con el del Weibull</td></tr>
+      <tr><td>Normal<span class="gancho">«¿A cuántos desvíos estoy?»</span></td><td data-l="Pista en el enunciado">pesos, alturas, consumos; «distribuida normalmente»</td><td data-l="Me dan">\(\mu\) y \(\sigma\) (o dos porcentajes)</td><td data-l="Lo que uso">\(z=\dfrac{x-\mu}{\sigma}\) y tabla; fractil \(x=\mu+z\sigma\)</td><td data-l="Error típico">Leer mal el signo de \(z\); «más de» es \(1-F\)</td></tr>
+      <tr><td>Log-normal<span class="gancho">«Logaritmo y después normal.»</span></td><td data-l="Pista en el enunciado">sueldos, saldos, depósitos; \(CV\gt60\,\%\)</td><td data-l="Me dan">\(\mu\) y \(\sigma\) de la plata</td><td data-l="Lo que uso">Pasar a \(m\) y \(D\); \(z=\dfrac{\ln x-m}{D}\)</td><td data-l="Error típico">Estandarizar con \(\mu\) y \(\sigma\) directo</td></tr>
+      <tr><td>Gamma<span class="gancho">«Poisson mirado al revés.»</span></td><td data-l="Pista en el enunciado">«tiempo hasta el décimo pedido», «largo hasta la segunda falla»</td><td data-l="Me dan">\(\lambda\) y \(r\) (o media y desvío)</td><td data-l="Lo que uso">Molina: \(G_\gamma=F_{po}(r-1\,/\,m=\lambda x)\)</td><td data-l="Error típico">Olvidar el \(r-1\)</td></tr>
+      <tr><td>TCL<span class="gancho">«La media por \(n\), el desvío por \(\sqrt n\).»</span></td><td data-l="Pista en el enunciado">«la demanda de 30 días», «el total del año»</td><td data-l="Me dan">\(\mu\) y \(\sigma\) de un día, sin distribución</td><td data-l="Lo que uso">\(S\approx N(n\mu;\ \sigma\sqrt n)\)</td><td data-l="Error típico">Multiplicar el desvío por \(n\)</td></tr>
+    </table></div>
+
+    <h3 id="expres-justificar">Si te piden justificar el modelo</h3>
+    <p>Una oración alcanza, y siempre tiene la misma forma: <em>qué es la variable, qué está fijo y qué dato lo confirma</em>.</p>
+    <ul class="conceptos">
+      <li><b>Binomial:</b> «\(X\) cuenta los éxitos en \(n\) ensayos independientes con probabilidad \(p\) constante.»</li>
+      <li><b>Hipergeométrica:</b> «\(X\) cuenta los éxitos en una muestra de \(n\) sacada sin reposición de una población finita de \(N\) con \(R\) éxitos.»</li>
+      <li><b>Pascal:</b> «\(N\) cuenta los ensayos necesarios hasta el \(r\)-ésimo éxito, con \(p\) constante.»</li>
+      <li><b>Poisson:</b> «\(X\) cuenta acontecimientos que ocurren al azar en un tramo fijo de continuo, con tasa \(\lambda\) constante.»</li>
+      <li><b>Gamma:</b> «\(X\) mide el continuo recorrido hasta el \(r\)-ésimo acontecimiento de un proceso de Poisson.»</li>
+      <li><b>Exponencial:</b> «\(X\) es la duración hasta una falla que ocurre al azar, sin desgaste.»</li>
+      <li><b>Weibull:</b> «\(X\) es la duración (o resistencia) de un elemento de fabricación, con escala \(\beta\) y forma \(\omega\).»</li>
+      <li><b>Normal:</b> «\(X\) es una magnitud continua simétrica alrededor de la media, con coeficiente de variación bajo.»</li>
+      <li><b>Log-normal:</b> «\(X\) es positiva y muy asimétrica (\(CV\gt60\,\%\)); su logaritmo se distribuye normalmente.»</li>
+      <li><b>TCL:</b> «El total es una suma de \(n\) variables independientes con igual media y desvío, así que es aproximadamente normal.»</li>
+    </ul>
+    <p>Y para interpretar un resultado, decilo en las unidades del problema: no «\(P=0{,}2383\)» sino «el 23,8 % de los cartuchos de esa oficina dura más de 6.000 páginas».</p>
+
+    <h3 id="expres-pares">Los pares que se confunden</h3>
+    <p>En el parcial se pierde más por confundir dos modelos vecinos que por no saber una fórmula. Cada fila usa <b>el mismo ejemplo</b> resuelto de las dos maneras.</p>
+    <div class="scroll-x"><table class="frases">
+      <tr><th>Par</th><th>La única diferencia</th><th>El mismo ejemplo, dos respuestas</th></tr>
+      <tr><td>Binomial / Hipergeométrica</td><td>¿Lo que saco vuelve a la caja? Si vuelve (o el lote es enorme), \(p\) no cambia: binomial. Si no vuelve y el lote es chico: hipergeométrica.</td><td>Caja de 10 con 3 falladas, saco 2, quiero las 2 falladas. Con reposición: \(0{,}3\cdot0{,}3=0{,}09\). Sin reposición: \(\tfrac{3}{10}\cdot\tfrac{2}{9}=0{,}067\).</td></tr>
+      <tr><td>Binomial / Pascal</td><td>¿Qué fijé antes de empezar? La cantidad de intentos: binomial. La cantidad de éxitos: Pascal.</td><td>Moneda, 2 caras. «2 caras en 3 tiradas»: \(3\cdot0{,}5^3=0{,}375\). «La segunda cara sale justo en la tercera»: \(2\cdot0{,}5^3=0{,}25\).</td></tr>
+      <tr><td>Poisson / Gamma</td><td>¿Qué me preguntan? Cuántos hay en un tramo: Poisson. Cuánto tramo hace falta para juntar \(r\): Gamma.</td><td>2 colectivos por hora. «Que pasen 3 o más en una hora»: \(G_{po}(3\,/\,2)=0{,}323\). «Que el tercero llegue antes de una hora»: es la misma cuenta, \(0{,}323\).</td></tr>
+      <tr><td>Normal / Log-normal</td><td>El coeficiente de variación \(\sigma/\mu\). Bajo (hasta 20 %): normal. Más de 60 %, y casi siempre plata: log-normal.</td><td>Media 100. Con desvío 10 (\(CV=10\,\%\)): normal. Con desvío 80 (\(CV=80\,\%\)): log-normal, y antes de la tabla hay que calcular \(m\) y \(D\).</td></tr>
+      <tr><td>Probabilidad total / Bayes</td><td>¿Ya sé el resultado? Todavía no: total (sumo los caminos). Ya lo vi y pregunto por el origen: Bayes (un camino sobre el total).</td><td>30 % de A (10 % podrida) y 70 % de B (20 %). «Que salga podrida»: \(0{,}03+0{,}14=0{,}17\). «Salió podrida, ¿era de A?»: \(0{,}03/0{,}17=0{,}18\).</td></tr>
+      <tr><td>\(F\) / \(G\)</td><td>\(F\) es «menos de» (lo que queda a la izquierda). \(G\) es «más de», «dura», «resiste», «supera».</td><td>Weibull con \(G(30)=0{,}88\). «Dura más de 30 horas»: 0,88. «Falla antes de las 30»: \(1-0{,}88=0{,}12\).</td></tr>
+      <tr><td>«Más de \(x\)» / «exactamente \(x\)»</td><td>En una continua, «más de» es un área y «exactamente» tiene área 0: para Bayes se usa la altura de la curva, \(f(x)\).</td><td>Cartucho que «duró más de 6.000»: verosimilitud \(G(6)\). Que «duró exactamente 6.012»: verosimilitud \(f(6{,}012)\).</td></tr>
+    </table></div>
+
+    <h3 id="expres-bolsillo">Lista de bolsillo: antes de entregar</h3>
+    <ul class="bolsillo">
+      <li><label><input type="checkbox"><span><b>Unidades.</b> \(\lambda\) y el tramo en la misma unidad; \(\beta\) y \(x\) también (miles con miles).</span></label></li>
+      <li><label><input type="checkbox"><span><b>\(F\) o \(G\).</b> «Más de», «dura», «resiste» es \(G\); «menos de», «falla antes» es \(F\).</span></label></li>
+      <li><label><input type="checkbox"><span><b>Signo de \(z\).</b> Si el área a la izquierda es menor que 0,5, \(z\) es negativo. «Garantizar un mínimo» es cola izquierda.</span></label></li>
+      <li><label><input type="checkbox"><span><b>Suma de días.</b> La media por \(n\); el desvío por \(\sqrt n\), no por \(n\).</span></label></li>
+      <li><label><input type="checkbox"><span><b>Log-normal.</b> Pasé a \(m\) y \(D\) y le saqué logaritmo al valor antes de estandarizar.</span></label></li>
+      <li><label><input type="checkbox"><span><b>Molina.</b> «Tarda más de \(x\)» es Poisson acumulada hasta \(r-1\).</span></label></li>
+      <li><label><input type="checkbox"><span><b>Bayes.</b> El denominador es la suma de todos los caminos, y las probabilidades a priori suman 1.</span></label></li>
+      <li><label><input type="checkbox"><span><b>«Alguno» y «al menos uno».</b> Es 1 menos «ninguno».</span></label></li>
+      <li><label><input type="checkbox"><span><b>Variable bien traducida.</b> Si definí «defectuosas», la pregunta sobre «buenas» hay que darla vuelta.</span></label></li>
+      <li><label><input type="checkbox"><span><b>¿Tiene sentido?</b> Una probabilidad está entre 0 y 1; un fractil «superado por pocos» tiene que quedar arriba de la media.</span></label></li>
+    </ul>
+  </section>
+
   <section class="clase" id="decidir" data-busca="decidir que modelo usar binomial pascal hipergeometrico hiperpascal cuando usar tipo de problema reconocer el modelo palabras clave integradores teorema central del limite suma fractil clase 15">
     <p class="eyebrow">Guía de decisión</p>
     <h2>¿Qué herramienta uso en cada caso?</h2>
@@ -1459,6 +1665,416 @@ table.frases td:first-child{font-family:var(--display); font-weight:600}
     </div>
   </section>
 
+  <!-- ===================================================================== -->
+  <section class="clase" id="integradores" data-busca="integradores resueltos paso a paso pasos tapados clase 15 bayes weibull poisson pascal gamma normal lognormal teorema central del limite segundo parcial">
+    <p class="eyebrow">Práctica · 2.º parcial</p>
+    <h2>Integradores, un paso por vez</h2>
+    <p class="objetivo">Los diez ejercicios integradores de la clase 15, con las consignas resumidas. Los pasos están <b>tapados</b>: leé la consigna, pensá qué harías y recién después destapá el paso. El primero de cada uno es siempre el que más importa: reconocer el modelo.</p>
+    <div class="ejemplo"><p class="titulo">Integrador 1 · control de recepción, con o sin reposición</p>
+      <div class="consigna"><b>Consigna</b>De cada lote se revisan 5 piezas y se rechaza si aparecen más de 2 defectuosas. Llega un lote de 10 piezas con 3 defectuosas y se rechaza. No se sabe si la revisión fue con o sin reposición; antes de mirar, las dos alternativas son igual de probables. ¿Qué probabilidad tiene cada una ahora?</div>
+      <details class="paso"><summary>Paso 1 · ¿Qué modelo es y qué forma tiene la pregunta?</summary><div>
+        <p>Muestra fija (\(n=5\)) y se cuentan defectuosas. <b>Con reposición</b> la probabilidad no cambia: binomial con \(p=3/10\). <b>Sin reposición</b>, de un lote chico: hipergeométrica con \(N=10\), \(R=3\).</p>
+        <p>«Se rechazó, ¿cómo se había revisado?» es ir del resultado al origen: <b>Bayes</b>, con 0,5 y 0,5 a priori.</p>
+      </div></details>
+      <details class="paso"><summary>Paso 2 · Probabilidad de rechazar en cada caso</summary><div>
+        <p>Rechazar es \(X\ge3\).</p>
+        <div class="expr">\( \text{Con: }P(X\ge3)=\binom53 0{,}3^3 0{,}7^2+\binom54 0{,}3^4 0{,}7+0{,}3^5=0{,}1631 \)</div>
+        <p>Sin reposición solo hay 3 defectuosas, así que \(X\ge3\) es \(X=3\):</p>
+        <div class="expr">\( \text{Sin: }P(X=3)=\dfrac{\binom33\binom72}{\binom{10}{5}}=\dfrac{21}{252}=0{,}0833 \)</div>
+      </div></details>
+      <details class="paso"><summary>Paso 3 · Bayes y resultado</summary><div>
+        <div class="expr">\( P(\text{con}\mid\text{rechazo})=\dfrac{0{,}5\cdot0{,}1631}{0{,}5\cdot0{,}1631+0{,}5\cdot0{,}0833}=\mathbf{0{,}6618}\qquad P(\text{sin}\mid\text{rechazo})=\mathbf{0{,}3382} \)</div>
+        <p>Tiene sentido: con reposición es más fácil rechazar (una misma pieza mala puede salir dos veces), así que el rechazo «apunta» a esa alternativa.</p>
+      </div></details>
+    </div>
+    <div class="ejemplo"><p class="titulo">Integrador 2 · dos inspectores</p>
+      <div class="consigna"><b>Consigna</b>Las cajas traen 65 repuestos, 5 de ellos de segunda calidad. El inspector A saca 5 al azar y rechaza la caja si encuentra alguno de segunda. El inspector B saca piezas hasta encontrar la segunda de segunda calidad, y acepta la caja si para eso necesita más de 5. a) ¿Qué porcentaje de cajas rechaza cada uno? b) Si una caja fue rechazada, ¿cuál es la probabilidad de que la haya revisado B? (Cada inspector revisa la mitad de las cajas.)</div>
+      <details class="paso"><summary>Paso 1 · ¿Qué modelo usa cada inspector?</summary><div>
+        <p>Caja chica (\(N=65\), \(R=5\)) y sin devolver. <b>A</b> fija la muestra y cuenta: hipergeométrica. <b>B</b> fija los éxitos (\(r=2\)) y cuenta extracciones: hiperPascal.</p>
+        <p>El atajo para B: «necesita 5 o menos para llegar a la segunda» es lo mismo que «en 5 extracciones hay 2 o más». Se resuelve con la misma hipergeométrica.</p>
+      </div></details>
+      <details class="paso"><summary>Paso 2 · a) Porcentaje de rechazo</summary><div>
+        <div class="expr">\( P(0)=\dfrac{\binom{60}{5}}{\binom{65}{5}}=0{,}6612\qquad P(1)=\dfrac{\binom51\binom{60}{4}}{\binom{65}{5}}=0{,}2952 \)</div>
+        <div class="expr">\( \text{A: }1-P(0)=\mathbf{33{,}88\,\%}\qquad\text{B: }1-P(0)-P(1)=\mathbf{4{,}36\,\%} \)</div>
+      </div></details>
+      <details class="paso"><summary>Paso 3 · b) Bayes</summary><div>
+        <div class="expr">\( P(B\mid\text{rechazo})=\dfrac{0{,}5\cdot0{,}0436}{0{,}5\cdot0{,}0436+0{,}5\cdot0{,}3388}=\mathbf{0{,}114} \)</div>
+        <p>B casi no rechaza, así que una caja rechazada casi seguro pasó por A.</p>
+      </div></details>
+    </div>
+    <div class="ejemplo"><p class="titulo">Integrador 3 · densidad con dos constantes</p>
+      <div class="consigna"><b>Consigna</b>Una variable continua tiene densidad \(f(x)=a\,x^3+b\) entre 0 y 3 (y 0 fuera de ahí). Se sabe que \(P(1\lt X\lt2)=1/4\). a) Hallar \(a\) y \(b\). b) Hallar \(F(x)\). c) Media, varianza y desvío. d) \(P(X\le5/3)\).</div>
+      <details class="paso"><summary>Paso 1 · ¿De dónde salen las dos ecuaciones?</summary><div>
+        <p>No es un modelo con nombre: se trabaja con integrales. Dos incógnitas piden dos ecuaciones: el <b>área total vale 1</b> (siempre) y el dato del enunciado.</p>
+        <div class="expr">\( \int_0^3(ax^3+b)\,dx=\dfrac{81}{4}a+3b=1\qquad\int_1^2(ax^3+b)\,dx=\dfrac{15}{4}a+b=\dfrac14 \)</div>
+      </div></details>
+      <details class="paso"><summary>Paso 2 · a) Resolver el sistema</summary><div>
+        <p>Multiplico la segunda por 3 y la resto de la primera: \(9a=\tfrac14\).</p>
+        <div class="expr">\( a=\mathbf{\dfrac{1}{36}}\qquad b=\dfrac14-\dfrac{15}{4}\cdot\dfrac{1}{36}=\mathbf{\dfrac{7}{48}} \)</div>
+      </div></details>
+      <details class="paso"><summary>Paso 3 · b) y d) Acumulada</summary><div>
+        <div class="expr">\( F(x)=\int_0^x\left(\dfrac{t^3}{36}+\dfrac{7}{48}\right)dt=\dfrac{x^4}{144}+\dfrac{7x}{48}\qquad 0\le x\le3 \)</div>
+        <div class="expr">\( P(X\le5/3)=F(5/3)=\mathbf{0{,}2966} \)</div>
+      </div></details>
+      <details class="paso"><summary>Paso 4 · c) Media, varianza y desvío</summary><div>
+        <div class="expr">\( E(X)=\int_0^3x\,f(x)\,dx=\dfrac{a\,3^5}{5}+\dfrac{b\,3^2}{2}=\mathbf{2{,}0063}\ \left(=\tfrac{321}{160}\right) \)</div>
+        <div class="expr">\( E(X^2)=\dfrac{a\,3^6}{6}+\dfrac{b\,3^3}{3}=4{,}6875\qquad V(X)=4{,}6875-2{,}0063^2=\mathbf{0{,}6625}\qquad\sigma=\mathbf{0{,}8139} \)</div>
+      </div></details>
+    </div>
+    <div class="ejemplo"><p class="titulo">Integrador 4 · cartuchos de tóner</p>
+      <div class="consigna"><b>Consigna</b>La duración de los cartuchos (en miles de páginas) es Weibull con \(\omega=3\). Los originales tienen \(\beta=5{,}8\) y los remanufacturados \(\beta=5{,}2\). En una oficina el 20 % son originales. a) ¿Probabilidad de que un cartucho al azar dure más de 6.000 páginas? b) Si duró más de 6.000, ¿probabilidad de que sea original? c) Si duró exactamente 6.012 páginas, ¿probabilidad de que sea original?</div>
+      <details class="paso"><summary>Paso 1 · ¿Qué modelo es y qué pide cada ítem?</summary><div>
+        <p>\(\beta\) y \(\omega\): Weibull. «Dure más de» es \(G(x)=e^{-(x/\beta)^{\omega}}\). Ojo con las unidades: 6.000 páginas son \(x=6\).</p>
+        <p>a) Dos tipos y uno al azar: <b>probabilidad total</b>. b) «Si duró…, ¿de cuál es?»: <b>Bayes</b>. c) «Exactamente»: Bayes con la <b>densidad</b>.</p>
+      </div></details>
+      <details class="paso"><summary>Paso 2 · a) Probabilidad total</summary><div>
+        <div class="expr">\( G_O(6)=e^{-(6/5{,}8)^3}=0{,}3305\qquad G_R(6)=e^{-(6/5{,}2)^3}=0{,}2152 \)</div>
+        <div class="expr">\( P(X\gt6)=0{,}2\cdot0{,}3305+0{,}8\cdot0{,}2152=\mathbf{0{,}2383} \)</div>
+      </div></details>
+      <details class="paso"><summary>Paso 3 · b) Bayes</summary><div>
+        <div class="expr">\( P(O\mid X\gt6)=\dfrac{0{,}2\cdot0{,}3305}{0{,}2383}=\mathbf{0{,}2775} \)</div>
+      </div></details>
+      <details class="paso"><summary>Paso 4 · c) Bayes con la densidad</summary><div>
+        <p>Se evalúa \(f(x)=\dfrac{\omega}{\beta}\left(\dfrac{x}{\beta}\right)^{\omega-1}e^{-(x/\beta)^{\omega}}\) en \(x=6{,}012\) para cada tipo:</p>
+        <div class="expr">\( f_O(6{,}012)=0{,}1825\qquad f_R(6{,}012)=0{,}1644 \)</div>
+        <div class="expr">\( P(O\mid x=6{,}012)=\dfrac{0{,}2\cdot0{,}1825}{0{,}2\cdot0{,}1825+0{,}8\cdot0{,}1644}=\mathbf{0{,}2172} \)</div>
+      </div></details>
+    </div>
+    <div class="ejemplo"><p class="titulo">Integrador 5 · resistencia a la rotura y una muestra</p>
+      <div class="consigna"><b>Consigna</b>La resistencia de unas piezas (en toneladas) es Weibull con \(\omega=4\). Para el proveedor A, \(\beta=2{,}5\); para el B, \(\beta=2\). El 30 % de las cajas es de A. Se toma una caja sin saber de quién es. a) Se prueba una pieza a 2 tn y no se rompe: ¿probabilidad de que la caja sea de B? b) Se prueban 5 piezas a 2 tn y solo 1 no se rompe: ¿probabilidad de que sea de B?</div>
+      <details class="paso"><summary>Paso 1 · ¿Qué modelo es y qué cambia entre a) y b)?</summary><div>
+        <p>Weibull para una pieza: «no se rompió a 2 tn» es \(G(2)\). Las dos preguntas son <b>Bayes</b>.</p>
+        <p>En b) hay una muestra de 5 y se cuentan las que resisten: <b>binomial</b> con \(p=G(2)\) de cada proveedor. Esa binomial es la verosimilitud.</p>
+      </div></details>
+      <details class="paso"><summary>Paso 2 · Probabilidad de resistir 2 tn</summary><div>
+        <div class="expr">\( G_A(2)=e^{-(2/2{,}5)^4}=0{,}6639\qquad G_B(2)=e^{-(2/2)^4}=e^{-1}=0{,}3679 \)</div>
+      </div></details>
+      <details class="paso"><summary>Paso 3 · a) Bayes con una pieza</summary><div>
+        <div class="expr">\( P(B\mid\text{resiste})=\dfrac{0{,}7\cdot0{,}3679}{0{,}7\cdot0{,}3679+0{,}3\cdot0{,}6639}=\mathbf{0{,}5639} \)</div>
+      </div></details>
+      <details class="paso"><summary>Paso 4 · b) Binomial y Bayes</summary><div>
+        <div class="expr">\( P(1\text{ de }5\mid A)=5\cdot0{,}6639\cdot0{,}3361^4=0{,}0424\qquad P(1\text{ de }5\mid B)=5\cdot0{,}3679\cdot0{,}6321^4=0{,}2937 \)</div>
+        <div class="expr">\( P(B\mid1\text{ de }5)=\dfrac{0{,}7\cdot0{,}2937}{0{,}7\cdot0{,}2937+0{,}3\cdot0{,}0424}=\mathbf{0{,}9418} \)</div>
+        <p>Que se rompan 4 de 5 es mucho más creíble en las piezas flojas de B: por eso la probabilidad salta de 0,56 a 0,94.</p>
+      </div></details>
+    </div>
+    <div class="ejemplo"><p class="titulo">Integrador 6 · novillos: hallar μ y σ</p>
+      <div class="consigna"><b>Consigna</b>El 10 % de los novillos pesa más de 500 kg y el 7 % pesa menos de 410 kg. a) ¿Qué peso supera el 15 % de los novillos? b) En una jaula de 25, ¿probabilidad de que haya alguno de menos de 400 kg?</div>
+      <details class="paso"><summary>Paso 1 · ¿Qué modelo es y qué falta?</summary><div>
+        <p>Un peso: normal. No dan \(\mu\) ni \(\sigma\), pero dan dos porcentajes: cada uno es una ecuación \(x=\mu+z\sigma\).</p>
+        <p>a) pide un valor: <b>fractil</b>. b) «alguno entre 25»: la normal da \(p\) y después <b>binomial</b>.</p>
+      </div></details>
+      <details class="paso"><summary>Paso 2 · Sistema para μ y σ</summary><div>
+        <p>«10 % pesa más de 500» deja 0,90 a la izquierda: \(z=1{,}2816\). «7 % pesa menos de 410»: \(z=-1{,}4758\).</p>
+        <div class="expr">\( 500=\mu+1{,}2816\,\sigma\qquad 410=\mu-1{,}4758\,\sigma \)</div>
+        <div class="expr">\( \sigma=\dfrac{90}{1{,}2816+1{,}4758}=32{,}64\ \text{kg}\qquad\mu=500-1{,}2816\cdot32{,}64=458{,}17\ \text{kg} \)</div>
+      </div></details>
+      <details class="paso"><summary>Paso 3 · a) Fractil</summary><div>
+        <p>Superado por el 15 %: deja 0,85 a la izquierda, \(z=1{,}0364\).</p>
+        <div class="expr">\( x=458{,}17+1{,}0364\cdot32{,}64=\mathbf{492\ kg} \)</div>
+      </div></details>
+      <details class="paso"><summary>Paso 4 · b) De la normal a la binomial</summary><div>
+        <div class="expr">\( z=\dfrac{400-458{,}17}{32{,}64}=-1{,}78\ \Rightarrow\ p=F(-1{,}78)=0{,}0374 \)</div>
+        <div class="expr">\( P(\text{alguno})=1-(1-0{,}0374)^{25}=\mathbf{0{,}6140} \)</div>
+      </div></details>
+    </div>
+    <div class="ejemplo"><p class="titulo">Integrador 7 · depósitos a plazo fijo</p>
+      <div class="consigna"><b>Consigna</b>Los montos de los depósitos de una financiera tienen media U$s 20.000 y desvío U$s 17.500. Se eligen 100 depósitos al azar. ¿Probabilidad de encontrar más de 55 con monto inferior a U$s 15.000?</div>
+      <details class="paso"><summary>Paso 1 · ¿Qué modelo es?</summary><div>
+        <p>Plata, y \(CV=17.500/20.000=87{,}5\,\%\): <b>log-normal</b> (con una normal, casi un 13 % de los depósitos daría negativo).</p>
+        <p>Después se cuentan depósitos entre 100: <b>binomial</b> con el \(p\) que dé la log-normal.</p>
+      </div></details>
+      <details class="paso"><summary>Paso 2 · Pasar a m y D</summary><div>
+        <div class="expr">\( D^2=\ln(1+0{,}875^2)=0{,}5685\Rightarrow D=0{,}7540\qquad m=\ln\dfrac{20.000}{\sqrt{1{,}7656}}=9{,}6192 \)</div>
+      </div></details>
+      <details class="paso"><summary>Paso 3 · Probabilidad de un depósito</summary><div>
+        <div class="expr">\( z=\dfrac{\ln15.000-m}{D}=\dfrac{9{,}6158-9{,}6192}{0{,}7540}=-0{,}0045\ \Rightarrow\ p=0{,}4982 \)</div>
+        <p>Casi la mitad de los depósitos está por debajo de 15.000, aunque la media sea 20.000: los pocos depósitos enormes tiran la media hacia arriba.</p>
+      </div></details>
+      <details class="paso"><summary>Paso 4 · Binomial con n = 100</summary><div>
+        <p>«Más de 55» es \(X\ge56\), con \(X\sim B(100;\,0{,}4982)\). Con calculadora de distribuciones sale directo. A mano se aproxima con la normal (media \(np=49{,}82\), desvío \(\sqrt{np(1-p)}=5\)) y corrección por continuidad:</p>
+        <div class="expr">\( z=\dfrac{55{,}5-49{,}82}{5}=1{,}136\ \Rightarrow\ P(X\ge56)=\mathbf{0{,}1279} \)</div>
+      </div></details>
+    </div>
+    <div class="ejemplo"><p class="titulo">Integrador 8 · tablas con nudos</p>
+      <div class="consigna"><b>Consigna</b>Una carpintería recibe tablas de 0,5 m × 1,2 m: el 30 % de las partidas viene del aserradero A (0,25 nudos por m²) y el resto del B (0,1 nudos por m²). Se revisa una partida y la primera tabla con algún nudo resulta ser la sexta. ¿Probabilidad de que la partida sea de A?</div>
+      <details class="paso"><summary>Paso 1 · ¿Qué cadena de modelos es?</summary><div>
+        <p>«Nudos por m²» es una tasa sobre una superficie: <b>Poisson</b>, que da la probabilidad de que una tabla tenga algún nudo.</p>
+        <p>«La primera con nudo es la sexta»: <b>Pascal</b> con \(r=1\). Y «¿de qué aserradero?»: <b>Bayes</b>.</p>
+      </div></details>
+      <details class="paso"><summary>Paso 2 · Poisson: una tabla con algún nudo</summary><div>
+        <p>Cada tabla mide \(0{,}5\cdot1{,}2=0{,}6\) m², así que \(m_A=0{,}25\cdot0{,}6=0{,}15\) y \(m_B=0{,}1\cdot0{,}6=0{,}06\).</p>
+        <div class="expr">\( p_A=1-e^{-0{,}15}=0{,}1393\qquad p_B=1-e^{-0{,}06}=0{,}0582 \)</div>
+      </div></details>
+      <details class="paso"><summary>Paso 3 · Pascal: la primera es la sexta</summary><div>
+        <p>Cinco tablas limpias y la sexta con nudo:</p>
+        <div class="expr">\( (1-p_A)^5\,p_A=0{,}0658\qquad(1-p_B)^5\,p_B=0{,}0431 \)</div>
+      </div></details>
+      <details class="paso"><summary>Paso 4 · Bayes</summary><div>
+        <div class="expr">\( P(A\mid\text{sexta})=\dfrac{0{,}3\cdot0{,}0658}{0{,}3\cdot0{,}0658+0{,}7\cdot0{,}0431}=\mathbf{0{,}3953} \)</div>
+      </div></details>
+    </div>
+    <div class="ejemplo"><p class="titulo">Integrador 9 · un proveedor normal y otro Gamma</p>
+      <div class="consigna"><b>Consigna</b>Un lote mezcla piezas de A (30 %) y de B (70 %). La resistencia de las de A es normal con media 20 tn y desvío 2 tn; la de las de B es Gamma con media 24 tn y desvío 6 tn. a) ¿Probabilidad de que una pieza al azar resista 23 tn? b) Si una pieza resistió 23 tn, ¿probabilidad de que sea de A?</div>
+      <details class="paso"><summary>Paso 1 · ¿Qué hay que hacer?</summary><div>
+        <p>Los modelos vienen nombrados. «Resista 23 tn» es \(P(X\gt23)\) en cada uno. a) es <b>probabilidad total</b>; b) es <b>Bayes</b>.</p>
+        <p>Del Gamma dan media y desvío: primero hay que hallar \(\lambda\) y \(r\).</p>
+      </div></details>
+      <details class="paso"><summary>Paso 2 · Proveedor A (normal)</summary><div>
+        <div class="expr">\( z=\dfrac{23-20}{2}=1{,}5\ \Rightarrow\ P(X\gt23)=1-F(1{,}5)=0{,}0668 \)</div>
+      </div></details>
+      <details class="paso"><summary>Paso 3 · Proveedor B (Gamma)</summary><div>
+        <div class="expr">\( \dfrac{r}{\lambda}=24\qquad\dfrac{r}{\lambda^2}=36\ \Rightarrow\ \lambda=\dfrac{24}{36}=\dfrac23\qquad r=16 \)</div>
+        <p>Con \(r\) entero, Molina: \(m=\lambda x=\tfrac23\cdot23=15{,}33\).</p>
+        <div class="expr">\( P(X\gt23)=G_\gamma(23/16;\tfrac23)=F_{po}(15\,/\,m=15{,}33)=0{,}5340 \)</div>
+      </div></details>
+      <details class="paso"><summary>Paso 4 · Total y Bayes</summary><div>
+        <div class="expr">\( \text{a) }0{,}3\cdot0{,}0668+0{,}7\cdot0{,}5340=\mathbf{0{,}3938} \)</div>
+        <div class="expr">\( \text{b) }P(A\mid X\gt23)=\dfrac{0{,}3\cdot0{,}0668}{0{,}3938}=\mathbf{0{,}0509} \)</div>
+        <p>Las piezas de A casi nunca llegan a 23 tn (está 1,5 desvíos arriba de su media): si una resistió, casi seguro es de B.</p>
+      </div></details>
+    </div>
+    <div class="ejemplo"><p class="titulo">Integrador 10 · tanque de nafta y beneficio anual</p>
+      <div class="consigna"><b>Consigna</b>La demanda diaria de una nafta tiene media 3.120 litros y desvío 750 litros. a) ¿Qué capacidad necesita el tanque para cubrir la demanda de 30 días (lo que tarda en volver el camión) con 90 % de seguridad? b) El litro cuesta U$s 0,11, cada camión cobra U$s 100 de flete y se vende a U$s 0,125: ¿qué beneficio anual (365 días) se puede garantizar con probabilidad 0,95?</div>
+      <details class="paso"><summary>Paso 1 · ¿Qué modelo es?</summary><div>
+        <p>Dan media y desvío de <em>un día</em>, sin distribución, y preguntan por el <b>total de muchos días</b>: teorema central del límite. El total es normal con media \(n\mu\) y desvío \(\sigma\sqrt n\).</p>
+        <p>Las dos preguntas piden un valor, no una probabilidad: <b>fractil</b>.</p>
+      </div></details>
+      <details class="paso"><summary>Paso 2 · a) Capacidad del tanque</summary><div>
+        <div class="expr">\( E(S)=30\cdot3120=93.600\qquad\sigma_S=750\sqrt{30}=4107{,}9 \)</div>
+        <div class="expr">\( x_{0{,}90}=93.600+1{,}2816\cdot4107{,}9=\mathbf{98.864{,}5\ litros} \)</div>
+      </div></details>
+      <details class="paso"><summary>Paso 3 · b) Armar el beneficio</summary><div>
+        <div class="expr">\( E(S)=365\cdot3120=1.138.800\qquad\sigma_S=750\sqrt{365}=14.328{,}6 \)</div>
+        <p>Margen por litro: \(0{,}125-0{,}11=0{,}015\). Un camión cada 30 días son 12 fletes en el año: U$s 1.200. Entonces \(B=0{,}015\cdot S-1200\).</p>
+      </div></details>
+      <details class="paso"><summary>Paso 4 · b) Fractil del lado izquierdo</summary><div>
+        <p>Garantizar con 0,95 es \(P(B\ge b)=0{,}95\): el valor que deja 5 % por debajo, \(z=-1{,}645\).</p>
+        <div class="expr">\( s_{0{,}05}=1.138.800-1{,}645\cdot14.328{,}6=1.115.229{,}5\qquad b=0{,}015\cdot1.115.229{,}5-1200\approx\mathbf{15.528\ U\$s} \)</div>
+      </div></details>
+    </div>
+    <h3 id="integradores-nuevos">Seis integradores nuevos, para comprobar que lo sabés</h3>
+    <p>No son de la cátedra: combinan los mismos modelos con otros números y otras cadenas. Resolvelos en papel y con GeoGebra <b>sin destapar nada</b>, y usá los pasos solo para corregir. Cada paso dice también qué cargar en GeoGebra.</p>
+    <div class="ejemplo"><p class="titulo">Nuevo 1 · lámparas de dos marcas</p>
+      <div class="consigna"><b>Consigna</b>Un depósito tiene lámparas de dos marcas que fallan al azar, sin desgaste: el 60 % es de la marca A (vida media 1.000 horas) y el 40 % de la B (vida media 1.500 horas). a) ¿Probabilidad de que una lámpara al azar dure más de 1.200 horas? b) Si duró más de 1.200 horas, ¿probabilidad de que sea de B? c) Se instalan 4 lámparas de la marca B: ¿probabilidad de que al menos 3 duren más de 1.200 horas?</div>
+      <details class="paso"><summary>Paso 1 · ¿Qué modelo es y qué pide cada ítem?</summary><div>
+        <p>Falla al azar y dan la vida media: <b>exponencial</b>, con \(\lambda=1/\text{vida media}\) y \(G(x)=e^{-\lambda x}\).</p>
+        <p>a) probabilidad total; b) Bayes; c) muestra de 4 y se cuentan las que duran: binomial con \(p=G_B(1200)\).</p>
+      </div></details>
+      <details class="paso"><summary>Paso 2 · a) Probabilidad total</summary><div>
+        <div class="expr">\( G_A(1200)=e^{-1200/1000}=0{,}3012\qquad G_B(1200)=e^{-1200/1500}=0{,}4493 \)</div>
+        <div class="expr">\( P(X\gt1200)=0{,}6\cdot0{,}3012+0{,}4\cdot0{,}4493=\mathbf{0{,}3604} \)</div>
+        <p class="ggb"><b>En GeoGebra:</b> Exponencial · λ 0.001 · Por la derecha · 1200 (y de nuevo con λ = 1/1500 = 0.000667).</p>
+      </div></details>
+      <details class="paso"><summary>Paso 3 · b) Bayes</summary><div>
+        <div class="expr">\( P(B\mid X\gt1200)=\dfrac{0{,}4\cdot0{,}4493}{0{,}3604}=\mathbf{0{,}4986} \)</div>
+        <p>B arrancaba con 40 % y sube a casi 50 %: durar mucho es más propio de B.</p>
+      </div></details>
+      <details class="paso"><summary>Paso 4 · c) Binomial</summary><div>
+        <div class="expr">\( P(Y\ge3)=4\cdot0{,}4493^3\cdot0{,}5507+0{,}4493^4=\mathbf{0{,}2406} \)</div>
+        <p class="ggb"><b>En GeoGebra:</b> Binomial · n 4 · p 0.4493 · Por la derecha · 3.</p>
+      </div></details>
+    </div>
+    <div class="ejemplo"><p class="titulo">Nuevo 2 · reclamos en un centro de atención</p>
+      <div class="consigna"><b>Consigna</b>Un centro de atención recibe 2 reclamos por hora en un día normal y 5 por hora en un día de campaña. El 20 % de los días son de campaña. a) En una hora de un día cualquiera se recibieron exactamente 4 reclamos: ¿probabilidad de que sea un día de campaña? b) En un día normal, ¿probabilidad de que el tercer reclamo tarde más de 2 horas en llegar?</div>
+      <details class="paso"><summary>Paso 1 · ¿Qué modelo es en cada ítem?</summary><div>
+        <p>a) Reclamos por hora es una tasa y el tramo está fijo (una hora): <b>Poisson</b>. «Se recibieron 4, ¿qué día es?»: <b>Bayes</b>.</p>
+        <p>b) Se fija la cantidad (el tercero) y se pregunta por el tiempo: <b>Gamma</b>, que se resuelve con Molina o directo en GeoGebra.</p>
+      </div></details>
+      <details class="paso"><summary>Paso 2 · a) Poisson como verosimilitud</summary><div>
+        <div class="expr">\( P(4\mid\text{normal})=\dfrac{e^{-2}\,2^4}{4!}=0{,}0902\qquad P(4\mid\text{campaña})=\dfrac{e^{-5}\,5^4}{4!}=0{,}1755 \)</div>
+        <p class="ggb"><b>En GeoGebra:</b> Poisson · μ 2 · Intervalo de 4 a 4 (y de nuevo con μ 5).</p>
+      </div></details>
+      <details class="paso"><summary>Paso 3 · a) Bayes</summary><div>
+        <div class="expr">\( P(\text{campaña}\mid4)=\dfrac{0{,}2\cdot0{,}1755}{0{,}2\cdot0{,}1755+0{,}8\cdot0{,}0902}=\mathbf{0{,}3271} \)</div>
+        <p>Cuatro reclamos son más creíbles en campaña, pero los días normales son muchos más: por eso no llega ni a la mitad.</p>
+      </div></details>
+      <details class="paso"><summary>Paso 4 · b) Gamma</summary><div>
+        <p>\(\lambda=2\) por hora, \(r=3\), \(x=2\) horas. Con Molina: «el tercero tarda más de 2 horas» es «en 2 horas llegaron 2 o menos», con \(m=2\cdot2=4\).</p>
+        <div class="expr">\( G_\gamma(2/3;\,2)=F_{po}(2\,/\,4)=e^{-4}\left(1+4+8\right)=\mathbf{0{,}2381} \)</div>
+        <p class="ggb"><b>En GeoGebra:</b> Gamma · α 3 · β 0.5 · Por la derecha · 2. (O Poisson · μ 4 · Por la izquierda · 2.)</p>
+      </div></details>
+    </div>
+    <div class="ejemplo"><p class="titulo">Nuevo 3 · paquetes de café</p>
+      <div class="consigna"><b>Consigna</b>El peso de los paquetes de café es normal con media 500 g y desvío 8 g. a) ¿Qué peso supera el 95 % de los paquetes? b) ¿Qué proporción pesa menos de 490 g? c) Se pesan paquetes de a uno hasta encontrar el segundo de menos de 490 g: ¿probabilidad de que sea justo el sexto?</div>
+      <details class="paso"><summary>Paso 1 · ¿Qué pide cada ítem?</summary><div>
+        <p>a) Dan el porcentaje y piden el peso: <b>fractil</b>. b) Una probabilidad de la normal. c) «Hasta encontrar el segundo» fija los éxitos: <b>Pascal</b> con \(r=2\) y el \(p\) del ítem b).</p>
+      </div></details>
+      <details class="paso"><summary>Paso 2 · a) Fractil</summary><div>
+        <p>Si el 95 % lo supera, deja 5 % a la izquierda: \(z=-1{,}645\).</p>
+        <div class="expr">\( x=500-1{,}645\cdot8=\mathbf{486{,}8\ g} \)</div>
+        <p class="ggb"><b>En GeoGebra:</b> Normal · μ 500 · σ 8 · Por la izquierda · escribir 0.05 en el resultado.</p>
+      </div></details>
+      <details class="paso"><summary>Paso 3 · b) Probabilidad</summary><div>
+        <div class="expr">\( z=\dfrac{490-500}{8}=-1{,}25\ \Rightarrow\ p=F(-1{,}25)=\mathbf{0{,}1056} \)</div>
+        <p class="ggb"><b>En GeoGebra:</b> Normal · μ 500 · σ 8 · Por la izquierda · 490.</p>
+      </div></details>
+      <details class="paso"><summary>Paso 4 · c) Pascal</summary><div>
+        <p>En los 5 primeros hubo un solo liviano (en cualquier lugar) y el sexto es liviano:</p>
+        <div class="expr">\( \binom51\,0{,}1056^2\,0{,}8944^4=\mathbf{0{,}0357} \)</div>
+        <p class="ggb"><b>En GeoGebra:</b> Pascal · n 2 · p 0.1056 · Intervalo de 4 a 4 (6 pesadas − 2 éxitos = 4 fracasos).</p>
+      </div></details>
+    </div>
+    <div class="ejemplo"><p class="titulo">Nuevo 4 · alquileres</p>
+      <div class="consigna"><b>Consigna</b>Los alquileres de un barrio tienen media U$s 400 y desvío U$s 300. a) ¿Qué porcentaje de los alquileres supera los U$s 600? b) ¿Cuál es el alquiler mediano? c) ¿Qué alquiler es superado solo por el 10 %?</div>
+      <details class="paso"><summary>Paso 1 · ¿Qué modelo es?</summary><div>
+        <p>Plata, y \(CV=300/400=75\,\%\): <b>log-normal</b>. Antes de cualquier cuenta hay que pasar a \(m\) y \(D\).</p>
+      </div></details>
+      <details class="paso"><summary>Paso 2 · m y D</summary><div>
+        <div class="expr">\( D^2=\ln(1+0{,}75^2)=0{,}4463\Rightarrow D=0{,}6680\qquad m=\ln\dfrac{400}{\sqrt{1{,}5625}}=\ln320=5{,}7683 \)</div>
+      </div></details>
+      <details class="paso"><summary>Paso 3 · a) Probabilidad</summary><div>
+        <div class="expr">\( z=\dfrac{\ln600-m}{D}=\dfrac{6{,}3969-5{,}7683}{0{,}6680}=0{,}94\ \Rightarrow\ P(X\gt600)=\mathbf{17{,}3\,\%} \)</div>
+        <p class="ggb"><b>En GeoGebra:</b> Log-Normal · μ 5.7683 · σ 0.668 · Por la derecha · 600. Arriba tiene que decir μ = 400.</p>
+      </div></details>
+      <details class="paso"><summary>Paso 4 · b) y c) Mediana y fractil</summary><div>
+        <div class="expr">\( x_e=e^{m}=\mathbf{320\ U\$s}\qquad\ln x=m+1{,}2816\,D=6{,}6245\ \Rightarrow\ x=e^{6{,}6245}=\mathbf{753\ U\$s} \)</div>
+        <p>La mediana (320) queda bien por debajo de la media (400): la mitad del barrio paga menos de 320 y unos pocos alquileres muy altos empujan el promedio.</p>
+      </div></details>
+    </div>
+    <div class="ejemplo"><p class="titulo">Nuevo 5 · lotes que se aceptan o se rechazan</p>
+      <div class="consigna"><b>Consigna</b>Cada lote trae 30 piezas, 4 de ellas defectuosas. Se revisan 6 sin reposición y el lote se acepta si aparece a lo sumo 1 defectuosa. a) ¿Probabilidad de aceptar un lote? b) Llegan 10 lotes iguales: ¿probabilidad de aceptar al menos 8?</div>
+      <details class="paso"><summary>Paso 1 · ¿Qué cadena es?</summary><div>
+        <p>Dentro del lote: población chica, sin reposición, muestra fija: <b>hipergeométrica</b>. Después cada lote es un ensayo que se acepta o no: <b>binomial</b> con \(n=10\).</p>
+      </div></details>
+      <details class="paso"><summary>Paso 2 · a) Aceptar un lote</summary><div>
+        <div class="expr">\( P(0)=\dfrac{\binom{26}{6}}{\binom{30}{6}}=0{,}3877\qquad P(1)=\dfrac{\binom41\binom{26}{5}}{\binom{30}{6}}=0{,}4431 \)</div>
+        <div class="expr">\( P(\text{aceptar})=P(X\le1)=\mathbf{0{,}8309} \)</div>
+        <p class="ggb"><b>En GeoGebra:</b> Hipergeométrica · Population 30 · n 4 · tercer casillero 6 · Por la izquierda · 1.</p>
+      </div></details>
+      <details class="paso"><summary>Paso 3 · b) Al menos 8 de 10</summary><div>
+        <div class="expr">\( Y\sim B(10;\,0{,}8309)\qquad P(Y\ge8)=\mathbf{0{,}7683} \)</div>
+        <p class="ggb"><b>En GeoGebra:</b> Binomial · n 10 · p 0.8309 · Por la derecha · 8.</p>
+      </div></details>
+    </div>
+    <div class="ejemplo"><p class="titulo">Nuevo 6 · ventas de un local</p>
+      <div class="consigna"><b>Consigna</b>Las ventas diarias de un local (en miles de pesos) tienen media 850 y desvío 120. a) ¿Probabilidad de que el total de 36 días supere los 31.500? b) ¿Qué total de 36 días se puede garantizar con probabilidad 0,90?</div>
+      <details class="paso"><summary>Paso 1 · ¿Qué modelo es?</summary><div>
+        <p>Dan media y desvío de un día, sin distribución, y preguntan por el total de 36 días: <b>teorema central del límite</b>.</p>
+      </div></details>
+      <details class="paso"><summary>Paso 2 · Media y desvío del total</summary><div>
+        <div class="expr">\( E(S)=36\cdot850=30.600\qquad\sigma_S=120\sqrt{36}=720 \)</div>
+      </div></details>
+      <details class="paso"><summary>Paso 3 · a) Probabilidad</summary><div>
+        <div class="expr">\( z=\dfrac{31.500-30.600}{720}=1{,}25\ \Rightarrow\ P(S\gt31.500)=\mathbf{0{,}1056} \)</div>
+        <p class="ggb"><b>En GeoGebra:</b> Normal · μ 30600 · σ 720 · Por la derecha · 31500.</p>
+      </div></details>
+      <details class="paso"><summary>Paso 4 · b) Garantizar un mínimo</summary><div>
+        <p>\(P(S\ge s)=0{,}90\): el valor deja 10 % por debajo, \(z=-1{,}2816\).</p>
+        <div class="expr">\( s=30.600-1{,}2816\cdot720=\mathbf{29.677} \)</div>
+        <p class="ggb"><b>En GeoGebra:</b> Normal · μ 30600 · σ 720 · Por la izquierda · escribir 0.1 en el resultado.</p>
+      </div></details>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <section class="clase" id="cuentas" data-busca="cuentas rapidas ejercicios numericos de un paso verificar resultado practica calculadora segundo parcial">
+    <p class="eyebrow">Práctica · 2.º parcial</p>
+    <h2>Cuentas rápidas</h2>
+    <p class="objetivo">Dieciséis ejercicios de un solo paso para entrenar la cuenta, no el modelo. Escribí el resultado (con coma o con punto, cuatro decimales en las probabilidades) y verificalo. Se acepta una diferencia chica por redondeo.</p>
+    <ol class="cuentas">
+      <li class="cuenta" data-r="0.3020" data-tol="0.002" data-u=""><p><b>Binomial.</b> \(n=10\), \(p=0{,}2\). ¿\(P(X=2)\)?</p>
+        <details class="paso"><summary>Ver cómo se hace</summary><div>
+        <div class="expr">\( \binom{10}{2}\,0{,}2^2\,0{,}8^8=45\cdot0{,}04\cdot0{,}1678=0{,}3020 \)</div>
+        </div></details></li>
+      <li class="cuenta" data-r="0.5695" data-tol="0.002" data-u=""><p><b>Binomial, «al menos uno».</b> 8 piezas, cada una defectuosa con \(p=0{,}1\). ¿Probabilidad de que haya alguna defectuosa?</p>
+        <details class="paso"><summary>Ver cómo se hace</summary><div>
+        <div class="expr">\( 1-0{,}9^8=0{,}5695 \)</div>
+        </div></details></li>
+      <li class="cuenta" data-r="0.4696" data-tol="0.002" data-u=""><p><b>Hipergeométrica.</b> Lote de 20 con 4 falladas; se sacan 5 sin reposición. ¿Probabilidad de exactamente 1 fallada?</p>
+        <details class="paso"><summary>Ver cómo se hace</summary><div>
+        <div class="expr">\( \dfrac{\binom41\binom{16}{4}}{\binom{20}{5}}=\dfrac{4\cdot1820}{15504}=0{,}4696 \)</div>
+        </div></details></li>
+      <li class="cuenta" data-r="0.1235" data-tol="0.002" data-u=""><p><b>Pascal.</b> \(p=0{,}3\). ¿Probabilidad de que el segundo éxito aparezca justo en el quinto intento?</p>
+        <details class="paso"><summary>Ver cómo se hace</summary><div>
+        <div class="expr">\( \binom41\,0{,}3^2\,0{,}7^3=4\cdot0{,}09\cdot0{,}343=0{,}1235 \)</div>
+        </div></details></li>
+      <li class="cuenta" data-r="0.1839" data-tol="0.002" data-u=""><p><b>Poisson, unidades.</b> Llegan 3 clientes por hora. ¿Probabilidad de que lleguen exactamente 2 en 20 minutos?</p>
+        <details class="paso"><summary>Ver cómo se hace</summary><div>
+        <p>20 minutos es un tercio de hora: \(m=3\cdot\tfrac13=1\).</p>
+        <div class="expr">\( P(2)=\dfrac{e^{-1}\,1^2}{2!}=0{,}1839 \)</div>
+        </div></details></li>
+      <li class="cuenta" data-r="0.8647" data-tol="0.002" data-u=""><p><b>Poisson, «alguno».</b> Se esperan \(m=2\) fallas en un tramo. ¿Probabilidad de que haya al menos una?</p>
+        <details class="paso"><summary>Ver cómo se hace</summary><div>
+        <div class="expr">\( 1-P(0)=1-e^{-2}=0{,}8647 \)</div>
+        </div></details></li>
+      <li class="cuenta" data-r="0.2231" data-tol="0.002" data-u=""><p><b>Exponencial.</b> Vida media de 200 horas. ¿Probabilidad de durar más de 300 horas?</p>
+        <details class="paso"><summary>Ver cómo se hace</summary><div>
+        <div class="expr">\( \lambda=\tfrac{1}{200}\qquad G(300)=e^{-300/200}=e^{-1{,}5}=0{,}2231 \)</div>
+        </div></details></li>
+      <li class="cuenta" data-r="0.8825" data-tol="0.002" data-u=""><p><b>Weibull, «dura más».</b> \(\beta=60\), \(\omega=3\). ¿\(P(X\gt30)\)?</p>
+        <details class="paso"><summary>Ver cómo se hace</summary><div>
+        <div class="expr">\( G(30)=e^{-(30/60)^3}=e^{-0{,}125}=0{,}8825 \)</div>
+        </div></details></li>
+      <li class="cuenta" data-r="0.2212" data-tol="0.002" data-u=""><p><b>Weibull, «falla antes».</b> \(\beta=10\), \(\omega=2\). ¿\(P(X\lt5)\)?</p>
+        <details class="paso"><summary>Ver cómo se hace</summary><div>
+        <div class="expr">\( F(5)=1-e^{-(5/10)^2}=1-e^{-0{,}25}=0{,}2212 \)</div>
+        </div></details></li>
+      <li class="cuenta" data-r="0.9332" data-tol="0.002" data-u=""><p><b>Normal, probabilidad.</b> \(\mu=50\), \(\sigma=10\). ¿\(P(X\lt65)\)?</p>
+        <details class="paso"><summary>Ver cómo se hace</summary><div>
+        <div class="expr">\( z=\dfrac{65-50}{10}=1{,}5\ \Rightarrow\ F(1{,}5)=0{,}9332 \)</div>
+        </div></details></li>
+      <li class="cuenta" data-r="62.82" data-tol="0.06" data-u=""><p><b>Normal, fractil.</b> \(\mu=50\), \(\sigma=10\). ¿Qué valor es superado solo por el 10 %?</p>
+        <details class="paso"><summary>Ver cómo se hace</summary><div>
+        <p>Deja 0,90 a la izquierda: \(z=1{,}2816\).</p>
+        <div class="expr">\( x=50+1{,}2816\cdot10=62{,}82 \)</div>
+        </div></details></li>
+      <li class="cuenta" data-r="0.7033" data-tol="0.002" data-u=""><p><b>Log-normal, parámetro \(D\).</b> Media 100 y desvío 80. ¿Cuánto vale \(D\)?</p>
+        <details class="paso"><summary>Ver cómo se hace</summary><div>
+        <div class="expr">\( D^2=\ln\left(1+0{,}8^2\right)=\ln1{,}64=0{,}4947\ \Rightarrow\ D=0{,}7033 \)</div>
+        </div></details></li>
+      <li class="cuenta" data-r="4.3578" data-tol="0.005" data-u=""><p><b>Log-normal, parámetro \(m\).</b> Con los mismos datos (media 100, desvío 80). ¿Cuánto vale \(m\)?</p>
+        <details class="paso"><summary>Ver cómo se hace</summary><div>
+        <div class="expr">\( m=\ln\dfrac{100}{\sqrt{1{,}64}}=\ln78{,}09=4{,}3578 \)</div>
+        </div></details></li>
+      <li class="cuenta" data-r="0.2381" data-tol="0.002" data-u=""><p><b>Gamma con Molina.</b> Llegan 4 pedidos por día. ¿Probabilidad de que el tercer pedido tarde más de un día?</p>
+        <details class="paso"><summary>Ver cómo se hace</summary><div>
+        <p>«El tercero tarda más de un día» es «en un día llegaron 2 o menos», con \(m=4\).</p>
+        <div class="expr">\( F_{po}(2\,/\,4)=e^{-4}\left(1+4+\dfrac{16}{2}\right)=13\cdot0{,}0183=0{,}2381 \)</div>
+        </div></details></li>
+      <li class="cuenta" data-r="2082.25" data-tol="0.6" data-u=""><p><b>Suma de días.</b> El gasto diario tiene media 20 y desvío 5. ¿Qué total de 100 días es superado solo con probabilidad 0,05?</p>
+        <details class="paso"><summary>Ver cómo se hace</summary><div>
+        <p>Total: media \(100\cdot20=2000\), desvío \(5\sqrt{100}=50\). Deja 0,95 a la izquierda: \(z=1{,}645\).</p>
+        <div class="expr">\( x=2000+1{,}645\cdot50=2082{,}25 \)</div>
+        </div></details></li>
+      <li class="cuenta" data-r="0.25" data-tol="0.002" data-u=""><p><b>Bayes.</b> El 40 % de las piezas es de A (5 % defectuosas) y el 60 % de B (10 %). Salió una defectuosa. ¿Probabilidad de que sea de A?</p>
+        <details class="paso"><summary>Ver cómo se hace</summary><div>
+        <div class="expr">\( \dfrac{0{,}4\cdot0{,}05}{0{,}4\cdot0{,}05+0{,}6\cdot0{,}10}=\dfrac{0{,}02}{0{,}08}=0{,}25 \)</div>
+        </div></details></li>
+    </ol>
+  </section>
+  <script>
+  (function () {
+    "use strict";
+    function numero(t) {
+      t = String(t).trim().replace(/\s|%/g, "");
+      if (/,/.test(t)) t = t.replace(/\./g, "").replace(",", ".");
+      return t === "" ? NaN : Number(t);
+    }
+    Array.prototype.forEach.call(document.querySelectorAll(".cuenta"), function (li, i) {
+      var r = Number(li.getAttribute("data-r")), tol = Number(li.getAttribute("data-tol"));
+      var fila = document.createElement("div"); fila.className = "resp-fila";
+      var inp = document.createElement("input"); inp.type = "text"; inp.inputMode = "decimal"; inp.autocomplete = "off";
+      inp.setAttribute("aria-label", "Tu resultado del ejercicio " + (i + 1));
+      var btn = document.createElement("button"); btn.type = "button"; btn.textContent = "Verificar";
+      var ver = document.createElement("span"); ver.className = "veredicto"; ver.setAttribute("aria-live", "polite");
+      function verificar() {
+        var v = numero(inp.value);
+        if (isNaN(v)) { ver.className = "veredicto mal"; ver.textContent = "Escribí un número."; return; }
+        if (Math.abs(v - r) <= tol) { ver.className = "veredicto ok"; ver.textContent = "✓ Bien."; return; }
+        ver.className = "veredicto mal";
+        ver.textContent = Math.abs(v * 100 - r) <= tol * 100 || Math.abs(v - (1 - r)) <= tol
+          ? (Math.abs(v - (1 - r)) <= tol ? "Casi: calculaste el complemento (¿«más de» o «menos de»?)." : "Parece que lo pusiste en porcentaje: va como número entre 0 y 1.")
+          : "No coincide. Probá de nuevo o mirá cómo se hace.";
+      }
+      btn.addEventListener("click", verificar);
+      inp.addEventListener("keydown", function (e) { if (e.key === "Enter") verificar(); });
+      fila.appendChild(inp); fila.appendChild(btn); fila.appendChild(ver);
+      li.insertBefore(fila, li.querySelector("details"));
+    });
+  })();
+  </script>
+
   <section class="herramienta" id="errores-tipicos" data-busca="errores tipicos trampas checklist antes de entregar">
     <p class="eyebrow">Antes de entregar</p>
     <h2>Checklist de parcial</h2>
@@ -1472,17 +2088,66 @@ table.frases td:first-child{font-family:var(--display); font-weight:600}
     </ol>
   </section>
 
-  <section class="herramienta" id="calculadora" data-busca="calculadora geogebra distribuciones probability distributions binomial pascal hipergeometrica como cargar">
+  <section class="herramienta" id="calculadora" data-busca="calculadora geogebra distribuciones de probabilidad que parametros cargar binomial pascal hipergeometrica poisson weibull gamma log-normal normal exponencial fractil por la izquierda por la derecha">
     <p class="eyebrow">Para calcular rápido</p>
-    <h2>Calculadora y GeoGebra</h2>
-    <p class="intro">La cátedra permite la <b>GeoGebra Calculator Suite</b> (con "Modo Examen") y la app <i>Probability Distributions</i>. En GeoGebra: menú → <b>Distribuciones de probabilidad</b>.</p>
-    <ul class="conceptos">
-      <li><b>Binomial:</b> cargá <em>n</em> y <em>p</em>, elegí "P(X = k)", "P(X ≤ k)" o "P(X ≥ k)" y el valor <em>k</em>. Ideal para las acumuladas F y G.</li>
-      <li><b>Pascal:</b> cargá <em>r</em> (éxitos) y <em>p</em>. Devuelve la probabilidad para el número de ensayos.</li>
-      <li><b>Hipergeométrica:</b> cargá población <em>N</em>, éxitos en la población <em>R</em> y tamaño de muestra <em>n</em>.</li>
-      <li>Si no tenés tabla para tu distribución, usá la relación con la binomial (Pascal ↔ binomial) o sumá términos.</li>
-      <li>La hiperPascal no siempre está en la calculadora: se arma con la fórmula de la hoja o con la hipergeométrica más el factor \((R-r+1)/(N-n+1)\).</li>
-    </ul>
+    <h2>GeoGebra: qué cargar en cada modelo</h2>
+    <p class="intro">La cátedra permite la <b>GeoGebra Calculator Suite</b> (con «Modo Examen») y la app <i>Probability Distributions</i>. En GeoGebra: menú → <b>Probabilidad</b> (Distribuciones de probabilidad). Se elige la distribución en el desplegable, se cargan los parámetros y se marca el tipo de intervalo. Los nombres de abajo son los que muestra GeoGebra en castellano.</p>
+
+    <div class="cuando"><b>Las tres trampas de GeoGebra</b>
+      <ul>
+        <li><strong>Pascal cuenta fracasos, no intentos.</strong> En el apunte la variable es «cantidad de intentos hasta el \(r\)-ésimo éxito»; en GeoGebra es «cantidad de fracasos antes del \(r\)-ésimo éxito». Hay que cargar \(k=\text{intentos}-r\).</li>
+        <li><strong>Gamma pide \(\beta=1/\lambda\)</strong>, no \(\lambda\). Si la tasa es 7 pedidos por día, \(\beta=1/7\).</li>
+        <li><strong>Log-Normal pide \(m\) y \(D\)</strong> (los del logaritmo), aunque los llame \(\mu\) y \(\sigma\). No van la media y el desvío del enunciado.</li>
+      </ul>
+      <p>Control para las tres: arriba del gráfico GeoGebra muestra «μ = … σ = …», que son la media y el desvío <em>de la variable</em>. Si no coinciden con los del enunciado, cargaste mal los parámetros.</p></div>
+
+    <h3>Qué va en cada casillero</h3>
+    <div class="scroll-x"><table class="frases">
+      <tr><th>Modelo del apunte</th><th>En el desplegable</th><th>Qué cargás</th><th>Ojo</th></tr>
+      <tr><td>Binomial \((n;p)\)</td><td>Binomial</td><td>Parámetro n = \(n\) · Parámetro p = \(p\)</td><td>—</td></tr>
+      <tr><td>Pascal \((r;p)\)</td><td>Pascal</td><td>Parámetro n = \(r\) · Parámetro p = \(p\)</td><td>El valor es \(k=\) intentos \(-\,r\) (fracasos)</td></tr>
+      <tr><td>Hipergeométrica \((N;R;n)\)</td><td>Hipergeométrica</td><td>Population = \(N\) · Parámetro n = \(R\) · tercer casillero (sin nombre) = \(n\)</td><td>El «n» de GeoGebra son los éxitos de la población, no la muestra</td></tr>
+      <tr><td>HiperPascal</td><td>no está</td><td>Hipergeométrica: «en \(n\) extracciones hay \(r\) o más»</td><td>Para «justo en la \(n\)-ésima», la fórmula de la hoja</td></tr>
+      <tr><td>Poisson \((m)\)</td><td>Poisson</td><td>Parámetro μ = \(m=\lambda\cdot t\)</td><td>Se carga \(m\), no \(\lambda\): primero pasá a la misma unidad</td></tr>
+      <tr><td>Exponencial \((\lambda)\)</td><td>Exponencial</td><td>Parámetro λ = 1 / vida media</td><td>—</td></tr>
+      <tr><td>Weibull \((\beta;\omega)\)</td><td>Weibull</td><td>forma = \(\omega\) · escala = \(\beta\)</td><td>Van en el orden inverso al del apunte</td></tr>
+      <tr><td>Gumbel del mínimo</td><td>no está</td><td>A mano: \(G(x)=e^{-e^{(x-\theta)/\beta}}\)</td><td>—</td></tr>
+      <tr><td>Normal \((\mu;\sigma)\)</td><td>Normal</td><td>Parámetro μ = \(\mu\) · Parámetro σ = \(\sigma\)</td><td>No hace falta estandarizar: se cargan los valores en kilos, litros…</td></tr>
+      <tr><td>Log-normal \((m;D)\)</td><td>Log-Normal</td><td>Parámetro μ = \(m\) · Parámetro σ = \(D\)</td><td>Antes calculá \(m\) y \(D\); el valor \(x\) va sin logaritmo</td></tr>
+      <tr><td>Gamma \((\lambda;r)\)</td><td>Gamma</td><td>Parámetro α = \(r\) · Parámetro β = \(1/\lambda\)</td><td>Así no hace falta Molina</td></tr>
+      <tr><td>Suma de \(n\) días (TCL)</td><td>Normal</td><td>Parámetro μ = \(n\mu\) · Parámetro σ = \(\sigma\sqrt n\)</td><td>—</td></tr>
+    </table></div>
+
+    <h3>Qué botón para qué pregunta</h3>
+    <div class="scroll-x"><table class="frases">
+      <tr><th>La pregunta dice…</th><th>Botón de «Intervalo»</th><th>Qué escribís</th></tr>
+      <tr><td>«menos de», «a lo sumo», «falla antes de»</td><td>Por la izquierda</td><td>el valor en \(P(X\le\,\_)\)</td></tr>
+      <tr><td>«más de», «al menos», «dura», «resiste», «supera»</td><td>Por la derecha</td><td>el valor en \(P(\_\le X)\)</td></tr>
+      <tr><td>«entre \(a\) y \(b\)»</td><td>Intervalo</td><td>los dos valores</td></tr>
+      <tr><td>«exactamente \(k\)» (discretas)</td><td>Intervalo, o la tabla \(k\) / \(P(X=k)\)</td><td>\(k\) en los dos extremos</td></tr>
+      <tr><td>Un fractil: «el valor superado por el 15 %»</td><td>Por la derecha (o por la izquierda con 0,85)</td><td>la <b>probabilidad</b> en el casillero del resultado, y GeoGebra devuelve el valor</td></tr>
+    </table></div>
+    <div class="errores"><p><b>Con las discretas, cuidado con el borde</b></p>
+      <ul>
+        <li>GeoGebra incluye el extremo: «Por la derecha» desde 56 es \(P(X\ge56)\). «Más de 55» se carga 56; «menos de 12» se carga 11 por la izquierda.</li>
+        <li>«Exactamente» en una <b>continua</b> no es un área: es la densidad \(f(x)\), que se calcula con la fórmula (la calculadora de probabilidad da áreas).</li>
+      </ul></div>
+
+    <h3>Ejemplos con los números de los integradores</h3>
+    <div class="scroll-x"><table class="frases">
+      <tr><th>Lo que quiero</th><th>Qué cargo</th><th>Da</th></tr>
+      <tr><td>Cartucho original dura más de 6 (miles): Weibull \(\beta=5{,}8\), \(\omega=3\)</td><td>Weibull · forma 3 · escala 5.8 · Por la derecha · 6</td><td>0,3305</td></tr>
+      <tr><td>Pieza Gamma (\(r=16\), \(\lambda=2/3\)) resiste 23 tn</td><td>Gamma · α 16 · β 1.5 · Por la derecha · 23</td><td>0,5340</td></tr>
+      <tr><td>Depósito menor a 15.000: log-normal \(m=9{,}6192\), \(D=0{,}7540\)</td><td>Log-Normal · μ 9.6192 · σ 0.754 · Por la izquierda · 15000</td><td>0,4982</td></tr>
+      <tr><td>Más de 55 de 100 depósitos, con \(p=0{,}4982\)</td><td>Binomial · n 100 · p 0.4982 · Por la derecha · 56</td><td>0,1279</td></tr>
+      <tr><td>La 2.ª defectuosa aparece en la pieza 12, con \(p=0{,}2\)</td><td>Pascal · n 2 · p 0.2 · Intervalo · de 10 a 10 (12 − 2 fracasos)</td><td>0,0473</td></tr>
+      <tr><td>Inspector A: alguna de segunda en 5 (caja de 65 con 5)</td><td>Hipergeométrica · Population 65 · n 5 · tercer casillero 5 · Por la derecha · 1</td><td>0,3388</td></tr>
+      <tr><td>Conmutador: más de 20 llamadas en un minuto, \(m=10\)</td><td>Poisson · μ 10 · Por la derecha · 21</td><td>0,0016</td></tr>
+      <tr><td>Peso superado por el 15 % de los novillos (\(\mu=458{,}17\), \(\sigma=32{,}64\))</td><td>Normal · μ 458.17 · σ 32.64 · Por la derecha · escribir 0.15 en el resultado</td><td>492 kg</td></tr>
+      <tr><td>Tanque para 30 días con 90 % de seguridad</td><td>Normal · μ 93600 · σ 4107.9 · Por la izquierda · escribir 0.9 en el resultado</td><td>98.864,5 l</td></tr>
+    </table></div>
+    <p>Para los fractiles: con un intervalo de un solo lado, el casillero del resultado se puede editar; escribís la probabilidad y GeoGebra mueve el valor. Si en tu versión no te deja, movés el valor hasta que dé esa probabilidad, o lo sacás con \(x=\mu+z\sigma\).</p>
+    <p>GeoGebra usa <b>punto</b> decimal. Probá los nueve ejemplos una vez antes del parcial: si te dan estos números, ya sabés cargar todo.</p>
   </section>
 
   <section class="herramienta" id="glosario" data-busca="glosario definiciones terminos vocabulario densidad exponencial weibull gumbel normal lognormal poisson gamma molina">
