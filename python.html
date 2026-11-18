@@ -86,6 +86,20 @@ code{font-family:var(--mono)}
 .errores p{margin:0 0 .4rem; font-size:.92rem}
 .errores ul{margin:0; padding-left:1.2rem}
 .errores li{margin:.25rem 0; font-size:.9rem}
+ol.conceptos{padding-left:1.5rem}
+/* Resoluciones desplegables de las guías de la cátedra */
+details.sol{margin:.55rem 0; border:1px solid var(--linea); border-left:3px solid var(--acento); border-radius:3px; background:var(--papel-2)}
+details.sol > summary{cursor:pointer; padding:.6rem .9rem; font-family:var(--display); font-weight:600; font-size:.95rem; line-height:1.35; list-style-position:inside}
+details.sol > summary:hover{background:var(--papel-3)}
+details.sol[open] > summary{border-bottom:1px solid var(--linea)}
+.sol-n{display:inline-block; margin-right:.45rem; font-family:var(--mono); font-weight:400; font-size:.62rem; letter-spacing:.08em; text-transform:uppercase; color:var(--acento)}
+.sol-cuerpo{padding:.7rem .9rem .4rem; min-width:0}
+.sol-cuerpo pre{background:var(--papel)}
+.sol-pide{margin:0 0 .6rem; font-size:.92rem; color:var(--tinta-2)}
+.sol-et{margin:.7rem 0 .25rem; font-family:var(--mono); font-size:.62rem; letter-spacing:.1em; text-transform:uppercase; color:var(--tinta-3)}
+.sol-salida{border-style:dashed}
+.sol-lee{margin:.6rem 0 .5rem; font-size:.92rem; padding-left:.7rem; border-left:2px solid var(--acento-suave)}
+.clase p code, .clase li code{overflow-wrap:anywhere}
 
 .acceso-simulacro{display:flex; gap:.6rem; flex-wrap:wrap; margin-top:2.5rem; padding-top:1.5rem; border-top:1px solid var(--linea)}
 .acceso-simulacro a{font-family:var(--display); font-size:.9rem; text-decoration:none; padding:.55rem .9rem; border:1px solid var(--linea); border-radius:2px; background:var(--papel-2); color:var(--tinta)}
@@ -157,7 +171,7 @@ code{font-family:var(--mono)}
     <div>
       <i data-marca style="--marca-tam:2.1rem; display:block; margin-bottom:.5rem"></i>
       <b>Python para<br>Ciencia de Datos</b>
-      <span>UADE · 2.º cuatrimestre 2026 · Clases 0-6 y guía del 2.º parcial</span>
+      <span>UADE · 2.º cuatrimestre 2026 · Clases 0 a 16</span>
     </div>
     <button class="btn-riel" id="btn-cerrar" type="button" title="Ocultar barra lateral" aria-label="Ocultar barra lateral">✕</button>
   </div>
@@ -165,13 +179,13 @@ code{font-family:var(--mono)}
   <div class="buscador">
     <label class="oculto" for="q">Buscar concepto</label>
     <input id="q" type="search" placeholder="buscar función o concepto…" autocomplete="off">
-    <p id="q-estado">7 clases + guía del 2.º parcial · glosario · chuleta · flashcards</p>
+    <p id="q-estado">13 clases · glosario · chuleta · flashcards</p>
   </div>
 
   <nav id="nav">
     <div class="riel-grupo">Panorama</div>
     <a class="item" href="#dominio-sec">▲ Tu dominio por tema</a>
-    <div class="riel-grupo">Clases</div>
+    <div class="riel-grupo">1.er parcial</div>
     <a class="item" href="#c0">00 · Introducción y calendario</a>
     <a class="item" href="#c2">02 · Buenas prácticas y excepciones</a>
     <a class="item" href="#c21">02.1 · Excepciones con archivos</a>
@@ -180,10 +194,15 @@ code{font-family:var(--mono)}
     <a class="item" href="#c4">04 · Limpieza, índices y formatos</a>
     <a class="item" href="#c5">05 · Matplotlib</a>
     <a class="item" href="#c6">06 · Seaborn</a>
-    <div class="riel-grupo">2.º parcial · guía</div>
-    <a class="item" href="#p2a">P2.1 · pandas aplicado y errores</a>
-    <a class="item" href="#p2b">P2.2 · Git y trabajo en equipo</a>
-    <a class="item" href="#p2c">P2.3 · Entornos y estructura</a>
+    <div class="riel-grupo">2.º parcial · datos y modelos</div>
+    <a class="item" href="#c10">10 · Estadística descriptiva y groupby</a>
+    <a class="item" href="#c11">11 · Atípicos y transformaciones</a>
+    <a class="item" href="#c12">12 · Flujo con Scikit-learn</a>
+    <a class="item" href="#c13">13 · Regresión lineal y k-NN</a>
+    <div class="riel-grupo">2.º parcial · proyectos</div>
+    <a class="item" href="#c14">14 · Git, GitHub y entornos</a>
+    <a class="item" href="#c15">15 · Documentación y testing</a>
+    <a class="item" href="#c16">16 · Simulacro del 2.º parcial</a>
     <div class="riel-grupo">Herramientas</div>
     <a class="item" href="#chuleta">◎ Chuleta rápida</a>
     <a class="item" href="#glosario">A–Z Glosario</a>
@@ -192,6 +211,7 @@ code{font-family:var(--mono)}
     <a class="item externo" href="entrenador-python.html">◆ Entrenador y laboratorio ↗</a>
     <a class="item externo" href="simulacro-python.html">▶ Simulacro del parcial ↗</a>
     <a class="item externo" href="leaderboard-python.html">★ Leaderboard ↗</a>
+    <a class="item externo" href="tp-airbnb.html">■ TP Airbnb · biblia de defensa ↗</a>
   </nav>
   <div class="riel-pie">
     <div id="chip-sesion" style="margin-bottom:.6rem"></div>
@@ -201,13 +221,16 @@ code{font-family:var(--mono)}
 
 <main class="lienzo">
   <header class="portada">
-    <p class="cintillo">Apunte práctico · Clases 0 a 6 · Primer parcial · Guía del 2.º parcial</p>
+    <p class="cintillo">Apunte práctico · Clases 0 a 16 · Primer y segundo parcial</p>
     <h1>De variables sueltas<br>a un pipeline<br><i>que se puede confiar</i></h1>
     <p>
       Este resumen sigue el orden real de la cursada: primero código legible y a prueba de errores,
       después los dos pilares técnicos (NumPy y Pandas), después limpieza y formatos de archivo, y por
-      último cómo comunicar lo que encontraste con Matplotlib y Seaborn. Cada clase tiene los conceptos
-      clave, ejemplos de código reales de las diapositivas, y los errores típicos que marca la cátedra.
+      último cómo comunicar lo que encontraste con Matplotlib y Seaborn. La segunda parte va de la estadística
+      descriptiva y las transformaciones a los primeros modelos con Scikit-learn, y cierra con lo que hace
+      reproducible un proyecto: Git, entornos, documentación y tests. Cada clase tiene los conceptos clave,
+      ejemplos de código de las diapositivas, los errores típicos y, desde la clase 10, las guías de
+      ejercicios de la cátedra resueltas y ejecutadas.
     </p>
   </header>
 
@@ -459,30 +482,19 @@ sns.scatterplot(data=df, x="Horas", y="Nota", hue="Curso", size="Proyectos",
     </div>
   </section>
 
-  <!-- ============================ GUÍA 2.º PARCIAL (provisional) ============================ -->
-  <section class="clase" id="p2a" data-busca="2 parcial segundo parcial guia describe media mediana desvio estandar pivot_table aggfunc margins quantile cuartiles iqr tukey outlier atipico faltantes nan fill_value min_count pd.cut bins labels right imc groupby apply include_groups promedio ponderado division por cero codigo con errores">
-    <p class="eyebrow">Guía del 2.º parcial · 1 de 3</p>
-    <h2>pandas aplicado: encontrar y corregir errores</h2>
-    <p class="objetivo">El 2.º parcial pide resolver ejercicios de <b>código con errores</b>: leés el código, encontrás qué falla y lo dejás andando, explicando el diagnóstico. Esta sección junta los conceptos de pandas que esos ejercicios usan: <code>describe</code>, <code>pivot_table</code>, cuartiles e IQR, valores faltantes, <code>pd.cut</code> y <code>groupby.apply</code>.</p>
-    <p class="objetivo"><b>Fuente:</b> el simulacro A del 2.º parcial que dio la cátedra y su resolución explicada (hecha con Claude), no las diapositivas. Todo el código de acá se ejecutó y las salidas son reales. Cuando lleguen los materiales con los números de clase, se contrasta y se reubica.</p>
+  <!-- ============================ 2.º PARCIAL ============================ -->
+  <section class="clase" id="c10" data-busca="estadistica descriptiva describe percentiles media mediana moda varianza desvio estandar rango iqr cuartiles coeficiente de variacion cv asimetria groupby agg named aggregation as_index pivot pivot_table aggfunc fill_value margins margins_name faltantes nan min_count apply include_groups promedio ponderado">
+    <p class="eyebrow">Clase 10</p>
+    <h2>Estadística descriptiva, groupby y tablas dinámicas</h2>
+    <p class="objetivo">Resumir datos con criterio: primero una «radiografía» con <code>describe()</code>, después centro y dispersión leídos juntos, y por último resúmenes por grupo (<code>groupby</code>) y tablas cruzadas (<code>pivot_table</code>). La idea de cierre de la clase: <i>describir → agrupar → pivotar → decidir</i>, y cada resumen tiene que responder una pregunta concreta.</p>
 
-    <h3>Cómo encarar un «código con errores»</h3>
+    <h3>describe(): la primera radiografía</h3>
     <ul class="conceptos">
-      <li><b>Leé el objetivo</b> antes que el código: ¿qué tendría que producir?</li>
-      <li><b>Revisá línea por línea</b>: nombres de columnas (¿coinciden con los del DataFrame?), nombres de métodos y parámetros (¿están bien escritos? ¿en plural?), paréntesis y la fórmula (¿la cuenta es la correcta?).</li>
-      <li><b>Distinguí dos tipos de error.</b> Los que <b>rompen</b> el programa (da un error y frena) y los <b>lógicos</b> (corre, pero el resultado está mal: una fórmula equivocada). Los segundos son más peligrosos porque no avisan.</li>
-      <li>En el espacio de diagnóstico escribí <b>qué falla, por qué y cómo se corrige</b>, con el resultado esperado.</li>
+      <li><b>Cantidad y centro</b>: <code>count</code> son los valores <b>no nulos</b> (no las filas), <code>mean</code> es la media y el percentil <code>50%</code> es la mediana.</li>
+      <li><b>Dispersión</b>: <code>std</code> es el desvío estándar (muestral); <code>25%</code> y <code>75%</code> son Q1 y Q3, que encierran el 50 % central.</li>
+      <li><b>Extremos</b>: <code>min</code> y <code>max</code> sirven para ver el rango y detectar valores imposibles o atípicos (una edad de 250, una venta negativa).</li>
+      <li>Sobre todo el DataFrame resume solo las columnas numéricas; sobre una columna (<code>df["x"].describe()</code>) resume esa Series. <code>percentiles=[.1, .25, .5, .75, .9]</code> pide otros cortes y <code>.round(2)</code> redondea.</li>
     </ul>
-
-    <h3>Tres ideas que se repiten en todos los ejercicios</h3>
-    <ul class="conceptos">
-      <li><b>Un método se ejecuta con paréntesis.</b> <code>df["x"].mean</code> no calcula nada: devuelve el método en sí (<code>&lt;bound method …&gt;</code>) y, si lo usás en una cuenta, da <code>TypeError</code>.</li>
-      <li><b>Los parámetros se escriben exactamente como pandas los espera</b>: <code>columns</code>, no <code>column</code>; <code>values</code>, no <code>value</code>; <code>include_groups</code>, no <code>include_group</code>. Un parámetro mal escrito da <code>TypeError: unexpected keyword argument</code>.</li>
-      <li><b>Los nombres de columnas</b> se copian tal cual: <code>"ciudades"</code> en vez de <code>"ciudad"</code> da <code>KeyError</code>. Y salvo el primer argumento, conviene pasar todo <b>con nombre</b>: un valor posicional puede caer en el parámetro equivocado sin que haya error.</li>
-    </ul>
-
-    <h3>Estadística descriptiva: describe, media, mediana y desvío</h3>
-    <p><code>describe()</code> resume de una vez las columnas numéricas: <code>count</code> (datos no vacíos), <code>mean</code> (media), <code>std</code> (desvío estándar), <code>min</code>/<code>max</code> y los cuartiles <code>25%</code>, <code>50%</code> (la mediana) y <code>75%</code>. Sobre una sola columna (una Series) también existe.</p>
     <pre><code>import pandas as pd
 
 df = pd.DataFrame({"edad": [34, 45, 52, 41, 63],
@@ -491,96 +503,104 @@ df = pd.DataFrame({"edad": [34, 45, 52, 41, 63],
 print(df["presion_sistolica"].describe())          # describe(), sin «s», de UNA columna
 print("Mediana:", df["presion_sistolica"].median()) # median() con paréntesis
 # count 5 · mean 134.8 · std 13.255 · min 118 · 25% 128 · 50% 132 · 75% 145 · max 151</code></pre>
+
+    <h3>Centro: media, mediana y moda</h3>
     <ul class="conceptos">
-      <li><b>Media</b> (134,8): suma de todos / cantidad. Usa todos los valores, así que un extremo la «arrastra».</li>
-      <li><b>Mediana</b> (132): el valor central de los datos ordenados. Solo depende de la posición, así que es <b>robusta a outliers</b>: si el 151 fuera 300, la media subiría a 164,6 y la mediana seguiría en 132.</li>
-      <li><b>Desvío estándar</b> (≈ 13,3): cuánto se alejan, en promedio, los datos de la media. Chico = datos parecidos; grande = muy dispersos. pandas calcula el desvío <b>muestral</b> (divide por n − 1).</li>
+      <li><b>Media</b> (<code>mean()</code>): suma / cantidad. Usa todos los datos, así que un extremo la «arrastra». En el ejemplo da 134,8.</li>
+      <li><b>Mediana</b> (<code>median()</code>): el valor central de los datos ordenados (132). Solo depende de la posición, así que es <b>robusta a outliers</b>: si el 151 fuera 300, la media subiría a 164,6 y la mediana seguiría en 132.</li>
+      <li><b>Moda</b> (<code>mode()</code>): el valor más frecuente. Sirve también para categorías y <b>puede haber más de una</b>: por eso <code>mode()</code> devuelve una Series, no un número.</li>
     </ul>
 
-    <h3>Tablas dinámicas con pivot_table</h3>
-    <p>Reorganiza una tabla «larga» en una tabla «cruzada». Le decís cuatro cosas:</p>
+    <h3>Dispersión: cuánto se separan los datos</h3>
+    <div class="chuleta">
+      <div><code>var()</code> / <code>std()</code><span>Varianza (en unidades al cuadrado) y desvío estándar (en la unidad original, más fácil de interpretar). pandas usa la versión <b>muestral</b>: divide por n − 1 (<code>ddof=1</code>).</span></div>
+      <div><code>max() - min()</code><span><b>Rango</b>: toda la amplitud. Depende de los dos valores más extremos.</span></div>
+      <div><code>quantile(0.75) - quantile(0.25)</code><span><b>IQR</b> = Q3 − Q1: la amplitud del 50 % central. Robusto. <code>quantile</code> recibe una proporción entre 0 y 1.</span></div>
+      <div><code>std() / mean() * 100</code><span><b>Coeficiente de variación</b> (CV, en %): dispersión <b>relativa</b>. Sirve para comparar grupos con escalas o medias distintas.</span></div>
+    </div>
+
+    <h3>Leer centro y dispersión juntos</h3>
+    <ul class="conceptos">
+      <li><b>Media ≈ mediana</b>: distribución más o menos equilibrada.</li>
+      <li><b>Media &gt; mediana</b>: posible asimetría positiva (unos pocos valores altos tiran la media hacia arriba, típico de salarios o precios).</li>
+      <li><b>Media &lt; mediana</b>: posible asimetría negativa (valores bajos).</li>
+      <li><b>IQR chico</b>: el centro está concentrado. <b>Desvío alto</b>: los valores se alejan del promedio.</li>
+      <li>Un punto aislado se <b>investiga</b>, no se borra automáticamente.</li>
+    </ul>
+
+    <h3>groupby: dividir, aplicar, combinar</h3>
+    <p><b>Dividir</b> las filas en grupos según una clave (ciudad, categoría, fecha), <b>aplicar</b> una función a cada grupo (suma, media, conteo…) y <b>combinar</b> los resultados en una Series o un DataFrame. La clave tiene que responder la pregunta: «¿cuánto vende cada ciudad?» se agrupa por ciudad.</p>
+    <pre><code>datos = pd.DataFrame({"Ciudad": ["Bogotá", "Bogotá", "Cali", "Cali"],
+                      "Categoria": ["Hogar", "Tecnologia", "Hogar", "Tecnologia"],
+                      "Ventas": [1130, 850, 690, 790],
+                      "Unidades": [3, 2, 1, 3]})
+
+# una agregación; as_index=False deja la clave como columna normal
+datos.groupby("Ciudad", as_index=False)["Ventas"].sum()
+
+# varias métricas con nombre propio (named aggregation): nuevo_nombre=("columna", "función")
+datos.groupby("Ciudad", as_index=False).agg(
+    ventas_totales=("Ventas", "sum"),
+    venta_promedio=("Ventas", "mean"),
+    unidades_totales=("Unidades", "sum"),
+    operaciones=("Ventas", "count"))
+
+# dos claves: un grupo por cada combinación Ciudad × Categoria
+datos.groupby(["Ciudad", "Categoria"], as_index=False).agg(ventas=("Ventas", "sum"))</code></pre>
+    <p>Bogotá suma 1980 y Cali 1480. El resumen dice <i>cuánto</i>, no <i>por qué</i>: la pregunta siguiente es si la diferencia viene de más operaciones, más unidades o un precio promedio más alto.</p>
+
+    <h3>pivot y pivot_table</h3>
+    <ul class="conceptos">
+      <li><b><code>pivot()</code></b> solo <b>reorganiza</b>, no agrega. Cada combinación fila × columna tiene que ser única: si hay duplicados falla con <code>ValueError: Index contains duplicate entries</code>.</li>
+      <li><b><code>pivot_table()</code></b> reorganiza <b>y agrega</b>: acepta <code>aggfunc</code>, <code>fill_value</code>, <code>margins</code> y varias claves. Regla práctica: si puede haber más de un dato por celda, <code>pivot_table</code>.</li>
+    </ul>
     <div class="chuleta">
       <div><code>index</code><span>¿Qué va en las <b>filas</b>?</span></div>
       <div><code>columns</code><span>¿Qué va en las <b>columnas</b>?</span></div>
       <div><code>values</code><span>¿Qué <b>número</b> va adentro de las celdas?</span></div>
-      <div><code>aggfunc</code><span>Si hay varios datos para una celda, ¿cómo los resumo? <code>"mean"</code>, <code>"sum"</code>, <code>"count"</code>, <code>"min"</code>, <code>"max"</code>, <code>"median"</code>. <b>No existe <code>"average"</code></b>: el promedio es <code>"mean"</code>.</span></div>
-      <div><code>margins=True</code><span>Agrega una fila y una columna <code>All</code> con el resumen general (se renombra con <code>margins_name="Total"</code>).</span></div>
+      <div><code>aggfunc</code><span>Si hay varios datos para una celda, ¿cómo se resumen? <code>"mean"</code> (el valor por defecto), <code>"sum"</code>, <code>"count"</code>, <code>"min"</code>, <code>"max"</code>, <code>"median"</code>, o una lista (<code>["sum", "mean"]</code>). <b>No existe <code>"average"</code></b>.</span></div>
+      <div><code>fill_value=0</code><span>Rellena las combinaciones que no existen. Tiene que ser un número (<code>0</code>, no <code>"0"</code>).</span></div>
+      <div><code>margins=True</code><span>Agrega una fila y una columna <code>All</code> con el total general; <code>margins_name="Total"</code> la renombra.</span></div>
     </div>
-    <pre><code>df = pd.DataFrame({"ciudad": ["A", "A", "B", "B"],
-                   "estacion": ["Verano", "Invierno", "Verano", "Invierno"],
-                   "temperatura": [29, 14, 31, 12]})
+    <pre><code>clima = pd.DataFrame({"ciudad": ["A", "A", "B", "B"],
+                      "estacion": ["Verano", "Invierno", "Verano", "Invierno"],
+                      "temperatura": [29, 14, 31, 12]})
 
-tabla = pd.pivot_table(df, index="ciudad", columns="estacion",
-                       values="temperatura", aggfunc="mean", margins=True)
+pd.pivot_table(clima, index="ciudad", columns="estacion",
+               values="temperatura", aggfunc="mean", margins=True)
 # estacion  Invierno  Verano   All
 # A             14.0    29.0  21.5
 # B             12.0    31.0  21.5
 # All           13.0    30.0  21.5</code></pre>
-    <p>Se lee así: fila A × columna Verano = 29 (hay un solo dato). La columna <code>All</code> de la fila A es el promedio anual de A: (14 + 29) / 2 = 21,5. La esquina <code>All/All</code> es el promedio de los cuatro datos.</p>
+    <p>Fila A × columna Verano = 29 (un solo dato). La columna <code>All</code> de A es su promedio anual: (14 + 29) / 2 = 21,5. La esquina <code>All/All</code> es el promedio de los cuatro datos. Para buscar el máximo de una columna, primero se saca la fila de totales (<code>tabla.drop(index="All")</code>): si no, el total gana siempre.</p>
 
-    <h3>Cuartiles, IQR y valores atípicos</h3>
+    <h3>Faltantes en una tabla dinámica</h3>
     <ul class="conceptos">
-      <li><b>Cuartiles</b>: parten los datos ordenados en 4 partes. Q1 (percentil 25), Q2 = mediana, Q3 (percentil 75).</li>
-      <li><b>IQR</b> (rango intercuartílico) = <b>Q3 − Q1</b>. Es una resta, no una suma.</li>
-      <li><b>Regla de Tukey</b>: es atípico lo que cae fuera de <code>Q1 − 1,5·IQR</code> y <code>Q3 + 1,5·IQR</code>. Es la misma regla con que el boxplot dibuja los puntos sueltos.</li>
-      <li><code>quantile()</code> recibe una <b>proporción entre 0 y 1</b> (<code>0.25</code>), no un porcentaje: <code>quantile(25)</code> da <code>ValueError</code>.</li>
+      <li>Un dato faltante (<code>None</code>) se guarda como <code>NaN</code>: «no tengo el dato». <b>No es cero</b>: que no se midió la emisión de Energía en 2023 no significa que haya emitido 0.</li>
+      <li><b>Trampa:</b> con <code>aggfunc="sum"</code> una celda que solo tenía <code>NaN</code> aparece como <b>0</b> (la suma de nada es 0). Para conservar el <code>NaN</code>: <code>sum(min_count=1)</code>, «sumá solo si hay al menos un dato real».</li>
+      <li>Rellenar con 0 (<code>fill_value=0</code>) o con la mediana del grupo es una <b>decisión</b> que se justifica y se documenta.</li>
     </ul>
-    <pre><code>pm25 = pd.Series([12, 14, 13, 15, 16, 14, 80])      # µg/m³
-q1 = pm25.quantile(0.25)        # 13.5
-q3 = pm25.quantile(0.75)        # 15.5
-iqr = q3 - q1                   # 2.0
-limite_superior = q3 + 1.5 * iqr    # 18.5
-limite_inferior = q1 - 1.5 * iqr    # 10.5
+    <pre><code>emisiones = pd.DataFrame({"anio": [2022, 2022, 2023, 2023],
+                          "sector": ["Energía", "Transporte", "Energía", "Transporte"],
+                          "co2": [120.0, 80.0, None, 85.0]})
 
-# | = «o» y cada condición entre paréntesis (con Series no sirve «and»/«or»)
-atipicos = pm25[(pm25 &gt; limite_superior) | (pm25 &lt; limite_inferior)]   # el 80 (índice 6)</code></pre>
-    <p>pandas interpola linealmente para los cuartiles (por eso aparece 13,5): otros métodos manuales pueden dar valores levemente distintos, pero la conclusión es la misma. Y un atípico <b>no se borra automáticamente</b>: primero se revisa si es un error de carga o un evento real.</p>
-
-    <h3>Valores faltantes en una tabla dinámica</h3>
-    <ul class="conceptos">
-      <li>Un dato faltante (<code>None</code>) se guarda como <code>NaN</code>: «no tengo el dato». <b>No es lo mismo que cero</b>: que no se midió la emisión de Energía en 2023 no significa que haya emitido 0.</li>
-      <li><code>fill_value</code> reemplaza las celdas vacías del <i>resultado</i> y debe ser un <b>número</b> (<code>0</code>), no un texto (<code>"0"</code>). Pero rellenar con 0 falsea la tabla: es una decisión que hay que justificar.</li>
-      <li><b>Trampa:</b> con <code>aggfunc="sum"</code> una celda que solo tenía <code>NaN</code> aparece como <b>0</b> (la suma de nada es 0). Para conservar el <code>NaN</code> se usa <code>sum(min_count=1)</code>: «sumá solo si hay al menos un dato real».</li>
-    </ul>
-    <pre><code>df = pd.DataFrame({"anio": [2022, 2022, 2023, 2023],
-                   "sector": ["Energía", "Transporte", "Energía", "Transporte"],
-                   "co2": [120.0, 80.0, None, 85.0]})
-
-tabla = df.pivot_table(index="sector", columns="anio", values="co2",
-                       aggfunc=lambda s: s.sum(min_count=1))       # conserva el NaN
+tabla = emisiones.pivot_table(index="sector", columns="anio", values="co2",
+                              aggfunc=lambda s: s.sum(min_count=1))    # conserva el NaN
 tabla["Total"] = tabla.sum(axis=1, min_count=1)      # axis=1: a lo largo de cada fila
 # anio         2022  2023  Total
-# Energía     120.0   NaN  120.0       (el total de Energía solo cuenta 2022)
+# Energía     120.0   NaN  120.0
 # Transporte   80.0  85.0  165.0</code></pre>
-    <p>Si en cambio se decide (y se justifica) tratar el faltante como 0, los totales salen con <code>aggfunc="sum", fill_value=0, margins=True, margins_name="Total"</code>.</p>
 
-    <h3>Variables derivadas y pd.cut</h3>
+    <h3>groupby + apply: promedio ponderado</h3>
     <ul class="conceptos">
-      <li><b>Variable derivada</b>: una columna nueva calculada de otras, <code>df["imc"] = …</code>. pandas hace la cuenta fila por fila.</li>
-      <li><b>Orden de las operaciones</b>: <code>**</code> (potencia) se resuelve antes que <code>*</code> y <code>/</code>. IMC = peso / altura²: <code>peso / altura ** 2</code>. <code>peso / altura * 2</code> es <code>(peso / altura) * 2</code>: un error lógico, no avisa.</li>
-      <li><b>Discretizar</b> = pasar un número a categorías con <code>pd.cut(x, bins=…, labels=…)</code>. <code>bins</code> son los <b>bordes</b> y <code>labels</code> los nombres: <b>cantidad de labels = cantidad de bordes − 1</b> (5 bordes forman 4 intervalos).</li>
-      <li><b>Pasá los argumentos con nombre.</b> El tercer argumento posicional de <code>pd.cut</code> es <code>right</code>, no <code>labels</code>: <code>pd.cut(imc, bins, labels)</code> <b>no da error</b>, pero devuelve intervalos en vez de nombres.</li>
-      <li><code>right=True</code> (por defecto) incluye el borde derecho: <code>(a, b]</code>. Con <code>right=False</code> son <code>[a, b)</code>, y un IMC de 25,0 cae en «Sobrepeso», como en la tabla de la OMS.</li>
-    </ul>
-    <pre><code>df = pd.DataFrame({"peso_kg": [60, 78, 95, 52], "altura_m": [1.65, 1.75, 1.70, 1.60]})
-df["imc"] = (df["peso_kg"] / df["altura_m"] ** 2).round(1)      # 22.0, 25.5, 32.9, 20.3
-
-bins = [0, 18.5, 25, 30, 100]                          # 5 bordes → 4 intervalos
-labels = ["Bajo", "Normal", "Sobrepeso", "Obesidad"]   # 4 etiquetas
-df["categoria"] = pd.cut(df["imc"], bins=bins, labels=labels, right=False)
-# Normal, Sobrepeso, Obesidad, Normal</code></pre>
-
-    <h3>groupby + apply: promedio ponderado y división por cero</h3>
-    <ul class="conceptos">
-      <li><b>Promedio ponderado</b> = Σ(valor × peso) / Σ(peso). Norte: (12000·2 + 18000·1) / 3 = 14000 (el simple daría 15000: la zona con más gente pesa más).</li>
-      <li><code>groupby("region").apply(f)</code>: <b>divide</b> el DataFrame en grupos, <b>aplica</b> <code>f</code> a cada mini-DataFrame y <b>combina</b> los resultados. <code>include_groups=False</code> (plural, desde pandas 2.2) evita pasarle a <code>f</code> la columna por la que se agrupó.</li>
-      <li><b>División por cero</b>: si los pesos de un grupo suman 0, no hay promedio posible. La función «segura» chequea antes y devuelve <code>np.nan</code> (no 0). Con <code>np.average</code> la división por cero corta con <code>ZeroDivisionError</code>.</li>
-      <li>Si la función devuelve una <b><code>pd.Series</code> con etiquetas</b>, cada etiqueta se vuelve una columna: así el resultado es un DataFrame con varias columnas por grupo.</li>
+      <li><b>Promedio ponderado</b> = Σ(valor × peso) / Σ(peso). Norte: (12000·2 + 18000·1) / 3 = 14000 (el simple daría 15000: la zona con más población pesa más).</li>
+      <li><code>agg</code> resume <b>una columna</b> por vez. Cuando la cuenta necesita <b>varias columnas del grupo</b> (valor y peso), se usa <code>groupby(...).apply(f)</code>: <code>f</code> recibe el mini-DataFrame de cada grupo. <code>include_groups=False</code> (plural, pandas 2.2) evita pasarle la columna de agrupación.</li>
+      <li><b>División por cero</b>: si los pesos de un grupo suman 0, devolver <code>np.nan</code> (no 0). Si <code>f</code> devuelve una <code>pd.Series</code> con etiquetas, cada etiqueta se vuelve una columna.</li>
     </ul>
     <pre><code>import numpy as np
 
 def promedio_ponderado(g):                       # g = mini-DataFrame de UNA región
-    poblacion_total = g["poblacion"].sum()       # sum() con paréntesis
+    poblacion_total = g["poblacion"].sum()
     if poblacion_total == 0:
         pib = np.nan                             # no se puede ponderar
     else:
@@ -591,7 +611,2091 @@ resultado = df.groupby("region").apply(promedio_ponderado, include_groups=False)
 #         pib_ponderado  poblacion_total
 # Norte         14000.0              3.0
 # Sur           15000.0              3.0</code></pre>
-    <p>Además, el cuerpo de una función <code>def</code> va <b>indentado</b> (4 espacios): sin sangría da <code>IndentationError</code>.</p>
+
+    <h3>Caso integrador: de los registros al informe</h3>
+    <pre><code>df = pd.read_csv("ventas.csv")
+df["Ventas"] = pd.to_numeric(df["Ventas"], errors="coerce")     # texto raro → NaN
+df = df.dropna(subset=["Ciudad", "Categoria", "Ventas"])        # sin datos críticos
+print(df["Ventas"].describe())
+resumen = df.groupby("Ciudad", as_index=False).agg(
+    total=("Ventas", "sum"), promedio=("Ventas", "mean"), dispersion=("Ventas", "std"))
+tabla = df.pivot_table(values="Ventas", index="Ciudad", columns="Categoria",
+                       aggfunc="sum", fill_value=0)
+resumen.to_excel("resumen_ciudades.xlsx", index=False)
+tabla.to_excel("ventas_por_categoria.xlsx")      # acá el índice (Ciudad) sí importa</code></pre>
+
+    <div class="errores">
+      <p><b>Errores típicos</b></p>
+      <ul>
+        <li><b>Promediar identificadores</b> (el promedio de los DNI no significa nada) y <b>confundir <code>sum</code> con <code>count</code></b>: <code>count</code> cuenta registros no nulos, <code>sum</code> suma valores.</li>
+        <li><b>Ignorar los NaN</b>: <code>count</code> no los cuenta y <code>sum</code> los trata como 0.</li>
+        <li><b>Duplicar observaciones</b> antes de agrupar (un <code>merge</code> mal hecho multiplica filas e infla los totales).</li>
+        <li><b>Usar <code>pivot</code> con duplicados</b> → <code>pivot_table</code> con un <code>aggfunc</code>.</li>
+        <li><b>Método sin paréntesis</b> (<code>.mean</code> devuelve el método, no el número), <code>describes()</code>, <code>aggfunc="average"</code>, <code>quantile(25)</code>, parámetros en singular (<code>column=</code>, <code>value=</code>).</li>
+        <li>No revisar <b>grupos chicos</b>: el promedio de un grupo de 2 datos no se compara igual que el de uno de 200.</li>
+        <li><b>Leer asociación como causalidad</b>: que Bogotá venda más no dice por qué.</li>
+      </ul>
+    </div>
+
+    <h3>Práctica de la cátedra: 12 ejercicios resueltos</h3>
+    <p>La guía «Estadística descriptiva, agrupación y tablas dinámicas» (4 de dificultad baja, 4 media y 4 alta). Cada ejercicio tiene la consigna resumida, una resolución que se ejecutó con pandas 2.2 y la salida real. Intentalos antes de abrirlos.</p>
+<details class="sol"><summary><span class="sol-n">Ej. 1 · baja</span> Resumen descriptivo de calificaciones</summary>
+<div class="sol-cuerpo">
+<p class="sol-pide"><b>Pide:</b> Con las notas 12, 15, 14, 18, 16, 15, 13, 17, 15 y 20: armar el DataFrame, mostrar describe() y calcular aparte media, mediana y moda. ¿Qué valor representa mejor el centro?</p>
+<pre><code>import pandas as pd
+
+df = pd.DataFrame({&quot;Calificacion&quot;: [12, 15, 14, 18, 16, 15, 13, 17, 15, 20]})
+s = df[&quot;Calificacion&quot;]
+print(s.describe().round(2))
+print(&quot;Media:&quot;, s.mean(), &quot;| Mediana:&quot;, s.median(), &quot;| Moda:&quot;, s.mode().tolist())</code></pre>
+<p class="sol-et">Salida</p>
+<pre class="sol-salida"><code>count    10.00
+mean     15.50
+std       2.37
+min      12.00
+25%      14.25
+50%      15.00
+75%      16.75
+max      20.00
+Name: Calificacion, dtype: float64
+Media: 15.5 | Mediana: 15.0 | Moda: [15]</code></pre>
+<p class="sol-lee">Media 15,5, mediana 15 y moda 15 casi coinciden: la distribución es pareja. El 20 empuja un poco la media hacia arriba, así que la mediana (15) es la mejor medida del centro. Ojo: el solucionario de la guía da un desvío de 2,415; la cuenta correcta (muestral, n − 1) es 2,37.</p>
+</div></details>
+<details class="sol"><summary><span class="sol-n">Ej. 2 · baja</span> Dispersión de tiempos de atención</summary>
+<div class="sol-cuerpo">
+<p class="sol-pide"><b>Pide:</b> Con los tiempos 8, 10, 7, 12, 9, 15, 11, 10, 6 y 12 minutos: varianza y desvío muestrales, rango e IQR. ¿Los tiempos están muy separados de la media?</p>
+<pre><code>import pandas as pd
+
+s = pd.Series([8, 10, 7, 12, 9, 15, 11, 10, 6, 12], name=&quot;Tiempo_min&quot;)
+q1, q3 = s.quantile(0.25), s.quantile(0.75)
+print(&quot;Media:&quot;, s.mean())
+print(&quot;Varianza:&quot;, round(s.var(), 2), &quot;| Desvío:&quot;, round(s.std(), 2))
+print(&quot;Rango:&quot;, s.max() - s.min(), &quot;| Q1:&quot;, q1, &quot;| Q3:&quot;, q3, &quot;| IQR:&quot;, q3 - q1)</code></pre>
+<p class="sol-et">Salida</p>
+<pre class="sol-salida"><code>Media: 10.0
+Varianza: 7.11 | Desvío: 2.67
+Rango: 9 | Q1: 8.25 | Q3: 11.75 | IQR: 3.5</code></pre>
+<p class="sol-lee">El desvío de 2,67 min sobre una media de 10 min indica que los tiempos están moderadamente juntos; el 50 % central entra en 3,5 min (IQR). El rango de 9 lo estira el 15, el único valor alejado.</p>
+</div></details>
+<details class="sol"><summary><span class="sol-n">Ej. 3 · baja</span> Ventas por sucursal con groupby</summary>
+<div class="sol-cuerpo">
+<p class="sol-pide"><b>Pide:</b> Sucursales Norte, Sur, Centro (dos ventas cada una): total y promedio por sucursal, y cuál vendió más.</p>
+<pre><code>import pandas as pd
+
+df = pd.DataFrame({&quot;Sucursal&quot;: [&quot;Norte&quot;, &quot;Sur&quot;, &quot;Centro&quot;, &quot;Norte&quot;, &quot;Sur&quot;, &quot;Centro&quot;],
+                   &quot;Ventas&quot;: [1200, 950, 1100, 1350, 1050, 1250]})
+resumen = df.groupby(&quot;Sucursal&quot;)[&quot;Ventas&quot;].agg(Total=&quot;sum&quot;, Promedio=&quot;mean&quot;)
+print(resumen)
+print(&quot;Mayor total:&quot;, resumen[&quot;Total&quot;].idxmax())</code></pre>
+<p class="sol-et">Salida</p>
+<pre class="sol-salida"><code>          Total  Promedio
+Sucursal                 
+Centro     2350    1175.0
+Norte      2550    1275.0
+Sur        2000    1000.0
+Mayor total: Norte</code></pre>
+<p class="sol-lee">Norte suma 2550, la mayor venta total y también el mayor promedio (1275). <code>idxmax()</code> devuelve la <i>etiqueta</i> (el nombre de la sucursal), no el valor.</p>
+</div></details>
+<details class="sol"><summary><span class="sol-n">Ej. 4 · baja</span> Tabla dinámica de productos</summary>
+<div class="sol-cuerpo">
+<p class="sol-pide"><b>Pide:</b> Tiendas A, B y C venden Laptop y Mouse: tabla con Tienda en filas, Producto en columnas, suma de Unidades y totales. ¿Qué tienda vendió más Mouse?</p>
+<pre><code>import pandas as pd
+
+df = pd.DataFrame({&quot;Tienda&quot;: [&quot;A&quot;, &quot;A&quot;, &quot;B&quot;, &quot;B&quot;, &quot;C&quot;, &quot;C&quot;],
+                   &quot;Producto&quot;: [&quot;Laptop&quot;, &quot;Mouse&quot;] * 3,
+                   &quot;Unidades&quot;: [5, 12, 7, 10, 6, 15]})
+tabla = df.pivot_table(index=&quot;Tienda&quot;, columns=&quot;Producto&quot;, values=&quot;Unidades&quot;,
+                       aggfunc=&quot;sum&quot;, margins=True)
+print(tabla)
+# la fila All es el total: se saca antes de buscar el máximo
+print(&quot;Más Mouse:&quot;, tabla.drop(index=&quot;All&quot;)[&quot;Mouse&quot;].idxmax())</code></pre>
+<p class="sol-et">Salida</p>
+<pre class="sol-salida"><code>Producto  Laptop  Mouse  All
+Tienda                      
+A              5     12   17
+B              7     10   17
+C              6     15   21
+All           18     37   55
+Más Mouse: C</code></pre>
+<p class="sol-lee">C vendió más Mouse (15). Antes de buscar el máximo hay que sacar la fila <code>All</code>: si no, el total (37) «gana» siempre.</p>
+</div></details>
+<details class="sol"><summary><span class="sol-n">Ej. 5 · media</span> Perfil estadístico por asignatura</summary>
+<div class="sol-cuerpo">
+<p class="sol-pide"><b>Pide:</b> Notas de Python, Bases de datos y Redes (tres cada una): cantidad, media, mediana, mínimo, máximo y desvío por asignatura, con nombres claros, ordenado por media. ¿Cuál varía más?</p>
+<pre><code>import pandas as pd
+
+df = pd.DataFrame({&quot;Asignatura&quot;: [&quot;Python&quot;] * 3 + [&quot;Bases de datos&quot;] * 3 + [&quot;Redes&quot;] * 3,
+                   &quot;Nota&quot;: [14, 17, 16, 12, 15, 18, 11, 13, 16]})
+resumen = df.groupby(&quot;Asignatura&quot;)[&quot;Nota&quot;].agg(
+    Cantidad=&quot;count&quot;, Media=&quot;mean&quot;, Mediana=&quot;median&quot;,
+    Minimo=&quot;min&quot;, Maximo=&quot;max&quot;, Desvio=&quot;std&quot;)
+resumen = resumen.sort_values(&quot;Media&quot;, ascending=False)
+print(resumen.round(2))
+print(&quot;Mayor variabilidad:&quot;, resumen[&quot;Desvio&quot;].idxmax())</code></pre>
+<p class="sol-et">Salida</p>
+<pre class="sol-salida"><code>                Cantidad  Media  Mediana  Minimo  Maximo  Desvio
+Asignatura                                                      
+Python                 3  15.67     16.0      14      17    1.53
+Bases de datos         3  15.00     15.0      12      18    3.00
+Redes                  3  13.33     13.0      11      16    2.52
+Mayor variabilidad: Bases de datos</code></pre>
+<p class="sol-lee">Python tiene la mayor media (15,67) y el menor desvío: rinde mejor y más parejo. Bases de datos varía más (desvío 3), aunque su media es 15.</p>
+</div></details>
+<details class="sol"><summary><span class="sol-n">Ej. 6 · media</span> Coeficiente de variación de entregas</summary>
+<div class="sol-cuerpo">
+<p class="sol-pide"><b>Pide:</b> Días de entrega de las empresas A (2, 3, 2, 4) y B (5, 8, 6, 9): media, desvío y CV = desvío / media × 100. ¿Cuál es más consistente?</p>
+<pre><code>import pandas as pd
+
+df = pd.DataFrame({&quot;Empresa&quot;: [&quot;A&quot;] * 4 + [&quot;B&quot;] * 4,
+                   &quot;Dias&quot;: [2, 3, 2, 4, 5, 8, 6, 9]})
+resumen = df.groupby(&quot;Empresa&quot;)[&quot;Dias&quot;].agg(Media=&quot;mean&quot;, Desvio=&quot;std&quot;)
+resumen[&quot;CV_pct&quot;] = resumen[&quot;Desvio&quot;] / resumen[&quot;Media&quot;] * 100
+print(resumen.round(2))
+print(&quot;Más consistente:&quot;, resumen[&quot;CV_pct&quot;].idxmin())</code></pre>
+<p class="sol-et">Salida</p>
+<pre class="sol-salida"><code>         Media  Desvio  CV_pct
+Empresa                       
+A         2.75    0.96   34.82
+B         7.00    1.83   26.08
+Más consistente: B</code></pre>
+<p class="sol-lee">B tarda más en promedio (7 días) pero es <b>más consistente</b>: su CV es 26,08 % contra 34,82 % de A. El CV compara la dispersión <i>relativa</i>; el desvío solo engañaría, porque B tiene el desvío mayor.</p>
+</div></details>
+<details class="sol"><summary><span class="sol-n">Ej. 7 · media</span> pivot() frente a pivot_table()</summary>
+<div class="sol-cuerpo">
+<p class="sol-pide"><b>Pide:</b> Ventas por Mes y Región. Reorganizar con pivot(); agregar una fila repetida (Ene, Norte); ver por qué pivot() falla y resolverlo con pivot_table(aggfunc="sum").</p>
+<pre><code>import pandas as pd
+
+df = pd.DataFrame({&quot;Mes&quot;: [&quot;Ene&quot;, &quot;Ene&quot;, &quot;Feb&quot;, &quot;Feb&quot;, &quot;Mar&quot;, &quot;Mar&quot;],
+                   &quot;Region&quot;: [&quot;Norte&quot;, &quot;Sur&quot;] * 3,
+                   &quot;Ventas&quot;: [100, 120, 110, 130, 125, 140]})
+orden = [&quot;Ene&quot;, &quot;Feb&quot;, &quot;Mar&quot;]       # si no, ordena alfabéticamente (Ene, Feb, Mar por casualidad)
+print(df.pivot(index=&quot;Mes&quot;, columns=&quot;Region&quot;, values=&quot;Ventas&quot;).reindex(orden))
+
+repetida = pd.DataFrame([{&quot;Mes&quot;: &quot;Ene&quot;, &quot;Region&quot;: &quot;Norte&quot;, &quot;Ventas&quot;: 50}])
+df2 = pd.concat([df, repetida], ignore_index=True)
+try:
+    df2.pivot(index=&quot;Mes&quot;, columns=&quot;Region&quot;, values=&quot;Ventas&quot;)
+except ValueError as error:
+    print(&quot;pivot() falla:&quot;, error)
+
+print(df2.pivot_table(index=&quot;Mes&quot;, columns=&quot;Region&quot;, values=&quot;Ventas&quot;,
+                      aggfunc=&quot;sum&quot;).reindex(orden))</code></pre>
+<p class="sol-et">Salida</p>
+<pre class="sol-salida"><code>Region  Norte  Sur
+Mes               
+Ene       100  120
+Feb       110  130
+Mar       125  140
+pivot() falla: Index contains duplicate entries, cannot reshape
+Region  Norte  Sur
+Mes               
+Ene       150  120
+Feb       110  130
+Mar       125  140</code></pre>
+<p class="sol-lee"><code>pivot()</code> solo reorganiza: con dos ventas para (Ene, Norte) no sabe qué número poner y da <code>ValueError</code>. <code>pivot_table(aggfunc="sum")</code> resuelve la celda repetida sumando 100 + 50 = 150.</p>
+</div></details>
+<details class="sol"><summary><span class="sol-n">Ej. 8 · media</span> Resumen comercial con varias funciones</summary>
+<div class="sol-cuerpo">
+<p class="sol-pide"><b>Pide:</b> Ventas por Región y Producto: una pivot_table con suma y promedio a la vez, faltantes en cero. ¿Qué región suma más?</p>
+<pre><code>import pandas as pd
+
+df = pd.DataFrame({&quot;Region&quot;: [&quot;Norte&quot;, &quot;Norte&quot;, &quot;Norte&quot;, &quot;Sur&quot;, &quot;Sur&quot;, &quot;Sur&quot;, &quot;Centro&quot;, &quot;Centro&quot;],
+                   &quot;Producto&quot;: [&quot;A&quot;, &quot;A&quot;, &quot;B&quot;, &quot;A&quot;, &quot;B&quot;, &quot;B&quot;, &quot;A&quot;, &quot;B&quot;],
+                   &quot;Ventas&quot;: [100, 120, 80, 90, 110, 130, 105, 95]})
+tabla = df.pivot_table(index=&quot;Region&quot;, columns=&quot;Producto&quot;, values=&quot;Ventas&quot;,
+                       aggfunc=[&quot;sum&quot;, &quot;mean&quot;], fill_value=0)
+print(tabla)
+totales = df.groupby(&quot;Region&quot;)[&quot;Ventas&quot;].sum()
+print(&quot;Mayor suma:&quot;, totales.idxmax(), totales.max())</code></pre>
+<p class="sol-et">Salida</p>
+<pre class="sol-salida"><code>          sum        mean       
+Producto    A    B      A      B
+Region                          
+Centro    105   95  105.0   95.0
+Norte     220   80  110.0   80.0
+Sur        90  240   90.0  120.0
+Mayor suma: Sur 330</code></pre>
+<p class="sol-lee">Sur suma 330 (90 + 240). Con dos funciones en <code>aggfunc</code> las columnas quedan en dos niveles (<code>sum</code>/<code>mean</code> × producto); para el total por región conviene un <code>groupby</code> aparte.</p>
+</div></details>
+<details class="sol"><summary><span class="sol-n">Ej. 9 · alta</span> Atípicos por IQR dentro de cada grupo</summary>
+<div class="sol-cuerpo">
+<p class="sol-pide"><b>Pide:</b> Salarios de TI (3200 a 3700 y un 9000) y Finanzas (2800 a 3300): Q1, Q3 e IQR por departamento, límites con 1,5·IQR, columna Atipico y media/mediana antes y después de excluirlos.</p>
+<pre><code>import pandas as pd
+
+df = pd.DataFrame({&quot;Departamento&quot;: [&quot;TI&quot;] * 6 + [&quot;Finanzas&quot;] * 6,
+                   &quot;Salario&quot;: [3200, 3400, 3500, 3600, 3700, 9000,
+                               2800, 2900, 3000, 3100, 3200, 3300]})
+g = df.groupby(&quot;Departamento&quot;)[&quot;Salario&quot;]
+q1 = g.transform(lambda s: s.quantile(0.25))   # el Q1 de SU grupo, en cada fila
+q3 = g.transform(lambda s: s.quantile(0.75))
+iqr = q3 - q1
+df[&quot;Atipico&quot;] = (df[&quot;Salario&quot;] &lt; q1 - 1.5 * iqr) | (df[&quot;Salario&quot;] &gt; q3 + 1.5 * iqr)
+print(df[df[&quot;Atipico&quot;]])
+antes = df.groupby(&quot;Departamento&quot;)[&quot;Salario&quot;].agg(Media=&quot;mean&quot;, Mediana=&quot;median&quot;)
+despues = df[~df[&quot;Atipico&quot;]].groupby(&quot;Departamento&quot;)[&quot;Salario&quot;].agg(Media=&quot;mean&quot;, Mediana=&quot;median&quot;)
+print(&quot;Antes:\n&quot;, antes.round(2))
+print(&quot;Después:\n&quot;, despues.round(2))</code></pre>
+<p class="sol-et">Salida</p>
+<pre class="sol-salida"><code>  Departamento  Salario  Atipico
+5           TI     9000     True
+Antes:
+                Media  Mediana
+Departamento                 
+Finanzas      3050.0   3050.0
+TI            4400.0   3550.0
+Después:
+                Media  Mediana
+Departamento                 
+Finanzas      3050.0   3050.0
+TI            3480.0   3500.0</code></pre>
+<p class="sol-lee">Solo el 9000 de TI es atípico (en TI, Q1 = 3425, Q3 = 3675 y el límite superior es 4050). Al excluirlo la media de TI cae de 4400 a 3480, mientras que la mediana casi no se mueve (3550 → 3500): la mediana es robusta. <code>transform</code> devuelve un valor por fila, alineado con el DataFrame original.</p>
+</div></details>
+<details class="sol"><summary><span class="sol-n">Ej. 10 · alta</span> Panel de indicadores por segmento</summary>
+<div class="sol-cuerpo">
+<p class="sol-pide"><b>Pide:</b> Ingresos y Costos de Pyme, Corporativo y Gobierno: crear Margen; por segmento, ingresos totales, margen promedio, mediana de costos, cantidad de operaciones y CV de ingresos con una función propia. Ordenar por ingresos.</p>
+<pre><code>import pandas as pd
+
+df = pd.DataFrame({&quot;Segmento&quot;: [&quot;Pyme&quot;] * 3 + [&quot;Corporativo&quot;] * 3 + [&quot;Gobierno&quot;] * 3,
+                   &quot;Ingresos&quot;: [80, 95, 100, 200, 240, 260, 150, 155, 220],
+                   &quot;Costos&quot;: [55, 60, 70, 130, 150, 180, 100, 110, 160]})
+df[&quot;Margen&quot;] = df[&quot;Ingresos&quot;] - df[&quot;Costos&quot;]
+
+def cv(serie):
+    return serie.std() / serie.mean() * 100
+
+panel = df.groupby(&quot;Segmento&quot;).agg(
+    Ingresos_totales=(&quot;Ingresos&quot;, &quot;sum&quot;),
+    Margen_promedio=(&quot;Margen&quot;, &quot;mean&quot;),
+    Costos_mediana=(&quot;Costos&quot;, &quot;median&quot;),
+    Operaciones=(&quot;Ingresos&quot;, &quot;count&quot;),
+    CV_ingresos=(&quot;Ingresos&quot;, cv))          # una función propia, sin comillas
+print(panel.sort_values(&quot;Ingresos_totales&quot;, ascending=False).round(2))</code></pre>
+<p class="sol-et">Salida</p>
+<pre class="sol-salida"><code>             Ingresos_totales  Margen_promedio  Costos_mediana  Operaciones  \
+Segmento                                                                      
+Corporativo               700            80.00           150.0            3   
+Gobierno                  525            51.67           110.0            3   
+Pyme                      275            30.00            60.0            3   
+
+             CV_ingresos  
+Segmento                  
+Corporativo        13.09  
+Gobierno           22.31  
+Pyme               11.35</code></pre>
+<p class="sol-lee">Corporativo tiene la mayor escala (700) y el mejor margen promedio (80), con CV de 13 %. Gobierno es el menos estable (CV 22,31 %). Pyme es el más estable (11,35 %) pero el más chico: escala y estabilidad no van juntas.</p>
+</div></details>
+<details class="sol"><summary><span class="sol-n">Ej. 11 · alta</span> Tabla dinámica con varias claves</summary>
+<div class="sol-cuerpo">
+<p class="sol-pide"><b>Pide:</b> Ocho ventas combinando Año (2025, 2026), Trimestre, Región y Canal: pivot_table con Año y Trimestre en filas, Región y Canal en columnas, totales y ceros en los huecos. Comparar el total de 2026 con el de 2025.</p>
+<pre><code>import pandas as pd
+
+df = pd.DataFrame({&quot;Anio&quot;: [2025] * 4 + [2026] * 4,
+                   &quot;Trimestre&quot;: [&quot;T1&quot;, &quot;T1&quot;, &quot;T2&quot;, &quot;T2&quot;] * 2,
+                   &quot;Region&quot;: [&quot;Norte&quot;, &quot;Sur&quot;] * 4,
+                   &quot;Canal&quot;: [&quot;Web&quot;, &quot;Tienda&quot;] * 4,
+                   &quot;Ventas&quot;: [100, 120, 130, 125, 140, 150, 160, 155]})
+tabla = df.pivot_table(index=[&quot;Anio&quot;, &quot;Trimestre&quot;], columns=[&quot;Region&quot;, &quot;Canal&quot;],
+                       values=&quot;Ventas&quot;, aggfunc=&quot;sum&quot;, fill_value=0, margins=True)
+print(tabla)
+por_anio = df.groupby(&quot;Anio&quot;)[&quot;Ventas&quot;].sum()
+print(por_anio)
+print(&quot;Diferencia 2026 - 2025:&quot;, por_anio[2026] - por_anio[2025])</code></pre>
+<p class="sol-et">Salida</p>
+<pre class="sol-salida"><code>Region         Norte    Sur   All
+Canal            Web Tienda      
+Anio Trimestre                   
+2025 T1          100    120   220
+     T2          130    125   255
+2026 T1          140    150   290
+     T2          160    155   315
+All              530    550  1080
+Anio
+2025    475
+2026    605
+Name: Ventas, dtype: int64
+Diferencia 2026 - 2025: 130</code></pre>
+<p class="sol-lee">2026 vendió 605 contra 475 de 2025: 130 más. Con listas en <code>index</code> y <code>columns</code> las etiquetas quedan jerárquicas (MultiIndex).</p>
+</div></details>
+<details class="sol"><summary><span class="sol-n">Ej. 12 · alta</span> Miniinforme de calidad y ventas</summary>
+<div class="sol-cuerpo">
+<p class="sol-pide"><b>Pide:</b> Ocho ventas con fecha, región y categoría, una sin dato: pasar Fecha a fecha y sacar el Mes, completar el faltante con la mediana de su categoría, describe(), resumen por región (suma, media, desvío, rango, IQR y CV) y una tabla Mes × Categoría con totales.</p>
+<pre><code>import pandas as pd
+import numpy as np
+
+df = pd.DataFrame({
+    &quot;Fecha&quot;: [&quot;2026-01-05&quot;, &quot;2026-01-08&quot;, &quot;2026-02-03&quot;, &quot;2026-02-10&quot;,
+              &quot;2026-03-02&quot;, &quot;2026-03-14&quot;, &quot;2026-03-20&quot;, &quot;2026-03-25&quot;],
+    &quot;Region&quot;: [&quot;Norte&quot;, &quot;Sur&quot;] * 4,
+    &quot;Categoria&quot;: [&quot;A&quot;, &quot;A&quot;, &quot;B&quot;, &quot;B&quot;, &quot;A&quot;, &quot;A&quot;, &quot;B&quot;, &quot;B&quot;],
+    &quot;Ventas&quot;: [100, 120, np.nan, 150, 130, 125, 170, 160]})
+df[&quot;Fecha&quot;] = pd.to_datetime(df[&quot;Fecha&quot;])
+df[&quot;Mes&quot;] = df[&quot;Fecha&quot;].dt.to_period(&quot;M&quot;).astype(str)
+
+mediana_cat = df.groupby(&quot;Categoria&quot;)[&quot;Ventas&quot;].transform(&quot;median&quot;)
+df[&quot;Ventas&quot;] = df[&quot;Ventas&quot;].fillna(mediana_cat)      # el NaN de B pasa a 160
+print(df[&quot;Ventas&quot;].describe().round(2))
+
+def rango(s): return s.max() - s.min()
+def iqr(s): return s.quantile(0.75) - s.quantile(0.25)
+def cv(s): return s.std() / s.mean() * 100
+
+print(df.groupby(&quot;Region&quot;)[&quot;Ventas&quot;].agg(Suma=&quot;sum&quot;, Media=&quot;mean&quot;, Desvio=&quot;std&quot;,
+                                         Rango=rango, IQR=iqr, CV_pct=cv).round(2))
+print(df.pivot_table(index=&quot;Mes&quot;, columns=&quot;Categoria&quot;, values=&quot;Ventas&quot;,
+                     aggfunc=&quot;sum&quot;, fill_value=0, margins=True))</code></pre>
+<p class="sol-et">Salida</p>
+<pre class="sol-salida"><code>count      8.00
+mean     139.38
+std       24.27
+min      100.00
+25%      123.75
+50%      140.00
+75%      160.00
+max      170.00
+Name: Ventas, dtype: float64
+         Suma   Media  Desvio  Rango    IQR  CV_pct
+Region                                             
+Norte   560.0  140.00   31.62   70.0  40.00   22.59
+Sur     555.0  138.75   19.31   40.0  28.75   13.92
+Categoria      A      B     All
+Mes                            
+2026-01    220.0    0.0   220.0
+2026-02      0.0  310.0   310.0
+2026-03    255.0  330.0   585.0
+All        475.0  640.0  1115.0</code></pre>
+<p class="sol-lee">El faltante (Feb, categoría B) se completa con 160, la mediana de B. Norte y Sur suman casi lo mismo (560 y 555), pero Sur es más estable (CV 13,92 % contra 22,59 %). Marzo concentra 585 de 1115 (≈ 52 %).</p>
+</div></details>
+  </section>
+
+  <section class="clase" id="c11" data-busca="valores atipicos outliers iqr tukey z-score zscore isolation forest distribucion asimetria curtosis multimodal transformacion normalizacion estandarizacion minmaxscaler standardscaler robustscaler powertransformer kbinsdiscretizer onehotencoder fit_transform fuga de informacion discretizacion pd.cut qcut bins labels right include_lowest clip winsorizacion ingenieria de variables variable derivada imc rolling media movil residuo statsmodels ols">
+    <p class="eyebrow">Clase 11</p>
+    <h2>Valores atípicos, distribuciones y transformaciones</h2>
+    <p class="objetivo">Detectar valores extremos (IQR, Z-score, gráficos), describir la forma de una variable y transformarla para comparar o modelar: normalizar, estandarizar, discretizar y crear variables nuevas. La idea central de la clase: <i>transformar datos no es «maquillarlos»</i>: es construir una representación más útil, reproducible y documentada.</p>
+
+    <h3>Dónde entra en el flujo</h3>
+    <p>Definir el problema → recolectar → limpiar → explorar → <b>transformar</b> → modelar → comunicar. El proceso es iterativo, y la pregunta guía frente a un valor raro es: <b>¿es un error, un evento raro válido o una señal importante?</b></p>
+
+    <h3>Describir una variable</h3>
+    <ul class="conceptos">
+      <li><b>Centro</b>: media (sensible a extremos), mediana (robusta ante sesgo), moda.</li>
+      <li><b>Dispersión</b>: desvío estándar, cuartiles e IQR, rango, coeficiente de variación.</li>
+      <li><b>Forma</b>: <b>asimetría</b> (hacia qué lado se estira la cola), <b>curtosis</b> (cuánto pesan las colas) y <b>multimodalidad</b> (varios «picos»: suele indicar varios grupos mezclados).</li>
+      <li><b>¿Para qué modelar después?</b> Predecir un valor (ventas, precio, consumo), clasificar observaciones (fraude o no, nivel de riesgo), explicar relaciones entre variables o detectar grupos y casos inusuales.</li>
+    </ul>
+
+    <h3>Un atípico no es automáticamente un error</h3>
+    <div class="chuleta">
+      <div><code>Error de calidad</code><span>Unidad equivocada, decimal perdido, sensor roto, duplicado o dato imposible.</span></div>
+      <div><code>Evento raro válido</code><span>Un paciente extremo, una crisis económica, un episodio ambiental, una transacción excepcional.</span></div>
+      <div><code>Señal de negocio</code><span>Fraude, falla, oportunidad, cambio de régimen o una población especial.</span></div>
+    </div>
+    <p>Nunca se elimina un valor solo porque un algoritmo lo marcó: primero se investiga contexto, fuente y consecuencia. En salud, la validación con el dominio es obligatoria. Para explorar: el <b>histograma</b> muestra la forma global y el <b>boxplot</b> resume mediana, cuartiles y extremos.</p>
+
+    <h3>Detectar con IQR (regla de Tukey)</h3>
+    <ul class="conceptos">
+      <li><b>IQR = Q3 − Q1</b> (una resta, no una suma).</li>
+      <li>Es atípico lo que cae fuera de <code>Q1 − 1,5·IQR</code> y <code>Q3 + 1,5·IQR</code>. Es la misma regla con que el boxplot dibuja los puntos sueltos.</li>
+      <li><code>quantile()</code> recibe una <b>proporción</b> (<code>0.25</code>), no un porcentaje: <code>quantile(25)</code> da <code>ValueError</code>. pandas interpola (por eso aparecen cuartiles como 13,5).</li>
+      <li>Para combinar condiciones en una Series: <code>|</code> («o») y <code>&amp;</code> («y»), cada condición entre paréntesis. <code>~</code> invierte (<code>~s.between(li, ls)</code> = «fuera del rango»).</li>
+      <li><b>Por grupo</b>: <code>groupby(...).transform(lambda s: s.quantile(0.25))</code> devuelve el Q1 <i>de su grupo</i> en cada fila, alineado con el DataFrame.</li>
+    </ul>
+    <pre><code>pm25 = pd.Series([12, 14, 13, 15, 16, 14, 80])      # µg/m³
+q1 = pm25.quantile(0.25)        # 13.5
+q3 = pm25.quantile(0.75)        # 15.5
+iqr = q3 - q1                   # 2.0
+limite_inferior = q1 - 1.5 * iqr    # 10.5
+limite_superior = q3 + 1.5 * iqr    # 18.5
+
+atipicos = pm25[(pm25 &gt; limite_superior) | (pm25 &lt; limite_inferior)]   # el 80
+# lo mismo, más corto:
+atipicos = pm25[~pm25.between(limite_inferior, limite_superior)]</code></pre>
+
+    <h3>IQR, Z-score y métodos multivariados</h3>
+    <div class="chuleta">
+      <div><code>IQR</code><span>Robusto y simple; sirve para distribuciones sesgadas. Mira una variable por vez.</span></div>
+      <div><code>Z-score</code><span>z = (x − media) / desvío: cuántos desvíos se aleja un dato. Interpretable si la distribución es más o menos simétrica, pero <b>sensible a los extremos</b>: el propio atípico infla la media y el desvío.</span></div>
+      <div><code>Multivariados</code><span>Para varias variables a la vez: Isolation Forest, Local Outlier Factor o distancias robustas. Siempre con validación de dominio.</span></div>
+    </div>
+
+    <h3>Transformaciones con scikit-learn</h3>
+    <p>El preprocesamiento convierte los datos crudos en una representación más adecuada para el modelo. Todos los transformadores siguen el mismo patrón: <code>fit</code> <b>aprende</b> parámetros (mínimo y máximo, media y desvío, mediana e IQR) y <code>transform</code> los <b>aplica</b>; <code>fit_transform</code> hace las dos cosas.</p>
+    <div class="chuleta">
+      <div><code>MinMaxScaler</code><span>x' = (x − mín) / (máx − mín): lleva a [0, 1]. Conserva el orden; un extremo comprime a todos los demás.</span></div>
+      <div><code>StandardScaler</code><span>z = (x − media) / desvío: media 0 y desvío 1. Útil para métodos sensibles a la escala (k-NN, regresión logística).</span></div>
+      <div><code>RobustScaler</code><span>Usa mediana e IQR: más robusto cuando hay extremos.</span></div>
+      <div><code>PowerTransformer</code><span>Busca una distribución más parecida a la normal (reduce la asimetría).</span></div>
+      <div><code>KBinsDiscretizer</code> / <code>pd.cut</code><span>Pasan una variable continua a intervalos.</span></div>
+      <div><code>OneHotEncoder</code><span>Convierte categorías en columnas numéricas 0/1.</span></div>
+    </div>
+    <pre><code>from sklearn.preprocessing import MinMaxScaler
+
+df = pd.DataFrame({"ingreso": [500, 1000, 1500]})
+scaler = MinMaxScaler()
+df["ingreso_norm"] = scaler.fit_transform(df[["ingreso"]])   # doble corchete: tabla 2D
+#    ingreso  ingreso_norm
+# 0      500           0.0
+# 1     1000           0.5
+# 2     1500           1.0</code></pre>
+    <p><b>Regla práctica que se repite en toda la clase:</b> el transformador se ajusta <b>solo con los datos de entrenamiento</b> (después se reutiliza el mismo objeto para prueba y producción). Si se ajusta con todo, información de la prueba «se filtra» al modelo: <b>fuga de información</b>. Se retoma en la clase 12.</p>
+    <p>Min-Max conserva el orden relativo; el Z-score expresa la distancia a la media en desvíos. Sirven, por ejemplo, para comparar PIB y desempleo, que tienen unidades y escalas muy distintas.</p>
+
+    <h3>Discretizar con pd.cut</h3>
+    <ul class="conceptos">
+      <li><b>Cuándo conviene</b>: reglas de negocio comprensibles, reportes por niveles de riesgo, relaciones no lineales simples, reducir ruido. <b>Riesgo</b>: perder información y crear cortes arbitrarios: los umbrales se justifican (criterio económico, normativa, OMS…).</li>
+      <li><code>bins</code> son los <b>bordes</b> y <code>labels</code> los nombres: <b>cantidad de labels = cantidad de bordes − 1</b>. <code>-np.inf</code> / <code>np.inf</code> (o <code>float("inf")</code>) dejan abiertos los extremos.</li>
+      <li><code>right=True</code> (por defecto) incluye el borde derecho: <code>(a, b]</code>. Con <code>right=False</code> son <code>[a, b)</code>. <code>include_lowest=True</code> incluye el primer borde (el 0).</li>
+      <li><b>Pasá los argumentos con nombre</b>: el tercer argumento posicional de <code>pd.cut</code> es <code>right</code>, no <code>labels</code>. <code>pd.cut(x, bins, labels)</code> no da error, pero devuelve intervalos en vez de nombres.</li>
+      <li><code>pd.qcut</code> corta por <b>cuantiles</b>: grupos de tamaño parecido.</li>
+    </ul>
+    <pre><code>inflacion = pd.Series([1.2, 3.8, 7.1])
+pd.cut(inflacion, bins=[-float("inf"), 2, 5, float("inf")],
+       labels=["Baja", "Moderada", "Alta"])          # Baja, Moderada, Alta
+
+df = pd.DataFrame({"peso_kg": [60, 78, 95, 52], "altura_m": [1.65, 1.75, 1.70, 1.60]})
+df["imc"] = (df["peso_kg"] / df["altura_m"] ** 2).round(1)      # 22.0, 25.5, 32.9, 20.3
+df["categoria"] = pd.cut(df["imc"], bins=[0, 18.5, 25, 30, 100],          # 5 bordes
+                         labels=["Bajo", "Normal", "Sobrepeso", "Obesidad"],  # 4 nombres
+                         right=False)                # [25, 30): un 25,0 ya es Sobrepeso</code></pre>
+
+    <h3>Ingeniería de variables</h3>
+    <ul class="conceptos">
+      <li><b>Razones</b> (deuda / ingreso), <b>diferencias</b> (consumo actual − histórico), <b>interacciones</b> (temperatura × carga), <b>tiempo</b> (hora, día, estación), <b>agregados</b> (media móvil, acumulado) y <b>variables de dominio</b> (IMC, energía por kilómetro).</li>
+      <li><b>Orden de las operaciones</b>: <code>**</code> se resuelve antes que <code>*</code> y <code>/</code>. IMC = <code>peso / altura ** 2</code>; <code>peso / altura * 2</code> es un error lógico que no avisa.</li>
+    </ul>
+    <pre><code>from sklearn.datasets import load_diabetes
+from sklearn.preprocessing import StandardScaler
+
+datos = load_diabetes(as_frame=True).frame                       # dataset abierto de salud
+q1, q3 = datos["bmi"].quantile(0.25), datos["bmi"].quantile(0.75)
+iqr = q3 - q1
+datos["bmi_atipico"] = ~datos["bmi"].between(q1 - 1.5 * iqr, q3 + 1.5 * iqr)  # detectar
+datos["riesgo_compuesto"] = datos["bmi"] + datos["bp"]                       # variable nueva
+datos[["bmi_z", "bp_z"]] = StandardScaler().fit_transform(datos[["bmi", "bp"]])  # escalar
+# en un proyecto real se separa train/test ANTES de ajustar el scaler</code></pre>
+
+    <h3>Series temporales: comparar contra una referencia móvil</h3>
+    <p>En una serie con tendencia (el CO₂ atmosférico sube año a año), un Z-score global confunde la tendencia con una anomalía. Mejor: calcular una <b>media móvil</b> (<code>rolling(12).mean()</code>), restarla (el <b>residuo</b>) y estandarizar el residuo. Así se marca solo lo que se aparta de su contexto local. Antes de concluir, revisar cambios de instrumento, faltantes y el contexto físico.</p>
+    <pre><code>media12 = co2.rolling(12).mean()                  # tendencia local de 12 meses
+residuo = co2 - media12
+z_local = (residuo - residuo.mean()) / residuo.std()
+alerta = z_local.abs() &gt; 3</code></pre>
+
+    <h3>¿Eliminar, transformar, limitar o conservar?</h3>
+    <div class="chuleta">
+      <div><code>Error confirmado</code><span>Corregir desde la fuente o excluir dejando registro (trazabilidad).</span></div>
+      <div><code>Válido pero extremo</code><span>Conservar; usar un método robusto (mediana, RobustScaler) o una transformación.</span></div>
+      <div><code>Domina el modelo</code><span>Evaluar logaritmo, <b>winsorización</b> (topear en un límite, como <code>clip(li, ls)</code>) o un modelo menos sensible.</span></div>
+      <div><code>Evento raro de interés</code><span>Conservar y modelarlo explícitamente.</span></div>
+      <div><code>Físicamente imposible</code><span>Marcar, investigar y aplicar validación de dominio.</span></div>
+    </div>
+    <p><b>Checklist antes de entregar:</b> fuente documentada, unidades verificadas, faltantes y duplicados revisados; centro + dispersión + forma con gráfico; transformación sin fuga, con los parámetros guardados y reversible; supuestos explícitos, atípicos investigados e impacto explicado.</p>
+
+    <div class="errores">
+      <p><b>Errores típicos</b></p>
+      <ul>
+        <li><b>Borrar atípicos automáticamente</b> porque una regla los marcó.</li>
+        <li><b><code>q1 + q3</code></b> en vez de <code>q3 - q1</code>; <b><code>quantile(25)</code></b> en vez de <code>quantile(0.25)</code>.</li>
+        <li><b><code>and</code>/<code>or</code></b> con Series → <code>&amp;</code>/<code>|</code> y paréntesis.</li>
+        <li><b>Ajustar el escalador con todos los datos</b> antes de separar train y test (fuga de información).</li>
+        <li><b>Labels ≠ intervalos</b> en <code>pd.cut</code> (5 bordes son 4 labels) y pasarlos sin nombre.</li>
+        <li><b>Min-Max con un extremo presente</b>: todos los demás quedan apretados cerca de 0. Recortar antes o usar RobustScaler.</li>
+        <li><b>Z-score global en una serie con tendencia</b>: marca la tendencia como anomalía.</li>
+        <li><b>IQR por grupo con muy pocos datos</b>: con tres valores por grupo la regla casi nunca marca nada.</li>
+      </ul>
+    </div>
+
+    <h3>Práctica de la cátedra: 12 ejercicios resueltos</h3>
+    <p>La guía «Escalamiento, valores atípicos y transformación de variables» (salud, economía, ventas, logística, energía y finanzas). Los ejercicios 8, 11 y 12 ajustan una regresión con <code>statsmodels</code> (<code>sm.add_constant</code> + <code>sm.OLS(y, X).fit()</code>), que se ve con más detalle en la clase 13. Los umbrales de salud, economía y riesgo son didácticos.</p>
+<details class="sol"><summary><span class="sol-n">Ej. 1 · baja</span> Presión sistólica: atípicos por IQR</summary>
+<div class="sol-cuerpo">
+<p class="sol-pide"><b>Pide:</b> Ocho pacientes con edad y presión sistólica: Q1, Q3 e IQR de la presión, límites con 1,5·IQR, columna Es_atipico y los pacientes detectados.</p>
+<pre><code>import pandas as pd
+
+df = pd.DataFrame({&quot;Paciente&quot;: [&quot;P01&quot;, &quot;P02&quot;, &quot;P03&quot;, &quot;P04&quot;, &quot;P05&quot;, &quot;P06&quot;, &quot;P07&quot;, &quot;P08&quot;],
+                   &quot;Edad&quot;: [34, 57, 45, 62, 39, 71, 50, 29],
+                   &quot;Presion_sistolica&quot;: [118, 135, 128, 142, 121, 205, 132, 115]})
+p = df[&quot;Presion_sistolica&quot;]
+q1, q3 = p.quantile(0.25), p.quantile(0.75)
+iqr = q3 - q1
+li, ls = q1 - 1.5 * iqr, q3 + 1.5 * iqr
+print(f&quot;Q1={q1}  Q3={q3}  IQR={iqr}  límites=[{li}, {ls}]&quot;)
+df[&quot;Es_atipico&quot;] = ~p.between(li, ls)        # ~ invierte: True si está FUERA
+print(df[df[&quot;Es_atipico&quot;]])</code></pre>
+<p class="sol-et">Salida</p>
+<pre class="sol-salida"><code>Q1=120.25  Q3=136.75  IQR=16.5  límites=[95.5, 161.5]
+  Paciente  Edad  Presion_sistolica  Es_atipico
+5      P06    71                205        True</code></pre>
+<p class="sol-lee">Los límites son 95,5 y 161,5 mmHg: solo P06 (205) queda afuera. Que sea atípico estadísticamente no lo vuelve un error: en salud hay que validarlo con el dominio (puede ser un paciente hipertenso real).</p>
+</div></details>
+<details class="sol"><summary><span class="sol-n">Ej. 2 · baja</span> Ventas mensuales en escala Min-Max</summary>
+<div class="sol-cuerpo">
+<p class="sol-pide"><b>Pide:</b> Cinco vendedores con ventas de enero a marzo: sumar Venta_total, llevar las cuatro columnas a [0, 1] con MinMaxScaler y nombrarlas con el sufijo _minmax.</p>
+<pre><code>import pandas as pd
+from sklearn.preprocessing import MinMaxScaler
+
+df = pd.DataFrame({&quot;Vendedor&quot;: [&quot;Ana&quot;, &quot;Bruno&quot;, &quot;Carla&quot;, &quot;Diego&quot;, &quot;Elena&quot;],
+                   &quot;Enero&quot;: [120, 80, 200, 60, 150],
+                   &quot;Febrero&quot;: [135, 95, 220, 75, 160],
+                   &quot;Marzo&quot;: [150, 110, 210, 90, 175]})
+df[&quot;Venta_total&quot;] = df[[&quot;Enero&quot;, &quot;Febrero&quot;, &quot;Marzo&quot;]].sum(axis=1)   # axis=1: por fila
+cols = [&quot;Enero&quot;, &quot;Febrero&quot;, &quot;Marzo&quot;, &quot;Venta_total&quot;]
+df[[c + &quot;_minmax&quot; for c in cols]] = MinMaxScaler().fit_transform(df[cols])
+print(df[[&quot;Vendedor&quot;, &quot;Venta_total&quot;, &quot;Enero_minmax&quot;, &quot;Venta_total_minmax&quot;]].round(3))</code></pre>
+<p class="sol-et">Salida</p>
+<pre class="sol-salida"><code>  Vendedor  Venta_total  Enero_minmax  Venta_total_minmax
+0      Ana          405         0.429               0.444
+1    Bruno          285         0.143               0.148
+2    Carla          630         1.000               1.000
+3    Diego          225         0.000               0.000
+4    Elena          485         0.643               0.642</code></pre>
+<p class="sol-lee">Carla (la que más vende) queda en 1 y Diego (la que menos) en 0; el resto se ubica en proporción. Min-Max conserva el orden pero no la distancia absoluta, y un valor extremo comprimiría a todos los demás.</p>
+</div></details>
+<details class="sol"><summary><span class="sol-n">Ej. 3 · baja</span> Inflación regional con Z-score</summary>
+<div class="sol-cuerpo">
+<p class="sol-pide"><b>Pide:</b> Seis regiones con inflación y desempleo: estandarizar ambas con StandardScaler (sufijo _z) y marcar las regiones con algún |z| mayor que 1,5.</p>
+<pre><code>import pandas as pd
+from sklearn.preprocessing import StandardScaler
+
+df = pd.DataFrame({&quot;Region&quot;: [&quot;Norte&quot;, &quot;Centro&quot;, &quot;Sur&quot;, &quot;Oeste&quot;, &quot;Este&quot;, &quot;Metropolitana&quot;],
+                   &quot;Inflacion_pct&quot;: [8.2, 5.4, 6.7, 12.5, 4.9, 7.1],
+                   &quot;Desempleo_pct&quot;: [6.1, 4.8, 5.2, 7.9, 4.4, 5.7]})
+df[[&quot;Inflacion_z&quot;, &quot;Desempleo_z&quot;]] = StandardScaler().fit_transform(
+    df[[&quot;Inflacion_pct&quot;, &quot;Desempleo_pct&quot;]])
+df[&quot;Alerta&quot;] = (df[[&quot;Inflacion_z&quot;, &quot;Desempleo_z&quot;]].abs() &gt; 1.5).any(axis=1)
+print(df.round(2))</code></pre>
+<p class="sol-et">Salida</p>
+<pre class="sol-salida"><code>          Region  Inflacion_pct  Desempleo_pct  Inflacion_z  Desempleo_z  Alerta
+0          Norte            8.2            6.1         0.29         0.37   False
+1         Centro            5.4            4.8        -0.83        -0.78   False
+2            Sur            6.7            5.2        -0.31        -0.43   False
+3          Oeste           12.5            7.9         2.01         1.95    True
+4           Este            4.9            4.4        -1.03        -1.13   False
+5  Metropolitana            7.1            5.7        -0.15         0.01   False</code></pre>
+<p class="sol-lee">Solo Oeste se aleja más de 1,5 desvíos: inflación z = 2,01 y desempleo z = 1,95. Un z negativo significa «por debajo de la media», no «malo».</p>
+</div></details>
+<details class="sol"><summary><span class="sol-n">Ej. 4 · baja</span> Tiempos de entrega en intervalos</summary>
+<div class="sol-cuerpo">
+<p class="sol-pide"><b>Pide:</b> Ocho envíos: clasificar Tiempo_min en Rápido, Normal, Demorado y Crítico con los cortes 0, 30, 60, 90 e infinito, y contar envíos por categoría respetando el orden.</p>
+<pre><code>import pandas as pd
+import numpy as np
+
+df = pd.DataFrame({&quot;Envio&quot;: [&quot;E01&quot;, &quot;E02&quot;, &quot;E03&quot;, &quot;E04&quot;, &quot;E05&quot;, &quot;E06&quot;, &quot;E07&quot;, &quot;E08&quot;],
+                   &quot;Tiempo_min&quot;: [22, 38, 55, 76, 105, 31, 68, 130]})
+df[&quot;Categoria&quot;] = pd.cut(df[&quot;Tiempo_min&quot;], bins=[0, 30, 60, 90, np.inf],
+                         labels=[&quot;Rapido&quot;, &quot;Normal&quot;, &quot;Demorado&quot;, &quot;Critico&quot;],
+                         include_lowest=True)
+print(df[&quot;Categoria&quot;].value_counts(sort=False))   # sort=False: orden de los intervalos</code></pre>
+<p class="sol-et">Salida</p>
+<pre class="sol-salida"><code>Categoria
+Rapido      1
+Normal      3
+Demorado    2
+Critico     2
+Name: count, dtype: int64</code></pre>
+<p class="sol-lee">Normal tiene 3 envíos, Demorado y Crítico 2 cada uno y Rápido 1. <code>include_lowest=True</code> incluye el 0 en el primer intervalo; <code>value_counts(sort=False)</code> respeta el orden de las categorías en vez de ordenar por frecuencia.</p>
+</div></details>
+<details class="sol"><summary><span class="sol-n">Ej. 5 · media</span> Glucosa: IQR, Z-score y niveles</summary>
+<div class="sol-cuerpo">
+<p class="sol-pide"><b>Pide:</b> Nueve pacientes con glucosa y colesterol: atípicos de glucosa por IQR, estandarizar ambas variables, crear Nivel_glucosa (Bajo, Normal, Elevado, Muy elevado) y comparar el atípico con su Z.</p>
+<pre><code>import pandas as pd
+import numpy as np
+from sklearn.preprocessing import StandardScaler
+
+df = pd.DataFrame({&quot;Paciente&quot;: [f&quot;P0{i}&quot; for i in range(1, 10)],
+                   &quot;Glucosa&quot;: [82, 95, 110, 126, 140, 88, 320, 118, 102],
+                   &quot;Colesterol&quot;: [170, 185, 210, 225, 240, 178, 260, 215, 198]})
+g = df[&quot;Glucosa&quot;]
+q1, q3 = g.quantile(0.25), g.quantile(0.75)
+df[&quot;Atipica&quot;] = ~g.between(q1 - 1.5 * (q3 - q1), q3 + 1.5 * (q3 - q1))
+df[[&quot;Glucosa_z&quot;, &quot;Colesterol_z&quot;]] = StandardScaler().fit_transform(df[[&quot;Glucosa&quot;, &quot;Colesterol&quot;]])
+df[&quot;Nivel&quot;] = pd.cut(g, bins=[-np.inf, 70, 100, 126, np.inf],
+                     labels=[&quot;Bajo&quot;, &quot;Normal&quot;, &quot;Elevado&quot;, &quot;Muy elevado&quot;], right=False)
+print(df[[&quot;Paciente&quot;, &quot;Glucosa&quot;, &quot;Atipica&quot;, &quot;Glucosa_z&quot;, &quot;Nivel&quot;]].round(2))</code></pre>
+<p class="sol-et">Salida</p>
+<pre class="sol-salida"><code>  Paciente  Glucosa  Atipica  Glucosa_z        Nivel
+0      P01       82    False      -0.71       Normal
+1      P02       95    False      -0.53       Normal
+2      P03      110    False      -0.31      Elevado
+3      P04      126    False      -0.08  Muy elevado
+4      P05      140    False       0.13  Muy elevado
+5      P06       88    False      -0.63       Normal
+6      P07      320     True       2.74  Muy elevado
+7      P08      118    False      -0.19      Elevado
+8      P09      102    False      -0.42      Elevado</code></pre>
+<p class="sol-lee">P07 (320) es el único atípico por IQR y también tiene el Z más alto (2,74). Ojo: un extremo infla la media y el desvío, así que los demás Z quedan «aplastados» (todos negativos o cerca de 0). Con <code>right=False</code> un 126 cae en «Muy elevado».</p>
+</div></details>
+<details class="sol"><summary><span class="sol-n">Ej. 6 · media</span> Salarios: recorte por IQR y Min-Max</summary>
+<div class="sol-cuerpo">
+<p class="sol-pide"><b>Pide:</b> Ocho empleados con antigüedad y salario (uno de 8200): límites IQR del salario, Salario_recortado con clip y Min-Max de antigüedad y salario recortado.</p>
+<pre><code>import pandas as pd
+from sklearn.preprocessing import MinMaxScaler
+
+df = pd.DataFrame({&quot;Antiguedad&quot;: [1, 3, 5, 8, 10, 12, 15, 6],
+                   &quot;Salario&quot;: [950, 1250, 1600, 2100, 2600, 3100, 8200, 1800]})
+q1, q3 = df[&quot;Salario&quot;].quantile(0.25), df[&quot;Salario&quot;].quantile(0.75)
+li, ls = q1 - 1.5 * (q3 - q1), q3 + 1.5 * (q3 - q1)
+df[&quot;Salario_recortado&quot;] = df[&quot;Salario&quot;].clip(li, ls)    # no borra la fila: la topea
+df[[&quot;Antig_mm&quot;, &quot;Salario_mm&quot;]] = MinMaxScaler().fit_transform(
+    df[[&quot;Antiguedad&quot;, &quot;Salario_recortado&quot;]])
+print(f&quot;límites: [{li}, {ls}]&quot;)
+print(df.round(3))</code></pre>
+<p class="sol-et">Salida</p>
+<pre class="sol-salida"><code>límites: [-306.25, 4543.75]
+   Antiguedad  Salario  Salario_recortado  Antig_mm  Salario_mm
+0           1      950             950.00     0.000       0.000
+1           3     1250            1250.00     0.143       0.083
+2           5     1600            1600.00     0.286       0.181
+3           8     2100            2100.00     0.500       0.320
+4          10     2600            2600.00     0.643       0.459
+5          12     3100            3100.00     0.786       0.598
+6          15     8200            4543.75     1.000       1.000
+7           6     1800            1800.00     0.357       0.237</code></pre>
+<p class="sol-lee">El límite superior es 4543,75: el 8200 se topea ahí con <code>clip</code> en vez de borrar la fila. Sin el recorte, el Min-Max del salario tendría a casi todos apretados cerca de 0.</p>
+</div></details>
+<details class="sol"><summary><span class="sol-n">Ej. 7 · media</span> Consumo eléctrico segmentado y estandarizado</summary>
+<div class="sol-cuerpo">
+<p class="sol-pide"><b>Pide:</b> Ocho clientes con consumo y costo: categoría de consumo con los cortes 0, 300, 600, 900 e infinito, Z-score de ambas variables, media de los Z por categoría. ¿Por qué la media global de un Z da cero?</p>
+<pre><code>import pandas as pd
+import numpy as np
+from sklearn.preprocessing import StandardScaler
+
+df = pd.DataFrame({&quot;Consumo_kWh&quot;: [180, 260, 420, 650, 900, 1200, 310, 540],
+                   &quot;Costo_USD&quot;: [28, 39, 61, 92, 130, 172, 46, 78]})
+df[&quot;Categoria&quot;] = pd.cut(df[&quot;Consumo_kWh&quot;], bins=[0, 300, 600, 900, np.inf],
+                         labels=[&quot;Bajo&quot;, &quot;Medio&quot;, &quot;Alto&quot;, &quot;Muy alto&quot;], include_lowest=True)
+df[[&quot;Consumo_z&quot;, &quot;Costo_z&quot;]] = StandardScaler().fit_transform(df[[&quot;Consumo_kWh&quot;, &quot;Costo_USD&quot;]])
+print(df.groupby(&quot;Categoria&quot;, observed=False)[[&quot;Consumo_z&quot;, &quot;Costo_z&quot;]].mean().round(3))
+print(&quot;Media global:&quot;, df[[&quot;Consumo_z&quot;, &quot;Costo_z&quot;]].mean().round(6).tolist())</code></pre>
+<p class="sol-et">Salida</p>
+<pre class="sol-salida"><code>           Consumo_z  Costo_z
+Categoria                    
+Bajo          -1.035   -1.025
+Medio         -0.412   -0.414
+Alto           0.667    0.656
+Muy alto       1.971    1.979
+Media global: [0.0, 0.0]</code></pre>
+<p class="sol-lee">Las medias de los Z suben con la categoría, de −1,04 (Bajo) a 1,97 (Muy alto). La media global da 0 porque estandarizar es restar la media: los desvíos positivos y negativos se compensan por construcción.</p>
+</div></details>
+<details class="sol"><summary><span class="sol-n">Ej. 8 · media</span> Publicidad y ventas con OLS</summary>
+<div class="sol-cuerpo">
+<p class="sol-pide"><b>Pide:</b> Inversión publicitaria y ventas de ocho meses: estandarizar ambas, agregar la constante con statsmodels, ajustar OLS y mostrar parámetros, R² y predicciones.</p>
+<pre><code>import pandas as pd
+import statsmodels.api as sm
+from sklearn.preprocessing import StandardScaler
+
+df = pd.DataFrame({&quot;Publicidad&quot;: [10, 14, 18, 22, 28, 35, 42, 50],
+                   &quot;Ventas&quot;: [82, 94, 105, 119, 138, 157, 176, 201]})
+df[[&quot;Publicidad_z&quot;, &quot;Ventas_z&quot;]] = StandardScaler().fit_transform(df)
+X = sm.add_constant(df[[&quot;Publicidad_z&quot;]])     # agrega la columna del intercepto
+modelo = sm.OLS(df[&quot;Ventas_z&quot;], X).fit()
+print(modelo.params.round(4))
+print(&quot;R²:&quot;, round(modelo.rsquared, 4))
+print(pd.DataFrame({&quot;real_z&quot;: df[&quot;Ventas_z&quot;], &quot;pred_z&quot;: modelo.predict(X)}).round(3).head(3))</code></pre>
+<p class="sol-et">Salida</p>
+<pre class="sol-salida"><code>const          -0.0000
+Publicidad_z    0.9996
+dtype: float64
+R²: 0.9992
+   real_z  pred_z
+0  -1.333  -1.322
+1  -1.026  -1.017
+2  -0.744  -0.713</code></pre>
+<p class="sol-lee">Con las dos variables estandarizadas el intercepto es 0 y la pendiente (0,9996) coincide con la correlación. R² = 0,9992: la publicidad explica casi toda la variación de las ventas en estos datos (asociación, no prueba de causa).</p>
+</div></details>
+<details class="sol"><summary><span class="sol-n">Ej. 9 · alta</span> Riesgo crediticio: IQR, recorte, RobustScaler y bandas</summary>
+<div class="sol-cuerpo">
+<p class="sol-pide"><b>Pide:</b> Ocho clientes con ingreso, deuda y puntaje (uno con ingreso 25000 y deuda 12000): atípicos y recorte por IQR de ingreso y deuda, RobustScaler sobre los recortados, Nivel_puntaje con pd.cut y lista de clientes a revisar.</p>
+<pre><code>import pandas as pd
+import numpy as np
+from sklearn.preprocessing import RobustScaler
+
+df = pd.DataFrame({&quot;Cliente&quot;: [f&quot;CL0{i}&quot; for i in range(1, 9)],
+                   &quot;Ingreso&quot;: [1800, 2400, 3200, 4500, 5200, 6800, 25000, 3900],
+                   &quot;Deuda&quot;: [500, 900, 1500, 1800, 2500, 2900, 12000, 1200],
+                   &quot;Puntaje&quot;: [710, 680, 650, 735, 620, 760, 590, 700]})
+for col in [&quot;Ingreso&quot;, &quot;Deuda&quot;]:                  # mismo proceso para las dos columnas
+    q1, q3 = df[col].quantile(0.25), df[col].quantile(0.75)
+    li, ls = q1 - 1.5 * (q3 - q1), q3 + 1.5 * (q3 - q1)
+    df[col + &quot;_atipico&quot;] = ~df[col].between(li, ls)
+    df[col + &quot;_rec&quot;] = df[col].clip(li, ls)
+df[[&quot;Ingreso_rob&quot;, &quot;Deuda_rob&quot;]] = RobustScaler().fit_transform(df[[&quot;Ingreso_rec&quot;, &quot;Deuda_rec&quot;]])
+df[&quot;Nivel_puntaje&quot;] = pd.cut(df[&quot;Puntaje&quot;], bins=[-np.inf, 600, 660, 720, np.inf],
+                             labels=[&quot;Muy bajo&quot;, &quot;Bajo&quot;, &quot;Medio&quot;, &quot;Alto&quot;], right=False)
+revisar = df[df[[&quot;Ingreso_atipico&quot;, &quot;Deuda_atipico&quot;]].any(axis=1)]
+print(revisar[[&quot;Cliente&quot;, &quot;Ingreso&quot;, &quot;Ingreso_rec&quot;, &quot;Deuda&quot;, &quot;Deuda_rec&quot;, &quot;Nivel_puntaje&quot;]])</code></pre>
+<p class="sol-et">Salida</p>
+<pre class="sol-salida"><code>  Cliente  Ingreso  Ingreso_rec  Deuda  Deuda_rec Nivel_puntaje
+6    CL07    25000         9500  12000     4812.5      Muy bajo</code></pre>
+<p class="sol-lee">Solo CL07 es atípico: su ingreso se topea en 9500 y su deuda en 4812,5. RobustScaler usa mediana e IQR, así que el extremo no deforma la escala del resto. Con <code>right=False</code> un 600 cae en «Bajo», no en «Muy bajo».</p>
+</div></details>
+<details class="sol"><summary><span class="sol-n">Ej. 10 · alta</span> Esperas hospitalarias por servicio</summary>
+<div class="sol-cuerpo">
+<p class="sol-pide"><b>Pide:</b> Guardia, Clínica y Pediatría con tres turnos cada uno: IQR de la espera DENTRO de cada servicio, marcar atípicos, estandarizar espera y pacientes, Nivel_espera con pd.cut y una tabla resumen por servicio.</p>
+<pre><code>import pandas as pd
+import numpy as np
+from sklearn.preprocessing import StandardScaler
+
+df = pd.DataFrame({&quot;Servicio&quot;: [&quot;Guardia&quot;] * 3 + [&quot;Clinica&quot;] * 3 + [&quot;Pediatria&quot;] * 3,
+                   &quot;Turno&quot;: [&quot;Manana&quot;, &quot;Tarde&quot;, &quot;Noche&quot;] * 3,
+                   &quot;Espera_min&quot;: [35, 52, 120, 18, 24, 29, 22, 31, 75],
+                   &quot;Pacientes&quot;: [48, 62, 40, 30, 36, 20, 34, 45, 28]})
+g = df.groupby(&quot;Servicio&quot;)[&quot;Espera_min&quot;]
+q1 = g.transform(lambda s: s.quantile(0.25))
+q3 = g.transform(lambda s: s.quantile(0.75))
+df[&quot;Atipica&quot;] = ~df[&quot;Espera_min&quot;].between(q1 - 1.5 * (q3 - q1), q3 + 1.5 * (q3 - q1))
+df[[&quot;Espera_z&quot;, &quot;Pacientes_z&quot;]] = StandardScaler().fit_transform(df[[&quot;Espera_min&quot;, &quot;Pacientes&quot;]])
+df[&quot;Nivel&quot;] = pd.cut(df[&quot;Espera_min&quot;], bins=[0, 20, 40, 60, np.inf],
+                     labels=[&quot;Muy baja&quot;, &quot;Baja&quot;, &quot;Media&quot;, &quot;Alta&quot;], include_lowest=True)
+print(df.groupby(&quot;Servicio&quot;).agg(Espera_media=(&quot;Espera_min&quot;, &quot;mean&quot;),
+                                 Maximo=(&quot;Espera_min&quot;, &quot;max&quot;),
+                                 Atipicos=(&quot;Atipica&quot;, &quot;sum&quot;)).round(2))</code></pre>
+<p class="sol-et">Salida</p>
+<pre class="sol-salida"><code>           Espera_media  Maximo  Atipicos
+Servicio                                 
+Clinica           23.67      29         0
+Guardia           69.00     120         0
+Pediatria         42.67      75         0</code></pre>
+<p class="sol-lee">Ningún servicio marca atípicos: con solo tres datos por grupo, el IQR se calcula con los mismos valores extremos y el 120 de la Guardia no queda afuera. La regla IQR necesita más observaciones por grupo para ser útil.</p>
+</div></details>
+<details class="sol"><summary><span class="sol-n">Ej. 11 · alta</span> Crecimiento económico: RobustScaler y OLS múltiple</summary>
+<div class="sol-cuerpo">
+<p class="sol-pide"><b>Pide:</b> Ocho trimestres con inflación, desempleo y crecimiento (el T6 es una crisis): RobustScaler en las tres, banda de inflación con pd.cut, OLS del crecimiento según inflación y desempleo, y marcar residuos con |z| mayor que 2.</p>
+<pre><code>import pandas as pd
+import numpy as np
+import statsmodels.api as sm
+from sklearn.preprocessing import RobustScaler
+
+df = pd.DataFrame({&quot;Periodo&quot;: [f&quot;T{i}&quot; for i in range(1, 9)],
+                   &quot;Inflacion&quot;: [4.2, 4.8, 5.6, 6.4, 7.2, 18.0, 6.8, 5.9],
+                   &quot;Desempleo&quot;: [5.1, 5.3, 5.7, 6.0, 6.4, 9.5, 6.1, 5.8],
+                   &quot;Crecimiento&quot;: [2.8, 2.5, 2.1, 1.6, 1.2, -2.0, 1.4, 1.9]})
+cols = [&quot;Inflacion&quot;, &quot;Desempleo&quot;, &quot;Crecimiento&quot;]
+df[[&quot;Infl_r&quot;, &quot;Desemp_r&quot;, &quot;Crec_r&quot;]] = RobustScaler().fit_transform(df[cols])
+df[&quot;Banda&quot;] = pd.cut(df[&quot;Inflacion&quot;], bins=[-np.inf, 5, 8, 12, np.inf],
+                     labels=[&quot;Baja&quot;, &quot;Media&quot;, &quot;Alta&quot;, &quot;Extrema&quot;])
+X = sm.add_constant(df[[&quot;Infl_r&quot;, &quot;Desemp_r&quot;]])
+modelo = sm.OLS(df[&quot;Crec_r&quot;], X).fit()
+df[&quot;Residuo_z&quot;] = modelo.resid / modelo.resid.std()
+print(modelo.params.round(3))
+print(&quot;R²:&quot;, round(modelo.rsquared, 4))
+print(df[[&quot;Periodo&quot;, &quot;Banda&quot;, &quot;Residuo_z&quot;]].round(2).T)</code></pre>
+<p class="sol-et">Salida</p>
+<pre class="sol-salida"><code>const       0.028
+Infl_r      0.335
+Desemp_r   -1.135
+dtype: float64
+R²: 0.997
+              0     1      2      3      4        5      6      7
+Periodo      T1    T2     T3     T4     T5       T6     T7     T8
+Banda      Baja  Baja  Media  Media  Media  Extrema  Media  Media
+Residuo_z  0.68 -0.29   1.18  -0.65   0.81     0.19  -1.99   0.08</code></pre>
+<p class="sol-lee">R² = 0,997. El coeficiente del desempleo es negativo (−1,135): más desempleo se asocia con menos crecimiento. Ningún |residuo z| supera 2 (el mayor es T7, −1,99): el modelo absorbe bien la crisis de T6.</p>
+</div></details>
+<details class="sol"><summary><span class="sol-n">Ej. 12 · alta</span> Ventas omnicanal: preparación integral</summary>
+<div class="sol-cuerpo">
+<p class="sol-pide"><b>Pide:</b> Cuatro sucursales con canal tienda y web (ventas, devoluciones, visitas): Tasa_devolucion y Venta_por_visita, atípicos por IQR en ventas y tasa, Min-Max de ventas, visitas y venta por visita, segmentos de ventas, OLS de las ventas escaladas y salida final con predicción y residuo.</p>
+<pre><code>import pandas as pd
+import numpy as np
+import statsmodels.api as sm
+from sklearn.preprocessing import MinMaxScaler
+
+df = pd.DataFrame({&quot;Sucursal&quot;: [&quot;Centro&quot;, &quot;Centro&quot;, &quot;Norte&quot;, &quot;Norte&quot;, &quot;Sur&quot;, &quot;Sur&quot;, &quot;Oeste&quot;, &quot;Oeste&quot;],
+                   &quot;Canal&quot;: [&quot;Tienda&quot;, &quot;Web&quot;] * 4,
+                   &quot;Ventas&quot;: [125000, 98000, 86000, 76000, 112000, 240000, 69000, 83000],
+                   &quot;Devoluciones&quot;: [4200, 6500, 3100, 5400, 3900, 22000, 2800, 6100],
+                   &quot;Visitas&quot;: [3100, 5200, 2400, 4300, 2800, 7800, 1900, 4100]})
+df[&quot;Tasa_dev&quot;] = df[&quot;Devoluciones&quot;] / df[&quot;Ventas&quot;]
+df[&quot;Venta_visita&quot;] = df[&quot;Ventas&quot;] / df[&quot;Visitas&quot;]
+for col in [&quot;Ventas&quot;, &quot;Tasa_dev&quot;]:
+    q1, q3 = df[col].quantile(0.25), df[col].quantile(0.75)
+    df[col + &quot;_atip&quot;] = ~df[col].between(q1 - 1.5 * (q3 - q1), q3 + 1.5 * (q3 - q1))
+df[[&quot;Ventas_mm&quot;, &quot;Visitas_mm&quot;, &quot;VxV_mm&quot;]] = MinMaxScaler().fit_transform(
+    df[[&quot;Ventas&quot;, &quot;Visitas&quot;, &quot;Venta_visita&quot;]])
+df[&quot;Segmento&quot;] = pd.cut(df[&quot;Ventas&quot;], bins=[0, 80000, 110000, 150000, np.inf],
+                        labels=[&quot;Bajo&quot;, &quot;Medio&quot;, &quot;Alto&quot;, &quot;Muy alto&quot;])
+X = sm.add_constant(df[[&quot;Visitas_mm&quot;, &quot;Tasa_dev&quot;]])
+modelo = sm.OLS(df[&quot;Ventas_mm&quot;], X).fit()
+df[&quot;Pred&quot;] = modelo.predict(X)
+df[&quot;Residuo&quot;] = modelo.resid
+print(&quot;R²:&quot;, round(modelo.rsquared, 4))
+print(df[[&quot;Sucursal&quot;, &quot;Canal&quot;, &quot;Ventas_atip&quot;, &quot;Tasa_dev_atip&quot;,
+          &quot;Segmento&quot;, &quot;Ventas_mm&quot;, &quot;Pred&quot;, &quot;Residuo&quot;]].round(3))</code></pre>
+<p class="sol-et">Salida</p>
+<pre class="sol-salida"><code>R²: 0.8172
+  Sucursal   Canal  Ventas_atip  Tasa_dev_atip  Segmento  Ventas_mm   Pred  Residuo
+0   Centro  Tienda        False          False      Alto      0.327  0.324    0.003
+1   Centro     Web        False          False     Medio      0.170  0.452   -0.283
+2    Norte  Tienda        False          False     Medio      0.099  0.091    0.008
+3    Norte     Web        False          False      Bajo      0.041  0.130   -0.089
+4      Sur  Tienda        False          False      Alto      0.251  0.222    0.030
+5      Sur     Web         True          False  Muy alto      1.000  0.828    0.172
+6    Oeste  Tienda        False          False      Bajo      0.000 -0.115    0.115
+7    Oeste     Web        False          False     Medio      0.082  0.039    0.043</code></pre>
+<p class="sol-lee">Sur-Web (240 000) es el único atípico de ventas; ninguna tasa de devolución es atípica. El OLS explica el 82 % de la variación (R² = 0,8172); el residuo más grande es Centro-Web (−0,283): vende menos de lo que «predicen» sus visitas.</p>
+</div></details>
+  </section>
+
+  <section class="clase" id="c12" data-busca="scikit-learn sklearn flujo de trabajo ciencia de datos carga exploracion preprocesamiento train test split entrenamiento evaluacion x y caracteristicas variable objetivo random_state stratify fuga de informacion fit predict transform regresion logistica logisticregression accuracy matriz de confusion precision recall desbalance datasets integrados iris wine breast cancer diabetes load_iris pipeline validacion cruzada">
+    <p class="eyebrow">Clase 12</p>
+    <h2>Flujo de trabajo y datasets integrados en Scikit-learn</h2>
+    <p class="objetivo">El recorrido completo de un problema supervisado: cargar, explorar, preprocesar, separar en entrenamiento y prueba, entrenar y evaluar. Se practica con los datasets que trae scikit-learn (sin descargar archivos) y la clave de toda la clase es <b>controlar qué información ve cada etapa y cuándo la ve</b>.</p>
+
+    <h3>Las seis etapas</h3>
+    <p><b>1 Carga → 2 Exploración → 3 Preprocesamiento → 4 Train/Test → 5 Entrenamiento → 6 Evaluación.</b> Cada etapa responde una pregunta distinta y saltear una vuelve los resultados difíciles de interpretar o reproducir. El flujo es iterativo: si la evaluación sale mal, se vuelve al preprocesamiento, a las variables o al algoritmo.</p>
+
+    <h3>1. Carga: la matriz X y el vector y</h3>
+    <ul class="conceptos">
+      <li><b>X</b>: las <b>características</b> o predictores (una columna por característica). <b>y</b>: la <b>variable objetivo</b>, lo que se quiere predecir. Cada fila es una observación.</li>
+      <li>Fuentes: CSV o Excel, bases de datos, APIs, sensores y registros.</li>
+      <li>Qué revisar al cargar: cantidad de filas y columnas, tipos de dato, nombres de variables, faltantes y duplicados.</li>
+      <li>En Iris, X son las cuatro medidas de cada flor e y es la especie.</li>
+    </ul>
+
+    <h3>2 y 3. Explorar y preprocesar</h3>
+    <ul class="conceptos">
+      <li><b>Limpieza</b>: duplicados, errores, incoherencias y faltantes. <b>Codificación</b>: categorías a números. <b>Escalado</b>: variables en escalas comparables cuando el algoritmo lo necesita. <b>Selección</b>: quedarse con las variables relevantes.</li>
+      <li><b>Regla práctica</b>: toda transformación que <i>aprende</i> parámetros (escalador, imputador) se ajusta <b>solo con el conjunto de entrenamiento</b>.</li>
+    </ul>
+
+    <h3>4. Separar entrenamiento y prueba</h3>
+    <ul class="conceptos">
+      <li>El conjunto de <b>prueba</b> simula datos nuevos que el modelo no vio. Lo habitual: 80 % entrenamiento, 20 % prueba (<code>test_size=0.20</code>).</li>
+      <li><b>Entrenamiento</b>: se usa para ajustar el preprocesador y los parámetros del modelo. <b>Prueba</b>: se reserva para estimar si el modelo <b>generaliza</b>.</li>
+      <li><code>random_state=42</code>: fija la semilla, así la división es siempre la misma y los resultados se pueden repetir y comparar.</li>
+      <li><code>stratify=y</code>: conserva la proporción de cada clase en los dos conjuntos.</li>
+      <li>Evaluar con los mismos datos con que se entrenó da una visión <b>demasiado optimista</b>.</li>
+    </ul>
+    <pre><code>from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+
+iris = load_iris(as_frame=True)       # as_frame=True: devuelve DataFrame y Series de pandas
+X, y = iris.data, iris.target         # (150, 4) y 3 clases de 50
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.20, random_state=42, stratify=y)    # el orden de salida importa
+
+scaler = StandardScaler()
+X_train_s = scaler.fit_transform(X_train)   # aprende media y desvío de TRAIN y transforma
+X_test_s = scaler.transform(X_test)         # solo transform: usa lo aprendido en train</code></pre>
+    <p><b>Fuga de información</b>: si el escalador se ajusta con todos los datos antes de dividir, la media y el desvío ya «conocen» la prueba, y la evaluación deja de medir datos nuevos.</p>
+
+    <h3>5. Entrenar: fit y predict</h3>
+    <ul class="conceptos">
+      <li><b>Modelo</b>: una representación matemática que transforma entradas en predicciones. Entrenar es ajustar sus parámetros internos con <code>X_train</code> e <code>y_train</code>.</li>
+      <li><code>fit()</code> aprende; <code>predict()</code> aplica lo aprendido a casos nuevos. El algoritmo no memoriza instrucciones: aprende patrones a partir de ejemplos <b>etiquetados</b> (aprendizaje supervisado).</li>
+      <li><b>Regresión logística</b>: a pesar del nombre, se usa para <b>clasificar</b>. Estima la probabilidad de cada clase y asigna la más probable. <code>max_iter=300</code> le da más iteraciones para converger.</li>
+    </ul>
+    <pre><code>from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, confusion_matrix
+
+model = LogisticRegression(max_iter=300)
+model.fit(X_train_s, y_train)
+y_pred = model.predict(X_test_s)
+print(accuracy_score(y_test, y_pred))       # real primero, predicho después
+print(confusion_matrix(y_test, y_pred))</code></pre>
+
+    <h3>6. Evaluar: ninguna métrica responde todo</h3>
+    <div class="chuleta">
+      <div><code>accuracy</code><span>Proporción de predicciones correctas. Fácil de leer, pero <b>engañosa si las clases están desbalanceadas</b>. Un 95 % es 95 de cada 100 correctas en datos comparables, pero no dice qué tipo de error comete.</span></div>
+      <div><code>matriz de confusión</code><span>Cruza clase real (filas) y predicha (columnas). La <b>diagonal</b> son los aciertos; fuera de ella, qué clases se confunden.</span></div>
+      <div><code>precision</code><span>De los que el modelo marcó como positivos, ¿cuántos lo eran? Fiabilidad de los positivos predichos.</span></div>
+      <div><code>recall</code><span>De los positivos reales, ¿cuántos encontró? Capacidad de detectar.</span></div>
+    </div>
+
+    <h3>Datasets integrados</h3>
+    <div class="chuleta">
+      <div><code>load_iris()</code><span>Clasificación <b>multiclase</b>: tres especies de flor a partir de cuatro medidas.</span></div>
+      <div><code>load_wine()</code><span>Clasificación multiclase: tres tipos de vino según 13 variables químicas.</span></div>
+      <div><code>load_breast_cancer()</code><span>Clasificación <b>binaria</b> (maligno / benigno) con características de núcleos celulares.</span></div>
+      <div><code>load_diabetes()</code><span><b>Regresión</b>: una variable continua (progresión de la enfermedad) a partir de variables clínicas.</span></div>
+    </div>
+    <p>Ventajas: reproducibles, disponibles sin descarga, ideales para probar algoritmos, y traen datos, objetivo y metadatos (<code>feature_names</code>, <code>target_names</code>, <code>DESCR</code>).</p>
+
+    <h3>Mejor práctica: Pipeline</h3>
+    <p>Un <code>Pipeline</code> encadena el preprocesamiento y el modelo en el orden correcto. Al hacer <code>fit</code> ajusta cada paso con train; al hacer <code>predict</code> transforma la prueba con lo aprendido y predice. Ventajas: evita aplicar transformaciones distintas a train y test, facilita la validación cruzada y la búsqueda de hiperparámetros, y deja el flujo reproducible y legible.</p>
+    <pre><code>from sklearn.pipeline import Pipeline
+
+pipeline = Pipeline([("scaler", StandardScaler()),
+                     ("model", LogisticRegression(max_iter=300))])
+pipeline.fit(X_train, y_train)        # datos SIN escalar: el pipeline se encarga
+y_pred = pipeline.predict(X_test)</code></pre>
+
+    <div class="errores">
+      <p><b>Errores frecuentes y su corrección</b></p>
+      <ul>
+        <li><b>Escalar antes de dividir</b> → dividir primero y ajustar el escalador solo con train.</li>
+        <li><b>Evaluar sobre train</b> → reservar test y reportar las métricas sobre datos no vistos.</li>
+        <li><b>Ignorar el desbalance</b> → mirar la distribución de clases y sumar métricas (matriz, precision, recall).</li>
+        <li><b>Elegir solo por accuracy</b> → analizar la matriz de confusión.</li>
+        <li><b>Probar muchas veces sobre test</b> → ajustar con validación cruzada y dejar test para el final.</li>
+        <li><b>Cambiar datos sin documentar</b> → registrar decisiones, semillas y transformaciones.</li>
+        <li><b><code>fit_transform</code> sobre test</b>: vuelve a aprender con la prueba. En test va solo <code>transform</code>.</li>
+      </ul>
+    </div>
+    <p><b>Pregunta de cierre de la clase:</b> si el modelo no generaliza, ¿qué etapa cambiarías primero? Normalmente se revisa el preprocesamiento y las variables antes que el algoritmo.</p>
+
+    <h3>Práctica: los programas de la clase y la actividad</h3>
+<details class="sol"><summary><span class="sol-n">Ej. 1 · base</span> Flujo completo con Iris (programas 1 a 3 de la clase)</summary>
+<div class="sol-cuerpo">
+<p class="sol-pide"><b>Pide:</b> Cargar Iris, separar X e y, dividir 80/20 estratificado con semilla, escalar sin fuga, entrenar una regresión logística y evaluar con accuracy y matriz de confusión.</p>
+<pre><code>from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, confusion_matrix
+
+iris = load_iris(as_frame=True)
+X, y = iris.data, iris.target
+print(&quot;X:&quot;, X.shape, &quot;| clases:&quot;, y.value_counts().sort_index().tolist())
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.20, random_state=42, stratify=y)
+
+scaler = StandardScaler()
+X_train_s = scaler.fit_transform(X_train)   # aprende media y desvío SOLO de train
+X_test_s = scaler.transform(X_test)         # reutiliza esos parámetros
+
+modelo = LogisticRegression(max_iter=300)
+modelo.fit(X_train_s, y_train)
+y_pred = modelo.predict(X_test_s)
+print(&quot;Train:&quot;, X_train.shape, &quot;| Test:&quot;, X_test.shape)
+print(&quot;Accuracy:&quot;, round(accuracy_score(y_test, y_pred), 3))
+print(confusion_matrix(y_test, y_pred))</code></pre>
+<p class="sol-et">Salida</p>
+<pre class="sol-salida"><code>X: (150, 4) | clases: [50, 50, 50]
+Train: (120, 4) | Test: (30, 4)
+Accuracy: 0.933
+[[10  0  0]
+ [ 0  9  1]
+ [ 0  1  9]]</code></pre>
+<p class="sol-lee">150 flores, 4 medidas y 3 especies de 50 cada una. Con 30 flores de prueba acierta 28 (accuracy 0,933): la diagonal de la matriz son los aciertos y los dos errores mezclan versicolor con virginica; setosa no se confunde nunca.</p>
+</div></details>
+<details class="sol"><summary><span class="sol-n">Ej. 2 · base</span> Lo mismo con Pipeline</summary>
+<div class="sol-cuerpo">
+<p class="sol-pide"><b>Pide:</b> Encapsular el escalado y el modelo en un Pipeline para que el orden sea siempre el correcto.</p>
+<pre><code>from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score
+
+X, y = load_iris(return_X_y=True)
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.20, random_state=42, stratify=y)
+
+pipeline = Pipeline([(&quot;scaler&quot;, StandardScaler()),
+                     (&quot;model&quot;, LogisticRegression(max_iter=300))])
+pipeline.fit(X_train, y_train)          # escala y entrena con train
+y_pred = pipeline.predict(X_test)       # escala test con lo aprendido y predice
+print(&quot;Accuracy:&quot;, round(accuracy_score(y_test, y_pred), 3))</code></pre>
+<p class="sol-et">Salida</p>
+<pre class="sol-salida"><code>Accuracy: 0.933</code></pre>
+<p class="sol-lee">Da exactamente lo mismo que el flujo manual (0,933): el Pipeline no cambia el resultado, garantiza el orden (escalar con lo aprendido en train y después predecir) y evita olvidarse el <code>transform</code> en test.</p>
+</div></details>
+<details class="sol"><summary><span class="sol-n">Ej. 3 · actividad</span> Repetir el flujo con Wine</summary>
+<div class="sol-cuerpo">
+<p class="sol-pide"><b>Pide:</b> Actividad de cierre: repetir el flujo con load_wine() y ver qué clase se confunde más.</p>
+<pre><code>from sklearn.datasets import load_wine
+from sklearn.model_selection import train_test_split
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, confusion_matrix
+
+X, y = load_wine(return_X_y=True)
+print(&quot;X:&quot;, X.shape, &quot;| clases: 3&quot;)
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.20, random_state=42, stratify=y)
+pipeline = Pipeline([(&quot;scaler&quot;, StandardScaler()),
+                     (&quot;model&quot;, LogisticRegression(max_iter=300))])
+pipeline.fit(X_train, y_train)
+y_pred = pipeline.predict(X_test)
+print(&quot;Accuracy:&quot;, round(accuracy_score(y_test, y_pred), 3))
+print(confusion_matrix(y_test, y_pred))</code></pre>
+<p class="sol-et">Salida</p>
+<pre class="sol-salida"><code>X: (178, 13) | clases: 3
+Accuracy: 0.972
+[[12  0  0]
+ [ 0 14  0]
+ [ 0  1  9]]</code></pre>
+<p class="sol-lee">Wine: 178 vinos con 13 variables químicas. Acierta 35 de 36 (0,972); el único error es un vino de la clase 2 predicho como clase 1.</p>
+</div></details>
+<details class="sol"><summary><span class="sol-n">Ej. 4 · actividad</span> Clases desbalanceadas: Breast Cancer</summary>
+<div class="sol-cuerpo">
+<p class="sol-pide"><b>Pide:</b> La otra variante de la actividad: load_breast_cancer() es binaria y desbalanceada. Ver por qué la accuracy sola no alcanza y sumar precision y recall.</p>
+<pre><code>from sklearn.datasets import load_breast_cancer
+from sklearn.model_selection import train_test_split
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, confusion_matrix, precision_score, recall_score
+
+datos = load_breast_cancer()
+X, y = datos.data, datos.target            # 0 = maligno, 1 = benigno
+print(&quot;Malignos:&quot;, (y == 0).sum(), &quot;| Benignos:&quot;, (y == 1).sum())
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.20, random_state=42, stratify=y)
+pipeline = Pipeline([(&quot;scaler&quot;, StandardScaler()),
+                     (&quot;model&quot;, LogisticRegression(max_iter=1000))])
+pipeline.fit(X_train, y_train)
+y_pred = pipeline.predict(X_test)
+print(&quot;Accuracy:&quot;, round(accuracy_score(y_test, y_pred), 3))
+print(confusion_matrix(y_test, y_pred))
+# pos_label=0: medimos sobre la clase que importa detectar (maligno)
+print(&quot;Precision (maligno):&quot;, round(precision_score(y_test, y_pred, pos_label=0), 3))
+print(&quot;Recall (maligno):&quot;, round(recall_score(y_test, y_pred, pos_label=0), 3))
+print(&quot;Modelo que dice siempre «benigno»:&quot;, round((y_test == 1).mean(), 3))</code></pre>
+<p class="sol-et">Salida</p>
+<pre class="sol-salida"><code>Malignos: 212 | Benignos: 357
+Accuracy: 0.982
+[[41  1]
+ [ 1 71]]
+Precision (maligno): 0.976
+Recall (maligno): 0.976
+Modelo que dice siempre «benigno»: 0.632</code></pre>
+<p class="sol-lee">Hay 212 malignos y 357 benignos. Un «modelo» que dice siempre benigno ya tendría 0,632 de accuracy sin aprender nada: por eso se mira la matriz y el recall de la clase que importa. Acá el recall de maligno es 0,976 (detecta 41 de 42).</p>
+</div></details>
+  </section>
+
+  <section class="clase" id="c13" data-busca="modelos basicos aprendizaje automatico regresion clasificacion regresion lineal simple linearregression intercepto pendiente coef_ intercept_ residuo rmse mae r2 k-nn knn vecinos mas cercanos kneighborsclassifier kneighborsregressor distancia escalar elegir k validacion cruzada cross_val_score accuracy matriz de confusion confusionmatrixdisplay pipeline simpleimputer airbnb inside airbnb precio proyecto trabajo practico tp">
+    <p class="eyebrow">Clase 13</p>
+    <h2>Regresión lineal simple y k vecinos más cercanos</h2>
+    <p class="objetivo">Dos modelos básicos para los dos tipos de problema supervisado: una <b>regresión lineal</b> para predecir un número y <b>k-NN</b> para predecir una clase (o un número, con su versión de regresión). Cada uno con su métrica, y los dos dentro de un <code>Pipeline</code>.</p>
+
+    <h3>Del problema al tipo de modelo</h3>
+    <p>La pregunta guía es <b>¿qué valor quiero predecir?</b> Un <b>número</b> continuo → <b>regresión</b> (precio de una vivienda, consumo de energía, tiempo de entrega). Una <b>etiqueta</b> → <b>clasificación</b> (compra / no compra, especie de flor, riesgo bajo / medio / alto). La métrica también cambia según el objetivo.</p>
+
+    <h3>Regresión lineal simple</h3>
+    <ul class="conceptos">
+      <li>Un predictor x explica una respuesta numérica y con una recta: <b>ŷ = β₀ + β₁x</b>.</li>
+      <li><b>β₀, intercepto</b> (<code>modelo.intercept_</code>): el valor predicho cuando x = 0. Puede ser necesario para la cuenta y no tener sentido práctico (una nota con 0 horas de estudio).</li>
+      <li><b>β₁, pendiente</b> (<code>modelo.coef_[0]</code>): cuánto cambia y, en promedio, por cada unidad más de x. «Si β₁ = 5,3, una hora más de estudio se asocia con 5,3 puntos más de nota, <b>dentro del rango observado</b>».</li>
+      <li><b>Residuo</b>: e = y − ŷ, la diferencia entre lo observado y lo predicho.</li>
+      <li>Una asociación lineal <b>no prueba causalidad</b>. Revisar residuos, atípicos, rango de aplicación y desempeño con datos no usados para entrenar.</li>
+    </ul>
+    <pre><code>from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error
+
+X = df[["horas"]]       # doble corchete: X tiene que ser una tabla (2D)
+y = df["nota"]          # un corchete: y es un vector (1D)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=42)
+
+modelo = LinearRegression()
+modelo.fit(X_train, y_train)                       # ajusta intercepto y pendiente
+y_pred = modelo.predict(X_test)
+rmse = mean_squared_error(y_test, y_pred) ** 0.5   # o root_mean_squared_error(...)
+print(modelo.intercept_, modelo.coef_[0], rmse)</code></pre>
+
+    <h3>RMSE: el error típico, en la unidad del objetivo</h3>
+    <ul class="conceptos">
+      <li><b>RMSE = √[(1/n) Σ(yᵢ − ŷᵢ)²]</b> (raíz del error cuadrático medio). Se expresa en la misma unidad que y: RMSE = 4 puntos es «un error típico de unos 4 puntos de nota».</li>
+      <li>Al elevar al cuadrado, <b>penaliza más los errores grandes</b>. Más bajo es mejor, pero se compara con la escala del objetivo y con un <b>modelo base</b> (por ejemplo, predecir siempre el promedio).</li>
+      <li>En el proyecto de Airbnb se suman <b>MAE</b> (error absoluto medio, también en la unidad de y) y <b>R²</b> (proporción de la variación explicada: 1 es perfecto, 0 es lo mismo que predecir el promedio).</li>
+    </ul>
+
+    <h3>k vecinos más cercanos (k-NN)</h3>
+    <ul class="conceptos">
+      <li>Para un caso nuevo: <b>1</b> escalar las variables, <b>2</b> elegir k, <b>3</b> calcular la distancia a todos los casos de entrenamiento, <b>4</b> votar la clase más frecuente entre los k más cercanos (en regresión: promediar su valor).</li>
+      <li><b>La escala importa</b>: k-NN mide distancias, así que una variable con números grandes (ingresos en miles) domina a una con números chicos (edad). Por eso el <code>StandardScaler</code> va antes, dentro del Pipeline.</li>
+      <li><code>fit</code> en k-NN casi no «aprende» parámetros: <b>guarda</b> los datos de entrenamiento. El trabajo se hace al predecir.</li>
+      <li><b>Elegir k</b>: uno muy chico se deja llevar por el ruido; uno muy grande suaviza de más. Se comparan varios con validación cruzada, no por intuición.</li>
+      <li><code>KNeighborsClassifier</code> para etiquetas; <code>KNeighborsRegressor</code> para números (como el precio de Airbnb). <code>weights="distance"</code> da más peso a los vecinos más cercanos.</li>
+    </ul>
+
+    <h3>Métricas de clasificación</h3>
+    <ul class="conceptos">
+      <li><b>Accuracy = aciertos / total.</b> Útil con clases balanceadas; engañosa si una clase domina.</li>
+      <li><b>Matriz de confusión</b>: filas = clase real, columnas = clase predicha. La diagonal son los aciertos; fuera de ella, las confusiones. Se dibuja con <code>ConfusionMatrixDisplay(matriz, display_labels=iris.target_names).plot(cmap="Blues")</code>.</li>
+      <li>Buena práctica: reportar accuracy <b>junto con</b> la matriz; con clases desbalanceadas, sumar precision, recall y F1.</li>
+    </ul>
+
+    <h3>Pipeline: imputar, escalar y modelar en un paso</h3>
+    <p>Datos X → <code>SimpleImputer</code> (rellena faltantes) → <code>StandardScaler</code> → modelo → predicción ŷ. El imputador aprende la mediana <b>con train</b>, igual que el escalador, así que el Pipeline también evita la fuga en la imputación. Además simplifica la validación cruzada y permite guardar y compartir el flujo completo.</p>
+    <pre><code>from sklearn.impute import SimpleImputer
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.pipeline import Pipeline
+
+pipeline = Pipeline(steps=[
+    ("imputar", SimpleImputer(strategy="median")),
+    ("escalar", StandardScaler()),
+    ("clasificar", KNeighborsClassifier(n_neighbors=5))])
+pipeline.fit(X_train, y_train)
+y_pred = pipeline.predict(X_test)
+# para regresión: el mismo esquema con ("regresor", LinearRegression()) y RMSE</code></pre>
+    <p>En una regresión lineal con una sola variable escalar no cambia las predicciones, pero mantiene el flujo homogéneo.</p>
+
+    <h3>Mapa de decisión</h3>
+    <div class="chuleta">
+      <div><code>Objetivo numérico</code><span>Modelo inicial: regresión lineal. Métrica principal: RMSE. Diagnóstico: residuos y gráfico real contra predicho.</span></div>
+      <div><code>Objetivo categórico</code><span>Modelo inicial: k-NN. Métrica principal: accuracy. Diagnóstico: matriz de confusión.</span></div>
+    </div>
+    <p><b>Regla de oro:</b> la métrica no reemplaza mirar el problema. Comparar contra una línea base, revisar errores concretos y explicar qué significa el resultado para la decisión.</p>
+
+    <div class="errores">
+      <p><b>Errores frecuentes</b></p>
+      <ul>
+        <li><b>Usar la prueba para entrenar</b> → separar antes de ajustar cualquier transformación.</li>
+        <li><b>No escalar en k-NN</b> → <code>StandardScaler</code> dentro del Pipeline.</li>
+        <li><b>Elegir k por intuición</b> → comparar valores con validación cruzada.</li>
+        <li><b>Mirar solo accuracy</b> → sumar la matriz de confusión y métricas por clase.</li>
+        <li><b>Extrapolar la recta</b> → limitar las conclusiones al rango observado.</li>
+        <li><b>Confundir predicción con causalidad</b> → hablar de asociación.</li>
+        <li><b><code>df["horas"]</code> como X</b>: es 1D y <code>fit</code> da <code>ValueError: Expected 2D array</code>. Va <code>df[["horas"]]</code>.</li>
+        <li><b>KNeighborsClassifier para un precio</b>: si y es un número continuo, va <code>KNeighborsRegressor</code>.</li>
+      </ul>
+    </div>
+    <p><b>Actividad integradora de la clase.</b> Caso A: predecir el consumo eléctrico diario según la temperatura media → X = temperatura, y = consumo, regresión lineal, RMSE, gráfico de dispersión con la recta. Caso B: clasificar clientes en «compra / no compra» con edad e ingresos → escalar porque edad e ingresos tienen escalas muy distintas, probar varios k impares con validación cruzada, la matriz muestra si el modelo falla más con los que compran o con los que no, y la accuracy no alcanza si casi nadie compra.</p>
+
+    <h3>Práctica de la cátedra: los dos ejercicios y la clase</h3>
+<details class="sol"><summary><span class="sol-n">Ej. 1 · guía</span> Regresión lineal simple: horas de estudio y nota</summary>
+<div class="sol-cuerpo">
+<p class="sol-pide"><b>Pide:</b> Horas 1 a 7 y notas 52, 55, 61, 65, 72, 78, 84: dividir 75/25 con random_state=42, entrenar LinearRegression, predecir, RMSE con dos decimales, intercepto, pendiente, reales contra predichos y el gráfico de puntos con la recta.</p>
+<pre><code>import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import root_mean_squared_error
+
+df = pd.DataFrame({&quot;horas&quot;: [1, 2, 3, 4, 5, 6, 7],
+                   &quot;nota&quot;: [52, 55, 61, 65, 72, 78, 84]})
+X = df[[&quot;horas&quot;]]            # doble corchete: una tabla (2D), como pide sklearn
+y = df[&quot;nota&quot;]               # un corchete: un vector (1D)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=42)
+
+modelo = LinearRegression().fit(X_train, y_train)
+pred = modelo.predict(X_test)
+print(f&quot;Intercepto: {modelo.intercept_:.2f} | Pendiente: {modelo.coef_[0]:.2f}&quot;)
+print(f&quot;RMSE: {root_mean_squared_error(y_test, pred):.2f}&quot;)
+print(pd.DataFrame({&quot;horas&quot;: X_test[&quot;horas&quot;], &quot;real&quot;: y_test, &quot;predicha&quot;: pred.round(2)}))
+
+plt.scatter(X[&quot;horas&quot;], y, label=&quot;Datos&quot;)
+plt.plot(X[&quot;horas&quot;], modelo.predict(X), color=&quot;crimson&quot;, label=&quot;Recta&quot;)
+plt.xlabel(&quot;Horas de estudio&quot;); plt.ylabel(&quot;Nota&quot;); plt.legend()
+plt.show()</code></pre>
+<p class="sol-et">Salida</p>
+<pre class="sol-salida"><code>Intercepto: 42.50 | Pendiente: 5.90
+RMSE: 2.59
+   horas  real  predicha
+0      1    52      48.4
+1      2    55      54.3</code></pre>
+<p class="sol-lee">Pendiente 5,90: cada hora más de estudio se asocia con unos 5,9 puntos más, dentro del rango observado (1 a 7 h). El intercepto (42,5) es la nota predicha con 0 horas: sirve para la cuenta, no necesariamente tiene sentido práctico. RMSE 2,59: el error típico es de unos 2,6 puntos de nota, aunque se calculó con solo 2 casos de prueba (7 × 0,25).</p>
+</div></details>
+<details class="sol"><summary><span class="sol-n">Ej. 2 · guía</span> Clasificación con k-NN en un Pipeline</summary>
+<div class="sol-cuerpo">
+<p class="sol-pide"><b>Pide:</b> Iris con 25 % de prueba, random_state=42 y stratify=y; Pipeline con StandardScaler y KNeighborsClassifier(k=3); accuracy, matriz de confusión, las cinco primeras clases reales y predichas, y la matriz dibujada con los nombres de las especies.</p>
+<pre><code>import matplotlib.pyplot as plt
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import accuracy_score, confusion_matrix, ConfusionMatrixDisplay
+
+iris = load_iris()
+X_train, X_test, y_train, y_test = train_test_split(
+    iris.data, iris.target, test_size=0.25, random_state=42, stratify=iris.target)
+
+modelo = Pipeline([(&quot;escalador&quot;, StandardScaler()),
+                   (&quot;knn&quot;, KNeighborsClassifier(n_neighbors=3))])
+modelo.fit(X_train, y_train)
+y_pred = modelo.predict(X_test)
+
+matriz = confusion_matrix(y_test, y_pred)
+print(f&quot;Accuracy: {accuracy_score(y_test, y_pred):.3f}&quot;)
+print(matriz)
+print(&quot;Reales:   &quot;, y_test[:5])
+print(&quot;Predichas:&quot;, y_pred[:5])
+ConfusionMatrixDisplay(matriz, display_labels=iris.target_names).plot(cmap=&quot;Blues&quot;)
+plt.show()</code></pre>
+<p class="sol-et">Salida</p>
+<pre class="sol-salida"><code>Accuracy: 0.921
+[[12  0  0]
+ [ 0 13  0]
+ [ 0  3 10]]
+Reales:    [0 1 1 1 0]
+Predichas: [0 1 1 1 0]</code></pre>
+<p class="sol-lee">Accuracy 0,921: 35 de 38 bien. La diagonal (12, 13, 10) son los aciertos; los 3 errores son virginicas predichas como versicolor. Se escala porque k-NN mide distancias: una variable con números grandes dominaría el cálculo.</p>
+</div></details>
+<details class="sol"><summary><span class="sol-n">Ej. 3 · clase</span> Pipeline también para regresión (con faltantes)</summary>
+<div class="sol-cuerpo">
+<p class="sol-pide"><b>Pide:</b> El último ejemplo de la clase: imputar con la mediana, escalar y ajustar una regresión lineal dentro de un Pipeline, evaluando con RMSE. Se usa Diabetes (integrado) con algunos huecos agregados a propósito.</p>
+<pre><code>import numpy as np
+from sklearn.datasets import load_diabetes
+from sklearn.model_selection import train_test_split
+from sklearn.pipeline import Pipeline
+from sklearn.impute import SimpleImputer
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import root_mean_squared_error
+
+X, y = load_diabetes(return_X_y=True)
+rng = np.random.default_rng(0)
+X[rng.random(X.shape) &lt; 0.05] = np.nan            # 5 % de celdas vacías
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=42)
+
+pipeline_reg = Pipeline([(&quot;imputar&quot;, SimpleImputer(strategy=&quot;median&quot;)),
+                         (&quot;escalar&quot;, StandardScaler()),
+                         (&quot;regresor&quot;, LinearRegression())])
+pipeline_reg.fit(X_train, y_train)
+pred = pipeline_reg.predict(X_test)
+print(f&quot;RMSE: {root_mean_squared_error(y_test, pred):.2f}&quot;)
+print(f&quot;Desvío de y en test (modelo base que predice siempre la media): {y_test.std():.2f}&quot;)</code></pre>
+<p class="sol-et">Salida</p>
+<pre class="sol-salida"><code>RMSE: 55.52
+Desvío de y en test (modelo base que predice siempre la media): 74.36</code></pre>
+<p class="sol-lee">RMSE 55,52 contra 74,36 de un modelo que predice siempre el promedio: el modelo mejora la línea base, aunque el error sigue siendo grande. El imputador aprende la mediana solo con train, igual que el escalador.</p>
+</div></details>
+<details class="sol"><summary><span class="sol-n">Ej. 4 · clase</span> Elegir k con validación cruzada</summary>
+<div class="sol-cuerpo">
+<p class="sol-pide"><b>Pide:</b> Error típico de la clase: «elegir k por intuición». Comparar varios k con validación cruzada sobre train y recién después evaluar una vez en test.</p>
+<pre><code>from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split, cross_val_score
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
+from sklearn.neighbors import KNeighborsClassifier
+
+X, y = load_iris(return_X_y=True)
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.25, random_state=42, stratify=y)
+
+for k in [1, 3, 5, 7, 9, 15]:
+    modelo = Pipeline([(&quot;escalar&quot;, StandardScaler()),
+                       (&quot;knn&quot;, KNeighborsClassifier(n_neighbors=k))])
+    puntajes = cross_val_score(modelo, X_train, y_train, cv=5)   # 5 particiones de train
+    print(f&quot;k={k:2d}  accuracy media en validación: {puntajes.mean():.3f}&quot;)</code></pre>
+<p class="sol-et">Salida</p>
+<pre class="sol-salida"><code>k= 1  accuracy media en validación: 0.946
+k= 3  accuracy media en validación: 0.946
+k= 5  accuracy media en validación: 0.946
+k= 7  accuracy media en validación: 0.955
+k= 9  accuracy media en validación: 0.955
+k=15  accuracy media en validación: 0.946</code></pre>
+<p class="sol-lee">k = 7 y k = 9 empatan con la mejor accuracy media de validación (0,955). Se elige con validación cruzada sobre train y el test se usa una sola vez al final. Un k muy chico se deja llevar por el ruido; uno muy grande suaviza de más.</p>
+</div></details>
+
+    <h3>Proyectos con Inside Airbnb (trabajo práctico)</h3>
+    <p>La guía de proyectos estima el <b>precio por noche</b> de alojamientos de Buenos Aires con el archivo <code>listings.csv.gz</code> («Detailed Listings data») de Inside Airbnb, guardado sin descomprimir en <code>data/</code>. Los enunciados <b>no nombran el modelo</b>: hay que deducirlo. Como en los seis casos el objetivo es un número continuo, todos son <b>regresión</b>: tres con una recta y tres con vecinos (<code>KNeighborsRegressor</code>).</p>
+    <div class="chuleta">
+      <div><code>1 · accommodates</code><span>Una regla sencilla y explicable con <b>un solo predictor</b> → <b>regresión lineal simple</b>. Pendiente = cuánto sube el precio por cada huésped más. Estimar para 4 huéspedes.</span></div>
+      <div><code>2 · bedrooms</code><span>«Una relación recta fácil de comunicar» con un predictor → <b>regresión lineal simple</b>, solo viviendas completas (<code>room_type == "Entire home/apt"</code>). Estimar para 2 dormitorios.</span></div>
+      <div><code>3 · number_of_reviews</code><span>¿Sirve la cantidad de reseñas, por sí sola? → <b>regresión lineal simple</b> y leer el R²: si es bajo, el predictor explica poco (y aunque explique, es asociación, no causa). Estimar para 50 reseñas.</span></div>
+      <div><code>4 · alojamientos similares</code><span>«Buscar parecidos y promediar su precio» → <b>k-NN para regresión</b> con k = 5 y variables escaladas (capacidad, dormitorios, camas, noches mínimas). Caso nuevo: [4, 2, 3, 2].</span></div>
+      <div><code>5 · ubicación + características</code><span>Parecidos por latitud, longitud, capacidad y dormitorios → <b>k-NN para regresión</b> con k = 7. Mostrar los 7 vecinos con <code>kneighbors()</code> y sus distancias en el espacio escalado (no son kilómetros).</span></div>
+      <div><code>6 · elegir k</code><span>Ya se decidió usar vecinos → probar k en 3, 5, 7, 9, 11 y 15 con <code>cross_val_score(..., cv=5, scoring="neg_mean_squared_error")</code> sobre train, quedarse con el menor RMSE de validación y evaluar <b>una sola vez</b> en test.</span></div>
+    </div>
+    <p><b>Preparación común:</b> verificar las columnas (<code>df.columns.tolist()</code>), convertir <code>price</code> a número quitando símbolos (<code>str.replace(r"[^0-9.-]", "", regex=True)</code> + <code>pd.to_numeric(errors="coerce")</code>), eliminar faltantes solo en las columnas del caso, sacar precios no positivos y recortar extremos (la solución de la cátedra deja el 98 % central: entre los percentiles 1 y 99), dividir 75/25 con <code>random_state=42</code>, evaluar con MAE, RMSE y R², mostrar reales contra predichos y justificar el modelo elegido. Los números dependen de la fecha del archivo descargado, así que no hay un resultado «correcto» fijo: se evalúa el procedimiento.</p>
+  </section>
+
+  <section class="clase" id="c14" data-busca="git github control de versiones repositorio commit staging area de preparacion add push pull fetch rama branch switch merge fast-forward conflicto pull request tag etiqueta v0.1 gitignore env secretos notebook reproducible restart run all nbdime nbstripout entorno virtual venv activate pip freeze requirements pyproject reproducibilidad datos sensibles dvc lfs ley 25326 main protegida feature colab git config user.name">
+    <p class="eyebrow">Clase 14</p>
+    <h2>Git, GitHub y entornos reproducibles</h2>
+    <p class="objetivo">Pasar de «funciona en mi equipo» a un proyecto <b>trazable, revisable y repetible</b>: versionar con Git, colaborar con GitHub (ramas y pull requests), aislar las dependencias en un entorno virtual y escribir notebooks que corran de punta a punta. El principio rector: cada resultado tiene que poder vincularse con una versión concreta del <b>código</b>, los <b>datos</b> y el <b>entorno</b>.</p>
+
+    <h3>¿Qué problema resuelve?</h3>
+    <ul class="conceptos">
+      <li><b>«final_v7_ahora_si.ipynb»</b>: no hay una historia confiable del análisis.</li>
+      <li><b>Resultados distintos</b>: el notebook se ejecutó en otro orden o con otras versiones de las librerías.</li>
+      <li><b>Datos pesados o sensibles</b>: el repositorio crece o expone información que no debe publicarse.</li>
+      <li><b>Cambios simultáneos</b>: dos personas editan el mismo notebook y aparecen conflictos.</li>
+    </ul>
+
+    <h3>Git y GitHub no son lo mismo</h3>
+    <div class="chuleta">
+      <div><code>Git</code><span>El <b>motor de versiones</b>: se instala en la computadora, registra «fotos» del proyecto (commits), permite ramas y fusiones, funciona sin conexión. La historia vive en la carpeta oculta <code>.git</code> (no se toca a mano).</span></div>
+      <div><code>GitHub</code><span>La <b>plataforma colaborativa</b>: aloja una copia remota, agrega pull requests y revisión, Issues, Projects, Actions (tests automáticos), permisos, releases. Se sincroniza con <code>push</code>, <code>pull</code> y <code>fetch</code>.</span></div>
+    </div>
+
+    <h3>Vocabulario mínimo</h3>
+    <ul class="conceptos">
+      <li><b>Repositorio</b>: la carpeta del proyecto más toda su historia. <b>Commit</b>: una foto guardada, con autor, fecha y mensaje. <b>Staging</b> (área de preparación): la «sala de espera» de lo que entra en el próximo commit.</li>
+      <li><b>Rama (branch)</b>: una línea de trabajo paralela para probar sin tocar <code>main</code>. <b>Merge</b>: unir una rama con otra. <b>Fast-forward</b>: si <code>main</code> no cambió, la fusión solo «adelanta» el puntero, sin commit de merge.</li>
+      <li><b>Conflicto</b>: dos ramas cambiaron las mismas líneas y Git pide decidir. <b>Pull request (PR)</b>: el pedido para fusionar una rama, donde se explica el cambio y un compañero lo revisa.</li>
+      <li><b>Etiqueta (tag)</b>: un nombre fijo para un commit importante (<code>v0.1</code>, <code>v1.0</code>). La <b>anotada</b> (<code>git tag -a</code>) guarda además un mensaje, autor y fecha.</li>
+    </ul>
+
+    <h3>Modelo mental: tres zonas</h3>
+    <pre><code>directorio de trabajo   (editás .py, .ipynb, README.md)
+      │  git add archivo          ← add SELECCIONA
+      ▼
+área de preparación     (lo que va al próximo commit)
+      │  git commit -m "..."      ← commit REGISTRA
+      ▼
+repositorio local       (historia confirmada)
+      │  git push                 ← push PUBLICA
+      ▼
+remoto (GitHub)         (historia compartida)
+
+git status  ← OBSERVA en qué zona está cada cambio</code></pre>
+    <p><b>Leer <code>git status</code>:</b> si un archivo aparece como <i>modified</i> pero no bajo «Changes to be committed», el cambio está en la carpeta de trabajo y no en el staging: falta <code>git add</code>, y si se hace el commit no lo incluye.</p>
+
+    <h3>Primer repositorio: secuencia mínima</h3>
+    <pre><code>mkdir analisis-ventas
+cd analisis-ventas
+git init                              # crea .git (una sola vez)
+git config user.name "Nombre Apellido"      # identidad del autor (--global: para todos los repos)
+git config user.email "correo@ejemplo.com"
+# crear README.md, .gitignore y las carpetas
+git status
+git add .
+git commit -m "chore: estructura inicial"
+git branch -M main                    # la rama principal se llama main
+git remote add origin &lt;URL&gt;           # conectar con el repo vacío de GitHub
+git push -u origin main               # -u: deja asociado main ↔ origin/main</code></pre>
+    <ul class="conceptos">
+      <li><b>Antes del primer commit</b>: definir propósito, responsable, licencia, origen de los datos y cuándo se da por terminado.</li>
+      <li><b>Antes del primer push</b>: revisar <code>.gitignore</code>, credenciales, tamaño de los archivos y datos personales.</li>
+      <li>Git no versiona <b>carpetas vacías</b>: se deja un <code>.gitkeep</code> adentro para conservarlas.</li>
+    </ul>
+
+    <h3>Commits que explican una decisión</h3>
+    <ul class="conceptos">
+      <li>Un commit es <b>chico, coherente y reversible</b>. El mensaje dice la <b>intención</b> con un prefijo: <code>feat:</code> (funcionalidad nueva), <code>fix:</code> (corrección), <code>chore:</code> (configuración o mantenimiento). Bien: «feat: añade validación de valores nulos». Débil: «update notebook». Riesgoso: «modelo final + datos + secreto».</li>
+      <li><b>Checklist antes de commitear</b>: el código corre, no hay secretos, el diff se entiende y el mensaje describe la intención.</li>
+    </ul>
+
+    <h3>Estructura del repositorio</h3>
+    <pre><code>proyecto-datos/
+├── README.md            # qué es, cómo instalar, cómo obtener los datos, cómo correrlo
+├── .gitignore
+├── pyproject.toml       # o requirements.txt: dependencias y versiones
+├── data/
+│   ├── raw/             # la fuente: NUNCA se sobrescribe
+│   └── processed/       # resultados de transformar raw
+├── notebooks/           # 01_ingesta.ipynb, 02_eda.ipynb… (numerados)
+├── src/                 # funciones reutilizables (pipeline.py)
+├── tests/               # pruebas de src/
+├── reports/figures/     # figuras y resultados finales regenerables
+└── docs/</code></pre>
+    <p><b>data/raw</b> es inmutable (se registra su origen, fecha y reglas de acceso); <b>notebooks</b> sirven para explorar y contar, no para esconder toda la lógica; <b>src + tests</b> concentran el código estable y lo verifican; <b>reports</b> guarda lo que se entrega y se puede regenerar. La estructura completa se desarrolla en la <a href="#c15">clase 15</a>.</p>
+
+    <h3>.gitignore: versionar lo necesario, excluir lo riesgoso</h3>
+    <pre><code># Entorno
+.venv/
+__pycache__/
+.ipynb_checkpoints/
+# Secretos
+.env
+*.pem
+# Datos y modelos pesados
+data/raw/*
+models/*.pkl
+# Excepción: el ! vuelve a incluir un archivo
+!data/raw/README.md</code></pre>
+    <ul class="conceptos">
+      <li><b>Nunca versionar</b>: contraseñas, tokens, claves privadas, datos personales o exportaciones confidenciales. Todo lo que entra a Git queda en el historial: si se publicó un secreto, borrarlo en el commit siguiente <b>no alcanza</b>: hay que revocarlo o cambiarlo.</li>
+      <li><b>Sí versionar</b>: código, documentación, esquemas, datos de ejemplo chicos y archivos de dependencias.</li>
+      <li><code>git check-ignore -v .venv/</code> muestra qué regla excluye un archivo.</li>
+    </ul>
+
+    <h3>Ramas y pull requests: experimentar sin romper main</h3>
+    <ol class="conceptos">
+      <li><b>Crear la rama</b>: <code>git switch -c feature/eda-precios</code> (crea y se pasa a ella).</li>
+      <li><b>Trabajar y confirmar</b>: commits chicos, notebook limpio.</li>
+      <li><b>Abrir el pull request</b>: objetivo, evidencia (qué se probó) y riesgos.</li>
+      <li><b>Revisar y fusionar</b>: otro integrante verifica código, datos, entorno y resultados; idealmente corren tests automáticos (GitHub Actions). Después <code>git switch main</code> + <code>git pull origin main</code> y se borra la rama.</li>
+    </ol>
+    <p><b>Estrategia para un equipo:</b> <code>main</code> <b>protegida</b> (nadie hace push directo, solo entra por PR aprobado), una rama por tarea (<code>feature/ingestion</code>, <code>feature/limpieza</code>, <code>feature/modelado</code>), ramas cortas y fusiones frecuentes (traer seguido los cambios de <code>main</code>), y módulos separados para que dos personas no editen el mismo archivo. Para equipos chicos alcanza con <code>main</code> + ramas de tarea (una rama <code>develop</code> es opcional).</p>
+
+    <h3>Notebooks reproducibles</h3>
+    <div class="chuleta">
+      <div><code>Orden lineal</code><span>Antes de compartir: <i>Restart Kernel &amp; Run All</i>. Si solo funciona corriendo celdas fuera de orden, hay un estado oculto.</span></div>
+      <div><code>Entradas explícitas</code><span>Rutas, parámetros y semillas a la vista (y rutas relativas al proyecto, no <code>C:\Users\yo\…</code>).</span></div>
+      <div><code>Lógica reutilizable</code><span>Las funciones estables van a <code>src/</code>; el notebook queda como orquestador.</span></div>
+      <div><code>Salidas controladas</code><span>Nada de salidas enormes; guardar las figuras y métricas relevantes.</span></div>
+      <div><code>Nombres con propósito</code><span><code>01_ingesta</code>, <code>02_limpieza</code>, <code>03_eda</code>, <code>04_modelo</code>.</span></div>
+      <div><code>Metadatos limpios</code><span>Menos ruido en los diffs (por ejemplo <code>nbstripout</code> borra las salidas antes del commit).</span></div>
+    </div>
+
+    <h3>Conflictos en un notebook</h3>
+    <p>Un <code>.ipynb</code> por dentro es un <b>JSON enorme</b> (código, salidas, imágenes, metadatos): las marcas de conflicto (<code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code>, <code>=======</code>, <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code>) pueden romperlo. Procedimiento seguro:</p>
+    <ol class="conceptos">
+      <li><b>No resolver a ciegas</b> ni borrar una versión entera: respaldar las dos (<code>git show main:analisis.ipynb &gt; analisis_main.ipynb</code>).</li>
+      <li><b>Comparar por celda</b> con una herramienta que entienda notebooks: <code>nbdime</code> (<code>nbdiff</code>, <code>nbmerge</code>) o el diff de Jupyter / VS Code.</li>
+      <li><b>Hablar con la otra persona</b> y decidir qué celdas quedan.</li>
+      <li><b>Reejecutar de cero</b> y verificar los resultados.</li>
+      <li>Recién ahí <code>git add</code> y <code>git commit</code>.</li>
+    </ol>
+    <p>Para prevenirlos: la lógica en <code>.py</code>, cada persona en notebooks distintos y salidas limpias antes de commitear.</p>
+
+    <h3>Entornos virtuales: aislar dependencias</h3>
+    <ul class="conceptos">
+      <li>Un <b>entorno virtual</b> (<code>.venv</code>) es una instalación de Python <b>aislada por proyecto</b>: un proyecto con pandas 2.1 no choca con otro que usa pandas 3.0.</li>
+      <li><b><code>.venv/</code> no se versiona</b> (es pesada y depende de cada máquina: se reconstruye). <b>Sí se versiona</b> el archivo de dependencias: <code>requirements.txt</code>, <code>pyproject.toml</code> o <code>environment.yml</code>.</li>
+      <li>Con el entorno activo el prompt muestra <code>(.venv)</code>; <code>python -c "import sys; print(sys.executable)"</code> confirma que se usa el Python del entorno. <code>python -m pip</code> asegura que se usa el pip de ese intérprete.</li>
+      <li><code>pip freeze</code> anota <b>todas</b> las versiones instaladas, también las dependencias de las dependencias: por eso el archivo sale largo (con Jupyter, muy largo).</li>
+    </ul>
+    <pre><code>python -m venv .venv                    # crear el entorno (una vez)
+.venv\Scripts\activate                  # activar en Windows (PowerShell: .\.venv\Scripts\Activate.ps1)
+source .venv/bin/activate               # activar en macOS / Linux
+python -m pip install pandas jupyter matplotlib
+python -m pip freeze &gt; requirements.txt # anotar versiones exactas
+pip install -r requirements.txt         # en otra máquina: reconstruir el entorno
+deactivate                              # salir del entorno</code></pre>
+    <p><b>Secuencia correcta de trabajo:</b> 1) activar el entorno, 2) instalar las dependencias (si se instala antes de activar, van al Python global), 3) ejecutar el notebook desde el inicio, 4) verificar los resultados. Documentar también la <b>versión de Python</b>.</p>
+
+    <h3>Reproducibilidad de punta a punta</h3>
+    <p>Un resultado se reproduce si están coordinadas cuatro versiones: <b>código</b> (un commit o tag), <b>datos</b> (una copia fechada o su <i>hash</i>), <b>entorno</b> (dependencias fijadas) y <b>ejecución</b> (parámetros y semilla). <b>Prueba de fuego</b>: clonar el repositorio en un entorno limpio, instalar las dependencias, conseguir los datos autorizados y regenerar el resultado sin pasos manuales escondidos. Los hitos se marcan con etiquetas: <code>v0.1-eda</code>, <code>v0.2-modelo</code>, <code>v1.0-informe</code>.</p>
+
+    <h3>Datos grandes y sensibles</h3>
+    <ul class="conceptos">
+      <li><b>Tamaño</b>: Git está pensado para texto chico. GitHub rechaza archivos de más de 100 MB y cada versión de un CSV queda para siempre en el historial.</li>
+      <li><b>Privacidad</b>: cualquiera con acceso al repo vería los datos, aunque se borren después. Puede violar normas de protección de datos (en Argentina, la Ley 25.326).</li>
+      <li><b>Qué hacer</b>: <code>data/</code> en <code>.gitignore</code>; el archivo en un almacenamiento con control de acceso; <b>versionar la referencia al dato, no el dato</b> (con <b>DVC</b>, o un script de descarga con checksum); documentar en el README cómo se obtiene; una muestra anonimizada para desarrollar; credenciales en <code>.env</code>. <b>Git LFS</b> sirve para archivos grandes pero no resuelve el problema de privacidad.</li>
+    </ul>
+
+    <div class="errores">
+      <p><b>Errores típicos</b></p>
+      <ul>
+        <li><b>Commitear sin <code>git add</code></b>: el cambio queda afuera del commit.</li>
+        <li><b>Subir <code>.venv</code>, <code>__pycache__</code>, <code>.env</code> o datos</b> en vez de <code>requirements.txt</code>.</li>
+        <li><b>Creer que borrar un secreto del último commit alcanza</b>: sigue en el historial; hay que revocarlo.</li>
+        <li><b>Confundir Git con GitHub</b>: Git funciona sin GitHub.</li>
+        <li><b>Resolver un conflicto de notebook a mano en el JSON</b> o aceptando una versión entera sin mirar.</li>
+        <li><b>Instalar antes de activar el entorno</b>.</li>
+        <li><b>Crear el repo de GitHub con README</b> cuando ya existe uno local: las historias divergen en el primer push.</li>
+        <li><b>Mensajes vagos</b> («cambios varios», «update»).</li>
+      </ul>
+    </div>
+
+    <h3>Práctica de la cátedra</h3>
+    <p>Dos guías: una con <b>dos ejercicios en Google Colab</b> (cada programa en dos versiones etiquetadas, v1.0 y v2.0) y una <b>guía práctica en tres partes</b> (preparar, analizar, colaborar) que termina con un pull request y la etiqueta v0.1. La secuencia de Git del ejercicio 1 se ejecutó en una carpeta de prueba; los <i>hashes</i> de los commits cambian en cada máquina.</p>
+
+<details class="sol"><summary><span class="sol-n">Colab · 1</span> Ventas de una tienda: v1.0 y v2.0 con etiquetas</summary>
+<div class="sol-cuerpo">
+<p class="sol-pide"><b>Pide:</b> Crear el proyecto en <code>/content</code> con la estructura de carpetas, validar las versiones de Python, Git y pandas, configurar la identidad local, crear <code>data/raw/ventas.csv</code> (Router, Switch, Auriculares, Webcam). v1.0: calcular el ingreso por fila y el total; commit y etiqueta anotada. v2.0 en una rama <code>feature/version-2</code>: resumen por categoría, categoría líder y <code>reports/resumen_ventas.csv</code>; fusionar con avance rápido, etiquetar v2.0 y mostrar las evidencias (status, log, tags, show, diff).</p>
+<p class="sol-et">En Colab: <code>!</code> corre un comando del sistema, <code>%cd</code> cambia de carpeta y la mantiene, <code>%%writefile</code> escribe la celda en un archivo</p>
+<pre><code>!mkdir -p /content/ventas_csv/{data/raw,data/processed,notebooks,src,tests,reports,docs}
+%cd /content/ventas_csv
+!git init
+!git branch -M main
+!python --version
+!git --version
+!python -c "import pandas as pd; print('pandas', pd.__version__)"
+
+# identidad LOCAL (solo este repo): la máquina de Colab es temporal
+!git config --local user.name 'Nombre Apellido'
+!git config --local user.email 'estudiante@ejemplo.com'
+!git config --local pull.ff only          # pull nunca crea un merge automático
+!git config --local core.autocrlf input   # finales de línea LF (Colab es Linux)
+!git config --local --list
+
+!printf '__pycache__/\n.ipynb_checkpoints/\n*.pyc\n.env\n.venv/\n' &gt; .gitignore
+!printf 'pandas==%s\n' "$(python -c 'import pandas; print(pandas.__version__)')" &gt; requirements.txt
+!printf '# Análisis de ventas CSV\n' &gt; README.md
+!touch tests/test_manual.md docs/cambios.md</code></pre>
+<pre><code>%%writefile data/raw/ventas.csv
+producto,categoria,cantidad,precio_unitario
+Router,Redes,5,120.00
+Switch,Redes,3,210.00
+Auriculares,Accesorios,10,35.50
+Webcam,Accesorios,4,80.00</code></pre>
+<pre><code>!git add .
+!git commit -m 'chore: crea estructura y datos iniciales'</code></pre>
+<p class="sol-et">src/analizar_ventas.py · versión 1.0</p>
+<pre><code>from pathlib import Path
+import pandas as pd
+
+RUTA_ENTRADA = Path("data/raw/ventas.csv")      # constante: la ruta se escribe una vez
+
+def cargar_ventas(ruta: Path) -&gt; pd.DataFrame:
+    return pd.read_csv(ruta)
+
+def calcular_ingresos(df: pd.DataFrame) -&gt; pd.DataFrame:
+    resultado = df.copy()                        # no modifica el DataFrame recibido
+    resultado["ingreso"] = resultado["cantidad"] * resultado["precio_unitario"]
+    return resultado
+
+def main() -&gt; None:
+    ventas = calcular_ingresos(cargar_ventas(RUTA_ENTRADA))
+    print(ventas)
+    print(f"Ingreso total: ${ventas['ingreso'].sum():.2f}")
+
+if __name__ == "__main__":       # corre main() solo si se ejecuta el archivo, no al importarlo
+    main()</code></pre>
+<pre><code>!python src/analizar_ventas.py
+!git add src/analizar_ventas.py
+!git commit -m 'feat: calcula ingresos totales de ventas'
+!git tag -a v1.0 -m 'Versión 1.0: total de ventas'</code></pre>
+<p class="sol-et">Salida de la v1.0</p>
+<pre class="sol-salida"><code>      producto   categoria  cantidad  precio_unitario  ingreso
+0       Router       Redes         5            120.0    600.0
+1       Switch       Redes         3            210.0    630.0
+2  Auriculares  Accesorios        10             35.5    355.0
+3       Webcam  Accesorios         4             80.0    320.0
+Ingreso total: $1905.00</code></pre>
+<p class="sol-et">Versión 2.0 en una rama: se agregan estas piezas al mismo archivo</p>
+<pre><code>!git switch -c feature/version-2</code></pre>
+<pre><code>RUTA_SALIDA = Path("reports/resumen_ventas.csv")
+
+def resumir_por_categoria(df: pd.DataFrame) -&gt; pd.DataFrame:
+    return df.groupby("categoria", as_index=False)["ingreso"].sum()
+
+def main() -&gt; None:
+    ventas = calcular_ingresos(cargar_ventas(RUTA_ENTRADA))
+    resumen = resumir_por_categoria(ventas)
+    RUTA_SALIDA.parent.mkdir(parents=True, exist_ok=True)    # crea reports/ si no existe
+    resumen.to_csv(RUTA_SALIDA, index=False)
+    lider = resumen.loc[resumen["ingreso"].idxmax(), "categoria"]
+    print(resumen)
+    print(f"Categoría con mayor ingreso: {lider}")</code></pre>
+<pre><code>!python src/analizar_ventas.py
+!git diff --check                                # espacios sobrantes en lo modificado
+!git diff main -- src/analizar_ventas.py         # qué cambió respecto de main
+!git add src/analizar_ventas.py reports/resumen_ventas.csv
+!git commit -m 'feat: añade resumen de ventas por categoría'
+!git switch main
+!git merge --ff-only feature/version-2          # solo si main puede avanzar directo
+!git tag -a v2.0 -m 'Versión 2.0: resumen por categoría'
+
+# evidencias
+!git status -sb
+!git log --oneline --graph --decorate --all
+!git tag -n
+!git show --stat v1.0
+!git diff v1.0..v2.0 -- src/analizar_ventas.py</code></pre>
+<p class="sol-et">Salida (v2.0 y evidencias)</p>
+<pre class="sol-salida"><code>    categoria  ingreso
+0  Accesorios    675.0
+1       Redes   1230.0
+Categoría con mayor ingreso: Redes
+
+## main
+* 3f9c2e1 (HEAD -&gt; main, tag: v2.0, feature/version-2) feat: añade resumen de ventas por categoría
+* 8b41d07 (tag: v1.0) feat: calcula ingresos totales de ventas
+* c52a9f4 chore: crea estructura y datos iniciales
+
+v1.0            Versión 1.0: total de ventas
+v2.0            Versión 2.0: resumen por categoría
+
+ reports/resumen_ventas.csv |  3 +++
+ src/analizar_ventas.py     | 12 ++++++++++--
+ 2 files changed, 13 insertions(+), 2 deletions(-)</code></pre>
+<p class="sol-lee"><code>## main</code> sin nada más debajo significa árbol de trabajo limpio. El log es una línea recta porque el merge fue <i>fast-forward</i>: <code>main</code> no había cambiado, así que solo avanzó hasta el commit de la rama (por eso <code>main</code> y <code>feature/version-2</code> apuntan al mismo commit). Cada etiqueta queda pegada a «su» commit y <code>git diff v1.0..v2.0</code> muestra exactamente qué cambió entre las dos versiones.</p>
+</div></details>
+
+<details class="sol"><summary><span class="sol-n">Colab · 2</span> Control de asistencia: v1.0 y v2.0</summary>
+<div class="sol-cuerpo">
+<p class="sol-pide"><b>Pide:</b> El mismo procedimiento con <code>data/raw/asistencia.csv</code> (Ana 18, Bruno 14, Carla 20, Diego 12 presentes de 20). v1.0: porcentaje de asistencia por estudiante. v2.0: clasificar Regular o Revisar, guardar <code>data/processed/asistencia_procesada.csv</code> y un resumen en <code>reports/resumen.txt</code>.</p>
+<pre><code>from pathlib import Path
+import pandas as pd
+
+RUTA_ENTRADA = Path("data/raw/asistencia.csv")
+RUTA_PROCESADA = Path("data/processed/asistencia_procesada.csv")
+RUTA_REPORTE = Path("reports/resumen.txt")
+UMBRAL_REGULAR = 75          # el criterio queda en una constante con nombre
+
+def procesar_asistencia(df: pd.DataFrame) -&gt; pd.DataFrame:
+    resultado = df.copy()
+    resultado["porcentaje"] = resultado["presentes"] / resultado["total_clases"] * 100
+    resultado["estado"] = resultado["porcentaje"].apply(
+        lambda valor: "Regular" if valor &gt;= UMBRAL_REGULAR else "Revisar")
+    return resultado
+
+def guardar_resultados(df: pd.DataFrame) -&gt; None:
+    RUTA_PROCESADA.parent.mkdir(parents=True, exist_ok=True)
+    RUTA_REPORTE.parent.mkdir(parents=True, exist_ok=True)
+    df.to_csv(RUTA_PROCESADA, index=False)
+    regulares = (df["estado"] == "Regular").sum()     # True cuenta como 1
+    revisar = (df["estado"] == "Revisar").sum()
+    RUTA_REPORTE.write_text(f"Estudiantes regulares: {regulares}\n"
+                            f"Estudiantes a revisar: {revisar}\n", encoding="utf-8")
+
+def main() -&gt; None:
+    asistencia = procesar_asistencia(pd.read_csv(RUTA_ENTRADA))
+    guardar_resultados(asistencia)
+    print(asistencia.to_string(index=False))
+
+if __name__ == "__main__":
+    main()</code></pre>
+<pre><code>!git commit -m 'feat: clasifica asistencia y guarda resultados'
+!git switch main
+!git merge --ff-only feature/version-2
+!git tag -a v2.0 -m 'Versión 2.0: clasificación y reporte'</code></pre>
+<p class="sol-et">Salida de la v2.0</p>
+<pre class="sol-salida"><code>estudiante  presentes  total_clases  porcentaje  estado
+       Ana         18            20        90.0 Regular
+     Bruno         14            20        70.0 Revisar
+     Carla         20            20       100.0 Regular
+     Diego         12            20        60.0 Revisar
+
+reports/resumen.txt:
+Estudiantes regulares: 2
+Estudiantes a revisar: 2</code></pre>
+<p class="sol-lee">La v1.0 solo imprime <code>estudiante</code> y <code>porcentaje</code> (90, 70, 100 y 60). La v2.0 suma el estado y los dos archivos de salida. Ojo con el criterio: con 75 % de umbral, un 75 justo es Regular (<code>&gt;=</code>).</p>
+</div></details>
+
+<details class="sol"><summary><span class="sol-n">Guía · A</span> Preparar: repositorio, estructura, .gitignore y README</summary>
+<div class="sol-cuerpo">
+<p class="sol-pide"><b>Pide:</b> Crear <code>analisis-ventas</code>, inicializar Git, configurar la identidad, armar las carpetas, crear el CSV de ejemplo (fecha, producto, categoría, unidades, precio unitario), un <code>.gitignore</code>, un README con propósito, estructura, ejecución y alcance, revisar y hacer el primer commit.</p>
+<pre><code>mkdir analisis-ventas
+cd analisis-ventas
+git init
+git branch -M main
+git config --global user.name "Nombre Apellido"     # --global: vale para todos los repos
+git config --global user.email "correo@ejemplo.com"
+mkdir data notebooks reports src tests
+mkdir data/raw data/processed reports/figures
+touch data/processed/.gitkeep                        # Git no versiona carpetas vacías
+# crear data/raw/ventas.csv, .gitignore y README.md
+git status                                           # ¿qué va a entrar?
+git add .
+git commit -m "chore: crea estructura inicial del proyecto"
+git log --oneline                                    # un solo commit</code></pre>
+<p class="sol-lee">El <code>.gitignore</code> excluye <code>.venv/</code>, <code>__pycache__/</code>, <code>.ipynb_checkpoints/</code>, <code>.env</code>, <code>*.pyc</code> y las figuras generadas. En esta práctica el CSV <b>sí</b> se versiona porque es chico y ficticio; un dataset real sensible o pesado no. El README no describe resultados que todavía no existen.</p>
+</div></details>
+
+<details class="sol"><summary><span class="sol-n">Guía · B</span> Analizar: entorno, función en src/ y notebook de EDA</summary>
+<div class="sol-cuerpo">
+<p class="sol-pide"><b>Pide:</b> Crear y activar <code>.venv</code>, instalar pandas, Jupyter y Matplotlib, crear <code>src/</code> como paquete con una función reutilizable, un notebook <code>01_eda_ventas.ipynb</code> que la use, correrlo de cero, registrar las dependencias y commitear.</p>
+<pre><code>python -m venv .venv
+.\.venv\Scripts\Activate.ps1           # PowerShell (CMD: .venv\Scripts\activate.bat)
+python -m pip install --upgrade pip
+python -m pip install pandas jupyter matplotlib
+touch src/__init__.py src/analisis.py  # __init__.py: src se puede importar como paquete
+python -m py_compile src/analisis.py   # sin mensajes = sintaxis válida</code></pre>
+<pre><code># src/analisis.py
+import pandas as pd
+
+def agregar_importe(df: pd.DataFrame) -&gt; pd.DataFrame:
+    """Devuelve una copia con importe = unidades * precio_unitario."""
+    resultado = df.copy()
+    resultado["importe"] = resultado["unidades"] * resultado["precio_unitario"]
+    return resultado</code></pre>
+<pre><code># notebooks/01_eda_ventas.ipynb (celdas principales)
+from pathlib import Path
+import sys
+import pandas as pd
+
+PROJECT_ROOT = Path.cwd().parent              # Jupyter arranca en notebooks/
+sys.path.append(str(PROJECT_ROOT))            # para poder importar src
+from src.analisis import agregar_importe
+
+df = pd.read_csv(PROJECT_ROOT / "data" / "raw" / "ventas.csv", parse_dates=["fecha"])
+print(df.isna().sum(), "Duplicados:", df.duplicated().sum())
+df = agregar_importe(df)
+resumen = (df.groupby("categoria", as_index=False)
+             .agg(unidades=("unidades", "sum"), importe=("importe", "sum"))
+             .sort_values("importe", ascending=False))</code></pre>
+<pre><code>python -m pip freeze &gt; requirements.txt
+git add notebooks/01_eda_ventas.ipynb src requirements.txt
+git commit -m "feat: añade EDA reproducible de ventas"
+git show --stat HEAD                  # confirmar que entró solo lo esperado</code></pre>
+<p class="sol-et">Salida del resumen por categoría</p>
+<pre class="sol-salida"><code>     categoria  unidades  importe
+0    Pantallas         3    840.0
+1  Perifericos        16    434.0</code></pre>
+<p class="sol-lee">Pantallas concentra el mayor importe y Periféricos la mayor cantidad de unidades. Ojo: la guía dice 440 para Periféricos, pero la cuenta da 434 (177,50 + 150,00 + 106,50). Primera fila: 5 × 35,50 = 177,50. <code>.venv</code> no aparece en <code>git status</code> porque está en el <code>.gitignore</code>.</p>
+</div></details>
+
+<details class="sol"><summary><span class="sol-n">Guía · C</span> Colaborar: rama, pull request, revisión y etiqueta v0.1</summary>
+<div class="sol-cuerpo">
+<p class="sol-pide"><b>Pide:</b> Crear el repositorio vacío en GitHub, publicar <code>main</code>, hacer una mejora (resumen por producto) en una rama, abrir el pull request con su descripción, revisarlo con una checklist, fusionarlo, etiquetar v0.1 y borrar la rama.</p>
+<pre><code>git remote add origin &lt;URL_DEL_REPOSITORIO&gt;   # repo de GitHub VACÍO (sin README)
+git remote -v
+git push -u origin main
+git switch -c feature/resumen-producto
+# en el notebook: el mismo groupby, pero por "producto"
+git add notebooks/01_eda_ventas.ipynb
+git commit -m "feat: añade resumen de ventas por producto"
+git push -u origin feature/resumen-producto
+# GitHub: Pull requests &gt; New · base: main · compare: feature/resumen-producto
+# revisión aprobada → Merge pull request
+git switch main
+git pull origin main
+git tag -a v0.1 -m "Primera versión reproducible del EDA de ventas"
+git push origin v0.1                          # las etiquetas no suben con un push común
+git branch -d feature/resumen-producto
+git push origin --delete feature/resumen-producto</code></pre>
+<p class="sol-et">Resumen por producto (lo que debe decir el PR)</p>
+<pre class="sol-salida"><code>  producto  unidades  importe
+0  Monitor         3    840.0
+2  Teclado         8    284.0
+1    Mouse         8    150.0</code></pre>
+<p class="sol-lee">La descripción del PR lleva <b>Objetivo, Cambios, Pruebas realizadas</b> (reinicio del kernel, ejecución completa, nulos y duplicados) y <b>Resultado esperado</b>. La checklist de revisión pregunta si el diff tiene solo lo relacionado, si no hay secretos ni datos no autorizados, si el notebook corre desde un kernel limpio, si las rutas son relativas, si las cifras coinciden con las salidas, si la lógica reutilizable está en <code>src/</code>, si las dependencias nuevas están registradas y si el README sigue siendo correcto. La práctica está completa cuando <b>otra persona</b> puede clonar, crear <code>.venv</code>, instalar <code>requirements.txt</code>, correr el notebook y obtener los mismos resúmenes, y v0.1 identifica el commit entregado.</p>
+</div></details>
+  </section>
+
+  <section class="clase" id="c15" data-busca="documentacion estructura de proyecto readme docstring contrato type hints firma src tests dry modulo pyproject pip install -e testing pruebas assert pytest arrange act assert fixture parametrize raises unittest testcase setup teardown assertequal asserttrue notebook delgado invariantes limpiar_ventas drop_duplicates to_numeric coerce">
+    <p class="eyebrow">Clase 15</p>
+    <h2>Documentación, estructura de proyectos y testing básico</h2>
+    <p class="objetivo">Convertir análisis sueltos en código <b>mantenible</b>: separar datos, notebooks, código reutilizable y pruebas; documentar propósito, entradas, salidas y supuestos; y verificar el comportamiento con <code>pytest</code> o <code>unittest</code>. La idea central: la reproducibilidad no es solo «que el notebook corra», sino que <b>otra persona pueda comprender, ejecutar y verificar</b> el trabajo.</p>
+
+    <h3>¿Por qué estructurar y probar?</h3>
+    <div class="chuleta">
+      <div><code>Notebook único</code><span>Orden de ejecución oculto, variables globales, rutas locales, código duplicado, resultados difíciles de auditar.</span></div>
+      <div><code>Proyecto estructurado</code><span>Funciones reutilizables, dependencias explícitas, datos separados, tests automáticos, historial de decisiones.</span></div>
+      <div><code>Lo que se gana</code><span>Repetibilidad, colaboración, errores detectados temprano, mantenimiento y un despliegue más seguro.</span></div>
+    </div>
+
+    <h3>Estructura recomendada</h3>
+    <pre><code>proyecto_ventas/
+├── README.md               # el mapa de entrada
+├── pyproject.toml          # (o requirements.txt) dependencias y versiones
+├── requirements.txt
+├── .gitignore              # data/, .venv/, .env, __pycache__/
+├── .env.example            # plantilla de variables SIN valores reales (sí se versiona)
+├── data/                   # no versionada
+│   ├── raw/                # datos originales: nunca se modifican
+│   └── processed/          # derivados, regenerables desde raw
+├── notebooks/
+│   ├── 01_exploracion.ipynb
+│   └── 02_modelado.ipynb   # numerados para saber el orden
+├── src/
+│   └── proyecto_ventas/    # código importable (paquete)
+│       ├── __init__.py
+│       ├── limpieza.py
+│       └── metricas.py
+└── tests/
+    ├── test_limpieza.py
+    └── test_metricas.py</code></pre>
+    <ul class="conceptos">
+      <li><b>data/</b>: no mezclar crudos con salidas; todo se regenera desde <code>raw/</code>.</li>
+      <li><b>notebooks/</b>: explorar, explicar y comunicar; sin lógica esencial duplicada.</li>
+      <li><b>src/ + tests/</b>: código importable y sus pruebas automáticas, la base de la reproducibilidad. Para importar <code>src</code> desde un notebook, el proyecto se instala en el entorno en modo editable: <code>pip install -e .</code> (con un <code>pyproject.toml</code>).</li>
+    </ul>
+
+    <h3>README: contenido mínimo</h3>
+    <p>1) Problema y objetivo, 2) fuente y licencia de los datos, 3) estructura del repositorio, 4) instalación del entorno, 5) comandos de ejecución, 6) comandos de pruebas, 7) resultados y limitaciones, 8) responsable y versión.</p>
+    <pre><code># Proyecto de ventas
+## Objetivo
+Calcular ventas válidas por región.
+## Instalación
+python -m venv .venv
+pip install -r requirements.txt
+## Ejecución
+python -m proyecto_ventas.pipeline
+## Pruebas
+pytest -q
+## Datos
+Entrada: data/raw/ventas.csv
+Salida: data/processed/resumen.csv</code></pre>
+
+    <h3>Documentar funciones: el contrato antes que la implementación</h3>
+    <ul class="conceptos">
+      <li><b>Firma con tipos</b> (<code>ventas: list[float]) -&gt; float</code>): qué entra y qué sale.</li>
+      <li><b>Docstring</b>: propósito, parámetros, retorno y errores que lanza (secciones <i>Parameters</i>, <i>Returns</i>, <i>Raises</i>).</li>
+      <li><b>Regla de negocio</b>: la validación hace explícito un supuesto del análisis (no se admiten importes negativos).</li>
+    </ul>
+    <pre><code>def calcular_total(ventas: list[float]) -&gt; float:
+    """Calcula la suma de ventas no negativas.
+
+    Parameters
+    ----------
+    ventas : list[float]
+        Importes individuales.
+
+    Returns
+    -------
+    float
+        Total acumulado.
+
+    Raises
+    ------
+    ValueError
+        Si existe un importe negativo.
+    """
+    if any(v &lt; 0 for v in ventas):
+        raise ValueError("No se admiten negativos")
+    return sum(ventas)</code></pre>
+
+    <h3>Ejemplo comentado: una limpieza reutilizable</h3>
+    <pre><code>import pandas as pd
+
+def limpiar_ventas(df: pd.DataFrame) -&gt; pd.DataFrame:
+    """Devuelve ventas válidas, no negativas y sin id repetidos."""
+    requeridas = {"id", "producto", "venta"}
+    faltantes = requeridas - set(df.columns)     # diferencia de conjuntos
+    if faltantes:                                # un conjunto vacío vale False
+        raise ValueError(f"Faltan columnas: {faltantes}")
+    limpio = df.copy()                           # no modifica la entrada
+    limpio["venta"] = pd.to_numeric(limpio["venta"], errors="coerce")  # "ERROR" → NaN
+    limpio = limpio.dropna(subset=["venta"])     # saca los no numéricos
+    limpio = limpio[limpio["venta"] &gt;= 0]        # saca los negativos
+    limpio = limpio.drop_duplicates(subset="id", keep="first")
+    return limpio.reset_index(drop=True)</code></pre>
+    <p>Tres partes: <b>validación estructural</b> (el DataFrame trae las columnas del contrato), <b>transformación segura</b> (trabaja sobre una copia y convierte los errores en nulos) y una <b>regla verificable</b> (el resultado no tiene id repetidos, nulos ni ventas negativas). Con los datos de las guías (ids 101 a 107, con un 102 repetido, un −75, «ERROR» y «ABC») quedan los ids 101, 102, 105 y 107.</p>
+    <p><b>El orden importa.</b> La diapositiva quita duplicados <i>antes</i> de convertir y filtrar; los programas de la guía lo hacen <i>después</i>. Si la primera fila de un id repetido es inválida, dan distinto: con <code>id = [1, 1, 2]</code> y <code>venta = ["ERROR", 100, 50]</code>, deduplicar primero conserva el «ERROR», lo descarta y pierde el id 1 (queda <code>[2]</code>); filtrar primero conserva la venta válida de 100 (queda <code>[1, 2]</code>). Filtrar y después deduplicar es lo más seguro.</p>
+
+    <h3>Qué probar: la pirámide</h3>
+    <ul class="conceptos">
+      <li><b>Base, muchos tests rápidos y específicos</b>: funciones puras y reglas de negocio (<code>limpiar_ventas</code>, <code>calcular_total</code>).</li>
+      <li><b>Medio</b>: integración entre módulos y archivos chicos.</li>
+      <li><b>Cima, pocos y más lentos</b>: el notebook o el flujo completo.</li>
+      <li>Una prueba tiene que fallar <b>por una razón clara</b> y ayudar a encontrar el defecto.</li>
+    </ul>
+
+    <h3>assert: la base de todo</h3>
+    <p><code>assert condicion, "mensaje"</code> es una instrucción de Python (no hace falta instalar nada): si la condición es <code>True</code> sigue; si es <code>False</code> corta con <code>AssertionError</code> y el mensaje. Sirve para ejemplos y verificaciones simples, pero <b>Python la saltea si se ejecuta con <code>-O</code></b>: no se usa para validar datos de usuarios ni reglas de seguridad (para eso, <code>if</code> + <code>raise</code>).</p>
+
+    <h3>pytest: funciones test_ y assert</h3>
+    <ul class="conceptos">
+      <li><code>pytest</code> descubre solo los archivos <code>test_*.py</code> y, adentro, las funciones <code>test_*</code>. Se instala aparte (<code>pip install pytest</code>) y se corre con <code>pytest -q</code> o <code>python -m pytest -v</code>.</li>
+      <li>Cada test sigue <b>Arrange – Act – Assert</b>: armar datos mínimos que representen el caso, ejecutar <b>una</b> unidad y comparar con un resultado preciso.</li>
+      <li><code>with pytest.raises(ValueError, match="Faltan"):</code> comprueba que el código <b>lanza</b> esa excepción y que el mensaje contiene «Faltan». Si no la lanza, el test falla.</li>
+      <li><code>@pytest.mark.parametrize("valores, esperado", [...])</code> corre el mismo test con varios casos.</li>
+      <li><code>@pytest.fixture</code>: una función que <b>prepara datos reutilizables</b>; el test la pide poniendo su nombre como parámetro y pytest la ejecuta antes de <b>cada</b> test (datos nuevos cada vez).</li>
+    </ul>
+    <pre><code>import pandas as pd
+import pytest
+from proyecto_ventas.limpieza import limpiar_ventas
+
+def test_elimina_duplicados_y_negativos():
+    entrada = pd.DataFrame({"id": [1, 1, 2, 3],                  # Arrange
+                            "producto": ["A", "A", "B", "C"],
+                            "venta": [100, 100, -5, "250"]})
+    resultado = limpiar_ventas(entrada)                          # Act
+    assert resultado["id"].tolist() == [1, 3]                    # Assert
+    assert resultado["venta"].tolist() == [100, 250]
+    assert entrada.shape == (4, 3)          # la entrada no se modificó
+
+def test_falla_si_falta_columna():
+    with pytest.raises(ValueError, match="Faltan"):
+        limpiar_ventas(pd.DataFrame({"id": [1], "producto": ["A"]}))
+
+@pytest.mark.parametrize("valores, esperado", [([10, 20], 30), ([0], 0), ([], 0)])
+def test_calcular_total(valores, esperado):
+    assert calcular_total(valores) == esperado
+
+@pytest.fixture
+def ventas_df():
+    return pd.DataFrame({"id": [1, 2, 3], "producto": ["A", "B", "C"],
+                         "venta": [100.0, 200.0, 300.0]})
+
+def test_conserva_tres_filas_validas(ventas_df):     # pide la fixture por su nombre
+    assert len(limpiar_ventas(ventas_df)) == 3</code></pre>
+
+    <h3>unittest: la alternativa de la biblioteca estándar</h3>
+    <ul class="conceptos">
+      <li>Viene con Python. Las pruebas son <b>métodos de una clase</b> que hereda de <code>unittest.TestCase</code>.</li>
+      <li><code>setUp(self)</code> se ejecuta antes de <b>cada</b> test (como una fixture); <code>tearDown</code>, después. Los datos se guardan en <code>self</code>.</li>
+      <li>Aserciones propias: <code>assertEqual</code>, <code>assertTrue</code>, <code>assertListEqual</code>, <code>assertRaises</code>.</li>
+      <li>Se corre con <code>unittest.main(verbosity=2)</code> al final del archivo o con <code>python -m unittest -v</code>.</li>
+    </ul>
+    <div class="chuleta">
+      <div><code>pytest</code><span>Sintaxis corta con <code>assert</code>, fixtures flexibles, parametrización directa, plugins, descubrimiento simple. Hay que instalarlo. Ideal para cursos, proyectos de datos y equipos que priorizan la legibilidad.</span></div>
+      <div><code>unittest</code><span>Incluido en Python, estilo de clases, <code>setUp</code>/<code>tearDown</code>, aserciones específicas, familiar en el mundo xUnit. Para depender solo de la biblioteca estándar.</span></div>
+    </div>
+
+    <h3>Testing de notebooks: tres niveles</h3>
+    <ol class="conceptos">
+      <li><b>Ejecución limpia</b>: reiniciar el kernel y correr todo de arriba abajo. Detecta orden oculto, variables residuales y dependencias faltantes.</li>
+      <li><b>Aserciones locales</b>: comprobaciones chicas dentro del notebook (<code>assert df["venta"].notna().all()</code>).</li>
+      <li><b>Código extraído</b>: las transformaciones a <code>src/</code>, probadas con pytest o unittest. El notebook queda como narrativa y orquestación.</li>
+    </ol>
+    <pre><code># Celda 1: importar código YA probado
+import pandas as pd
+from proyecto_ventas.limpieza import limpiar_ventas
+# Celda 2: cargar
+df_raw = pd.read_csv("../data/raw/ventas.csv")
+# Celda 3: transformar
+df = limpiar_ventas(df_raw)
+# Celda 4: verificar invariantes (lo que siempre debe cumplirse)
+assert df["id"].is_unique
+assert df["venta"].notna().all()
+assert (df["venta"] &gt;= 0).all()
+# Celda 5: comunicar
+df.groupby("region")["venta"].sum()</code></pre>
+
+    <h3>No repetir código (DRY)</h3>
+    <p>Si el mismo bloque de limpieza está copiado en cuatro notebooks y aparece un error, hay que arreglarlo cuatro veces (y alguna se olvida): viola <b>DRY</b> (<i>Don't Repeat Yourself</i>). La solución es la de toda la clase: una función en un módulo, importada desde los notebooks y cubierta por tests.</p>
+
+    <h3>Flujo recomendado</h3>
+    <p><b>1 Explorar</b> (notebook chico) → <b>2 Extraer</b> (funciones a <code>src/</code>) → <b>3 Documentar</b> (README y docstrings) → <b>4 Probar</b> (pytest o unittest) → <b>5 Reejecutar</b> (notebook limpio) → <b>6 Compartir</b> (código, entorno y resultados). Criterio de salida: otra persona puede instalar, ejecutar, verificar y explicar el resultado sin depender del autor.</p>
+
+    <div class="errores">
+      <p><b>Errores típicos</b></p>
+      <ul>
+        <li><b>Archivo o función sin el prefijo <code>test_</code></b>: pytest no los encuentra y «pasan» 0 tests.</li>
+        <li><b>Un test que falla no siempre es un error del código</b>: puede estar mal la expectativa (en las guías, el test espera 5 filas y la limpieza correcta da 4).</li>
+        <li><b>Probar con datos que no cubren el caso</b>: sin un duplicado o un texto en la entrada, el test no verifica la regla.</li>
+        <li><b>Modificar la entrada</b> dentro de la función (sin <code>df.copy()</code>): se rompen otros tests que usan los mismos datos.</li>
+        <li><b>Deduplicar antes de filtrar</b> cuando la primera fila de un id puede ser inválida.</li>
+        <li><b>Usar <code>assert</code> para validar datos en producción</b>: con <code>python -O</code> desaparece.</li>
+        <li><b>Olvidar <code>if __name__ == "__main__":</code></b>: al importar el módulo desde un test, se ejecuta el programa entero.</li>
+      </ul>
+    </div>
+
+    <h3>Práctica de la cátedra: los cuatro ejemplos de testing</h3>
+    <p>Los cuatro documentos usan la misma función <code>limpiar_ventas()</code> y los mismos datos (8 filas: un duplicado, un negativo y dos textos), cada uno en una <b>versión correcta</b> y una <b>con un error intencional</b> (una expectativa de 5 filas). Las salidas son de una corrida real con pytest 8 y pandas 2.2.</p>
+
+<details class="sol"><summary><span class="sol-n">Ejemplo 1</span> El programa: main() y el DataFrame limpio</summary>
+<div class="sol-cuerpo">
+<p class="sol-pide"><b>Muestra:</b> la función de arriba más un <code>main()</code> que arma los datos, los limpia e imprime antes y después con <code>to_string(index=False)</code>. Se corre con <code>python main.py</code>.</p>
+<pre><code>def main():
+    df_ventas = pd.DataFrame({
+        "id": [101, 102, 102, 103, 104, 105, 106, 107],
+        "producto": ["Notebook", "Mouse", "Mouse", "Monitor",
+                     "Teclado", "Webcam", "Auriculares", "Impresora"],
+        "venta": [1500, 25, 25, -75, "ERROR", 80, "ABC", 320]})
+    print(df_ventas.to_string(index=False))
+    print(limpiar_ventas(df_ventas).to_string(index=False))
+
+if __name__ == "__main__":
+    main()</code></pre>
+<p class="sol-et">Salida (DataFrame limpio)</p>
+<pre class="sol-salida"><code> id  producto  venta
+101  Notebook 1500.0
+102     Mouse   25.0
+105    Webcam   80.0
+107 Impresora  320.0</code></pre>
+<p class="sol-lee">Se van el segundo 102 (duplicado), el 103 (−75), el 104 («ERROR») y el 106 («ABC»). <code>venta</code> pasa a float (1500.0) porque <code>to_numeric</code> tuvo que convivir con NaN. Un texto que sí es un número, como <code>"1500"</code>, se convierte bien.</p>
+</div></details>
+
+<details class="sol"><summary><span class="sol-n">Ejemplo 2</span> Pruebas con assert: correcta y con error</summary>
+<div class="sol-cuerpo">
+<p class="sol-pide"><b>Muestra:</b> cinco <code>assert</code> al final de <code>main()</code>: cantidad de filas, id únicos, columna numérica, sin negativos e ids esperados. En la versión con error, el assert de la cantidad espera 5.</p>
+<pre><code>assert len(df_limpio) == 4, "La cantidad de filas no es correcta"
+assert df_limpio["id"].is_unique, "Todavía existen id duplicados"
+assert pd.api.types.is_numeric_dtype(df_limpio["venta"]), "venta no es numérica"
+assert (df_limpio["venta"] &gt;= 0).all(), "Todavía existen ventas negativas"
+assert df_limpio["id"].tolist() == [101, 102, 105, 107], "ids inesperados"
+print("TEST CORRECTO: todas las pruebas assert pasaron.")
+
+# versión con error:
+assert len(df_limpio) == 5, \
+    f"TEST FALLIDO: se esperaban 5 filas, pero se obtuvieron {len(df_limpio)}"</code></pre>
+<p class="sol-et">Salida de la versión con error</p>
+<pre class="sol-salida"><code>Traceback (most recent call last):
+  ...
+AssertionError: TEST FALLIDO: se esperaban 5 filas, pero se obtuvieron 4</code></pre>
+<p class="sol-lee">El primer assert que falla corta el programa: las líneas siguientes no se ejecutan. La función no está mal; está mal la expectativa.</p>
+</div></details>
+
+<details class="sol"><summary><span class="sol-n">Ejemplo 3</span> pytest con fixture: 4 pruebas en test_main.py</summary>
+<div class="sol-cuerpo">
+<p class="sol-pide"><b>Muestra:</b> la lógica en <code>main.py</code> y las pruebas en <code>test_main.py</code> (<code>from main import limpiar_ventas</code>), con una fixture <code>df_ventas</code> que arma los datos. Acá se agregaron además el test de la excepción y uno parametrizado de la diapositiva. Se corre con <code>python -m pytest -v</code>.</p>
+<pre><code>@pytest.fixture
+def df_ventas():
+    return pd.DataFrame({
+        "id": [101, 102, 102, 103, 104, 105, 106, 107],
+        "producto": ["Notebook", "Mouse", "Mouse", "Monitor",
+                     "Teclado", "Webcam", "Auriculares", "Impresora"],
+        "venta": [1500, 25, 25, -75, "ERROR", 80, "ABC", 320]})
+
+def test_cantidad_filas(df_ventas):
+    assert len(limpiar_ventas(df_ventas)) == 4
+
+def test_sin_duplicados(df_ventas):
+    assert limpiar_ventas(df_ventas)["id"].is_unique
+
+def test_ventas_validas(df_ventas):
+    resultado = limpiar_ventas(df_ventas)
+    assert pd.api.types.is_numeric_dtype(resultado["venta"])
+    assert (resultado["venta"] &gt;= 0).all()
+
+def test_ids_esperados(df_ventas):
+    assert limpiar_ventas(df_ventas)["id"].tolist() == [101, 102, 105, 107]
+
+def test_falla_si_falta_columna():
+    with pytest.raises(ValueError, match="Faltan"):
+        limpiar_ventas(pd.DataFrame({"id": [1], "producto": ["A"]}))
+
+@pytest.mark.parametrize("ventas, esperado", [([10, 20], 30), ([0], 0), ([], 0)])
+def test_total(ventas, esperado):
+    df = pd.DataFrame({"id": range(len(ventas)), "producto": "X", "venta": ventas})
+    assert limpiar_ventas(df)["venta"].sum() == esperado</code></pre>
+<p class="sol-et">Salida de la versión correcta</p>
+<pre class="sol-salida"><code>collected 8 items
+
+test_main.py::test_cantidad_filas PASSED                                 [ 12%]
+test_main.py::test_sin_duplicados PASSED                                 [ 25%]
+test_main.py::test_ventas_validas PASSED                                 [ 37%]
+test_main.py::test_ids_esperados PASSED                                  [ 50%]
+test_main.py::test_falla_si_falta_columna PASSED                         [ 62%]
+test_main.py::test_total[ventas0-30] PASSED                              [ 75%]
+test_main.py::test_total[ventas1-0] PASSED                               [ 87%]
+test_main.py::test_total[ventas2-0] PASSED                               [100%]
+
+============================== 8 passed in 0.5s ==============================</code></pre>
+<p class="sol-et">Salida de la versión con error (espera 5 filas)</p>
+<pre class="sol-salida"><code>test_main.py F.......                                                    [100%]
+
+================================== FAILURES ===================================
+_____________________________ test_cantidad_filas _____________________________
+    def test_cantidad_filas(df_ventas):
+&gt;       assert len(limpiar_ventas(df_ventas)) == 5
+E       assert 4 == 5
+
+test_main.py:17: AssertionError
+=========================== short test summary info ===========================
+FAILED test_main.py::test_cantidad_filas - assert 4 == 5
+========================= 1 failed, 7 passed in 0.5s =========================</code></pre>
+<p class="sol-lee">Cada punto es un test que pasó y la <b>F</b> uno que falló. pytest muestra el archivo, el test, la línea exacta (<code>&gt;</code>) y los dos valores comparados (<code>4 == 5</code>); los demás tests siguen corriendo, a diferencia del assert suelto del ejemplo 2. El parametrizado cuenta como tres tests, uno por caso.</p>
+</div></details>
+
+<details class="sol"><summary><span class="sol-n">Ejemplo 4</span> unittest: clase TestCase con setUp</summary>
+<div class="sol-cuerpo">
+<p class="sol-pide"><b>Muestra:</b> las mismas pruebas con la biblioteca estándar: <code>setUp</code> arma los datos antes de cada test y se usan <code>assertEqual</code>, <code>assertTrue</code> y <code>assertListEqual</code>. Se corre con <code>python main_correcto.py</code>.</p>
+<pre><code>import unittest
+import pandas as pd
+from main import limpiar_ventas
+
+class TestLimpiarVentas(unittest.TestCase):
+    def setUp(self):
+        """Se ejecuta antes de CADA test: datos nuevos cada vez."""
+        entrada = pd.DataFrame({
+            "id": [101, 102, 102, 103, 104, 105, 106, 107],
+            "producto": ["Notebook", "Mouse", "Mouse", "Monitor",
+                         "Teclado", "Webcam", "Auriculares", "Impresora"],
+            "venta": [1500, 25, 25, -75, "ERROR", 80, "ABC", 320]})
+        self.limpio = limpiar_ventas(entrada)
+
+    def test_cantidad_filas(self):
+        self.assertEqual(len(self.limpio), 4)
+
+    def test_sin_duplicados(self):
+        self.assertTrue(self.limpio["id"].is_unique)
+
+    def test_ids_esperados(self):
+        self.assertListEqual(self.limpio["id"].tolist(), [101, 102, 105, 107])
+
+if __name__ == "__main__":
+    unittest.main(verbosity=2)</code></pre>
+<p class="sol-et">Salida</p>
+<pre class="sol-salida"><code>test_cantidad_filas (__main__.TestLimpiarVentas.test_cantidad_filas) ... ok
+test_ids_esperados (__main__.TestLimpiarVentas.test_ids_esperados) ... ok
+test_sin_duplicados (__main__.TestLimpiarVentas.test_sin_duplicados) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.010s
+
+OK</code></pre>
+<p class="sol-lee">unittest ordena los tests alfabéticamente. En la versión con error (<code>assertEqual(len(...), 5, "Se esperaban 5 filas…")</code>) la línea pasa a <code>FAIL</code>, aparece <code>AssertionError: 4 != 5 : Se esperaban 5 filas, pero la limpieza genera 4</code> y el cierre dice <code>FAILED (failures=1)</code>.</p>
+</div></details>
+  </section>
+
+  <section class="clase" id="c16" data-busca="simulacro 2 parcial segundo parcial codigo con errores diagnostico describe media mediana pivot_table aggfunc quantile iqr faltantes fill_value min_count pd.cut imc groupby apply include_groups promedio ponderado division por cero preguntas git testing">
+    <p class="eyebrow">Clase 16</p>
+    <h2>Simulacro del 2.º parcial</h2>
+    <p class="objetivo">El simulacro A de la cátedra tiene dos partes: <b>seis ejercicios de «código con errores»</b> de pandas (leer, encontrar qué falla, corregir y explicar) y <b>trece preguntas de Git y testing</b>. Esta sección es el método y la lista de errores; los conceptos están en las clases 10, 11, 14 y 15.</p>
+
+    <h3>Qué se evalúa y dónde estudiarlo</h3>
+    <div class="chuleta">
+      <div><code>Ej. 1 · describe</code><span>Presión arterial: <code>describe()</code> de una columna, media contra mediana. → <a href="#c10">clase 10</a></span></div>
+      <div><code>Ej. 2 · pivot_table</code><span>Temperatura por ciudad y estación: parámetros en plural, <code>aggfunc="mean"</code>, <code>margins</code>. → <a href="#c10">clase 10</a></span></div>
+      <div><code>Ej. 3 · atípico</code><span>PM2,5 con IQR: <code>quantile(0.25)</code>, <code>q3 - q1</code>, filtro con <code>|</code>. → <a href="#c11">clase 11</a></span></div>
+      <div><code>Ej. 4 · faltantes</code><span>Emisiones por año y sector: <code>NaN</code> no es 0, <code>fill_value</code> numérico, <code>min_count=1</code>. → <a href="#c10">clase 10</a></span></div>
+      <div><code>Ej. 5 · variable nueva</code><span>IMC: <code>altura ** 2</code> y <code>pd.cut</code> con labels = bordes − 1, argumentos con nombre. → <a href="#c11">clase 11</a></span></div>
+      <div><code>Ej. 6 · ponderado</code><span>PIB per cápita ponderado por población con <code>groupby.apply</code> y división por cero. → <a href="#c10">clase 10</a></span></div>
+      <div><code>Preguntas 1–13</code><span>Propósito de Git, <code>init</code>, <code>add</code>, <code>commit</code>, <code>.gitignore</code>, leer <code>git status</code>, conflicto en un notebook, dependencias, secuencia de trabajo, notebook contra lógica reutilizable, ramas, datos grandes y sensibles, estructura profesional. → <a href="#c14">clase 14</a> y <a href="#c15">clase 15</a></span></div>
+    </div>
+
+    <h3>Cómo encarar un «código con errores»</h3>
+    <ul class="conceptos">
+      <li><b>Leé el objetivo</b> antes que el código: ¿qué tendría que producir?</li>
+      <li><b>Revisá línea por línea</b>: nombres de columnas (¿coinciden con los del DataFrame?), nombres de métodos y parámetros (¿bien escritos? ¿en plural?), paréntesis y la fórmula (¿es la cuenta correcta?).</li>
+      <li><b>Distinguí dos tipos de error.</b> Los que <b>rompen</b> el programa (da un error y frena) y los <b>lógicos</b> (corre, pero el resultado está mal). Los segundos son más peligrosos porque no avisan.</li>
+      <li>En el espacio de diagnóstico escribí <b>qué falla, por qué y cómo se corrige</b>, con el resultado esperado.</li>
+    </ul>
+
+    <h3>Tres ideas que se repiten en todos los ejercicios</h3>
+    <ul class="conceptos">
+      <li><b>Un método se ejecuta con paréntesis.</b> <code>df["x"].mean</code> no calcula nada: devuelve el método (<code>&lt;bound method …&gt;</code>) y, si se usa en una cuenta, da <code>TypeError</code>.</li>
+      <li><b>Los parámetros se escriben exactamente como pandas los espera</b>: <code>columns</code>, no <code>column</code>; <code>values</code>, no <code>value</code>; <code>include_groups</code>, no <code>include_group</code>. Uno mal escrito da <code>TypeError: unexpected keyword argument</code>.</li>
+      <li><b>Los nombres de columnas</b> se copian tal cual: <code>"ciudades"</code> en vez de <code>"ciudad"</code> da <code>KeyError</code>. Y salvo el primero, los argumentos van <b>con nombre</b>: un valor posicional puede caer en el parámetro equivocado sin error.</li>
+    </ul>
 
     <div class="errores">
       <p><b>Errores típicos de un vistazo</b></p>
@@ -608,170 +2712,10 @@ resultado = df.groupby("region").apply(promedio_ponderado, include_groups=False)
         <li><b>Labels ≠ intervalos</b>: 5 labels con 5 bordes → 4 labels; y pasarlos <b>con nombre</b>.</li>
         <li><b>División por cero</b>: <code>suma / pesos</code> → <code>if pesos == 0: np.nan</code>.</li>
         <li><b>Y/o con Series</b>: <code>and</code>/<code>or</code> → <code>&amp;</code>/<code>|</code> con cada condición entre paréntesis.</li>
+        <li><b>Sin sangría</b> en el cuerpo de una función → <code>IndentationError</code>.</li>
       </ul>
     </div>
-    <p>Para practicar: el <a href="entrenador-python.html">entrenador</a> tiene 11 ejercicios de «encontrá el error» en el laboratorio (con corrección automática) y preguntas de opción múltiple de esta guía.</p>
-  </section>
-
-  <section class="clase" id="p2b" data-busca="2 parcial guia git github control de versiones repositorio commit staging add push pull rama branch merge conflicto pull request gitignore env notebook nbdime nbstripout dvc lfs datos sensibles ley 25326 main protegida feature">
-    <p class="eyebrow">Guía del 2.º parcial · 2 de 3</p>
-    <h2>Git y trabajo en equipo con datos</h2>
-    <p class="objetivo">Git registra los cambios de un proyecto de análisis de datos y permite que varias personas trabajen en paralelo sin pisarse. Acá están el vocabulario, los comandos, qué no versionar, cómo trabajar con ramas y cómo resolver los problemas típicos (conflictos en notebooks, datos grandes y sensibles).</p>
-    <p class="objetivo"><b>Fuente:</b> simulacro A del 2.º parcial de la cátedra y su resolución (hecha con Claude); no son las diapositivas.</p>
-
-    <h3>Qué es Git y vocabulario mínimo</h3>
-    <ul class="conceptos">
-      <li><b>Git</b> es un sistema de <b>control de versiones</b>: guarda la historia de los cambios, permite volver a un punto anterior y ver qué cambió, quién y por qué. Pensalo como un «guardar partida».</li>
-      <li><b>GitHub / GitLab no son Git</b>: son sitios donde se aloja una copia del repositorio (el <i>remoto</i>) para compartirlo y revisarlo. Git funciona perfectamente sin ellos.</li>
-      <li><b>Repositorio</b>: la carpeta del proyecto más toda su historia (en la carpeta oculta <code>.git</code>). <b>Commit</b>: una «foto» guardada del proyecto, con un mensaje. <b>Staging</b>: la «sala de espera» de los cambios que entrarán en el próximo commit.</li>
-      <li><b>Rama (branch)</b>: una línea de trabajo paralela, para probar sin tocar <code>main</code>. <b>Merge</b>: unir los cambios de una rama en otra. <b>Conflicto</b>: dos ramas cambiaron las mismas líneas y Git te pide que decidas. <b>Pull request (PR)</b>: pedido para fusionar una rama donde un compañero revisa antes.</li>
-    </ul>
-
-    <h3>El flujo básico: tres lugares</h3>
-    <pre><code>carpeta de trabajo   (editás archivos)
-      │  git add
-      ▼
-staging              (cambios preparados)
-      │  git commit -m "..."
-      ▼
-historial del repo   (cambios guardados)
-      │  git push
-      ▼
-remoto (GitHub)      (cambios compartidos)</code></pre>
-    <div class="chuleta">
-      <div><code>git init</code><span>Convierte la carpeta actual en repositorio (una sola vez; crea <code>.git</code>).</span></div>
-      <div><code>git status</code><span>Muestra qué archivos cambiaron y cuáles están preparados.</span></div>
-      <div><code>git add archivo</code><span>Pasa los cambios de ese archivo al staging.</span></div>
-      <div><code>git commit -m "mensaje"</code><span>Guarda lo que está en staging como un commit. El mensaje, en presente y diciendo <b>qué hace</b> el cambio («Agrega limpieza de valores faltantes»).</span></div>
-      <div><code>git log</code><span>Muestra el historial de commits.</span></div>
-      <div><code>git push</code> / <code>git pull</code><span>Sube tus commits al remoto / trae los del remoto.</span></div>
-      <div><code>git switch -c nombre</code><span>Crea una rama nueva y se pasa a ella.</span></div>
-    </div>
-    <p><b>Interpretar <code>git status</code>:</b> si un archivo aparece como <i>modified</i> pero <b>no</b> bajo «Changes to be committed», el cambio está en la carpeta de trabajo y no en el staging. Falta <code>git add src/limpieza.py</code>; recién ahí el commit lo incluye.</p>
-
-    <h3>Qué no se versiona: .gitignore</h3>
-    <p><code>.gitignore</code> lista lo que Git debe ignorar. En un proyecto de datos normalmente: secretos y configuración local (<code>.env</code>), el entorno virtual (<code>.venv/</code>), caché (<code>__pycache__/</code>), los datos (<code>data/</code>) y salidas generadas. El README, el código (<code>src/</code>) y los tests <b>sí</b> se versionan. Nunca se suben contraseñas: todo lo que entra a Git queda en el historial, y lo ve cualquiera con acceso.</p>
-    <pre><code># .gitignore
-.env
-.venv/
-__pycache__/
-data/
-*.csv</code></pre>
-
-    <h3>Estrategia de ramas para un equipo</h3>
-    <ul class="conceptos">
-      <li><b><code>main</code> protegida</b>: nadie hace push directo; solo entra código por pull request aprobado. Siempre debe funcionar.</li>
-      <li><b>Una rama por tarea</b>, con nombres claros: <code>feature/ingestion</code>, <code>feature/limpieza</code>, <code>feature/modelado</code>.</li>
-      <li><b>Pull requests con revisión</b>: otro integrante revisa el código y, idealmente, corren tests automáticos (CI, por ejemplo GitHub Actions). Se fusiona solo si se aprueba y los tests pasan.</li>
-      <li><b>Ramas cortas y fusiones frecuentes</b>: cuanto más vive una rama separada, más conflictos. Traer seguido los cambios de <code>main</code> (<code>git pull origin main</code> o rebase) para resolverlos de a poco.</li>
-      <li><b>Separar responsabilidades en módulos</b> (<code>ingestion.py</code>, <code>limpieza.py</code>, <code>modelado.py</code>) para que no se editen los mismos archivos. Opcional: una rama <code>develop</code> de integración (Git Flow); para equipos chicos alcanza con <code>main</code> + ramas de tarea.</li>
-    </ul>
-
-    <h3>Conflictos en un notebook</h3>
-    <p>Un notebook (<code>.ipynb</code>) por dentro es un archivo <b>JSON enorme</b> (código, salidas, imágenes, metadatos): las marcas de conflicto (<code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code>, <code>=======</code>, <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code>) pueden romperlo y hacer que no abra. Procedimiento seguro:</p>
-    <ol class="conceptos">
-      <li><b>No resolver a ciegas</b> ni borrar una versión entera. Primero respaldar las dos (por ejemplo <code>git show main:analisis.ipynb &gt; analisis_main.ipynb</code>) o trabajar en una rama aparte.</li>
-      <li><b>Comparar con una herramienta que entienda notebooks</b>: <code>nbdime</code> (<code>nbdiff</code>, <code>nbmerge</code>) o el diff de Jupyter/VS Code, que muestran las diferencias por celda.</li>
-      <li><b>Hablar con la otra persona</b> y decidir qué celdas quedan; si los dos análisis sirven, conservarlos en celdas separadas.</li>
-      <li><b>Reejecutar de cero</b> (<i>Restart &amp; Run All</i>) para verificar que funciona y que los resultados son coherentes.</li>
-      <li>Recién ahí <code>git add</code> y <code>git commit</code> marcando que se resolvió el conflicto.</li>
-    </ol>
-    <p><b>Para prevenirlos:</b> mover la lógica a archivos <code>.py</code>, que cada persona trabaje en notebooks distintos y limpiar las salidas antes de commitear (por ejemplo con <code>nbstripout</code>).</p>
-
-    <h3>Datos grandes y sensibles</h3>
-    <p>Un CSV de 4 GB con datos personales <b>no</b> debería subirse a Git:</p>
-    <ul class="conceptos">
-      <li><b>Tamaño</b>: Git está pensado para texto chico. GitHub rechaza archivos de más de 100 MB y cada versión del CSV queda para siempre en el historial: el repo se vuelve enorme y lento de clonar.</li>
-      <li><b>Privacidad</b>: cualquiera con acceso al repo vería los datos, y aunque los borres después, siguen en el historial. Además puede violar normas de protección de datos (en Argentina, la Ley 25.326).</li>
-      <li>Git no maneja permisos finos, cifrado ni auditoría de quién accede.</li>
-    </ul>
-    <p><b>Estrategia reproducible:</b> <code>data/</code> en <code>.gitignore</code>; el archivo en un almacenamiento seguro con control de acceso (servidor, bucket con permisos, base de datos), idealmente cifrado; <b>versionar la referencia al dato, no el dato</b> (con <b>DVC</b> se sube a Git un archivo chico que apunta a la versión exacta, o al menos un script <code>descargar_datos.py</code> con un checksum); documentar en el README de dónde se obtiene y cómo se coloca en <code>data/raw/</code>; usar una muestra anonimizada o sintética para desarrollo; y las credenciales en <code>.env</code> (ignorado), nunca en el código. <b>Git LFS</b> sirve para archivos grandes pero no resuelve el problema de los datos personales.</p>
-    <p>Para practicar: preguntas de opción múltiple de Git en el <a href="entrenador-python.html">entrenador</a> (mazo «2.º parcial · Git, entornos y estructura de proyectos»).</p>
-  </section>
-
-  <section class="clase" id="p2c" data-busca="2 parcial guia entorno virtual venv requirements pyproject reproducibilidad dry modulo src tests pytest estructura de proyecto carpetas data raw interim processed notebooks env example config">
-    <p class="eyebrow">Guía del 2.º parcial · 3 de 3</p>
-    <h2>Entornos, reproducibilidad y estructura de proyectos</h2>
-    <p class="objetivo">Que otra persona (o vos en seis meses) pueda correr el proyecto y obtener los mismos resultados. Es el hilo conductor de casi todas las preguntas: entorno virtual, dependencias versionadas, notebook corrido de cero y lógica reutilizable en módulos con tests.</p>
-    <p class="objetivo"><b>Fuente:</b> simulacro A del 2.º parcial de la cátedra y su resolución (hecha con Claude); no son las diapositivas. El tema de <b>testing</b> acá es introductorio; se amplía cuando lleguen los materiales de la cátedra.</p>
-
-    <h3>Entornos virtuales y dependencias</h3>
-    <ul class="conceptos">
-      <li>Un <b>entorno virtual</b> (<code>.venv</code>) es una instalación de Python <b>aislada</b> por proyecto, con sus propias librerías y versiones: un proyecto que necesita pandas 2.1 no choca con otro que necesita pandas 3.0.</li>
-      <li>Las <b>dependencias</b> (qué librerías y qué versiones) se anotan en <code>requirements.txt</code> o <code>pyproject.toml</code>. <b>Ese archivo sí se sube a Git; la carpeta <code>.venv</code> no</b> (es pesada y depende de cada computadora: cada uno la recrea).</li>
-      <li>Lo que mejora la reproducibilidad: <b>documentar la versión de Python</b> y <b>versionar el archivo de dependencias</b>. No sirve enviar <code>__pycache__</code> (archivos compilados temporales), subir <code>.venv</code> ni borrar las importaciones.</li>
-    </ul>
-    <pre><code>python -m venv .venv                  # crear el entorno
-source .venv/bin/activate             # activarlo (Windows: .venv\Scripts\activate)
-pip install -r requirements.txt       # instalar las dependencias anotadas</code></pre>
-
-    <h3>Secuencia correcta de trabajo</h3>
-    <ol class="conceptos">
-      <li><b>Activar el entorno virtual</b>: así todo lo que sigue ocurre en el entorno del proyecto.</li>
-      <li><b>Instalar las dependencias</b> (<code>pip install -r requirements.txt</code>): si instalás antes de activar, se instalan en el lugar equivocado.</li>
-      <li><b>Ejecutar el notebook desde el inicio</b> (<i>Restart Kernel &amp; Run All</i>): no dependés de celdas corridas a mano en otro orden ni de variables que quedaron en memoria.</li>
-      <li><b>Verificar los resultados</b>: que coincidan con lo esperado o con los tests.</li>
-    </ol>
-
-    <h3>Separar los notebooks de la lógica reutilizable (principio DRY)</h3>
-    <p>Si el mismo bloque de limpieza está copiado en cuatro notebooks y encontrás un error, hay que arreglarlo cuatro veces (y te vas a olvidar alguna): viola <b>DRY</b> (<i>Don't Repeat Yourself</i>). La solución: una función en un módulo, importarla desde los notebooks y escribir tests.</p>
-    <pre><code># src/proyecto/limpieza.py
-def limpiar_datos(df):
-    """Elimina duplicados y normaliza los nombres de las columnas."""
-    df = df.drop_duplicates()
-    df.columns = df.columns.str.lower().str.strip()
-    return df
-
-# en cada notebook (en vez de copiar el bloque):
-from proyecto.limpieza import limpiar_datos
-
-# tests/test_limpieza.py   (se corren con:  pytest)
-import pandas as pd
-from proyecto.limpieza import limpiar_datos
-
-def test_limpiar_datos_quita_duplicados_y_normaliza_columnas():
-    df = pd.DataFrame({" Edad ": [30, 30, 41], "CIUDAD": ["A", "A", "B"]})
-    limpio = limpiar_datos(df)
-    assert list(limpio.columns) == ["edad", "ciudad"]
-    assert len(limpio) == 2</code></pre>
-    <ul class="conceptos">
-      <li>Para que <code>from proyecto.limpieza import …</code> funcione desde un notebook, el proyecto tiene que estar instalado en el entorno: con un <code>pyproject.toml</code>, <code>pip install -e .</code> (modo editable).</li>
-      <li>Un <b>test</b> llama a tu función con un ejemplo y verifica el resultado con <code>assert</code>. Sirve para saber que sigue funcionando cuando la cambiás. Los notebooks quedan para explorar y mostrar.</li>
-    </ul>
-
-    <h3>Estructura profesional de un proyecto de datos</h3>
-    <pre><code>mi_proyecto/
-├── README.md               # qué es, cómo instalar, cómo obtener los datos y cómo correrlo
-├── pyproject.toml          # (o requirements.txt) dependencias y versiones
-├── .gitignore              # ignora data/, .venv/, .env, __pycache__/, salidas
-├── .env.example            # plantilla de variables SIN valores reales (sí se versiona)
-├── config/
-│   └── config.yaml         # rutas y parámetros (sin secretos)
-├── data/                   # NO versionada
-│   ├── raw/                # datos originales: nunca se modifican
-│   ├── interim/            # datos intermedios
-│   └── processed/          # datos listos para analizar o modelar
-├── notebooks/
-│   ├── 01_exploracion.ipynb
-│   └── 02_modelado.ipynb   # numerados para saber el orden
-├── src/
-│   └── mi_proyecto/        # código reutilizable (paquete)
-│       ├── __init__.py
-│       ├── ingestion.py
-│       ├── limpieza.py
-│       └── modelado.py
-├── tests/
-│   ├── test_limpieza.py
-│   └── test_modelado.py
-├── docs/                   # documentación adicional, diccionario de datos
-└── reports/
-    └── figures/            # gráficos y reportes generados</code></pre>
-    <ul class="conceptos">
-      <li>El <b>código reutilizable vive en <code>src/</code></b> y se importa desde los notebooks; los <b>tests</b> están separados en <code>tests/</code>.</li>
-      <li>La <b>configuración</b> va fuera del código; los <b>datos y secretos no se versionan</b> pero su obtención está documentada (README, <code>.env.example</code>).</li>
-      <li>Los <b>datos crudos nunca se pisan</b>: todo se regenera desde <code>raw/</code>, lo que garantiza la reproducibilidad.</li>
-    </ul>
-    <p>Para practicar: mazo «2.º parcial · Git, entornos y estructura de proyectos» en el <a href="entrenador-python.html">entrenador</a>.</p>
+    <p>Para practicar: el <a href="entrenador-python.html">entrenador</a> tiene 11 ejercicios de «encontrá el error» en el laboratorio (con corrección automática) y preguntas de opción múltiple de pandas, Git, entornos y estructura de proyectos.</p>
   </section>
 
   <section class="herramienta" id="chuleta" data-busca="chuleta cheatsheet referencia rapida funciones">
@@ -869,7 +2813,7 @@ def test_limpiar_datos_quita_duplicados_y_normaliza_columnas():
     </div>
 
     <div class="chuleta-grupo">
-      <h3>pandas para el 2.º parcial (código con errores)</h3>
+      <h3>pandas para el 2.º parcial: estadística y código con errores</h3>
       <div class="chuleta">
         <div><code>serie.describe()</code><span>Resumen: <code>count, mean, std, min, 25%, 50%, 75%, max</code>. Se llama <code>describe</code> (sin «s»). Sobre una columna o sobre todo el DataFrame.</span></div>
         <div><code>.mean()</code> / <code>.median()</code><span>Siempre con paréntesis. Media = promedio; mediana = valor central, robusta a outliers.</span></div>
@@ -885,7 +2829,7 @@ def test_limpiar_datos_quita_duplicados_y_normaliza_columnas():
     </div>
 
     <div class="chuleta-grupo">
-      <h3>Git, entornos y proyectos (2.º parcial)</h3>
+      <h3>Git, entornos, proyectos y tests</h3>
       <div class="chuleta">
         <div><code>git init · status · add · commit -m · log</code><span>Crear el repo, ver el estado, preparar archivos, guardar un commit con mensaje, ver el historial.</span></div>
         <div><code>git push</code> / <code>git pull</code><span>Subir tus commits al remoto / traer los del remoto.</span></div>
@@ -1134,7 +3078,7 @@ def test_limpiar_datos_quita_duplicados_y_normaliza_columnas():
   pintar();
 
   /* ---------- CONTEO ---------- */
-  estado.textContent = "7 clases + guía del 2.º parcial · " + document.querySelectorAll(".glosario > div").length + " términos · " + MAZO.length + " tarjetas";
+  estado.textContent = "13 clases · " + document.querySelectorAll(".glosario > div").length + " términos · " + MAZO.length + " tarjetas";
   textoInicial = estado.textContent;
 })();
 Sesion.montar("chip-sesion");

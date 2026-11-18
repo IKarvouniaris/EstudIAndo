@@ -1,0 +1,9 @@
+[project]
+name = "tp-airbnb-sklearn"
+version = "0.1.0"
+description = "TP de Scikit-learn: estimación del precio nocturno con datos de Inside Airbnb (Buenos Aires)"
+requires-python = ">=3.10"
+
+[tool.pytest.ini_options]
+pythonpath = ["."]   # Permite «from src.limpieza import …» al correr pytest desde la raíz
+testpaths = ["tests"]
