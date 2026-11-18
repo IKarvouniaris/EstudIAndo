@@ -1,0 +1,21 @@
+# Entorno virtual y cachés: se regeneran, no se versionan
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Secretos y configuración local (este proyecto no usa ninguno, pero la regla queda)
+.env
+
+# Datos: el CSV de Inside Airbnb se descarga con src/descargar_datos.py
+# (pesa ~18 MB y cambia con cada extracción). Se versiona solo la guía de la carpeta.
+data/raw/*
+!data/raw/README.md
+data/processed/*
+!data/processed/.gitkeep
+
+# Salidas regenerables del pipeline (se vuelven a crear con python main.py)
+reports/figures/*.png
+reports/*.csv
+reports/*.txt

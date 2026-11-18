@@ -1,0 +1,7 @@
+# Dependencias del TP con las versiones con que se generó el informe (Python 3.11).
+# Instalar con:  python -m pip install -r requirements.txt
+pandas==2.2.3
+numpy==2.4.6
+scikit-learn==1.9.1
+matplotlib==3.11.2
+pytest==9.2.0

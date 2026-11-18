@@ -1,0 +1,668 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TP Airbnb — Biblia de defensa</title>
+<style>
+:root{
+  --rail: 270px;
+  color-scheme: light;
+  --papel:#EDEEE9; --papel-2:#F8F9F6; --papel-3:#E3E5DE;
+  --tinta:#15181A; --tinta-2:#545B60; --tinta-3:#7B8288;
+  --linea:#C7CAC2; --linea-2:#D9DBD4;
+  --acento:#1B6A5B; --acento-suave:#DCEDE8;
+  --alerta:#9E3122; --alerta-suave:#F7E4E0;
+  --display:"Bahnschrift","Franklin Gothic Medium","Arial Narrow","Helvetica Neue",sans-serif;
+  --body:"Sitka Text","Constantia",Georgia,"Times New Roman",serif;
+  --mono:"Cascadia Mono",Consolas,"SFMono-Regular",ui-monospace,monospace;
+}
+:root[data-tema="oscuro"]{
+  color-scheme: dark;
+  --papel:#101315; --papel-2:#181C20; --papel-3:#1F2429;
+  --tinta:#E9EBE6; --tinta-2:#A2AAB0; --tinta-3:#7C858B;
+  --linea:#2B3238; --linea-2:#232930;
+  --acento:#4FC7AC; --acento-suave:#10302B;
+  --alerta:#EC8878; --alerta-suave:#331915;
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--papel); color:var(--tinta); font-family:var(--body); font-size:16.5px; line-height:1.65; -webkit-font-smoothing:antialiased}
+a{color:var(--acento)}
+.envoltorio{display:grid; grid-template-columns:var(--rail) minmax(0,1fr); min-height:100vh}
+.riel{position:sticky; top:0; align-self:start; height:100vh; overflow-y:auto; border-right:1px solid var(--linea); background:var(--papel-3); padding:0 0 2rem}
+.riel-volver{display:block; padding:.85rem 1.1rem; font-family:var(--mono); font-size:.68rem; letter-spacing:.06em; color:var(--tinta-2); text-decoration:none; border-bottom:1px solid var(--linea)}
+.riel-volver:hover{color:var(--tinta); background:var(--papel-2)}
+.riel-marca{padding:1rem 1.1rem; border-bottom:1px solid var(--linea)}
+.riel-marca b{display:block; font-family:var(--display); font-weight:600; font-size:.82rem; letter-spacing:.1em; text-transform:uppercase; line-height:1.3}
+.riel-marca span{display:block; font-family:var(--mono); font-size:.64rem; color:var(--tinta-3); margin-top:.3rem}
+.riel-grupo{padding:.7rem 1.1rem .2rem; font-family:var(--mono); font-size:.6rem; letter-spacing:.14em; text-transform:uppercase; color:var(--tinta-3)}
+.riel a.item{display:block; padding:.35rem 1.1rem; font-family:var(--display); font-size:.86rem; color:var(--tinta-2); text-decoration:none; border-left:3px solid transparent}
+.riel a.item:hover{background:var(--papel-2); color:var(--tinta)}
+.riel a.item.activo{border-left-color:var(--acento); color:var(--tinta); background:var(--papel-2); font-weight:600}
+.riel-pie{padding:1rem 1.1rem 0; margin-top:1rem; border-top:1px solid var(--linea)}
+.btn-tema{cursor:pointer; font-family:var(--mono); font-size:.66rem; letter-spacing:.08em; padding:.45rem .7rem; background:var(--papel-2); color:var(--tinta-2); border:1px solid var(--linea); border-radius:2px; width:100%}
+.lienzo{width:100%; max-width:820px; min-width:0; margin:0 auto; padding:2.4rem clamp(1rem,3vw,2.4rem) 6rem}
+.portada .cintillo{font-family:var(--mono); font-size:.66rem; letter-spacing:.17em; text-transform:uppercase; color:var(--tinta-3); margin:0}
+.portada h1{font-family:var(--display); font-weight:700; font-size:clamp(1.9rem,4.5vw,2.6rem); line-height:1.05; margin:.3rem 0 .8rem}
+.portada p{color:var(--tinta-2); max-width:68ch}
+section{border-top:2px solid var(--tinta); padding-top:1.2rem; margin-top:2.6rem}
+.eyebrow{font-family:var(--mono); font-size:.64rem; letter-spacing:.14em; text-transform:uppercase; color:var(--acento); margin:0 0 .3rem}
+h2{font-family:var(--display); font-weight:700; font-size:1.5rem; margin:0 0 .6rem}
+h3{font-family:var(--mono); font-size:.7rem; letter-spacing:.1em; text-transform:uppercase; color:var(--tinta-3); margin:1.6rem 0 .5rem}
+.intro{color:var(--tinta-2)}
+ul,ol{padding-left:1.3rem} li{margin:.3rem 0}
+pre{background:var(--papel-2); border:1px solid var(--linea); border-radius:3px; padding:.8rem 1rem; overflow-x:auto; font-family:var(--mono); font-size:.8rem; line-height:1.5; margin:.4rem 0 .6rem}
+code{font-family:var(--mono); font-size:.9em}
+.regla{border-left:3px solid var(--acento); background:var(--acento-suave); padding:.7rem 1rem; margin:1rem 0; border-radius:2px}
+.regla p{margin:0}
+.peligro{border-left:3px solid var(--alerta); background:var(--alerta-suave); padding:.7rem 1rem; margin:1rem 0; border-radius:2px}
+.peligro p{margin:0 0 .3rem} .peligro p:last-child{margin:0}
+.tabla-caja{overflow-x:auto; margin:.6rem 0 1rem}
+table{border-collapse:collapse; width:100%; font-size:.9rem}
+th,td{border-bottom:1px solid var(--linea-2); padding:.4rem .6rem; text-align:left; vertical-align:top}
+th{font-family:var(--display); font-weight:600; border-bottom:1px solid var(--linea); background:var(--papel-3)}
+td code{overflow-wrap:anywhere}
+td.num, th.num{text-align:right; font-family:var(--mono); font-size:.82rem; white-space:nowrap}
+.fichas{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:.7rem; margin:.8rem 0}
+.ficha{background:var(--papel-2); border:1px solid var(--linea); border-top:3px solid var(--acento); border-radius:2px; padding:.7rem .9rem}
+.ficha b{font-family:var(--display)} .ficha p{margin:.3rem 0 0; font-size:.92rem; color:var(--tinta-2)}
+.ficha.dato{border-top-color:var(--tinta-3)}
+.ficha .grande{font-family:var(--display); font-weight:700; font-size:1.6rem; color:var(--tinta); display:block; line-height:1.1}
+figure{margin:1rem 0} figure img{max-width:100%; height:auto; border:1px solid var(--linea); border-radius:3px; background:#fff}
+figcaption{font-size:.85rem; color:var(--tinta-2); margin-top:.3rem}
+details.qa{border:1px solid var(--linea); border-radius:3px; background:var(--papel-2); margin:.45rem 0}
+details.qa > summary{cursor:pointer; padding:.55rem .85rem; font-family:var(--display); font-weight:600; font-size:.95rem; list-style-position:outside}
+details.qa[open] > summary{border-bottom:1px solid var(--linea)}
+details.qa > div{padding:.5rem .95rem .3rem}
+details.qa > div p{margin:.3rem 0 .6rem}
+.etq{font-family:var(--mono); font-size:.6rem; letter-spacing:.08em; text-transform:uppercase; color:var(--acento); margin-right:.4rem}
+.pasos{counter-reset:paso; list-style:none; padding:0}
+.pasos > li{counter-increment:paso; position:relative; padding:.6rem .8rem .6rem 3rem; margin:.5rem 0; background:var(--papel-2); border:1px solid var(--linea); border-radius:3px}
+.pasos > li::before{content:counter(paso); position:absolute; left:.75rem; top:.55rem; font-family:var(--display); font-weight:700; font-size:1.2rem; color:var(--acento)}
+.pasos > li b{font-family:var(--display)}
+.donde{display:block; font-family:var(--mono); font-size:.72rem; color:var(--tinta-3); margin-top:.15rem}
+.flujo svg{width:100%; height:auto; display:block}
+.flujo .caja{fill:var(--papel-2); stroke:var(--linea)}
+.flujo .caja.clave{stroke:var(--acento); stroke-width:2}
+.flujo text{fill:var(--tinta); font-family:var(--display); font-size:13px}
+.flujo text.sub{fill:var(--tinta-3); font-family:var(--mono); font-size:10px}
+.flujo .linea{stroke:var(--tinta-3); stroke-width:1.5; fill:none}
+.flujo .punta{fill:var(--tinta-3)}
+.check li{list-style:none; margin-left:-1.3rem; padding-left:1.6rem; position:relative}
+.check li::before{content:"☐"; position:absolute; left:0; color:var(--acento)}
+#btn-abrir{display:none}
+@media (max-width:900px){
+  .envoltorio{grid-template-columns:minmax(0,1fr)}
+  .riel{position:static; height:auto}
+}
+</style>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="img/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<script defer src="js/marca.js"></script>
+</head>
+<body>
+<div class="envoltorio">
+<aside class="riel">
+  <a class="riel-volver" href="python.html">← Apunte de Python</a>
+  <div class="riel-marca">
+    <i data-marca style="--marca-tam:2rem; display:block; margin-bottom:.5rem"></i>
+    <b>TP Scikit-learn<br>Inside Airbnb</b>
+    <span>Grupo 1 · Proyectos 1 y 4 · Defensa: jueves 26/11</span>
+  </div>
+  <nav id="nav">
+    <div class="riel-grupo">Antes de la defensa</div>
+    <a class="item" href="#evalua">Qué se evalúa</a>
+    <a class="item" href="#guion">Guion de la corrida</a>
+    <div class="riel-grupo">El proyecto</div>
+    <a class="item" href="#estructura">Estructura de carpetas</a>
+    <a class="item" href="#flujo">El flujo, paso a paso</a>
+    <a class="item" href="#datos">Los datos y la limpieza</a>
+    <a class="item" href="#modulos">Archivo por archivo</a>
+    <div class="riel-grupo">Los modelos</div>
+    <a class="item" href="#p1">Proyecto 1 · Regresión lineal</a>
+    <a class="item" href="#p4">Proyecto 4 · k-NN</a>
+    <a class="item" href="#metricas">Métricas, explicadas</a>
+    <a class="item" href="#tests">Tests y notebook</a>
+    <a class="item" href="#fallas">Si algo falla</a>
+    <a class="item" href="#github">Pasarlo a GitHub</a>
+    <div class="riel-grupo">Para el oral</div>
+    <a class="item" href="#preguntas">Preguntas de la cátedra</a>
+    <a class="item" href="#trampas">Preguntas trampa</a>
+    <a class="item" href="#checklist">Checklist del día</a>
+  </nav>
+  <div class="riel-pie"><button class="btn-tema" id="btn-tema" type="button">MODO OSCURO</button></div>
+</aside>
+
+<main class="lienzo">
+  <header class="portada">
+    <p class="cintillo">Python para Ciencia de Datos · TP de Scikit-learn · Biblia de defensa</p>
+    <h1>Cuánto cuesta una noche en Buenos Aires,<br><i>y cómo defenderlo</i></h1>
+    <p>Guía, documentación y banco de preguntas en un solo lugar. Explica qué hace el programa en cada
+      parte del flujo, en qué archivo y función vive cada paso, qué números salen en la corrida y cómo
+      se leen, y qué contestar si la cátedra pregunta. El código está en la carpeta
+      <code>tp-airbnb/</code> de este repositorio. Todos los números de esta página salen de una corrida
+      real con la extracción de Inside Airbnb del <b>23/09/2026</b>.</p>
+    <p>La nota es <b>individual</b> y cualquier integrante puede tener que contestar cualquier pregunta:
+      conviene leer la página entera, no solo «tu parte».</p>
+  </header>
+
+  <!-- ================================================================ -->
+  <section id="evalua">
+    <p class="eyebrow">Lo que dijo el profesor</p>
+    <h2>Qué se evalúa y dónde está cada cosa</h2>
+    <div class="tabla-caja"><table>
+      <tr><th>Criterio de la defensa</th><th>Cómo lo cubre el proyecto</th></tr>
+      <tr><td>Estructura de las carpetas en GitHub</td><td><code>data/raw</code>, <code>data/processed</code>, <code>notebooks/</code>, <code>src/</code>, <code>tests/</code>, <code>reports/figures</code>, <code>docs/</code>: la misma estructura de las clases 14 y 15. Ver <a href="#estructura">Estructura</a>.</td></tr>
+      <tr><td>Todos los documentos de un proyecto Python</td><td><code>README.md</code>, <code>requirements.txt</code>, <code>pyproject.toml</code>, <code>.gitignore</code>, archivos <code>.py</code> con docstrings, <code>data/raw/README.md</code> (de dónde salen los datos), <code>docs/informe.md</code> (resultados, modelo elegido y conclusiones), <code>docs/diccionario_de_datos.md</code>, <code>docs/cambios.md</code>, tests y un notebook ejecutado con sus salidas.</td></tr>
+      <tr><td>Nota individual · todos responden</td><td>Esta página. Las <a href="#preguntas">preguntas</a> están agrupadas por tema y cada respuesta dice en qué archivo mirar.</td></tr>
+      <tr><td>30 min de defensa + hasta 20 de preguntas</td><td><a href="#guion">Guion de la corrida</a> con tiempos sugeridos.</td></tr>
+      <tr><td>Corrida que valide el uso de los datos de Airbnb</td><td><code>python main.py</code> imprime primero la <b>evidencia del origen</b>: archivo, tamaño, cantidad de anuncios, fechas en que Inside Airbnb los relevó y la huella SHA-256, comparada con la del informe.</td></tr>
+    </table></div>
+    <div class="regla"><p><b>Frase para abrir:</b> «Resolvimos los proyectos 1 y 4. Los dos estiman el precio por noche, que es un número, así que son problemas de <b>regresión</b>. El 1 pide una regla explicable con una sola variable: regresión lineal simple. El 4 pide valorar un anuncio comparándolo con anuncios parecidos: k vecinos más cercanos para regresión, con las variables escaladas dentro de un Pipeline.»</p></div>
+  </section>
+
+  <!-- ================================================================ -->
+  <section id="guion">
+    <p class="eyebrow">Los 30 minutos</p>
+    <h2>Guion de la corrida en vivo</h2>
+    <p class="intro">Una propuesta de reparto. Lo importante es que cada bloque muestre <b>código + salida + interpretación</b>.</p>
+    <ol class="pasos">
+      <li><b>(3 min) El problema y la decisión de modelo.</b> La frase de arriba. Mostrar la tabla del README.</li>
+      <li><b>(4 min) La estructura en GitHub.</b> Recorrer las carpetas y decir para qué es cada una. Mostrar el <code>.gitignore</code> y explicar por qué <code>data/raw/listings.csv.gz</code> no está en el repositorio pero sí cómo obtenerlo.</li>
+      <li><b>(2 min) Preparar el entorno.</b> <code>python -m venv .venv</code>, activarlo, <code>python -m pip install -r requirements.txt</code>. Si ya está creado, solo mostrar que el prompt dice <code>(.venv)</code>.</li>
+      <li><b>(2 min) Tests.</b> <code>python -m pytest -v</code> → <b>27 passed</b>. Decir: «probamos la limpieza, la carga y los modelos con datos chicos donde el resultado se calcula de cabeza, y los dos proyectos de punta a punta con datos sintéticos».</li>
+      <li><b>(3 min) Validación de los datos.</b> <code>python main.py</code>. Detenerse en el primer bloque (ver abajo): 29.753 anuncios, 90 columnas, relevados del 25 al 27/09/2026, huella coincide → <i>es el archivo de Inside Airbnb Buenos Aires que usamos en el informe</i>.</li>
+      <li><b>(7 min) Proyecto 1.</b> Limpieza (cuántas filas se fueron y por qué), 75/25, intercepto y pendiente, métricas contra el modelo base, estimación para 4 huéspedes, tabla real vs. predicho y el gráfico con la recta.</li>
+      <li><b>(7 min) Proyecto 4.</b> Por qué k-NN y por qué Regressor, qué aprendió el escalador, métricas, los 5 vecinos del caso nuevo, el gráfico real vs. predicho y el hallazgo de los <b>gemelos</b> con el análisis de k.</li>
+      <li><b>(2 min) Conclusiones y limitaciones.</b> R² bajo = la capacidad sola explica poco; falta la ubicación. Asociación no es causalidad. Los números dependen de la extracción.</li>
+    </ol>
+    <h3>Lo primero que imprime la corrida</h3>
+<pre>======================================================================
+DATOS · Inside Airbnb · Buenos Aires · listings.csv.gz (Detailed Listings)
+======================================================================
+Archivo: listings.csv.gz (18.1 MB)
+Anuncios: 29,753 · Columnas: 90
+Relevado por Inside Airbnb entre 2026-09-25 y 2026-09-27 (extracción publicada el 2026-09-23)
+Dominio de los anuncios: airbnb.com
+SHA-256: c8db6461c06c0de3efbdda6821d6d28c9aef7dff3c6fde64ac4fd3661e15b78a
+Coincide con el archivo del informe: SÍ</pre>
+    <p><b>Qué decir:</b> «La huella SHA-256 es como una huella digital del archivo: si cambiara un solo byte, cambiaría entera. Coincide con la que anotamos en el README y en <code>config.py</code>, así que estos son exactamente los datos con los que sacamos los números del informe. <code>last_scraped</code> es una columna del propio archivo: dice qué día Inside Airbnb relevó cada anuncio.»</p>
+    <div class="peligro"><p><b>Antes del jueves:</b> probar la corrida en la computadora que se va a usar en la defensa, con el archivo ya descargado (no depender de internet en el aula). La corrida completa tarda menos de un minuto; la validación cruzada del proyecto 4 es lo más lento.</p></div>
+  </section>
+
+  <!-- ================================================================ -->
+  <section id="estructura">
+    <p class="eyebrow">Clases 14 y 15</p>
+    <h2>Estructura de carpetas y para qué sirve cada una</h2>
+<pre>tp-airbnb/
+├── README.md                  qué es, datos, cómo instalar, correr y probar, resultados
+├── main.py                    punto de entrada: valida los datos y corre los proyectos
+├── requirements.txt           dependencias con versión fija (pandas 2.2.3, scikit-learn 1.9.1…)
+├── pyproject.toml             nombre/versión del proyecto y configuración de pytest
+├── .gitignore                 .venv, cachés, .env, data/raw/*, salidas regenerables
+├── data/
+│   ├── raw/                   listings.csv.gz (NO versionado) + README con origen y huella
+│   └── processed/             p1_datos_limpios.csv, p4_datos_limpios.csv (regenerables)
+├── notebooks/
+│   └── 01_corrida_y_validacion.ipynb   notebook delgado: importa src y verifica con assert
+├── src/                       código reutilizable (paquete: tiene __init__.py)
+│   ├── config.py              constantes: rutas, URL, huella, semilla, test_size, k, casos nuevos
+│   ├── descargar_datos.py     baja el archivo oficial y verifica la huella
+│   ├── carga.py               lectura, DataFileError, control de columnas, evidencia del origen
+│   ├── limpieza.py            precio a número, faltantes, imposibles, extremos 1 %–99 %
+│   ├── evaluacion.py          MAE, RMSE, R², modelo base, tabla real vs. predicho
+│   ├── graficos.py            dispersión con recta y real vs. predicho
+│   ├── proyecto1_capacidad.py caso 1
+│   └── proyecto4_similares.py caso 4
+├── tests/                     conftest.py (fixtures) + test_carga, test_limpieza, test_modelos
+├── reports/                   *_metricas.txt, *_real_vs_predicho.csv, p1_medianas.csv,
+│   │                          p4_vecinos.csv, p4_comparacion_k.csv
+│   └── figures/               p1_dispersion_recta.png, p1_real_vs_predicho.png, p4_real_vs_predicho.png
+└── docs/
+    ├── informe.md             resultados, modelo elegido y conclusiones (viaja con el repositorio)
+    ├── diccionario_de_datos.md
+    └── cambios.md             registro de versiones</pre>
+    <div class="fichas">
+      <div class="ficha"><b>data/raw es inmutable</b><p>El archivo original nunca se pisa. Todo (datos limpios, métricas, gráficos) se regenera desde ahí con <code>python main.py</code>.</p></div>
+      <div class="ficha"><b>src/ + tests/</b><p>La lógica vive en funciones importables y probadas. Los scripts de proyecto solo encadenan esas funciones (principio DRY: la limpieza se escribe una vez y la usan los dos proyectos).</p></div>
+      <div class="ficha"><b>notebooks/ es narrativa</b><p>El notebook no tiene lógica propia: importa de <code>src</code>, verifica con <code>assert</code> y muestra. Así no hay «código escondido» en celdas corridas fuera de orden.</p></div>
+      <div class="ficha"><b>reports/ son artefactos</b><p>Salidas que se regeneran en cada corrida: por eso están en <code>.gitignore</code> (se puede cambiar si el grupo quiere mostrarlas en GitHub).</p></div>
+    </div>
+    <h3>Qué se versiona y qué no (y por qué)</h3>
+    <div class="tabla-caja"><table>
+      <tr><th>Sí va a Git</th><th>No va a Git</th></tr>
+      <tr><td>Código (<code>src/</code>, <code>main.py</code>), tests, notebook, README, <code>requirements.txt</code>, <code>pyproject.toml</code>, <code>.gitignore</code>, <code>data/raw/README.md</code>, docs.</td>
+          <td><code>.venv/</code> (se recrea con requirements), <code>__pycache__/</code>, <code>.pytest_cache/</code>, <code>.env</code> (secretos: este proyecto no usa ninguno), <code>data/raw/*</code> (18 MB, cambia con cada extracción, se descarga con un script), salidas regenerables.</td></tr>
+    </table></div>
+    <p>El proyecto <b>no usa credenciales</b>: Inside Airbnb es público y se descarga sin cuenta. No hay claves, tokens ni contraseñas en ningún archivo.</p>
+  </section>
+
+  <!-- ================================================================ -->
+  <section id="flujo">
+    <p class="eyebrow">Clase 12: el flujo de trabajo en ciencia de datos</p>
+    <h2>El flujo completo, paso a paso</h2>
+    <div class="flujo" role="img" aria-label="Flujo: carga, validación, limpieza, división, entrenamiento, predicción, evaluación, caso nuevo, informe">
+      <svg viewBox="0 0 760 210" xmlns="http://www.w3.org/2000/svg">
+        <defs><marker id="flecha" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="punta" d="M0,0 L10,5 L0,10 z"/></marker></defs>
+        <rect class="caja" x="5" y="20" width="135" height="58" rx="4"/><text x="72" y="45" text-anchor="middle">1 · Carga</text><text class="sub" x="72" y="63" text-anchor="middle">carga.py</text>
+        <rect class="caja" x="160" y="20" width="135" height="58" rx="4"/><text x="227" y="45" text-anchor="middle">2 · Validación</text><text class="sub" x="227" y="63" text-anchor="middle">columnas · huella</text>
+        <rect class="caja" x="315" y="20" width="135" height="58" rx="4"/><text x="382" y="45" text-anchor="middle">3 · Limpieza</text><text class="sub" x="382" y="63" text-anchor="middle">limpieza.py</text>
+        <rect class="caja clave" x="470" y="20" width="135" height="58" rx="4"/><text x="537" y="45" text-anchor="middle">4 · Train / test</text><text class="sub" x="537" y="63" text-anchor="middle">75 % / 25 % · seed 42</text>
+        <rect class="caja clave" x="625" y="20" width="130" height="58" rx="4"/><text x="690" y="45" text-anchor="middle">5 · fit</text><text class="sub" x="690" y="63" text-anchor="middle">solo con train</text>
+        <rect class="caja" x="625" y="130" width="130" height="58" rx="4"/><text x="690" y="155" text-anchor="middle">6 · predict</text><text class="sub" x="690" y="173" text-anchor="middle">sobre test</text>
+        <rect class="caja clave" x="470" y="130" width="135" height="58" rx="4"/><text x="537" y="155" text-anchor="middle">7 · Evaluación</text><text class="sub" x="537" y="173" text-anchor="middle">MAE · RMSE · R²</text>
+        <rect class="caja" x="315" y="130" width="135" height="58" rx="4"/><text x="382" y="155" text-anchor="middle">8 · Caso nuevo</text><text class="sub" x="382" y="173" text-anchor="middle">el de la consigna</text>
+        <rect class="caja" x="160" y="130" width="135" height="58" rx="4"/><text x="227" y="155" text-anchor="middle">9 · Gráficos</text><text class="sub" x="227" y="173" text-anchor="middle">graficos.py</text>
+        <rect class="caja" x="5" y="130" width="135" height="58" rx="4"/><text x="72" y="155" text-anchor="middle">10 · Informe</text><text class="sub" x="72" y="173" text-anchor="middle">reports/</text>
+        <path class="linea" d="M140,49 H158" marker-end="url(#flecha)"/><path class="linea" d="M295,49 H313" marker-end="url(#flecha)"/>
+        <path class="linea" d="M450,49 H468" marker-end="url(#flecha)"/><path class="linea" d="M605,49 H623" marker-end="url(#flecha)"/>
+        <path class="linea" d="M690,78 V128" marker-end="url(#flecha)"/><path class="linea" d="M625,159 H607" marker-end="url(#flecha)"/>
+        <path class="linea" d="M470,159 H452" marker-end="url(#flecha)"/><path class="linea" d="M315,159 H297" marker-end="url(#flecha)"/>
+        <path class="linea" d="M160,159 H142" marker-end="url(#flecha)"/>
+      </svg>
+    </div>
+    <ol class="pasos">
+      <li><b>Carga.</b> Lee <code>listings.csv.gz</code> comprimido con <code>pd.read_csv(…, compression="gzip", low_memory=False)</code>. Si el archivo no está, no sigue: lanza <code>DataFileError</code> con el comando para descargarlo («fallar pronto», clase 2.1). <code>main.py</code> carga <b>una sola vez</b> y le pasa el mismo DataFrame a los dos proyectos.
+        <span class="donde">src/carga.py · cargar_listings()</span></li>
+      <li><b>Validación.</b> Comprueba que existan las columnas del caso (Inside Airbnb puede cambiarlas entre extracciones) y calcula la huella SHA-256 para probar que es el archivo del informe.
+        <span class="donde">src/carga.py · validar_columnas(), resumir_origen(), calcular_sha256()</span></li>
+      <li><b>Limpieza.</b> Precio de texto a número, solo las columnas del caso, faltantes fuera, registros imposibles fuera, precios extremos fuera (percentiles 1 y 99). Devuelve los datos y un resumen con cuántas filas quedaron en cada paso. <a href="#datos">Detalle</a>.
+        <span class="donde">src/limpieza.py · preparar_datos()</span></li>
+      <li><b>División train/test.</b> <code>train_test_split(X, y, test_size=0.25, random_state=42)</code>. El 25 % queda guardado y el modelo no lo ve hasta la evaluación. <code>random_state=42</code> hace que la división sea siempre la misma: los números se pueden reproducir.
+        <span class="donde">src/proyecto1_capacidad.py y src/proyecto4_similares.py · ejecutar_proyecto…()</span></li>
+      <li><b>Entrenamiento (<code>fit</code>).</b> Solo con <code>X_train</code> e <code>y_train</code>. En el proyecto 1, la regresión calcula β0 y β1. En el 4, el Pipeline ajusta el escalador (media y desvío de cada variable) y k-NN guarda los anuncios de entrenamiento.
+        <span class="donde">entrenar_regresion_lineal() · crear_pipeline_knn().fit()</span></li>
+      <li><b>Predicción (<code>predict</code>).</b> Sobre <code>X_test</code>: anuncios que el modelo nunca vio. En el proyecto 4, el Pipeline escala <code>X_test</code> con la media y el desvío <i>de entrenamiento</i> antes de buscar vecinos.</li>
+      <li><b>Evaluación.</b> MAE, RMSE y R² en prueba, comparados con un <b>modelo base</b> que siempre predice el promedio (<code>DummyRegressor</code>) y con las métricas en entrenamiento (para ver sobreajuste).
+        <span class="donde">src/evaluacion.py · calcular_metricas(), evaluar_modelo_base()</span></li>
+      <li><b>Caso nuevo.</b> La estimación que pide cada consigna: 4 huéspedes (P1) y [4 huéspedes, 2 dormitorios, 3 camas, 2 noches] (P4). En P4 además se muestran los 5 vecinos usados.
+        <span class="donde">config.CASO_NUEVO_P1 / CASO_NUEVO_P4 · buscar_vecinos()</span></li>
+      <li><b>Gráficos.</b> Dispersión con la recta (P1) y real vs. estimado (P1 y P4), exportados en PNG.
+        <span class="donde">src/graficos.py</span></li>
+      <li><b>Informe.</b> Tabla real vs. predicho, métricas en texto y datos limpios en CSV.
+        <span class="donde">main.py · guardar_resultados()</span></li>
+    </ol>
+    <div class="regla"><p><b>La regla que atraviesa todo el flujo (clase 12):</b> todo lo que <i>aprende</i> algo de los datos (el escalador, el modelo) se ajusta <b>solo con entrenamiento</b>. Si el escalador aprendiera la media usando también la prueba, el modelo «vería» información del examen antes de rendirlo: eso es <b>fuga de información</b> y da métricas demasiado optimistas.</p></div>
+  </section>
+
+  <!-- ================================================================ -->
+  <section id="datos">
+    <p class="eyebrow">Clases 3, 4, 10 y 11</p>
+    <h2>Los datos y cada decisión de limpieza</h2>
+    <div class="fichas">
+      <div class="ficha dato"><span class="grande">29.753</span><p>anuncios de Buenos Aires, 90 columnas</p></div>
+      <div class="ficha dato"><span class="grande">ARS</span><p>pesos argentinos por noche, como texto: <code>"$106,393.00"</code></p></div>
+      <div class="ficha dato"><span class="grande">90 %</span><p>son viviendas completas (<i>Entire home/apt</i>)</p></div>
+    </div>
+    <h3>Cuántas filas quedan en cada paso</h3>
+    <div class="tabla-caja"><table>
+      <tr><th>Paso</th><th class="num">Proyecto 1</th><th class="num">Proyecto 4</th><th>Por qué</th></tr>
+      <tr><td>Archivo completo</td><td class="num">29.753</td><td class="num">29.753</td><td></td></tr>
+      <tr><td>Sin faltantes en las columnas del caso</td><td class="num">27.634</td><td class="num">27.143</td><td>Sin precio (2.119) no hay objetivo. P4 pierde más porque también exige <code>beds</code> (522 faltantes) y <code>bedrooms</code>.</td></tr>
+      <tr><td>Sin registros imposibles</td><td class="num">27.634</td><td class="num">27.143</td><td>Se controló y no apareció ninguno en este archivo (la regla queda por si otra extracción los trae).</td></tr>
+      <tr><td>Sin precios extremos (p1–p99)</td><td class="num">27.086</td><td class="num">26.599</td><td>Precios admitidos: de ≈ 26.900 a ≈ 899.000 ARS por noche.</td></tr>
+      <tr><td>Entrenamiento / prueba</td><td class="num">20.314 / 6.772</td><td class="num">19.949 / 6.650</td><td>75 % / 25 %.</td></tr>
+    </table></div>
+    <h3>Las decisiones, una por una</h3>
+    <div class="fichas">
+      <div class="ficha"><b>Precio a número</b><p>Se borra todo lo que no sea dígito, punto o signo (<code>str.replace(r"[^0-9.-]", "")</code>) y se convierte con <code>pd.to_numeric(errors="coerce")</code>: lo que no se puede convertir queda <code>NaN</code> en vez de romper el programa.</p></div>
+      <div class="ficha"><b>Faltantes solo en el caso</b><p><code>dropna()</code> se aplica después de quedarse con las columnas del caso. Hacerlo sobre las 90 columnas tiraría miles de anuncios por faltantes en columnas que no usamos.</p></div>
+      <div class="ficha"><b>Registros imposibles</b><p>Precio ≤ 0, 0 huéspedes, menos de 1 cama, dormitorios negativos, estadía mínima de 0 o de más de 365 noches (más de un año no es alquiler temporario). 0 dormitorios <i>sí</i> es válido: monoambiente.</p></div>
+      <div class="ficha"><b>Extremos del precio</b><p>Se quedan los precios entre el percentil 1 y el 99, la regla de la guía de la cátedra. El precio máximo del archivo era de 160 millones por noche: casi seguro un error de carga, y una regresión lineal se «tuerce» hacia esos puntos.</p></div>
+    </div>
+    <div class="peligro">
+      <p><b>Si preguntan «¿eliminar extremos no es maquillar los datos?»</b> (clase 11): un atípico no se borra solo porque un algoritmo lo marca. Acá: (1) la regla es la de la guía de la cátedra y está documentada; (2) se recorta solo el 1 % de cada punta, 548 anuncios de 27.634 en el proyecto 1; (3) los valores de arriba (decenas de millones por noche) no son verosímiles para un alquiler; (4) el resumen de limpieza deja trazado cuántas filas se fueron. Con otro objetivo (por ejemplo, detectar fraude), esos anuncios serían justamente lo interesante.</p>
+    </div>
+    <h3>Cómo es el precio (clase 10)</h3>
+    <p>Después de limpiar, el precio medio es ≈ 129.900 ARS y la mediana ≈ 106.400 ARS. <b>Media &gt; mediana</b> → distribución <b>asimétrica a la derecha</b> (pocos anuncios muy caros tiran la media hacia arriba). Por eso, en el informe, para describir «un precio típico» conviene la mediana.</p>
+  </section>
+
+  <!-- ================================================================ -->
+  <section id="modulos">
+    <p class="eyebrow">Para responder «¿qué hace esta función?»</p>
+    <h2>Archivo por archivo</h2>
+    <div class="tabla-caja"><table>
+      <tr><th>Archivo</th><th>Funciones</th><th>Qué hace</th></tr>
+      <tr><td><code>config.py</code></td><td>(solo constantes)</td><td>Rutas con <code>pathlib</code>, URL y fecha de la extracción, huella SHA-256, <code>TEST_SIZE=0.25</code>, <code>RANDOM_STATE=42</code>, cuantiles 0.01/0.99, predictores, <code>K_VECINOS=5</code>, <code>PESOS_KNN="distance"</code> y los casos nuevos. Un valor que se usa en varios lugares se define una sola vez.</td></tr>
+      <tr><td><code>carga.py</code></td><td><code>DataFileError</code>, <code>calcular_sha256</code>, <code>cargar_listings</code>, <code>validar_columnas</code>, <code>resumir_origen</code></td><td>Excepción propia de dominio; huella del archivo leída por bloques de 1 MB; lectura con manejo de errores (<code>raise … from exc</code> conserva la causa); control de columnas con diferencia de conjuntos; evidencia del origen.</td></tr>
+      <tr><td><code>limpieza.py</code></td><td><code>convertir_precio</code>, <code>filtrar_registros_validos</code>, <code>filtrar_extremos_precio</code>, <code>preparar_datos</code></td><td>Las reglas de <a href="#datos">limpieza</a>. Nunca modifica el DataFrame que recibe (trabaja sobre <code>.copy()</code>), y eso tiene un test.</td></tr>
+      <tr><td><code>evaluacion.py</code></td><td><code>calcular_metricas</code>, <code>evaluar_modelo_base</code>, <code>imprimir_metricas</code>, <code>tabla_real_vs_predicho</code></td><td>MAE, RMSE (<code>np.sqrt(mean_squared_error)</code>) y R²; el modelo base <code>DummyRegressor(strategy="mean")</code>; una sola función que imprime las métricas alineadas (la usan los dos proyectos); la tabla con columnas Real, Predicho y Error.</td></tr>
+      <tr><td><code>graficos.py</code></td><td><code>graficar_dispersion_recta</code>, <code>graficar_real_vs_predicho</code></td><td>Matplotlib con <code>fig, ax = plt.subplots()</code>; muestra aleatoria de 1.500 puntos con transparencia (con 27.000 sería una mancha); <code>savefig(dpi=150)</code> antes de cerrar. El módulo no elige el <i>backend</i> de Matplotlib: <code>main.py</code> fija <code>Agg</code> (dibuja en archivo, sin ventanas) y el notebook usa el suyo.</td></tr>
+      <tr><td><code>proyecto1_capacidad.py</code></td><td><code>entrenar_regresion_lineal</code>, <code>comparar_recta_con_medianas</code>, <code>ejecutar_proyecto1</code>, <code>imprimir_resultados_p1</code></td><td>El caso 1. <code>comparar_recta_con_medianas</code> arma la tabla «recta vs. precio mediano por capacidad». <a href="#p1">Detalle</a>.</td></tr>      <tr><td><code>proyecto4_similares.py</code></td><td><code>crear_pipeline_knn</code>, <code>buscar_vecinos</code>, <code>contar_gemelos</code>, <code>comparar_k_con_validacion_cruzada</code>, <code>resumir_gemelos_del_caso</code>, <code>ejecutar_proyecto4</code>, <code>imprimir_resultados_p4</code></td><td>El caso 4. <code>buscar_vecinos</code> usa <code>modelo[:-1]</code> (todos los pasos del Pipeline menos el último) para transformar el caso igual que en <code>predict</code>, así funciona con o sin escalador. <a href="#p4">Detalle</a>.</td></tr>
+      <tr><td><code>descargar_datos.py</code></td><td><code>descargar_listings</code></td><td>Baja el archivo oficial con <code>urllib</code> (biblioteca estándar) a un temporal <code>.part</code> y recién al terminar lo renombra: si se corta la conexión nunca queda un archivo a medias. Verifica la huella; <code>--forzar</code> lo vuelve a bajar.</td></tr>
+      <tr><td><code>main.py</code></td><td><code>mostrar_origen</code>, <code>guardar_resultados</code>, <code>main</code></td><td>Lee <code>--proyecto 1|4|todos</code> y <code>--rapido</code> con <code>argparse</code>, carga una vez, muestra el origen, corre los proyectos y guarda salidas: cada proyecto devuelve un <code>"resumen"</code> explícito que se guarda en <code>*_metricas.txt</code>. Si falta o está dañado el archivo, termina con código 1 y un mensaje claro.</td></tr>
+    </table></div>
+    <h3>Convenciones de código (clase 2)</h3>
+    <ul>
+      <li><b>PEP 8:</b> <code>snake_case</code> para funciones y variables, <code>CapWords</code> para la clase <code>DataFileError</code>, <code>MAYÚSCULAS</code> para constantes de <code>config.py</code>, 4 espacios, imports agrupados arriba.</li>
+      <li><b>Nombres con verbo</b> que dicen qué hace la función: <code>cargar_</code>, <code>validar_</code>, <code>filtrar_</code>, <code>calcular_</code>, <code>graficar_</code>, <code>ejecutar_</code>.</li>
+      <li><b>Docstrings</b> con <i>Parameters / Returns / Raises</i> (el formato de la clase 15: «contrato antes que implementación») y <b>anotaciones de tipo</b> (<code>-&gt; pd.DataFrame</code>).</li>
+      <li><b>Comentarios</b> al costado de cada línea importante, explicando el <i>para qué</i>.</li>
+      <li><code>if __name__ == "__main__":</code> en cada script: corre al ejecutarlo, no al importarlo.</li>
+    </ul>
+  </section>
+
+  <!-- ================================================================ -->
+  <section id="p1">
+    <p class="eyebrow">Proyecto 1 · clase 13</p>
+    <h2>Capacidad y precio: regresión lineal simple</h2>
+    <p class="intro"><b>Caso:</b> una regla «sencilla y explicable» para saber cuánto cambia el precio por noche cuando aumenta la cantidad máxima de huéspedes, usando <b>solo</b> <code>accommodates</code>.</p>
+    <h3>Por qué este modelo</h3>
+    <ul>
+      <li><b>¿Qué se predice?</b> Un precio: número continuo → <b>regresión</b> (no clasificación).</li>
+      <li><b>¿Con cuántas variables?</b> Una → <b>simple</b>.</li>
+      <li><b>¿Qué se necesita?</b> Una regla explicable → una recta, cuya pendiente responde directamente la pregunta.</li>
+    </ul>
+    <h3>El modelo entrenado</h3>
+    <div class="regla"><p style="font-family:var(--mono); font-size:1.05rem">precio ≈ 40.231 + 30.454 × huéspedes</p></div>
+    <ul>
+      <li><b>Pendiente β1 = 30.454 ARS:</b> en promedio, cada huésped más de capacidad se asocia con ≈ 30.454 pesos más por noche, dentro del rango observado (1 a 16 huéspedes).</li>
+      <li><b>Intercepto β0 = 40.231 ARS:</b> el valor de la recta cuando <code>accommodates = 0</code>. Matemáticamente necesario, pero <b>sin interpretación práctica</b>: no existe un alojamiento para 0 huéspedes (la clase 13 lo dice así).</li>
+      <li><b>Caso nuevo, 4 huéspedes:</b> 40.231 + 30.454 × 4 ≈ <b>162.046 ARS por noche</b>.</li>
+    </ul>
+    <h3>Métricas (prueba: 6.772 anuncios)</h3>
+    <div class="tabla-caja"><table>
+      <tr><th></th><th class="num">MAE</th><th class="num">RMSE</th><th class="num">R²</th></tr>
+      <tr><td>Regresión lineal · prueba</td><td class="num">48.485</td><td class="num">79.839</td><td class="num">0,261</td></tr>
+      <tr><td>Regresión lineal · entrenamiento</td><td class="num">48.450</td><td class="num">79.450</td><td class="num">0,254</td></tr>
+      <tr><td>Modelo base (siempre el promedio) · prueba</td><td class="num">57.818</td><td class="num">92.855</td><td class="num">0,000</td></tr>
+    </table></div>
+    <ul>
+      <li><b>MAE 48.485:</b> en promedio, la estimación se equivoca por unos 48.500 pesos por noche (para arriba o para abajo).</li>
+      <li><b>RMSE 79.839:</b> más alto que el MAE porque castiga más los errores grandes: hay anuncios caros que la recta no alcanza.</li>
+      <li><b>R² 0,261:</b> la capacidad explica alrededor del <b>26 %</b> de la variación del precio. El otro 74 % depende de cosas que el modelo no tiene: barrio, tipo y calidad del alojamiento, temporada, servicios.</li>
+      <li><b>Contra el modelo base:</b> el MAE baja de 57.818 a 48.485 (≈ 16 % menos error). La variable sirve, aunque explica poco.</li>
+      <li><b>Train ≈ test</b> (R² 0,254 vs. 0,261): no hay sobreajuste. Es lo esperable: una recta tiene solo 2 parámetros y no puede «memorizar» 20.000 anuncios.</li>
+    </ul>
+    <figure><img src="img/tp-airbnb/p1_dispersion_recta.png" alt="Diagrama de dispersión de huéspedes contra precio, con la recta de regresión en rojo." loading="lazy" width="1200" height="750"><figcaption>Muestra de 1.500 anuncios y la recta estimada. Los puntos se apilan en columnas porque <code>accommodates</code> es un número entero. Para cada capacidad hay muchísima dispersión vertical: por eso el R² es bajo.</figcaption></figure>
+    <h3>La recta contra los datos (precio mediano por capacidad)</h3>
+    <div class="tabla-caja"><table>
+      <tr><th class="num">Huéspedes</th><th class="num">Anuncios</th><th class="num">Mediana real</th><th class="num">Recta</th></tr>
+      <tr><td class="num">1</td><td class="num">1.114</td><td class="num">46.836</td><td class="num">70.685</td></tr>
+      <tr><td class="num">2</td><td class="num">13.258</td><td class="num">95.000</td><td class="num">101.138</td></tr>
+      <tr><td class="num">3</td><td class="num">4.772</td><td class="num">107.018</td><td class="num">131.592</td></tr>
+      <tr><td class="num">4</td><td class="num">5.499</td><td class="num">129.192</td><td class="num">162.046</td></tr>
+      <tr><td class="num">6</td><td class="num">830</td><td class="num">206.443</td><td class="num">222.953</td></tr>
+      <tr><td class="num">10</td><td class="num">61</td><td class="num">428.833</td><td class="num">344.769</td></tr>
+      <tr><td class="num">12</td><td class="num">32</td><td class="num">487.032</td><td class="num">405.676</td></tr>
+    </table></div>
+    <p>Hasta 9 huéspedes, la recta queda por encima de la mediana: la regresión lineal estima la <b>media</b> condicional, y en un precio asimétrico la media es mayor que la mediana. De 10 a 13 huéspedes pasa lo contrario: la recta se queda corta, porque los alojamientos muy grandes son pocos (61, 18, 32 y 4 anuncios) y casi no pesan en el ajuste. Casi la mitad de los anuncios son para 2 huéspedes. La corrida imprime esta tabla completa y la guarda en <code>reports/p1_medianas.csv</code>.</p>
+    <h3>Tabla real vs. predicho (primeras filas de prueba)</h3>
+<pre> accommodates      Real  Predicho     Error
+            4  70325.50  162046.0 -91720.50
+            3  85613.67  131592.0 -45978.33
+            2  78188.67  101138.0 -22949.33
+            2  95298.00  101138.0  -5840.00
+            2 146154.68  101138.0  45016.68</pre>
+    <p>Todos los anuncios con la misma capacidad reciben <b>la misma predicción</b>: con una sola variable, la recta no tiene forma de distinguirlos. Error = real − predicho; negativo = el modelo sobreestimó.</p>
+    <h3>Conclusión (3 a 5 líneas, como pide la consigna)</h3>
+    <div class="regla"><p>Elegimos regresión lineal simple porque el objetivo es numérico, hay un solo predictor y se pide una regla explicable. Cada huésped adicional se asocia con unos 30.500 pesos más por noche, y un alojamiento para 4 huéspedes se estima en unos 162.000 pesos. El modelo se equivoca en promedio unos 48.500 pesos y explica el 26 % de la variación del precio: mejora al promedio, pero la capacidad sola no alcanza para fijar un precio. Es una asociación, no una causa, y vale dentro del rango observado.</p></div>
+  </section>
+
+  <!-- ================================================================ -->
+  <section id="p4">
+    <p class="eyebrow">Proyecto 4 · clases 11, 12 y 13</p>
+    <h2>Alojamientos similares: k-NN para regresión</h2>
+    <p class="intro"><b>Caso:</b> valorar un anuncio nuevo buscando anuncios parecidos por capacidad, dormitorios, camas y noches mínimas, y promediando el precio de los más cercanos.</p>
+    <h3>Por qué este modelo</h3>
+    <ul>
+      <li>«Buscar los más parecidos y promediar su precio» <b>es</b> la definición de k vecinos más cercanos.</li>
+      <li>El precio es numérico → <code>KNeighborsRegressor</code>. <code>KNeighborsClassifier</code> (el de Iris en clase 13) se usaría si el objetivo fuera una categoría, por ejemplo «barato / medio / caro». La guía de la cátedra lo aclara explícitamente.</li>
+      <li>k-NN decide por <b>distancias</b>: hay que <b>escalar</b>. Sin escalar, <code>minimum_nights</code> (de 1 a 365) pesaría muchísimo más que <code>bedrooms</code> (de 0 a 10) solo por sus unidades.</li>
+      <li>El escalado va <b>dentro de un Pipeline</b>: así el escalador se ajusta solo con train y se aplica igual a test y al caso nuevo (sin fuga).</li>
+    </ul>
+<pre>Pipeline(steps=[
+    ("escalador", StandardScaler()),                                  # z = (x - media) / desvío
+    ("knn", KNeighborsRegressor(n_neighbors=5, weights="distance")),  # promedio ponderado de 5 vecinos
+])</pre>
+    <h3>Lo que aprendió el escalador (solo con train)</h3>
+    <div class="tabla-caja"><table>
+      <tr><th>Variable</th><th class="num">Media</th><th class="num">Desvío</th></tr>
+      <tr><td>accommodates</td><td class="num">2,95</td><td class="num">1,51</td></tr>
+      <tr><td>bedrooms</td><td class="num">1,14</td><td class="num">0,88</td></tr>
+      <tr><td>beds</td><td class="num">1,93</td><td class="num">1,48</td></tr>
+      <tr><td>minimum_nights</td><td class="num">4,08</td><td class="num">13,21</td></tr>
+    </table></div>
+    <p>Ejemplo: un anuncio con 4 huéspedes queda en z = (4 − 2,95) / 1,51 ≈ 0,70. Después de escalar, «un dormitorio de diferencia» y «una cama de diferencia» pesan parecido en la distancia.</p>
+    <p><b><code>weights="distance"</code></b> (como en la solución de la cátedra): cada vecino pesa según 1 / distancia, así el más cercano influye más. Si un vecino está a distancia 0, scikit-learn usa solo los vecinos a distancia 0, con el mismo peso.</p>
+    <h3>Métricas (prueba: 6.650 anuncios)</h3>
+    <div class="tabla-caja"><table>
+      <tr><th></th><th class="num">MAE</th><th class="num">RMSE</th><th class="num">R²</th></tr>
+      <tr><td>k-NN escalado, k=5 · prueba</td><td class="num">55.569</td><td class="num">85.465</td><td class="num">0,095</td></tr>
+      <tr><td>k-NN escalado, k=5 · entrenamiento</td><td class="num">49.833</td><td class="num">77.852</td><td class="num">0,297</td></tr>
+      <tr><td>k-NN sin escalar, k=5 · prueba (control)</td><td class="num">54.088</td><td class="num">83.871</td><td class="num">0,129</td></tr>
+      <tr><td>Modelo base (promedio) · prueba</td><td class="num">56.736</td><td class="num">89.883</td><td class="num">−0,001</td></tr>
+    </table></div>
+    <ul>
+      <li>Mejora poco al modelo base (RMSE 85.465 vs. 89.883) y explica ≈ 10 % de la variación en prueba.</li>
+      <li><b>Train (0,297) muy por encima de test (0,095): sobreajuste.</b> Con k=5 el modelo copia el ruido de 5 anuncios puntuales.</li>
+      <li>Escalar <b>no</b> mejoró en este caso. Abajo está la explicación, y es una de las preguntas más probables.</li>
+    </ul>
+    <h3>El hallazgo clave: los «gemelos»</h3>
+    <div class="fichas">
+      <div class="ficha dato"><span class="grande">1.171</span><p>combinaciones distintas de [huéspedes, dormitorios, camas, noches] entre 19.949 anuncios de entrenamiento</p></div>
+      <div class="ficha dato"><span class="grande">97 %</span><p>de los anuncios de prueba tiene al menos un <b>gemelo exacto</b> en entrenamiento (mismos 4 valores)</p></div>
+      <div class="ficha dato"><span class="grande">278</span><p>gemelos exactos tiene el caso nuevo [4, 2, 3, 2]</p></div>
+    </div>
+    <p>Las cuatro variables son números enteros chicos, así que muchísimos anuncios son idénticos en esas cuatro columnas. Consecuencias:</p>
+    <ul>
+      <li>Los 5 vecinos casi siempre están a <b>distancia 0</b>, escalado o no: por eso escalar cambia muy poco (la diferencia entre 85.465 y 83.871 es ruido de qué 5 gemelos tocaron).</li>
+      <li>Entre 278 gemelos empatados, k-NN se queda con 5 por un desempate interno (siempre los mismos, pero arbitrarios): <b>la estimación depende de cuáles 5 fueron</b>. Para el caso nuevo dio 115.463 ARS; el promedio de los 278 gemelos es ≈ 168.500 y la mediana ≈ 147.900.</li>
+      <li>Con un k mayor, el modelo promedia más anuncios parecidos y el ruido baja (siguiente tabla).</li>
+    </ul>
+    <h3>Los 5 vecinos del caso nuevo</h3>
+<pre>Ese caso tiene 278 gemelos exactos en train (precio medio 168,495 · mediano 147,913); k=5 usa 5 de ellos:
+ accommodates  bedrooms  beds  minimum_nights    precio  distancia
+            4       2.0   3.0             2.0  81470.53                 0.0
+            4       2.0   3.0             2.0  96315.33                 0.0
+            4       2.0   3.0             2.0 168170.00                 0.0
+            4       2.0   3.0             2.0 104469.33                 0.0
+            4       2.0   3.0             2.0 126892.00                 0.0
+Estimación: (81.471 + 96.315 + 168.170 + 104.469 + 126.892) / 5 ≈ 115.463 ARS</pre>
+    <h3>Análisis complementario: ¿qué pasa con otro k? (validación cruzada, solo train)</h3>
+    <div class="tabla-caja"><table>
+      <tr><th class="num">k</th><th class="num">RMSE val. · distance</th><th class="num">RMSE val. · uniform</th></tr>
+      <tr><td class="num">5</td><td class="num">86.005</td><td class="num">84.435</td></tr>
+      <tr><td class="num">15</td><td class="num">80.504</td><td class="num">78.514</td></tr>
+      <tr><td class="num">50</td><td class="num">79.186</td><td class="num">77.032</td></tr>
+      <tr><td class="num">100</td><td class="num">79.173</td><td class="num">77.222</td></tr>
+    </table></div>
+    <p>La validación cruzada parte el <b>entrenamiento</b> en 5 pedazos, entrena con 4 y evalúa en el quinto, rotando; la prueba sigue sin tocarse. El error baja mucho de k=5 a k=15 y se estabiliza alrededor de k=50; <code>uniform</code> anda un poco mejor que <code>distance</code> porque, con tantos empates a distancia 0, ponderar por distancia no agrega información. <b>El modelo del caso sigue siendo k=5 porque lo fija la consigna</b>; este análisis sirve para responder «¿por qué k=5?» y «¿cómo lo mejorarían?».</p>
+    <figure><img src="img/tp-airbnb/p4_real_vs_predicho.png" alt="Precio real contra precio estimado por k-NN; los puntos se alejan mucho de la diagonal." loading="lazy" width="900" height="900"><figcaption>Real (x) vs. estimado (y) en prueba. Las «franjas» horizontales son anuncios con las mismas 4 características que reciben estimaciones parecidas. Los anuncios caros quedan por debajo de la diagonal: el modelo los subestima.</figcaption></figure>
+    <h3>Conclusión</h3>
+    <div class="regla"><p>Elegimos k-NN para regresión porque el caso pide valorar un anuncio a partir de anuncios parecidos y el precio es numérico; las variables se escalan dentro de un Pipeline para que las distancias sean comparables y no haya fuga. Para [4 huéspedes, 2 dormitorios, 3 camas, 2 noches] estima unos 115.000 pesos por noche. Con k=5 el modelo apenas mejora al promedio (R² 0,10) y sobreajusta, porque estas cuatro variables dejan muchos anuncios idénticos y el promedio de 5 depende de cuáles tocan; con un k mayor el error de validación baja. Para estimar bien el precio hacen falta variables de ubicación y de calidad.</p></div>
+  </section>
+
+  <!-- ================================================================ -->
+  <section id="metricas">
+    <p class="eyebrow">Clase 13</p>
+    <h2>Métricas, explicadas sin fórmulas raras</h2>
+    <div class="fichas">
+      <div class="ficha"><b>MAE</b><p>Promedio de |real − predicho|. En pesos. «En promedio me equivoco por X.» Todos los errores pesan igual.</p></div>
+      <div class="ficha"><b>RMSE</b><p>√ promedio de (real − predicho)². En pesos. Al elevar al cuadrado, un error de 200.000 pesa 4 veces más que uno de 100.000. Siempre RMSE ≥ MAE; si la diferencia es grande, hay errores grandes.</p></div>
+      <div class="ficha"><b>R²</b><p>1 − (error del modelo / error de predecir siempre el promedio). 1 = perfecto; 0 = igual que el promedio; negativo = peor que el promedio. No tiene unidades.</p></div>
+      <div class="ficha"><b>Modelo base</b><p><code>DummyRegressor(strategy="mean")</code>: predice siempre el promedio de train. Su R² ≈ 0 por definición. «Una métrica sola no dice nada: hay que compararla con una línea base» (clase 13).</p></div>
+    </div>
+    <p><b>¿Por qué no accuracy ni matriz de confusión?</b> Son métricas de <b>clasificación</b> (aciertos de una etiqueta). Acá se predice un número: nunca se «acierta» exacto, se mide cuánto se aleja.</p>
+  </section>
+
+  <!-- ================================================================ -->
+  <section id="tests">
+    <p class="eyebrow">Clase 15</p>
+    <h2>Tests y notebook</h2>
+<pre>python -m pytest -v
+…
+tests/test_carga.py ...... · tests/test_flujo_completo.py ... · tests/test_limpieza.py ......... · tests/test_modelos.py .........
+============================= 27 passed in 2.11s ==============================</pre>
+    <div class="tabla-caja"><table>
+      <tr><th>Archivo</th><th>Qué prueba</th></tr>
+      <tr><td><code>conftest.py</code></td><td>Dos <b>fixtures</b>: <code>listings_ejemplo</code> (8 anuncios con precio como texto, uno sin precio, uno con precio 0, uno con 400 noches, uno con 0 huéspedes) y <code>datos_lineales</code> (precio = 20.000 + 30.000 × huéspedes exacto).</td></tr>
+      <tr><td><code>test_carga.py</code></td><td>Archivo inexistente → <code>DataFileError</code> con mensaje; lee un <code>.csv.gz</code> creado en una carpeta temporal (<code>tmp_path</code>); un <code>.gz</code> cortado (descarga interrumpida) da <code>DataFileError</code> y no un error crudo; columnas faltantes se informan por nombre; huella SHA-256 de un texto conocido.</td></tr>
+      <tr><td><code>test_limpieza.py</code></td><td>Conversión de precios (con <code>@pytest.mark.parametrize</code>: tres formatos en un test); texto inválido → NaN; registros imposibles fuera; cuantiles; conteos de cada paso; <b>la entrada no se modifica</b>; filtro por tipo de alojamiento.</td></tr>
+      <tr><td><code>test_modelos.py</code></td><td>La regresión recupera β0 = 20.000 y β1 = 30.000 de datos exactos; métricas con errores calculables a mano (MAE = 20, RMSE = √500); el Pipeline tiene <code>StandardScaler</code> y un <b>Regressor</b>; k-NN predice el promedio de sus vecinos; <code>buscar_vecinos</code> también funciona sin escalador; conteo de gemelos (de la prueba y del caso nuevo); columna Error.</td></tr>
+      <tr><td><code>test_flujo_completo.py</code></td><td><b>Integración</b>: corre <code>ejecutar_proyecto1</code> y <code>ejecutar_proyecto4</code> de punta a punta con 200 anuncios sintéticos (precio ≈ 30.000 + 25.000 × huéspedes + ruido), comprueba que la pendiente recuperada sea ≈ 25.000, que se guarden PNG, CSV y métricas (con <code>monkeypatch</code> redirige las carpetas de salida a una temporal) y que la descarga solo reemplace el archivo con <code>--forzar</code> (usa una URL <code>file://</code>, sin internet).</td></tr>
+    </table></div>
+    <p><b>Por qué datos chicos y no el archivo real:</b> los tests tienen que correr en un segundo, sin internet, y con resultados que se calculan de cabeza. Si un test fallara, se sabría exactamente qué regla se rompió (patrón <i>Arrange · Act · Assert</i>).</p>
+    <p><b>El notebook</b> <code>notebooks/01_corrida_y_validacion.ipynb</code> es «delgado» (clase 15): importa de <code>src</code>, verifica con <code>assert</code> (huella correcta, más de 20.000 filas, columnas presentes, pendiente positiva, k-NN mejor que el promedio) y corre los dos proyectos. Está guardado <b>ejecutado, con sus salidas</b>, así se ve el resultado al abrirlo en GitHub. Antes de mostrarlo en vivo: <i>Kernel → Restart &amp; Run All</i>.</p>
+  </section>
+
+  <!-- ================================================================ -->
+  <section id="fallas">
+    <p class="eyebrow">Plan B</p>
+    <h2>Si algo falla en la corrida en vivo</h2>
+    <div class="tabla-caja"><table>
+      <tr><th>Lo que aparece</th><th>Qué hacer</th></tr>
+      <tr><td><code>ModuleNotFoundError: No module named 'pandas'</code> (o sklearn)</td><td>No está activado el entorno: <code>.venv\Scripts\activate</code> (Windows) o <code>source .venv/bin/activate</code>, y <code>python -m pip install -r requirements.txt</code>.</td></tr>
+      <tr><td><code>ModuleNotFoundError: No module named 'src'</code></td><td>Se está ejecutando desde otra carpeta: hay que pararse en <code>tp-airbnb/</code> y correr <code>python main.py</code> (o <code>python -m pytest</code>).</td></tr>
+      <tr><td>PowerShell no deja ejecutar <code>Activate.ps1</code></td><td>Usar CMD con <code>.venv\Scripts\activate.bat</code>. No cambiar políticas de la máquina del aula.</td></tr>
+      <tr><td><code>ERROR: No se encontró …listings.csv.gz</code></td><td><code>python -m src.descargar_datos</code> (necesita internet). Por eso conviene llevar el archivo ya descargado.</td></tr>
+      <tr><td><code>ERROR: No se pudo leer listings.csv.gz (¿descarga incompleta?)</code></td><td>El archivo quedó cortado: <code>python -m src.descargar_datos --forzar</code>.</td></tr>
+      <tr><td>«Coincide con el archivo del informe: NO»</td><td>Es otra extracción o el archivo está dañado: los números van a diferir de esta página. Probar con <code>--forzar</code>; si Inside Airbnb ya publicó otra fecha, explicarlo (por eso guardamos la huella).</td></tr>
+      <tr><td>La corrida tarda demasiado</td><td><code>python main.py --rapido</code> saltea el análisis de k (lo más lento) y conserva todo lo que pide la consigna; la tabla de k ya está en <code>reports/p4_comparacion_k.csv</code>.</td></tr>
+      <tr><td>No anda el proyector o la terminal</td><td>Mostrar el notebook ya ejecutado o <code>reports/corrida_completa.txt</code> y las imágenes de <code>reports/figures/</code>.</td></tr>
+    </table></div>
+  </section>
+
+  <!-- ================================================================ -->
+  <section id="github">
+    <p class="eyebrow">Clase 14 · cuando el grupo lo decida</p>
+    <h2>Pasarlo a un repositorio de GitHub</h2>
+    <p class="intro">Hoy la carpeta vive dentro del sitio de apuntes. Para la defensa conviene un repositorio propio del grupo con esta misma estructura: se copia <b>solo la carpeta <code>tp-airbnb/</code></b> (esta página queda en el sitio; lo que la cátedra necesita leer en GitHub ya está en <code>README.md</code> y <code>docs/informe.md</code>).</p>
+<pre>cd tp-airbnb
+git init
+git branch -M main
+git status                      # revisar: NO debe aparecer data/raw/listings.csv.gz ni .venv
+git add .
+git commit -m "chore: estructura inicial del TP de scikit-learn"
+git remote add origin &lt;URL_DEL_REPOSITORIO&gt;
+git push -u origin main
+
+# trabajo en equipo: una rama por tarea + pull request revisado
+git switch -c feature/proyecto-4
+git add src/proyecto4_similares.py
+git commit -m "feat: agrega análisis de k con validación cruzada"
+git push -u origin feature/proyecto-4
+
+# al entregar: etiqueta anotada para identificar la versión defendida
+git tag -a v1.0 -m "Versión defendida el 26/11"
+git push origin v1.0</pre>
+    <ul>
+      <li><b>Antes del primer push:</b> <code>git check-ignore -v data/raw/listings.csv.gz</code> tiene que mostrar la regla del <code>.gitignore</code>.</li>
+      <li><b>Mensajes de commit</b> con verbo y propósito (<code>feat:</code>, <code>fix:</code>, <code>docs:</code>, <code>test:</code>, <code>chore:</code>), no «cambios varios».</li>
+      <li><b>Git ≠ GitHub:</b> Git guarda la historia en la computadora; GitHub aloja el remoto y agrega pull requests, revisión y permisos.</li>
+    </ul>
+  </section>
+
+  <!-- ================================================================ -->
+  <section id="preguntas">
+    <p class="eyebrow">Banco de preguntas</p>
+    <h2>Preguntas probables de la cátedra</h2>
+    <p class="intro">Respuestas cortas, para decir en voz alta. Entre paréntesis, dónde mirar.</p>
+
+    <h3>El problema y los modelos</h3>
+    <details class="qa"><summary><span class="etq">modelo</span>¿Por qué regresión y no clasificación?</summary><div><p>Porque el objetivo es el precio, un número continuo. Clasificación predice etiquetas (compra / no compra, especie de flor). Si hubiéramos convertido el precio en «barato / medio / caro», sería clasificación.</p></div></details>
+    <details class="qa"><summary><span class="etq">modelo</span>¿Por qué regresión lineal en el proyecto 1?</summary><div><p>Un solo predictor, objetivo numérico y se pide una regla explicable: la pendiente dice exactamente cuánto suma cada huésped. Es el modelo inicial que la clase 13 recomienda para un objetivo numérico.</p></div></details>
+    <details class="qa"><summary><span class="etq">modelo</span>¿Por qué KNeighborsRegressor y no KNeighborsClassifier?</summary><div><p>Classifier vota la clase más frecuente entre los vecinos; Regressor promedia sus valores numéricos. Como el precio es un número, promediamos. Classifier serviría si el objetivo fuera una categoría.</p></div></details>
+    <details class="qa"><summary><span class="etq">modelo</span>¿Qué significa la pendiente? ¿Y el intercepto?</summary><div><p>Pendiente 30.454: cada huésped más de capacidad se asocia con 30.454 pesos más por noche, en promedio y dentro del rango observado. Intercepto 40.231: el valor de la recta con 0 huéspedes; es necesario para la recta pero no tiene sentido práctico. (<code>modelo.coef_[0]</code>, <code>modelo.intercept_</code>)</p></div></details>
+    <details class="qa"><summary><span class="etq">modelo</span>¿Cómo «aprende» k-NN? ¿Qué hace fit?</summary><div><p>k-NN no calcula coeficientes: en <code>fit</code> guarda los ejemplos de entrenamiento (y el Pipeline ajusta el escalador). En <code>predict</code> calcula la distancia del caso a todos los anuncios guardados, toma los 5 más cercanos y promedia su precio.</p></div></details>
+    <details class="qa"><summary><span class="etq">modelo</span>¿Qué distancia usa k-NN?</summary><div><p>Por defecto, la euclídea (la «distancia en línea recta»: raíz de la suma de las diferencias al cuadrado), calculada sobre las variables ya escaladas.</p></div></details>
+    <details class="qa"><summary><span class="etq">modelo</span>¿Qué hace weights="distance"?</summary><div><p>Pondera cada vecino por 1 / distancia: el más parecido pesa más. Con distancia 0, scikit-learn usa solo los vecinos idénticos con igual peso. Lo dejamos así porque es lo que usa la solución de la cátedra; la validación cruzada muestra que <code>uniform</code> anda un poco mejor con estos datos.</p></div></details>
+
+    <details class="qa"><summary><span class="etq">modelo</span>¿Qué es un Pipeline y qué ganan con él?</summary><div><p>Una cadena de pasos que se comporta como un solo modelo: <code>fit</code> ajusta cada paso en orden (primero el escalador, después k-NN) y <code>predict</code> aplica los mismos pasos a los datos nuevos. Garantiza que el escalado se aprenda solo con train, que test y el caso nuevo se transformen igual, y deja el flujo listo para validación cruzada (clases 12 y 13).</p></div></details>
+    <details class="qa"><summary><span class="etq">modelo</span>¿Cómo calcula la regresión lineal la recta?</summary><div><p>Por mínimos cuadrados: elige β0 y β1 que hacen mínima la suma de (real − recta)² en los datos de entrenamiento. Eso es lo que hace <code>LinearRegression().fit()</code>.</p></div></details>
+    <details class="qa"><summary><span class="etq">modelo</span>¿Para qué muestran los 5 vecinos?</summary><div><p>Para explicar la estimación: k-NN no tiene coeficientes, su «explicación» son los anuncios en los que se basó. Ahí se ve que los 5 son idénticos al caso (distancia 0) y que sus precios van de 81.000 a 168.000.</p></div></details>
+
+    <h3>Escalado y fuga de información</h3>
+    <details class="qa"><summary><span class="etq">escala</span>¿Por qué hay que escalar en k-NN?</summary><div><p>Porque decide por distancias, y la distancia suma diferencias de todas las variables. Sin escalar, una diferencia de 30 noches mínimas pesaría 30 veces más que un dormitorio, solo por las unidades. StandardScaler deja cada variable con media 0 y desvío 1.</p></div></details>
+    <details class="qa"><summary><span class="etq">escala</span>Entonces, ¿por qué sin escalar les dio parecido o un poco mejor?</summary><div><p>Porque el 97 % de los anuncios de prueba tiene un gemelo exacto en entrenamiento: los 5 vecinos están a distancia 0 y la escala no cambia quién está a distancia 0. La diferencia entre las dos versiones es ruido de qué gemelos tocaron. Escalar sigue siendo lo correcto: en un anuncio sin gemelos, sin escalar, las noches mínimas decidirían casi solas quién es «parecido».</p></div></details>
+    <details class="qa"><summary><span class="etq">escala</span>¿Por qué el escalado está dentro de un Pipeline?</summary><div><p>Para que <code>fit</code> ajuste el escalador solo con train y <code>predict</code> aplique esa misma media y desvío a test y al caso nuevo. Evita escalar todo junto antes de dividir (fuga) y evita olvidarse de escalar el caso nuevo.</p></div></details>
+    <details class="qa"><summary><span class="etq">escala</span>¿Qué es la fuga de información?</summary><div><p>Que el modelo use, al entrenar, información de los datos con los que después se lo evalúa. Por ejemplo, escalar con la media de todo el dataset antes de dividir. Las métricas salen demasiado optimistas.</p></div></details>
+    <details class="qa"><summary><span class="etq">escala</span>¿Escalaron en el proyecto 1?</summary><div><p>No hace falta: con una sola variable, escalar no cambia las predicciones de una regresión lineal, solo la escala de los coeficientes; y dejar <code>accommodates</code> en huéspedes hace que la pendiente se lea en «pesos por huésped», que es lo que pide el caso.</p></div></details>
+
+    <h3>División y evaluación</h3>
+    <details class="qa"><summary><span class="etq">eval</span>¿Para qué separan train y test?</summary><div><p>Para medir el modelo con anuncios que no vio al entrenar, como si fueran anuncios nuevos. Evaluar sobre train da una visión demasiado optimista.</p></div></details>
+    <details class="qa"><summary><span class="etq">eval</span>¿Qué hace random_state=42?</summary><div><p>Fija la semilla del mezclado: la división 75/25 es siempre la misma y los números se pueden reproducir. 42 es una convención; cualquier número fijo sirve.</p></div></details>
+    <details class="qa"><summary><span class="etq">eval</span>¿Por qué no usaron stratify?</summary><div><p><code>stratify</code> mantiene la proporción de cada clase en train y test: se usa en clasificación (Iris, clase 12). En regresión no hay clases.</p></div></details>
+    <details class="qa"><summary><span class="etq">eval</span>¿El modelo sobreajusta?</summary><div><p>Proyecto 1: no (R² train 0,254 ≈ test 0,261). Proyecto 4: sí (train 0,297 vs. test 0,095), porque con k=5 promedia muy pocos anuncios y copia su ruido. Con k mayor el error de validación baja.</p></div></details>
+    <details class="qa"><summary><span class="etq">eval</span>¿Qué es la validación cruzada y por qué la usaron solo con train?</summary><div><p>Parte train en 5 pedazos, entrena con 4 y evalúa con el quinto, cinco veces, y promedia. Sirve para comparar configuraciones (k, pesos) sin tocar test. Si eligiéramos k mirando test, test dejaría de ser «datos nuevos».</p></div></details>
+    <details class="qa"><summary><span class="etq">eval</span>Un R² de 0,26 (o de 0,10), ¿no es malo?</summary><div><p>Es bajo, y es una conclusión válida: la capacidad (o capacidad + dormitorios + camas + noches) explica una parte chica del precio. El programa está bien; lo que falta son variables (barrio, latitud/longitud, tipo de alojamiento, reseñas, servicios, temporada). Los dos modelos mejoran al promedio.</p></div></details>
+    <details class="qa"><summary><span class="etq">eval</span>¿Qué relación hay entre el R² y la correlación?</summary><div><p>En una regresión lineal simple, R² es la correlación al cuadrado. La correlación entre huéspedes y precio en los datos limpios es ≈ 0,505, y 0,505² ≈ 0,255: prácticamente el R² del proyecto 1 (0,254 en entrenamiento, 0,261 en prueba). Una correlación «moderada» explica solo una cuarta parte de la variación.</p></div></details>
+    <details class="qa"><summary><span class="etq">eval</span>¿Qué es el modelo base y por qué lo usan?</summary><div><p><code>DummyRegressor(strategy="mean")</code>: predice para todos el precio promedio de train, sin mirar ninguna variable. Es la vara mínima: si un modelo no le gana, no sirve. Los dos le ganan (P1 claramente, P4 por poco).</p></div></details>
+    <details class="qa"><summary><span class="etq">eval</span>¿Por qué el RMSE es mucho mayor que el MAE?</summary><div><p>Porque hay errores grandes: anuncios caros que el modelo subestima. El RMSE eleva cada error al cuadrado y los grandes pesan mucho más.</p></div></details>
+
+    <h3>Datos y limpieza</h3>
+    <details class="qa"><summary><span class="etq">datos</span>¿Cómo demuestran que usaron los datos de Inside Airbnb?</summary><div><p>La corrida muestra el archivo, sus 29.753 anuncios y 90 columnas, las fechas de relevamiento de la propia columna <code>last_scraped</code> y la huella SHA-256, que coincide con la anotada en el README y en <code>config.py</code>. <code>descargar_datos.py</code> tiene la URL oficial.</p></div></details>
+    <details class="qa"><summary><span class="etq">datos</span>¿Por qué no subieron el CSV a GitHub?</summary><div><p>Pesa 18 MB, cada extracción es distinta y los datos se pueden volver a bajar del sitio oficial: se versiona el script y la huella, no el dato. Es la práctica de la clase 14 («versionar la referencia al dato, no el dato»).</p></div></details>
+    <details class="qa"><summary><span class="etq">datos</span>¿Cómo convirtieron el precio?</summary><div><p>Venía como texto, <code>"$106,393.00"</code>. Una expresión regular borra todo lo que no es dígito, punto o signo y <code>pd.to_numeric(errors="coerce")</code> lo pasa a número; lo inválido queda NaN y se descarta.</p></div></details>
+    <details class="qa"><summary><span class="etq">datos</span>¿Por qué eliminaron faltantes y no los imputaron?</summary><div><p>Faltaba sobre todo el precio, que es el objetivo: no se puede entrenar ni evaluar sin él, e inventarlo (por ejemplo, con la mediana) agregaría precios falsos. En los predictores faltaban pocos valores (13 en dormitorios, 522 en camas sobre casi 30.000). La consigna pide eliminarlos.</p></div></details>
+    <details class="qa"><summary><span class="etq">datos</span>¿Por qué el percentil 1 y 99?</summary><div><p>Es la regla de la guía de la cátedra. Hay precios de decenas de millones por noche, casi seguro errores, que tuercen la recta. Se pierde el 2 % de los anuncios y queda documentado en el resumen de limpieza. Ver el recuadro «¿no es maquillar?» en <a href="#datos">Datos</a>.</p></div></details>
+    <details class="qa"><summary><span class="etq">datos</span>¿Calcular los percentiles con todo el dataset no es fuga?</summary><div><p>Es un filtro de calidad del objetivo, no una transformación que el modelo aprende y aplica a los predictores; es lo que hace la solución de la cátedra. Siendo estrictos, se podrían calcular los límites solo con train y aplicarlos a test; con 27.000 anuncios, los límites casi no cambiarían.</p></div></details>
+    <details class="qa"><summary><span class="etq">datos</span>¿En qué moneda está el precio?</summary><div><p>Pesos argentinos por noche (la extracción de Buenos Aires publica precios en ARS). Es alquiler temporario, no precio de compraventa.</p></div></details>
+
+    <h3>Código, estructura y testing</h3>
+    <details class="qa"><summary><span class="etq">código</span>¿Para qué sirve config.py?</summary><div><p>Para tener en un solo lugar los valores que se usan en varios archivos: rutas, semilla, test_size, k, casos nuevos. Si cambia algo, se cambia una vez (DRY).</p></div></details>
+    <details class="qa"><summary><span class="etq">código</span>¿Qué es DataFileError y por qué «raise … from exc»?</summary><div><p>Una excepción propia del proyecto: convierte errores técnicos (archivo inexistente, gzip roto) en un mensaje que se entiende. <code>from exc</code> conserva el error original como causa, así no se pierde el traceback. Es el patrón de la clase 2.1.</p></div></details>
+    <details class="qa"><summary><span class="etq">código</span>¿Por qué las funciones trabajan sobre .copy()?</summary><div><p>Para no modificar el DataFrame que reciben: quien llama sigue teniendo sus datos intactos. Hay un test que lo verifica.</p></div></details>
+    <details class="qa"><summary><span class="etq">código</span>¿Para qué está if __name__ == "__main__"?</summary><div><p>Para que el código de abajo corra solo cuando se ejecuta el archivo (<code>python main.py</code>) y no cuando otro archivo lo importa (por ejemplo, los tests).</p></div></details>
+    <details class="qa"><summary><span class="etq">tests</span>¿Qué es una fixture?</summary><div><p>Una función con <code>@pytest.fixture</code> que prepara datos para los tests. Cada test que la pide como parámetro recibe una copia nueva: no se repite la construcción de datos en cada test.</p></div></details>
+    <details class="qa"><summary><span class="etq">tests</span>¿Pytest o unittest? ¿Por qué pytest?</summary><div><p>Pytest: funciones simples con <code>assert</code>, fixtures y parametrización. Unittest viene con Python y usa clases con <code>setUp</code> y <code>assertEqual</code>. Elegimos pytest por legibilidad, como recomienda la clase 15.</p></div></details>
+    <details class="qa"><summary><span class="etq">entorno</span>¿Qué es el entorno virtual y por qué no está en el repo?</summary><div><p>Una instalación de Python aislada para el proyecto, con sus versiones de librerías. No se sube porque es pesada y depende de cada computadora: cada uno la recrea con <code>pip install -r requirements.txt</code>, que sí está versionado.</p></div></details>
+    <details class="qa"><summary><span class="etq">entorno</span>¿Por qué las versiones fijas en requirements.txt?</summary><div><p>Para que cualquiera obtenga los mismos resultados: otra versión de scikit-learn o pandas podría cambiar detalles (por ejemplo, el desempate de vecinos o la interpolación de cuantiles).</p></div></details>
+  </section>
+
+  <!-- ================================================================ -->
+  <section id="trampas">
+    <p class="eyebrow">Para no caer</p>
+    <h2>Preguntas trampa</h2>
+    <details class="qa"><summary><span class="etq">trampa</span>«Entonces, si agrego un huésped, ¿el precio sube 30.454?»</summary><div><p>No necesariamente. Es una <b>asociación</b> observada entre anuncios distintos, no el efecto de agregar una cama a un mismo departamento. Los alojamientos para más gente suelen ser más grandes, estar en otras zonas, etc. Para hablar de causa haría falta otro diseño.</p></div></details>
+    <details class="qa"><summary><span class="etq">trampa</span>«Estimen el precio para 30 huéspedes.»</summary><div><p>La recta da un número (≈ 954.000), pero está <b>fuera del rango observado</b> (1 a 16 huéspedes): sería extrapolar, y la clase 13 lo marca como error frecuente.</p></div></details>
+    <details class="qa"><summary><span class="etq">trampa</span>«¿Por qué no usaron accuracy?»</summary><div><p>Accuracy es de clasificación: proporción de etiquetas acertadas. En regresión se mide la distancia al valor real: MAE, RMSE, R².</p></div></details>
+    <details class="qa"><summary><span class="etq">trampa</span>«Si corro el programa con otro archivo, ¿me da lo mismo?»</summary><div><p>No: Inside Airbnb publica extracciones nuevas y los precios cambian. Por eso guardamos la fecha y la huella del archivo, y la corrida avisa si la huella no coincide.</p></div></details>
+    <details class="qa"><summary><span class="etq">trampa</span>«¿k=5 es el mejor k?»</summary><div><p>No: lo fija la consigna. Con validación cruzada sobre train, el error baja hasta k≈50 (RMSE de validación 86.005 → 79.186 con <code>distance</code>, 77.032 con <code>uniform</code>). Si pudiéramos elegir, tomaríamos un k más grande, elegido con validación cruzada y confirmado una sola vez en test.</p></div></details>
+    <details class="qa"><summary><span class="etq">trampa</span>«Si corro dos veces, ¿k-NN da lo mismo?»</summary><div><p>Sí: la división es fija (<code>random_state=42</code>) y k-NN no tiene azar. Con empates, el desempate interno también es determinístico: mismos datos, mismos vecinos.</p></div></details>
+    <details class="qa"><summary><span class="etq">trampa</span>«¿El R² negativo del modelo base es un error?»</summary><div><p>No: el modelo base predice el promedio de <b>train</b> y se evalúa en <b>test</b>, cuyo promedio es apenas distinto. Por eso da ≈ 0 (−0,000036 en P1, −0,001 en P4).</p></div></details>
+    <details class="qa"><summary><span class="etq">trampa</span>«¿Por qué el gráfico muestra 1.500 puntos si hay 27.000?»</summary><div><p>Es una muestra aleatoria reproducible (<code>random_state=42</code>) solo para que el gráfico se pueda leer; el modelo se entrenó con los 20.314 de train.</p></div></details>
+  </section>
+
+  <!-- ================================================================ -->
+  <section id="checklist">
+    <p class="eyebrow">Jueves 26/11</p>
+    <h2>Checklist del día</h2>
+    <ul class="check">
+      <li>Repositorio de GitHub con la estructura de esta página; <code>data/raw/listings.csv.gz</code> NO subido.</li>
+      <li>README con los nombres de los integrantes completos.</li>
+      <li>En la computadora de la defensa: <code>.venv</code> creado, <code>requirements.txt</code> instalado y el archivo ya en <code>data/raw/</code> (no depender del wifi).</li>
+      <li><code>python -m pytest -v</code> → 27 passed.</li>
+      <li><code>python main.py</code> corre de punta a punta y la huella dice «SÍ».</li>
+      <li>Notebook: <i>Restart &amp; Run All</i> sin errores.</li>
+      <li>Cada integrante puede explicar: por qué regresión, por qué cada modelo, qué es la fuga, por qué escalar, qué dicen MAE/RMSE/R², los gemelos y por qué no se sube el CSV.</li>
+      <li>Tener abiertos los gráficos de <code>reports/figures/</code> por si la proyección falla.</li>
+    </ul>
+  </section>
+</main>
+</div>
+<script>
+(function(){
+  var raiz = document.documentElement, btn = document.getElementById("btn-tema");
+  function aplicar(t){ raiz.setAttribute("data-tema", t); btn.textContent = t === "oscuro" ? "MODO CLARO" : "MODO OSCURO"; try{ localStorage.setItem("ia-tema", t); }catch(e){} }
+  var g = null; try{ g = localStorage.getItem("ia-tema"); }catch(e){}
+  if(!g) g = (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) ? "oscuro" : "claro";
+  aplicar(g);
+  btn.addEventListener("click", function(){ aplicar(raiz.getAttribute("data-tema") === "oscuro" ? "claro" : "oscuro"); });
+
+  // Marca en el riel la sección visible
+  var enlaces = Array.prototype.slice.call(document.querySelectorAll("#nav a.item"));
+  if ("IntersectionObserver" in window) {
+    var obs = new IntersectionObserver(function(entradas){
+      entradas.forEach(function(e){
+        if (!e.isIntersecting) return;
+        enlaces.forEach(function(a){ a.classList.toggle("activo", a.getAttribute("href") === "#" + e.target.id); });
+      });
+    }, {rootMargin: "-20% 0px -70% 0px"});
+    document.querySelectorAll("main section[id]").forEach(function(s){ obs.observe(s); });
+  }
+})();
+</script>
+</body>
+</html>
