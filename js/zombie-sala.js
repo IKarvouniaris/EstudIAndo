@@ -382,6 +382,19 @@
     finSala.appendChild(el("h2", "", terminada ? "Cómo quedó la sala" : "La partida sigue: así van los demás"));
     if (terminada && partida.fin.titulo) finSala.appendChild(el("p", "nota-sala", partida.fin.titulo + "."));
     var filas = terminada ? partida.fin.tabla : tabla();
+    // Podio: al terminar, los tres primeros en escalones (2.º, 1.º, 3.º). La lista completa queda abajo.
+    if (terminada && filas.length >= 2) {
+      var podio = el("div", "podio");
+      [1, 0, 2].forEach(function (pos) {
+        var r = filas[pos]; if (!r) return;
+        var c = el("div", "escalon p" + (pos + 1) + (r.uid === yo.uid ? " yo" : ""));
+        c.appendChild(el("span", "quien", r.nombre + (r.uid === yo.uid ? " (vos)" : "")));
+        c.appendChild(el("small", "", r.aciertos + (r.aciertos === 1 ? " acierto" : " aciertos")));
+        c.appendChild(el("b", "", (pos + 1) + ".º"));
+        podio.appendChild(c);
+      });
+      finSala.appendChild(podio);
+    }
     var ol = el("ol", "posiciones");
     filas.forEach(function (r, i) {
       var li = el("li", r.uid === yo.uid ? "yo" : "");
