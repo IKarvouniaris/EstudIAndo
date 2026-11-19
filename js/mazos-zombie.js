@@ -126,5 +126,30 @@
     });
   }
 
+  /* Python para Ciencia de Datos, 2.º parcial: un nivel por clase (10 a 15), cuatro opciones por pregunta
+     (js/zombie-python.js). «clase» enlaza con python.html#cN. Se mide con node tools/medir_zombie_python.js. */
+  var py = (window.NIVELES_ZOMBIE_PYTHON || []).slice().sort(function (a, b) { return a.orden - b.orden; });
+  if (py.length) {
+    MAZOS.push({
+      id: "python",
+      materia: "Python para Ciencia de Datos",
+      detalle: "2.º parcial · clases 10 a 15",
+      apunte: "python.html",
+      volver: "python.html#c16",
+      niveles: py.map(function (n) {
+        return {
+          titulo: n.titulo,
+          clase: n.clase,
+          grupos: [{
+            caso: null,
+            preguntas: n.preguntas.map(function (p) {
+              return { q: p.q, ops: p.ops.slice(), ok: 0, porque: p.porque, clase: n.clase, tema: p.tema };
+            })
+          }]
+        };
+      })
+    });
+  }
+
   window.MAZOS_ZOMBIE = MAZOS;
 })();
