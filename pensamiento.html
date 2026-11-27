@@ -1,0 +1,489 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Introducción al Pensamiento Computacional — Guía express</title>
+<style>
+/* Mismos tokens y riel que el resto del sitio; acento índigo propio de la materia. */
+:root{
+  --rail: 280px;
+  color-scheme: light;
+  --papel:#EDEEEA; --papel-2:#F8F8F5; --papel-3:#E3E4DF;
+  --tinta:#15171A; --tinta-2:#545A62; --tinta-3:#7B8189;
+  --linea:#C7C9C4; --linea-2:#D9DAD5;
+  --acento:#3B4FA8; --acento-suave:#E0E4F5;
+  --alerta:#9E3122; --alerta-suave:#F7E4E0;
+  --bien:#1F6B3F; --bien-suave:#DEEDE3;
+  --aviso:#8A5A0E; --aviso-suave:#F4E9D3;
+  --display:"Bahnschrift","Franklin Gothic Medium","Arial Narrow","Helvetica Neue",sans-serif;
+  --body:"Sitka Text","Constantia",Georgia,"Times New Roman",serif;
+  --mono:"Cascadia Mono",Consolas,"SFMono-Regular",ui-monospace,monospace;
+}
+:root[data-tema="oscuro"]{
+  color-scheme: dark;
+  --papel:#101215; --papel-2:#181B20; --papel-3:#1F2329;
+  --tinta:#E9EBE6; --tinta-2:#A2AAB0; --tinta-3:#7C858B;
+  --linea:#2B3138; --linea-2:#232830;
+  --acento:#8FA2F0; --acento-suave:#1B2145;
+  --alerta:#EC8878; --alerta-suave:#331915;
+  --bien:#6FC98C; --bien-suave:#12301F;
+  --aviso:#DDA94F; --aviso-suave:#332711;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth; scroll-padding-top:1rem}
+@media (prefers-reduced-motion:reduce){ html{scroll-behavior:auto} *{animation:none !important; transition:none !important} }
+body{margin:0; background:var(--papel); color:var(--tinta); font-family:var(--body); font-size:16.5px; line-height:1.7; -webkit-font-smoothing:antialiased}
+a{color:var(--acento)}
+:focus-visible{outline:2px solid var(--acento); outline-offset:3px}
+
+.envoltorio{display:grid; grid-template-columns:var(--rail) minmax(0,1fr); min-height:100vh}
+.riel{position:sticky; top:0; align-self:start; height:100vh; overflow-y:auto; border-right:1px solid var(--linea); background:var(--papel-3); padding:0 0 2rem}
+.riel-volver{display:block; padding:.85rem 1.1rem; margin-bottom:.3rem; font-family:var(--mono); font-size:.68rem; letter-spacing:.06em; color:var(--tinta-2); text-decoration:none; border-bottom:1px solid var(--linea)}
+.riel-volver:hover{color:var(--tinta); background:var(--papel-2)}
+.riel-marca{display:flex; align-items:flex-start; justify-content:space-between; gap:.5rem; padding:1rem 1.1rem; border-bottom:1px solid var(--linea)}
+.riel-marca b{display:block; font-family:var(--display); font-weight:600; font-size:.82rem; letter-spacing:.1em; text-transform:uppercase; line-height:1.3}
+.riel-marca span{display:block; font-family:var(--mono); font-size:.64rem; color:var(--tinta-3); letter-spacing:.05em; margin-top:.3rem}
+.btn-riel{cursor:pointer; font-family:var(--mono); font-size:.64rem; letter-spacing:.08em; background:var(--papel-2); color:var(--tinta-2); border:1px solid var(--linea); border-radius:2px; padding:.3rem .5rem; line-height:1; flex-shrink:0}
+.btn-riel:hover{color:var(--tinta); border-color:var(--tinta-3)}
+#btn-abrir{position:fixed; top:.75rem; left:.75rem; z-index:50; display:none; padding:.45rem .6rem; font-size:.8rem; box-shadow:0 1px 4px rgba(0,0,0,.12)}
+.envoltorio.riel-oculto{grid-template-columns:minmax(0,1fr)}
+.envoltorio.riel-oculto .riel{display:none}
+.envoltorio.riel-oculto #btn-abrir{display:block}
+.riel nav{padding:.6rem 0}
+.riel-grupo{padding:.5rem 1.1rem .2rem; font-family:var(--mono); font-size:.6rem; letter-spacing:.14em; text-transform:uppercase; color:var(--tinta-3)}
+.riel a.item{display:block; padding:.4rem 1.1rem; font-family:var(--display); font-size:.88rem; color:var(--tinta-2); text-decoration:none; border-left:3px solid transparent}
+.riel a.item:hover{background:var(--papel-2); color:var(--tinta)}
+.riel a.item.activo{border-left-color:var(--acento); color:var(--tinta); background:var(--papel-2); font-weight:600}
+.riel a.item.externo{color:var(--acento); font-weight:600}
+.riel-pie{padding:1rem 1.1rem 0; margin-top:1rem; border-top:1px solid var(--linea)}
+.btn-tema{cursor:pointer; font-family:var(--mono); font-size:.66rem; letter-spacing:.08em; padding:.45rem .7rem; background:var(--papel-2); color:var(--tinta-2); border:1px solid var(--linea); border-radius:2px; width:100%}
+.btn-tema:hover{color:var(--tinta); border-color:var(--tinta-3)}
+
+.lienzo{max-width:880px; margin:0 auto; padding:2.4rem clamp(1rem,3vw,2.4rem) 6rem; width:100%}
+.portada .cintillo{font-family:var(--mono); font-size:.66rem; letter-spacing:.17em; text-transform:uppercase; color:var(--tinta-3); margin:0}
+.portada h1{font-family:var(--display); font-weight:700; font-size:clamp(1.9rem,4.5vw,2.7rem); line-height:1.05; letter-spacing:-.01em; margin:.3rem 0 .8rem}
+.portada p{color:var(--tinta-2); max-width:66ch}
+.cta{display:flex; gap:.6rem; flex-wrap:wrap; margin:1.2rem 0 0}
+.cta a{font-family:var(--display); font-size:.92rem; text-decoration:none; padding:.55rem 1rem; border:1px solid var(--linea); border-radius:2px; background:var(--papel-2); color:var(--tinta)}
+.cta a.principal{background:var(--acento); border-color:var(--acento); color:var(--papel-2)}
+.cta a:hover{filter:brightness(1.06)}
+
+section.bloque{border-top:2px solid var(--tinta); padding-top:1.2rem; margin-top:2.6rem}
+.eyebrow{font-family:var(--mono); font-size:.64rem; letter-spacing:.14em; text-transform:uppercase; color:var(--acento); margin:0 0 .3rem}
+h2{font-family:var(--display); font-weight:700; font-size:1.55rem; margin:0 0 .5rem; letter-spacing:-.01em}
+h3{font-family:var(--display); font-weight:700; font-size:1.1rem; margin:1.6rem 0 .4rem}
+.intro{color:var(--tinta-2); margin:0 0 1rem; max-width:66ch}
+p{margin:.5rem 0}
+pre{background:var(--papel-2); border:1px solid var(--linea); border-radius:3px; padding:.8rem 1rem; overflow-x:auto; font-family:var(--mono); font-size:.82rem; line-height:1.55; margin:.4rem 0 1rem}
+code{font-family:var(--mono)}
+:not(pre) > code{background:var(--papel-3); border:1px solid var(--linea-2); border-radius:2px; padding:.05em .3em; font-size:.85em}
+
+.regla{background:var(--acento-suave); border-left:3px solid var(--acento); border-radius:2px; padding:.8rem 1rem; margin:1rem 0}
+.regla b.t, .peligro b.t{font-family:var(--mono); font-size:.62rem; letter-spacing:.12em; text-transform:uppercase; display:block; margin-bottom:.25rem}
+.regla b.t{color:var(--acento)}
+.peligro{background:var(--alerta-suave); border-left:3px solid var(--alerta); border-radius:2px; padding:.8rem 1rem; margin:1rem 0}
+.peligro b.t{color:var(--alerta)}
+.regla ul, .peligro ul{margin:.3rem 0 0; padding-left:1.2rem}
+.regla li, .peligro li{margin:.2rem 0}
+
+table{width:100%; border-collapse:collapse; margin:.6rem 0 1.2rem; font-size:.9rem; background:var(--papel-2); border:1px solid var(--linea)}
+th, td{text-align:left; padding:.5rem .7rem; border-bottom:1px solid var(--linea-2); vertical-align:top}
+th{font-family:var(--mono); font-size:.62rem; letter-spacing:.1em; text-transform:uppercase; color:var(--tinta-3); background:var(--papel-3)}
+td code{white-space:nowrap}
+
+.dos{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:.8rem}
+.tarjeta{background:var(--papel-2); border:1px solid var(--linea); border-top:3px solid var(--acento); border-radius:2px; padding:.9rem 1rem}
+.tarjeta h4{margin:0 0 .3rem; font-family:var(--display); font-size:1rem}
+.tarjeta p{font-size:.92rem; color:var(--tinta-2); margin:.3rem 0}
+.tarjeta pre{margin:.4rem 0 .2rem}
+
+.traza{font-family:var(--mono); font-size:.8rem; background:var(--papel-3); border:1px solid var(--linea); border-radius:3px; padding:.7rem .9rem; margin:.4rem 0 1rem; line-height:1.7}
+.traza i{font-style:normal; color:var(--tinta-3)}
+
+.practica{display:flex; align-items:center; gap:.8rem; flex-wrap:wrap; background:var(--papel-2); border:1px solid var(--linea); border-left:3px solid var(--bien); border-radius:2px; padding:.7rem 1rem; margin:1.4rem 0 0; font-size:.92rem}
+.practica b{font-family:var(--display)}
+.practica a{font-family:var(--mono); font-size:.72rem; padding:.2rem .5rem; border:1px solid var(--linea); border-radius:2px; text-decoration:none; background:var(--papel); color:var(--tinta-2)}
+.practica a:hover{border-color:var(--acento); color:var(--acento)}
+
+@media (max-width:900px){ .envoltorio{grid-template-columns:minmax(0,1fr)} .riel{position:static; height:auto} }
+</style>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="img/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+</head>
+<body>
+<div class="envoltorio" id="envoltorio">
+<button class="btn-riel" id="btn-abrir" type="button" title="Mostrar barra lateral" aria-label="Mostrar barra lateral">☰ ÍNDICE</button>
+<aside class="riel">
+  <a class="riel-volver" href="index.html">← Materias</a>
+  <div class="riel-marca">
+    <div>
+      <b>Pensamiento Computacional</b>
+      <span>Guía express · final</span>
+    </div>
+    <button class="btn-riel" id="btn-cerrar" type="button" title="Ocultar barra lateral" aria-label="Ocultar barra lateral">✕</button>
+  </div>
+  <nav id="nav">
+    <div class="riel-grupo">Antes de empezar</div>
+    <a class="item" href="#reglas">Reglas de oro</a>
+    <div class="riel-grupo">Fundamentos</div>
+    <a class="item" href="#tipos">1 · Tipos y operadores</a>
+    <a class="item" href="#condicionales">2 · Condicionales</a>
+    <a class="item" href="#bucles">3 · Bucles</a>
+    <a class="item" href="#estructuras">4 · Estructuras de datos</a>
+    <a class="item" href="#funciones">5 · Funciones y entry point</a>
+    <div class="riel-grupo">Algoritmos</div>
+    <a class="item" href="#busqueda">6 · Búsqueda</a>
+    <a class="item" href="#orden">7 · Ordenamiento</a>
+    <div class="riel-grupo">Examen</div>
+    <a class="item" href="#trampas">8 · Trampas típicas</a>
+    <a class="item" href="#menu">9 · Programa con menú</a>
+    <div class="riel-grupo">Ir a</div>
+    <a class="item externo" href="entrenador-pensamiento.html">▶ Laboratorio de código ↗</a>
+  </nav>
+  <div class="riel-pie">
+    <div id="chip-sesion" style="margin-bottom:.6rem"></div>
+    <button class="btn-tema" id="btn-tema" type="button">MODO OSCURO</button>
+  </div>
+</aside>
+
+<main class="lienzo">
+  <header class="portada">
+    <p class="cintillo">UADE · Lic. en IA y Ciencia de Datos · Final</p>
+    <h1>Introducción al<br>Pensamiento<br>Computacional</h1>
+    <p>Repaso condensado de todo el programa para el final: de los operadores a los ordenamientos hechos a mano, con las trampas donde se pierden puntos. Cada tema termina con ejercicios que se ejecutan en el navegador y se corrigen solos.</p>
+    <div class="cta">
+      <a class="principal" href="entrenador-pensamiento.html">▶ Abrir el laboratorio de código</a>
+      <a href="#trampas">Ver las trampas típicas</a>
+    </div>
+  </header>
+
+  <!-- ============ REGLAS ============ -->
+  <section class="bloque" id="reglas">
+    <p class="eyebrow">Antes de empezar</p>
+    <h2>Reglas de oro del examen</h2>
+    <p class="intro">Revisalas siempre, antes de empezar y antes de entregar.</p>
+    <div class="peligro">
+      <b class="t">Prohibido</b>
+      <ul>
+        <li>El operador <code>in</code> para buscar (<code>if x in lista</code>), <code>.index()</code>, <code>.sort()</code>, <code>sorted()</code> y cualquier búsqueda u ordenamiento nativo de Python.</li>
+      </ul>
+    </div>
+    <div class="regla">
+      <b class="t">Lo que sí se pide</b>
+      <ul>
+        <li><b>Búsquedas:</b> recorriendo con índices, <code>for i in range(len(...))</code>.</li>
+        <li><b>Ordenamientos:</b> a mano, con los algoritmos vistos (burbuja, inserción, selección).</li>
+        <li>Se valora <b>modularizar</b> con funciones y la <b>claridad</b>.</li>
+        <li>Antes de entregar: releé la consigna y verificá que no usaste nada prohibido.</li>
+      </ul>
+    </div>
+    <p>El <code>in</code> de <code>for x in lista:</code> es sintaxis del bucle y no es el operador de pertenencia; lo que se evita es preguntar <code>x in lista</code> en una condición. Para no dudar, recorré con <code>range(len(...))</code>.</p>
+    <p class="practica"><b>Practicá esto:</b> en el laboratorio, los ejercicios con «Reglas de oro» revisan tu código y te dicen qué prohibido usaste.
+      <a href="entrenador-pensamiento.html#pc-v5">Modularizar: sin repetidos</a></p>
+  </section>
+
+  <!-- ============ 1. TIPOS ============ -->
+  <section class="bloque" id="tipos">
+    <p class="eyebrow">Fundamentos · 1</p>
+    <h2>Tipos y operadores</h2>
+    <p class="intro">Tipos: <code>int</code>, <code>float</code>, <code>str</code> y <code>bool</code> (<code>True</code> / <code>False</code>).</p>
+    <table>
+      <tr><th>Operador</th><th>Qué hace</th><th>Con a = 10, b = 3</th></tr>
+      <tr><td><code>/</code></td><td>división real</td><td><code>10 / 3</code> → 3.33…</td></tr>
+      <tr><td><code>//</code></td><td>división entera</td><td><code>10 // 3</code> → 3</td></tr>
+      <tr><td><code>%</code></td><td>resto (módulo)</td><td><code>10 % 3</code> → 1</td></tr>
+      <tr><td><code>**</code></td><td>potencia</td><td><code>10 ** 3</code> → 1000</td></tr>
+    </table>
+    <p>Truco típico: par o impar con <code>numero % 2 == 0</code>. Lógicos: <code>and</code>, <code>or</code>, <code>not</code>. Relacionales: <code>==  !=  &lt;  &gt;  &lt;=  &gt;=</code>.</p>
+    <div class="regla"><b class="t">Dato útil</b>Con <code>n // 10</code> se «corta» el último dígito de <code>n</code> y con <code>n % 10</code> se obtiene ese dígito: es la base de los ejercicios de contar o sumar dígitos con <code>while</code>.</div>
+    <p class="practica"><b>Practicá:</b> <a href="entrenador-pensamiento.html#pc-b2">B2 · Operadores y while</a></p>
+  </section>
+
+  <!-- ============ 2. CONDICIONALES ============ -->
+  <section class="bloque" id="condicionales">
+    <p class="eyebrow">Fundamentos · 2</p>
+    <h2>Condicionales</h2>
+<pre>if nota &gt;= 9:
+    print("Sobresaliente")
+elif nota &gt;= 7:
+    print("Aprobado")
+else:
+    print("Desaprobado")</pre>
+    <p><code>elif</code> sirve para los casos intermedios y <code>else</code> cae si no se cumplió ninguno. Se combinan con <code>and</code> / <code>or</code>. Se evalúan <b>de arriba hacia abajo</b> y gana el primero verdadero: por eso va primero el caso más exigente.</p>
+    <p class="practica"><b>Practicá:</b> <a href="entrenador-pensamiento.html#pc-b1">B1 · La nota en palabras</a> <a href="entrenador-pensamiento.html#pc-e12">E12 · Condiciones en el orden equivocado</a></p>
+  </section>
+
+  <!-- ============ 3. BUCLES ============ -->
+  <section class="bloque" id="bucles">
+    <p class="eyebrow">Fundamentos · 3</p>
+    <h2>Bucles</h2>
+    <div class="dos">
+      <div class="tarjeta">
+        <h4><code>while</code>: no sé cuántas veces</h4>
+        <p>Menús, validaciones. Necesita <b>variable de control</b> + <b>condición</b> + <b>actualización</b>; si falta la actualización, el bucle es infinito.</p>
+<pre>while opcion != 0:      # bandera
+    opcion = int(input("Opción: "))</pre>
+      </div>
+      <div class="tarjeta">
+        <h4><code>for</code> + <code>range</code>: cantidad conocida</h4>
+<pre>range(5)         # 0,1,2,3,4
+range(2, 6)      # 2,3,4,5  (NO incluye el 6)
+range(0, 10, 2)  # 0,2,4,6,8</pre>
+        <p>Con paso negativo se recorre al revés: <code>range(4, 0, -1)</code> da 4, 3, 2, 1.</p>
+      </div>
+    </div>
+    <div class="regla"><b class="t">Anidados</b>Son la base de las matrices. Si el externo repite <i>n</i> veces y el interno <i>m</i>, el cuerpo corre <i>n × m</i> veces.</div>
+    <p class="practica"><b>Practicá:</b> <a href="entrenador-pensamiento.html#pc-b3">B3 · range: extremos y paso</a> <a href="entrenador-pensamiento.html#pc-b2">B2 · while</a></p>
+  </section>
+
+  <!-- ============ 4. ESTRUCTURAS ============ -->
+  <section class="bloque" id="estructuras">
+    <p class="eyebrow">Fundamentos · 4</p>
+    <h2>Estructuras de datos</h2>
+    <table>
+      <tr><th>Estructura</th><th>Símbolo</th><th>Ordenada</th><th>Mutable</th><th>Acceso</th></tr>
+      <tr><td>Lista / Vector</td><td><code>[ ]</code></td><td>Sí</td><td>Sí</td><td>por índice <code>[i]</code></td></tr>
+      <tr><td>Tupla</td><td><code>( )</code></td><td>Sí</td><td>No</td><td>por índice <code>[i]</code></td></tr>
+      <tr><td>Diccionario</td><td><code>{ }</code></td><td>Sí (claves únicas)</td><td>Sí</td><td>por clave <code>[clave]</code></td></tr>
+      <tr><td>Matriz</td><td><code>[[ ]]</code></td><td>Sí</td><td>Sí</td><td>doble índice <code>[i][j]</code></td></tr>
+    </table>
+
+    <h3>Listas (vectores)</h3>
+    <p>Recorrido con índice y operaciones a mano:</p>
+<pre>for i in range(len(numeros)):
+    suma += numeros[i]              # suma
+
+mayor = numeros[0]
+for i in range(len(numeros)):
+    if numeros[i] &gt; mayor:          # máximo
+        mayor = numeros[i]</pre>
+    <p>El máximo arranca en <code>numeros[0]</code>, no en 0: con una lista de negativos el 0 «ganaría» sin estar en la lista.</p>
+    <p class="practica"><b>Practicá:</b> <a href="entrenador-pensamiento.html#pc-v1">V1</a> <a href="entrenador-pensamiento.html#pc-v2">V2</a> <a href="entrenador-pensamiento.html#pc-v3">V3</a> <a href="entrenador-pensamiento.html#pc-v4">V4</a> <a href="entrenador-pensamiento.html#pc-v5">V5</a></p>
+
+    <h3>Tuplas</h3>
+    <p>Inmutables, ideales para devolver varios valores: <code>return (fila, columna)</code> y se recibe con <code>f, c = funcion()</code>.</p>
+
+    <h3>Diccionarios</h3>
+    <p><code>alumno["nombre"]</code> accede; <code>alumno["clave"] = valor</code> agrega o modifica. Para contar sin <code>in</code>: <code>cuentas[v] = cuentas.get(v, 0) + 1</code>.</p>
+    <p class="practica"><b>Practicá:</b> <a href="entrenador-pensamiento.html#pc-b4">B4 · promedios</a> <a href="entrenador-pensamiento.html#pc-b5">B5 · frecuencias</a></p>
+
+    <h3>Matrices</h3>
+    <p>Lista de listas. Recorrido completo:</p>
+<pre>for i in range(len(matriz)):
+    for j in range(len(matriz[i])):
+        print(matriz[i][j])</pre>
+    <p>Diagonal principal: <code>matriz[i][i]</code>. Crear una vacía: doble <code>for</code> con <code>fila.append(0)</code>.</p>
+    <div class="regla"><b class="t">Clave del examen</b>Usá siempre <code>len(matriz)</code> y <code>len(matriz[i])</code>, nunca números fijos como <code>range(3)</code>. Así el código sirve para cualquier tamaño.</div>
+    <p class="practica"><b>Practicá:</b> <a href="entrenador-pensamiento.html#pc-m1">M1 crear</a> <a href="entrenador-pensamiento.html#pc-m2">M2 filas</a> <a href="entrenador-pensamiento.html#pc-m3">M3 columnas</a> <a href="entrenador-pensamiento.html#pc-m4">M4 diagonales</a> <a href="entrenador-pensamiento.html#pc-m5">M5 traspuesta</a> <a href="entrenador-pensamiento.html#pc-m6">M6 mayor</a> <a href="entrenador-pensamiento.html#pc-m7">M7 buscar</a> <a href="entrenador-pensamiento.html#pc-m8">M8 pisos</a></p>
+  </section>
+
+  <!-- ============ 5. FUNCIONES ============ -->
+  <section class="bloque" id="funciones">
+    <p class="eyebrow">Fundamentos · 5</p>
+    <h2>Funciones y entry point</h2>
+<pre>def area(base, altura):        # CON retorno: devuelve un resultado
+    return base * altura
+
+def mostrar(matriz):           # SIN retorno: solo hace una acción
+    for fila in matriz:
+        print(fila)</pre>
+    <ul>
+      <li><b>Parámetro</b> = nombre en la definición. <b>Argumento</b> = valor al invocar.</li>
+      <li><b>Con retorno</b> cuando necesitás el resultado para seguir (<code>x = area(4, 5)</code>). <b>Sin retorno</b> cuando solo ejecuta (mostrar, imprimir el menú).</li>
+      <li>Las listas y matrices se pasan <b>por referencia</b>: si las modificás adentro, cambian afuera (por eso los ordenamientos «en el lugar» no necesitan devolver nada).</li>
+    </ul>
+    <h3>Entry point: el «guardián» del programa</h3>
+<pre>if __name__ == "__main__":
+    main()</pre>
+    <p>Si ejecutás el archivo directo, <code>__name__</code> vale <code>"__main__"</code> y corre <code>main()</code>. Si lo importás desde otro archivo, no corre <code>main()</code>, pero sí podés usar sus funciones.</p>
+    <p class="practica"><b>Practicá:</b> <a href="entrenador-pensamiento.html#pc-e11">E11 · imprime pero no devuelve</a> <a href="entrenador-pensamiento.html#pc-p1">P1 · menú con entry point</a></p>
+  </section>
+
+  <!-- ============ 6. BÚSQUEDA ============ -->
+  <section class="bloque" id="busqueda">
+    <p class="eyebrow">Algoritmos · 6</p>
+    <h2>Búsqueda</h2>
+    <div class="dos">
+      <div class="tarjeta">
+        <h4>Secuencial · O(n)</h4>
+        <p>Recorre uno por uno. No necesita orden.</p>
+<pre>def busqueda_secuencial(lista, valor):
+    for i in range(len(lista)):
+        if lista[i] == valor:
+            return i
+    return -1</pre>
+      </div>
+      <div class="tarjeta">
+        <h4>Binaria · O(log n)</h4>
+        <p>Descarta mitades. <b>Requiere lista ordenada.</b></p>
+<pre>def busqueda_binaria(lista, valor):
+    izquierda = 0
+    derecha = len(lista) - 1
+    while izquierda &lt;= derecha:
+        medio = (izquierda + derecha) // 2
+        if lista[medio] == valor:
+            return medio
+        elif lista[medio] &lt; valor:
+            izquierda = medio + 1   # a la derecha
+        else:
+            derecha = medio - 1     # a la izquierda
+    return -1</pre>
+      </div>
+    </div>
+    <table>
+      <tr><th></th><th>Secuencial</th><th>Binaria</th></tr>
+      <tr><td>¿Ordenada?</td><td>No hace falta</td><td>Obligatorio</td></tr>
+      <tr><td>Eficiencia</td><td>Baja, O(n)</td><td>Alta, O(log n)</td></tr>
+      <tr><td>Idea</td><td>uno por uno</td><td>descarta mitades</td></tr>
+    </table>
+    <p class="practica"><b>Practicá:</b> <a href="entrenador-pensamiento.html#pc-s1">S1 secuencial</a> <a href="entrenador-pensamiento.html#pc-s2">S2 todas las posiciones</a> <a href="entrenador-pensamiento.html#pc-s3">S3 binaria</a> <a href="entrenador-pensamiento.html#pc-e2">E2 ramas invertidas</a></p>
+  </section>
+
+  <!-- ============ 7. ORDEN ============ -->
+  <section class="bloque" id="orden">
+    <p class="eyebrow">Algoritmos · 7</p>
+    <h2>Ordenamiento</h2>
+    <p class="intro">Tres algoritmos, siempre escritos a mano. Mismo ejemplo para los tres: <code>[5, 3, 8, 1]</code> de menor a mayor.</p>
+
+    <h3>Burbuja: compara vecinos <code>j</code> y <code>j+1</code> y los intercambia</h3>
+<pre>n = len(lista)
+for i in range(n):
+    for j in range(0, n - i - 1):
+        if lista[j] &gt; lista[j + 1]:     # con &lt; = mayor a menor
+            aux = lista[j]
+            lista[j] = lista[j + 1]
+            lista[j + 1] = aux</pre>
+    <div class="traza"><i>vuelta 1:</i> [5,3,8,1] → [3,5,8,1] → (5,8 no) → [3,5,1,8] <i>· el mayor «burbujeó» al final</i><br><i>vuelta 2:</i> [3,5,1,8] → (3,5 no) → [3,1,5,8] <i>· …y así hasta que no hay cambios</i></div>
+
+    <h3>Inserción: <code>for</code> + <code>while</code>, inserta cada «carta» en su lugar</h3>
+<pre>for i in range(1, len(lista)):          # arranca en 1
+    actual = lista[i]
+    j = i - 1
+    while j &gt;= 0 and lista[j] &gt; actual:
+        lista[j + 1] = lista[j]
+        j -= 1
+    lista[j + 1] = actual</pre>
+    <div class="traza"><i>i=1:</i> actual=3 → desplaza el 5 → [3,5,8,1]<br><i>i=2:</i> actual=8 → no desplaza nada → [3,5,8,1]<br><i>i=3:</i> actual=1 → desplaza 8, 5 y 3 → [1,3,5,8]</div>
+
+    <h3>Selección: <code>for</code> + <code>for</code>, busca el menor y hace un solo intercambio</h3>
+<pre>n = len(lista)
+for i in range(n):
+    menor = i
+    for j in range(i + 1, n):
+        if lista[j] &lt; lista[menor]:
+            menor = j
+    aux = lista[i]
+    lista[i] = lista[menor]
+    lista[menor] = aux</pre>
+    <div class="traza"><i>i=0:</i> el menor del resto es el 1 (posición 3) → intercambia → [1,3,8,5]<br><i>i=1:</i> el menor del resto ya está en su lugar → [1,3,8,5]<br><i>i=2:</i> el menor del resto es el 5 → intercambia → [1,3,5,8]</div>
+
+    <h3>Cómo reconocer cada algoritmo (opción múltiple)</h3>
+    <table>
+      <tr><th>Si ves…</th><th>Es…</th></tr>
+      <tr><td><code>lista[j] &gt; lista[j+1]</code> (compara vecinos)</td><td>Burbuja</td></tr>
+      <tr><td><code>actual = lista[i]</code> + un <code>while</code> que desplaza</td><td>Inserción</td></tr>
+      <tr><td><code>menor = i</code> + <code>for</code> interno que guarda el menor</td><td>Selección</td></tr>
+      <tr><td>recorre <code>lista[i]</code> comparando con un valor buscado</td><td>Búsqueda secuencial</td></tr>
+      <tr><td><code>medio</code>, <code>izquierda</code>, <code>derecha</code>, <code>while izq &lt;= der</code></td><td>Búsqueda binaria</td></tr>
+    </table>
+    <p class="practica"><b>Practicá:</b> <a href="entrenador-pensamiento.html#pc-o1">O1 burbuja</a> <a href="entrenador-pensamiento.html#pc-o2">O2 burbuja desc.</a> <a href="entrenador-pensamiento.html#pc-o3">O3 inserción</a> <a href="entrenador-pensamiento.html#pc-o4">O4 selección</a> <a href="entrenador-pensamiento.html#pc-o5">O5 ranking</a> <a href="entrenador-pensamiento.html#pc-o6">O6 mediana</a></p>
+  </section>
+
+  <!-- ============ 8. TRAMPAS ============ -->
+  <section class="bloque" id="trampas">
+    <p class="eyebrow">Examen · 8</p>
+    <h2>Trampas típicas</h2>
+    <p class="intro">Donde se pierden puntos. Cada una tiene su ejercicio de «encontrá el error» en el laboratorio.</p>
+    <table>
+      <tr><th>Trampa</th><th>Qué pasa</th><th>Ejercicio</th></tr>
+      <tr><td><code>len()</code> vs <code>len() - 1</code></td><td>Como índice directo (<code>derecha = len(lista) - 1</code>) va con <code>-1</code>; en <code>range(len(...))</code> no, porque <code>range</code> ya excluye el tope.</td><td><a href="entrenador-pensamiento.html#pc-e3">E3</a></td></tr>
+      <tr><td>Inserción: el rango del for</td><td>Va <code>range(1, len(lista))</code>. Con <code>range(len(lista) - 1)</code> te saltás el último (bug clásico del simulacro).</td><td><a href="entrenador-pensamiento.html#pc-e1">E1</a></td></tr>
+      <tr><td>Binaria con ramas invertidas</td><td>Si <code>lista[medio] &lt; valor</code> → <code>izquierda = medio + 1</code> (¡no <code>derecha</code>!).</td><td><a href="entrenador-pensamiento.html#pc-e2">E2</a></td></tr>
+      <tr><td>Orden ascendente vs descendente</td><td>Burbuja con <code>&gt;</code> ordena de menor a mayor; con <code>&lt;</code>, de mayor a menor. Releé qué piden.</td><td><a href="entrenador-pensamiento.html#pc-e4">E4</a></td></tr>
+      <tr><td>Piso e índice</td><td>El usuario piensa «piso 1» pero la matriz indexa desde 0: mostrá <code>i + 1</code> y restá 1 al leer (<code>matriz[piso - 1]</code>).</td><td><a href="entrenador-pensamiento.html#pc-e9">E9</a></td></tr>
+      <tr><td>Validar entradas</td><td>Chequeá rangos (<code>if piso &gt;= 1 and piso &lt;= 5</code>) para no reventar con <code>IndexError</code>.</td><td><a href="entrenador-pensamiento.html#pc-e9">E9</a> <a href="entrenador-pensamiento.html#pc-m8">M8</a></td></tr>
+      <tr><td>Tipo de dato</td><td>Si la consigna dice <code>float</code> (por ejemplo consumos), usá <code>float(input(...))</code>, no <code>int</code>.</td><td><a href="entrenador-pensamiento.html#pc-e10">E10</a></td></tr>
+      <tr><td>Máximo que arranca en 0</td><td>Con negativos devuelve un 0 que no está en la lista. Arrancá con el primer elemento.</td><td><a href="entrenador-pensamiento.html#pc-e5">E5</a></td></tr>
+      <tr><td>Acumulador mal ubicado</td><td>Inicializar <code>suma = 0</code> dentro del for la reinicia en cada vuelta.</td><td><a href="entrenador-pensamiento.html#pc-e6">E6</a></td></tr>
+      <tr><td>Números fijos en matrices</td><td><code>range(3)</code> sirve solo para 3×3. Usá <code>len()</code>.</td><td><a href="entrenador-pensamiento.html#pc-e7">E7</a></td></tr>
+      <tr><td><code>[[0] * c] * f</code></td><td>Repite la misma fila: al modificar una celda cambian todas.</td><td><a href="entrenador-pensamiento.html#pc-e8">E8</a></td></tr>
+      <tr><td>Con / sin retorno</td><td>Si después usás el resultado, tiene que ser <code>return</code>, no <code>print</code>.</td><td><a href="entrenador-pensamiento.html#pc-e11">E11</a></td></tr>
+    </table>
+  </section>
+
+  <!-- ============ 9. MENÚ ============ -->
+  <section class="bloque" id="menu">
+    <p class="eyebrow">Examen · 9</p>
+    <h2>Estructura de un programa con menú</h2>
+    <p class="intro">El patrón del examen: cubre de una tres requisitos que suelen pedir (menú con bandera, función con retorno y función sin retorno).</p>
+<pre>def main():
+    datos = cargar()                 # o matriz de prueba
+    opcion = -1
+    while opcion != 0:               # bucle controlado por bandera
+        print("1. ...   2. ...   0. Salir")
+        opcion = int(input("Opción: "))
+        if opcion == 1:
+            mostrar(datos)           # función SIN retorno
+        elif opcion == 2:
+            r = calcular(datos)      # función CON retorno
+            print(r)
+        elif opcion == 0:
+            print("Saliendo...")
+        else:
+            print("Opción inválida")
+
+if __name__ == "__main__":
+    main()</pre>
+    <div class="regla"><b class="t">Checklist antes de entregar</b>
+      <ul>
+        <li>¿Usé <code>in</code>, <code>.index()</code>, <code>.sort()</code> o <code>sorted()</code>? Si sí, rehacerlo a mano.</li>
+        <li>¿Mis recorridos usan <code>len()</code> en vez de números fijos?</li>
+        <li>¿Cada función hace una sola cosa y tiene el retorno que corresponde?</li>
+        <li>¿Validé las entradas y el tipo (<code>int</code> / <code>float</code>) que pide la consigna?</li>
+      </ul>
+    </div>
+    <p class="practica"><b>Practicá:</b> <a href="entrenador-pensamiento.html#pc-p1">P1 · Menú con bandera y entry point</a></p>
+  </section>
+</main>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var raiz = document.documentElement, btn = document.getElementById("btn-tema");
+  function aplicar(t){ raiz.setAttribute("data-tema", t); btn.textContent = t === "oscuro" ? "MODO CLARO" : "MODO OSCURO"; try{ localStorage.setItem("ia-tema", t); }catch(e){} }
+  var g = null; try{ g = localStorage.getItem("ia-tema"); }catch(e){}
+  if(!g) g = (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) ? "oscuro" : "claro";
+  aplicar(g);
+  btn.addEventListener("click", function(){ aplicar(raiz.getAttribute("data-tema") === "oscuro" ? "claro" : "oscuro"); });
+
+  var env = document.getElementById("envoltorio");
+  document.getElementById("btn-cerrar").addEventListener("click", function(){ env.classList.add("riel-oculto"); });
+  document.getElementById("btn-abrir").addEventListener("click", function(){ env.classList.remove("riel-oculto"); });
+
+  /* Resalta en el riel la sección que se está leyendo */
+  var enlaces = document.querySelectorAll("#nav a.item[href^='#']"), mapa = {}, i;
+  for(i = 0; i < enlaces.length; i++) mapa[enlaces[i].getAttribute("href").slice(1)] = enlaces[i];
+  if("IntersectionObserver" in window){
+    var io = new IntersectionObserver(function(entradas){
+      entradas.forEach(function(e){
+        if(e.isIntersecting && mapa[e.target.id]){
+          for(var k in mapa) mapa[k].classList.remove("activo");
+          mapa[e.target.id].classList.add("activo");
+        }
+      });
+    }, { rootMargin:"-10% 0px -80% 0px" });
+    var secs = document.querySelectorAll("section.bloque"), j;
+    for(j = 0; j < secs.length; j++) io.observe(secs[j]);
+  }
+})();
+</script>
+<script src="config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/auth.js"></script>
+<script src="js/sesion.js"></script>
+<script>Sesion.montar("chip-sesion");</script>
+</body>
+</html>
