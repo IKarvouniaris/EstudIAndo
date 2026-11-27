@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pensamiento Computacional — Laboratorio</title>
+<style>
+/* Mismos tokens y riel que python.html / entrenador-python.html; acento índigo propio de la materia. */
+:root{
+  --rail: 280px;
+  color-scheme: light;
+  --papel:#EDEEEA; --papel-2:#F8F8F5; --papel-3:#E3E4DF;
+  --tinta:#15171A; --tinta-2:#545A62; --tinta-3:#7B8189;
+  --linea:#C7C9C4; --linea-2:#D9DAD5;
+  --acento:#3B4FA8; --acento-suave:#E0E4F5;
+  --alerta:#9E3122; --alerta-suave:#F7E4E0;
+  --bien:#1F6B3F; --bien-suave:#DEEDE3;
+  --aviso:#8A5A0E; --aviso-suave:#F4E9D3;
+  --display:"Bahnschrift","Franklin Gothic Medium","Arial Narrow","Helvetica Neue",sans-serif;
+  --body:"Sitka Text","Constantia",Georgia,"Times New Roman",serif;
+  --mono:"Cascadia Mono",Consolas,"SFMono-Regular",ui-monospace,monospace;
+}
+:root[data-tema="oscuro"]{
+  color-scheme: dark;
+  --papel:#101215; --papel-2:#181B20; --papel-3:#1F2329;
+  --tinta:#E9EBE6; --tinta-2:#A2AAB0; --tinta-3:#7C858B;
+  --linea:#2B3138; --linea-2:#232830;
+  --acento:#8FA2F0; --acento-suave:#1B2145;
+  --alerta:#EC8878; --alerta-suave:#331915;
+  --bien:#6FC98C; --bien-suave:#12301F;
+  --aviso:#DDA94F; --aviso-suave:#332711;
+}
+*{box-sizing:border-box}
+@media (prefers-reduced-motion:reduce){ *{animation:none !important; transition:none !important} }
+body{margin:0; background:var(--papel); color:var(--tinta); font-family:var(--body); font-size:16.5px; line-height:1.65; -webkit-font-smoothing:antialiased}
+a{color:var(--acento)}
+:focus-visible{outline:2px solid var(--acento); outline-offset:3px}
+
+.envoltorio{display:grid; grid-template-columns:var(--rail) minmax(0,1fr); min-height:100vh}
+.riel{position:sticky; top:0; align-self:start; height:100vh; overflow-y:auto; border-right:1px solid var(--linea); background:var(--papel-3); padding:0 0 2rem}
+.riel-volver{display:block; padding:.85rem 1.1rem; margin-bottom:.3rem; font-family:var(--mono); font-size:.68rem; letter-spacing:.06em; color:var(--tinta-2); text-decoration:none; border-bottom:1px solid var(--linea)}
+.riel-volver:hover{color:var(--tinta); background:var(--papel-2)}
+.riel-marca{display:flex; align-items:flex-start; justify-content:space-between; gap:.5rem; padding:1rem 1.1rem; border-bottom:1px solid var(--linea)}
+.riel-marca b{display:block; font-family:var(--display); font-weight:600; font-size:.82rem; letter-spacing:.1em; text-transform:uppercase; line-height:1.3}
+.riel-marca span{display:block; font-family:var(--mono); font-size:.64rem; color:var(--tinta-3); letter-spacing:.05em; margin-top:.3rem}
+.btn-riel{cursor:pointer; font-family:var(--mono); font-size:.64rem; letter-spacing:.08em; background:var(--papel-2); color:var(--tinta-2); border:1px solid var(--linea); border-radius:2px; padding:.3rem .5rem; line-height:1; flex-shrink:0}
+.btn-riel:hover{color:var(--tinta); border-color:var(--tinta-3)}
+#btn-abrir{position:fixed; top:.75rem; left:.75rem; z-index:50; display:none; padding:.45rem .6rem; font-size:.8rem; box-shadow:0 1px 4px rgba(0,0,0,.12)}
+.envoltorio.riel-oculto{grid-template-columns:minmax(0,1fr)}
+.envoltorio.riel-oculto .riel{display:none}
+.envoltorio.riel-oculto #btn-abrir{display:block}
+.riel nav{padding:.6rem 0}
+.riel-grupo{padding:.5rem 1.1rem .2rem; font-family:var(--mono); font-size:.6rem; letter-spacing:.14em; text-transform:uppercase; color:var(--tinta-3)}
+.riel a.item{display:block; padding:.4rem 1.1rem; font-family:var(--display); font-size:.88rem; color:var(--tinta-2); text-decoration:none; border-left:3px solid transparent}
+.riel a.item:hover{background:var(--papel-2); color:var(--tinta)}
+.riel a.item.externo{color:var(--acento); font-weight:600}
+.riel-pie{padding:1rem 1.1rem 0; margin-top:1rem; border-top:1px solid var(--linea)}
+.btn-tema{cursor:pointer; font-family:var(--mono); font-size:.66rem; letter-spacing:.08em; padding:.45rem .7rem; background:var(--papel-2); color:var(--tinta-2); border:1px solid var(--linea); border-radius:2px; width:100%}
+.btn-tema:hover{color:var(--tinta); border-color:var(--tinta-3)}
+
+.lienzo{max-width:1480px; margin:0 auto; padding:2.2rem clamp(1rem,3vw,2.4rem) 6rem; width:100%}
+.portada .cintillo{font-family:var(--mono); font-size:.66rem; letter-spacing:.17em; text-transform:uppercase; color:var(--tinta-3); margin:0}
+.portada h1{font-family:var(--display); font-weight:700; font-size:clamp(1.6rem,3.5vw,2.2rem); line-height:1.1; letter-spacing:-.01em; margin:.3rem 0 .6rem}
+.portada p{color:var(--tinta-2); max-width:78ch; margin:.3rem 0}
+.reglas{background:var(--acento-suave); border-left:3px solid var(--acento); border-radius:2px; padding:.7rem 1rem; margin:1rem 0 0; font-size:.92rem; max-width:78ch}
+.reglas b{font-family:var(--display)}
+pre{background:var(--papel-2); border:1px solid var(--linea); border-radius:3px; padding:.8rem 1rem; overflow-x:auto; font-family:var(--mono); font-size:.82rem; line-height:1.5; margin:0 0 .8rem}
+code{font-family:var(--mono)}
+:not(pre) > code{background:var(--papel-3); border:1px solid var(--linea-2); border-radius:2px; padding:.05em .3em; font-size:.85em}
+
+.estado-py{display:flex; align-items:center; gap:.6rem; background:var(--papel-2); border:1px solid var(--linea); border-radius:2px; padding:.6rem .9rem; font-size:.85rem; color:var(--tinta-2); margin:1.2rem 0; line-height:1.45}
+.estado-py .led{width:8px; height:8px; border-radius:50%; background:var(--tinta-3); flex:none}
+.estado-py.cargando .led{background:var(--aviso); animation:latir 1.1s ease-in-out infinite}
+.estado-py.listo .led{background:var(--bien)}
+.estado-py.error{border-color:var(--alerta); color:var(--alerta)}
+.estado-py.error .led{background:var(--alerta)}
+@keyframes latir{0%,100%{opacity:1}50%{opacity:.2}}
+
+.prog{display:flex; align-items:center; gap:.7rem; font-family:var(--mono); font-size:.7rem; color:var(--tinta-2); margin:0 0 .8rem}
+.prog .barra{flex:0 1 220px; height:5px; background:var(--papel-3); border:1px solid var(--linea-2); border-radius:3px; overflow:hidden}
+.prog .barra i{display:block; height:100%; background:var(--acento); transition:width .3s}
+.grupos{display:flex; gap:.4rem; flex-wrap:wrap; margin-bottom:.4rem}
+.grupo{cursor:pointer; font-family:var(--display); font-size:.86rem; padding:.4rem .8rem; background:var(--papel-2); color:var(--tinta-2); border:1px solid var(--linea); border-radius:2px}
+.grupo i{font-style:normal; font-family:var(--mono); font-size:.66rem; color:var(--tinta-3); margin-left:.3rem}
+.grupo:hover{color:var(--tinta); border-color:var(--tinta-3)}
+.grupo.on{background:var(--tinta); border-color:var(--tinta); color:var(--papel)}
+.grupo.on i{color:var(--papel); opacity:.75}
+.grupo-desc{font-size:.88rem; color:var(--tinta-3); margin:.3rem 0 .9rem}
+.fichas{display:flex; gap:.35rem; flex-wrap:wrap; margin-bottom:1.2rem}
+.ficha-ej{cursor:pointer; font-family:var(--mono); font-size:.68rem; letter-spacing:.02em; padding:.35rem .6rem; background:var(--papel-2); color:var(--tinta-2); border:1px solid var(--linea); border-radius:2px; display:flex; align-items:center; gap:.35rem; max-width:100%}
+.ficha-ej:hover{color:var(--tinta); border-color:var(--tinta-3)}
+.ficha-ej.on{background:var(--acento); border-color:var(--acento); color:var(--papel); font-weight:600}
+.ficha-ej.hecho .mk{color:var(--bien)}
+.ficha-ej.on .mk{color:var(--papel)}
+
+.lab{display:grid; grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr); gap:1rem; align-items:start}
+.lab > .tabla{min-width:0}
+.lab.foco{grid-template-columns:minmax(0,1fr)}
+.enc-editor{display:flex; align-items:center; justify-content:space-between; gap:.6rem; margin-bottom:.45rem}
+.enc-editor .sub{margin:0}
+.btn-foco{cursor:pointer; font-family:var(--mono); font-size:.62rem; letter-spacing:.06em; padding:.3rem .55rem; background:var(--papel); color:var(--tinta-2); border:1px solid var(--linea); border-radius:2px}
+.btn-foco:hover{color:var(--tinta); border-color:var(--tinta-3)}
+.tabla{background:var(--papel-2); border:1px solid var(--linea); border-radius:2px; padding:1.1rem 1.2rem}
+.tabla .sub{font-family:var(--mono); font-size:.6rem; letter-spacing:.12em; text-transform:uppercase; color:var(--tinta-3); margin-bottom:.25rem}
+.tabla h3{font-family:var(--display); font-weight:700; font-size:1.15rem; margin:0}
+.tabla h4{font-family:var(--mono); font-size:.6rem; letter-spacing:.12em; text-transform:uppercase; color:var(--tinta-3); margin:1.1rem 0 .4rem; font-weight:600}
+.tabla p.desc{font-size:.92rem; color:var(--tinta-2); margin:.5rem 0 0}
+ol.tareas{margin:0; padding-left:1.2rem; font-size:.9rem}
+ol.tareas li{margin:.25rem 0}
+.evalua{border-top:1px solid var(--linea)}
+.evalua > div{display:grid; grid-template-columns:minmax(110px,auto) 1fr; gap:.8rem; padding:.4rem 0; border-bottom:1px solid var(--linea-2); font-size:.82rem}
+.evalua code{color:var(--acento); background:none; border:0; padding:0; font-weight:600; overflow-wrap:anywhere}
+.evalua span{color:var(--tinta-2)}
+.aviso-ej{font-size:.84rem; color:var(--tinta-3); margin:1rem 0 0; line-height:1.5}
+.aviso-ej.regla{background:var(--aviso-suave); border-left:3px solid var(--aviso); color:var(--tinta-2); padding:.5rem .7rem; border-radius:2px}
+
+.acciones{display:flex; gap:.5rem; align-items:center; flex-wrap:wrap; margin-top:1.2rem}
+.btn{cursor:pointer; font-family:var(--display); font-size:.92rem; padding:.55rem 1rem; border:1px solid var(--linea); border-radius:2px; background:var(--papel-2); color:var(--tinta)}
+.btn:hover{border-color:var(--tinta-3)}
+.btn.principal{background:var(--acento); border-color:var(--acento); color:var(--papel-2)}
+.btn.principal:hover{filter:brightness(1.08)}
+.btn:disabled{opacity:.5; cursor:not-allowed}
+.btn.chico{font-size:.82rem; padding:.4rem .75rem}
+.pista{font-family:var(--mono); font-size:.62rem; color:var(--tinta-3); margin-left:auto}
+
+textarea.editor{width:100%; min-height:320px; background:var(--papel); color:var(--tinta); border:1px solid var(--linea); border-radius:2px; padding:.7rem .8rem; font-family:var(--mono); font-size:.82rem; line-height:1.55; resize:vertical; tab-size:4}
+textarea.editor:focus{outline:none; border-color:var(--acento)}
+pre.salida{background:var(--papel-3); color:var(--tinta); max-height:230px; overflow:auto; font-size:.78rem; margin:0}
+pre.traza{background:var(--alerta-suave); border-color:var(--alerta); color:var(--alerta); font-size:.76rem; margin:0; max-height:230px; overflow:auto}
+.salida-bloque{margin-top:1rem}
+.salida-bloque h4{font-family:var(--mono); font-size:.6rem; letter-spacing:.12em; text-transform:uppercase; color:var(--tinta-3); margin:0 0 .4rem; font-weight:600}
+.tests{display:flex; flex-direction:column; gap:.35rem}
+.test{display:flex; gap:.55rem; align-items:flex-start; background:var(--papel); border:1px solid var(--linea); border-left:3px solid var(--alerta); border-radius:2px; padding:.55rem .75rem; font-size:.88rem; line-height:1.45}
+.test.ok{border-left-color:var(--bien)}
+.test .ic{flex:none; font-weight:700; font-size:.75rem; color:var(--alerta); margin-top:.15rem}
+.test.ok .ic{color:var(--bien)}
+.test .det{display:block; font-family:var(--mono); font-size:.74rem; color:var(--tinta-2); margin-top:.25rem; word-break:break-word}
+.fallo, .exito{border-radius:2px; padding:.7rem .9rem; margin-top:.6rem; font-size:.9rem; font-family:var(--display); font-weight:600}
+.exito{background:var(--bien-suave); border:1px solid var(--bien); color:var(--bien)}
+.fallo{background:var(--aviso-suave); border:1px solid var(--aviso); color:var(--aviso)}
+details.solucion{margin-top:1.1rem; border:1px solid var(--linea); border-radius:2px; background:var(--papel)}
+details.solucion summary{cursor:pointer; padding:.55rem .8rem; font-family:var(--mono); font-size:.72rem; color:var(--tinta-2); list-style:none}
+details.solucion summary::-webkit-details-marker{display:none}
+details.solucion summary::before{content:"▸ "}
+details.solucion[open] summary::before{content:"▾ "}
+details.solucion[open] summary{border-bottom:1px solid var(--linea); color:var(--tinta)}
+details.solucion .cuerpo{padding:.8rem}
+
+/* CodeMirror con los tokens del proyecto (cada regla lleva .lab para ganarle al CSS del CDN). */
+.lab .CodeMirror{height:auto; background:var(--papel); color:var(--tinta); font-family:var(--mono); font-size:.84rem; line-height:1.6; border:1px solid var(--linea); border-radius:2px; padding:.4rem 0}
+.lab .CodeMirror-scroll{min-height:clamp(340px,52vh,560px); max-height:78vh}
+.lab.foco .CodeMirror-scroll{min-height:clamp(420px,62vh,720px); max-height:88vh}
+.lab .CodeMirror-focused{border-color:var(--acento)}
+.lab .CodeMirror-gutters{background:var(--papel-3); border-right:1px solid var(--linea)}
+.lab .CodeMirror-linenumber{color:var(--tinta-3)}
+.lab .CodeMirror-cursor{border-left:2px solid var(--acento)}
+.lab .CodeMirror-selected, .lab .CodeMirror-focused .CodeMirror-selected{background:var(--acento-suave)}
+.lab .cm-s-default .cm-keyword{color:var(--alerta)}
+.lab .cm-s-default .cm-string, .lab .cm-s-default .cm-string-2{color:var(--bien)}
+.lab .cm-s-default .cm-number, .lab .cm-s-default .cm-atom{color:var(--aviso)}
+.lab .cm-s-default .cm-comment{color:var(--tinta-3); font-style:italic}
+.lab .cm-s-default .cm-builtin, .lab .cm-s-default .cm-variable-2, .lab .cm-s-default .cm-variable-3{color:var(--acento)}
+.lab .cm-s-default .cm-def{color:var(--tinta); font-weight:600}
+.lab .cm-s-default .cm-variable, .lab .cm-s-default .cm-property{color:var(--tinta)}
+.lab .cm-s-default .cm-operator, .lab .cm-s-default .cm-meta{color:var(--tinta-2)}
+
+@media (max-width:1100px){ .lab{grid-template-columns:minmax(0,1fr)} .btn-foco{display:none} }
+@media (max-width:560px){ .lab .CodeMirror-scroll{min-height:280px} .tabla{padding:.9rem .85rem} .acciones .pista{display:none} }
+@media (max-width:900px){
+  .envoltorio{grid-template-columns:minmax(0,1fr)}
+  .riel{position:static; height:auto}
+  .evalua > div{grid-template-columns:1fr; gap:.15rem}
+}
+</style>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="img/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+</head>
+<body>
+<div class="envoltorio" id="envoltorio">
+<button class="btn-riel" id="btn-abrir" type="button" title="Mostrar barra lateral" aria-label="Mostrar barra lateral">☰ ÍNDICE</button>
+<aside class="riel">
+  <a class="riel-volver" href="index.html">← Materias</a>
+  <div class="riel-marca">
+    <div>
+      <b>Pensamiento Comp. · Laboratorio</b>
+      <span>Práctica libre · no suma al ranking</span>
+    </div>
+    <button class="btn-riel" id="btn-cerrar" type="button" title="Ocultar barra lateral" aria-label="Ocultar barra lateral">✕</button>
+  </div>
+  <nav>
+    <div class="riel-grupo">Ir a</div>
+    <a class="item externo" href="pensamiento.html">▤ Apunte: guía express ↗</a>
+    <a class="item externo" href="pensamiento.html#trampas">◎ Trampas típicas ↗</a>
+    <a class="item externo" href="pensamiento.html#menu">◎ Patrón del menú ↗</a>
+  </nav>
+  <div class="riel-pie">
+    <div id="chip-sesion" style="margin-bottom:.6rem"></div>
+    <button class="btn-tema" id="btn-tema" type="button">MODO OSCURO</button>
+  </div>
+</aside>
+
+<main class="lienzo">
+  <header class="portada">
+    <p class="cintillo">Introducción al Pensamiento Computacional · Final</p>
+    <h1>Laboratorio de código</h1>
+    <p>
+      Ejercicios para escribir en el editor, ejecutar en el navegador y corregir al instante: vectores, matrices, búsquedas, ordenamientos
+      a mano y código con errores para detectar. Cada ejercicio trae su batería de verificaciones, como en el laboratorio de Python para Ciencia de Datos.
+    </p>
+    <p class="reglas">
+      <b>Reglas de oro del examen.</b> Sin el operador <code>in</code>, <code>.index()</code>, <code>.sort()</code> ni <code>sorted()</code>:
+      las búsquedas se hacen recorriendo con índices (<code>for i in range(len(...))</code>) y los ordenamientos a mano. En los ejercicios marcados,
+      el corrector revisa tu código y te dice qué prohibido usaste.
+    </p>
+  </header>
+
+  <div class="estado-py" id="estado-py"><span class="led"></span><span id="estado-py-txt">Python todavía no iniciado.</span></div>
+
+  <div class="prog"><span id="progreso-txt"></span><span class="barra"><i id="progreso-barra" style="width:0%"></i></span></div>
+  <div class="grupos" id="lab-grupos"></div>
+  <p class="grupo-desc" id="lab-grupo-desc"></p>
+  <div class="fichas" id="lab-fichas"></div>
+
+  <div class="lab">
+    <div class="tabla" id="lab-enunciado"></div>
+    <div class="tabla" id="lab-editor"></div>
+  </div>
+</main>
+</div>
+
+<script src="js/entrenador-pensamiento-harness.js"></script>
+<script src="js/entrenador-pensamiento-datos.js"></script>
+<script src="js/entrenador-pensamiento.js"></script>
+<script src="config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/auth.js"></script>
+<script src="js/sesion.js"></script>
+<script>Sesion.montar("chip-sesion");</script>
+</body>
+</html>
